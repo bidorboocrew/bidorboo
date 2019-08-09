@@ -176,12 +176,6 @@ class GenericRequestForm extends React.Component {
             <form onSubmit={handleSubmit}>
               {renderSummaryCard({ withDetails: false })}
 
-              <input
-                id="recaptcha"
-                className="input is-invisible"
-                type="hidden"
-                value={values.recaptcha || ''}
-              />
               <input id="templateId" className="input is-invisible" type="hidden" value={ID} />
 
               <input

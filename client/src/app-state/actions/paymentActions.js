@@ -9,14 +9,10 @@ export const getMyStripeAccountDetails = () => (dispatch) =>
     payload: axios.get(ROUTES.API.PAYMENT.GET.myStripeAccountDetails),
   });
 
-export const submitPayment = ({
-  stripeTransactionToken,
-  bid,
-  jobId,
-  chargeAmount,
-  recaptchaField,
-}) => (dispatch) => {
-  if (!bid || !bid._id || !bid._bidderRef || !recaptchaField) {
+export const submitPayment = ({ stripeTransactionToken, bid, jobId, chargeAmount }) => (
+  dispatch,
+) => {
+  if (!bid || !bid._id || !bid._bidderRef) {
     dispatch({
       type: A.UI_ACTIONS.SHOW_TOAST_MSG,
       payload: {
@@ -34,7 +30,6 @@ export const submitPayment = ({
     type: A.PROPOSER_ACTIONS.AWARD_BIDDER_AND_MAKE_A_PAYMENT,
     payload: axios
       .post(ROUTES.API.PAYMENT.POST.payment, {
-        recaptchaField: recaptchaField,
         data: {
           jobId,
           stripeTransactionToken,

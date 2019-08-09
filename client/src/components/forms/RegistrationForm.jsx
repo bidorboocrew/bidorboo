@@ -2,7 +2,6 @@ import React from 'react';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { TextInput } from './FormsHelpers';
-import ReCAPTCHA from 'react-google-recaptcha';
 
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
@@ -29,10 +28,6 @@ const EnhancedForms = withFormik({
       .trim()
       .email('please enter a valid email address')
       .required('email is required.'),
-    // recaptchaField: Yup.string()
-    //   .ensure()
-    //   .trim()
-    //   .required('passing recaptcha is required.'),
   }),
 
   validate: (values) => {
@@ -58,7 +53,6 @@ const EnhancedForms = withFormik({
       password: values.password,
       originPath: values.originPath,
       displayName: values.displayName,
-      // recaptchaField: values.recaptchaField,
     });
     setSubmitting(false);
   },
@@ -66,16 +60,6 @@ const EnhancedForms = withFormik({
 });
 
 class NewUserRegistrationForm extends React.Component {
-  // constructor(props) {
-  //   super(props);
-
-  //   this.recaptchaRef = React.createRef();
-  // }
-  // componentDidMount() {
-  //   if (this.recaptchaRef && this.recaptchaRef.current && this.recaptchaRef.current) {
-  //     this.recaptchaRef.current.execute();
-  //   }
-  // }
   render() {
     const {
       values,
@@ -145,36 +129,6 @@ class NewUserRegistrationForm extends React.Component {
             Join BidOrBoo
           </button>
         </div>
-        {/* <input
-          id="recaptchaField"
-          className="input is-invisible"
-          type="hidden"
-          value={values.recaptcha || ''}
-        /> */}
-        {/* <div style={{ marginTop: 10 }}>
-          <ReCAPTCHA
-            ref={this.recaptchaRef}
-            onExpired={() => this.recaptchaRef.current.execute()}
-            size="invisible"
-            badge="inline"
-            onChange={(result) => {
-              setFieldValue('recaptchaField', result, true);
-            }}
-            sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
-          />
-        </div> */}
-        {/* {errors.recaptchaField && (
-          <p className="help has-text-danger is-danger">
-            {errors.recaptchaField}
-            <a
-              className="is-text is-small"
-              onClick={() => {
-                this.recaptchaRef.current.reset();
-              }}
-            />
-            recaptcha couldn't validate your request, click to try again
-          </p>
-        )} */}
       </form>
     );
   }

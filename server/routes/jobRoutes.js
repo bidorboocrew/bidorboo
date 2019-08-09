@@ -1,9 +1,7 @@
 const { jobDataAccess } = require('../data-access/jobDataAccess');
 const { updateUserLastSearchDetails } = require('../data-access/userDataAccess');
 
-const requirePassesRecaptcha = require('../middleware/requirePassesRecaptcha');
 const ROUTES = require('../backend-route-constants');
-const utils = require('../utils/utilities');
 
 const requireLogin = require('../middleware/requireLogin');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
@@ -176,23 +174,17 @@ module.exports = (app) => {
     }
   });
 
-  app.post(
-    ROUTES.API.JOB.POST.newJob,
-    requireLogin,
-    requireUserCanPost,
-    // requirePassesRecaptcha,
-    async (req, res) => {
-      try {
-        const { jobDetails } = req.body.data;
-        const mongoUser_id = req.user._id;
-        const newJob = await jobDataAccess.addAJob(jobDetails, mongoUser_id);
+  app.post(ROUTES.API.JOB.POST.newJob, requireLogin, requireUserCanPost, async (req, res) => {
+    try {
+      const { jobDetails } = req.body.data;
+      const mongoUser_id = req.user._id;
+      const newJob = await jobDataAccess.addAJob(jobDetails, mongoUser_id);
 
-        return res.send(newJob);
-      } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To create new job', details: `${e}` });
-      }
+      return res.send(newJob);
+    } catch (e) {
+      return res.status(400).send({ errorMsg: 'Failed To create new job', details: `${e}` });
     }
-  );
+  });
   // app.put(ROUTES.API.JOB.PUT.jobImage, requireLogin, async (req, res) => {
   //   try {
   //     const filesList = req.files;

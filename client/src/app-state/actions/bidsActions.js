@@ -62,13 +62,12 @@ export const getJobToBidOnDetails = (jobId) => (dispatch) =>
       }),
   });
 
-export const submitBid = ({ bidAmount, jobId, recaptchaField }) => (dispatch) => {
+export const submitBid = ({ bidAmount, jobId }) => (dispatch) => {
   //update store with the job details
   dispatch({
     type: A.BIDDER_ACTIONS.POST_A_BID,
     payload: axios
       .post(ROUTES.API.BID.POST.bid, {
-        recaptchaField,
         data: {
           jobId: jobId,
           bidAmount: bidAmount,
@@ -159,13 +158,12 @@ export const cancelAwardedBid = (bidId) => (dispatch) => {
   });
 };
 
-export const updateBid = ({ bidId, bidAmount, recaptchaField }) => (dispatch) => {
+export const updateBid = ({ bidId, bidAmount }) => (dispatch) => {
   //update store with the job details
   dispatch({
     type: A.BIDDER_ACTIONS.UPDATE_A_BID,
     payload: axios
       .post(ROUTES.API.BID.PUT.updateMyBid, {
-        recaptchaField,
         data: {
           bidId,
           bidAmount,

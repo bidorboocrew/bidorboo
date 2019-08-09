@@ -5,7 +5,6 @@ const requiresCheckPayBidderDetails = require('../middleware/requiresCheckPayBid
 const requireJobOwner = require('../middleware/requireJobOwner');
 const requireJobIsNotAwarded = require('../middleware/requireJobIsNotAwarded');
 const userDataAccess = require('../data-access/userDataAccess');
-const requirePassesRecaptcha = require('../middleware/requirePassesRecaptcha');
 
 const sendGridEmailing = require('../services/sendGrid').EmailService;
 const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
@@ -28,7 +27,6 @@ module.exports = (app) => {
     ROUTES.API.PAYMENT.POST.payment,
     requireBidorBooHost,
     requireLogin,
-    requirePassesRecaptcha,
     requireJobOwner,
     requireJobIsNotAwarded,
     requiresCheckPayBidderDetails,

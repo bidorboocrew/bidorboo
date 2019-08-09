@@ -13,20 +13,6 @@ import { Spinner } from '../../components/Spinner';
 import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightCard';
 
 class BidOnJobPage extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      recaptchaField: '',
-    };
-
-    this.recaptchaRef = React.createRef();
-  }
-
-  updateRecaptchaField = (value) => {
-    this.setState({ recaptchaField: value });
-  };
-
   componentDidMount() {
     const { match, getJobToBidOnDetails } = this.props;
     const { jobDetails } = this.state;
@@ -34,9 +20,6 @@ class BidOnJobPage extends React.Component {
       if (match.params && match.params.jobId) {
         getJobToBidOnDetails(match.params.jobId);
       }
-    }
-    if (this.recaptchaRef && this.recaptchaRef.current && this.recaptchaRef.current.execute) {
-      this.recaptchaRef.current.execute();
     }
   }
   render() {

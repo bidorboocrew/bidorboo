@@ -5,7 +5,6 @@ import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { TextInput } from '../../../components/forms/FormsHelpers';
 import { enforceNumericField } from '../../../components/forms/FormsValidators';
-import ReCAPTCHA from 'react-google-recaptcha';
 
 import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
@@ -16,21 +15,9 @@ class TaskerEditOrUpdateBid extends React.Component {
     this.state = {
       showUpdateBidDialog: false,
       confirmRead: false,
-      recaptchaField: '',
     };
-
-    this.recaptchaRef = React.createRef();
   }
 
-  updateRecaptchaField = (value) => {
-    this.setState({ recaptchaField: value });
-  };
-
-  componentDidMount() {
-    if (this.recaptchaRef && this.recaptchaRef.current && this.recaptchaRef.current.execute) {
-      this.recaptchaRef.current.execute();
-    }
-  }
   closeUpdateBidModal = () => {
     const { resetForm, setFieldValue } = this.props;
     setFieldValue('bidAmountField', '', false);
@@ -48,9 +35,9 @@ class TaskerEditOrUpdateBid extends React.Component {
 
   submitUpdateBid = (e) => {
     e.preventDefault();
-    const { recaptchaField } = this.state;
+
     const { updateBidAction, bid, setSubmitting, values } = this.props;
-    updateBidAction({ bidId: bid._id, bidAmount: values.bidAmountField, recaptchaField });
+    updateBidAction({ bidId: bid._id, bidAmount: values.bidAmountField });
     this.setState({
       showUpdateBidDialog: false,
     });
@@ -120,15 +107,7 @@ class TaskerEditOrUpdateBid extends React.Component {
     return (
       <div>
         {/* <FloatingAddNewBidButton /> */}
-        <ReCAPTCHA
-          style={{ display: 'none' }}
-          onExpired={() => this.recaptchaRef.current.execute()}
-          ref={this.recaptchaRef}
-          size="invisible"
-          badge="bottomright"
-          onChange={this.updateRecaptchaField}
-          sitekey={`${process.env.REACT_APP_RECAPTCHA_KEY}`}
-        />
+
         {showUpdateBidDialog &&
           ReactDOM.createPortal(
             <div className="modal is-active  has-text-left">

@@ -25,7 +25,7 @@ module.exports = {
   vapidPublicApiKey:
     'BNNIelsxMdODKuerQ6A28c0ASnc0YP7BygBjuTkR0qRgRSJXOonCx5Juk2VZgOLmiAbTl04zER-AbdRScMOzYfE',
   vapidPrivateApiKey: 'mBs1Vn_RlkKliJjiOY8bZNAiifIj1HKOM3EHra-175M',
-  recaptchaApiKey: '6LeYAIAUAAAAAAdNavYfiW2pOX376RxggEdl-n7h',
+  // recaptchaApiKey: '6LeYAIAUAAAAAAdNavYfiW2pOX376RxggEdl-n7h',
   twilioAccountSid: 'ACb8cd42eadeb8898bfcc35e86c88da455',
   twilioAuthToken: 'f1b73ef11d9d750893510667121c41da',
   TWILIO_ACCOUNT_SID: 'ACb8cd42eadeb8898bfcc35e86c88da455',

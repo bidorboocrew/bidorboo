@@ -138,7 +138,6 @@ export default class TaskerBidOnTaskDetails extends React.Component {
                   submitBid({
                     jobId: job._id,
                     bidAmount: values.bidAmountField,
-                    recaptchaField: values.recaptchaField,
                   });
                 }}
                 onCancel={() => {
