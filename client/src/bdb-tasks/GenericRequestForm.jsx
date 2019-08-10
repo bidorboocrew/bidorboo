@@ -6,7 +6,8 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
+
 import { withFormik } from 'formik';
 import haversineOffset from 'haversine-offset';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
@@ -19,7 +20,7 @@ import { TextAreaInput, GeoAddressInput, DateInput } from '../components/forms/F
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 import TASKS_DEFINITIONS from './tasksDefinitions';
-
+import UploaderComponent from './UploaderComponent';
 // for reverse geocoding , get address from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
 // https://stackoverflow.com/questions/6478914/reverse-geocoding-code
@@ -150,11 +151,7 @@ class GenericRequestForm extends React.Component {
       handleBlur,
     } = this.props;
 
-    const { ID, TASK_EXPECTATIONS, renderSummaryCard, SUGGESTION_TEXT } = TASKS_DEFINITIONS[
-      this.requestTemplateId
-    ];
-
-    const { location, detailedDescription, startingDateAndTime, addressText, templateId } = values;
+    const { ID, renderSummaryCard } = TASKS_DEFINITIONS[this.requestTemplateId];
 
     const extrasFields = this.extrasFunc();
     const taskSpecificExtraFormFields = [];
@@ -178,6 +175,9 @@ class GenericRequestForm extends React.Component {
 
               <input id="templateId" className="input is-invisible" type="hidden" value={ID} />
 
+              <ImageUploaderButton />
+
+              <br />
               <input
                 id="addressText"
                 className="input is-invisible"
@@ -549,3 +549,81 @@ const EnhancedForms = withFormik({
 export default EnhancedForms(GenericRequestForm);
 
 export const HelpText = ({ helpText }) => (helpText ? <p className="help">{helpText}</p> : null);
+
+const ImageUploaderButton = ({ setFieldValue, initialThumb = null }) => {
+  const [thumb, setThumb] = useState(initialThumb);
+  const [showUploader, setshowUploader] = useState(false);
+
+  return (
+    <div className="group">
+      <label className={`label ${thumb ? 'hasSelectedValue' : ''}`}>
+        Upload Task Image <span className="has-text-grey-lighter">(Optional)</span>
+      </label>
+      <div>
+        <UploaderComponent
+          thumb={thumb}
+          shouldShow={showUploader}
+          closeDialog={() => setshowUploader(false)}
+          onDoneCropping={(thumb) => {
+            setThumb(thumb);
+            setshowUploader(false);
+          }}
+        />
+        <div
+          style={{
+            position: 'relative',
+            height: 100,
+            width: 200,
+            background: '#eeeeee',
+            border: thumb ? '' : '1px dashed #26ca70',
+          }}
+        >
+          {thumb && (
+            <img
+              style={{
+                height: 99,
+                width: 200,
+                border: 'none',
+                objectFit: 'cover',
+                border: '1px solid #eeeeee',
+              }}
+              onClick={() => setshowUploader(true)}
+              src={thumb}
+            />
+          )}
+          <div
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 15,
+              height: 20,
+            }}
+          >
+            <button onClick={() => setshowUploader(true)} className="button is-success">
+              <span>
+                <i className="fa fa-camera" aria-hidden="true" />
+              </span>
+            </button>
+          </div>
+
+          {thumb && (
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                right: 15,
+                height: 20,
+              }}
+            >
+              <button onClick={() => setThumb(null)} className="button is-danger">
+                <span>
+                  <i className="far fa-trash-alt" aria-hidden="true" />
+                </span>
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};

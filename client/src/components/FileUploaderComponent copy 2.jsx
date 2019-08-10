@@ -9,7 +9,7 @@ const MAX_FILE_SIZE_IN_MB = 1000000 * 3; //3MB
 const formikEnhancer = withFormik({
   handleSubmit: (payload, { props }) => {
     if (payload && payload.fileField) {
-      // props.uploadFilesAction(payload.fileField);
+      props.uploadFilesAction(payload.fileField);
     }
     props.closeDialog();
   },
@@ -234,7 +234,7 @@ class MyForm extends React.Component {
               <button
                 onClick={(e) => {
                   e.preventDefault();
-                  // handleSubmit(values, { ...this.props });
+                  handleSubmit(values, { ...this.props });
                 }}
                 type="submit"
                 className="button is-success"
