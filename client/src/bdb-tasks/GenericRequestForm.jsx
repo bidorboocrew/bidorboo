@@ -197,7 +197,7 @@ class GenericRequestForm extends React.Component {
                   updateTaskThumbnails={this.updateTaskThumbnails}
                   thumbnailKey={'first'}
                 />
-                <Collapse isOpened={first || second || third}>
+                <Collapse isOpened={!!first || !!second || !!third}>
                   <ImageUploaderButton
                     updateTaskThumbnails={this.updateTaskThumbnails}
                     thumbnailKey={'second'}
@@ -641,8 +641,8 @@ const ImageUploaderButton = ({ updateTaskThumbnails, thumbnailKey }) => {
           <div
             style={{
               position: 'absolute',
-              top: 0,
-              left: '0.5rem',
+              bottom: 0,
+              right: '0.5rem',
               height: 20,
             }}
           >
@@ -651,7 +651,7 @@ const ImageUploaderButton = ({ updateTaskThumbnails, thumbnailKey }) => {
                 setThumb(null);
                 updateTaskThumbnails({ [thumbnailKey]: null });
               }}
-              className="button is-danger"
+              className="button is-dark"
             >
               <span>
                 <i className="far fa-trash-alt" aria-hidden="true" />

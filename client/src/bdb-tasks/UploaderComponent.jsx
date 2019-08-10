@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import Dropzone from 'react-dropzone';
 import Cropper from 'react-cropper';
 import ReactDOM from 'react-dom';
@@ -12,6 +12,7 @@ export default class UploaderComponent extends React.Component {
     const { thumb } = props;
     this.state = { showCropper: thumb ? true : false, thumb: thumb ? thumb : null };
     this.reader = new FileReader();
+    this.dropzoneRef = createRef();
   }
 
   componentWillUnmount() {
@@ -25,6 +26,15 @@ export default class UploaderComponent extends React.Component {
     this.reader = null;
   }
 
+  componentDidMount() {
+    debugger;
+    if (!this.props.thumb) {
+      this.dropzoneRef &&
+        this.dropzoneRef.current &&
+        this.dropzoneRef.current.open &&
+        this.dropzoneRef.current.open();
+    }
+  }
   onDrophandler = (files) => {
     // do nothing if no files
     if (!files || !(files.length > 0)) {
@@ -122,27 +132,26 @@ export default class UploaderComponent extends React.Component {
                   </span>
                 </a>
               </div>
-              <div className="help">Upload Task Image</div>
             </React.Fragment>
           </Dropzone>
-          <div style={{ minHeight: 200 }} className="form-group has-text-centered">
-            {showCropper && (
-              <Cropper
-                ref="cropper"
-                src={thumb}
-                checkOrientation={true}
-                guides={false}
-                className="bdb-img-upload-placeholder"
-                modal={true}
-                background={false}
-                minContainerHeight={180}
-                minCanvasHeight={180}
-                rotatable
-                autoCrop
-                autoCropArea={1}
-              />
-            )}
-          </div>
+
+          {showCropper && (
+            <Cropper
+              ref="cropper"
+              src={thumb}
+              checkOrientation={true}
+              guides={false}
+              className="bdb-img-upload-placeholder"
+              modal={true}
+              background={false}
+              minContainerHeight={180}
+              minCanvasHeight={180}
+              rotatable
+              autoCrop
+              autoCropArea={1}
+            />
+          )}
+
           {showCropper && (
             <footer
               style={{ paddingBottom: 0, paddingLeft: 0, background: 'white' }}
@@ -152,12 +161,12 @@ export default class UploaderComponent extends React.Component {
                 <button onClick={closeDialog} className="button">
                   Cancel
                 </button>
-                <button onClick={this.clearImage} className="button is-danger is-outlined">
+                {/* <button onClick={this.clearImage} className="button is-danger is-outlined">
                   <span className="icon">
                     <i className="far fa-trash-alt" />
                   </span>
                   <span>Clear</span>
-                </button>
+                </button> */}
                 <button onClick={this.saveCrop} className="button is-info">
                   <span className="icon">
                     <i className="fas fa-crop-alt" />

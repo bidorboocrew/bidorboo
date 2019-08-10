@@ -113,7 +113,7 @@ export class LoginOrRegisterModal extends React.Component {
             )}
           </div>
         </div>
-        <button onClick={handleCancel} class="modal-close is-large" aria-label="close" />
+        <button onClick={handleCancel} className="modal-close is-large" aria-label="close" />
       </div>
     ) : null;
   }
