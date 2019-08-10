@@ -105,58 +105,58 @@ export default class UploaderComponent extends React.Component {
     return ReactDOM.createPortal(
       <div className="modal is-active">
         <div onClick={closeDialog} className="modal-background" />
-        <div style={{ background: 'white', padding: '1rem' }} className="modal-content">
-          <Dropzone
-            style={!showCropper ? {} : { height: 0 }}
-            className={!showCropper ? '' : 'is-invisible'}
-            ref={this.dropzoneRef}
-            multiple={false}
-            maxSize={MAX_FILE_SIZE_IN_MB}
-            accept={'image/*'}
-            id="filesToUpload"
-            name="filesToUpload"
-            onDrop={this.onDrophandler}
-          >
-            <React.Fragment>
-              <div className="section VerticalAligner bdb-img-upload-placeholder">
-                <a
-                  style={{
-                    pointerEvents: 'none',
-                    borderRadius: '100%',
-                    height: 58,
-                  }}
-                  className="button is-success is-large"
-                >
-                  <span>
-                    <i className="fa fa-camera" aria-hidden="true" />
-                  </span>
-                </a>
-              </div>
-            </React.Fragment>
-          </Dropzone>
-
-          {showCropper && (
-            <Cropper
-              ref="cropper"
-              src={thumb}
-              checkOrientation={true}
-              guides={false}
-              className="bdb-img-upload-placeholder"
-              modal={true}
-              background={false}
-              minContainerHeight={180}
-              minCanvasHeight={180}
-              rotatable
-              autoCrop
-              autoCropArea={1}
-            />
-          )}
-
-          {showCropper && (
-            <footer
-              style={{ paddingBottom: 0, paddingLeft: 0, background: 'white' }}
-              className="modal-card-foot "
+        <div className="modal-card">
+          <section style={{ minHeight: '18rem' }} className="modal-card-body">
+            <Dropzone
+              style={!showCropper ? {} : { height: 0 }}
+              className={!showCropper ? '' : 'is-invisible'}
+              ref={this.dropzoneRef}
+              multiple={false}
+              maxSize={MAX_FILE_SIZE_IN_MB}
+              accept={'image/*'}
+              id="filesToUpload"
+              name="filesToUpload"
+              onDrop={this.onDrophandler}
             >
+              <React.Fragment>
+                <div className="section VerticalAligner bdb-img-upload-placeholder">
+                  <a
+                    style={{
+                      pointerEvents: 'none',
+                      borderRadius: '100%',
+                      height: 58,
+                    }}
+                    className="button is-success is-large"
+                  >
+                    <span>
+                      <i className="fa fa-camera" aria-hidden="true" />
+                    </span>
+                  </a>
+                </div>
+              </React.Fragment>
+            </Dropzone>
+
+            {showCropper && (
+              <Cropper
+                ref="cropper"
+                src={thumb}
+                checkOrientation={true}
+                guides={false}
+                className="bdb-img-upload-placeholder"
+                modal={false}
+                background={false}
+                rotatable
+                autoCrop
+                autoCropArea={1}
+                // viewMode={1}
+                minCanvasHeight={23}
+                minCropBoxHeight={32}
+              />
+            )}
+          </section>
+
+          {showCropper && (
+            <footer className="modal-card-foot ">
               <React.Fragment>
                 <button onClick={closeDialog} className="button">
                   Cancel
@@ -180,7 +180,6 @@ export default class UploaderComponent extends React.Component {
             </footer>
           )}
         </div>
-        <button className="modal-close is-large" aria-label="close" onClick={closeDialog} />
       </div>,
       document.querySelector('#bidorboo-root-modals'),
     );
