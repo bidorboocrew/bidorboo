@@ -185,48 +185,45 @@ module.exports = (app) => {
       return res.status(400).send({ errorMsg: 'Failed To create new job', details: `${e}` });
     }
   });
-  // app.put(ROUTES.API.JOB.PUT.jobImage, requireLogin, async (req, res) => {
-  //   try {
-  //     const filesList = req.files;
-  //     // create new job for this user
-  //     const jobId = req.body.jobId;
-  //     const mongoUser_id = req.user._id;
-  //     let cloudinaryHostedImageObj = [];
-  //     const callbackFunc = (error, result) => {
-  //       // update the user data model
-  //       if (result) {
-  //         const { secure_url, public_id } = result;
-  //         cloudinaryHostedImageObj.push({ secure_url, public_id });
-  //       }
-  //     };
+  app.put(ROUTES.API.JOB.PUT.jobImage, requireLogin, async (req, res) => {
+    try {
+      const filesList = req.files;
 
-  //     if (filesList && filesList.length > 0) {
-  //       const cloudinaryUploadReqs = [];
-  //       filesList.forEach((file) => {
-  //         cloudinaryUploadReqs.push(
-  //           utils.uploadFileToCloudinary(
-  //             file.path,
-  //             {
-  //               folder: `${mongoUser_id}/${jobId}`,
-  //             },
-  //             callbackFunc
-  //           )
-  //         );
-  //       });
-  //       const uploadImages = await Promise.all(cloudinaryUploadReqs);
+      const mongoUser_id = req.user._id;
 
-  //       if (jobId && cloudinaryHostedImageObj.length > 0) {
-  //         jobDataAccess.addJobImages(jobId, cloudinaryHostedImageObj);
-  //       }
-  //       res.send({
-  //         success: true,
-  //         jobId: jobId,
-  //       });
-  //     }
-  //   } catch (e) {
-  //     return res.status(400).send({ errorMsg: 'Failed To upload job image', details: `${e}` });
-  //   }
-  // });
+      let cloudinaryHostedImageObj = [];
+      const callbackFunc = (error, result) => {
+        // update the user data model
+        if (result) {
+          const { secure_url } = result;
+          cloudinaryHostedImageObj.push(secure_url);
+        }
+      };
+
+      if (filesList && filesList.length > 0) {
+        const cloudinaryUploadReqs = [];
+        filesList.forEach((file) => {
+          cloudinaryUploadReqs.push(
+            utils.uploadFileToCloudinary(
+              file.path,
+              {
+                folder: `${mongoUser_id}/ReqestsImages`,
+              },
+              callbackFunc
+            )
+          );
+        });
+
+        await Promise.all(cloudinaryUploadReqs);
+
+        res.send({
+          uploadImages: cloudinaryHostedImageObj,
+        });
+      }
+    } catch (e) {
+      return res.status(400).send({ errorMsg: 'Failed To upload job image', details: `${e}` });
+    }
+  });
 
   app.put(ROUTES.API.JOB.PUT.awardBidder, requireLogin, requireJobOwner, async (req, res) => {
     try {

@@ -22,23 +22,28 @@ exports.compareEncryptedWithClearData = async (candidatePassword, encryptedPassw
 };
 
 // handles uploading file, returns file details + deletes temp file + calls back
+//https://flaviocopes.com/how-to-remove-file-node/
 exports.uploadFileToCloudinary = async (filePath, options, callbackFunc) => {
   return new Promise(async (resolve, reject) => {
     try {
       await cloudinary.v2.uploader.upload(filePath, options, async (error, result) => {
-        // delete temporary intermediate file stored in TEMP_FILE_STORAGE
-        try {
-          await unlinkAsync(filePath);
-          if (callbackFunc) {
-            callbackFunc(error, result);
-          }
-          resolve(true);
-        } catch (e) {
-          reject(e);
-        }
+        resolve(result);
       });
     } catch (e) {
       reject(e);
+    } finally {
+      // delete temporary intermediate file stored in TEMP_FILE_STORAGE
+      try {
+        await unlinkAsync(filePath);
+        if (callbackFunc) {
+          callbackFunc(error, result);
+        }
+      } catch (e) {
+        console.log(
+          `BIDORBOOLOGGING: file at  (${filePath}) was not deleted successfully due to (${e})`
+        );
+        reject(e);
+      }
     }
   });
 };

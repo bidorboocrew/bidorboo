@@ -2,10 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { postNewJob } from '../../app-state/actions/jobActions';
+import { postNewJob, uploadTaskImages } from '../../app-state/actions/jobActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
-import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute } from '../../utils';
+
 import GenericRequestForm from '../../bdb-tasks/GenericRequestForm';
 
 const creatJobsByIdMap = {
@@ -55,6 +54,7 @@ const mapStateToProps = ({ userReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     postNewJob: bindActionCreators(postNewJob, dispatch),
+    uploadTaskImages: bindActionCreators(uploadTaskImages, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };

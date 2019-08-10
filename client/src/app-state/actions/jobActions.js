@@ -342,6 +342,49 @@ export const postNewJob = (jobDetails) => (dispatch) => {
   });
 };
 
+export const uploadTaskImages = ({ taskImages }) => (dispatch) => {
+  let data = new FormData();
+
+  taskImages &&
+    taskImages.length &&
+    taskImages.forEach((file, index) => {
+      data.append('filesToUpload', file, `jobImages+${index}`);
+    });
+  const config = {
+    headers: { 'content-type': 'multipart/form-data' },
+  };
+
+  if (taskImages && taskImages.length) {
+    return dispatch({
+      type: A.JOB_ACTIONS.ADD_NEW_JOB,
+      payload: axios.put(ROUTES.API.JOB.PUT.jobImage, data, config).then((resp2) => {
+        if (resp2 && resp2.data.success && resp2.data.jobId) {
+          dispatch({
+            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+            payload: {
+              toastDetails: {
+                type: 'success',
+                msg: 'Images Were Uploaded.',
+              },
+            },
+          });
+        }
+        // switch route to show the currently added job
+      }),
+    });
+  } else {
+    dispatch({
+      type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+      payload: {
+        toastDetails: {
+          type: 'success',
+          msg: 'Failed to upload images.',
+        },
+      },
+    });
+  }
+};
+
 /**
  * example add job with images
  */
