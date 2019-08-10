@@ -22,6 +22,7 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 class RequesterRequestSummary extends React.Component {
   render() {
     const { job, cancelJobById, notificationFeed } = this.props;
+
     if (!job || !job._id || !notificationFeed || !cancelJobById) {
       return <div>RequesterRequestSummary is missing properties</div>;
     }

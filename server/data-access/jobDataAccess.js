@@ -1142,32 +1142,27 @@ exports.jobDataAccess = {
         };
 
         // filter by date
-        const results = await JobModel.find(
-          searchQuery,
-          {
-            _ownerRef: 1,
-            templateId: 1,
-            startingDateAndTime: 1,
-            extras: 1,
-            state: 1,
-            location: 1,
-            _bidsListRef: 1,
-            viewedBy: 1,
-            hideFrom: 1,
-          },
-          { lean: { virtuals: true } }
-        )
+        const results = await JobModel.find(searchQuery, {
+          _ownerRef: 1,
+          templateId: 1,
+          startingDateAndTime: 1,
+          extras: 1,
+          state: 1,
+          location: 1,
+          _bidsListRef: 1,
+          viewedBy: 1,
+          hideFrom: 1,
+          taskImages:1,
+        })
           .sort({ startingDateAndTime: 1 })
           .populate([
             {
               path: '_ownerRef',
               select: { displayName: 1, profileImage: 1, _id: 1, rating: 1 },
-              options: { lean: { virtuals: true } },
             },
             {
               path: '_bidsListRef',
               select: { _bidderRef: 1, bidAmount: 1 },
-              options: { lean: { virtuals: true } },
             },
           ]);
         return resolve(results);

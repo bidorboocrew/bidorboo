@@ -5,7 +5,7 @@ const initialState = {
   allMyRequests: [],
   myOpenJobsList: [],
   myAwardedJobsList: [],
-  ListOfJobsToBidOn: [],
+  listOfJobsToBidOn: [],
   error: null,
   isLoading: false,
   mapCenterPoint: { lat: 45.4215, lng: -75.6972 },
@@ -76,10 +76,11 @@ const getPostedJobs = {
     isLoading: true,
   }),
   isFullfilled: (state = initialState, { payload }) => {
+    debugger
     let allThePostedJobs = payload.data ? payload.data : [];
     return {
       ...state,
-      ListOfJobsToBidOn: allThePostedJobs,
+      listOfJobsToBidOn: allThePostedJobs,
       isLoading: false,
     };
   },
@@ -103,7 +104,7 @@ const searchJob = {
   }),
   isFullfilled: (state = initialState, { payload }) => {
     let searchResult = payload && payload.data ? payload.data : [];
-    return { ...state, ListOfJobsToBidOn: searchResult, isLoading: false };
+    return { ...state, listOfJobsToBidOn: searchResult, isLoading: false };
   },
   isRejected: (state = initialState, { payload }) => {
     const searchJobsError =

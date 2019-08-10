@@ -7,7 +7,7 @@ import BidRootBg from '../../assets/images/BidRootBg.png';
 
 import { getCurrentUser } from '../../app-state/actions/authActions';
 
-import { getAllJobsToBidOn, searchJobsToBidOn } from '../../app-state/actions/jobActions';
+import { searchJobsToBidOn } from '../../app-state/actions/jobActions';
 
 import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
 
@@ -166,14 +166,14 @@ class BidderRootPage extends React.Component {
   };
 
   render() {
-    const { isLoading, isLoggedIn, ListOfJobsToBidOn, userDetails } = this.props;
+    const { isLoading, isLoggedIn, listOfJobsToBidOn, userDetails } = this.props;
     const { isThereAnActiveSearch, userLastStoredSearchParams, showMapView } = this.state;
 
     const { mapCenterPoint, mapZoomLevel, activeSearchParams } = this.state;
 
     let currentJobsList = isLoggedIn
-      ? ListOfJobsToBidOn.filter((job) => job._ownerRef._id !== userDetails._id)
-      : ListOfJobsToBidOn;
+      ? listOfJobsToBidOn.filter((job) => job._ownerRef._id !== userDetails._id)
+      : listOfJobsToBidOn;
 
     currentJobsList = currentJobsList.map((job) => {
       return {
@@ -185,7 +185,7 @@ class BidderRootPage extends React.Component {
 
     const anyVisibleJobs = currentJobsList && currentJobsList.length > 0;
     const searchWithNoResults = isThereAnActiveSearch && !anyVisibleJobs;
-
+debugger
     return (
       <div>
         <section className="hero is-small">
@@ -318,14 +318,14 @@ const mapStateToProps = ({ jobsReducer, userReducer }) => {
     isLoading: jobsReducer.isLoading,
     userDetails: userReducer.userDetails,
     isLoggedIn: userReducer.isLoggedIn,
-    ListOfJobsToBidOn: jobsReducer.ListOfJobsToBidOn,
+    listOfJobsToBidOn: jobsReducer.listOfJobsToBidOn,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     selectJobToBidOn: bindActionCreators(selectJobToBidOn, dispatch),
-    getAllJobsToBidOn: bindActionCreators(getAllJobsToBidOn, dispatch),
+
     searchJobsToBidOn: bindActionCreators(searchJobsToBidOn, dispatch),
     getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),

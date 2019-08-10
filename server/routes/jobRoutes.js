@@ -363,16 +363,12 @@ module.exports = (app) => {
         });
       }
 
-      existingJob = await jobDataAccess.getJobsNear({
+      let jobsAroundMe = await jobDataAccess.getJobsNear({
         searchRadius,
         location,
       });
 
-      if (existingJob) {
-        return res.send(existingJob);
-      } else {
-        return res.send({ errorMsg: 'JobId Was Not Specified' });
-      }
+      return res.send(jobsAroundMe);
     } catch (e) {
       return res
         .status(400)
