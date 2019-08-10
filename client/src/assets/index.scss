@@ -4,6 +4,8 @@
 // @import './_variables.scss';
 @import './_animatecss.scss';
 @import './_addToCalendar.scss';
+@import './_cropperjs.scss';
+
 
 // @import './_reactBigCalendar.scss';
 
@@ -502,10 +504,7 @@ article.media.limitHeight {
   max-width: 40rem;
   margin: auto;
 }
-.cropper-container.cropper-bg {
-  width: unset;
-  height: unset;
-}
+
 .ReactStars {
   display: inline-block;
 }

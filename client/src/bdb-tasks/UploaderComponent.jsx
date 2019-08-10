@@ -3,7 +3,6 @@ import Dropzone from 'react-dropzone';
 import Cropper from 'react-cropper';
 import ReactDOM from 'react-dom';
 
-import 'cropperjs/dist/cropper.css';
 const MAX_FILE_SIZE_IN_MB = 1000000 * 3; //3MB
 
 export default class UploaderComponent extends React.Component {
@@ -104,77 +103,79 @@ export default class UploaderComponent extends React.Component {
       <div className="modal is-active">
         <div onClick={closeDialog} className="modal-background" />
         <div className="modal-card">
-          <section style={{ minHeight: '18rem' }} className="modal-card-body">
-            <Dropzone
-              style={!showCropper ? {} : { height: 0 }}
-              className={!showCropper ? '' : 'is-invisible'}
-              ref={this.dropzoneRef}
-              multiple={false}
-              maxSize={MAX_FILE_SIZE_IN_MB}
-              accept={'image/*'}
-              id="filesToUpload"
-              name="filesToUpload"
-              onDrop={this.onDrophandler}
-            >
-              <React.Fragment>
-                <div className="section VerticalAligner bdb-img-upload-placeholder">
-                  <a
-                    style={{
-                      pointerEvents: 'none',
-                      borderRadius: '100%',
-                      height: 58,
-                    }}
-                    className="button is-success is-large"
-                  >
-                    <span>
-                      <i className="fa fa-camera" aria-hidden="true" />
-                    </span>
-                  </a>
-                </div>
-              </React.Fragment>
-            </Dropzone>
+          <section className="modal-card-body">
+            <div className="columns is-vcentered">
+              <div className="column">
+                <Dropzone
+                  style={!showCropper ? {} : { height: 0 }}
+                  className={!showCropper ? '' : 'is-invisible'}
+                  ref={this.dropzoneRef}
+                  multiple={false}
+                  maxSize={MAX_FILE_SIZE_IN_MB}
+                  accept={'image/*'}
+                  id="filesToUpload"
+                  name="filesToUpload"
+                  onDrop={this.onDrophandler}
+                >
+                  <React.Fragment>
+                    <div className="section VerticalAligner bdb-img-upload-placeholder">
+                      <button
+                        style={{
+                          pointerEvents: 'none',
+                          borderRadius: '100%',
+                          height: 58,
+                        }}
+                        className="button is-success is-large"
+                      >
+                        <span>
+                          <i className="fa fa-camera" aria-hidden="true" />
+                        </span>
+                      </button>
+                    </div>
+                  </React.Fragment>
+                </Dropzone>
 
-            {showCropper && (
-              <Cropper
-                ref="cropper"
-                src={thumb}
-                checkOrientation={true}
-                guides={false}
-                className="bdb-img-upload-placeholder"
-                modal={false}
-                background={false}
-                rotatable
-                autoCrop
-                autoCropArea={1}
-                style={{ height: '16rem', width: '100%' }}
-              />
-            )}
+                {showCropper && (
+                  <Cropper
+                    ref="cropper"
+                    src={thumb}
+                    checkOrientation={true}
+                    guides={false}
+                    className="bdb-img-upload-placeholder"
+                    modal={true}
+                    background={false}
+                    rotatable
+                    autoCrop
+                    autoCropArea={1}
+                    style={{ height: '16rem', width: '100%', background: '#eeeeee' }}
+                  />
+                )}
+              </div>
+            </div>
           </section>
 
-          {showCropper && (
-            <footer className="modal-card-foot ">
-              <React.Fragment>
-                <button onClick={closeDialog} className="button">
-                  Cancel
-                </button>
-                {/* <button onClick={this.clearImage} className="button is-danger is-outlined">
+          <footer className="modal-card-foot ">
+            <React.Fragment>
+              <button onClick={closeDialog} className="button">
+                Cancel
+              </button>
+              {/* <button onClick={this.clearImage} className="button is-danger is-outlined">
                   <span className="icon">
                     <i className="far fa-trash-alt" />
                   </span>
                   <span>Clear</span>
                 </button> */}
-                <button onClick={this.saveCrop} className="button is-info">
-                  <span className="icon">
-                    <i className="fas fa-crop-alt" />
-                  </span>
-                  <span>Crop</span>
-                </button>
-                <button onClick={this.done} className="button is-success">
-                  <span>Done</span>
-                </button>
-              </React.Fragment>
-            </footer>
-          )}
+              <button disabled={!thumb} onClick={this.saveCrop} className="button is-info">
+                <span className="icon">
+                  <i className="fas fa-crop-alt" />
+                </span>
+                <span>Crop it</span>
+              </button>
+              <button disabled={!thumb} onClick={this.done} className="button is-success">
+                <span>Done</span>
+              </button>
+            </React.Fragment>
+          </footer>
         </div>
       </div>,
       document.querySelector('#bidorboo-root-modals'),
