@@ -751,10 +751,7 @@ exports.jobDataAccess = {
   getJobWithBidDetails: async (mongDbUserId, jobId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const jobWithBidDetails = await JobModel.findOne(
-          { _id: jobId, _ownerRef: mongDbUserId },
-          { ...schemaHelpers.JobFull }
-        )
+        const jobWithBidDetails = await JobModel.findOne({ _id: jobId, _ownerRef: mongDbUserId })
           .populate([
             {
               path: '_ownerRef',

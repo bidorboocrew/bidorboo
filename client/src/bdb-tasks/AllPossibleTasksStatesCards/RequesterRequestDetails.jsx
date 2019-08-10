@@ -17,6 +17,7 @@ import {
   PastdueExpired,
   JobCardTitle,
   TaskersAvailable,
+  TaskImagesCarousel,
 } from '../../containers/commonComponents';
 
 import { switchRoute } from '../../utils';
@@ -71,6 +72,7 @@ class RequesterRequestDetails extends React.Component {
     if (!job || !cancelJobById) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
+
     const {
       _id: jobId,
       startingDateAndTime,
@@ -80,6 +82,7 @@ class RequesterRequestDetails extends React.Component {
       isHappeningSoon,
       isHappeningToday,
       isPastDue,
+      taskImages = [],
     } = job;
     if (
       !jobId ||
@@ -199,7 +202,7 @@ class RequesterRequestDetails extends React.Component {
                   </div>
                 )}
               />
-
+              <TaskImagesCarousel taskImages={taskImages} />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (

@@ -1,5 +1,6 @@
 const { jobDataAccess } = require('../data-access/jobDataAccess');
 const { updateUserLastSearchDetails } = require('../data-access/userDataAccess');
+const { uploadFileToCloudinary } = require('../utils/utilities');
 
 const ROUTES = require('../backend-route-constants');
 
@@ -185,7 +186,7 @@ module.exports = (app) => {
       return res.status(400).send({ errorMsg: 'Failed To create new job', details: `${e}` });
     }
   });
-  app.put(ROUTES.API.JOB.PUT.jobImage, requireLogin, async (req, res) => {
+  app.post(ROUTES.API.JOB.POST.jobImage, requireLogin, async (req, res) => {
     try {
       const filesList = req.files;
 
@@ -194,9 +195,9 @@ module.exports = (app) => {
       let cloudinaryHostedImageObj = [];
       const callbackFunc = (error, result) => {
         // update the user data model
-        if (result) {
-          const { secure_url } = result;
-          cloudinaryHostedImageObj.push(secure_url);
+        if (!error && result) {
+          const { secure_url, public_id } = result;
+          cloudinaryHostedImageObj.push({ public_id, url: secure_url });
         }
       };
 
@@ -204,7 +205,7 @@ module.exports = (app) => {
         const cloudinaryUploadReqs = [];
         filesList.forEach((file) => {
           cloudinaryUploadReqs.push(
-            utils.uploadFileToCloudinary(
+            uploadFileToCloudinary(
               file.path,
               {
                 folder: `${mongoUser_id}/ReqestsImages`,
@@ -214,10 +215,10 @@ module.exports = (app) => {
           );
         });
 
-        await Promise.all(cloudinaryUploadReqs);
+        const imageUploadResults = await Promise.all(cloudinaryUploadReqs);
 
         res.send({
-          uploadImages: cloudinaryHostedImageObj,
+          taskImages: cloudinaryHostedImageObj,
         });
       }
     } catch (e) {

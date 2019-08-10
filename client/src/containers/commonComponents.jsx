@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 import moment from 'moment';
 import AddToCalendar from 'react-add-to-calendar';
+
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 
@@ -1406,3 +1410,51 @@ export const BSTaskIsDone = () => {
     </div>
   );
 };
+// https://github.com/leandrowd/react-responsive-carousel
+export const TaskImagesCarousel = ({ taskImages }) => {
+  if (taskImages && taskImages.length > 0) {
+    taskImages = taskImages.map((taskImage, i) => (
+      <div key={i}>
+        <img style={{ objectFit: 'contain', height: '8rem' }} src={taskImage.url} />
+      </div>
+    ));
+
+    return (
+      <Carousel
+        showThumbs={false}
+        showArrows={true}
+        infiniteLoop
+        // centerMode
+      >
+        {taskImages}
+      </Carousel>
+    );
+  }
+  return null;
+};
+
+// https://github.com/FormidableLabs/nuka-carousel
+// export const TaskImagesCarousel = ({ taskImages }) => {
+
+//   if (taskImages && taskImages.length > 0) {
+//     let carouselImg = taskImages.map((taskImage) => <img src={taskImage.url} />);
+
+//     return (
+//       <Carousel
+//         renderCenterLeftControls={({ previousSlide }) => (
+//           <button className="button is-danger is-outlined" onClick={previousSlide}>
+//             <i className="fas fa-arrow-left" />
+//           </button>
+//         )}
+//         renderCenterRightControls={({ nextSlide }) => (
+//           <button className="button is-danger is-outlined" onClick={nextSlide}>
+//             <i className="fas fa-arrow-right" />
+//           </button>
+//         )}
+//       >
+//         {carouselImg}
+//       </Carousel>
+//     );
+//   }
+//   return null;
+// };

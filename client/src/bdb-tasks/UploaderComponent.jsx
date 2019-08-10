@@ -89,10 +89,11 @@ export default class UploaderComponent extends React.Component {
     }
   };
   done = () => {
+    debugger;
     const { onDoneCropping } = this.props;
     const { thumb } = this.state;
-
-    onDoneCropping && onDoneCropping(thumb);
+    const blob = this.dataURItoBlob(thumb);
+    onDoneCropping && onDoneCropping(thumb, blob);
   };
 
   render() {

@@ -78,6 +78,12 @@ const JobSchema = new Schema(
       id: { type: String },
       status: { type: String },
     },
+    taskImages: [
+      {
+        url: { type: String },
+        public_id: { type: String },
+      },
+    ],
     extras: { type: Object },
     // jobImages: [
     //   {

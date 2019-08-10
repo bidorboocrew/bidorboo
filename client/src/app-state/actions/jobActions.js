@@ -342,11 +342,11 @@ export const postNewJob = (jobDetails) => (dispatch) => {
   });
 };
 
-export const uploadTaskImages = ({ taskImages }) => (dispatch) => {
+export const uploadTaskImages = (taskImages) => (dispatch) => {
   let data = new FormData();
-
+debugger
   taskImages &&
-    taskImages.length &&
+    taskImages.length >0 &&
     taskImages.forEach((file, index) => {
       data.append('filesToUpload', file, `jobImages+${index}`);
     });
@@ -355,6 +355,7 @@ export const uploadTaskImages = ({ taskImages }) => (dispatch) => {
   };
 
   if (taskImages && taskImages.length) {
+    debugger
     return dispatch({
       type: A.JOB_ACTIONS.ADD_NEW_JOB,
       payload: axios.put(ROUTES.API.JOB.PUT.jobImage, data, config).then((resp2) => {

@@ -31,4 +31,4 @@ yarn-error.log*
 
 .vscode
 
-/uploadsTempDir/**
+/server/uploadsTempDir/**

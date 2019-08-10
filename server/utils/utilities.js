@@ -27,17 +27,19 @@ exports.uploadFileToCloudinary = async (filePath, options, callbackFunc) => {
   return new Promise(async (resolve, reject) => {
     try {
       await cloudinary.v2.uploader.upload(filePath, options, async (error, result) => {
-        resolve(result);
+        callbackFunc && callbackFunc(error, result);
+        resolve(true);
       });
     } catch (e) {
       reject(e);
     } finally {
       // delete temporary intermediate file stored in TEMP_FILE_STORAGE
       try {
+        console.log(`BIDORBOOLOGGING: deleted temporary task file`);
+
         await unlinkAsync(filePath);
-        if (callbackFunc) {
-          callbackFunc(error, result);
-        }
+
+        callbackFunc && callbackFunc(null, null);
       } catch (e) {
         console.log(
           `BIDORBOOLOGGING: file at  (${filePath}) was not deleted successfully due to (${e})`

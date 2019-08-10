@@ -309,7 +309,8 @@ exports.findUserAndAllNewNotifications = async (userId) => {
             },
           },
         })
-        .lean({ virtuals: true })
+        // .lean({ virtuals: true })
+        .lean()
         .exec();
 
       let z_notify_jobsWithNewBids =
