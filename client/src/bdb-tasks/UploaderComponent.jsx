@@ -19,7 +19,6 @@ export default class UploaderComponent extends React.Component {
     const { thumb } = this.state;
     // clean up memory
     if (thumb && thumb.preview) {
-      debugger;
       window.URL.revokeObjectURL(thumb.preview);
     }
 
@@ -27,7 +26,6 @@ export default class UploaderComponent extends React.Component {
   }
 
   componentDidMount() {
-    debugger;
     if (!this.props.thumb) {
       this.dropzoneRef &&
         this.dropzoneRef.current &&
@@ -148,9 +146,7 @@ export default class UploaderComponent extends React.Component {
                 rotatable
                 autoCrop
                 autoCropArea={1}
-                // viewMode={1}
-                minCanvasHeight={23}
-                minCropBoxHeight={32}
+                style={{ height: '16rem', width: '100%' }}
               />
             )}
           </section>

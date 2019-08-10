@@ -615,7 +615,7 @@ const ImageUploaderButton = ({ updateTaskThumbnails, thumbnailKey }) => {
               height: 99,
               width: 200,
               border: 'none',
-              objectFit: 'cover',
+              objectFit: 'contain',
               border: '1px solid #eeeeee',
             }}
             onClick={() => setshowUploader(true)}
