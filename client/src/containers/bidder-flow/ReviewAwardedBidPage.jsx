@@ -10,7 +10,7 @@ import {
   updateBid,
   deleteOpenBid,
 } from '../../app-state/actions/bidsActions';
-
+import { RenderBackButton } from '../commonComponents';
 import { Spinner } from '../../components/Spinner';
 
 // import TaskerPendingBidInfo from './components/TaskerEditOrUpdateBid';
@@ -74,6 +74,7 @@ class ReviewAwardedBidPage extends React.Component {
       <div>
         <div className="columns is-centered is-mobile">
           <div className="column limitLargeMaxWidth slide-in-right">
+            <RenderBackButton />
             {getMeTheRightBidCard({
               bid: selectedAwardedBid,
               isSummaryView: false,

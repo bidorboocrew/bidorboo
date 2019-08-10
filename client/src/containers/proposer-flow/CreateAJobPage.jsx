@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import { postNewJob, uploadTaskImages } from '../../app-state/actions/jobActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
-
+import { RenderBackButton } from '../commonComponents';
 import GenericRequestForm from '../../bdb-tasks/GenericRequestForm';
 
 const creatJobsByIdMap = {
@@ -33,8 +33,9 @@ class CreateAJobPage extends React.Component {
     const { chosenTemplate } = this.state;
 
     return (
-      <div className="columns is-centered is-mobile slide-in-right">
-        <div className="column limitLargeMaxWidth">
+      <div className="columns is-centered is-mobile">
+      <div className="column limitLargeMaxWidth slide-in-right">
+          <RenderBackButton />
           {/* create job based on ID */}
           {creatJobsByIdMap[`${chosenTemplate}`] &&
             creatJobsByIdMap[`${chosenTemplate}`](this.props)}

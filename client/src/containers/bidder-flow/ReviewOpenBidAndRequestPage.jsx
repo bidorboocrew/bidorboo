@@ -8,7 +8,7 @@ import { switchRoute } from '../../utils';
 import { getOpenBidDetails, updateBid, deleteOpenBid } from '../../app-state/actions/bidsActions';
 
 import { Spinner } from '../../components/Spinner';
-
+import { RenderBackButton } from '../commonComponents';
 import { getMeTheRightBidCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightCard';
 
 class ReviewOpenBidAndRequestPage extends React.Component {
@@ -64,6 +64,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
     return (
       <div className="columns is-centered is-mobile">
         <div className="column limitLargeMaxWidth slide-in-right">
+          . <RenderBackButton />
           {getMeTheRightBidCard({
             bid: selectedOpenBid,
             isSummaryView: false,

@@ -6,7 +6,7 @@ import AddToCalendar from 'react-add-to-calendar';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import * as ROUTES from '../constants/frontend-route-consts';
-import { switchRoute } from '../utils';
+import { switchRoute, goBackToPreviousRoute } from '../utils';
 
 import TASKS_DEFINITIONS from '../bdb-tasks/tasksDefinitions';
 
@@ -1433,6 +1433,15 @@ export const TaskImagesCarousel = ({ taskImages, isLarge = false }) => {
   return null;
 };
 
+export const RenderBackButton = () => {
+  return (
+    <a style={{ margin: '0 0 1rem 0' }} className="button" onClick={() => goBackToPreviousRoute()}>
+      <span className="icon is-large">
+        <i className="fas fa-chevron-left" />
+      </span>
+    </a>
+  );
+};
 // https://github.com/FormidableLabs/nuka-carousel
 // export const TaskImagesCarousel = ({ taskImages }) => {
 

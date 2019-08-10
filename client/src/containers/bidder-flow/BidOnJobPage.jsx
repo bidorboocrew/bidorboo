@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import { submitBid } from '../../app-state/actions/bidsActions';
 
-import { goBackToPreviousRoute } from '../../utils';
+import { RenderBackButton } from '../commonComponents';
 
 import { getJobToBidOnDetails } from '../../app-state/actions/bidsActions';
 
@@ -38,15 +38,7 @@ class BidOnJobPage extends React.Component {
         <div>
           <div className="columns is-centered">
             <div className="column limitLargeMaxWidth">
-              <a
-                style={{ margin: '0 0 1rem 0' }}
-                className="button"
-                onClick={() => goBackToPreviousRoute()}
-              >
-                <span className="icon is-large">
-                  <i className="fas fa-chevron-left" />
-                </span>
-              </a>
+              <RenderBackButton />
 
               {getMeTheRightRequestCard({
                 job: jobDetails,
