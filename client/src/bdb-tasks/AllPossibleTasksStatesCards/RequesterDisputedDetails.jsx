@@ -6,6 +6,7 @@ import {
   DisputedBy,
   SummaryStartDateAndTime,
   JobCardTitle,
+  TaskImagesCarousel,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -27,6 +28,7 @@ export default class RequesterDisputedDetails extends React.Component {
       _ownerRef,
       detailedDescription,
       processedPayment,
+      taskImages = [],
     } = job;
     if (
       !startingDateAndTime ||
@@ -73,6 +75,7 @@ export default class RequesterDisputedDetails extends React.Component {
         <div className="card-content">
           <div className="content">
             <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <TaskImagesCarousel taskImages={taskImages} isLarge />
             <SummaryStartDateAndTime
               date={startingDateAndTime}
               renderHelpComponent={() => (

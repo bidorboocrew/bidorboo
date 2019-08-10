@@ -202,7 +202,7 @@ class RequesterRequestDetails extends React.Component {
                   </div>
                 )}
               />
-              <TaskImagesCarousel taskImages={taskImages} />
+              <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (

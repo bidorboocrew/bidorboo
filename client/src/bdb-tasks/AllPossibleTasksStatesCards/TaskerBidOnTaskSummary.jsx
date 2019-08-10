@@ -20,6 +20,7 @@ import {
   CardTitleAndActionsInfo,
   JobCardTitle,
   CountDownComponent,
+  TaskImagesCarousel,
 } from '../../containers/commonComponents';
 
 import { getUserExistingBid, didUserAlreadyView } from '../../containers/commonUtils';
@@ -71,6 +72,7 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
       _ownerRef,
       state,
       extras,
+      taskImages = [],
     } = job;
     if (!startingDateAndTime || !templateId || !_ownerRef || !state || !extras) {
       return <div>TaskerBidOnTaskSummary is missing properties</div>;
@@ -93,6 +95,7 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
           <div style={{ ...specialStyle }} className="card-content">
             <div className="content">
               <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <TaskImagesCarousel taskImages={taskImages} />
               {/* {!isOnMapView && <CenteredUserImageAndRating clipUserName userDetails={_ownerRef} />} */}
               <SummaryStartDateAndTime
                 date={startingDateAndTime}

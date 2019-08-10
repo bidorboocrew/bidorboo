@@ -25,6 +25,7 @@ import {
   SummaryStartDateAndTime,
   CenteredUserImageAndRating,
   AssignedTasker,
+  TaskImagesCarousel,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -67,6 +68,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
         bidderDisputed: false,
         proposerDisputed: false,
       },
+      taskImages = [],
     } = job;
     if (
       !_id ||
@@ -247,7 +249,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                   </div>
                 )}
               />
-
+              <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (

@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -13,6 +12,7 @@ import {
   JobCardTitle,
   SummaryStartDateAndTime,
   AssignedTasker,
+  TaskImagesCarousel,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -40,6 +40,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
         bidderDisputed: false,
         proposerDisputed: false,
       },
+      taskImages = [],
     } = job;
     if (
       !jobId ||
@@ -73,7 +74,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
           <div className="card-content">
             <div className="content">
               <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-
+              <TaskImagesCarousel taskImages={taskImages} />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (

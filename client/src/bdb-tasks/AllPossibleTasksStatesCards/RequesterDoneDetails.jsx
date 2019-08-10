@@ -18,7 +18,7 @@ import {
   ArchiveTask,
   JobCardTitle,
   SummaryStartDateAndTime,
-  TaskIsFulfilled,
+  TaskIsFulfilled,TaskImagesCarousel
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -54,6 +54,7 @@ class RequesterDoneDetails extends RequestBaseContainer {
         bidderDisputed: false,
         proposerDisputed: false,
       },
+      taskImages = [],
     } = job;
     if (
       !jobId ||
@@ -107,6 +108,8 @@ class RequesterDoneDetails extends RequestBaseContainer {
           <div className="card-content">
             <div className="content has-text-centered">
               <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+
+              <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (

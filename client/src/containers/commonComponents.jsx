@@ -1411,11 +1411,11 @@ export const BSTaskIsDone = () => {
   );
 };
 // https://github.com/leandrowd/react-responsive-carousel
-export const TaskImagesCarousel = ({ taskImages }) => {
+export const TaskImagesCarousel = ({ taskImages, isLarge = false }) => {
   if (taskImages && taskImages.length > 0) {
     taskImages = taskImages.map((taskImage, i) => (
       <div key={i}>
-        <img style={{ objectFit: 'contain', height: '8rem' }} src={taskImage.url} />
+        <img style={{ objectFit: 'contain', height: isLarge ? '' : '8rem' }} src={taskImage.url} />
       </div>
     ));
 

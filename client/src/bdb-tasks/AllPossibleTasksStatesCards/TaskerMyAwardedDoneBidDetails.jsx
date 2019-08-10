@@ -19,6 +19,7 @@ import {
   CenteredUserImageAndRating,
   TaskIsFulfilled,
   ArchiveTask,
+  TaskImagesCarousel,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -48,6 +49,7 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
         requiresProposerReview: true,
         requiresBidderReview: true,
       },
+      taskImages = [],
     } = job;
     if (
       !startingDateAndTime ||
@@ -93,6 +95,7 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
           <div style={{ borderBottom: 0 }} className="card-content">
             <div className="content">
               <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (

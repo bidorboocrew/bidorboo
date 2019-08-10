@@ -7,6 +7,7 @@ import {
   SummaryStartDateAndTime,
   JobCardTitle,
   CancelledBy,
+  TaskImagesCarousel,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -29,6 +30,7 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
       detailedDescription,
       processedPayment,
       templateId,
+      taskImages = [],
     } = job;
     if (
       !startingDateAndTime ||
@@ -80,7 +82,7 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
         <div className="card-content">
           <div className="content">
             <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-
+            <TaskImagesCarousel taskImages={taskImages} isLarge />
             <SummaryStartDateAndTime
               date={startingDateAndTime}
               renderHelpComponent={() => (

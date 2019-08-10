@@ -4,6 +4,7 @@ import {
   DisputedBy,
   SummaryStartDateAndTime,
   JobCardTitle,
+  TaskImagesCarousel,
 } from '../../containers/commonComponents';
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -24,6 +25,7 @@ export default class RequesterDisputedSummary extends React.Component {
       displayStatus,
       state,
       _ownerRef,
+      taskImages = [],
     } = job;
     if (
       !startingDateAndTime ||
@@ -49,6 +51,8 @@ export default class RequesterDisputedSummary extends React.Component {
         <div className="card-content">
           <div className="content">
             <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+
+            <TaskImagesCarousel taskImages={taskImages} />
 
             <SummaryStartDateAndTime
               date={startingDateAndTime}

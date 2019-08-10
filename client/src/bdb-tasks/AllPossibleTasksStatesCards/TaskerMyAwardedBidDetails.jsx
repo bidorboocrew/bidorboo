@@ -21,6 +21,7 @@ import {
   BidAmount,
   BSWaitingOnRequesterToConfirm,
   CenteredUserImageAndRating,
+  TaskImagesCarousel,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -53,6 +54,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
         bidderDisputed: false,
         proposerDisputed: false,
       },
+      taskImages = [],
     } = job;
     if (
       !startingDateAndTime ||
@@ -222,7 +224,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                   </div>
                 )}
               />
-
+              <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (

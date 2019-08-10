@@ -19,6 +19,7 @@ import {
   BSPastDueExpired,
   JobCardTitle,
   BSAwardedToSomeoneElse,
+  TaskImagesCarousel,
 } from '../../containers/commonComponents';
 
 import TaskerEditOrUpdateBid from '../../containers/bidder-flow/components/TaskerEditOrUpdateBid';
@@ -77,6 +78,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
       extras,
       isPastDue,
       state,
+      taskImages = [],
     } = job;
     if (
       !startingDateAndTime ||
@@ -211,7 +213,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                   </div>
                 )}
               />
-
+              <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
