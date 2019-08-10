@@ -14,9 +14,7 @@ import { switchRoute } from '../../utils';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 import {
-  AvgBidDisplayLabelAndValue,
   SummaryStartDateAndTime,
-  CenteredUserImageAndRating,
   CardTitleAndActionsInfo,
   JobCardTitle,
   CountDownComponent,
@@ -171,7 +169,8 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                             showLoginDialog(true);
                             return;
                           } else if (!userDetails.canBid) {
-                            this.toggleRegisterAsTasker();
+                            // xxxxxxxxxxx re enable this very important
+                            // this.toggleRegisterAsTasker();
                           } else if (userDetails.canBid) {
                             updateViewedBy(job);
                             switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
@@ -243,7 +242,8 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                             showLoginDialog(true);
                             return;
                           } else if (!userDetails.canBid) {
-                            this.toggleRegisterAsTasker();
+                            // xxxxxxxxxxxxxxxxxxxx reenable
+                            // this.toggleRegisterAsTasker();
                           } else if (userDetails.canBid) {
                             updateViewedBy(job);
                             switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));

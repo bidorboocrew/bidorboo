@@ -229,6 +229,8 @@ const ProfileForm = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
       />
+      <br />
+      <br />
       {/* ID VERIFICATION XXXXXX  */}
       {/* <input id="idFrontImg" className="input is-invisible" type="hidden" />
       <label className="label">ID Verification (Optional)</label>

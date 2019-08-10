@@ -250,6 +250,8 @@ class MyProfile extends React.Component {
                           }}
                           readOnly
                         />
+                        <br />
+                        <br />
                       </div>
                     )}
                     {isEditProfile && (
