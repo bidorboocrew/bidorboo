@@ -185,7 +185,7 @@ class BidderRootPage extends React.Component {
 
     const anyVisibleJobs = currentJobsList && currentJobsList.length > 0;
     const searchWithNoResults = isThereAnActiveSearch && !anyVisibleJobs;
-debugger
+
     return (
       <div>
         <section className="hero is-small">

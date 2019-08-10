@@ -836,6 +836,7 @@ exports.jobDataAccess = {
             durationOfJob: 1,
             templateId: 1,
             extras: 1,
+            taskImages: 1,
           }
         )
           .populate([
@@ -989,7 +990,7 @@ exports.jobDataAccess = {
   getAwardedJobDetails: async (jobId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const jobWithBidderDetails = await JobModel.findById({ _id: jobId })
+        const jobWithBidderDetails = await JobModel.findOne({ _id: jobId })
           .populate([
             {
               path: '_awardedBidRef',
@@ -1096,6 +1097,7 @@ exports.jobDataAccess = {
             extras: 1,
             state: 1,
             location: 1,
+            taskImages:1,
           },
           {
             sort: { startingDateAndTime: 1 },
@@ -1152,7 +1154,7 @@ exports.jobDataAccess = {
           _bidsListRef: 1,
           viewedBy: 1,
           hideFrom: 1,
-          taskImages:1,
+          taskImages: 1,
         })
           .sort({ startingDateAndTime: 1 })
           .populate([

@@ -46,7 +46,6 @@ class GenericRequestForm extends React.Component {
   }
 
   updateTaskThumbnails = (fieldIdAndValue) => {
-    debugger;
     this.props.setFieldValue(fieldIdAndValue.fieldId, fieldIdAndValue.fieldValue, false);
   };
 
@@ -179,12 +178,7 @@ class GenericRequestForm extends React.Component {
       <React.Fragment>
         <div style={{ borderTop: '2px solid #26ca70' }} className="card limitLargeMaxWidth">
           <div style={{ position: 'relative' }} className="card-content">
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-              }}
-            >
+            <form onSubmit={handleSubmit}>
               {renderSummaryCard({ withDetails: false })}
 
               <input id="templateId" className="input is-invisible" type="hidden" value={ID} />
@@ -354,6 +348,7 @@ class GenericRequestForm extends React.Component {
               />
 
               <button
+                type="submit"
                 style={{
                   marginLeft: '1rem',
                   borderRadius: 25,
@@ -365,8 +360,6 @@ class GenericRequestForm extends React.Component {
                 }}
                 className={`button is-success is-medium ${isSubmitting ? 'is-loading' : ''}`}
                 disabled={isSubmitting}
-                onClick={handleSubmit}
-                type="button"
               >
                 <span className="icon">
                   <i className="far fa-paper-plane" />
@@ -457,35 +450,34 @@ class GenericRequestForm extends React.Component {
 }
 
 const EnhancedForms = withFormik({
-  // validationSchema: (props) => {
-  //   return Yup.object().shape({
-  //     templateId: Yup.string()
-  //       .ensure()
-  //       .trim()
-  //       .oneOf(['bdbCarDetailing', 'bdbHouseCleaning'])
-  //       .required('Template Id missing or not recognized, This field is required'),
-  //     startingDateAndTime: Yup.date()
-  //       .min(moment().add(1, 'day'), '*Tasks Can not be scheduled in the past')
-  //       .max(moment().add(30, 'd'), '*Tasks can only be scheduled a month in advance')
-  //       .required('* Date Field is required'),
-  //     timeOfDay: Yup.string()
-  //       .ensure()
-  //       .trim()
-  //       .oneOf(
-  //         ['morning', 'afternoon', 'evening', 'anytime'],
-  //         '*Please select a value from the drop down',
-  //       )
-  //       .required('*Please select a value from the drop down'),
-  //     detailedDescription: Yup.string()
-  //       .ensure()
-  //       .trim()
-  //       .min(20, 'your description must be more than 20 charachters')
-  //       .required('*Please provide a detailed description'),
-  //     ...TASKS_DEFINITIONS[props.requestTemplateId].extraValidationSchema,
-  //   });
-  // },
+  validationSchema: (props) => {
+    return Yup.object().shape({
+      templateId: Yup.string()
+        .ensure()
+        .trim()
+        .oneOf(['bdbCarDetailing', 'bdbHouseCleaning'])
+        .required('Template Id missing or not recognized, This field is required'),
+      startingDateAndTime: Yup.date()
+        .min(moment().add(1, 'day'), '*Tasks Can not be scheduled in the past')
+        .max(moment().add(30, 'd'), '*Tasks can only be scheduled a month in advance')
+        .required('* Date Field is required'),
+      timeOfDay: Yup.string()
+        .ensure()
+        .trim()
+        .oneOf(
+          ['morning', 'afternoon', 'evening', 'anytime'],
+          '*Please select a value from the drop down',
+        )
+        .required('*Please select a value from the drop down'),
+      detailedDescription: Yup.string()
+        .ensure()
+        .trim()
+        .min(20, 'your description must be more than 20 charachters')
+        .required('*Please provide a detailed description'),
+      ...TASKS_DEFINITIONS[props.requestTemplateId].extraValidationSchema,
+    });
+  },
   validate: (values) => {
-    return {};
     let errors = {};
     const extrasValidations = TASKS_DEFINITIONS[values.templateId].extrasValidation;
 
@@ -539,6 +531,7 @@ const EnhancedForms = withFormik({
     };
   },
   handleSubmit: async (values, { setSubmitting, props }) => {
+    debugger;
     const { postNewJob } = props;
     setSubmitting(true);
 

@@ -90,7 +90,7 @@ export default class UploaderComponent extends React.Component {
     }
   };
   done = () => {
-    debugger;
+
     const { onDoneCropping } = this.props;
     const { thumb } = this.state;
     const blob = this.dataURItoBlob(thumb);
@@ -110,7 +110,7 @@ export default class UploaderComponent extends React.Component {
               <div className="column">
                 <Dropzone
                   onDropRejected={(e) => {
-                    debugger;
+
                     alert('this file is not accepted must be an img file less than 3MB');
                   }}
                   accept="image/*"

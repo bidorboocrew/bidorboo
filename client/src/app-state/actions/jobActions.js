@@ -74,7 +74,6 @@ export const getAllMyAwardedJobs = () => (dispatch) => {
   });
 };
 export const searchJobsToBidOn = (values) => (dispatch) => {
-  debugger
   const config = {
     headers: { 'Content-Type': 'application/json' },
   };
@@ -88,13 +87,13 @@ export const searchJobsToBidOn = (values) => (dispatch) => {
   });
 };
 
-export const getAllJobsToBidOn = () => (dispatch) => {
-  debugger;
-  dispatch({
-    type: A.JOB_ACTIONS.GET_ALL_POSTED_JOBS,
-    payload: axios.get(ROUTES.API.JOB.GET.alljobsToBidOn),
-  });
-};
+// export const getAllJobsToBidOn = () => (dispatch) => {
+//   debugger;
+//   dispatch({
+//     type: A.JOB_ACTIONS.GET_ALL_POSTED_JOBS,
+//     payload: axios.get(ROUTES.API.JOB.GET.alljobsToBidOn),
+//   });
+// };
 
 export const getPostedJobDetails = (jobId) => (dispatch) =>
   dispatch({
@@ -346,7 +345,7 @@ export const postNewJob = (jobDetails) => (dispatch) => {
 
 export const uploadTaskImages = (taskImages) => (dispatch) => {
   let data = new FormData();
-  debugger;
+
   taskImages &&
     taskImages.length > 0 &&
     taskImages.forEach((file, index) => {
@@ -357,7 +356,7 @@ export const uploadTaskImages = (taskImages) => (dispatch) => {
   };
 
   if (taskImages && taskImages.length) {
-    debugger;
+
     return dispatch({
       type: A.JOB_ACTIONS.ADD_NEW_JOB,
       payload: axios.put(ROUTES.API.JOB.PUT.jobImage, data, config).then((resp2) => {

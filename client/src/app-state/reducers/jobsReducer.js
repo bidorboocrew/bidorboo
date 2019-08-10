@@ -76,7 +76,7 @@ const getPostedJobs = {
     isLoading: true,
   }),
   isFullfilled: (state = initialState, { payload }) => {
-    debugger
+
     let allThePostedJobs = payload.data ? payload.data : [];
     return {
       ...state,
@@ -234,9 +234,9 @@ export default handleActions(
     [`${A.JOB_ACTIONS.DELETE_JOB_BY_ID}${A._FULFILLED}`]: deleteJob.isFullfilled,
     [`${A.JOB_ACTIONS.DELETE_JOB_BY_ID}${A._REJECTED}`]: deleteJob.isRejected,
 
-    [`${A.JOB_ACTIONS.GET_ALL_POSTED_JOBS}${A._PENDING}`]: getPostedJobs.isPending,
-    [`${A.JOB_ACTIONS.GET_ALL_POSTED_JOBS}${A._FULFILLED}`]: getPostedJobs.isFullfilled,
-    [`${A.JOB_ACTIONS.GET_ALL_POSTED_JOBS}${A._REJECTED}`]: getPostedJobs.isRejected,
+    // [`${A.JOB_ACTIONS.GET_ALL_POSTED_JOBS}${A._PENDING}`]: getPostedJobs.isPending,
+    // [`${A.JOB_ACTIONS.GET_ALL_POSTED_JOBS}${A._FULFILLED}`]: getPostedJobs.isFullfilled,
+    // [`${A.JOB_ACTIONS.GET_ALL_POSTED_JOBS}${A._REJECTED}`]: getPostedJobs.isRejected,
     [`${A.JOB_ACTIONS.SEARCH_JOB}`]: searchJob.performSearch,
     [`${A.JOB_ACTIONS.SEARCH_JOB}${A._PENDING}`]: searchJob.isPending,
     [`${A.JOB_ACTIONS.SEARCH_JOB}${A._FULFILLED}`]: searchJob.isFullfilled,
