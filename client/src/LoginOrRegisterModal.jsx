@@ -56,7 +56,7 @@ export class LoginOrRegisterModal extends React.Component {
                   <div className="tabs is-small is-centered">
                     <ul>
                       <li>
-                        <a>login/Join us via social media</a>
+                        <a>login via social media</a>
                       </li>
                     </ul>
                   </div>
@@ -103,13 +103,58 @@ export class LoginOrRegisterModal extends React.Component {
               </React.Fragment>
             )}
             {showRegistrationForm && (
-              <RegistrationForm
-                originPath={currentPage}
-                onSubmit={(vals) => {
-                  registerNewUser(vals);
-                  handleCancel();
-                }}
-              />
+              <>
+                <div className="has-text-centered">
+                  <div className="tabs is-small is-centered">
+                    <ul>
+                      <li>
+                        <a>Join via social media</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <a
+                    rel="noopener noreferrer"
+                    className="button is-danger is-inline-flex"
+                    href={googleAuthPath}
+                    style={{ margin: 8, width: 160 }}
+                  >
+                    <span className="icon">
+                      <i className="fab fa-google" />
+                    </span>
+                    <span>Using Google</span>
+                  </a>
+
+                  <a
+                    rel="noopener noreferrer"
+                    href={facebookAuthPath}
+                    className="button is-link is-inline-flex"
+                    style={{ margin: 8, width: 160 }}
+                  >
+                    <span className="icon">
+                      <i className="fab fa-facebook-square" />
+                    </span>
+                    <span>Using Facebook</span>
+                  </a>
+                </div>
+                <div style={{ marginTop: 12 }} className="has-text-centered">
+                  <div className="tabs is-small is-centered">
+                    <ul>
+                      <li>
+                        <a>Register With us</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="has-text-left">
+                    <RegistrationForm
+                      originPath={currentPage}
+                      onSubmit={(vals) => {
+                        registerNewUser(vals);
+                        handleCancel();
+                      }}
+                    />
+                  </div>
+                </div>
+              </>
             )}
           </div>
         </div>

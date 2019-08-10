@@ -34,7 +34,7 @@ class BidderRootPage extends React.Component {
         lat: 45.296898,
       },
       activeSearchParams: {
-        searchRadius: '25',
+        searchRadius: '100',
         addressText: '',
         latLng: { lng: -75.801867, lat: 45.296898 },
       },
