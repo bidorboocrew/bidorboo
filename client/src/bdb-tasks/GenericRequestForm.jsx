@@ -183,7 +183,12 @@ class GenericRequestForm extends React.Component {
       <React.Fragment>
         <div style={{ borderTop: '2px solid #26ca70' }} className="card limitLargeMaxWidth">
           <div style={{ position: 'relative' }} className="card-content">
-            <form onSubmit={handleSubmit}>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+            >
               {renderSummaryCard({ withDetails: false })}
 
               <input id="templateId" className="input is-invisible" type="hidden" value={ID} />
@@ -343,9 +348,9 @@ class GenericRequestForm extends React.Component {
                   fontWeight: 400,
                   boxShadow: '0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1)',
                 }}
-                type="submit"
                 className={`button is-success is-medium ${isSubmitting ? 'is-loading' : ''}`}
                 disabled={isSubmitting}
+                onClick={handleSubmit}
               >
                 <span className="icon">
                   <i className="far fa-paper-plane" />
