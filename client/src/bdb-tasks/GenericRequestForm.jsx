@@ -559,7 +559,7 @@ const EnhancedForms = withFormik({
       userUploadedImages.push(taskImg3);
     }
 
-    let finalImages = null;
+    let finalImages = [];
     if (userUploadedImages.length > 0) {
       try {
         const { data: resultOfImageUpload } = await uploadTaskImages(userUploadedImages);
@@ -625,7 +625,7 @@ const EnhancedForms = withFormik({
       };
     }
 
-    postNewJob(mappedFieldsToJobSchema);
+    await postNewJob(mappedFieldsToJobSchema);
 
     setSubmitting(false);
   },
