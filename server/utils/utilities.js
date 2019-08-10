@@ -23,6 +23,7 @@ exports.compareEncryptedWithClearData = async (candidatePassword, encryptedPassw
 
 // handles uploading file, returns file details + deletes temp file + calls back
 //https://flaviocopes.com/how-to-remove-file-node/
+// https://cloudinary.com/documentation/image_transformation_reference
 exports.uploadFileToCloudinary = async (filePath, options, callbackFunc) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -65,6 +66,9 @@ exports.signCloudinaryParams = async (paramsToSign) => {
   });
 };
 
+exports.detroyExistingImg = async (public_id) => {
+  cloudinary.v2.uploader.destroy(public_id);
+};
 //   // delete all images in a folder
 // const mongoUser_id = req.user._id.toString();
 

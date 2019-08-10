@@ -304,16 +304,13 @@ module.exports = (app) => {
         const filesList = req.files;
         const userId = req.user.userId;
         // const mongoUser_id = req.user._id;
+        let newUserProfilePicImg = {};
 
-        const updateUserWithNewProfileImg = async (error, result) => {
+        const updateUserWithNewProfileImg = (error, result) => {
           try {
-            if (!error) {
-              const userWithNewProfileImg = await userDataAccess.updateUserProfilePic(
-                userId,
-                result.secure_url,
-                result.public_id
-              );
-              return res.send(userWithNewProfileImg);
+            if (!error && result) {
+              const { secure_url, public_id } = result;
+              newUserProfilePicImg = { secure_url, public_id };
             }
           } catch (e) {
             return res
@@ -324,18 +321,12 @@ module.exports = (app) => {
 
         // delete old profile images if it exist (to save space)
         const currentUser = await userDataAccess.findUserImgDetails(userId);
-
+        let oldPicPublicId = '';
         if (currentUser && currentUser.profileImage && currentUser.profileImage.public_id) {
-          await cloudinary.v2.uploader.destroy(
-            currentUser.profileImage.public_id,
-            (error, result) => {
-              // we dont care about errors here as we pretty much either delete the image or .. it gets stale
-              console.log(result, error);
-            }
-          );
+          oldPicPublicId = currentUser.profileImage.public_id;
         }
         // https://cloudinary.com/documentation/image_transformations
-        const newImg = await utils.uploadFileToCloudinary(
+        await utils.uploadFileToCloudinary(
           filesList[0].path,
           {
             folder: `profilePic`,
@@ -343,6 +334,18 @@ module.exports = (app) => {
           },
           updateUserWithNewProfileImg
         );
+
+        const userWithNewProfileImg = await userDataAccess.updateUserProfilePic(
+          userId,
+          newUserProfilePicImg.secure_url,
+          newUserProfilePicImg.public_id
+        );
+
+        // delete the old pic
+        if (oldPicPublicId) {
+          utils.detroyExistingImg(currentUser.profileImage.public_id);
+        }
+        return res.send(userWithNewProfileImg);
       } else {
         return res.status(403).send({
           errorMsg: 'image upload failed due to missing params',

@@ -412,11 +412,11 @@ exports.findUserAndAllNewNotifications = async (userId) => {
     }
   });
 };
-exports.findUserImgDetails = (userId) =>
-  User.findOne({ userId }, { profileImage: 1 })
+exports.findUserImgDetails = (userId) => {
+  return User.findOne({ userId }, { profileImage: 1 })
     .lean(true)
     .exec();
-
+};
 exports.resetAndSendPhoneVerificationPin = (userId, phoneNumber) => {
   return new Promise(async (resolve, reject) => {
     try {
