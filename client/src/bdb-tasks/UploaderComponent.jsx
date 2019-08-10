@@ -35,6 +35,7 @@ export default class UploaderComponent extends React.Component {
   onDrophandler = (files) => {
     // do nothing if no files
     if (!files || !(files.length > 0)) {
+      alert('you can only use one img file at a time');
       return;
     }
 
@@ -108,15 +109,22 @@ export default class UploaderComponent extends React.Component {
             <div className="columns is-vcentered">
               <div className="column">
                 <Dropzone
+                  onDropRejected={(e) => {
+                    debugger;
+                    alert('this file is not accepted must be an img file less than 3MB');
+                  }}
+                  accept="image/*"
                   style={!showCropper ? {} : { height: 0 }}
                   className={!showCropper ? '' : 'is-invisible'}
                   ref={this.dropzoneRef}
                   multiple={false}
                   maxSize={MAX_FILE_SIZE_IN_MB}
-                  accept={'image/*'}
                   id="filesToUpload"
                   name="filesToUpload"
-                  onDrop={this.onDrophandler}
+                  onDropAccepted={this.onDrophandler}
+                  onDropRejected={() =>
+                    alert('File not accepted, must be an image file less than 5MB')
+                  }
                 >
                   <React.Fragment>
                     <div className="section VerticalAligner bdb-img-upload-placeholder">
@@ -166,12 +174,12 @@ export default class UploaderComponent extends React.Component {
                   </span>
                   <span>Clear</span>
                 </button> */}
-              <button disabled={!thumb} onClick={this.saveCrop} className="button is-info">
+              {/* <button disabled={!thumb} onClick={this.saveCrop} className="button is-info">
                 <span className="icon">
                   <i className="fas fa-crop-alt" />
                 </span>
                 <span>Crop it</span>
-              </button>
+              </button> */}
               <button disabled={!thumb} onClick={this.done} className="button is-success">
                 <span>Done</span>
               </button>
