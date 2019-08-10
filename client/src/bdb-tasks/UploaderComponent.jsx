@@ -89,94 +89,91 @@ export default class UploaderComponent extends React.Component {
   };
 
   render() {
-    const { closeDialog, shouldShow } = this.props;
+    const { closeDialog } = this.props;
     const { thumb, showCropper } = this.state;
 
-    return (
-      shouldShow &&
-      ReactDOM.createPortal(
-        <div className="modal is-active">
-          <div onClick={closeDialog} className="modal-background" />
-          <div style={{ background: 'white', padding: '1rem' }} className="modal-content">
-            <Dropzone
-              style={!showCropper ? {} : { height: 0 }}
-              className={!showCropper ? '' : 'is-invisible'}
-              ref={this.dropzoneRef}
-              multiple={false}
-              maxSize={MAX_FILE_SIZE_IN_MB}
-              accept={'image/*'}
-              id="filesToUpload"
-              name="filesToUpload"
-              onDrop={this.onDrophandler}
-            >
-              <React.Fragment>
-                <div className="section VerticalAligner bdb-img-upload-placeholder">
-                  <a
-                    style={{
-                      pointerEvents: 'none',
-                      borderRadius: '100%',
-                      height: 58,
-                    }}
-                    className="button is-success is-large"
-                  >
-                    <span>
-                      <i className="fa fa-camera" aria-hidden="true" />
-                    </span>
-                  </a>
-                </div>
-                <div className="help">Upload Task Image</div>
-              </React.Fragment>
-            </Dropzone>
-            <div style={{ minHeight: 200 }} className="form-group has-text-centered">
-              {showCropper && (
-                <Cropper
-                  ref="cropper"
-                  src={thumb}
-                  checkOrientation={true}
-                  guides={false}
-                  className="bdb-img-upload-placeholder"
-                  modal={true}
-                  background={false}
-                  minContainerHeight={180}
-                  minCanvasHeight={180}
-                  rotatable
-                  autoCrop
-                  autoCropArea={1}
-                />
-              )}
-            </div>
+    return ReactDOM.createPortal(
+      <div className="modal is-active">
+        <div onClick={closeDialog} className="modal-background" />
+        <div style={{ background: 'white', padding: '1rem' }} className="modal-content">
+          <Dropzone
+            style={!showCropper ? {} : { height: 0 }}
+            className={!showCropper ? '' : 'is-invisible'}
+            ref={this.dropzoneRef}
+            multiple={false}
+            maxSize={MAX_FILE_SIZE_IN_MB}
+            accept={'image/*'}
+            id="filesToUpload"
+            name="filesToUpload"
+            onDrop={this.onDrophandler}
+          >
+            <React.Fragment>
+              <div className="section VerticalAligner bdb-img-upload-placeholder">
+                <a
+                  style={{
+                    pointerEvents: 'none',
+                    borderRadius: '100%',
+                    height: 58,
+                  }}
+                  className="button is-success is-large"
+                >
+                  <span>
+                    <i className="fa fa-camera" aria-hidden="true" />
+                  </span>
+                </a>
+              </div>
+              <div className="help">Upload Task Image</div>
+            </React.Fragment>
+          </Dropzone>
+          <div style={{ minHeight: 200 }} className="form-group has-text-centered">
             {showCropper && (
-              <footer
-                style={{ paddingBottom: 0, paddingLeft: 0, background: 'white' }}
-                className="modal-card-foot "
-              >
-                <React.Fragment>
-                  <button onClick={closeDialog} className="button">
-                    Cancel
-                  </button>
-                  <button onClick={this.clearImage} className="button is-danger is-outlined">
-                    <span className="icon">
-                      <i className="far fa-trash-alt" />
-                    </span>
-                    <span>Clear</span>
-                  </button>
-                  <button onClick={this.saveCrop} className="button is-info">
-                    <span className="icon">
-                      <i className="fas fa-crop-alt" />
-                    </span>
-                    <span>Crop</span>
-                  </button>
-                  <button onClick={this.done} className="button is-success">
-                    <span>Done</span>
-                  </button>
-                </React.Fragment>
-              </footer>
+              <Cropper
+                ref="cropper"
+                src={thumb}
+                checkOrientation={true}
+                guides={false}
+                className="bdb-img-upload-placeholder"
+                modal={true}
+                background={false}
+                minContainerHeight={180}
+                minCanvasHeight={180}
+                rotatable
+                autoCrop
+                autoCropArea={1}
+              />
             )}
           </div>
-          <button className="modal-close is-large" aria-label="close" onClick={closeDialog} />
-        </div>,
-        document.querySelector('#bidorboo-root-modals'),
-      )
+          {showCropper && (
+            <footer
+              style={{ paddingBottom: 0, paddingLeft: 0, background: 'white' }}
+              className="modal-card-foot "
+            >
+              <React.Fragment>
+                <button onClick={closeDialog} className="button">
+                  Cancel
+                </button>
+                <button onClick={this.clearImage} className="button is-danger is-outlined">
+                  <span className="icon">
+                    <i className="far fa-trash-alt" />
+                  </span>
+                  <span>Clear</span>
+                </button>
+                <button onClick={this.saveCrop} className="button is-info">
+                  <span className="icon">
+                    <i className="fas fa-crop-alt" />
+                  </span>
+                  <span>Crop</span>
+                </button>
+                <button onClick={this.done} className="button is-success">
+                  <span>Done</span>
+                </button>
+              </React.Fragment>
+            </footer>
+          )}
+        </div>
+        <button className="modal-close is-large" aria-label="close" onClick={closeDialog} />
+      </div>,
+      document.querySelector('#bidorboo-root-modals'),
     );
   }
 }

@@ -7,6 +7,7 @@
  */
 
 import React, { useState } from 'react';
+import { Collapse } from 'react-collapse';
 
 import { withFormik } from 'formik';
 import haversineOffset from 'haversine-offset';
@@ -33,6 +34,7 @@ class GenericRequestForm extends React.Component {
     this.state = {
       forceSetAddressValue: '',
       selectedTimeButtonId: 'noSelection',
+      taskThumbnails: { first: null, second: null, third: null },
     };
 
     this.google = window.google;
@@ -43,6 +45,13 @@ class GenericRequestForm extends React.Component {
     this.extrasFunc = TASKS_DEFINITIONS[this.requestTemplateId].extras.bind(this);
     this.extrasValidations = TASKS_DEFINITIONS[this.requestTemplateId].extrasValidation.bind(this);
   }
+
+  updateTaskThumbnails = (thumbKeyAndValue) => {
+    this.setState(() => ({
+      taskThumbnails: { ...this.state.taskThumbnails, ...thumbKeyAndValue },
+    }));
+  };
+
   shouldShowAutodetectControl = () => {
     return navigator.geolocation ? (
       <div
@@ -151,6 +160,10 @@ class GenericRequestForm extends React.Component {
       handleBlur,
     } = this.props;
 
+    const {
+      taskThumbnails: { first, second, third },
+    } = this.state;
+
     const { ID, renderSummaryCard } = TASKS_DEFINITIONS[this.requestTemplateId];
 
     const extrasFields = this.extrasFunc();
@@ -175,9 +188,28 @@ class GenericRequestForm extends React.Component {
 
               <input id="templateId" className="input is-invisible" type="hidden" value={ID} />
 
-              <ImageUploaderButton />
+              <div className="group">
+                <label className={`label ${first || second || third ? 'hasSelectedValue' : ''}`}>
+                  Upload Images <span className="has-text-grey-lighter">(Optional)</span>
+                </label>
 
-              <br />
+                <ImageUploaderButton
+                  updateTaskThumbnails={this.updateTaskThumbnails}
+                  thumbnailKey={'first'}
+                />
+                <Collapse isOpened={first || second || third}>
+                  <ImageUploaderButton
+                    updateTaskThumbnails={this.updateTaskThumbnails}
+                    thumbnailKey={'second'}
+                  />
+
+                  <ImageUploaderButton
+                    updateTaskThumbnails={this.updateTaskThumbnails}
+                    thumbnailKey={'third'}
+                  />
+                </Collapse>
+              </div>
+
               <input
                 id="addressText"
                 className="input is-invisible"
@@ -550,16 +582,13 @@ export default EnhancedForms(GenericRequestForm);
 
 export const HelpText = ({ helpText }) => (helpText ? <p className="help">{helpText}</p> : null);
 
-const ImageUploaderButton = ({ setFieldValue, initialThumb = null }) => {
-  const [thumb, setThumb] = useState(initialThumb);
+const ImageUploaderButton = ({ updateTaskThumbnails, thumbnailKey }) => {
+  const [thumb, setThumb] = useState(null);
   const [showUploader, setshowUploader] = useState(false);
 
   return (
-    <div className="group">
-      <label className={`label ${thumb ? 'hasSelectedValue' : ''}`}>
-        Upload Task Image <span className="has-text-grey-lighter">(Optional)</span>
-      </label>
-      <div>
+    <div style={{ marginBottom: '1.5rem' }}>
+      {showUploader && (
         <UploaderComponent
           thumb={thumb}
           shouldShow={showUploader}
@@ -567,62 +596,69 @@ const ImageUploaderButton = ({ setFieldValue, initialThumb = null }) => {
           onDoneCropping={(thumb) => {
             setThumb(thumb);
             setshowUploader(false);
+            updateTaskThumbnails({ [thumbnailKey]: thumb });
           }}
         />
+      )}
+      <div
+        style={{
+          position: 'relative',
+          height: 100,
+          width: 200,
+          background: '#eeeeee',
+          border: thumb ? '' : '1px dashed #26ca70',
+        }}
+      >
+        {thumb && (
+          <img
+            style={{
+              height: 99,
+              width: 200,
+              border: 'none',
+              objectFit: 'cover',
+              border: '1px solid #eeeeee',
+            }}
+            onClick={() => setshowUploader(true)}
+            src={thumb}
+          />
+        )}
         <div
           style={{
-            position: 'relative',
-            height: 100,
-            width: 200,
-            background: '#eeeeee',
-            border: thumb ? '' : '1px dashed #26ca70',
+            position: 'absolute',
+            bottom: 0,
+            left: '0.5rem',
+            height: 20,
           }}
         >
-          {thumb && (
-            <img
-              style={{
-                height: 99,
-                width: 200,
-                border: 'none',
-                objectFit: 'cover',
-                border: '1px solid #eeeeee',
-              }}
-              onClick={() => setshowUploader(true)}
-              src={thumb}
-            />
-          )}
+          <button onClick={() => setshowUploader(true)} className="button is-success">
+            <span>
+              <i className="fa fa-camera" aria-hidden="true" />
+            </span>
+          </button>
+        </div>
+
+        {thumb && (
           <div
             style={{
               position: 'absolute',
-              bottom: 0,
-              left: 15,
+              top: 0,
+              left: '0.5rem',
               height: 20,
             }}
           >
-            <button onClick={() => setshowUploader(true)} className="button is-success">
+            <button
+              onClick={() => {
+                setThumb(null);
+                updateTaskThumbnails({ [thumbnailKey]: null });
+              }}
+              className="button is-danger"
+            >
               <span>
-                <i className="fa fa-camera" aria-hidden="true" />
+                <i className="far fa-trash-alt" aria-hidden="true" />
               </span>
             </button>
           </div>
-
-          {thumb && (
-            <div
-              style={{
-                position: 'absolute',
-                bottom: 0,
-                right: 15,
-                height: 20,
-              }}
-            >
-              <button onClick={() => setThumb(null)} className="button is-danger">
-                <span>
-                  <i className="far fa-trash-alt" aria-hidden="true" />
-                </span>
-              </button>
-            </div>
-          )}
-        </div>
+        )}
       </div>
     </div>
   );
