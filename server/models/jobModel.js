@@ -68,11 +68,11 @@ const JobSchema = new Schema(
     // when a tasker cancels on this job hide it from them to avoid future bids by the asshole who canceled
     hideFrom: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }], //array of people who saw this/booed no longer wish to see it ..etc
     viewedBy: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }],
-    detailedDescription: { type: String, trim: true },
-    location: { type: mongoose.Schema.Types.Point, index: '2dsphere' },
-    addressText: { type: String, trim: true, max: MAX_ADDRESS_LENGTH },
-    startingDateAndTime: { type: Date, required: true, index: true },
-    templateId: { type: String, trim: true },
+    detailedDescription: { type: String, trim: true, required: true },
+    location: { type: mongoose.Schema.Types.Point, index: '2dsphere', required: true },
+    addressText: { type: String, trim: true, max: MAX_ADDRESS_LENGTH, required: true },
+    startingDateAndTime: { type: Date, required: true, index: true, required: true },
+    templateId: { type: String, trim: true, required: true },
     reported: { type: Number },
     payoutDetails: {
       id: { type: String },
