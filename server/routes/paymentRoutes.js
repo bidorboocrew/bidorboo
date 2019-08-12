@@ -271,112 +271,111 @@ module.exports = (app) => {
       }
     }
   );
-  if (process.env.NODE_ENV === 'production' && process.env.NODE_APP_INSTANCE !== '0') {
-    /**
-     * user verification
-     * verification issues with image
-     * https://stripe.com/docs/connect/payouts#using-manual-payouts
-     */
-    //xxxx
-    app.post(ROUTES.API.PAYMENT.POST.connectedAccountsWebhook, async (req, res, next) => {
-      try {
-        console.log('-------BidOrBooLogging----------------------');
-        console.log('connectedAccountsWebhook is triggered');
-        console.log('-------BidOrBooLogging----------------------');
-        // sign key by strip
-        let endpointSecret = keys.stripeWebhookConnectedAccSig;
-        let sig = req.headers['stripe-signature'];
-        let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
-        if (event) {
-          const { id, data } = event;
+  /**
+   * user verification
+   * verification issues with image
+   * https://stripe.com/docs/connect/payouts#using-manual-payouts
+   */
+  //xxxx
+  app.post(ROUTES.API.PAYMENT.POST.connectedAccountsWebhook, async (req, res, next) => {
+    try {
+      console.log('-------BidOrBooLogging----------------------');
+      console.log('connectedAccountsWebhook is triggered');
+      console.log('-------BidOrBooLogging----------------------');
+      // sign key by strip
+      let endpointSecret = keys.stripeWebhookConnectedAccSig;
+      let sig = req.headers['stripe-signature'];
+      let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
+      if (event) {
+        const { id, data } = event;
 
-          if (data) {
-            const customerAcc = data.object; //the user connected account is attached here
-            if (customerAcc) {
-              const {
-                id: accId,
-                payouts_enabled,
-                charges_enabled,
-                requirements: accRequirements,
-                metadata,
-              } = customerAcc;
+        if (data) {
+          const customerAcc = data.object; //the user connected account is attached here
+          if (customerAcc) {
+            const {
+              id: accId,
+              payouts_enabled,
+              charges_enabled,
+              requirements: accRequirements,
+              metadata,
+            } = customerAcc;
 
-              const { userId } = metadata;
-              console.log('-------BidOrBooLogging----------------------');
-              console.log('updateStripeAccountRequirementsDetails started');
-              console.log({
-                eventId: id,
-                userId,
-                accId,
-                chargesEnabled: charges_enabled,
-                payoutsEnabled: payouts_enabled,
-                accRequirements,
-              });
+            const { userId } = metadata;
+            console.log('-------BidOrBooLogging----------------------');
+            console.log('updateStripeAccountRequirementsDetails started');
+            console.log({
+              eventId: id,
+              userId,
+              accId,
+              chargesEnabled: charges_enabled,
+              payoutsEnabled: payouts_enabled,
+              accRequirements,
+            });
 
-              await userDataAccess.updateStripeAccountRequirementsDetails({
-                eventId: id,
-                userId,
-                accId,
-                chargesEnabled: charges_enabled,
-                payoutsEnabled: payouts_enabled,
-                accRequirements,
-              });
-              console.log('updateStripeAccountRequirementsDetails done');
-              console.log('-------BidOrBooLogging----------------------');
-            }
+            await userDataAccess.updateStripeAccountRequirementsDetails({
+              eventId: id,
+              userId,
+              accId,
+              chargesEnabled: charges_enabled,
+              payoutsEnabled: payouts_enabled,
+              accRequirements,
+            });
+            console.log('updateStripeAccountRequirementsDetails done');
+            console.log('-------BidOrBooLogging----------------------');
           }
         }
-        return res.status(200).send();
-      } catch (e) {
-        return res
-          .status(400)
-          .send({ errorMsg: 'connectedAccountsWebhook failured', details: `${e}` });
       }
-    });
-    app.post(ROUTES.API.PAYMENT.POST.payoutsWebhook, async (req, res, next) => {
-      try {
-        console.log('payoutsWebhook is triggered');
+      return res.status(200).send();
+    } catch (e) {
+      return res
+        .status(400)
+        .send({ errorMsg: 'connectedAccountsWebhook failured', details: `${e}` });
+    }
+  });
 
-        // sign key by strip
-        let endpointSecret = keys.stripeWebhookPayoutAccSig;
-        let sig = req.headers['stripe-signature'];
-        let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
-        if (event) {
-          const { id, account, type, data } = event;
-          const { status, metadata } = data;
-          const { jobId } = metadata;
+  app.post(ROUTES.API.PAYMENT.POST.payoutsWebhook, async (req, res, next) => {
+    try {
+      console.log('payoutsWebhook is triggered');
 
-          switch (type) {
-            case 'payout.paid':
-              console.log('payoutsWebhook payout.paid');
-              console.log({ jobId });
+      // sign key by strip
+      let endpointSecret = keys.stripeWebhookPayoutAccSig;
+      let sig = req.headers['stripe-signature'];
+      let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
+      if (event) {
+        const { id, account, type, data } = event;
+        const { status, metadata } = data;
+        const { jobId } = metadata;
 
-              // update the job about this
-              jobDataAccess.updateJobById(jobId, {
-                $set: {
-                  state: 'ARCHIVE',
-                  'payoutDetails.status': status,
-                },
-              });
-              //xxx inform user that it is paid via msg email..etc
-              break;
-            case 'payout.failed':
-              console.log('payoutsWebhook payout.failed');
-              console.log({ jobId });
-              jobDataAccess.updateJobById(jobId, {
-                $set: {
-                  state: 'PAYMENT_TO_BANK_FAILED',
-                  'payoutDetails.status': status,
-                },
-              });
-              sendGridEmailing.informBobCrewAboutFailedPayment({ jobId, data });
-              break;
-          }
+        switch (type) {
+          case 'payout.paid':
+            console.log('payoutsWebhook payout.paid');
+            console.log({ jobId });
+
+            // update the job about this
+            jobDataAccess.updateJobById(jobId, {
+              $set: {
+                state: 'ARCHIVE',
+                'payoutDetails.status': status,
+              },
+            });
+            //xxx inform user that it is paid via msg email..etc
+            break;
+          case 'payout.failed':
+            console.log('payoutsWebhook payout.failed');
+            console.log({ jobId });
+            jobDataAccess.updateJobById(jobId, {
+              $set: {
+                state: 'PAYMENT_TO_BANK_FAILED',
+                'payoutDetails.status': status,
+              },
+            });
+            sendGridEmailing.informBobCrewAboutFailedPayment({ jobId, data });
+            break;
         }
-        return res.status(200).send();
-      } catch (e) {
-        return res.status(400).send({ errorMsg: 'payoutsWebhook failured', details: `${e}` });
       }
-    });
-  }
+      return res.status(200).send();
+    } catch (e) {
+      return res.status(400).send({ errorMsg: 'payoutsWebhook failured', details: `${e}` });
+    }
+  });
 };
