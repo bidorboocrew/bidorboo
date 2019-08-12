@@ -28,7 +28,7 @@ module.exports = (process) => {
   mongoose.connect(keys.mongoURI, dbOptions, (err) => {
     if (err) {
       console.log(
-        `Could not connect to mongodb on localhost.
+        `BIDORBOO=== Could not connect to mongodb on localhost.
         Ensure that you have mongodb running mongodb accepts connections on standard ports! errorMsg: ${err}`
       );
       throw err;
@@ -38,9 +38,11 @@ module.exports = (process) => {
   mongoose.set('useFindAndModify', false);
 
   process.on('SIGINT', function() {
-    console.log('=== safe shut down ==== bid or boo ');
+    console.log('BIDORBOO=== safe shut down ==== bid or boo ');
     mongoose.connection.close(() => {
-      console.log('Mongoose default connection is disconnected due to application termination');
+      console.log(
+        'BIDORBOO=== Mongoose default connection is disconnected due to application termination'
+      );
       process.exit(0);
     });
   });

@@ -6,11 +6,15 @@ module.exports = {
     {
       name: 'BidOrBoo',
       script: './index.js',
-      watch: true,
-      instances: 3,
+      watch: false,
+      instances: 'max',
+      exec_mode: 'cluster',
       autorestart: true,
       max_restarts: 5,
       max_memory_restart: '900M',
+      env: {
+        NODE_ENV: 'development',
+      },
       env_production: {
         NODE_ENV: 'production',
       },
