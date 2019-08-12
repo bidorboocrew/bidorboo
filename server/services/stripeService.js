@@ -12,6 +12,27 @@ https: exports.util = {
   retrieveConnectedAccount: (account) => {
     return stripe.accounts.retrieve(account);
   },
+  retrieveTaskChargeSessionId: () => {
+    return stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          name: 'BidOrBoo - House Cleaning Service',
+          amount: 200,
+          currency: 'cad',
+          quantity: 1,
+        },
+      ],
+      payment_intent_data: {
+        application_fee_amount: 100,
+        transfer_data: {
+          destination: 'acct_1F6lEQAd7uO1OS7e',
+        },
+      },
+      success_url: 'http://localhost:3000/my-request/review-request-details/5d4f33796f3ea000e13cab6e/?canceled=true',
+      cancel_url: 'http://localhost:3000/my-request/review-request-details/5d4f33796f3ea000e13cab6e/?canceled=true',
+    });
+  },
   partialRefundTransation: ({ chargeId, refundAmount, metadata }) => {
     // xxxxxx
     return stripe.refunds.create({

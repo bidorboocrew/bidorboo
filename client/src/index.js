@@ -19,23 +19,19 @@ import GetNotificationsAndScroll from './GetNotificationsAndScroll';
 import { registerServiceWorker } from './registerServiceWorker';
 
 window.BidorBoo = window.BidorBoo || { SWRegistering: 0 };
-const stripe = window.Stripe ? window.Stripe(`${process.env.REACT_APP_STRIPE_KEY}`) : {};
-window.BidorBoo.stripe = Object.freeze(stripe);
 
 const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_SECRET}`);
 bugsnagClient.use(bugsnagReact, React);
 const ErrorBoundary = bugsnagClient.getPlugin('react');
 ReactDOM.render(
   <ErrorBoundary>
-    <StripeProvider apiKey={`${process.env.REACT_APP_STRIPE_KEY}`}>
-      <Provider store={store}>
-        <Router history={appHistory}>
-          <GetNotificationsAndScroll>
-            <App />
-          </GetNotificationsAndScroll>
-        </Router>
-      </Provider>
-    </StripeProvider>
+    <Provider store={store}>
+      <Router history={appHistory}>
+        <GetNotificationsAndScroll>
+          <App />
+        </GetNotificationsAndScroll>
+      </Router>
+    </Provider>
   </ErrorBoundary>,
   document.getElementById('BidOrBoo-app'),
 );

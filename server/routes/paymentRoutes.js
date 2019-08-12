@@ -333,6 +333,12 @@ module.exports = (app) => {
     }
   });
 
+  app.get(ROUTES.API.PAYMENT.GET.requestCharge, async (req, res, next) => {
+    const session = await stripeServiceUtil.retrieveTaskChargeSessionId();
+
+    return res.status(200).send({ session });
+  });
+
   app.post(ROUTES.API.PAYMENT.POST.payoutsWebhook, async (req, res, next) => {
     try {
       console.log('payoutsWebhook is triggered');

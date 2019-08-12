@@ -168,10 +168,14 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                           if (!isLoggedIn) {
                             showLoginDialog(true);
                             return;
-                          } else if (!userDetails.canBid) {
-                            // xxxxxxxxxxx re enable this very important
-                            // this.toggleRegisterAsTasker();
-                          } else if (userDetails.canBid) {
+                          }
+                          // else if (!userDetails.canBid) {
+                          //   // xxxxxxxxxxx re enable this very important
+                          //   // this.toggleRegisterAsTasker();
+                          // }
+
+                          // else if (userDetails.canBid) {
+                          else {
                             updateViewedBy(job);
                             switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
                           }
@@ -241,10 +245,13 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                           if (!isLoggedIn) {
                             showLoginDialog(true);
                             return;
-                          } else if (!userDetails.canBid) {
-                            // xxxxxxxxxxxxxxxxxxxx reenable
-                            // this.toggleRegisterAsTasker();
-                          } else if (userDetails.canBid) {
+                          }
+                          //  else if (!userDetails.canBid) {
+                          //   xxxxxxxxxxxxxxxxxxxx reenable
+                          //   this.toggleRegisterAsTasker();
+                          // }
+                          // else if (userDetails.canBid) {
+                          else {
                             updateViewedBy(job);
                             switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
                           }
