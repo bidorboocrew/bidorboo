@@ -38,6 +38,7 @@ exports.getAwardedJobOwnerBidderAndRelevantNotificationDetails = async (jobId) =
 
   // to speed this query get rid of virtuals and calculate the job dispaly title on the fly here
   const { _ownerRef, _awardedBidRef, processedPayment, displayTitle } = awardedJob;
+  const { bidAmount } = _awardedBidRef;
   const awardedBidId = _awardedBidRef._id.toString();
   const requestedJobId = awardedJob._id.toString();
 
@@ -107,5 +108,6 @@ exports.getAwardedJobOwnerBidderAndRelevantNotificationDetails = async (jobId) =
     requesterPushNotSubscription,
     taskerPushNotSubscription,
     processedPayment,
+    bidAmount,
   };
 };

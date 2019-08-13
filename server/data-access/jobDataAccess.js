@@ -1097,7 +1097,7 @@ exports.jobDataAccess = {
             extras: 1,
             state: 1,
             location: 1,
-            taskImages:1,
+            taskImages: 1,
           },
           {
             sort: { startingDateAndTime: 1 },
@@ -1262,6 +1262,7 @@ exports.jobDataAccess = {
   },
   findOneByJobId: (id) => {
     return JobModel.findOne({ _id: id })
+      .populate({ path: '_ownerRef' })
       .lean({ virtuals: true })
       .exec();
   },

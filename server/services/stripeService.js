@@ -12,25 +12,49 @@ https: exports.util = {
   retrieveConnectedAccount: (account) => {
     return stripe.accounts.retrieve(account);
   },
-  retrieveTaskChargeSessionId: () => {
+  retrieveTaskChargeSessionId: ({
+    metadata,
+    taskName,
+    amount,
+    destinationAccId,
+    taskId,
+    requester,
+  }) => {
+    const description = `BidOrBoo - Charge for your ${taskName} request was recieved.`;
+
+    const BIDORBOO_SERVICECHARGE = 0.06;
+
+    // confirm award and pay
+    const originalCharge = amount.value;
+    const bidOrBooServiceFee = Math.ceil(originalCharge * BIDORBOO_SERVICECHARGE);
+    const totalAmount = (originalCharge + bidOrBooServiceFee) * 100;
+    // const bidderPayoutAmount = chargeAmount - bidOrBooTotalCommission;
+
     return stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
         {
-          name: 'BidOrBoo - House Cleaning Service',
-          amount: 200,
+          name: `BidOrBoo - ${taskName}`,
+          amount: totalAmount,
           currency: 'cad',
           quantity: 1,
         },
       ],
       payment_intent_data: {
-        application_fee_amount: 100,
+        application_fee_amount: bidOrBooServiceFee,
+        description: description,
+        statement_descriptor: 'BidOrBoo Charge',
+        receipt_email: requester.email.emailAddress,
+        metadata: metadata,
         transfer_data: {
-          destination: 'acct_1F6lEQAd7uO1OS7e',
+          destination: destinationAccId,
         },
       },
-      success_url: 'http://localhost:3000/my-request/review-request-details/5d4f33796f3ea000e13cab6e/?canceled=true',
-      cancel_url: 'http://localhost:3000/my-request/review-request-details/5d4f33796f3ea000e13cab6e/?canceled=true',
+      submit_type: 'book',
+      client_reference_id: requester._id.toString(),
+      billing_address_collection: 'required',
+      success_url: `http://localhost:3000/my-request/review-request-details/${taskId}/?success=true`,
+      cancel_url: `http://localhost:3000/my-request/review-request-details/${taskId}/?success=false`,
     });
   },
   partialRefundTransation: ({ chargeId, refundAmount, metadata }) => {
@@ -133,7 +157,7 @@ https: exports.util = {
       });
     }
   },
-  initializeConnectedAccount: async ({ user_id, userId, displayName, email }) => {
+  initializeConnectedAccount: async ({ userId, displayName, email }) => {
     return new Promise(async (resolve, reject) => {
       try {
         const account = await stripe.accounts.create({
@@ -142,7 +166,7 @@ https: exports.util = {
           default_currency: 'CAD', //HARD CODED
           email: email || '',
           business_type: 'individual',
-          metadata: { user_id, email, userId, displayName },
+          metadata: { email, userId, displayName },
           settings: {
             payments: {
               statement_descriptor: 'BidOrBoo Charge',

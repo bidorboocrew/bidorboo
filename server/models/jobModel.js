@@ -102,8 +102,8 @@ const JobSchema = new Schema(
 
 JobSchema.virtual('displayTitle').get(function() {
   const templateIdToDisplayName = {
-    'bdbjob-house-cleaning': 'House Cleaning',
-    'bdbjob-car-detailing': 'Car Detailing',
+    'bdbHouseCleaning': 'House Cleaning',
+    'bdbCarDetailing': 'Car Detailing',
   };
   return templateIdToDisplayName[this.templateId];
 });

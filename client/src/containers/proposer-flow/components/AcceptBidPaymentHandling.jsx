@@ -32,19 +32,28 @@ class AcceptBidPaymentHandling extends React.Component {
   // async componentDidMount() {}
 
   toggleCheckout = async () => {
+    const { bid } = this.props;
+
     const {
       data: {
         session: { id },
       },
-    } = await axios.get('/api/requestCharge');
+    } = await axios.post('/api/requestCharge', {
+      data: {
+        jobId: bid._jobRef,
+        bidId: bid._id,
+      },
+    });
     debugger;
 
-    const checkoutResponse = await window.Stripe(`${process.env.REACT_APP_STRIPE_KEY}`).redirectToCheckout({
-      // Make the id field from the Checkout Session creation API response
-      // available to this file, so you can provide it as parameter here
-      // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
-      sessionId: id,
-    });
+    const checkoutResponse = await window
+      .Stripe(`${process.env.REACT_APP_STRIPE_KEY}`)
+      .redirectToCheckout({
+        // Make the id field from the Checkout Session creation API response
+        // available to this file, so you can provide it as parameter here
+        // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
+        sessionId: id,
+      });
     debugger;
     // .then((result) => {
     //   // If `redirectToCheckout` fails due to a browser or network
