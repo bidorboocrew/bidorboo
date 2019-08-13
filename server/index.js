@@ -20,9 +20,6 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
 
-if (process.env.NODE_ENV !== 'production') {
-  app.use(errorHandler());
-}
 app.use(middleware.requestHandler);
 // initialize bugsnag
 // require('./services/bugSnag')(app);
@@ -65,4 +62,20 @@ if (process.env.NODE_ENV === 'production') {
     console.log('serving dirname ' + path.resolve(__dirname, '../client', './build', 'index.html'));
     res.sendFile(path.resolve(__dirname, '../client', './build', 'index.html'));
   });
+
+  app.use(
+    errorHandler({
+      log: (err, str, req, res) => {
+        console.log(
+          `BIDORBOOLOGS error --- ` +
+            JSON.stringify({
+              err,
+              str,
+              req,
+              res,
+            })
+        );
+      },
+    })
+  );
 }
