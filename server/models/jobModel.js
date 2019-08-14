@@ -70,7 +70,12 @@ const JobSchema = new Schema(
     viewedBy: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }],
     detailedDescription: { type: String, trim: true, required: true },
     location: { type: mongoose.Schema.Types.Point, index: '2dsphere', required: true },
-    addressText: { type: String, trim: true, max: MAX_ADDRESS_LENGTH, required: true },
+    addressText: {
+      type: String,
+      trim: true,
+      max: MAX_ADDRESS_LENGTH,
+      required: [true, 'Address text is required'],
+    },
     startingDateAndTime: { type: Date, required: true, index: true, required: true },
     templateId: { type: String, trim: true, required: true },
     reported: { type: Number },
@@ -102,8 +107,8 @@ const JobSchema = new Schema(
 
 JobSchema.virtual('displayTitle').get(function() {
   const templateIdToDisplayName = {
-    'bdbHouseCleaning': 'House Cleaning',
-    'bdbCarDetailing': 'Car Detailing',
+    bdbHouseCleaning: 'House Cleaning',
+    bdbCarDetailing: 'Car Detailing',
   };
   return templateIdToDisplayName[this.templateId];
 });
@@ -182,6 +187,56 @@ JobSchema.virtual('displayStatus').get(function() {
 });
 
 JobSchema.plugin(mongooseLeanVirtuals);
+
+// const cleanUpOnDeleteJob = ;
+
+// JobSchema.pre('update', cleanUpOnDeleteJob);
+
+// JobSchema.pre('update', cleanUpOnDeleteJob);
+
+JobSchema.pre('remove', async function(next) {
+  const BidModel = mongoose.model('BidModel');
+  const UserModel = mongoose.model('UserModel');
+  try {
+    const findpeople = await UserModel.find({ _postedBids: { $in: this._bidsListRef } })
+      .lean()
+      .exec();
+
+    const removeBids = await UserModel.update(
+      { _postedBids: { $in: this._bidsListRef } },
+      { $pull: { _postedBids: { $in: this._bidsListRef } } },
+      { multi: true }
+    )
+      .lean()
+      .exec();
+
+    const removeJobFromOwner = await UserModel.findByIdAndUpdate(this._ownerRef, {
+      $pull: { _postedJobsRef: { $in: this._id } },
+    }).exec();
+
+    const deleteBid = await BidModel.remove({ _id: { $in: this._bidsListRef } }).exec();
+
+    next();
+  } catch (e) {
+    throw new Error('sas');
+  }
+  // UserModel.update(
+  //   { _postedBids: { $in: this._bidsListRef } },
+  //   { $pull: { _postedBids: { $in: this._bidsListRef } } },
+  //   { multi: true }
+  // )
+  //   .then(() =>
+  //     UserModel.findByIdAndUpdate(this._ownerRef, {
+  //       $pull: { _postedJobsRef: { $in: this._id } },
+  //     })
+  //   )
+  //   .then(() => BidModel.remove({ _id: { $in: this._bidsListRef } }))
+  //   .then(() => next())
+  //   .catch((e) => {
+  //     console.log(e);
+  //     throw new Error('issue deleting job');
+  //   });
+});
 
 //no need for index on these . avoid performance slowness
 mongoose.model('JobModel', JobSchema);

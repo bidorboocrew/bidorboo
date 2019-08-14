@@ -1,6 +1,9 @@
 import axios from 'axios';
 
 export const registerServiceWorker = async (vapidKey, shouldRegisterNewWebPushSubscription) => {
+  if (process.env.NODE_ENV === 'development') {
+    return;
+  }
   if ('serviceWorker' in navigator && 'PushManager' in window) {
     console.info('starting to setup the PWA');
     installSW(vapidKey, shouldRegisterNewWebPushSubscription);

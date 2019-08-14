@@ -17,9 +17,10 @@ require('./services/mongoDB')(process);
 require('./services/passport');
 
 const app = express();
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
-
+app.use(errorHandler());
 app.use(middleware.requestHandler);
 // initialize bugsnag
 // require('./services/bugSnag')(app);
@@ -63,19 +64,4 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve(__dirname, '../client', './build', 'index.html'));
   });
 
-  app.use(
-    errorHandler({
-      log: (err, str, req, res) => {
-        console.log(
-          `BIDORBOOLOGS error --- ` +
-            JSON.stringify({
-              err,
-              str,
-              req,
-              res,
-            })
-        );
-      },
-    })
-  );
 }

@@ -52,5 +52,14 @@ BidSchema.virtual('displayStatus').get(function() {
 });
 BidSchema.plugin(mongooseLeanVirtuals);
 
+const cleanUpOnDeleteJob = function(next) {
+  const UserModel = mongoose.model('UserModel');
+  UserModel.findByIdAndUpdate(this._bidderRef, {
+    $pull: { _postedBidsRef: { $eq: this._id } },
+  }).then(() => next());
+};
+
+BidSchema.pre('remove', cleanUpOnDeleteJob);
+
 //no need for index on these . avoid performance slowness
 mongoose.model('BidModel', BidSchema);

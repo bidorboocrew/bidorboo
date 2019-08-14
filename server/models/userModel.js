@@ -13,7 +13,7 @@ const ratingSchema = {
     type: Number,
     default: 0,
     validate: {
-      validator: (totalOfAllRatings) => totalOfAllRatings > 0,
+      validator: (totalOfAllRatings) => totalOfAllRatings >= 0,
       message: 'Total Rating must be greater than 0',
     },
   },
@@ -21,7 +21,7 @@ const ratingSchema = {
     type: Number,
     default: 0,
     validate: {
-      validator: (numberOfTimesBeenRated) => numberOfTimesBeenRated > 0,
+      validator: (numberOfTimesBeenRated) => numberOfTimesBeenRated >= 0,
       message: 'Number Of Times this User Was Rated must be greater than 0',
     },
   },
@@ -29,7 +29,7 @@ const ratingSchema = {
     type: Number,
     default: 0,
     validate: {
-      validator: (globalRating) => globalRating > 0,
+      validator: (globalRating) => globalRating >= 0,
       message: 'Global Rating must be greater than 0',
     },
   },

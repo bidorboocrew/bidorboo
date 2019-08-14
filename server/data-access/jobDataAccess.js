@@ -1752,9 +1752,8 @@ exports.jobDataAccess = {
     return new Promise(async (resolve, reject) => {
       try {
         //find the job
-        const job = await JobModel.findOne({ _id: jobId, _ownerRef: mongoUser_id })
-          .lean({ virtuals: true })
-          .exec();
+        const job = await JobModel.findOne({ _id: jobId, _ownerRef: mongoUser_id }).exec();
+        job.remove();
 
         if (!job || !job._id || !job._ownerRef._id || !job.state) {
           return reject('Error while canceling job. contact us at bidorboocrew@bidorboo.com');

@@ -332,7 +332,7 @@ module.exports = (app) => {
     }
   );
 
-  app.post(ROUTES.API.JOB.POST.updateSearchThenSearchJobs, async (req, res) => {
+  app.post(ROUTES.API.JOB.POST.updateSearchThenSearchJobs, async (req, res, next) => {
     try {
       const searchDetails = req.body.data;
       if (!searchDetails) {
