@@ -16,8 +16,9 @@ module.exports = () => {
    * - backup the DB everynight
    */
 
-  console.log('CRON JOBS INITIATED');
   if (process.env.NODE_ENV === 'production') {
+    console.log('CRON JOBS INITIATED');
+
     if (process.env.NODE_APP_INSTANCE === '0') {
       // *second (0 - 59, optional)    *minute (0 - 59)    *hour (0 - 23)    *day of month (1 - 31)    *month (1 - 12)    *day of week (0 - 7) (0 or 7 is Sun)
       // clean jobs at midnight

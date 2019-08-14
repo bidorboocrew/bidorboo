@@ -11,10 +11,7 @@ before((done) => {
   require('../models/paymentModel');
 
   mongoose.Promise = global.Promise;
-  if (process.env.NODE_ENV !== 'production') {
-    // https://stackoverflow.com/questions/18762264/log-all-queries-that-mongoose-fire-in-the-application
-    mongoose.set('debug', true);
-  }
+
   const dbOptions = {
     useFindAndModify: false,
     useNewUrlParser: true,
@@ -53,5 +50,6 @@ after((done) => {
       'BIDORBOO=== Mongoose default connection is disconnected due to application termination'
     );
     process.exit(0);
+    done();
   });
 });

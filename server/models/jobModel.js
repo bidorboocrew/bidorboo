@@ -216,8 +216,8 @@ JobSchema.pre('remove', async function(next) {
       const x = 0;
     }
 
-    const removeJobFromOwner = await UserModesl.findByIdAndUpdate(this._ownerRef, {
-      $pull: { _postedJobsRef: { $in: this._iddas } },
+    const removeJobFromOwner = await UserModel.findByIdAndUpdate(this._ownerRef, {
+      $pull: { _postedJobsRef: { $in: [this._id] } },
     }).exec();
 
     const deleteBid = await BidModel.remove({ _id: { $in: this._bidsListRef } }).exec();
