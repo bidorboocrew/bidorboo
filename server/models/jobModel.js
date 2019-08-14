@@ -198,17 +198,23 @@ JobSchema.pre('remove', async function(next) {
   const BidModel = mongoose.model('BidModel');
   const UserModel = mongoose.model('UserModel');
   try {
-    const findpeople = await UserModel.find({ _postedBids: { $in: this._bidsListRef } })
+    const bidsToBeRemoved = await BidModel.find({ _id: { $in: this._bidsListRef } })
       .lean()
       .exec();
-
-    const removeBids = await UserModel.update(
-      { _postedBids: { $in: this._bidsListRef } },
-      { $pull: { _postedBids: { $in: this._bidsListRef } } },
-      { multi: true }
-    )
-      .lean()
-      .exec();
+    if (bidsToBeRemoved && bidsToBeRemoved.length > 0) {
+      let bidders = [];
+      bidsToBeRemoved.forEach((bid) => {
+        bidders.push(bid._bidderRef._id);
+      });
+      const removeBids = await UserModel.update(
+        { _id: { $in: bidders } },
+        { $pull: { _postedBidsRef: { $in: this._bidsListRef } } },
+        { multi: true }
+      )
+        .lean()
+        .exec();
+      const x = 0;
+    }
 
     const removeJobFromOwner = await UserModel.findByIdAndUpdate(this._ownerRef, {
       $pull: { _postedJobsRef: { $in: this._id } },
@@ -218,7 +224,8 @@ JobSchema.pre('remove', async function(next) {
 
     next();
   } catch (e) {
-    throw new Error('sas');
+    console.log(e);
+    next(new Error(err));
   }
   // UserModel.update(
   //   { _postedBids: { $in: this._bidsListRef } },

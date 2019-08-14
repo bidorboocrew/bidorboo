@@ -1126,7 +1126,7 @@ exports.jobDataAccess = {
   getJobsNear: ({ location, searchRadius = 25000 }) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const today = moment.utc(moment());
+        const today = moment.utc(moment()).toISOString();
 
         let searchQuery = {
           startingDateAndTime: { $gt: today },
