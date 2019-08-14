@@ -216,16 +216,16 @@ JobSchema.pre('remove', async function(next) {
       const x = 0;
     }
 
-    const removeJobFromOwner = await UserModel.findByIdAndUpdate(this._ownerRef, {
-      $pull: { _postedJobsRef: { $in: this._id } },
+    const removeJobFromOwner = await UserModesl.findByIdAndUpdate(this._ownerRef, {
+      $pull: { _postedJobsRef: { $in: this._iddas } },
     }).exec();
 
     const deleteBid = await BidModel.remove({ _id: { $in: this._bidsListRef } }).exec();
 
     next();
   } catch (e) {
-    console.log(e);
-    next(new Error(err));
+    e.safeMsg = 'Encountered an error while deleting this job';
+    next(e);
   }
   // UserModel.update(
   //   { _postedBids: { $in: this._bidsListRef } },

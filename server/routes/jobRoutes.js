@@ -79,7 +79,7 @@ module.exports = (app) => {
     ROUTES.API.JOB.DELETE.myJobById,
     requireBidorBooHost,
     requireLogin,
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         const mongoUser_id = req.user._id;
         const jobId = req.body.jobId;
@@ -93,7 +93,8 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To delete job', details: `${e}` });
+        next(e);
+        // return res.status(400).send({ errorMsg: 'Failed To delete job', details: `${e}` });
       }
     }
   );

@@ -1753,7 +1753,6 @@ exports.jobDataAccess = {
       try {
         //find the job
         const job = await JobModel.findOne({ _id: jobId, _ownerRef: mongoUser_id }).exec();
-        job.remove();
 
         if (!job || !job._id || !job._ownerRef._id || !job.state) {
           return reject('Error while canceling job. contact us at bidorboocrew@bidorboo.com');
@@ -1761,14 +1760,8 @@ exports.jobDataAccess = {
 
         // if we are cancelling an open job
         if (job.state === 'OPEN') {
-          const updatedJob = await JobModel.findOneAndUpdate(
-            { _id: job._id, _ownerRef: mongoUser_id },
-            {
-              $set: { state: 'CANCELED_OPEN' },
-            },
-            { new: true }
-          );
-          resolve(updatedJob);
+          await job.remove();
+          resolve();
         }
 
         // if we are cancelling an awardedJob
@@ -1916,11 +1909,11 @@ exports.jobDataAccess = {
               !updatedJob.processedPayment.refund ||
               updatedJob.state === 'AWARDED_JOB_CANCELED_BY_REQUESTER'
             ) {
-              return reject({ success: false, ErrorMsg: 'failed to update the associated job' });
+              return reject('failed to update the associated job');
             }
 
             if (!updatedBid._id || updatedBid.state !== 'AWARDED_BID_CANCELED_BY_REQUESTER') {
-              return reject({ success: false, ErrorMsg: 'failed to update the associated bid' });
+              return reject('failed to update the associated bid');
             }
 
             if (
@@ -1935,10 +1928,7 @@ exports.jobDataAccess = {
                 }
               );
               if (!addedThisToCanceledJobs) {
-                return reject({
-                  success: false,
-                  ErrorMsg: 'failed to update the associated Tasker',
-                });
+                return reject('failed to update the associated Tasker');
               }
             }
 

@@ -13,13 +13,13 @@ const SchemaValidator = require('../middleware/SchemaValidator');
 // Pass false as argument to use a generic error
 const validateRequest = SchemaValidator(true);
 
-const cloudinary = require('cloudinary');
+// const cloudinary = require('cloudinary');
 module.exports = (app) => {
   app.post(
     ROUTES.API.USER.POST.verifyEmail,
     requireBidorBooHost,
     requireLogin,
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         const userId = req.user.userId;
         const { code } = req.body.data;
@@ -43,7 +43,8 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To verifyEmail', details: `${e}` });
+        e.safeMsg = 'Failed To verify Email';
+        return next(e);
       }
     }
   );
@@ -51,7 +52,7 @@ module.exports = (app) => {
     ROUTES.API.USER.POST.verifyPhone,
     requireBidorBooHost,
     requireLogin,
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         const userId = req.user.userId;
         const { code } = req.body.data;
@@ -77,7 +78,8 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To verifyPhone', details: `${e}` });
+        e.safeMsg = 'Failed To verify Phone';
+        return next(e);
       }
     }
   );
@@ -85,7 +87,7 @@ module.exports = (app) => {
     ROUTES.API.USER.POST.resendVerificationEmail,
     requireBidorBooHost,
     requireLogin,
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         const userId = req.user.userId;
         const user = await userDataAccess.findOneByUserId(userId);
@@ -108,9 +110,8 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
-        return res
-          .status(400)
-          .send({ errorMsg: 'Failed To sendVerificationEmail', details: `${e}` });
+        e.safeMsg = 'Failed To send verification email';
+        return next(e);
       }
     }
   );
@@ -118,7 +119,7 @@ module.exports = (app) => {
     ROUTES.API.USER.POST.resendVerificationMsg,
     requireBidorBooHost,
     requireLogin,
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         const userId = req.user.userId;
         const user = await userDataAccess.findOneByUserId(userId);
@@ -132,32 +133,32 @@ module.exports = (app) => {
             res.send(verificationRequest);
           } else {
             return res.status(400).send({
-              errorMsg: 'unexpected error occured sendVerificationMsg',
+              errorMsg: 'unexpected error occured send Verification Msg',
             });
           }
         } else {
           return res.status(403).send({
-            errorMsg: 'verifyEmail failed due to missing params',
+            errorMsg: 'verify Email failed due to missing params',
           });
         }
       } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To sendVerificationMsg', details: `${e}` });
+        e.safeMsg = 'Failed To send verification message';
+        return next(e);
       }
     }
   );
 
-  app.get(ROUTES.API.USER.GET.currentUser, async (req, res) => {
+  app.get(ROUTES.API.USER.GET.currentUser, async (req, res, next) => {
     try {
       // xxxx
       // stripeServiceUtil.deleteAllStripeAccountsInMySystem(true);
 
-      //   const [balance, payoutsList] = await stripeServiceUtil.getConnectedAccountBalance(
-      //     'acct_1EmZPhKXcpvKCLJw'
-      //   );
+      // const [balance, payoutsList] = await stripeServiceUtil.getConnectedAccountBalance(
+      //   'acct_1EmZPhKXcpvKCLJw'
+      // );
 
-      //  const x =  await stripeServiceUtil.sendPayoutToExternalBank('acct_1EmZPhKXcpvKCLJw', 4800);
+      // const x = await stripeServiceUtil.sendPayoutToExternalBank('acct_1EmZPhKXcpvKCLJw', 4800);
       // await jobDataAccess.BidOrBooAdmin.CleanUpAllExpiredNonAwardedJobs();
-
       let existingUser = null;
       if (req.user) {
         existingUser = await userDataAccess.findUserAndAllNewNotifications(req.user.userId);
@@ -167,11 +168,13 @@ module.exports = (app) => {
       }
       return res.send({});
     } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To get current user', details: `${e}` });
+      e.safeMsg = 'Failed To get your user details';
+      return next(e);
+      // return res.status(400).send({ errorMsg: 'Failed To get current user', details: `${e}` });
     }
   });
 
-  app.get(ROUTES.API.USER.GET.getMyPastRequestedServices, requireLogin, async (req, res) => {
+  app.get(ROUTES.API.USER.GET.getMyPastRequestedServices, requireLogin, async (req, res, next) => {
     try {
       pasrRequestedServices = await userDataAccess.getMyPastRequestedServices(
         req.user._id.toString()
@@ -181,13 +184,12 @@ module.exports = (app) => {
       }
       return res.send({});
     } catch (e) {
-      return res
-        .status(400)
-        .send({ errorMsg: 'Failed To getMyPastRequestedServices user', details: `${e}` });
+      e.safeMsg = 'Failed To get your past requesterd services details';
+      return next(e);
     }
   });
 
-  app.get(ROUTES.API.USER.GET.getMyPastProvidedServices, requireLogin, async (req, res) => {
+  app.get(ROUTES.API.USER.GET.getMyPastProvidedServices, requireLogin, async (req, res, next) => {
     try {
       pasProvidedServices = await userDataAccess.getMyPastProvidedServices(req.user._id.toString());
       if (pasProvidedServices && pasProvidedServices._asBidderReviewsRef) {
@@ -195,13 +197,12 @@ module.exports = (app) => {
       }
       return res.send({});
     } catch (e) {
-      return res
-        .status(400)
-        .send({ errorMsg: 'Failed To getMyPastProvidedServices user', details: `${e}` });
+      e.safeMsg = 'Failed To get your past provided services details';
+      return next(e);
     }
   });
 
-  app.get(ROUTES.API.USER.GET.otherUserProfileInfo, async (req, res) => {
+  app.get(ROUTES.API.USER.GET.otherUserProfileInfo, async (req, res, next) => {
     try {
       if (!req.query || !req.query.otherUserId) {
         return res.status(403).send({
@@ -217,11 +218,12 @@ module.exports = (app) => {
 
       return res.send({});
     } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To get current user', details: `${e}` });
+      e.safeMsg = 'Failed To get user public details';
+      return next(e);
     }
   });
 
-  app.put(ROUTES.API.USER.PUT.notificationSettings, requireLogin, async (req, res) => {
+  app.put(ROUTES.API.USER.PUT.notificationSettings, requireLogin, async (req, res, next) => {
     try {
       const notificationSettings = req.body.data;
       if (!notificationSettings) {
@@ -233,13 +235,12 @@ module.exports = (app) => {
       await userDataAccess.updateNotificationSettings(userId, notificationSettings);
       return res.send({ success: true });
     } catch (e) {
-      return res
-        .status(400)
-        .send({ errorMsg: 'Failed To update user notification Settings', details: `${e}` });
+      e.safeMsg = 'Failed To get notification settings';
+      return next(e);
     }
   });
 
-  app.put(ROUTES.API.USER.PUT.updateOnboardingDetails, requireLogin, async (req, res) => {
+  app.put(ROUTES.API.USER.PUT.updateOnboardingDetails, requireLogin, async (req, res, next) => {
     try {
       const { agreedToTOS } = req.body.data;
 
@@ -262,43 +263,49 @@ module.exports = (app) => {
       await userDataAccess.updateUserProfileDetails(userId, newDetails);
       return res.send({ success: true });
     } catch (e) {
-      return res
-        .status(400)
-        .send({ errorMsg: 'Failed To update update Onboarding Details ', details: `${e}` });
+      e.safeMsg = 'Failed To update update Onboarding Details';
+      return next(e);
     }
   });
 
-  app.put(ROUTES.API.USER.PUT.userDetails, requireLogin, validateRequest, async (req, res) => {
-    try {
-      const userId = req.user.userId;
-      const newProfileDetails = req.body.data;
-      // cycle through the properties provided { name: blablabla, telephoneNumber : 123123123...etc}
-      Object.keys(newProfileDetails).forEach((property) => {
-        newProfileDetails[`${property}`] = newProfileDetails[`${property}`];
-      });
+  app.put(
+    ROUTES.API.USER.PUT.userDetails,
+    requireLogin,
+    validateRequest,
+    async (req, res, next) => {
+      try {
+        const userId = req.user.userId;
+        const newProfileDetails = req.body.data;
+        // cycle through the properties provided { name: blablabla, telephoneNumber : 123123123...etc}
+        Object.keys(newProfileDetails).forEach((property) => {
+          newProfileDetails[`${property}`] = newProfileDetails[`${property}`];
+        });
 
-      const userAfterUpdates = await userDataAccess.updateUserProfileDetails(
-        userId,
-        newProfileDetails
-      );
-      return res.send(userAfterUpdates);
-    } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To update user details', details: `${e}` });
+        const userAfterUpdates = await userDataAccess.updateUserProfileDetails(
+          userId,
+          newProfileDetails
+        );
+        return res.send(userAfterUpdates);
+      } catch (e) {
+        e.safeMsg = 'Failed To update update user Details';
+        return next(e);
+      }
     }
-  });
+  );
 
-  app.put(ROUTES.API.USER.PUT.updateAppView, requireLogin, async (req, res) => {
+  app.put(ROUTES.API.USER.PUT.updateAppView, requireLogin, async (req, res, next) => {
     try {
       const { appViewId } = req.body.data;
       const userId = req.user.userId;
       const userAfterUpdates = await userDataAccess.updateUserAppView(userId, appViewId);
       return res.send(userAfterUpdates);
     } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To update user appView', details: `${e}` });
+      e.safeMsg = 'Failed To update update user app view';
+      return next(e);
     }
   });
 
-  app.put(ROUTES.API.USER.PUT.profilePicture, requireLogin, async (req, res) => {
+  app.put(ROUTES.API.USER.PUT.profilePicture, requireLogin, async (req, res, next) => {
     try {
       if (req.files && req.files.length === 1) {
         const filesList = req.files;
@@ -313,9 +320,8 @@ module.exports = (app) => {
               newUserProfilePicImg = { secure_url, public_id };
             }
           } catch (e) {
-            return res
-              .status(400)
-              .send({ errorMsg: 'Failed To upload to cloudinary', details: `${e}` });
+            e.safeMsg = 'Failed To upload user profile picture';
+            return next(e);
           }
         };
 
@@ -352,7 +358,8 @@ module.exports = (app) => {
         });
       }
     } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To upload profile img', details: `${e}` });
+      e.safeMsg = 'Failed To upload user profile picture';
+      return next(e);
     }
   });
 };
@@ -362,7 +369,7 @@ module.exports = (app) => {
 //   ROUTES.API.USER.PUT.profilePicture,
 //   requireBidorBooHost,
 //   requireLogin,
-//   async (req, res) => {
+//   async (req, res,next) => {
 //     try {
 //       const filesList = req.files;
 //       const userId = req.user.userId;
