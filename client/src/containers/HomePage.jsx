@@ -4,7 +4,8 @@ import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 import howItWorks from '../assets/images/howItWorks.png';
 import MainBanner from '../assets/images/MainBanner.png';
-import RequesterImg from '../assets/images/RequesterImg.png';
+import REQUESTER_MAINPAGE from '../assets/images/REQUESTER_MAINPAGE.png';
+import TASKER_MAINPAGE from '../assets/images/TASKER_MAINPAGE.png';
 
 export default class HomePage extends React.Component {
   render() {
@@ -121,7 +122,7 @@ const RequestAService = (props) => {
     <div style={{ height: '31rem' }} className="card cardWithButton">
       <div className="card-image">
         <figure className="image is-4by3">
-          <img src={RequesterImg} alt="Placeholder image" />
+          <img src={REQUESTER_MAINPAGE} alt="Placeholder image" />
         </figure>
       </div>
       <div className="card-content">
@@ -134,7 +135,7 @@ const RequestAService = (props) => {
           onClick={() => {
             switchRoute(ROUTES.CLIENT.PROPOSER.root);
           }}
-          className="button is-fullwidth is-success"
+          className="button is-fullwidth is-white"
         >
           <span className="icon">
             <i className="far fa-plus-square" />
@@ -151,7 +152,7 @@ const ProvideAService = () => {
     <div style={{ height: '31rem' }} className="card cardWithButton">
       <div className="card-image">
         <figure className="image is-4by3">
-          <img src={RequesterImg} alt="Placeholder image" />
+          <img src={TASKER_MAINPAGE} alt="Placeholder image" />
         </figure>
       </div>
       <div className="card-content">
