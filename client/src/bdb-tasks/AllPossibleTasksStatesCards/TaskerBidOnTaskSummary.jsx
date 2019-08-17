@@ -19,6 +19,7 @@ import {
   JobCardTitle,
   CountDownComponent,
   TaskImagesCarousel,
+  CenteredUserImageAndRating,
 } from '../../containers/commonComponents';
 
 import { getUserExistingBid, didUserAlreadyView } from '../../containers/commonUtils';
@@ -94,15 +95,19 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
             <div className="content">
               <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
               <TaskImagesCarousel taskImages={taskImages} />
-              {/* {!isOnMapView && <CenteredUserImageAndRating clipUserName userDetails={_ownerRef} />} */}
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
-              {/* <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} /> */}
-
+              {!isOnMapView && (
+                <CenteredUserImageAndRating
+                  clipUserName
+                  userDetails={_ownerRef}
+                  isCentered={false}
+                />
+              )}
               {!isOnMapView && (
                 <div className="group">
                   <label className="label">Task Info</label>
@@ -117,7 +122,6 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                   />
                 </div>
               )}
-
               {!isOnMapView && (
                 <React.Fragment>
                   {userAlreadyBid ? (
