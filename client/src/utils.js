@@ -17,7 +17,7 @@ export const switchRoute = (routeAndParams, stateContent = null) => {
   return null;
 };
 
-export const reload = (routeAndParams) => {
+export const delayedReload = (routeAndParams) => {
   console.error(routeAndParams);
   setTimeout(() => window.location.reload(), 3000);
 };

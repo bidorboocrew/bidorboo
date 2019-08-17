@@ -1,7 +1,7 @@
 import * as A from '../actionTypes';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
-import { switchRoute, throwErrorNotification, reload } from '../../utils';
+import { switchRoute, throwErrorNotification, delayedReload } from '../../utils';
 import TASKS_DEFINITIONS from '../../bdb-tasks/tasksDefinitions';
 
 export const selectJobToBidOn = (jobDetails) => (dispatch) => {
@@ -81,7 +81,8 @@ export const submitBid = ({ bidAmount, job }) => (dispatch) => {
         // update recently added job
         if (resp.data && resp.data._id) {
           const taskDefinition = TASKS_DEFINITIONS[templateId];
-
+          //rediret user to the current bid
+          switchRoute(ROUTES.CLIENT.BIDDER.mybids);
           dispatch({
             type: A.UI_ACTIONS.SHOW_SPECIAL_MOMENT,
             payload: {
@@ -89,18 +90,15 @@ export const submitBid = ({ bidAmount, job }) => (dispatch) => {
             },
           });
 
-          //rediret user to the current bid
-          switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-
-          dispatch({
-            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-            payload: {
-              toastDetails: {
-                type: 'success',
-                msg: 'You have made your bid. Good Luck!',
-              },
-            },
-          });
+          // dispatch({
+          //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          //   payload: {
+          //     toastDetails: {
+          //       type: 'success',
+          //       msg: 'You have made your bid. Good Luck!',
+          //     },
+          //   },
+          // });
         }
       })
       .catch((error) => {
@@ -197,17 +195,17 @@ export const updateBid = ({ bidId, bidAmount, job }) => (dispatch) => {
 
           //rediret user to the current bid
 
-          reload(ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(resp.data._id));
+          delayedReload(ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(resp.data._id));
 
-          dispatch({
-            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-            payload: {
-              toastDetails: {
-                type: 'success',
-                msg: 'You have udpated your bid. Good Luck!',
-              },
-            },
-          });
+          // dispatch({
+          //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          //   payload: {
+          //     toastDetails: {
+          //       type: 'success',
+          //       msg: 'You have udpated your bid. Good Luck!',
+          //     },
+          //   },
+          // });
         }
       })
       .catch((error) => {

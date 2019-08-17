@@ -317,15 +317,15 @@ export const postNewJob = (jobDetails) => (dispatch) => {
 
           switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
 
-          dispatch({
-            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-            payload: {
-              toastDetails: {
-                type: 'success',
-                msg: 'Service Request was sucessfully created.',
-              },
-            },
-          });
+          // dispatch({
+          //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          //   payload: {
+          //     toastDetails: {
+          //       type: 'success',
+          //       msg: 'Service Request was sucessfully created.',
+          //     },
+          //   },
+          // });
 
           const taskDefinition = TASKS_DEFINITIONS[templateId];
 
