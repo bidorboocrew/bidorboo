@@ -12,6 +12,9 @@ exports.WebPushNotifications = {
     targetUserPushSubscription,
     { requestTitle, icon, urlToLaunch }
   ) => {
+    if (process.env.NODE_ENV !== 'production') {
+      return;
+    }
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
@@ -33,6 +36,9 @@ exports.WebPushNotifications = {
     targetUserPushSubscription,
     { requestTitle, icon, urlToLaunch }
   ) => {
+    if (process.env.NODE_ENV !== 'production') {
+      return;
+    }
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
@@ -54,6 +60,9 @@ exports.WebPushNotifications = {
     targetUserPushSubscription,
     { requestTitle, icon, urlToLaunch }
   ) => {
+    if (process.env.NODE_ENV !== 'production') {
+      return;
+    }
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
@@ -75,6 +84,9 @@ exports.WebPushNotifications = {
     targetUserPushSubscription,
     { requestTitle, icon, urlToLaunch }
   ) => {
+    if (process.env.NODE_ENV !== 'production') {
+      return;
+    }
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
@@ -96,6 +108,9 @@ exports.WebPushNotifications = {
     targetUserPushSubscription,
     { requestTitle, icon, urlToLaunch }
   ) => {
+    if (process.env.NODE_ENV !== 'production') {
+      return;
+    }
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
@@ -117,6 +132,9 @@ exports.WebPushNotifications = {
     targetUserPushSubscription,
     { requestTitle, icon, urlToLaunch }
   ) => {
+    if (process.env.NODE_ENV !== 'production') {
+      return;
+    }
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
@@ -138,6 +156,9 @@ exports.WebPushNotifications = {
     targetUserPushSubscription,
     { taskerDisplayName, icon, urlToLaunch }
   ) => {
+    if (process.env.NODE_ENV !== 'production') {
+      return;
+    }
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
@@ -156,6 +177,9 @@ exports.WebPushNotifications = {
     }
   },
   sendPush: async (targetUserPushSubscription, { title, body, icon, urlToLaunch }) => {
+    if (process.env.NODE_ENV !== 'production') {
+      return;
+    }
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({

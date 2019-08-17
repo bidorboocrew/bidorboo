@@ -718,7 +718,28 @@ exports.jobDataAccess = {
   },
   getJobById: (jobId) => {
     return JobModel.findById(jobId)
+      .lean(true)
+      .exec();
+  },
+  getBidsList: (jobId) => {
+    return JobModel.findById(jobId)
       .populate({ path: '_bidsListRef', select: { _bidderRef: 1 } })
+      .lean(true)
+      .exec();
+  },
+  getJobWithOwnerDetails: (jobId) => {
+    return JobModel.findById(jobId)
+      .populate({
+        path: '_ownerRef',
+        select: {
+          displayName: 1,
+          profileImage: 1,
+          rating: 1,
+          _id: 1,
+          notifications: 1,
+          email: 1,
+        },
+      })
       .lean({ virtuals: true })
       .exec();
   },

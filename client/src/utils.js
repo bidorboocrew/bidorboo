@@ -51,6 +51,8 @@ export const throwErrorNotification = (dispatch, error) => {
       msg = error.response.data.errorMsg.message;
     } else if (error && error.response && error.response.data && error.response.data.errorMsg) {
       msg = error.response.data.errorMsg;
+    } else if (error && error.response && error.response.data && error.response.data.safeMsg) {
+      msg = error.response.data.safeMsg;
     } else {
       msg =
         error && error.response && error.response.data

@@ -9,10 +9,10 @@ export const getMyStripeAccountDetails = () => (dispatch) =>
     payload: axios.get(ROUTES.API.PAYMENT.GET.myStripeAccountDetails),
   });
 
-export const submitPayment = ({ stripeTransactionToken, bid, jobId, chargeAmount }) => (
+export const submitPayment = ({ jobId, bidId, stripeTransactionToken, chargeAmount }) => (
   dispatch,
 ) => {
-  if (!bid || !bid._id || !bid._bidderRef) {
+  if (!jobId || !bidId || !stripeTransactionToken || !chargeAmount) {
     dispatch({
       type: A.UI_ACTIONS.SHOW_TOAST_MSG,
       payload: {
@@ -25,32 +25,33 @@ export const submitPayment = ({ stripeTransactionToken, bid, jobId, chargeAmount
     });
     return;
   }
-
+debugger
   dispatch({
     type: A.PROPOSER_ACTIONS.AWARD_BIDDER_AND_MAKE_A_PAYMENT,
     payload: axios
       .post(ROUTES.API.PAYMENT.POST.payment, {
         data: {
           jobId,
+          bidId,
           stripeTransactionToken,
-          bidId: bid._id,
-          chargeAmount: chargeAmount,
+          chargeAmount,
         },
       })
       .then((resp) => {
-        axios.get(ROUTES.API.PAYMENT.GET.payment).then((resp) => {});
+        // axios.get(ROUTES.API.PAYMENT.GET.payment).then((resp) => {});
+        debugger;
         // update recently added job
         if (resp.data && resp.data.success) {
-          dispatch({
-            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-            payload: {
-              toastDetails: {
-                type: 'success',
-                msg: 'Your transaction was successul',
-              },
-            },
-          });
-          switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(bid._jobRef));
+          // dispatch({
+          //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          //   payload: {
+          //     toastDetails: {
+          //       type: 'success',
+          //       msg: 'Your transaction was successul',
+          //     },
+          //   },
+          // });
+          // switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
         }
       })
       .catch((error) => {

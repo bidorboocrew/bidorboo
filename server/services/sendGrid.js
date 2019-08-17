@@ -26,7 +26,9 @@ exports.EmailService = {
         `,
       }),
     };
-    sgMail.send(msg);
+    if (process.env.NODE_ENV === 'production') {
+      sgMail.send(msg);
+    }
   },
 
   sendNewBidRecievedEmail: ({ to, toDisplayName, taskName, clickLink }) => {
@@ -47,7 +49,9 @@ exports.EmailService = {
     //   console.log(response.body);
     //   console.log(response.headers);
     // }
-    sgMail.send(msg);
+    if (process.env.NODE_ENV === 'production') {
+      sgMail.send(msg);
+    }
   },
   sendJobIsHappeningSoonToTaskerEmail: ({
     to,
@@ -85,7 +89,9 @@ exports.EmailService = {
     //   console.log(response.body);
     //   console.log(response.headers);
     // }
-    sgMail.send(msg);
+    if (process.env.NODE_ENV === 'production') {
+      sgMail.send(msg);
+    }
   },
   sendJobIsHappeningSoonToRequesterEmail: ({
     to,
@@ -117,7 +123,9 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg);
+    if (process.env.NODE_ENV === 'production') {
+      sgMail.send(msg);
+    }
   },
   tellTaskerThatRequesterCancelledJob: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
     const msg = {
@@ -137,7 +145,9 @@ exports.EmailService = {
         clickDisplayName: 'Cancelled Request Details',
       }),
     };
-    sgMail.send(msg);
+    if (process.env.NODE_ENV === 'production') {
+      sgMail.send(msg);
+    }
   },
 
   tellRequeterThatTheyHaveCancelledAnAwardedJob: ({
@@ -165,7 +175,9 @@ exports.EmailService = {
         clickDisplayName: 'Cancelled Request Details',
       }),
     };
-    sgMail.send(msg);
+    if (process.env.NODE_ENV === 'production') {
+      sgMail.send(msg);
+    }
   },
 
   tellRequeterThatTheTaskerHaveCancelledAnAwardedJob: ({
@@ -196,7 +208,9 @@ exports.EmailService = {
         clickDisplayName: 'Cancelled Request Details',
       }),
     };
-    sgMail.send(msg);
+    if (process.env.NODE_ENV === 'production') {
+      sgMail.send(msg);
+    }
   },
   tellTaskerThatTheyCancelledJob: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
     const msg = {
@@ -224,7 +238,9 @@ exports.EmailService = {
         clickDisplayName: 'Cancelled Request Details',
       }),
     };
-    sgMail.send(msg);
+    if (process.env.NODE_ENV === 'production') {
+      sgMail.send(msg);
+    }
   },
 
   tellRequesterToConfirmCompletion: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
@@ -246,7 +262,9 @@ exports.EmailService = {
         clickDisplayName: 'Confirm Task Is Done',
       }),
     };
-    sgMail.send(msg);
+    if (process.env.NODE_ENV === 'production') {
+      sgMail.send(msg);
+    }
   },
 
   tellTaskerWeWaitingOnRequesterToConfirmCompletion: ({
@@ -278,7 +296,9 @@ exports.EmailService = {
         clickDisplayName: 'View Request Details',
       }),
     };
-    sgMail.send(msg);
+    if (process.env.NODE_ENV === 'production') {
+      sgMail.send(msg);
+    }
   },
 
   tellRequesterJobIsCompleteBeginRating: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
@@ -304,7 +324,9 @@ exports.EmailService = {
         clickDisplayName: 'Completed Request Details',
       }),
     };
-    sgMail.send(msg);
+    if (process.env.NODE_ENV === 'production') {
+      sgMail.send(msg);
+    }
   },
 
   tellTaskerJobIsCompleteBeginRating: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
@@ -332,7 +354,9 @@ exports.EmailService = {
         clickDisplayName: 'Completed Request Details',
       }),
     };
-    sgMail.send(msg);
+    if (process.env.NODE_ENV === 'production') {
+      sgMail.send(msg);
+    }
   },
 
   tellRequesterThanksforPaymentAndTaskerIsRevealed: ({
@@ -363,7 +387,9 @@ exports.EmailService = {
         clickDisplayName: 'Assigned Tasker Details',
       }),
     };
-    sgMail.send(msg);
+    if (process.env.NODE_ENV === 'production') {
+      sgMail.send(msg);
+    }
   },
 
   tellTaskerThatTheyWereAwarded: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
@@ -396,7 +422,9 @@ exports.EmailService = {
         clickDisplayName: 'Assigned Request Details',
       }),
     };
-    sgMail.send(msg);
+    if (process.env.NODE_ENV === 'production') {
+      sgMail.send(msg);
+    }
   },
   tellDisputeOwnerThatWeWillInvestigate: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
     const msg = {
@@ -419,7 +447,9 @@ exports.EmailService = {
         clickDisplayName: 'View Disputed Task',
       }),
     };
-    sgMail.send(msg);
+    if (process.env.NODE_ENV === 'production') {
+      sgMail.send(msg);
+    }
   },
   informBobCrewAboutFailedPayment: ({ jobId, paymentDetails }) => {
     const msg = {
@@ -433,7 +463,9 @@ exports.EmailService = {
         ${JSON.stringify(paymentDetails)}.</p>
       `,
     };
-    sgMail.send(msg);
+    if (process.env.NODE_ENV === 'production') {
+      sgMail.send(msg);
+    }
   },
 
   tellRequesterThatWeMarkedJobDone: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
@@ -457,7 +489,9 @@ exports.EmailService = {
         clickDisplayName: 'Completed Request Details',
       }),
     };
-    sgMail.send(msg);
+    if (process.env.NODE_ENV === 'production') {
+      sgMail.send(msg);
+    }
   },
   tellRequesterToConfirmJob: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
     const msg = {
@@ -481,7 +515,9 @@ exports.EmailService = {
         clickDisplayName: 'Completed Request Details',
       }),
     };
-    sgMail.send(msg);
+    if (process.env.NODE_ENV === 'production') {
+      sgMail.send(msg);
+    }
   },
   informBobCrewAboutDispute: ({
     whoSubmitted,
@@ -544,6 +580,8 @@ exports.EmailService = {
     <p>processedPayment = ${JSON.stringify(processedPayment)},</p>
       `,
     };
-    sgMail.send(msg);
+    if (process.env.NODE_ENV === 'production') {
+      sgMail.send(msg);
+    }
   },
 };

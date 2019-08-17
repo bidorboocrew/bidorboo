@@ -32,7 +32,7 @@ module.exports = {
         payoutsWebhook: '/api/stripewebhook/payoutsWebhook',
       },
       GET: {
-        requestCharge: '/api/requestCharge',
+        // requestCharge: '/api/requestCharge',
         payment: '/api/payment',
         myStripeAccountDetails: '/api/myStripeAccountDetails',
       },

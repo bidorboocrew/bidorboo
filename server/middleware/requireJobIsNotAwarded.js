@@ -16,7 +16,7 @@ module.exports = async (req, res, next) => {
     if (!job._awardedBidRef) {
       next();
     } else {
-      return res.status(403).send({ errorMsg: 'This job has already been awarded.' });
+      return res.status(403).send({ errorMsg: 'Sorry , The Requester had already awarded another tasker.' });
     }
   } catch (e) {
     return res

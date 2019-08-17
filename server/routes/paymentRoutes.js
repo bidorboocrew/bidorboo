@@ -25,46 +25,61 @@ const keys = require('../config/keys');
 
 module.exports = (app) => {
   app.post(
-    ROUTES.API.PAYMENT.GET.requestCharge,
-    requireBidorBooHost,
+    ROUTES.API.PAYMENT.POST.payment,
     requireLogin,
     requireJobOwner,
     requireJobIsNotAwarded,
-    async (req, res) => {
+    // requiresCheckPayBidderDetails,
+    async (req, res, next) => {
       try {
-        const { jobId, bidId } = req.body.data;
-
-        // const {
-        //   requesterId,
-        //   taskerId,
-        //   taskerDisplayName,
-        //   taskerEmailAddress,
-        // } = await getAllContactDetails(jobId);
-        const { _ownerRef, displayTitle } = await jobDataAccess.findOneByJobId(jobId);
+        const { jobId, bidId, stripeTransactionToken, chargeAmount } = req.body.data;
 
         const theBid = await bidDataAccess.getBidById(bidId);
-        if (!theBid || !theBid._id) {
-          return res
-            .status(403)
-            .send({ errorMsg: 'Bid can not be found did NOT process the payment.' });
-        }
-        const { _bidderRef, bidAmount } = theBid;
+        const theJob = await jobDataAccess.getJobWithOwnerDetails(jobId);
 
-        // const x = await stripeServiceUtil.getPaymentIntents();
-        // "cus_FdV8pImnyoVJDp",
-        // const y = await stripeServiceUtil.updateCustomerDetails();
-        let stripeAccDetails = await userDataAccess.getUserStripeAccount(_bidderRef._id.toString());
+        if (!theBid || !theBid._id || !theJob || !theJob._id) {
+          return res.status(403).send({
+            errorMsg:
+              "Couldn't locate the job and corresponding Bid. Your card was NOT charged, reload the page and try again.",
+          });
+        }
+
+        const { _bidderRef, bidAmount } = theBid;
+        const {
+          email: bidderEmailObject,
+          _id: bidderIdObject,
+          userId: bidderUserId,
+          displayName: bidderDisplayName,
+        } = _bidderRef;
+        const bidderEmail = bidderEmailObject.emailAddress;
+        const bidderId = bidderIdObject.toString();
+
+        const requesterEmail = theJob._ownerRef.email.emailAddress;
+
+        const BIDORBOO_SERVICECHARGE = 0.06;
+        // confirm award and pay
+        const checkActualBidAmount = bidAmount.value;
+        const bidOrBooServiceFee = Math.ceil(checkActualBidAmount * BIDORBOO_SERVICECHARGE);
+        let totalAmount = (checkActualBidAmount + bidOrBooServiceFee) * 100;
+        if (chargeAmount !== totalAmount) {
+          return res.status(403).send({
+            errorMsg: 'We could not verify the payment ammount.',
+            safeMsg: 'We could not verify the payment ammount.',
+          });
+        }
+
+        let stripeAccDetails = await userDataAccess.getUserStripeAccount(bidderId);
 
         if (!stripeAccDetails.accId) {
           // user does not have a stripe account , we must establish one
           const newStripeConnectAcc = await stripeServiceUtil.initializeConnectedAccount({
-            _id: _bidderRef._id.toString(),
-            userId: _bidderRef.userId.toString(),
-            displayName: _bidderRef.displayName,
-            email: _bidderRef.email.emailAddress,
+            _id: bidderId,
+            userId: bidderUserId,
+            displayName: bidderDisplayName,
+            email: bidderEmail,
           });
           if (newStripeConnectAcc.id) {
-            const updateUser = await userDataAccess.findByUserIdAndUpdate(_bidderRef.userId, {
+            const updateUser = await userDataAccess.findByUserIdAndUpdate(bidderUserId, {
               stripeConnect: {
                 accId: newStripeConnectAcc.id,
               },
@@ -79,101 +94,54 @@ module.exports = (app) => {
         }
 
         if (stripeAccDetails.accId) {
-          /**
-           * chargeAmount already includes the 6% charged to the end user
-           * so we need to do :
-           * BidOrBoo charges proposer 6%
-           * BidOrBoo charges Bidder 4%
-           *
-           * chargeAmount passed in includes the 6% charge on the proposer
-           *
-           */
-          // console.log('BidOrBooPayment - started');
-          // const originalBidAmount = bidAmount.value * 100;
+          console.log('BIDORBOOLOGGING - PAYMENT - process charge');
 
-          // const bidOrBooChargeOnBidder = Math.ceil(originalBidAmount * 0.04);
-          // const bidOrBooChargeOnProposer = chargeAmount - originalBidAmount; //100 as we expect in cents
-          // const bidOrBooTotalCommission = bidOrBooChargeOnBidder + bidOrBooChargeOnProposer;
-
-          // const bidderPayoutAmount = chargeAmount - bidOrBooTotalCommission;
-
-          const { client_secret } = await stripeServiceUtil.createPaymentIntent({
-            metadata: {
-              bidderId: _bidderRef._id.toString(),
-              bidderEmail: _bidderRef.email.emailAddress,
-              proposerId: req.user._id.toString(),
-              proposerEmail: _ownerRef.email.emailAddress,
-              jobId: jobId.toString(),
-              bidId: bidId.toString(),
-              note: `Requester Paid for  ${displayTitle}`,
+          const charge = await stripeServiceUtil.processDestinationCharge({
+            statement_descriptor: 'BidOrBoo Charge',
+            amount: chargeAmount,
+            currency: 'CAD',
+            description: `Paid for booking ${theJob.displayTitle || theJob.templateId}`,
+            receipt_email: requesterEmail,
+            source: stripeTransactionToken,
+            application_fee_amount: bidOrBooServiceFee,
+            transfer_data: {
+              destination: stripeAccDetails.accId,
             },
-            taskName: displayTitle,
-            amount: bidAmount,
-            destinationAccId: stripeAccDetails.accId,
-            taskId: jobId,
-            requester: _ownerRef,
-            requesterId: _ownerRef._id.toString(),
+            metadata: {
+              bidderId,
+              bidderEmail,
+              proposerId: req.user._id.toString(),
+              requesterEmail: requesterEmail,
+              jobId,
+              bidId,
+              note: `Requester Paid for ${theJob.displayTitle || theJob.templateId}`,
+            },
           });
-
-          return res.status(200).send({ clientSecret: client_secret });
-
-          // console.log('-------BidOrBooLogging----------------------');
-          // console.log('BidOrBooPayment - initiated charge details');
-          // console.log('BidOrBooPayment - BidOrBoo Fees ' + bidOrBooTotalCommission);
-          // console.log({
-          //   bidOrBooChargeOnBidder,
-          //   bidOrBooChargeOnProposer,
-          //   bidOrBooTotalCommission,
-          //   bidderId: _bidderRef._id.toString(),
-          //   bidderEmail: _bidderRef.email.emailAddress,
-          //   proposerId: req.user._id.toString(),
-          //   proposerEmail: _jobRef._ownerRef.email.emailAddress,
-          //   jobId: _jobRef._id.toString(),
-          //   bidId: _id.toString(),
-          //   note: `Requester Paid for  ${_jobRef.templateId}`,
-          // });
-          // console.log('-------BidOrBooLogging----------------------');
-          // const charge = await stripeServiceUtil.processDestinationCharge({
-          //   statement_descriptor: 'BidOrBoo Charge',
-          //   amount: chargeAmount,
-          //   currency: 'CAD',
-          //   description,
-          //   receipt_email: _jobRef._ownerRef.email.emailAddress,
-          //   source: stripeTransactionToken,
-          //   // application_fee_amount: bidOrBooTotalCommission,
-          //   transfer_data: {
-          //     amount: bidderPayoutAmount, // the final # sent to awarded bidder
-          //     destination: stripeAccDetails.accId,
-          //   },
-          //   metadata: {
-          //     bidderId: _bidderRef._id.toString(),
-          //     bidderEmail: _bidderRef.email.emailAddress,
-          //     proposerId: req.user._id.toString(),
-          //     proposerEmail: _jobRef._ownerRef.email.emailAddress,
-          //     jobId: _jobRef._id.toString(),
-          //     bidId: _id.toString(),
-          //     note: `Requester Paid for  ${_jobRef.templateId}`,
-          //   },
-          // });
-
+          console.log('BIDORBOOLOGGING - PAYMENT - process charge');
           if (charge && charge.status === 'succeeded') {
+            console.log('BIDORBOOLOGGING - PAYMENT - SUCCESS ');
+            console.log('BIDORBOOLOGGING - PAYMENT - SUCCESS - details ');
+            console.log(charge);
+            console.log('BIDORBOOLOGGING - PAYMENT - SUCCESS - details ');
+
             // console.log('-------BidOrBooLogging----------------------');
             // console.log('BidOrBooPayment - charge Succeeded');
             // console.log('-------BidOrBooLogging----------------------');
             // update the job and bidder with the chosen awarded bid
-            // const updateJobAndBid = await jobDataAccess.updateJobAwardedBid(
-            //   _jobRef._id.toString(),
-            //   _id.toString(),
-            //   {
-            //     paymentSourceId: stripeTransactionToken,
-            //     amount: charge.amount,
-            //     chargeId: charge.id,
-            //     bidderPayout: bidderPayoutAmount,
-            //     platformCharge: bidOrBooTotalCommission,
-            //     proposerPaid: chargeAmount,
-            //     bidderStripeAcc: stripeAccDetails.accId,
-            //   }
-            // );
+
+            const updateJobAndBid = await jobDataAccess.updateJobAwardedBid(
+              _jobRef._id.toString(),
+              _id.toString(),
+              {
+                paymentSourceId: stripeTransactionToken,
+                amount: charge.amount,
+                chargeId: charge.id,
+                bidderPayout: bidderPayoutAmount,
+                platformCharge: bidOrBooTotalCommission,
+                proposerPaid: chargeAmount,
+                bidderStripeAcc: stripeAccDetails.accId,
+              }
+            );
 
             const {
               requesterDisplayName,
@@ -226,21 +194,24 @@ module.exports = (app) => {
             res.send({ success: true });
           }
         } else {
+          console.log('BIDORBOOLOGGING - PAYMENT - FAILD - reason unkown');
+
           return res.status(400).send({
             errorMsg: 'Did Not Process the payment. Could not locate the bidder Account info',
           });
         }
       } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To create charge', details: `${e}` });
+        e.safeMsg = "We couldn't confirm the charge details. NO charge was applied to your card";
+        next(e);
       }
     }
   );
 
-  app.get(ROUTES.API.PAYMENT.GET.payment, requireBidorBooHost, requireLogin, async (req, res) => {
+  app.get(ROUTES.API.PAYMENT.GET.payment, requireLogin, async (req, res) => {
     try {
       const paymentsDetails = await paymentDataAccess.getAllPaymentsDetails();
 
-      res.send({ paymentsDetails: paymentsDetails });
+      res.send({ paymentsDetails });
     } catch (e) {
       return res.status(400).send({ errorMsg: 'Failed To create charge', details: `${e}` });
     }
@@ -327,12 +298,12 @@ module.exports = (app) => {
       }
     }
   );
-  /**
-   * user verification
-   * verification issues with image
-   * https://stripe.com/docs/connect/payouts#using-manual-payouts
-   */
-  //xxxx
+  // /**
+  //  * user verification
+  //  * verification issues with image
+  //  * https://stripe.com/docs/connect/payouts#using-manual-payouts
+  //  */
+  // //xxxx
   app.post(ROUTES.API.PAYMENT.POST.connectedAccountsWebhook, async (req, res, next) => {
     try {
       console.log('-------BidOrBooLogging----------------------');
@@ -389,11 +360,11 @@ module.exports = (app) => {
     }
   });
 
-  // app.get(ROUTES.API.PAYMENT.GET.requestCharge, async (req, res, next) => {
-  //   const session = await stripeServiceUtil.retrieveTaskChargeSessionId();
+  // // app.get(ROUTES.API.PAYMENT.GET.requestCharge, async (req, res, next) => {
+  // //   const session = await stripeServiceUtil.retrieveTaskChargeSessionId();
 
-  //   return res.status(200).send({ session });
-  // });
+  // //   return res.status(200).send({ session });
+  // // });
 
   app.post(ROUTES.API.PAYMENT.POST.payoutsWebhook, async (req, res, next) => {
     try {

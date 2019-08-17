@@ -8,7 +8,6 @@ import bugsnag from '@bugsnag/js';
 import bugsnagReact from '@bugsnag/plugin-react';
 
 import { Provider } from 'react-redux';
-import { StripeProvider } from 'react-stripe-elements';
 
 import App from './containers/App';
 
