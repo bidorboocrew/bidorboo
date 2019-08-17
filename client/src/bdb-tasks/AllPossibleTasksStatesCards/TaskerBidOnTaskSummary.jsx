@@ -95,19 +95,18 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
             <div className="content">
               <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
               <TaskImagesCarousel taskImages={taskImages} />
+              <div className="group">
+                <label className="label hasSelectedValue">Requester</label>
+                {!isOnMapView && (
+                  <CenteredUserImageAndRating clipUserName userDetails={_ownerRef} />
+                )}
+              </div>
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
-              {!isOnMapView && (
-                <CenteredUserImageAndRating
-                  clipUserName
-                  userDetails={_ownerRef}
-                  isCentered={false}
-                />
-              )}
               {!isOnMapView && (
                 <div className="group">
                   <label className="label">Task Info</label>

@@ -47,13 +47,15 @@ const Step2 = ({
   return (
     <div style={{ position: 'relative' }}>
       <div className="subtitle has-text-weight-bold">PHONE VERIFICATION</div>
-      <div className="slide-in-right field" style={{ height: '10rem' }}>
-        <UpdatePhoneNumberField
-          showPhoneVerificationStep={showPhoneVerificationStep}
-          userDetails={userDetails}
-          onSubmit={onSubmit}
-        />
-      </div>
+      {!renderVerificationSection && (
+        <div className="slide-in-right field" style={{ height: '10rem' }}>
+          <UpdatePhoneNumberField
+            showPhoneVerificationStep={showPhoneVerificationStep}
+            userDetails={userDetails}
+            onSubmit={onSubmit}
+          />
+        </div>
+      )}
 
       {renderVerificationSection && (
         <div className="slide-in-right field">

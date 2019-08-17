@@ -499,7 +499,7 @@ exports.createNewUser = async (userDetails) => {
         ...userDetails,
       }).save();
 
-      if (newUser.email.emailAddress) {
+      if (newUser.email.emailAddress && !newUser.email.isVerified) {
         this.resetAndSendEmailVerificationCode(newUser.userId, newUser.email.emailAddress);
       }
 
