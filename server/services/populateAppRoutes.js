@@ -4,7 +4,6 @@ const requireBidorBooHost = require('../middleware/requireBidorBooHost');
 module.exports = (app) => {
   // make sure we only accept reqs from our site domain
   app.all('*', requireBidorBooHost);
-
   // instantiate app routes
   require('../routes/authRoutes')(app);
   require('../routes/userRoutes')(app);

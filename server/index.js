@@ -5,14 +5,13 @@ const path = require('path');
 const keys = require('./config/keys');
 
 let bugsnagMiddleware = null;
-if (process.env.NODE_ENV === 'production') {
-  // initialize bugsnag
-  const bugsnag = require('@bugsnag/js');
-  const bugsnagExpress = require('@bugsnag/plugin-express');
-  const bugsnagClient = bugsnag(keys.bugSnagApiKey);
-  bugsnagClient.use(bugsnagExpress);
-  const middleware = bugsnagClient.getPlugin('express');
-}
+// initialize bugsnag
+const bugsnag = require('@bugsnag/js');
+const bugsnagExpress = require('@bugsnag/plugin-express');
+const bugsnagClient = bugsnag(keys.bugSnagApiKey);
+process.env.NODE_ENV === 'production' && bugsnagClient.use(bugsnagExpress);
+bugsnagMiddleware = bugsnagClient.getPlugin('express');
+
 // initialize and start mongodb
 require('./services/mongoDB')(process);
 require('./services/passport');
@@ -22,9 +21,8 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(bugsnagMiddleware.requestHandler);
-}
+process.env.NODE_ENV === 'production' && app.use(bugsnagMiddleware.requestHandler);
+
 // initialize bugsnag
 // require('./services/bugSnag')(app);
 // initialize security and compression
@@ -66,9 +64,8 @@ app.use((err, req, res, next) => {
   res.status(err.statusCode).send(err.safeMsg); // All HTTP requests must have a response, so let's send back an error with its status code and message
 });
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(bugsnagMiddleware.errorHandler);
-}
+process.env.NODE_ENV === 'production' && app.use(bugsnagMiddleware.errorHandler);
+
 // serve the static js file
 if (process.env.NODE_ENV === 'production') {
   console.log('IAM NODE process.env.NODE_APP_INSTANCE ' + process.env.NODE_APP_INSTANCE);
