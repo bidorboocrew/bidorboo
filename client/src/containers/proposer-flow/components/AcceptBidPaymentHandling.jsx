@@ -35,9 +35,7 @@ class AcceptBidPaymentHandling extends React.Component {
     const { bid } = this.props;
 
     const {
-      data: {
-        session: { id },
-      },
+      data: { clientSecret },
     } = await axios.post('/api/requestCharge', {
       data: {
         jobId: bid._jobRef,
@@ -45,15 +43,30 @@ class AcceptBidPaymentHandling extends React.Component {
       },
     });
     debugger;
-
-    const checkoutResponse = await window
-      .Stripe(`${process.env.REACT_APP_STRIPE_KEY}`)
-      .redirectToCheckout({
-        // Make the id field from the Checkout Session creation API response
-        // available to this file, so you can provide it as parameter here
-        // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
-        sessionId: id,
+    const checkoutResponse = await window.Stripe(`${process.env.REACT_APP_STRIPE_KEY}`)
+      .handleCardPayment(clientSecret, {
+        payment_method: 'pm_1F8JwgIkbQJUBZs8X03HNthR',
       });
+
+    // stripe checkout
+    // const {
+    //   data: {
+    //     session: { id },
+    //   },
+    // } = await axios.post('/api/requestCharge', {
+    //   data: {
+    //     jobId: bid._jobRef,
+    //     bidId: bid._id,
+    //   },
+    // });
+    // const checkoutResponse = await window
+    //   .Stripe(`${process.env.REACT_APP_STRIPE_KEY}`)
+    //   .redirectToCheckout({
+    //     // Make the id field from the Checkout Session creation API response
+    //     // available to this file, so you can provide it as parameter here
+    //     // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
+    //     sessionId: id,
+    //   });
     debugger;
     // .then((result) => {
     //   // If `redirectToCheckout` fails due to a browser or network

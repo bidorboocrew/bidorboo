@@ -50,6 +50,9 @@ module.exports = (app) => {
         }
         const { _bidderRef, bidAmount } = theBid;
 
+        // const x = await stripeServiceUtil.getPaymentIntents();
+        // "cus_FdV8pImnyoVJDp",
+        // const y = await stripeServiceUtil.updateCustomerDetails();
         let stripeAccDetails = await userDataAccess.getUserStripeAccount(_bidderRef._id.toString());
 
         if (!stripeAccDetails.accId) {
@@ -94,7 +97,7 @@ module.exports = (app) => {
 
           // const bidderPayoutAmount = chargeAmount - bidOrBooTotalCommission;
 
-          const { id } = await stripeServiceUtil.retrieveTaskChargeSessionId({
+          const { client_secret } = await stripeServiceUtil.createPaymentIntent({
             metadata: {
               bidderId: _bidderRef._id.toString(),
               bidderEmail: _bidderRef.email.emailAddress,
@@ -112,7 +115,7 @@ module.exports = (app) => {
             requesterId: _ownerRef._id.toString(),
           });
 
-          return res.status(200).send({ session: { id } });
+          return res.status(200).send({ clientSecret: client_secret });
 
           // console.log('-------BidOrBooLogging----------------------');
           // console.log('BidOrBooPayment - initiated charge details');
