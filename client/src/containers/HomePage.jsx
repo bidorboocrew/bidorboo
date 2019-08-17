@@ -119,9 +119,9 @@ export default class HomePage extends React.Component {
 
 const RequestAService = (props) => {
   return (
-    <div style={{ height: '31rem' }} className="card cardWithButton">
+    <div style={{ height: '32rem' }} className="card cardWithButton">
       <div className="card-image">
-        <figure className="image is-4by3">
+        <figure className="image">
           <img src={REQUESTER_MAINPAGE} alt="Placeholder image" />
         </figure>
       </div>
@@ -149,9 +149,9 @@ const RequestAService = (props) => {
 
 const ProvideAService = () => {
   return (
-    <div style={{ height: '31rem' }} className="card cardWithButton">
+    <div style={{ height: '32rem' }} className="card cardWithButton">
       <div className="card-image">
-        <figure className="image is-4by3">
+        <figure className="image">
           <img src={TASKER_MAINPAGE} alt="Placeholder image" />
         </figure>
       </div>
@@ -219,7 +219,7 @@ const VideoExplanation = () => {
   return (
     <div style={{ height: 'unset' }} className="card">
       <div className="card-image">
-        <figure className="image is-4by3">
+        <figure className="image">
           <img src={howItWorks} alt="Placeholder image" />
         </figure>
       </div>
