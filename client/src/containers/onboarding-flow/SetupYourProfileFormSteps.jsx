@@ -41,10 +41,12 @@ const Step2 = ({
   showEmailVerificationStep,
   showTosStep,
   isEmailAlreadyVerified,
+  showSetupPhoneStep,
+  renderVerificationSection = false,
 }) => {
   return (
     <div style={{ position: 'relative' }}>
-      <div className="subtitle has-text-weight-bold">Let's Setup Your Phone Number</div>
+      <div className="subtitle has-text-weight-bold">PHONE VERIFICATION</div>
       <div className="slide-in-right field" style={{ height: '10rem' }}>
         <UpdatePhoneNumberField
           showPhoneVerificationStep={showPhoneVerificationStep}
@@ -52,7 +54,17 @@ const Step2 = ({
           onSubmit={onSubmit}
         />
       </div>
-      <br />
+
+      {renderVerificationSection && (
+        <div className="slide-in-right field">
+          <div className="group">
+            <label className="label hasSelectedValue">{`We've sent the Code to: `}</label>
+            <div>{`${userDetails.phone.phoneNumber}`}</div>
+          </div>
+          <VerifyPhoneField {...{ userDetails, showTosStep, showSetupPhoneStep }} />
+        </div>
+      )}
+
       <button onClick={showTosStep} className="button is-white is-pulled-right">
         <span>SKIP</span>
         <span className="icon">
@@ -332,12 +344,15 @@ export class SetupYourProfileFormSteps extends React.Component {
         break;
       case 3:
         stepToRender = (
-          <Step3
+          <Step2
+            {...this.props}
             isEmailAlreadyVerified={isEmailAlreadyVerified}
             isPhoneAlreadyVerified={isPhoneAlreadyVerified}
-            {...this.props}
             showTosStep={this.showTosStep}
-            showSetupPhoneStep={this.showSetupPhoneStep}
+            showEmailVerificationStep={this.showEmailVerificationStep}
+            showPhoneVerificationStep={this.showPhoneVerificationStep}
+            onSubmit={updateProfileDetails}
+            renderVerificationSection
           />
         );
         break;

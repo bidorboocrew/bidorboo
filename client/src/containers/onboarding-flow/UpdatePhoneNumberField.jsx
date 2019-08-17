@@ -1,11 +1,9 @@
 import React from 'react';
-import Dropzone from 'react-dropzone';
-import axios from 'axios';
 
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
-import { TextInput, TextAreaInput } from '../../components/forms/FormsHelpers';
-import { alphanumericField, phoneNumber } from '../../components/forms/FormsValidators';
+import { TextInput } from '../../components/forms/FormsHelpers';
+import { phoneNumber } from '../../components/forms/FormsValidators';
 
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
@@ -35,18 +33,7 @@ const EnhancedForms = withFormik({
 });
 
 const UpdatePhoneNumberField = (props) => {
-  const {
-    values,
-    touched,
-    errors,
-    setFieldValue,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-    onCancel,
-    isValid,
-    isSubmitting,
-  } = props;
+  const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
 
   return (
     <form onSubmit={handleSubmit}>
@@ -64,7 +51,7 @@ const UpdatePhoneNumberField = (props) => {
       />
 
       <button style={{ borderRadius: 0 }} className="button is-success" type="submit">
-        {`SAVE MY NUMBER`}
+        {`SAVE THIS NUMBER`}
       </button>
     </form>
   );
