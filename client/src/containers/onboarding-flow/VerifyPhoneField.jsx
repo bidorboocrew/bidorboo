@@ -62,7 +62,16 @@ class VerifyPhoneField extends React.Component {
           />
         </div>
         <div>
-          <div
+          <button
+            style={{ borderRadius: 0, boxShadow: 'none' }}
+            onClick={this.handleSendNewCode}
+            className="button is-text"
+            disabled={isResendingVCode || verifyingPhoneInProgress}
+          >
+            {`${isResendingVCode ? 'Code Was Sent' : 'Resend My Code'}`}
+          </button>
+          <button
+            style={{ marginLeft: 6, borderRadius: 0 }}
             onClick={() => {
               if (!isResendingVCode || !verifyingPhoneInProgress) {
                 if (!inputCodeContent) {
@@ -78,14 +87,6 @@ class VerifyPhoneField extends React.Component {
             className="button is-success"
           >
             Verify Phone
-          </div>
-          <button
-            style={{ marginLeft: 6 }}
-            onClick={this.handleSendNewCode}
-            className="button"
-            disabled={isResendingVCode || verifyingPhoneInProgress}
-          >
-            {`${isResendingVCode ? 'Code Was Sent' : 'Resend My Code'}`}
           </button>
         </div>
         <div className="help">* Check your phone text msgs</div>
