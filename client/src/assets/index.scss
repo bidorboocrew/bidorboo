@@ -327,6 +327,9 @@ a.navbar-item.is-active {
 .title:last-child {
   margin-bottom: 1.5rem;
 }
+.button.is-white {
+  border: 1px solid grey !important;
+}
 $family-primary: 'Work Sans', sans-serif;
 $family-sans-serif: 'Work Sans', sans-serif;
 $body-background-color: #eeeeee;
@@ -465,7 +468,8 @@ input[type='radio'] {
 }
 .button {
   border-radius: 25px;
-  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  // 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
 }
 .tabs {
   background: white;

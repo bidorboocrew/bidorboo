@@ -41,9 +41,11 @@ class AcceptBidPaymentHandling extends React.Component {
     // https://github.com/azmenak/react-stripe-checkout
     return (
       <StripeCheckout
-        name="BidOrBoo"
+        name="BIDORBOO INC"
         image={logoImg}
-        description="Secure payment via stripe"
+        style={{ background: '#ee2a36', color: 'white', fontWeight: 500, fontSize: 18 }}
+        panelLabel={'Book your tasker'}
+        description="Secure payment to book your Tasker"
         amount={this.chargeAmount}
         currency="CAD"
         zipCode
