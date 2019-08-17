@@ -40,7 +40,7 @@ export default class HomePage extends React.Component {
                 onClick={(e) => {
                   switchRoute(ROUTES.CLIENT.PROPOSER.root);
                 }}
-                className="button is-success is-medium"
+                className="button is-medium is-white"
               >
                 <span className="icon">
                   <i className="far fa-plus-square" />
