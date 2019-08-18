@@ -136,8 +136,8 @@ https: exports.util = {
     // const bidderPayoutAmount = chargeAmount - bidOrBooTotalCommission;
 
     return stripe.checkout.sessions.create({
-      success_url: `http://localhost:3000/my-request/review-request-details/${taskId}/?success=true`,
-      cancel_url: `http://localhost:3000/my-request/review-request-details/${taskId}/?success=false`,
+      success_url: `http://localhost:3000/my-request/awarded-job-details/${taskId}`,
+      cancel_url: `http://localhost:3000/my-request/review-request-details/${taskId}/?checkoutCancelled=true`,
       payment_method_types: ['card'],
       client_reference_id: requesterId,
       customer: requesterCustomerId,

@@ -71,10 +71,7 @@ export default class AcceptBidAndBidderModal extends React.Component {
           </section>
           <footer className="modal-card-foot">
             <button style={{ marginLeft: 4 }} onClick={closeModal} className="button">
-              <span className="icon">
-                <i className="far fa-arrow-alt-circle-left" />
-              </span>
-              <span>Go Back</span>
+              <span>Close</span>
             </button>
             <AcceptBidPaymentHandling
               bid={bid}

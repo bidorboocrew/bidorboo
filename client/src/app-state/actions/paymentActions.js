@@ -9,10 +9,8 @@ export const getMyStripeAccountDetails = () => (dispatch) =>
     payload: axios.get(ROUTES.API.PAYMENT.GET.myStripeAccountDetails),
   });
 
-export const submitPayment = ({ jobId, bidId, stripeTransactionToken, chargeAmount }) => (
-  dispatch,
-) => {
-  if (!jobId || !bidId || !stripeTransactionToken || !chargeAmount) {
+export const submitPayment = ({ jobId, bidId }) => async (dispatch) => {
+  if (!jobId || !bidId) {
     dispatch({
       type: A.UI_ACTIONS.SHOW_TOAST_MSG,
       payload: {
@@ -25,37 +23,88 @@ export const submitPayment = ({ jobId, bidId, stripeTransactionToken, chargeAmou
     });
     return;
   }
-debugger
-  dispatch({
-    type: A.PROPOSER_ACTIONS.AWARD_BIDDER_AND_MAKE_A_PAYMENT,
-    payload: axios
-      .post(ROUTES.API.PAYMENT.POST.payment, {
-        data: {
-          jobId,
-          bidId,
-          stripeTransactionToken,
-          chargeAmount,
-        },
-      })
-      .then((resp) => {
-        // axios.get(ROUTES.API.PAYMENT.GET.payment).then((resp) => {});
-        debugger;
-        // update recently added job
-        if (resp.data && resp.data.success) {
-          // dispatch({
-          //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-          //   payload: {
-          //     toastDetails: {
-          //       type: 'success',
-          //       msg: 'Your transaction was successul',
-          //     },
-          //   },
-          // });
-          // switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
-        }
-      })
-      .catch((error) => {
-        throwErrorNotification(dispatch, error);
-      }),
-  });
+
+  try {
+    const {
+      data: { sessionClientId },
+    } = await axios.post(ROUTES.API.PAYMENT.POST.payment, {
+      data: {
+        jobId,
+        bidId,
+      },
+    });
+    debugger;
+    const checkoutResults = await window
+      .Stripe(`${process.env.REACT_APP_STRIPE_KEY}`)
+      .redirectToCheckout({
+        sessionId: sessionClientId,
+      });
+    debugger;
+
+    dispatch({
+      type: A.PROPOSER_ACTIONS.AWARD_BIDDER_AND_MAKE_A_PAYMENT,
+      payload: window
+        .Stripe(`${process.env.REACT_APP_STRIPE_KEY}`)
+        .redirectToCheckout({
+          sessionId: sessionClientId,
+        })
+        .then((resp) => {
+          // axios.get(ROUTES.API.PAYMENT.GET.payment).then((resp) => {});
+          debugger;
+          // update recently added job
+          if (resp.data && resp.data.success) {
+            // dispatch({
+            //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+            //   payload: {
+            //     toastDetails: {
+            //       type: 'success',
+            //       msg: 'Your transaction was successul',
+            //     },
+            //   },
+            // });
+            switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
+          } else if (resp.data.error) {
+            resp.error.safeMsg = resp.data.error.message;
+            throwErrorNotification(dispatch, resp.data.error);
+          }
+        })
+        .catch((error) => {
+          throwErrorNotification(dispatch, error);
+        }),
+    });
+  } catch (error) {
+    throwErrorNotification(dispatch, error);
+  }
+
+  // debugger;
+  // dispatch({
+  //   type: A.PROPOSER_ACTIONS.AWARD_BIDDER_AND_MAKE_A_PAYMENT,
+  //   payload: axios
+  //     .post(ROUTES.API.PAYMENT.POST.payment, {
+  //       data: {
+  //         jobId,
+  //         bidId,
+  //       },
+  //     })
+  //     .then((resp) => {
+  //       // axios.get(ROUTES.API.PAYMENT.GET.payment).then((resp) => {});
+  //       debugger;
+  //       // update recently added job
+  //       if (resp.data && resp.data.success) {
+  //         // dispatch({
+  //         //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+  //         //   payload: {
+  //         //     toastDetails: {
+  //         //       type: 'success',
+  //         //       msg: 'Your transaction was successul',
+  //         //     },
+  //         //   },
+  //         // });
+  //         switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       throwErrorNotification(dispatch, error);
+  //     }),
+  // });
 };

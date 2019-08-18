@@ -13,60 +13,63 @@ import * as ROUTES from '../../../constants/frontend-route-consts';
 const BIDORBOO_SERVICECHARGE = 0.06;
 
 class AcceptBidPaymentHandling extends React.Component {
-  onTokenResponse = (clientStripeToken) => {
-    const { bid, onCompleteHandler, submitPayment } = this.props;
+  // onTokenResponse = (clientStripeToken) => {
+  //   const { bid, onCompleteHandler, submitPayment } = this.props;
 
-    if (clientStripeToken && clientStripeToken.id) {
-      submitPayment({
-        jobId: bid._jobRef,
-        bidId: bid._id,
-        chargeAmount: this.chargeAmount,
-      });
+  //   if (clientStripeToken && clientStripeToken.id) {
+  //     submitPayment({
+  //       jobId: bid._jobRef,
+  //       bidId: bid._id,
+  //       chargeAmount: this.chargeAmount,
+  //     });
 
-      if (onCompleteHandler && typeof onCompleteHandler === 'function') {
-        onCompleteHandler();
-      }
-    }
-  };
+  //     if (onCompleteHandler && typeof onCompleteHandler === 'function') {
+  //       onCompleteHandler();
+  //     }
+  //   }
+  // };
 
-  async componentDidMount() {
-    const { bid } = this.props;
+  // async componentDidMount() {
+  //   const { bid } = this.props;
 
-    try {
-      const {
-        data: { sessionClientId },
-      } = await axios.post(ROUTES.API.PAYMENT.POST.payment, {
-        data: {
-          jobId: bid._jobRef,
-          bidId: bid._id,
-        },
-      });
-      debugger;
-      const checkoutResults = await window
-        .Stripe(`${process.env.REACT_APP_STRIPE_KEY}`)
-        .redirectToCheckout({
-          // Make the id field from the Checkout Session creation API response
-          // available to this file, so you can provide it as parameter here
-          // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
-          sessionId: sessionClientId,
-        });
-      debugger;
-    } catch (e) {
-      console.error(e);
-    }
-  }
+  //   try {
+  //     const {
+  //       data: { sessionClientId },
+  //     } = await axios.post(ROUTES.API.PAYMENT.POST.payment, {
+  //       data: {
+  //         jobId: bid._jobRef,
+  //         bidId: bid._id,
+  //       },
+  //     });
+
+  //     const checkoutResults = await window
+  //       .Stripe(`${process.env.REACT_APP_STRIPE_KEY}`)
+  //       .redirectToCheckout({
+  //         // Make the id field from the Checkout Session creation API response
+  //         // available to this file, so you can provide it as parameter here
+  //         // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
+  //         sessionId: sessionClientId,
+  //       });
+  //     debugger;
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // }
   render() {
-    const { bid } = this.props;
-
-    // confirm award and pay
-    const bidAmount = bid.bidAmount.value;
-    const bidOrBooServiceFee = Math.ceil(bidAmount * BIDORBOO_SERVICECHARGE);
-    let totalAmount = bidAmount + bidOrBooServiceFee;
-
-    this.chargeAmount = totalAmount * 100; // as stipe checkout expects cents so 100 cent is 1 dollar
+    const { submitPayment, bid } = this.props;
 
     // https://github.com/azmenak/react-stripe-checkout
-    return <div />;
+    return (
+      <button
+        onClick={() => submitPayment({ jobId: bid._jobRef, bidId: bid._id })}
+        className="button is-success"
+      >
+        <span>Proceed To Checkout</span>
+        <span className="icon">
+          <i className="fas fa-chevron-right" />
+        </span>
+      </button>
+    );
   }
 }
 
