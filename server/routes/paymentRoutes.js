@@ -64,9 +64,9 @@ module.exports = (app) => {
 
         const BIDORBOO_SERVICECHARGE = 0.06;
         // confirm award and pay
-        const checkActualBidAmount = bidAmount.value;
+        const checkActualBidAmount = bidAmount.value * 100;
         const bidOrBooServiceFee = Math.ceil(checkActualBidAmount * BIDORBOO_SERVICECHARGE);
-        let totalAmount = (checkActualBidAmount + bidOrBooServiceFee) * 100;
+        let totalAmount = checkActualBidAmount + bidOrBooServiceFee;
 
         let stripeAccDetails = await userDataAccess.getUserStripeAccount(bidderId);
 
@@ -424,6 +424,35 @@ module.exports = (app) => {
             });
             sendGridEmailing.informBobCrewAboutFailedPayment({ jobId, data });
             break;
+        }
+      }
+      return res.status(200).send();
+    } catch (e) {
+      return res.status(400).send({ errorMsg: 'payoutsWebhook failured', details: `${e}` });
+    }
+  });
+
+  app.post(ROUTES.API.PAYMENT.POST.checkoutFulfillment, async (req, res, next) => {
+    try {
+      console.log('payoutsWebhook is triggered');
+
+      // sign key by strip
+      let endpointSecret = `whsec_Su0gotLFc9a56WNs1NOCYLliReHjHjlr`;
+      let sig = req.headers['stripe-signature'];
+      let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
+      if (event) {
+        const { id, account, type, data } = event;
+
+        // update customer card with card in this
+        // update address
+        if (type === 'checkout.session.completed') {
+          const session = event.data.object;
+          const { payment_intent } = session;
+          const paymentIntentDetails = await stripeServiceUtil.getPaymentIntents(payment_intent);
+          const {customer,payment_method} = paymentIntentDetails;
+          const x = 1;
+          // Fulfill the purchase...
+          // handleCheckoutSession(session);
         }
       }
       return res.status(200).send();

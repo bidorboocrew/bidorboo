@@ -30,6 +30,7 @@ module.exports = {
         personsWebhook: '/api/stripewebhook/persons',
         connectedAccountsWebhook: '/api/stripewebhook/connectedAccounts',
         payoutsWebhook: '/api/stripewebhook/payoutsWebhook',
+        checkoutFulfillment: '/api/stripewebhook/checkoutFulfillment',
       },
       GET: {
         // requestCharge: '/api/requestCharge',

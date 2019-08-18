@@ -2,7 +2,7 @@ import React from 'react';
 
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
-import howItWorks from '../assets/images/howItWorks.png';
+import HOW_IT_WORKS from '../assets/images/HOW_IT_WORKS.png';
 import MainBanner from '../assets/images/MainBanner.png';
 import REQUESTER_MAINPAGE from '../assets/images/REQUESTER_MAINPAGE.png';
 import TASKER_MAINPAGE from '../assets/images/TASKER_MAINPAGE.png';
@@ -220,7 +220,7 @@ const VideoExplanation = () => {
     <div style={{ height: 'unset' }} className="card">
       <div className="card-image">
         <figure className="image">
-          <img src={howItWorks} alt="Placeholder image" />
+          <img src={HOW_IT_WORKS} alt="Placeholder image" />
         </figure>
       </div>
       <div className="card-content">

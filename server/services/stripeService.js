@@ -136,7 +136,7 @@ https: exports.util = {
     // const bidderPayoutAmount = chargeAmount - bidOrBooTotalCommission;
 
     return stripe.checkout.sessions.create({
-      success_url: `http://localhost:3000/review-request-details/${taskId}/?success=true`,
+      success_url: `http://localhost:3000/my-request/review-request-details/${taskId}/?success=true`,
       cancel_url: `http://localhost:3000/my-request/review-request-details/${taskId}/?success=false`,
       payment_method_types: ['card'],
       client_reference_id: requesterId,
@@ -268,12 +268,12 @@ https: exports.util = {
       });
     }
   },
-  getPaymentIntents: () => {
-    return stripe.paymentIntents.retrieve('pi_1F8E6nIkbQJUBZs8DeTVvDwy');
+  getPaymentIntents: (intentId) => {
+    return stripe.paymentIntents.retrieve(intentId);
   },
-  updateCustomerDetails: () => {
-    return stripe.paymentMethods.attach('pm_1F8E8DIkbQJUBZs8R7wnqWuH', {
-      customer: 'cus_FdV8pImnyoVJDp',
+  updateCustomerDetails: (paymentMethodId, customerId) => {
+    return stripe.paymentMethods.attach(paymentMethodId, {
+      customer: customerId,
     });
     // return stripe.customers.update('cus_FdV8pImnyoVJDp', {
     //   invoice_settings: {
