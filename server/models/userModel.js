@@ -184,10 +184,6 @@ const UserSchema = new Schema(
       },
       public_id: { type: String },
     },
-    stripeCustomerAcc: {
-      customerId: { type: String },
-      lastUsedPaymentMethod: { type: String },
-    },
     addressText: {
       type: String,
       maxlength: [
@@ -238,6 +234,13 @@ const UserSchema = new Schema(
       front: { type: String },
       back: { type: String },
       isVerified: { type: Boolean },
+    },
+    stripeCustomerAccId: {
+      type: String,
+      required: [
+        true,
+        'We could not establish a stripe customer account. In order to proceed please chat with us via the chat button in the footer',
+      ],
     },
     stripeConnect: {
       accId: { type: String },

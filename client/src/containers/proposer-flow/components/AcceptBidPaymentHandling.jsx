@@ -1,12 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import axios from 'axios';
 
 import StripeCheckout from 'react-stripe-checkout';
 
 import logoImg from '../../../assets/images/android-chrome-192x192.png';
 
 import { submitPayment } from '../../../app-state/actions/paymentActions';
+import * as ROUTES from '../../../constants/frontend-route-consts';
 
 const BIDORBOO_SERVICECHARGE = 0.06;
 
@@ -18,7 +20,6 @@ class AcceptBidPaymentHandling extends React.Component {
       submitPayment({
         jobId: bid._jobRef,
         bidId: bid._id,
-        stripeTransactionToken: clientStripeToken.id,
         chargeAmount: this.chargeAmount,
       });
 
@@ -28,6 +29,32 @@ class AcceptBidPaymentHandling extends React.Component {
     }
   };
 
+  async componentDidMount() {
+    const { bid } = this.props;
+
+    try {
+      const {
+        data: { sessionClientId },
+      } = await axios.post(ROUTES.API.PAYMENT.POST.payment, {
+        data: {
+          jobId: bid._jobRef,
+          bidId: bid._id,
+        },
+      });
+      debugger;
+      const checkoutResults = await window
+        .Stripe(`${process.env.REACT_APP_STRIPE_KEY}`)
+        .redirectToCheckout({
+          // Make the id field from the Checkout Session creation API response
+          // available to this file, so you can provide it as parameter here
+          // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
+          sessionId: sessionClientId,
+        });
+      debugger;
+    } catch (e) {
+      console.error(e);
+    }
+  }
   render() {
     const { bid } = this.props;
 
@@ -39,29 +66,7 @@ class AcceptBidPaymentHandling extends React.Component {
     this.chargeAmount = totalAmount * 100; // as stipe checkout expects cents so 100 cent is 1 dollar
 
     // https://github.com/azmenak/react-stripe-checkout
-    return (
-      <StripeCheckout
-        name="BIDORBOO INC"
-        image={logoImg}
-        className="button is-success"
-        style={{ background: '#ee2a36', color: 'white', fontWeight: 500, fontSize: 18 }}
-        description="Book your tasker via Stripe Secure payment"
-        amount={this.chargeAmount}
-        currency="CAD"
-        zipCode
-        billingAddress
-        allowRememberMe
-        token={this.onTokenResponse}
-        stripeKey={process.env.REACT_APP_STRIPE_KEY}
-      >
-        <button className="button is-success">
-          <span>Proceed to Checkout</span>
-          <span className="icon">
-            <i className="fas fa-chevron-right" />
-          </span>
-        </button>
-      </StripeCheckout>
-    );
+    return <div />;
   }
 }
 

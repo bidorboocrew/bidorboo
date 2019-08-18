@@ -738,6 +738,8 @@ exports.jobDataAccess = {
           _id: 1,
           notifications: 1,
           email: 1,
+          stripeCustomerAccId: 1,
+          taskImages: 1,
         },
       })
       .lean({ virtuals: true })

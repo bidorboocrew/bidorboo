@@ -4,6 +4,7 @@ const User = mongoose.model('UserModel');
 const sendGridEmailing = require('../services/sendGrid').EmailService;
 const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
 const moment = require('moment');
+const stripeServiceUtil = require('../services/stripeService').util;
 
 exports.updateStripeAccountRequirementsDetails = ({
   eventId,
@@ -495,8 +496,14 @@ exports.resetAndSendEmailVerificationCode = (userId, emailAddress) => {
 exports.createNewUser = async (userDetails) => {
   return new Promise(async (resolve, reject) => {
     try {
+      const { id } = await stripeServiceUtil.initializeCustomer({
+        email: userDetails.email.emailAddress,
+        name: userDetails.displayName,
+      });
+
       const newUser = await new User({
         ...userDetails,
+        stripeCustomerAccId: id,
       }).save();
 
       if (newUser.email.emailAddress && !newUser.email.isVerified) {
