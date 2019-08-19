@@ -110,17 +110,16 @@ const EnhancedForms = withFormik({
     //   return;
     // }
 
-    const {
-      token: tokenizedBankAccount,
-      error: tokenizedBankAccountError,
-    } = await window.BidorBoo.stripe.createToken('bank_account', {
-      country: 'CA',
-      currency: 'cad',
-      account_holder_type: 'individual',
-      routing_number: `${transit_number}-${institution_number}`,
-      account_number,
-      account_holder_name: account_holder_full_name,
-    });
+    const { token: tokenizedBankAccount, error: tokenizedBankAccountError } = await window
+      .Stripe(`${process.env.REACT_APP_STRIPE_KEY}`)
+      .createToken('bank_account', {
+        country: 'CA',
+        currency: 'cad',
+        account_holder_type: 'individual',
+        routing_number: `${transit_number}-${institution_number}`,
+        account_number,
+        account_holder_name: account_holder_full_name,
+      });
     if (tokenizedBankAccountError) {
       alert(JSON.stringify(tokenizedBankAccountError));
       setSubmitting(false);
