@@ -70,7 +70,7 @@ export default class RequesterCanceledByTaskerDetails extends React.Component {
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
-    const { proposerPaid } = processedPayment;
+    const { amount: requesterPaid } = processedPayment;
 
     return (
       <div
@@ -97,7 +97,7 @@ export default class RequesterCanceledByTaskerDetails extends React.Component {
                   seriously
                 </li>
                 <li>
-                  <strong>100% refund for the amount of {` $${proposerPaid / 100}`}</strong> was
+                  <strong>100% refund for the amount of {` $${requesterPaid / 100}`}</strong> was
                   issued back to your card.
                 </li>
                 <li>

@@ -23,6 +23,9 @@ const getAllContactDetails = require('../utils/commonDataUtils')
 
 const keys = require('../config/keys');
 
+const BIDORBOO_SERVICECHARGE_FOR_REQUESTER = 0.06;
+const BIDORBOO_SERVICECHARGE_TOTAL = 0.1;
+
 module.exports = (app) => {
   app.post(
     ROUTES.API.PAYMENT.POST.payment,
@@ -62,11 +65,14 @@ module.exports = (app) => {
             ? theJob.taskImages.map((image) => image.url)
             : [];
 
-        const BIDORBOO_SERVICECHARGE = 0.06;
         // confirm award and pay
         const checkActualBidAmount = bidAmount.value * 100;
-        const bidOrBooServiceFee = Math.ceil(checkActualBidAmount * BIDORBOO_SERVICECHARGE);
-        let totalAmount = checkActualBidAmount + bidOrBooServiceFee;
+        const chargeOnRequester = Math.ceil(
+          checkActualBidAmount * BIDORBOO_SERVICECHARGE_FOR_REQUESTER
+        );
+        const totalCharge = checkActualBidAmount + chargeOnRequester;
+
+        const bidOrBooServiceFee = totalCharge * BIDORBOO_SERVICECHARGE_TOTAL;
 
         let stripeAccDetails = await userDataAccess.getUserStripeAccount(bidderId);
 
@@ -109,7 +115,7 @@ module.exports = (app) => {
             taskId: jobId,
             taskName: theJob.displayTitle || theJob.templateId,
             requesterEmail,
-            totalCharge: totalAmount,
+            totalCharge,
             bidOrBooServiceFee,
             requesterId,
             taskerAccId: stripeAccDetails.accId,
@@ -440,8 +446,9 @@ module.exports = (app) => {
       let endpointSecret = `whsec_Su0gotLFc9a56WNs1NOCYLliReHjHjlr`;
       let sig = req.headers['stripe-signature'];
       let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
+
       if (event) {
-        const { id, account, type, data } = event;
+        const { type } = event;
 
         // update customer card with card in this
         // update address
@@ -449,13 +456,20 @@ module.exports = (app) => {
           const session = event.data.object;
           const { payment_intent } = session;
           const paymentIntentDetails = await stripeServiceUtil.getPaymentIntents(payment_intent);
-          const {customer,payment_method} = paymentIntentDetails;
-          const x = 1;
-          // Fulfill the purchase...
-          // handleCheckoutSession(session);
+          const { metadata, id } = paymentIntentDetails;
+
+          const { jobId, bidId, amount } = metadata;
+
+          const updateJobAndBid = await jobDataAccess.updateJobAwardedBid(jobId, bidId, {
+            paymentIntentId: id,
+            amount,
+          });
+          return res.status(200).send();
         }
       }
-      return res.status(200).send();
+      return res.status(400).send({
+        safeMsg: 'something went wrong handling payment, our crew wil be in touch with you',
+      });
     } catch (e) {
       return res.status(400).send({ errorMsg: 'payoutsWebhook failured', details: `${e}` });
     }

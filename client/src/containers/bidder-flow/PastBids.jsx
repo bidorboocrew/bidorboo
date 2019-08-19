@@ -126,6 +126,10 @@ class RequestSummary extends React.Component {
     const didProposerSubmitReview = proposerSubmitted;
 
     const bothSubmittedReview = bidderSubmitted && proposerSubmitted;
+
+    const taskerPayout =
+      (jobId.processedPayment.amount - 0.1 * jobId.processedPayment.amount) / 100;
+
     return (
       <div className="column">
         <div className="card">
@@ -144,8 +148,7 @@ class RequestSummary extends React.Component {
                     <DisplayLabelValue labelText={'Final Status'} labelValue={`${state}`} />
                     <div className="group">
                       <label className="label">You Earned</label>
-                      <div className="control is-success">{`${jobId.processedPayment.bidderPayout /
-                        100}$ (CAD)`}</div>
+                      <div className="control is-success">{`$${taskerPayout}`}</div>
                     </div>
                   </div>
                 </div>

@@ -143,7 +143,7 @@ class RequestSummary extends React.Component {
                     <DisplayLabelValue labelText={'Final Status'} labelValue={`${state}`} />
 
                     <label className="label">You Paid</label>
-                    <div className="is-size-5 is-success">{`${jobId.processedPayment.proposerPaid /
+                    <div className="is-size-5 is-success">{`${jobId.processedPayment.amount /
                       100}$ (CAD)`}</div>
                   </div>
                 </div>

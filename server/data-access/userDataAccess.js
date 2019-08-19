@@ -85,7 +85,7 @@ exports.getMyPastRequestedServices = (mongoUser_id) => {
         {
           path: 'jobId',
           select: {
-            'processedPayment.proposerPaid': 1,
+            processedPayment: 1,
             state: 1,
             jobCompletion: 1,
             location: 1,
@@ -128,7 +128,7 @@ exports.getMyPastProvidedServices = (mongoUser_id) => {
         {
           path: 'jobId',
           select: {
-            'processedPayment.bidderPayout': 1,
+            processedPayment: 1,
             state: 1,
             jobCompletion: 1,
             location: 1,

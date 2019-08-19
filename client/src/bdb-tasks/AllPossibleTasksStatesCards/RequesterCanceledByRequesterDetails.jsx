@@ -71,8 +71,8 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
-    const { proposerPaid } = processedPayment;
-    const refundAmount = Math.floor((proposerPaid / 100) * 0.8);
+    const { amount } = processedPayment;
+    const refundAmount = Math.floor((amount / 100) * 0.8);
 
     return (
       <div

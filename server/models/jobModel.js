@@ -17,13 +17,8 @@ const JobSchema = new Schema(
     },
     _reviewRef: { type: Schema.Types.ObjectId, ref: 'ReviewModel' },
     processedPayment: {
-      chargeId: { type: String },
+      paymentIntentId: { type: String },
       amount: { type: Number, min: 0, max: 10000 },
-      paymentSourceId: { type: String },
-      bidderPayout: { type: Number, min: 0, max: 10000 },
-      platformCharge: { type: Number, min: 0, max: 10000 },
-      proposerPaid: { type: Number, min: 0, max: 10000 },
-      bidderStripeAcc: { type: String },
       refund: {
         amount: { type: Number, min: 0, max: 10000 },
         charge: { type: String },
@@ -64,7 +59,6 @@ const JobSchema = new Schema(
       bidderDisputed: { type: Boolean, default: false },
       proposerDisputed: { type: Boolean, default: false },
     },
-
     // when a tasker cancels on this job hide it from them to avoid future bids by the asshole who canceled
     hideFrom: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }], //array of people who saw this/booed no longer wish to see it ..etc
     viewedBy: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }],

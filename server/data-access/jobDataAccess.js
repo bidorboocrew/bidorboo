@@ -424,67 +424,68 @@ exports.jobDataAccess = {
           }
 
           if (res && res.length > 0) {
-            res.forEach(async (job) => {
-              const { _id, processedPayment } = job;
-              const { chargeId, bidderPayout, bidderStripeAcc } = processedPayment;
-              const accDetails = await stripeServiceUtil.getConnectedAccountDetails(
-                bidderStripeAcc
-              );
+            //xxxx
+            // res.forEach(async (job) => {
+            //   const { _id, processedPayment } = job;
+            //   const { chargeId, bidderPayout, bidderStripeAcc } = processedPayment;
+            //   const accDetails = await stripeServiceUtil.getConnectedAccountDetails(
+            //     bidderStripeAcc
+            //   );
 
-              // confirm payouts enabeld
-              if (accDetails && accDetails.payouts_enabled) {
-                const [
-                  accountBalance,
-                  payoutsList,
-                ] = await stripeServiceUtil.getConnectedAccountBalance(bidderStripeAcc);
+            //   // confirm payouts enabeld
+            //   if (accDetails && accDetails.payouts_enabled) {
+            //     const [
+            //       accountBalance,
+            //       payoutsList,
+            //     ] = await stripeServiceUtil.getConnectedAccountBalance(bidderStripeAcc);
 
-                const isThereEnoughToCoverPayout =
-                  accountBalance &&
-                  accountBalance.available &&
-                  accountBalance.available.some((balance) => {
-                    return balance.amount >= bidderPayout;
-                  });
+            //     const isThereEnoughToCoverPayout =
+            //       accountBalance &&
+            //       accountBalance.available &&
+            //       accountBalance.available.some((balance) => {
+            //         return balance.amount >= bidderPayout;
+            //       });
 
-                // confirm there is enough available balance to cover payment
-                if (isThereEnoughToCoverPayout) {
-                  console.log('send payout');
+            //     // confirm there is enough available balance to cover payment
+            //     if (isThereEnoughToCoverPayout) {
+            //       console.log('send payout');
 
-                  const payoutInititated = await stripeServiceUtil.payoutToBank(bidderStripeAcc, {
-                    amount: bidderPayout,
-                    metadata: {
-                      chargeId,
-                      jobId: _id.toString(),
-                      bidderStripeAcc,
-                      note: 'Release Payout to Tasker',
-                    },
-                  });
-                  console.log({
-                    amount: bidderPayout,
-                    chargeId,
-                    jobId: _id.toString(),
-                    bidderStripeAcc,
-                    note: 'Release Payout to Tasker',
-                  });
+            //       const payoutInititated = await stripeServiceUtil.payoutToBank(bidderStripeAcc, {
+            //         amount: bidderPayout,
+            //         metadata: {
+            //           chargeId,
+            //           jobId: _id.toString(),
+            //           bidderStripeAcc,
+            //           note: 'Release Payout to Tasker',
+            //         },
+            //       });
+            //       console.log({
+            //         amount: bidderPayout,
+            //         chargeId,
+            //         jobId: _id.toString(),
+            //         bidderStripeAcc,
+            //         note: 'Release Payout to Tasker',
+            //       });
 
-                  const { id, status } = payoutInititated;
-                  // update job with the payment details
-                  await JobModel.findOneAndUpdate(
-                    { _id },
-                    {
-                      $set: {
-                        state: 'PAYMENT_RELEASED',
-                        payoutDetails: {
-                          id,
-                          status,
-                        },
-                      },
-                    },
-                    { new: true }
-                  );
-                }
-              }
-              console.log('-------BidOrBooLogging----------------------');
-            });
+            //       const { id, status } = payoutInititated;
+            //       // update job with the payment details
+            //       await JobModel.findOneAndUpdate(
+            //         { _id },
+            //         {
+            //           $set: {
+            //             state: 'PAYMENT_RELEASED',
+            //             payoutDetails: {
+            //               id,
+            //               status,
+            //             },
+            //           },
+            //         },
+            //         { new: true }
+            //       );
+            //     }
+            //   }
+            //   console.log('-------BidOrBooLogging----------------------');
+            // });
           }
         });
     },
@@ -1217,7 +1218,7 @@ exports.jobDataAccess = {
           },
         }
       )
-        .lean({ virtuals: true })
+        .lean()
         .exec(),
     ]);
   },
