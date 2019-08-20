@@ -330,6 +330,10 @@ a.navbar-item.is-active {
 .button.is-white {
   border: 1px solid grey !important;
 }
+.button.is-text {
+  box-shadow: none;
+}
+
 $family-primary: 'Work Sans', sans-serif;
 $family-sans-serif: 'Work Sans', sans-serif;
 $body-background-color: #eeeeee;

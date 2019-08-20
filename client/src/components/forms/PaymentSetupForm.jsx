@@ -15,12 +15,12 @@ import { Spinner } from '../../components/Spinner';
 
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
-    phone_number: Yup.string()
-      .ensure()
-      .trim()
-      .test('phone_number', 'invalid format. an example would be 9053334444', (inputText) => {
-        return phoneNumber(inputText);
-      }),
+    // phone_number: Yup.string()
+    //   .ensure()
+    //   .trim()
+    //   .test('phone_number', 'invalid format. an example would be 9053334444', (inputText) => {
+    //     return phoneNumber(inputText);
+    //   }),
     bank_name: Yup.string()
       .ensure()
       .trim()
@@ -69,7 +69,7 @@ const EnhancedForms = withFormik({
     const { phone, email } = userDetails;
 
     return {
-      phone_number: phone.phoneNumber,
+      // phone_number: phone.phoneNumber,
       email: email.emailAddress,
     };
   },
@@ -81,12 +81,13 @@ const EnhancedForms = withFormik({
       dob_month,
       dob_year,
       first_name,
+      initial_name,
       last_name,
       address_street,
       address_city,
       address_province,
       address_postalcode,
-      phone_number,
+      // phone_number,
       account_holder_full_name,
       account_number,
       institution_number,
@@ -118,7 +119,7 @@ const EnhancedForms = withFormik({
         account_holder_type: 'individual',
         routing_number: `${transit_number}-${institution_number}`,
         account_number,
-        account_holder_name: account_holder_full_name,
+        account_holder_name: first_name + ' ' + initial_name + ' ' + last_name,
       });
     if (tokenizedBankAccountError) {
       alert(JSON.stringify(tokenizedBankAccountError));
@@ -181,7 +182,7 @@ const EnhancedForms = withFormik({
         individual: {
           first_name,
           last_name,
-          phone: phone_number,
+          // phone: phone_number,
           verification: {
             document: {
               front: frontSideResp.data.id,
@@ -287,18 +288,19 @@ const PaymentSetupForm = (props) => {
         <div style={{ minHeight: 'unset', height: 'unset' }} className="card  limitLargeMaxWidth">
           <div style={{ minHeight: 'unset', height: 'unset' }} className="card-content">
             <HeaderTitle title="Setup My Banking Details" />
+            <div className="help">
+              * To speed up verification and avoid delays in payout please
+              <strong> enter all your details accurately</strong>
+            </div>
             <div className="card-content">
-              <label className="label">BASIC INFO</label>
+              <label style={{ borderBottom: '1px solid #353535' }} className="subtitle">
+                BASIC INFO
+              </label>
+              <br />
+              <br />
               <div className="field is-grouped">
-                <input
-                  id="account_holder_type"
-                  className="input is-invisible"
-                  type="hidden"
-                  value={'individual'}
-                />
                 <div style={{ marginRight: 10 }}>
                   <TextInput
-                    labelClassName=" "
                     id="first_name"
                     type="text"
                     label="First Name"
@@ -310,7 +312,17 @@ const PaymentSetupForm = (props) => {
                 </div>
                 <div style={{ marginRight: 10 }}>
                   <TextInput
-                    labelClassName=" "
+                    id="initial_name"
+                    type="text"
+                    label="Initial"
+                    error={touched.initial_name && errors.initial_name}
+                    value={values.initial_name || ''}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                </div>
+                <div style={{ marginRight: 10 }}>
+                  <TextInput
                     id="last_name"
                     type="text"
                     label="Last Name"
@@ -321,7 +333,7 @@ const PaymentSetupForm = (props) => {
                   />
                 </div>
               </div>
-              <TextInput
+              {/* <TextInput
                 id="phone_number"
                 type="text"
                 labelClassName=" "
@@ -330,7 +342,7 @@ const PaymentSetupForm = (props) => {
                 value={values.phone_number || ''}
                 onChange={handleChange}
                 onBlur={handleBlur}
-              />
+              /> */}
 
               <label className="label">Date of birth</label>
               <div className="field is-grouped">
@@ -432,8 +444,12 @@ const PaymentSetupForm = (props) => {
                   </div>
                 </div>
               </div>
-              <label className="label">PAYOUT BANK DETAILS</label>
-              <div className="group">
+              <label style={{ borderBottom: '1px solid #353535' }} className="subtitle">
+                PAYOUT BANK DETAILS
+              </label>
+              <br />
+              <br />
+              {/* <div className="group">
                 <TextInput
                   labelClassName=" "
                   id="account_holder_full_name"
@@ -448,7 +464,7 @@ const PaymentSetupForm = (props) => {
                   * The full name associated with this bank account as it appears on the bank
                   statement
                 </div>
-              </div>
+              </div> */}
               <div className="group">
                 <TextInput
                   labelClassName=" "
@@ -461,50 +477,48 @@ const PaymentSetupForm = (props) => {
                   onBlur={handleBlur}
                 />
                 <div style={{ marginTop: '-0.75rem' }} className="help">
-                  * examples : Royal Bank of Canada (RBC), Toronto-Dominion Bank (TD),Bank of
-                  Montreal (BMO) , Bank of Nova Scotia (Scotiabank),Canadian Imperial Bank of
-                  Commerce (CIBC) ..,etc
+                  * examples : Royal Bank of Canada (RBC), Toronto-Dominion Bank (TD) ..,etc
                 </div>
               </div>
-              <div className="field is-grouped">
-                <div style={{ marginRight: 10 }}>
-                  <TextInput
-                    labelClassName=" "
-                    id="transit_number"
-                    type="text"
-                    label="Transit Number"
-                    error={touched.transit_number && errors.transit_number}
-                    value={values.transit_number || ''}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                </div>
 
-                <div style={{ marginRight: 10 }}>
-                  <TextInput
-                    labelClassName=" "
-                    id="institution_number"
-                    type="text"
-                    label="Institution Number"
-                    error={touched.institution_number && errors.institution_number}
-                    value={values.institution_number || ''}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                </div>
-                <div style={{ marginRight: 10 }}>
-                  <TextInput
-                    labelClassName=" "
-                    id="account_number"
-                    type="text"
-                    label="Account Number"
-                    error={touched.account_number && errors.account_number}
-                    value={values.account_number || ''}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                </div>
+              <div style={{ marginRight: 10 }}>
+                <TextInput
+                  labelClassName=" "
+                  id="transit_number"
+                  type="text"
+                  label="Transit Number"
+                  error={touched.transit_number && errors.transit_number}
+                  value={values.transit_number || ''}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
               </div>
+
+              <div style={{ marginRight: 10 }}>
+                <TextInput
+                  labelClassName=" "
+                  id="institution_number"
+                  type="text"
+                  label="Institution Number"
+                  error={touched.institution_number && errors.institution_number}
+                  value={values.institution_number || ''}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+              </div>
+              <div style={{ marginRight: 10 }}>
+                <TextInput
+                  labelClassName=" "
+                  id="account_number"
+                  type="text"
+                  label="Account Number"
+                  error={touched.account_number && errors.account_number}
+                  value={values.account_number || ''}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+              </div>
+
               <a
                 style={{ marginTop: '-0.75rem' }}
                 href="https://res.cloudinary.com/hr6bwgs1p/image/upload/v1560997452/cheque.jpg"
@@ -515,92 +529,93 @@ const PaymentSetupForm = (props) => {
                 * click to view a sample cheque
               </a>
               <div className="group" />
-              <label className="label">ADDRESS DETAILS</label>
-              <div className="field is-grouped">
-                <div style={{ marginRight: 10 }}>
-                  <TextInput
-                    labelClassName=" "
-                    id="address_street"
-                    type="text"
-                    label="Street Address"
-                    error={touched.address_street && errors.address_street}
-                    value={values.address_street || ''}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                </div>
-                <div style={{ marginRight: 10 }}>
-                  <TextInput
-                    labelClassName=" "
-                    id="address_city"
-                    type="text"
-                    label="City"
-                    error={touched.address_city && errors.address_city}
-                    value={values.address_city || ''}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                </div>
-              </div>
+              <label style={{ borderBottom: '1px solid #353535' }} className="subtitle">
+                ADDRESS DETAILS
+              </label>
+              <br />
+              <br />
 
-              <div className="field is-grouped">
-                <div style={{ marginRight: 10 }}>
-                  <TextInput
-                    labelClassName=" "
-                    id="address_postalcode"
-                    type="text"
-                    label="Postal Code"
-                    error={touched.address_postalcode && errors.address_postalcode}
-                    value={values.address_postalcode || ''}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                </div>
+              <TextInput
+                labelClassName=" "
+                id="address_street"
+                type="text"
+                label="Street Address"
+                error={touched.address_street && errors.address_street}
+                value={values.address_street || ''}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              <TextInput
+                labelClassName=" "
+                id="address_city"
+                type="text"
+                label="City"
+                error={touched.address_city && errors.address_city}
+                value={values.address_city || ''}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
 
-                <div style={{ marginRight: 10 }} className="group">
-                  <label>Select Province</label>
-                  <div className="control">
-                    <div
-                      className={`select ${
-                        touched.address_province && errors.address_province ? 'is-danger' : ''
-                      }`}
+              <TextInput
+                labelClassName=" "
+                id="address_postalcode"
+                type="text"
+                label="Postal Code"
+                error={touched.address_postalcode && errors.address_postalcode}
+                value={values.address_postalcode || ''}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+
+              <div className="group">
+                <label className="label">Select Province</label>
+                <div className="control">
+                  <div
+                    className={`select ${
+                      touched.address_province && errors.address_province ? 'is-danger' : ''
+                    }`}
+                  >
+                    <select
+                      error={touched.address_province && errors.address_province}
+                      value={values.address_province || ''}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      id="address_province"
                     >
-                      <select
-                        error={touched.address_province && errors.address_province}
-                        value={values.address_province || ''}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        id="address_province"
-                      >
-                        <option>Province</option>
-                        {(() => {
-                          return [
-                            'AB',
-                            'BC',
-                            'MB',
-                            'NB',
-                            'NL',
-                            'NS',
-                            'NT',
-                            'NU',
-                            'ON',
-                            'PE',
-                            'QC',
-                            'SK',
-                            'YT',
-                          ].map((province) => (
-                            <option key={`province-${province}`} value={province}>
-                              {province}
-                            </option>
-                          ));
-                        })()}
-                      </select>
-                    </div>
+                      <option>Province</option>
+                      {(() => {
+                        return [
+                          'AB',
+                          'BC',
+                          'MB',
+                          'NB',
+                          'NL',
+                          'NS',
+                          'NT',
+                          'NU',
+                          'ON',
+                          'PE',
+                          'QC',
+                          'SK',
+                          'YT',
+                        ].map((province) => (
+                          <option key={`province-${province}`} value={province}>
+                            {province}
+                          </option>
+                        ));
+                      })()}
+                    </select>
                   </div>
                 </div>
               </div>
+
+              <label style={{ borderBottom: '1px solid #353535' }} className="subtitle">
+                ID Verification
+              </label>
+              <br />
+              <br />
               <input id="idFrontImg" className="input is-invisible" type="hidden" />
-              <label className="label">GOVERMENT ISSUED ID</label>
+
               <Dropzone
                 className="file is-boxed idVerification"
                 onDrop={(files) => {
@@ -666,21 +681,11 @@ const PaymentSetupForm = (props) => {
                   </label>
                 </div>
               </div>
+              <br />
               <div className="field is-grouped">
                 <div className="control">
                   <button
-                    style={{ marginRight: 6 }}
-                    className={`button is-success is-medium  ${isSubmitting ? 'is-loading' : ''}`}
-                    type="submit"
-                    disabled={isSubmitting || !isValid}
-                  >
-                    Submit
-                  </button>
-                </div>
-
-                <div className="control">
-                  <button
-                    className="button is-medium"
+                    className="button is-text is-medium"
                     type="submit"
                     disabled={isSubmitting}
                     onClick={(e) => {
@@ -690,12 +695,19 @@ const PaymentSetupForm = (props) => {
                   >
                     Cancel
                   </button>
+                  <div className="control">
+                    <button
+                      style={{ marginRight: 6 }}
+                      className={`button is-success is-medium  ${isSubmitting ? 'is-loading' : ''}`}
+                      type="submit"
+                      disabled={isSubmitting || !isValid}
+                    >
+                      Submit
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div className="help">
-                * To speed up verification and avoid delays in payout please
-                <strong> enter all your details accurately</strong>
-              </div>
+
               {/* <div className="help">
               * Provide your info as it appears on your legal document such as your: Passport,
               government-issued ID, or driver's license
