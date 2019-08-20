@@ -285,21 +285,24 @@ const PaymentSetupForm = (props) => {
           document.querySelector('#bidorboo-root-view'),
         )}
       <form onSubmit={handleSubmit}>
-        <div style={{ minHeight: 'unset', height: 'unset' }} className="card  limitLargeMaxWidth">
+        <div
+          style={{ minHeight: 'unset', height: 'unset' }}
+          className="card cardWithButton nofixedwidth"
+        >
           <div style={{ minHeight: 'unset', height: 'unset' }} className="card-content">
             <HeaderTitle title="Setup My Banking Details" />
             <div className="help">
               * To speed up verification and avoid delays in payout please
               <strong> enter all your details accurately</strong>
             </div>
+            {errorsList}
             <div className="card-content">
-              <label style={{ borderBottom: '1px solid #353535' }} className="subtitle">
+              <div style={{ borderBottom: '1px solid #353535' }} className="subtitle">
                 BASIC INFO
-              </label>
-              <br />
-              <br />
+              </div>
+
               <div className="field is-grouped">
-                <div style={{ marginRight: 10 }}>
+                <div style={{ marginRight: 15, maxWidth: 250 }}>
                   <TextInput
                     id="first_name"
                     type="text"
@@ -310,7 +313,7 @@ const PaymentSetupForm = (props) => {
                     onBlur={handleBlur}
                   />
                 </div>
-                <div style={{ marginRight: 10 }}>
+                <div style={{ maxWidth: 50 }}>
                   <TextInput
                     id="initial_name"
                     type="text"
@@ -321,17 +324,17 @@ const PaymentSetupForm = (props) => {
                     onBlur={handleBlur}
                   />
                 </div>
-                <div style={{ marginRight: 10 }}>
-                  <TextInput
-                    id="last_name"
-                    type="text"
-                    label="Last Name"
-                    error={touched.last_name && errors.last_name}
-                    value={values.last_name || ''}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                </div>
+              </div>
+              <div style={{ maxWidth: 250 }}>
+                <TextInput
+                  id="last_name"
+                  type="text"
+                  label="Last Name"
+                  error={touched.last_name && errors.last_name}
+                  value={values.last_name || ''}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
               </div>
               {/* <TextInput
                 id="phone_number"
@@ -444,11 +447,10 @@ const PaymentSetupForm = (props) => {
                   </div>
                 </div>
               </div>
-              <label style={{ borderBottom: '1px solid #353535' }} className="subtitle">
+              <div style={{ borderBottom: '1px solid #353535' }} className="subtitle">
                 PAYOUT BANK DETAILS
-              </label>
-              <br />
-              <br />
+              </div>
+
               {/* <div className="group">
                 <TextInput
                   labelClassName=" "
@@ -465,7 +467,8 @@ const PaymentSetupForm = (props) => {
                   statement
                 </div>
               </div> */}
-              <div className="group">
+
+              <div style={{ maxWidth: 250 }}>
                 <TextInput
                   labelClassName=" "
                   id="bank_name"
@@ -477,11 +480,11 @@ const PaymentSetupForm = (props) => {
                   onBlur={handleBlur}
                 />
                 <div style={{ marginTop: '-0.75rem' }} className="help">
-                  * examples : Royal Bank of Canada (RBC), Toronto-Dominion Bank (TD) ..,etc
+                  * examples : TD, RBC ..,etc
                 </div>
               </div>
 
-              <div style={{ marginRight: 10 }}>
+              <div style={{ maxWidth: 250 }}>
                 <TextInput
                   labelClassName=" "
                   id="transit_number"
@@ -494,7 +497,7 @@ const PaymentSetupForm = (props) => {
                 />
               </div>
 
-              <div style={{ marginRight: 10 }}>
+              <div style={{ maxWidth: 250 }}>
                 <TextInput
                   labelClassName=" "
                   id="institution_number"
@@ -506,7 +509,7 @@ const PaymentSetupForm = (props) => {
                   onBlur={handleBlur}
                 />
               </div>
-              <div style={{ marginRight: 10 }}>
+              <div style={{ maxWidth: 250 }}>
                 <TextInput
                   labelClassName=" "
                   id="account_number"
@@ -529,43 +532,46 @@ const PaymentSetupForm = (props) => {
                 * click to view a sample cheque
               </a>
               <div className="group" />
-              <label style={{ borderBottom: '1px solid #353535' }} className="subtitle">
+              <div style={{ borderBottom: '1px solid #353535' }} className="subtitle">
                 ADDRESS DETAILS
-              </label>
-              <br />
-              <br />
+              </div>
 
-              <TextInput
-                labelClassName=" "
-                id="address_street"
-                type="text"
-                label="Street Address"
-                error={touched.address_street && errors.address_street}
-                value={values.address_street || ''}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-              <TextInput
-                labelClassName=" "
-                id="address_city"
-                type="text"
-                label="City"
-                error={touched.address_city && errors.address_city}
-                value={values.address_city || ''}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-
-              <TextInput
-                labelClassName=" "
-                id="address_postalcode"
-                type="text"
-                label="Postal Code"
-                error={touched.address_postalcode && errors.address_postalcode}
-                value={values.address_postalcode || ''}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
+              <div style={{ maxWidth: 250 }}>
+                <TextInput
+                  labelClassName=" "
+                  id="address_street"
+                  type="text"
+                  label="Street Address"
+                  error={touched.address_street && errors.address_street}
+                  value={values.address_street || ''}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+              </div>
+              <div style={{ maxWidth: 250 }}>
+                <TextInput
+                  labelClassName=" "
+                  id="address_city"
+                  type="text"
+                  label="City"
+                  error={touched.address_city && errors.address_city}
+                  value={values.address_city || ''}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+              </div>
+              <div style={{ maxWidth: 250 }}>
+                <TextInput
+                  labelClassName=" "
+                  id="address_postalcode"
+                  type="text"
+                  label="Postal Code"
+                  error={touched.address_postalcode && errors.address_postalcode}
+                  value={values.address_postalcode || ''}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+              </div>
 
               <div className="group">
                 <label className="label">Select Province</label>
@@ -609,11 +615,10 @@ const PaymentSetupForm = (props) => {
                 </div>
               </div>
 
-              <label style={{ borderBottom: '1px solid #353535' }} className="subtitle">
+              <div style={{ borderBottom: '1px solid #353535' }} className="subtitle">
                 ID Verification
-              </label>
-              <br />
-              <br />
+              </div>
+
               <input id="idFrontImg" className="input is-invisible" type="hidden" />
 
               <Dropzone
@@ -682,32 +687,17 @@ const PaymentSetupForm = (props) => {
                 </div>
               </div>
               <br />
-              <div className="field is-grouped">
-                <div className="control">
-                  <button
-                    className="button is-text is-medium"
-                    type="submit"
-                    disabled={isSubmitting}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      onCancel(e);
-                    }}
-                  >
-                    Cancel
-                  </button>
-                  <div className="control">
-                    <button
-                      style={{ marginRight: 6 }}
-                      className={`button is-success is-medium  ${isSubmitting ? 'is-loading' : ''}`}
-                      type="submit"
-                      disabled={isSubmitting || !isValid}
-                    >
-                      Submit
-                    </button>
-                  </div>
-                </div>
-              </div>
 
+              <button
+                style={{ marginRight: 6 }}
+                className={`button is-success firstButtonInCard is-medium  ${
+                  isSubmitting ? 'is-loading' : ''
+                }`}
+                type="submit"
+                disabled={isSubmitting || !isValid}
+              >
+                Submit
+              </button>
               {/* <div className="help">
               * Provide your info as it appears on your legal document such as your: Passport,
               government-issued ID, or driver's license
