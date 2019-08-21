@@ -52,12 +52,15 @@ const BidSchema = new Schema(
 BidSchema.virtual('displayStatus').get(function() {
   const stateToDisplayName = {
     OPEN: 'Awaiting On Requester',
-    AWARDED: 'Winning Bid',
-    AWARDED_SEEN: 'Winning Bid',
-    AWARDED_BID_CANCELED_BY_REQUESTER: 'Requester Cancelled the Agreement',
+    AWARDED: 'Winning Bid', // when Tasker is awarded
+    AWARDED_SEEN: 'Winning Bid', // when tasker seen the awarded bid
+    DISPUTED: 'Dispute', // disputed task
     AWARDED_BID_CANCELED_BY_TASKER: 'Tasker Cancelled the Agreement',
-    DONE: 'Task is Completed',
-    PAYMENT_RELEASED: 'Paid Out',
+    AWARDED_BID_CANCELED_BY_REQUESTER: 'Requester Cancelled the Agreement',
+    DONE: 'Task is Completed', // when Requester confirms job is done
+    PAYMENT_RELEASED: 'Payment released to bank',
+    PAYMENT_TO_BANK_FAILED: 'Payout to bank failed',
+    ARCHIVE: 'Archived', //For historical record
   };
   return stateToDisplayName[this.state];
 });

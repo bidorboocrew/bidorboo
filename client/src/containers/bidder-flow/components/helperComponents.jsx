@@ -4,16 +4,6 @@ import moment from 'moment';
 
 import tasksDefinitions from '../../../bdb-tasks/tasksDefinitions';
 
-export const BID_STATUS_TO_DISPLAYLABEL = {
-  OPEN: 'Pending',
-  BOO: 'Boo',
-  BOO_SEEN: 'Boo',
-  AWARDED: 'Awarded',
-  AWARDED_SEEN: 'Awarded',
-  CANCEL: 'Cancelled',
-  CANCEL_SEEN: 'Cancelled',
-};
-
 export const AddAwardedJobToCalendar = ({ job }) => {
   if (!job) {
     return null;
