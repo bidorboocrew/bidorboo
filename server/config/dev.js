@@ -17,6 +17,7 @@ module.exports = {
   stripeSecretKey: 'sk_test_RdEh2fJUQNRxz1wuFSG06VQy',
   stripeWebhookConnectedAccSig: 'whsec_Y0IC3JsCypMml4DbTmHyeyA3wF0tbFV6',
   stripeWebhookPayoutAccSig: 'whsec_3ullPzWeNfvVRlEgaok8ZyC2OsQl6e1r',
+  stripeWebhookSessionSig: 'whsec_Su0gotLFc9a56WNs1NOCYLliReHjHjlr',
   sendGridKey: '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',
   cloudinaryCloudName: 'hr6bwgs1p',
   cloudinaryPublicApiKey: '199892955566316',

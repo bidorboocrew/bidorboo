@@ -443,7 +443,7 @@ module.exports = (app) => {
       console.log('payoutsWebhook is triggered');
 
       // sign key by strip
-      let endpointSecret = `whsec_Su0gotLFc9a56WNs1NOCYLliReHjHjlr`;
+      let endpointSecret = keys.stripeWebhookSessionSig;
       let sig = req.headers['stripe-signature'];
       let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
 
