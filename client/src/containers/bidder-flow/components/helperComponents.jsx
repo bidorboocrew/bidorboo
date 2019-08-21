@@ -8,8 +8,8 @@ export const BID_STATUS_TO_DISPLAYLABEL = {
   OPEN: 'Pending',
   BOO: 'Boo',
   BOO_SEEN: 'Boo',
-  WON: 'Awarded',
-  WON_SEEN: 'Awarded',
+  AWARDED: 'Awarded',
+  AWARDED_SEEN: 'Awarded',
   CANCEL: 'Cancelled',
   CANCEL_SEEN: 'Cancelled',
 };

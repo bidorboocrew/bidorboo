@@ -256,7 +256,7 @@ exports.findUserAndAllNewNotifications = async (userId) => {
   return new Promise(async (resolve, reject) => {
     try {
       // xxxxx maybe we should notify of canceled by tasker
-      const bidsWithUpdatedStatus = ['WON', 'AWARDED', 'AWARDED_BID_CANCELED_BY_REQUESTER'];
+      const bidsWithUpdatedStatus = ['AWARDED', 'AWARDED', 'AWARDED_BID_CANCELED_BY_REQUESTER'];
 
       const user = await User.findOne(
         { userId },
@@ -285,22 +285,10 @@ exports.findUserAndAllNewNotifications = async (userId) => {
             select: { isNewBid: 1 },
             match: { isNewBid: { $eq: true } },
           },
-          // populate: [
-          //   {
-          //     path: '_bidsListRef',
-          //     select: schemaHelpers.BidFull,
-          //     match: { isNewBid: { $eq: true } },
-          //   },
-          //   // {
-          //   path: '_reviewRef',
-          //   select: { _id: 1 },
-          //   match: { state: { $eq: 'AWAITING' } },
-          // },
-          // ],
         })
         .populate({
           path: '_postedBidsRef',
-          match: { state: { $eq: 'WON' } },
+          match: { state: { $eq: 'AWARDED' } },
           select: { _jobRef: 1 },
           populate: {
             path: '_jobRef',
@@ -380,7 +368,7 @@ exports.findUserAndAllNewNotifications = async (userId) => {
         user._postedBidsRef &&
         user._postedBidsRef
           .filter((myBid) => {
-            return myBid.state === 'WON';
+            return myBid.state === 'AWARDED';
           })
           .filter((myBid) => {
             const referenceJob = myBid._jobRef;

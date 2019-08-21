@@ -14,7 +14,7 @@ const stripeServiceUtil = require('../services/stripeService').util;
 const requireUserHasAStripeAccountOrInitalizeOne = require('../middleware/requireUserHasAStripeAccountOrInitalizeOne');
 // const requireHasAnExistingStripeAcc = require('../middleware/requireHasAnExistingStripeAcc');
 
-const { paymentDataAccess } = require('../data-access/paymentDataAccess');
+// const { paymentDataAccess } = require('../data-access/paymentDataAccess');
 const { jobDataAccess } = require('../data-access/jobDataAccess');
 const { bidDataAccess } = require('../data-access/bidDataAccess');
 
@@ -233,15 +233,15 @@ module.exports = (app) => {
     }
   );
 
-  app.get(ROUTES.API.PAYMENT.GET.payment, requireLogin, async (req, res) => {
-    try {
-      const paymentsDetails = await paymentDataAccess.getAllPaymentsDetails();
+  // app.get(ROUTES.API.PAYMENT.GET.payment, requireLogin, async (req, res) => {
+  //   try {
+  //     const paymentsDetails = await paymentDataAccess.getAllPaymentsDetails();
 
-      res.send({ paymentsDetails });
-    } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To create charge', details: `${e}` });
-    }
-  });
+  //     res.send({ paymentsDetails });
+  //   } catch (e) {
+  //     return res.status(400).send({ errorMsg: 'Failed To create charge', details: `${e}` });
+  //   }
+  // });
 
   app.put(
     ROUTES.API.PAYMENT.PUT.setupPaymentDetails,

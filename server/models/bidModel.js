@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
 
+const MIN_BID_AMOUNT = 10;
+const MAX_BID_AMOUNT = 5000;
 const BidSchema = new Schema(
   {
     _bidderRef: {
@@ -14,19 +16,28 @@ const BidSchema = new Schema(
       type: String,
       enum: [
         'OPEN',
+        'AWARDED', // when Tasker is awarded
+        'AWARDED_SEEN', // when tasker seen the awarded bid
+        'DISPUTED', // disputed task
         'AWARDED_BID_CANCELED_BY_TASKER',
         'AWARDED_BID_CANCELED_BY_REQUESTER',
-        'WON', // when Tasker is awarded
-        'WON_SEEN', // when tasker seen the awarded bid
         'DONE', // when Requester confirms job is done
-        'PAID_OUT', // When we issue release of funds
-        'ARCHIVED', // when stripe webhook infroms us that funds were recieved in thier bank
+        'PAYMENT_RELEASED',
+        'PAYMENT_TO_BANK_FAILED',
+        'ARCHIVE', //For historical record
       ],
       default: 'OPEN',
     },
     isNewBid: { type: Boolean, default: true }, // will be used to highlight unseen bids
     bidAmount: {
-      value: { type: Number, required: true },
+      value: {
+        type: Number,
+        required: true,
+        validate: {
+          validator: (bid) => bid >= MIN_BID_AMOUNT && bid <= MAX_BID_AMOUNT,
+          message: 'Minimum bid amount is ' + MIN_BID_AMOUNT + ' and maximum is ' + MAX_BID_AMOUNT,
+        },
+      },
       currency: {
         type: String,
         enum: ['CAD', 'USD'],
@@ -41,12 +52,12 @@ const BidSchema = new Schema(
 BidSchema.virtual('displayStatus').get(function() {
   const stateToDisplayName = {
     OPEN: 'Awaiting On Requester',
-    WON: 'Winning Bid',
-    WON_SEEN: 'Winning Bid',
+    AWARDED: 'Winning Bid',
+    AWARDED_SEEN: 'Winning Bid',
     AWARDED_BID_CANCELED_BY_REQUESTER: 'Requester Cancelled the Agreement',
     AWARDED_BID_CANCELED_BY_TASKER: 'Tasker Cancelled the Agreement',
     DONE: 'Task is Completed',
-    PAID_OUT: 'Paid out to Tasker',
+    PAYMENT_RELEASED: 'Paid Out',
   };
   return stateToDisplayName[this.state];
 });

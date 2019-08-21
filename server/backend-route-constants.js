@@ -34,7 +34,7 @@ module.exports = {
       },
       GET: {
         // requestCharge: '/api/requestCharge',
-        payment: '/api/payment',
+        // payment: '/api/payment',
         myStripeAccountDetails: '/api/myStripeAccountDetails',
       },
       PUT: {

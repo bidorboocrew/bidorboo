@@ -41,7 +41,7 @@ exports.bidDataAccess = {
         const bidDetails = await BidModel.findOne({
           _bidderRef: mongoUser_id,
           _id: bidId,
-          state: { $in: ['WON', 'WON_SEEN'] },
+          state: { $in: ['AWARDED', 'AWARDED_SEEN'] },
         })
           .populate([
             {
@@ -457,7 +457,7 @@ exports.bidDataAccess = {
         const user = await UserModel.findById(mongoUser_id.toString(), { _postedBidsRef: 1 })
           .populate({
             path: '_postedBidsRef',
-            match: { state: { $in: ['WON', 'WON_SEEN'] } },
+            match: { state: { $in: ['AWARDED', 'AWARDED_SEEN'] } },
             populate: {
               path: '_jobRef',
               select: {
@@ -596,10 +596,10 @@ exports.bidDataAccess = {
                     $in: [
                       'AWARDED_BID_CANCELED_BY_TASKER',
                       'AWARDED_BID_CANCELED_BY_REQUESTER',
-                      'WON',
-                      'WON_SEEN',
+                      'AWARDED',
+                      'AWARDED_SEEN',
                       'DONE',
-                      'PAID_OUT',
+                      'PAYMENT_RELEASED',
                     ],
                   },
                 },

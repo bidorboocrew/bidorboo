@@ -8,7 +8,7 @@ before((done) => {
   require('../models/userModel');
   require('../models/reviewModel');
   require('../models/jobModel');
-  require('../models/paymentModel');
+  // require('../models/paymentModel');
 
   mongoose.Promise = global.Promise;
 

@@ -1203,7 +1203,7 @@ exports.jobDataAccess = {
       BidModel.findOneAndUpdate(
         { _id: bidId },
         {
-          $set: { state: 'WON' },
+          $set: { state: 'AWARDED' },
         }
       )
         .lean(true)
@@ -1228,7 +1228,7 @@ exports.jobDataAccess = {
       BidModel.findOneAndUpdate(
         { _id: bidId },
         {
-          $set: { state: 'WON' },
+          $set: { state: 'AWARDED' },
         }
       )
         .lean(true)

@@ -33,13 +33,12 @@ export const submitPayment = ({ jobId, bidId }) => async (dispatch) => {
         bidId,
       },
     });
-    debugger;
+
     const checkoutResults = await window
       .Stripe(`${process.env.REACT_APP_STRIPE_KEY}`)
       .redirectToCheckout({
         sessionId: sessionClientId,
       });
-    debugger;
 
     dispatch({
       type: A.PROPOSER_ACTIONS.AWARD_BIDDER_AND_MAKE_A_PAYMENT,
@@ -49,19 +48,8 @@ export const submitPayment = ({ jobId, bidId }) => async (dispatch) => {
           sessionId: sessionClientId,
         })
         .then((resp) => {
-          // axios.get(ROUTES.API.PAYMENT.GET.payment).then((resp) => {});
-          debugger;
           // update recently added job
           if (resp.data && resp.data.success) {
-            // dispatch({
-            //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-            //   payload: {
-            //     toastDetails: {
-            //       type: 'success',
-            //       msg: 'Your transaction was successul',
-            //     },
-            //   },
-            // });
             switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
           } else if (resp.data.error) {
             resp.error.safeMsg = resp.data.error.message;
