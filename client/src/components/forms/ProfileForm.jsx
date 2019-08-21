@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import { TextInput, TextAreaInput } from './FormsHelpers';
 import { alphanumericField, phoneNumber } from './FormsValidators';
 
-const MAX_PARAGRAPH_LENGTH = 2000;
+const MAX_PARAGRAPH_LENGTH = 255;
 const MAX_NAME_LENGTH = 25;
 const MIN_NAME_LENGTH = 3;
 
