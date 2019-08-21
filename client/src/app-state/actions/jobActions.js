@@ -116,7 +116,9 @@ export const getPostedJobDetails = (jobId) => (dispatch) =>
 export const searchByLocation = (userSearchQuery) => (dispatch) => {
   const serverSearchQuery = {
     searchLocation: userSearchQuery.locationField,
-    searchRaduis: userSearchQuery.searchRadiusField * 1000, // translate to KM
+    searchRaduis: userSearchQuery.searchRadiusField
+      ? userSearchQuery.searchRadiusField * 1000
+      : 100000, // translate to KM
     jobTypeFilter: userSearchQuery.filterJobsByCategoryField, // list of categories to exclude from the search
   };
 
@@ -356,7 +358,6 @@ export const uploadTaskImages = (taskImages) => (dispatch) => {
   };
 
   if (taskImages && taskImages.length) {
-
     return dispatch({
       type: A.JOB_ACTIONS.ADD_NEW_JOB,
       payload: axios.put(ROUTES.API.JOB.PUT.jobImage, data, config).then((resp2) => {
