@@ -11,8 +11,6 @@ const ALLOWED_FILE_EXTENSIONS_MIME_TYPE = /image\/(?:jpg|gif|png|tiff|bmp|jpeg)/
 
 const keys = require('../config/keys');
 
-const storage = multer.memoryStorage();
-
 const multerWithConfigs = multer({
   limits: {
     fileSize: MAX_FILE_SIZE_IN_MB,

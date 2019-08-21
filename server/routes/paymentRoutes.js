@@ -414,7 +414,7 @@ module.exports = (app) => {
             jobDataAccess.updateJobById(jobId, {
               $set: {
                 state: 'ARCHIVE',
-                'payoutDetails.status': status,
+                'payoutDetails.status': { status, id },
               },
             });
             //xxx inform user that it is paid via msg email..etc
@@ -425,7 +425,7 @@ module.exports = (app) => {
             jobDataAccess.updateJobById(jobId, {
               $set: {
                 state: 'PAYMENT_TO_BANK_FAILED',
-                'payoutDetails.status': status,
+                'payoutDetails.status': { status, id },
               },
             });
             sendGridEmailing.informBobCrewAboutFailedPayment({ jobId, data });

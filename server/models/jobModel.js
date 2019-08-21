@@ -3,9 +3,15 @@ require('mongoose-geojson-schema');
 const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
 const moment = require('moment');
 
+const { detroyExistingImg } = require('../utils/utilities');
+
 const { Schema } = mongoose;
 
 const MAX_ADDRESS_LENGTH = 300;
+
+const MIN_BID_AMOUNT = 10 * 100;
+const MAX_BID_AMOUNT = 5000 * 100;
+const MAX_IMAGE_COUNT = 3;
 
 const JobSchema = new Schema(
   {
@@ -18,10 +24,10 @@ const JobSchema = new Schema(
     _reviewRef: { type: Schema.Types.ObjectId, ref: 'ReviewModel' },
     processedPayment: {
       paymentIntentId: { type: String },
-      amount: { type: Number, min: 0, max: 10000 },
+      amount: { type: Number, min: MIN_BID_AMOUNT * 100, max: MAX_BID_AMOUNT * 100 },
       refund: {
-        amount: { type: Number, min: 0, max: 10000 },
-        charge: { type: String },
+        amount: { type: Number, min: MIN_BID_AMOUNT, max: MAX_BID_AMOUNT },
+        paymentIntentId: { type: String },
         id: { type: String },
         status: { type: String },
       },
@@ -53,43 +59,75 @@ const JobSchema = new Schema(
         details: { type: String },
       },
     },
+
+    // why do we have this
     jobCompletion: {
       proposerConfirmed: { type: Boolean, default: false },
       bidderConfirmed: { type: Boolean, default: false },
       bidderDisputed: { type: Boolean, default: false },
       proposerDisputed: { type: Boolean, default: false },
     },
+
     // when a tasker cancels on this job hide it from them to avoid future bids by the asshole who canceled
     hideFrom: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }], //array of people who saw this/booed no longer wish to see it ..etc
     viewedBy: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }],
+
     detailedDescription: { type: String, trim: true, required: true },
     location: { type: mongoose.Schema.Types.Point, index: '2dsphere', required: true },
     addressText: {
       type: String,
       trim: true,
-      max: MAX_ADDRESS_LENGTH,
+      max: [
+        MAX_ADDRESS_LENGTH,
+        'Address text can not be longer than ' + MAX_ADDRESS_LENGTH + ' charachters',
+      ],
       required: [true, 'Address text is required'],
     },
-    startingDateAndTime: { type: Date, required: true, index: true, required: true },
-    templateId: { type: String, trim: true, required: true },
+    startingDateAndTime: {
+      type: Date,
+      required: true,
+      index: true,
+      required: true,
+      validate: {
+        validator: (val) => {
+          const now = moment()
+            .tz('America/Toronto')
+            .toISOString();
+
+          const normalizedStartDate = moment(val)
+            .tz('America/Toronto')
+            .toISOString();
+          const isJobScheduledTimePastDue = moment(normalizedStartDate).isSameOrBefore(now);
+          return !isJobScheduledTimePastDue;
+        },
+        message: 'You can attach a maximum of ' + MAX_IMAGE_COUNT + 'images',
+      },
+    },
+    templateId: {
+      type: String,
+      trim: true,
+      required: true,
+      enum: ['bdbCarDetailing', 'bdbHouseCleaning'],
+    },
     reported: { type: Number },
     payoutDetails: {
       id: { type: String },
       status: { type: String },
     },
-    taskImages: [
-      {
-        url: { type: String },
-        public_id: { type: String },
+    taskImages: {
+      type: [
+        {
+          url: { type: String },
+          public_id: { type: String },
+        },
+      ],
+      validate: {
+        validator: (val) => val && val.length <= MAX_IMAGE_COUNT,
+        message: 'You can attach a maximum of ' + MAX_IMAGE_COUNT + 'images',
       },
-    ],
+    },
     extras: { type: Object },
-    // jobImages: [
-    //   {
-    //     url: { type: String },
-    //     public_id: { type: String },
-    //   },
-    // ],
+
     // reschedule: {
     //   newTime: { type: Date },
     //   byWhom: { type: String, enum: ['owner', 'bidder'] },
@@ -182,12 +220,6 @@ JobSchema.virtual('displayStatus').get(function() {
 
 JobSchema.plugin(mongooseLeanVirtuals);
 
-// const cleanUpOnDeleteJob = ;
-
-// JobSchema.pre('update', cleanUpOnDeleteJob);
-
-// JobSchema.pre('update', cleanUpOnDeleteJob);
-
 JobSchema.pre('remove', async function(next) {
   const BidModel = mongoose.model('BidModel');
   const UserModel = mongoose.model('UserModel');
@@ -200,22 +232,27 @@ JobSchema.pre('remove', async function(next) {
       bidsToBeRemoved.forEach((bid) => {
         bidders.push(bid._bidderRef._id);
       });
-      const removeBids = await UserModel.update(
+
+      await UserModel.update(
         { _id: { $in: bidders } },
         { $pull: { _postedBidsRef: { $in: this._bidsListRef } } },
         { multi: true }
       )
         .lean()
         .exec();
-      const x = 0;
     }
 
-    const removeJobFromOwner = await UserModel.findByIdAndUpdate(this._ownerRef, {
+    await UserModel.findByIdAndUpdate(this._ownerRef, {
       $pull: { _postedJobsRef: { $in: [this._id] } },
     }).exec();
 
-    const deleteBid = await BidModel.remove({ _id: { $in: this._bidsListRef } }).exec();
-
+    await BidModel.remove({ _id: { $in: this._bidsListRef } }).exec();
+    // delete images from cloudinary xxxx
+    if (this.taskImages && this.taskImages.length > 0) {
+      await Promise.all(
+        this.taskImages.map(({ public_id }) => cloudinary.v2.uploader.destroy(public_id))
+      );
+    }
     next();
   } catch (e) {
     e.safeMsg = 'Encountered an error while deleting this job';
