@@ -36,9 +36,6 @@ require('./services/cloudinaryAndMulterFileUploader')(app);
 // initialize cookie session and body parser
 require('./services/cookieSessionAndParser')(app);
 
-// Automated tasks
-require('./services/CronRepeatingJobs')(app);
-
 // instantiate passport
 app.use(passport.initialize());
 app.use(passport.session());
@@ -66,6 +63,8 @@ app.use((err, req, res, next) => {
   res.status(err.statusCode).send(err.safeMsg); // All HTTP requests must have a response, so let's send back an error with its status code and message
 });
 
+require('./services/CronRepeatingJobs')(app);
+
 process.env.NODE_ENV === 'production' && app.use(bugsnagMiddleware.errorHandler);
 
 // serve the static js file
@@ -84,4 +83,6 @@ if (process.env.NODE_ENV === 'production') {
     console.log('serving dirname ' + path.resolve(__dirname, '../client', './build', 'index.html'));
     res.sendFile(path.resolve(__dirname, '../client', './build', 'index.html'));
   });
+
+  // Automated tasks
 }
