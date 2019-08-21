@@ -8,6 +8,12 @@ const stripe = require('stripe')(keys.stripeSecretKey);
 //   metadata: { jobId: jobId.toString(), proposerId: req.user._id.toString() },
 // });
 //stripe.com/docs/api/payouts/create
+
+let websiteUrl = 'http://localhost:3000';
+if (process.env.NODE_ENV === 'production') {
+  websiteUrl = 'https://www.bidorboo.com';
+}
+
 https: exports.util = {
   retrieveConnectedAccount: (account) => {
     return stripe.accounts.retrieve(account);
@@ -95,8 +101,8 @@ https: exports.util = {
       // requester._id.toString(),
 
       payment_method_types: ['card'],
-      success_url: `http://localhost:3000/my-request/review-request-details/${taskId}/?success=true`,
-      cancel_url: `http://localhost:3000/my-request/review-request-details/${taskId}/?success=false`,
+      success_url: `${websiteUrl}/my-request/review-request-details/${taskId}/?success=true`,
+      cancel_url: `${websiteUrl}/my-request/review-request-details/${taskId}/?success=false`,
     });
   },
 
@@ -136,8 +142,8 @@ https: exports.util = {
     // const bidderPayoutAmount = chargeAmount - bidOrBooTotalCommission;
 
     return stripe.checkout.sessions.create({
-      success_url: `http://localhost:3000/my-request/awarded-job-details/${taskId}`,
-      cancel_url: `http://localhost:3000/my-request/review-request-details/${taskId}/?checkoutCancelled=true`,
+      success_url: `${websiteUrl}/my-request/awarded-job-details/${taskId}`,
+      cancel_url: `${websiteUrl}/my-request/review-request-details/${taskId}/?checkoutCancelled=true`,
       payment_method_types: ['card'],
       client_reference_id: requesterId,
       customer: requesterCustomerId,

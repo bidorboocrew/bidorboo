@@ -1,14 +1,14 @@
 const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
-const requiresCheckPayBidderDetails = require('../middleware/requiresCheckPayBidderDetails');
+// const requiresCheckPayBidderDetails = require('../middleware/requiresCheckPayBidderDetails');
 const requireJobOwner = require('../middleware/requireJobOwner');
 const requireJobIsNotAwarded = require('../middleware/requireJobIsNotAwarded');
 const userDataAccess = require('../data-access/userDataAccess');
 
 const sendGridEmailing = require('../services/sendGrid').EmailService;
-const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
-const WebPushNotifications = require('../services/WebPushNotifications').WebPushNotifications;
+// const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
+// const WebPushNotifications = require('../services/WebPushNotifications').WebPushNotifications;
 
 const stripeServiceUtil = require('../services/stripeService').util;
 const requireUserHasAStripeAccountOrInitalizeOne = require('../middleware/requireUserHasAStripeAccountOrInitalizeOne');
@@ -18,8 +18,8 @@ const requireUserHasAStripeAccountOrInitalizeOne = require('../middleware/requir
 const { jobDataAccess } = require('../data-access/jobDataAccess');
 const { bidDataAccess } = require('../data-access/bidDataAccess');
 
-const getAllContactDetails = require('../utils/commonDataUtils')
-  .getAwardedJobOwnerBidderAndRelevantNotificationDetails;
+// const getAllContactDetails = require('../utils/commonDataUtils')
+//   .getAwardedJobOwnerBidderAndRelevantNotificationDetails;
 
 const keys = require('../config/keys');
 
