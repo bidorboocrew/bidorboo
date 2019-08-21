@@ -49,12 +49,14 @@ require('./services/populateAppRoutes')(app);
 // error handling
 app.use((err, req, res, next) => {
   console.log('BIDORBOOLOGS ======== error handler BEGIN==========');
-  console.error(err); // Log error message in our server's console
+  console.log(err); // Log error message in our server's console
 
   if (!err.statusCode) {
     err.statusCode = 400;
   } // If err has no specified error code, set error code to 'Internal Server Error (500)'
-
+  if (err.message) {
+    err.safeMsg = err.message;
+  }
   if (!err.safeMsg) {
     err.safeMsg =
       "Sorry, something didn't work. Try again or chat with us using the chat bottom in the footer of this page.";

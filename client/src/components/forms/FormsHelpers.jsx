@@ -135,7 +135,7 @@ export const TextAreaInput = ({
     inputStateClass = 'hasSelectedValue';
   }
   return (
-    <div className={`group ${touched && id && touched[id] && error ? 'isError' : ''}`}>
+    <div className={`group ${error ? 'isError' : ''}`}>
       <label className={inputStateClass}>{label}</label>
       <div>
         <textarea
@@ -151,7 +151,7 @@ export const TextAreaInput = ({
       </div>
       {startWithTemplateButton && startWithTemplateButton}
       <HelpText helpText={helpText} />
-      {touched && id && touched[id] && error && <InputFeedback error={error} />}
+      {error && <InputFeedback error={error} />}
     </div>
   );
 };

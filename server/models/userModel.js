@@ -5,8 +5,11 @@ const { encryptData, compareEncryptedWithClearData } = require('../utils/utiliti
 require('mongoose-type-email');
 const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
 
-const MAX_PARAGRAPH_LENGTH = 500;
-const MAX_NAME_LENGTH = 50;
+const MAX_COMMENT_LENGTH = 500;
+const MIN_COMMENT_LENGTH = 10;
+const MAX_PARAGRAPH_LENGTH = 255;
+const MAX_NAME_LENGTH = 25;
+const MIN_NAME_LENGTH = 3;
 
 const ratingSchema = {
   totalOfAllRatings: {
@@ -50,9 +53,16 @@ const ratingSchema = {
     trim: true,
     validate: {
       validator: (latestComment) => {
-        return latestComment.length > 10 && latestComment.length < 500;
+        return (
+          latestComment.length > MIN_COMMENT_LENGTH && latestComment.length < MAX_COMMENT_LENGTH
+        );
       },
-      message: 'Review Comment must be between 10 and 500 charachters long',
+      message:
+        'Review Comment must be between ' +
+        MIN_COMMENT_LENGTH +
+        ' and ' +
+        MAX_COMMENT_LENGTH +
+        ' charachters long',
     },
   },
 };
@@ -178,9 +188,13 @@ const UserSchema = new Schema(
       type: String,
       trim: true,
       allowBlank: false,
+      minlength: [
+        MIN_NAME_LENGTH,
+        'display name must be at least ' + MIN_NAME_LENGTH + ' chars in length',
+      ],
       maxlength: [
         MAX_NAME_LENGTH,
-        'password must be at most ' + MAX_NAME_LENGTH + ' chars in length',
+        'display name must be at most ' + MAX_NAME_LENGTH + ' chars in length',
       ],
     },
     profileImage: {
@@ -195,7 +209,7 @@ const UserSchema = new Schema(
       type: String,
       maxlength: [
         MAX_PARAGRAPH_LENGTH,
-        'your personal paragraph can not be more than 500 char long',
+        'your personal paragraph can not be more than ' + MAX_PARAGRAPH_LENGTH + ' char long',
       ],
     },
     // skills: [String], // list of strings representing their skills
@@ -203,7 +217,7 @@ const UserSchema = new Schema(
       type: String,
       maxlength: [
         MAX_PARAGRAPH_LENGTH,
-        'your personal paragraph can not be more than 500 char long',
+        'your personal paragraph can not be more than ' + MAX_PARAGRAPH_LENGTH + ' char long',
       ],
     }, // a blob about who they are
     // paymentRefs: [String], // ID to fetch their payments through our system to generate an invoice

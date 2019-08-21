@@ -6,7 +6,7 @@ const requireLogin = require('../middleware/requireLogin');
 const utils = require('../utils/utilities');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
 
-// const { userDetailsReqSchema } = require('./userRoutesSchemas');
+
 const SchemaValidator = require('../middleware/SchemaValidator');
 
 // We are using the formatted Joi Validation error
