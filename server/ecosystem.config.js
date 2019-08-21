@@ -1,5 +1,5 @@
 // http://pm2.keymetrics.io/docs/usage/application-declaration/
-// Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/
+// Options reference: http://doc.pm2.io/en/runtime/reference/ecosystem-file/
 // args: 'one two',
 module.exports = {
   apps: [
