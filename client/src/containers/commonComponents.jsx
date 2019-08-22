@@ -10,9 +10,7 @@ import { switchRoute, goBackToPreviousRoute } from '../utils';
 
 import TASKS_DEFINITIONS from '../bdb-tasks/tasksDefinitions';
 
-
 export const BIDORBOO_SERVICECHARGE_FOR_REQUESTER = 0.06;
-
 
 export const getDaysSinceCreated = (createdAt) => {
   let daysSinceCreated = '';
@@ -598,7 +596,7 @@ export const VerifiedVia = ({
       className={`${isCentered ? 'has-text-centered' : ''}`}
     >
       <label className="label">verifications</label>
-      {!atLeastOneVerification && <label className="has-text-grey">Unverified</label>}
+
       {isFbUser && (
         <div className="verificationBadge isActive">
           <span title="Verified by facebook" className="icon">
@@ -1419,7 +1417,10 @@ export const TaskImagesCarousel = ({ taskImages, isLarge = false }) => {
   if (taskImages && taskImages.length > 0) {
     taskImages = taskImages.map((taskImage, i) => (
       <div key={i}>
-        <img style={{ objectFit: 'contain', height: isLarge ? '16rem' : '8rem' }} src={taskImage.url} />
+        <img
+          style={{ objectFit: 'contain', height: isLarge ? '16rem' : '8rem' }}
+          src={taskImage.url}
+        />
       </div>
     ));
 

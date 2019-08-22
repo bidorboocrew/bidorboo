@@ -8,6 +8,7 @@ const { detroyExistingImg } = require('../utils/utilities');
 const { Schema } = mongoose;
 
 const MAX_ADDRESS_LENGTH = 300;
+const MIN_ADDRESS_LENGTH = 5;
 
 const MIN_BID_AMOUNT = 10 * 100;
 const MAX_BID_AMOUNT = 5000 * 100;
@@ -77,9 +78,13 @@ const JobSchema = new Schema(
     addressText: {
       type: String,
       trim: true,
-      max: [
+      maxlength: [
         MAX_ADDRESS_LENGTH,
         'Address text can not be longer than ' + MAX_ADDRESS_LENGTH + ' charachters',
+      ],
+      minlength: [
+        MIN_ADDRESS_LENGTH,
+        'Address text can not be longer than ' + MIN_ADDRESS_LENGTH + ' charachters',
       ],
       required: [true, 'Address text is required'],
     },
@@ -274,6 +279,15 @@ JobSchema.pre('remove', async function(next) {
   //     console.log(e);
   //     throw new Error('issue deleting job');
   //   });
+});
+
+JobSchema.pre('update', async function(next) {
+  try {
+    next();
+  } catch (e) {
+    e.safeMsg = 'Encountered an error while updating this job';
+    next(e);
+  }
 });
 
 //no need for index on these . avoid performance slowness

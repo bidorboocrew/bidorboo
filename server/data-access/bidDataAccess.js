@@ -844,7 +844,7 @@ exports.bidDataAccess = {
           )
             .lean(true)
             .exec(),
-          JobModel.findOneAndUpdate(
+          JobModel.updateOne(
             { _id: jobId },
             {
               $push: { _bidsListRef: newBid._id },

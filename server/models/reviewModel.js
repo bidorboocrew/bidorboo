@@ -9,9 +9,21 @@ const categories = {
 };
 const ReviewSchema = new Schema(
   {
-    jobId: { type: Schema.Types.ObjectId, ref: 'JobModel' },
-    bidderId: { type: Schema.Types.ObjectId, ref: 'UserModel' },
-    proposerId: { type: Schema.Types.ObjectId, ref: 'UserModel' },
+    jobId: {
+      type: Schema.Types.ObjectId,
+      ref: 'JobModel',
+      required: [true, 'Review must be associated with a job'],
+    },
+    bidderId: {
+      type: Schema.Types.ObjectId,
+      ref: 'UserModel',
+      required: [true, 'Review must be associated with a tasker'],
+    },
+    proposerId: {
+      type: Schema.Types.ObjectId,
+      ref: 'UserModel',
+      required: [true, 'Review must be associated with a Requester'],
+    },
     proposerReview: {
       type: {
         ratingCategories: [{ type: categories }],

@@ -67,6 +67,9 @@ class OtherUserProfileForReviewPage extends React.Component {
     let asABidderReviews = null;
     if (_asBidderReviewsRef && _asBidderReviewsRef.length > 0) {
       asABidderReviews = _asBidderReviewsRef.map(({ _id, proposerId, proposerReview }) => {
+        if (!proposerId) {
+          return null;
+        }
         const { displayName, profileImage } = proposerId;
 
         return (
@@ -82,7 +85,11 @@ class OtherUserProfileForReviewPage extends React.Component {
 
     let asAProposerReviewsRef = null;
     if (_asProposerReviewsRef && _asProposerReviewsRef.length > 0) {
+      debugger;
       asAProposerReviewsRef = _asProposerReviewsRef.map(({ _id, bidderId, bidderReview }) => {
+        if (!bidderId) {
+          return null;
+        }
         const { displayName, profileImage } = bidderId;
 
         return (
