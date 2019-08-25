@@ -4,9 +4,7 @@ import ReactDOM from 'react-dom';
 
 import { bindActionCreators } from 'redux';
 
-import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute } from '../../utils';
-import { RenderBackButton } from '../commonComponents';
+import { RenderBackButton, redirectBasedOnJobState } from '../commonComponents';
 
 import { Spinner } from '../../components/Spinner';
 
@@ -23,56 +21,37 @@ import {
 class ReviewRequestAndBidsPage extends React.Component {
   constructor(props) {
     super(props);
-    this.jobId = null;
 
-    if (props.match && props.match.params && props.match.params.jobId) {
-      this.jobId = props.match.params.jobId;
-    }
     this.state = {
       showBidReviewModal: false,
       bidUnderReview: {},
     };
-    // xxxxx saeed think about server load ? maybe let user fetch by reload
-    // this.countdown = setInterval(this.fetchMostRecentBids, 10000);
-  }
-
-  componentWillUnmount() {
-    // clearInterval(this.countdown);
   }
 
   fetchMostRecentBids = () => {
-    // every 10 seconds fetch most recent bids
-    if (!this.jobId) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-      return null;
-    }
-    this.props.getPostedJobDetails(this.jobId);
+    const { selectedJobWithBids } = this.props;
+    this.props.getPostedJobDetails(selectedJobWithBids._id);
   };
 
   componentDidMount() {
-    if (!this.jobId) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-      return null;
-    }
-    this.props.getPostedJobDetails(this.jobId);
-  }
-
-  componentDidUpdate() {
     // if route changed reload the job
-    let newJobId = this.jobId;
+    const { selectedJobWithBids } = this.props;
 
-    if (this.props.match && this.props.match.params && this.props.match.params.jobId) {
-      newJobId = this.props.match.params.jobId;
-    }
-    if (newJobId !== this.jobId) {
-      this.jobId = newJobId;
-      if (!this.jobId) {
-        switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-        return null;
+    let newJobId = this.props.match.params.jobId;
+    debugger;
+    if (!selectedJobWithBids) {
+      this.props.getPostedJobDetails(newJobId);
+    } else if (selectedJobWithBids._id !== newJobId) {
+      // fetch it
+      this.props.getPostedJobDetails(newJobId);
+    } else {
+      if (selectedJobWithBids.state !== REQUEST_STATES.OPEN) {
+        redirectBasedOnJobState(selectedJobWithBids);
       }
-      this.props.getPostedJobDetails(this.jobId);
     }
   }
+
+  // componentDidUpdate() {}
 
   showBidReviewModal = (bid) => {
     this.setState({ showBidReviewModal: true, bidUnderReview: bid });
@@ -83,6 +62,7 @@ class ReviewRequestAndBidsPage extends React.Component {
 
   render() {
     const { selectedJobWithBids, markBidAsSeen, paymentIsInProgress } = this.props;
+
     // while fetching the job
     if (!selectedJobWithBids || !selectedJobWithBids._id) {
       return (

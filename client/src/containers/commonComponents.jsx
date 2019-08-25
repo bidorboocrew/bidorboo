@@ -9,6 +9,37 @@ import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute, goBackToPreviousRoute } from '../utils';
 
 import TASKS_DEFINITIONS from '../bdb-tasks/tasksDefinitions';
+export const REQUEST_STATES = {
+  OPEN: 'OPEN',
+  AWARDED: 'AWARDED',
+  DISPUTED: 'DISPUTED',
+  AWARDED_JOB_CANCELED_BY_BIDDER: 'AWARDED_JOB_CANCELED_BY_BIDDER',
+  AWARDED_JOB_CANCELED_BY_REQUESTER: 'AWARDED_JOB_CANCELED_BY_REQUESTER',
+  CANCELED_OPEN: 'CANCELED_OPEN',
+  DONE: 'DONE',
+  PAIDOUT: 'PAIDOUT',
+  PAYMENT_RELEASED: 'PAYMENT_RELEASED',
+  PAYMENT_TO_BANK_FAILED: 'PAYMENT_TO_BANK_FAILED',
+  ARCHIVE: 'ARCHIVE',
+};
+
+export const BID_STATES = {
+  OPEN: 'OPEN',
+  AWARDED: 'AWARDED',
+  AWARDED_SEEN: 'AWARDED_SEEN',
+  AWARDED_BID_CANCELED_BY_TASKER: 'AWARDED_BID_CANCELED_BY_TASKER',
+  DISPUTED: 'DISPUTED',
+  AWARDED_BID_CANCELED_BY_REQUESTER: 'AWARDED_BID_CANCELED_BY_REQUESTER',
+  DONE: 'DONE',
+  PAYMENT_RELEASED: 'PAYMENT_RELEASED',
+  PAYMENT_TO_BANK_FAILED: 'PAYMENT_TO_BANK_FAILED',
+  ARCHIVE: 'ARCHIVE',
+};
+
+export const POINT_OF_VIEW = {
+  REQUESTER: 'REQUESTER',
+  TASKER: 'TASKER',
+};
 
 export const BIDORBOO_SERVICECHARGE_FOR_REQUESTER = 0.06;
 
@@ -1472,3 +1503,14 @@ export const RenderBackButton = () => {
 //   }
 //   return null;
 // };
+
+export const redirectBasedOnJobState = ({ state, _id: jobId }) => {
+  switch (state) {
+    case REQUEST_STATES.OPEN:
+      switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(jobId));
+      break;
+    default:
+      switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
+      break;
+  }
+};

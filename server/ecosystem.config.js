@@ -7,7 +7,7 @@ module.exports = {
       name: 'BidOrBoo',
       script: './index.js',
       watch: false,
-      instances: 4,
+      instances: 1,
       exec_mode: 'cluster',
       autorestart: true,
       max_restarts: 3,

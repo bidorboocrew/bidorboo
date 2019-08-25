@@ -95,8 +95,11 @@ export const searchJobsToBidOn = (values) => (dispatch) => {
 //   });
 // };
 
-export const getPostedJobDetails = (jobId) => (dispatch) =>
-  dispatch({
+export const getPostedJobDetails = (jobId) => (dispatch) => {
+  if (!jobId) {
+    return;
+  }
+  return dispatch({
     type: A.JOB_ACTIONS.GET_POSTED_JOB_DETAILS_BY_ID,
     payload: axios
       .get(ROUTES.API.JOB.GET.myJobById, { params: { jobId } })
@@ -112,7 +115,7 @@ export const getPostedJobDetails = (jobId) => (dispatch) =>
         throwErrorNotification(dispatch, error);
       }),
   });
-
+};
 export const searchByLocation = (userSearchQuery) => (dispatch) => {
   const serverSearchQuery = {
     searchLocation: userSearchQuery.locationField,
