@@ -243,9 +243,7 @@ exports.jobDataAccess = {
                   .exec();
 
                 console.log(
-                  `CleanUpAllExpiredNonAwardedJobs deleted job id ${
-                    job._id
-                  } which was suppose to happen ${jobStartDate}`
+                  `CleanUpAllExpiredNonAwardedJobs deleted job id ${job._id} which was suppose to happen ${jobStartDate}`
                 );
                 await JobModel.deleteOne({ _id: job._id.toString() })
                   .lean(true)
@@ -1830,9 +1828,13 @@ exports.jobDataAccess = {
             processedPayment,
           } = await getAllContactDetails(jobId);
 
+          const paymentIntent = await stripeServiceUtil.getPaymentIntents(
+            processedPayment.paymentIntentId
+          );
+          const charge = paymentIntent.charges.data[0];
           const refundCharge = await stripeServiceUtil.partialRefundTransation({
-            chargeId: processedPayment.chargeId,
-            refundAmount: processedPayment.amount * BIDORBOO_REFUND_AMOUNT,
+            chargeId: charge.id,
+            refundAmount: charge.amount * BIDORBOO_REFUND_AMOUNT,
             metadata: {
               requesterId,
               requesterEmailAddress,
@@ -1945,7 +1947,7 @@ exports.jobDataAccess = {
             if (
               !updatedJob._id ||
               !updatedJob.processedPayment.refund ||
-              updatedJob.state === 'AWARDED_JOB_CANCELED_BY_REQUESTER'
+              updatedJob.state !== 'AWARDED_JOB_CANCELED_BY_REQUESTER'
             ) {
               return reject('failed to update the associated job');
             }
