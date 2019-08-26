@@ -92,7 +92,7 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
               }}
               className={`button is-primary`}
             >
-              View details
+              VIEW DETAILS
             </a>
           </div>
         )}

@@ -71,7 +71,7 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
               }}
               className="button is-danger "
             >
-              View details
+              VIEW DETAILS
             </a>
           </div>
         </div>

@@ -31,6 +31,7 @@ module.exports = {
         connectedAccountsWebhook: '/api/stripewebhook/connectedAccounts',
         payoutsWebhook: '/api/stripewebhook/payoutsWebhook',
         checkoutFulfillment: '/api/stripewebhook/checkoutFulfillment',
+        chargeSucceeded: '/api/stripewebhook/chargeSucceeded',
       },
       GET: {
         // requestCharge: '/api/requestCharge',

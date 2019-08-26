@@ -438,6 +438,50 @@ module.exports = (app) => {
     }
   });
 
+  app.post(ROUTES.API.PAYMENT.POST.chargeSucceeded, async (req, res, next) => {
+    try {
+      console.log('chargesucceeded is triggered');
+
+      // sign key by strip
+      let endpointSecret = 'whsec_fH6MZ3UdzMI5yfiP5FaVevvNv3La3CN8';
+      let sig = req.headers['stripe-signature'];
+      let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
+      if (event) {
+        // const { id, account, type, data } = event;
+        // const { status, metadata } = data;
+        // const { jobId } = metadata;
+        // switch (type) {
+        //   case 'payout.paid':
+        //     console.log('payoutsWebhook payout.paid');
+        //     console.log({ jobId });
+        //     // update the job about this
+        //     jobDataAccess.updateJobById(jobId, {
+        //       $set: {
+        //         state: 'ARCHIVE',
+        //         'payoutDetails.status': { status, id },
+        //       },
+        //     });
+        //     //xxx inform user that it is paid via msg email..etc
+        //     break;
+        //   case 'payout.failed':
+        //     console.log('payoutsWebhook payout.failed');
+        //     console.log({ jobId });
+        //     jobDataAccess.updateJobById(jobId, {
+        //       $set: {
+        //         state: 'PAYMENT_TO_BANK_FAILED',
+        //         'payoutDetails.status': { status, id },
+        //       },
+        //     });
+        //     sendGridEmailing.informBobCrewAboutFailedPayment({ jobId, data });
+        //     break;
+        // }
+      }
+      return res.status(200).send();
+    } catch (e) {
+      return res.status(400).send({ errorMsg: 'chargesucceeded failured', details: `${e}` });
+    }
+  });
+
   app.post(ROUTES.API.PAYMENT.POST.checkoutFulfillment, async (req, res, next) => {
     try {
       console.log('payoutsWebhook is triggered');
