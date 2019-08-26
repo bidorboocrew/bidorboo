@@ -458,7 +458,7 @@ const EnhancedForms = withFormik({
         .oneOf(['bdbCarDetailing', 'bdbHouseCleaning'])
         .required('Template Id missing or not recognized, This field is required'),
       startingDateAndTime: Yup.date()
-        .min(moment().add(1, 'day'), '*Tasks Can not be scheduled in the past')
+        .min(moment(), '*Tasks Can not be scheduled in the past')
         .max(moment().add(30, 'd'), '*Tasks can only be scheduled a month in advance')
         .required('* Date Field is required'),
       timeOfDay: Yup.string()
