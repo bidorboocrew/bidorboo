@@ -137,9 +137,9 @@ module.exports = (app) => {
     requireLogin,
     async (req, res) => {
       try {
-        const userJobsList = await jobDataAccess.getAllRequestsByUserId(req.user.userId);
-        if (userJobsList && userJobsList._postedJobsRef) {
-          return res.send({ allRequests: userJobsList._postedJobsRef });
+        const userJobsList = await jobDataAccess.getAllRequestsByUserId(req.user._id);
+        if (userJobsList && userJobsList) {
+          return res.send({ allRequests: userJobsList });
         }
         return res.send({ allRequests: [] });
       } catch (e) {

@@ -628,90 +628,92 @@ exports.jobDataAccess = {
   },
 
   // get jobs for a user and filter by a given state
-  getAllRequestsByUserId: async (userId) => {
-    return User.findOne({ userId: userId }, { _postedJobsRef: 1 })
-      .populate({
-        path: '_postedJobsRef',
-        match: {
-          $or: [
-            {
-              $and: [
-                { state: { $eq: 'OPEN' } },
-                {
-                  startingDateAndTime: {
-                    $gt: moment()
-                      .utc()
-                      .toISOString(),
+  getAllRequestsByUserId: async (_id) => {
+    return JobModel.find(
+      {
+        $and: [
+          { _ownerRef: { $eq: _id } },
+          {
+            $or: [
+              {
+                $and: [
+                  { state: { $eq: 'OPEN' } },
+                  {
+                    startingDateAndTime: {
+                      $gt: moment()
+                        .utc()
+                        .toISOString(),
+                    },
                   },
-                },
-              ],
-            },
-            {
-              state: {
-                $in: [
-                  'AWARDED', //
-                  'DISPUTED', // disputed job
-                  'AWARDED_JOB_CANCELED_BY_BIDDER',
-                  'AWARDED_JOB_CANCELED_BY_REQUESTER',
-                  'DONE',
                 ],
               },
-            },
-          ],
-        },
-        select: {
-          booedBy: 0,
-          processedPayment: 0,
-          updatedAt: 0,
-          viewedBy: 0,
-          hideFrom: 0,
-          createdAt: 0,
-        },
-        options: { sort: { startingDateAndTime: 1 } },
-        populate: [
-          {
-            path: '_reviewRef',
-            select: {
-              proposerReview: 1,
-              bidderReview: 1,
-              revealToBoth: 1,
-              requiresProposerReview: 1,
-              requiresBidderReview: 1,
-            },
-          },
-          {
-            path: '_awardedBidRef',
-            model: 'BidModel',
-            select: {
-              _bidderRef: 1,
-              isNewBid: 1,
-              state: 1,
-              bidAmount: 1,
-            },
-            populate: {
-              path: '_bidderRef',
-              select: {
-                displayName: 1,
-                email: 1,
-                phone: 1,
-                profileImage: 1,
-                rating: 1,
-                userId: 1,
+              {
+                state: {
+                  $in: [
+                    'AWARDED', //
+                    'DISPUTED', // disputed job
+                    'AWARDED_JOB_CANCELED_BY_BIDDER',
+                    'AWARDED_JOB_CANCELED_BY_REQUESTER',
+                    'DONE',
+                  ],
+                },
               },
-            },
-          },
-          {
-            path: '_ownerRef',
-            select: {
-              displayName: 1,
-              email: 1,
-              phone: 1,
-              profileImage: 1,
-              rating: 1,
-              userId: 1,
-            },
+            ],
           },
         ],
+      },
+      {
+        booedBy: 0,
+        processedPayment: 0,
+        updatedAt: 0,
+        viewedBy: 0,
+        hideFrom: 0,
+        createdAt: 0,
+      },
+      // xxx how to skip
+      { limit: 300, sort: { startingDateAndTime: 1 } }
+    )
+      .populate({
+        path: '_reviewRef',
+        select: {
+          proposerReview: 1,
+          bidderReview: 1,
+          revealToBoth: 1,
+          requiresProposerReview: 1,
+          requiresBidderReview: 1,
+        },
+      })
+      .populate({
+        path: '_awardedBidRef',
+        model: 'BidModel',
+        select: {
+          _bidderRef: 1,
+          isNewBid: 1,
+          state: 1,
+          bidAmount: 1,
+        },
+        populate: {
+          path: '_bidderRef',
+          select: {
+            displayName: 1,
+            email: 1,
+            phone: 1,
+            profileImage: 1,
+            rating: 1,
+            userId: 1,
+          },
+        },
+      })
+      .populate({
+        path: '_ownerRef',
+        select: {
+          displayName: 1,
+          email: 1,
+          phone: 1,
+          profileImage: 1,
+          rating: 1,
+          userId: 1,
+        },
       })
       .lean({ virtuals: true })
       .exec();

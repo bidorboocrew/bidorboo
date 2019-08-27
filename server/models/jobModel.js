@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 require('mongoose-geojson-schema');
 const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
-const moment = require('moment');
+const moment = require('moment-timezone');
 
 const { detroyExistingImg } = require('../utils/utilities');
 
@@ -95,7 +95,7 @@ const JobSchema = new Schema(
       required: true,
       validate: {
         validator: (val) => {
-          const now = moment()
+          const now =  moment()
             .tz('America/Toronto')
             .toISOString();
 
