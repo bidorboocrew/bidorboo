@@ -18,6 +18,7 @@ import GetNotificationsAndScroll from './GetNotificationsAndScroll';
 import { registerServiceWorker } from './registerServiceWorker';
 
 window.BidorBoo = window.BidorBoo || { SWRegistering: 0 };
+
 if (process.env.NODE_ENV === 'production') {
   const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_SECRET}`);
   bugsnagClient.use(bugsnagReact, React);

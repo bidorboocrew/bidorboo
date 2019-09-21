@@ -39,9 +39,27 @@ export default class UploaderComponent extends React.Component {
       return;
     }
 
-    this.reader.onloadend = () => {
-      this.setState({ thumb: this.reader.result, showCropper: true });
+    // https://zocada.com/compress-resize-images-javascript-browser/
+    this.reader.onloadend = (event) => {
+      const img = new Image();
+      img.src = event.target.result;
+      img.onload = () => {
+        const width = 600;
+        const scaleFactor = width / img.width;
+        const height = img.height * scaleFactor;
+
+        let elem = document.createElement('canvas');
+        elem.width = width;
+        elem.height = height;
+        const ctx = elem.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, img.height * scaleFactor);
+
+        const imgAsDataUrl = ctx.canvas.toDataURL(img);
+        this.setState(() => ({ thumb: imgAsDataUrl, showCropper: true }));
+      };
     };
+
+    this.reader.onerror = (error) => console.log('reader1' + error);
     this.reader.readAsDataURL(files[0]);
   };
 
@@ -77,21 +95,14 @@ export default class UploaderComponent extends React.Component {
   };
 
   saveCrop = () => {
-    try {
-      const croppedImg = this.refs.cropper.getCroppedCanvas().toDataURL();
-      const updatedFile = this.dataURItoBlob(croppedImg);
-
-      this.reader.onloadend = () => {
-        this.setState({ thumb: this.reader.result });
-      };
-      this.reader.readAsDataURL(updatedFile);
-    } catch (e) {
-      console.error('could not crop the image will upload the original img instead');
-    }
+    const croppedImg = this.refs.cropper.getCroppedCanvas().toDataURL();
+    this.setState({ thumb: croppedImg });
   };
+
   done = () => {
     const { onDoneCropping } = this.props;
     const { thumb } = this.state;
+    debugger;
     const blob = this.dataURItoBlob(thumb);
     onDoneCropping && onDoneCropping(thumb, blob);
   };
@@ -167,17 +178,17 @@ export default class UploaderComponent extends React.Component {
                 Cancel
               </button>
               {/* <button onClick={this.clearImage} className="button is-danger is-outlined">
-                  <span className="icon">
-                    <i className="far fa-trash-alt" />
-                  </span>
-                  <span>Clear</span>
-                </button> */}
-              {/* <button disabled={!thumb} onClick={this.saveCrop} className="button is-info">
+                <span className="icon">
+                  <i className="far fa-trash-alt" />
+                </span>
+                <span>Clear</span>
+              </button> */}
+              <button disabled={!thumb} onClick={this.saveCrop} className="button is-info">
                 <span className="icon">
                   <i className="fas fa-crop-alt" />
                 </span>
-                <span>Crop it</span>
-              </button> */}
+                <span>Crop</span>
+              </button>
               <button disabled={!thumb} onClick={this.done} className="button is-success">
                 <span>Done</span>
               </button>
