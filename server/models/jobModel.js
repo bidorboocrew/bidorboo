@@ -95,7 +95,7 @@ const JobSchema = new Schema(
       required: true,
       validate: {
         validator: (val) => {
-          const now =  moment()
+          const now = moment()
             .tz('America/Toronto')
             .toISOString();
 
@@ -112,7 +112,7 @@ const JobSchema = new Schema(
       type: String,
       trim: true,
       required: true,
-      enum: ['bdbCarDetailing', 'bdbHouseCleaning'],
+      enum: ['bdbCarDetailing', 'bdbHouseCleaning', 'bdbPetSittingWalking'],
     },
     reported: { type: Number },
     payoutDetails: {
@@ -146,6 +146,7 @@ JobSchema.virtual('displayTitle').get(function() {
   const templateIdToDisplayName = {
     bdbHouseCleaning: 'House Cleaning',
     bdbCarDetailing: 'Car Detailing',
+    bdbPetSittingWalking: 'Pet Sitting/Walking',
   };
   return templateIdToDisplayName[this.templateId];
 });

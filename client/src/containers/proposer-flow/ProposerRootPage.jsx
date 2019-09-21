@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 import { getAllActiveRequestsTemplateCards } from '../../bdb-tasks/getAllRequestsTemplateCards';
-import RequestRootBg from '../../assets/images/RequestRootBg.png';
 
 class ProposerRoot extends React.Component {
   constructor(props) {

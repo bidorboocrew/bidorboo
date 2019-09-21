@@ -455,7 +455,7 @@ const EnhancedForms = withFormik({
       templateId: Yup.string()
         .ensure()
         .trim()
-        .oneOf(['bdbCarDetailing', 'bdbHouseCleaning'])
+        .oneOf(['bdbCarDetailing', 'bdbHouseCleaning', 'bdbPetSittingWalking'])
         .required('Template Id missing or not recognized, This field is required'),
       startingDateAndTime: Yup.date()
         .min(moment(), '*Tasks Can not be scheduled in the past')
@@ -531,7 +531,6 @@ const EnhancedForms = withFormik({
     };
   },
   handleSubmit: async (values, { setSubmitting, props }) => {
-    debugger;
     const { postNewJob } = props;
     setSubmitting(true);
 

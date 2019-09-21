@@ -44,7 +44,6 @@ class RequesterRequestSummary extends React.Component {
       isHappeningToday === 'undefined' ||
       isPastDue === 'undefined'
     ) {
-      debugger
       return <div>RequesterRequestSummary is missing properties</div>;
     }
 

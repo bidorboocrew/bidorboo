@@ -85,7 +85,6 @@ class OtherUserProfileForReviewPage extends React.Component {
 
     let asAProposerReviewsRef = null;
     if (_asProposerReviewsRef && _asProposerReviewsRef.length > 0) {
-      debugger;
       asAProposerReviewsRef = _asProposerReviewsRef.map(({ _id, bidderId, bidderReview }) => {
         if (!bidderId) {
           return null;

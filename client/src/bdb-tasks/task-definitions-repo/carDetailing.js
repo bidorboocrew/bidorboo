@@ -2,7 +2,6 @@ import React from 'react';
 
 import * as Yup from 'yup';
 import carDetailing_img from '../../assets/images/carDetailing_img.png';
-import { switchRoute } from '../../utils';
 
 const NO_SELECTION = NO_SELECTION;
 

@@ -14,6 +14,9 @@ const creatJobsByIdMap = {
   [`bdbCarDetailing`]: (props) => {
     return <GenericRequestForm requestTemplateId={'bdbCarDetailing'} {...props} />;
   },
+  [`bdbPetSittingWalking`]: (props) => {
+    return <GenericRequestForm requestTemplateId={'bdbPetSittingWalking'} {...props} />;
+  },
 };
 
 class CreateAJobPage extends React.Component {
@@ -34,7 +37,7 @@ class CreateAJobPage extends React.Component {
 
     return (
       <div className="columns is-centered is-mobile">
-      <div className="column limitLargeMaxWidth slide-in-right">
+        <div className="column limitLargeMaxWidth slide-in-right">
           <RenderBackButton />
           {/* create job based on ID */}
           {creatJobsByIdMap[`${chosenTemplate}`] &&

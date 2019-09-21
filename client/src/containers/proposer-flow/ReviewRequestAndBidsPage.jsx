@@ -38,7 +38,6 @@ class ReviewRequestAndBidsPage extends React.Component {
     const { selectedJobWithBids } = this.props;
 
     let newJobId = this.props.match.params.jobId;
-    debugger;
     if (!selectedJobWithBids) {
       this.props.getPostedJobDetails(newJobId);
     } else if (selectedJobWithBids._id !== newJobId) {

@@ -60,13 +60,12 @@ class GetNotificationsAndScroll extends React.Component {
     }
     if (location !== prevProps.location) {
       if (!isLoggedIn) {
-        debugger
         getCurrentUser();
       }
       if (isLoggedIn) {
         if (currentUrlPathname.indexOf('on-boarding') > -1) {
           // do not fetch notifications on these pages above
-        } else {  debugger
+        } else {
           this.props.getCurrentUserNotifications();
         }
 
