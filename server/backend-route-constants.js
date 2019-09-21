@@ -86,7 +86,6 @@ module.exports = {
         updateSearchThenSearchJobs: '/api/user/updateSearchThenSearchJobs',
       },
       PUT: {
-        awardBidder: '/api/job/awardBidder',
         updateViewedBy: '/api/job/updateViewedBy',
         updateBooedBy: '/api/job/updateBooedBy',
         proposerConfirmsJobCompleted: '/api/job/proposerConfirmsJobCompleted',

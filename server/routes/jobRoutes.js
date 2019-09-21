@@ -227,24 +227,6 @@ module.exports = (app) => {
     }
   });
 
-  app.put(ROUTES.API.JOB.PUT.awardBidder, requireLogin, requireJobOwner, async (req, res) => {
-    try {
-      // create new job for this user
-      const data = req.body.data;
-      // const userId = req.user.userId;
-      // const mongoUser_id = req.user._id;
-
-      const { jobId, bidId } = data;
-      let existingJob = null;
-
-      existingJob = await jobDataAccess.awardBidder(jobId, bidId);
-      if (existingJob) {
-        return res.send(existingJob);
-      }
-    } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To award bidder', details: `${e}` });
-    }
-  });
 
   app.put(ROUTES.API.JOB.PUT.updateViewedBy, requireLogin, async (req, res) => {
     try {

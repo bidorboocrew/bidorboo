@@ -671,7 +671,7 @@ exports.jobDataAccess = {
         createdAt: 0,
       },
       // xxx how to skip
-      { limit: 300, sort: { startingDateAndTime: 1 } }
+      { limit: 1000, sort: { startingDateAndTime: 1 } }
     )
       .populate({
         path: '_reviewRef',
@@ -962,7 +962,13 @@ exports.jobDataAccess = {
     }
   },
   updateViewedBy: (jobId, mongoUser_id) => {
-    return JobModel.findOneAndUpdate(
+    return JobModel.findOneAndUpdate({ _id: jobId }).update({
+      $addToSet: {
+        viewedBy: mongoUser_id,
+      },
+    });
+
+    JobModel.findOneAndUpdate(
       { _id: jobId },
       {
         $addToSet: {
@@ -970,7 +976,7 @@ exports.jobDataAccess = {
         },
       }
     )
-      .lean({ virtuals: true })
+      .lean()
       .exec();
   },
   updateState: (jobId, stateValue) => {
@@ -1212,23 +1218,22 @@ exports.jobDataAccess = {
     });
   },
 
-  updateJobAwardedBid: async (jobId, bidId, processedPaymentDetails) => {
+  updateJobAwardedBid: async (jobId, bidId) => {
     return Promise.all([
-      BidModel.findOneAndUpdate(
-        { _id: bidId },
-        {
-          $set: { state: 'AWARDED' },
-        }
-      )
-        .lean(true)
-        .exec(),
+      // BidModel.findOneAndUpdate(
+      //   { _id: bidId },
+      //   {
+      //     $set: { state: 'AWARDED' },
+      //   }
+      // )
+      //   .lean()
+      //   .exec(),
       JobModel.findOneAndUpdate(
         { _id: jobId },
         {
           $set: {
             _awardedBidRef: bidId,
             state: 'AWARDED',
-            processedPayment: { ...processedPaymentDetails },
           },
         }
       )
@@ -1237,67 +1242,6 @@ exports.jobDataAccess = {
     ]);
   },
 
-  awardBidder: async (jobId, bidId) => {
-    const updateRelevantItems = await Promise.all([
-      BidModel.findOneAndUpdate(
-        { _id: bidId },
-        {
-          $set: { state: 'AWARDED' },
-        }
-      )
-        .lean(true)
-        .exec(),
-      JobModel.findOneAndUpdate(
-        { _id: jobId },
-        {
-          $set: { _awardedBidRef: bidId, state: 'AWARDED' },
-        }
-      )
-        .lean({ virtuals: true })
-        .exec(),
-    ]);
-
-    return JobModel.findOne(
-      { _id: jobId },
-      {
-        addressText: 0,
-        updatedAt: 0,
-        jobReview: 0,
-        extras: 0,
-        properties: 0,
-        __v: 0,
-        _bidsListRef: 0,
-        whoSeenThis: 0,
-        _ownerRef: 0,
-        ownerId: 0,
-        bidderIds: 0,
-        hideForUserIds: 0,
-      }
-    )
-      .populate({
-        path: '_awardedBidRef',
-        select: {
-          _jobRef: 0,
-        },
-        populate: {
-          path: '_bidderRef',
-          select: {
-            _postedJobsRef: 0,
-            _postedBidsRef: 0,
-            userRole: 0,
-            extras: 0,
-            settings: 0,
-            creditCards: 0,
-            updatedAt: 0,
-            __v: 0,
-            verificationIdImage: 0,
-          },
-        },
-      })
-
-      .lean({ virtuals: true })
-      .exec();
-  },
   findOneByJobId: (id) => {
     return JobModel.findOne({ _id: id })
       .populate({ path: '_ownerRef' })

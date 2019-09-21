@@ -281,14 +281,5 @@ JobSchema.pre('remove', async function(next) {
   //   });
 });
 
-JobSchema.pre('update', async function(next) {
-  try {
-    next();
-  } catch (e) {
-    e.safeMsg = 'Encountered an error while updating this job';
-    next(e);
-  }
-});
-
 //no need for index on these . avoid performance slowness
 mongoose.model('JobModel', JobSchema);

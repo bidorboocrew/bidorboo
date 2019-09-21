@@ -122,109 +122,6 @@ module.exports = (app) => {
             requesterCustomerId,
           });
           return res.status(200).send({ sessionClientId });
-          // const charge = await stripeServiceUtil.processDestinationCharge({
-          //   statement_descriptor: 'BidOrBoo Charge',
-          //   amount: chargeAmount,
-          //   currency: 'CAD',
-          //   description: `Paid for booking ${theJob.displayTitle || theJob.templateId}`,
-          //   receipt_email: requesterEmail,
-          //   source: stripeTransactionToken,
-          //   application_fee_amount: bidOrBooServiceFee,
-          //   transfer_data: {
-          //     destination: stripeAccDetails.accId,
-          //   },
-          //   metadata: {
-          //     bidderId,
-          //     bidderEmail,
-          //     proposerId: req.user._id.toString(),
-          //     requesterEmail: requesterEmail,
-          //     jobId,
-          //     bidId,
-          //     note: `Requester Paid for ${theJob.displayTitle || theJob.templateId}`,
-          //   },
-          // });
-          //   console.log('BIDORBOOLOGGING - PAYMENT - process charge');
-          //   if (charge && charge.status === 'succeeded') {
-          //     console.log('BIDORBOOLOGGING - PAYMENT - SUCCESS ');
-          //     console.log('BIDORBOOLOGGING - PAYMENT - SUCCESS - details ');
-          //     console.log(charge);
-          //     console.log('BIDORBOOLOGGING - PAYMENT - SUCCESS - details ');
-
-          //     // console.log('-------BidOrBooLogging----------------------');
-          //     // console.log('BidOrBooPayment - charge Succeeded');
-          //     // console.log('-------BidOrBooLogging----------------------');
-          //     // update the job and bidder with the chosen awarded bid
-
-          //     const updateJobAndBid = await jobDataAccess.updateJobAwardedBid(
-          //       _jobRef._id.toString(),
-          //       _id.toString(),
-          //       {
-          //         paymentSourceId: stripeTransactionToken,
-          //         amount: charge.amount,
-          //         chargeId: charge.id,
-          //         bidderPayout: bidderPayoutAmount,
-          //         platformCharge: bidOrBooTotalCommission,
-          //         proposerPaid: chargeAmount,
-          //         bidderStripeAcc: stripeAccDetails.accId,
-          //       }
-          //     );
-
-          //     const {
-          //       requesterDisplayName,
-          //       taskerDisplayName,
-          //       jobDisplayName,
-          //       requestLinkForRequester,
-          //       requestLinkForTasker,
-          //       requesterEmailAddress,
-          //       taskerEmailAddress,
-          //       taskerPhoneNumber,
-          //       allowedToEmailRequester,
-          //       allowedToEmailTasker,
-          //       allowedToTextTasker,
-          //       allowedToPushNotifyTasker,
-          //       taskerPushNotSubscription,
-          //     } = await getAllContactDetails(_jobRef._id);
-
-          //     if (allowedToEmailRequester) {
-          //       sendGridEmailing.tellRequesterThanksforPaymentAndTaskerIsRevealed({
-          //         to: requesterEmailAddress,
-          //         requestTitle: jobDisplayName,
-          //         toDisplayName: requesterDisplayName,
-          //         linkForOwner: requestLinkForRequester,
-          //       });
-          //     }
-          //     if (allowedToEmailTasker) {
-          //       sendGridEmailing.tellTaskerThatTheyWereAwarded({
-          //         to: taskerEmailAddress,
-          //         requestTitle: jobDisplayName,
-          //         toDisplayName: taskerDisplayName,
-          //         linkForBidder: requestLinkForTasker,
-          //       });
-          //     }
-
-          //     if (allowedToTextTasker) {
-          //       sendTextService.sendJobIsAwardedText(
-          //         taskerPhoneNumber,
-          //         jobDisplayName,
-          //         requestLinkForTasker
-          //       );
-          //     }
-
-          //     if (allowedToPushNotifyTasker) {
-          //       WebPushNotifications.pushYouAreAwarded(taskerPushNotSubscription, {
-          //         taskerDisplayName: taskerDisplayName,
-          //         urlToLaunch: requestLinkForTasker,
-          //       });
-          //     }
-
-          //     res.send({ success: true });
-          //   }
-          // } else {
-          //   console.log('BIDORBOOLOGGING - PAYMENT - FAILD - reason unkown');
-
-          //   return res.status(400).send({
-          //     errorMsg: 'Did Not Process the payment. Could not locate the bidder Account info',
-          //   });
         }
       } catch (e) {
         e.safeMsg = "We couldn't confirm the charge details. NO charge was applied to your card";
@@ -447,35 +344,79 @@ module.exports = (app) => {
       let sig = req.headers['stripe-signature'];
       let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
       if (event) {
-        // const { id, account, type, data } = event;
-        // const { status, metadata } = data;
-        // const { jobId } = metadata;
-        // switch (type) {
-        //   case 'payout.paid':
-        //     console.log('payoutsWebhook payout.paid');
-        //     console.log({ jobId });
-        //     // update the job about this
-        //     jobDataAccess.updateJobById(jobId, {
-        //       $set: {
-        //         state: 'ARCHIVE',
-        //         'payoutDetails.status': { status, id },
-        //       },
-        //     });
-        //     //xxx inform user that it is paid via msg email..etc
-        //     break;
-        //   case 'payout.failed':
-        //     console.log('payoutsWebhook payout.failed');
-        //     console.log({ jobId });
-        //     jobDataAccess.updateJobById(jobId, {
-        //       $set: {
-        //         state: 'PAYMENT_TO_BANK_FAILED',
-        //         'payoutDetails.status': { status, id },
-        //       },
-        //     });
-        //     sendGridEmailing.informBobCrewAboutFailedPayment({ jobId, data });
-        //     break;
-        // }
+        const {
+          data: { object: chargeObject },
+        } = event;
+
+        const {
+          captured,
+          paid,
+          metadata: { bidId, jobId },
+        } = chargeObject;
+
+        if (!captured || !paid) {
+          return res.status(400).send('charge not captured');
+        }
+
+        console.log('BIDORBOOLOGGING - PAYMENT - process charge');
+
+        // console.log('-------BidOrBooLogging----------------------');
+        // console.log('BidOrBooPayment - charge Succeeded');
+        // console.log('-------BidOrBooLogging----------------------');
+        // update the job and bidder with the chosen awarded bid
+        await jobDataAccess.updateJobAwardedBid(jobId, bidId);
+        const {
+          requesterDisplayName,
+          taskerDisplayName,
+          jobDisplayName,
+          requestLinkForRequester,
+          requestLinkForTasker,
+          requesterEmailAddress,
+          taskerEmailAddress,
+          taskerPhoneNumber,
+          allowedToEmailRequester,
+          allowedToEmailTasker,
+          allowedToTextTasker,
+          allowedToPushNotifyTasker,
+          taskerPushNotSubscription,
+        } = await getAllContactDetails(jobId);
+        if (allowedToEmailRequester) {
+          sendGridEmailing.tellRequesterThanksforPaymentAndTaskerIsRevealed({
+            to: requesterEmailAddress,
+            requestTitle: jobDisplayName,
+            toDisplayName: requesterDisplayName,
+            linkForOwner: requestLinkForRequester,
+          });
+        }
+        if (allowedToEmailTasker) {
+          sendGridEmailing.tellTaskerThatTheyWereAwarded({
+            to: taskerEmailAddress,
+            requestTitle: jobDisplayName,
+            toDisplayName: taskerDisplayName,
+            linkForBidder: requestLinkForTasker,
+          });
+        }
+        if (allowedToTextTasker) {
+          sendTextService.sendJobIsAwardedText(
+            taskerPhoneNumber,
+            jobDisplayName,
+            requestLinkForTasker
+          );
+        }
+        if (allowedToPushNotifyTasker) {
+          WebPushNotifications.pushYouAreAwarded(taskerPushNotSubscription, {
+            taskerDisplayName: taskerDisplayName,
+            urlToLaunch: requestLinkForTasker,
+          });
+        }
+        return res.send({ success: true });
+      } else {
+        console.log('BIDORBOOLOGGING - PAYMENT - FAILD - reason unkown');
+        return res
+          .status(400)
+          .send('Did Not Process the payment. Could not locate the bidder Account info');
       }
+
       return res.status(200).send();
     } catch (e) {
       return res.status(400).send({ errorMsg: 'chargesucceeded failured', details: `${e}` });
@@ -508,6 +449,7 @@ module.exports = (app) => {
             paymentIntentId: id,
             amount,
           });
+
           return res.status(200).send();
         }
       }
