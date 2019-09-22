@@ -18,6 +18,8 @@ const requireUserHasAStripeAccountOrInitalizeOne = require('../middleware/requir
 const { jobDataAccess } = require('../data-access/jobDataAccess');
 const { bidDataAccess } = require('../data-access/bidDataAccess');
 
+const { getChargeDistributionDetails } = require('../utils/chargesCalculatorUtil');
+
 // const getAllContactDetails = require('../utils/commonDataUtils')
 //   .getAwardedJobOwnerBidderAndRelevantNotificationDetails;
 
@@ -66,13 +68,13 @@ module.exports = (app) => {
             : [];
 
         // confirm award and pay
-        const checkActualBidAmount = bidAmount.value * 100;
-        const chargeOnRequester = Math.ceil(
-          checkActualBidAmount * BIDORBOO_SERVICECHARGE_FOR_REQUESTER
-        );
-        const totalCharge = checkActualBidAmount + chargeOnRequester;
-
-        const bidOrBooServiceFee = totalCharge * BIDORBOO_SERVICECHARGE_TOTAL;
+        const {
+          requesterTotalPayment,
+          bidOrBooPlatformFee,
+          taskerTotalPayoutAmount,
+          stripeCheckoutProcessingFee,
+          stripePayoutToTaskerProcessingFee,
+        } = getChargeDistributionDetails(bidAmount.value);
 
         let stripeAccDetails = await userDataAccess.getUserStripeAccount(bidderId);
 
@@ -111,12 +113,17 @@ module.exports = (app) => {
               jobId,
               bidId,
               note: `Requester Paid for ${theJob.displayTitle || theJob.templateId}`,
+              requesterTotalPayment,
+              bidOrBooPlatformFee,
+              taskerTotalPayoutAmount,
+              stripeCheckoutProcessingFee,
+              stripePayoutToTaskerProcessingFee,
             },
             taskId: jobId,
             taskName: theJob.displayTitle || theJob.templateId,
             requesterEmail,
-            totalCharge,
-            bidOrBooServiceFee,
+            totalCharge: requesterTotalPayment,
+            bidOrBooServiceFee: bidOrBooPlatformFee,
             requesterId,
             taskerAccId: stripeAccDetails.accId,
             requesterCustomerId,
