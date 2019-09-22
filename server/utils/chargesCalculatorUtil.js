@@ -14,7 +14,7 @@ exports.getChargeDistributionDetails = (totalBidAmountInDollars) => {
   const bidOrBooChargeOnRequester = BIDORBOO_SERVICECHARGE_FOR_REQUESTER * totalBidAmountInDollars;
   const requesterTotalPayment = Math.ceil(bidOrBooChargeOnRequester + totalBidAmountInDollars);
 
-  const bidOrBooPlatformFee = requesterTotalPayment * BIDORBOO_SERVICECHARGE_TOTAL;
+  const bidOrBooPlatformFee = Math.ceil(requesterTotalPayment * BIDORBOO_SERVICECHARGE_TOTAL);
 
   // amount stripe will take on every checkout
   const stripeCheckoutProcessingFee =

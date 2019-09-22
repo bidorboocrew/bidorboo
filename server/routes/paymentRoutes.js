@@ -20,13 +20,10 @@ const { bidDataAccess } = require('../data-access/bidDataAccess');
 
 const { getChargeDistributionDetails } = require('../utils/chargesCalculatorUtil');
 
-// const getAllContactDetails = require('../utils/commonDataUtils')
-//   .getAwardedJobOwnerBidderAndRelevantNotificationDetails;
+const getAllContactDetails = require('../utils/commonDataUtils')
+  .getAwardedJobOwnerBidderAndRelevantNotificationDetails;
 
 const keys = require('../config/keys');
-
-const BIDORBOO_SERVICECHARGE_FOR_REQUESTER = 0.06;
-const BIDORBOO_SERVICECHARGE_TOTAL = 0.1;
 
 module.exports = (app) => {
   app.post(
@@ -68,13 +65,9 @@ module.exports = (app) => {
             : [];
 
         // confirm award and pay
-        const {
-          requesterTotalPayment,
-          bidOrBooPlatformFee,
-          taskerTotalPayoutAmount,
-          stripeCheckoutProcessingFee,
-          stripePayoutToTaskerProcessingFee,
-        } = getChargeDistributionDetails(bidAmount.value);
+        const { requesterTotalPayment, bidOrBooPlatformFee } = getChargeDistributionDetails(
+          bidAmount.value
+        );
 
         let stripeAccDetails = await userDataAccess.getUserStripeAccount(bidderId);
 
@@ -113,11 +106,6 @@ module.exports = (app) => {
               jobId,
               bidId,
               note: `Requester Paid for ${theJob.displayTitle || theJob.templateId}`,
-              requesterTotalPayment,
-              bidOrBooPlatformFee,
-              taskerTotalPayoutAmount,
-              stripeCheckoutProcessingFee,
-              stripePayoutToTaskerProcessingFee,
             },
             taskId: jobId,
             taskName: theJob.displayTitle || theJob.templateId,
@@ -356,8 +344,14 @@ module.exports = (app) => {
         } = event;
 
         const {
+          id: chargeId,
           captured,
           paid,
+          application_fee_amount: applicationFeeAmount,
+          amount,
+          payment_intent: paymentIntentId,
+          payment_method: paymentMethodId,
+          destination: destinationStripeAcc,
           metadata: { bidId, jobId },
         } = chargeObject;
 
@@ -371,7 +365,14 @@ module.exports = (app) => {
         // console.log('BidOrBooPayment - charge Succeeded');
         // console.log('-------BidOrBooLogging----------------------');
         // update the job and bidder with the chosen awarded bid
-        await jobDataAccess.updateJobAwardedBid(jobId, bidId);
+        await jobDataAccess.updateJobWithAwardedBidAndPaymentDetails(jobId, bidId, {
+          amount,
+          chargeId,
+          applicationFeeAmount,
+          destinationStripeAcc,
+          paymentIntentId,
+          paymentMethodId,
+        });
         const {
           requesterDisplayName,
           taskerDisplayName,
@@ -416,7 +417,7 @@ module.exports = (app) => {
             urlToLaunch: requestLinkForTasker,
           });
         }
-        return res.send({ success: true });
+        return res.status(200).send();
       } else {
         console.log('BIDORBOOLOGGING - PAYMENT - FAILD - reason unkown');
         return res
@@ -432,37 +433,38 @@ module.exports = (app) => {
 
   app.post(ROUTES.API.PAYMENT.POST.checkoutFulfillment, async (req, res, next) => {
     try {
-      console.log('payoutsWebhook is triggered');
+      return res.status(200).send();
+      // console.log('payoutsWebhook is triggered');
 
-      // sign key by strip
-      let endpointSecret = keys.stripeWebhookSessionSig;
-      let sig = req.headers['stripe-signature'];
-      let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
+      // // sign key by strip
+      // let endpointSecret = keys.stripeWebhookSessionSig;
+      // let sig = req.headers['stripe-signature'];
+      // let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
 
-      if (event) {
-        const { type } = event;
+      // if (event) {
+      //   const { type } = event;
 
-        // update customer card with card in this
-        // update address
-        if (type === 'checkout.session.completed') {
-          const session = event.data.object;
-          const { payment_intent } = session;
-          const paymentIntentDetails = await stripeServiceUtil.getPaymentIntents(payment_intent);
-          const { metadata, id } = paymentIntentDetails;
+      //   // update customer card with card in this
+      //   // update address
+      //   if (type === 'checkout.session.completed') {
+      //     const session = event.data.object;
+      //     const { payment_intent } = session;
+      //     const paymentIntentDetails = await stripeServiceUtil.getPaymentIntents(payment_intent);
+      //     const { metadata, id } = paymentIntentDetails;
 
-          const { jobId, bidId, amount } = metadata;
+      //     const { jobId, bidId, amount } = metadata;
 
-          const updateJobAndBid = await jobDataAccess.updateJobAwardedBid(jobId, bidId, {
-            paymentIntentId: id,
-            amount,
-          });
+      //     const updateJobAndBid = await jobDataAccess.updateJobAwardedBid(jobId, bidId, {
+      //       paymentIntentId: id,
+      //       amount,
+      //     });
 
-          return res.status(200).send();
-        }
-      }
-      return res.status(400).send({
-        safeMsg: 'something went wrong handling payment, our crew wil be in touch with you',
-      });
+      //     return res.status(200).send();
+      //   }
+      // }
+      // return res.status(400).send({
+      //   safeMsg: 'something went wrong handling payment, our crew wil be in touch with you',
+      // });
     } catch (e) {
       return res.status(400).send({ errorMsg: 'payoutsWebhook failured', details: `${e}` });
     }

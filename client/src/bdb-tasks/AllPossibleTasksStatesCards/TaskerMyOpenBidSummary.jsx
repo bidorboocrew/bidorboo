@@ -59,7 +59,8 @@ class TaskerMyOpenBidSummary extends React.Component {
       return <div>TaskerMyOpenBidSummary is missing properties</div>;
     }
 
-    const isAwardedToSomeoneElse = state === REQUEST_STATES.AWARDED;
+    const isAwardedToSomeoneElse =
+      state === REQUEST_STATES.AWARDED && bid._id !== job._awardedBidRef;
 
     return (
       <div className={`card has-text-centered cardWithButton`}>

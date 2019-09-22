@@ -116,7 +116,8 @@ export default class TaskerMyOpenBidDetails extends React.Component {
 
     const { showMore, showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
-    const isAwardedToSomeoneElse = state === REQUEST_STATES.AWARDED;
+    const isAwardedToSomeoneElse =
+      state === REQUEST_STATES.AWARDED && bid._id !== job._awardedBidRef;
 
     return (
       <React.Fragment>

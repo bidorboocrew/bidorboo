@@ -25,6 +25,10 @@ const JobSchema = new Schema(
     _reviewRef: { type: Schema.Types.ObjectId, ref: 'ReviewModel' },
     processedPayment: {
       paymentIntentId: { type: String },
+      paymentMethodId: { type: String },
+      destinationStripeAcc: { type: String },
+      chargeId: { type: String },
+      applicationFeeAmount: { type: Number, min: MIN_BID_AMOUNT * 100, max: MAX_BID_AMOUNT * 100 },
       amount: { type: Number, min: MIN_BID_AMOUNT * 100, max: MAX_BID_AMOUNT * 100 },
       refund: {
         amount: { type: Number, min: MIN_BID_AMOUNT, max: MAX_BID_AMOUNT },
@@ -282,5 +286,4 @@ JobSchema.pre('remove', async function(next) {
   //   });
 });
 
-//no need for index on these . avoid performance slowness
 mongoose.model('JobModel', JobSchema);

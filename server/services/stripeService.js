@@ -148,6 +148,7 @@ https: exports.util = {
       client_reference_id: requesterId,
       customer: requesterCustomerId,
       submit_type: 'book',
+
       line_items: [
         {
           name: title,
@@ -158,6 +159,7 @@ https: exports.util = {
           images: taskImages ? taskImages : [''],
         },
       ],
+
       payment_intent_data: {
         application_fee_amount: bidOrBooServiceFee,
         capture_method: 'automatic',
