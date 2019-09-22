@@ -188,13 +188,15 @@ class BidderRootPage extends React.Component {
 
     return (
       <div>
-        <section className="hero is-small">
-          <div
-            style={{ padding: '1rem 0.5rem', backgroundImage: `url(${BidRootBg})` }}
-            className="hero-body"
-          >
+        <section className="hero is-small is-dark">
+          <div className="hero-body">
             <div className="container">
-              <h1 className="has-text-white title">Search For Tasks</h1>
+              <h1
+                style={{ marginBottom: '0.5rem', paddingLeft: 10 }}
+                className="has-text-white subtitle"
+              >
+                Search For Tasks
+              </h1>
 
               <div
                 style={{ background: 'transparent' }}
