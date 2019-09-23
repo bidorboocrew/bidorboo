@@ -281,14 +281,6 @@ https: exports.util = {
     return stripe.paymentMethods.attach(paymentMethodId, {
       customer: customerId,
     });
-    // return stripe.customers.update('cus_FdV8pImnyoVJDp', {
-    //   invoice_settings: {
-    //     default_payment_method: 'pm_1F8E8DIkbQJUBZs8R7wnqWuH',
-    //   },
-    //   name: 'saeed',
-    //   email: 'saidymadi@gmail.com',
-    //   phone: '6138677243',
-    // });
   },
 
   initializeConnectedAccount: async ({ userId, displayName, email }) => {
