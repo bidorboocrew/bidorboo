@@ -159,6 +159,7 @@ module.exports = (app) => {
 
       // const x = await stripeServiceUtil.sendPayoutToExternalBank('acct_1EmZPhKXcpvKCLJw', 4800);
       // await jobDataAccess.BidOrBooAdmin.CleanUpAllExpiredNonAwardedJobs();
+      // await jobDataAccess.BidOrBooAdmin.SendPayoutsToBanks();
       let existingUser = null;
       if (req.user) {
         existingUser = await userDataAccess.findUserAndAllNewNotifications(req.user.userId);

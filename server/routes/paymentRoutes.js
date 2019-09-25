@@ -3,16 +3,17 @@ const requireLogin = require('../middleware/requireLogin');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
 // const requiresCheckPayBidderDetails = require('../middleware/requiresCheckPayBidderDetails');
 const requireJobOwner = require('../middleware/requireJobOwner');
+const requireNoPaymentProcessedForThisJobBefore = require('../middleware/requireNoPaymentProcessedForThisJobBefore');
+
 const requireJobIsNotAwarded = require('../middleware/requireJobIsNotAwarded');
 const userDataAccess = require('../data-access/userDataAccess');
 
 const sendGridEmailing = require('../services/sendGrid').EmailService;
-// const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
-// const WebPushNotifications = require('../services/WebPushNotifications').WebPushNotifications;
+const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
+const WebPushNotifications = require('../services/WebPushNotifications').WebPushNotifications;
 
 const stripeServiceUtil = require('../services/stripeService').util;
 const requireUserHasAStripeAccountOrInitalizeOne = require('../middleware/requireUserHasAStripeAccountOrInitalizeOne');
-// const requireHasAnExistingStripeAcc = require('../middleware/requireHasAnExistingStripeAcc');
 
 // const { paymentDataAccess } = require('../data-access/paymentDataAccess');
 const { jobDataAccess } = require('../data-access/jobDataAccess');
@@ -31,9 +32,12 @@ module.exports = (app) => {
     requireLogin,
     requireJobOwner,
     requireJobIsNotAwarded,
+    requireNoPaymentProcessedForThisJobBefore,
     // requiresCheckPayBidderDetails,
     async (req, res, next) => {
       try {
+        const mongoUser_id = req.user._id.toString();
+
         const { jobId, bidId } = req.body.data;
 
         const theBid = await bidDataAccess.getBidById(bidId);
@@ -116,6 +120,9 @@ module.exports = (app) => {
             taskerAccId: stripeAccDetails.accId,
             requesterCustomerId,
           });
+
+          await jobDataAccess.updateLatestCheckoutSession(jobId, mongoUser_id, sessionClientId);
+
           return res.status(200).send({ sessionClientId });
         }
       } catch (e) {
@@ -278,12 +285,6 @@ module.exports = (app) => {
     }
   });
 
-  // // app.get(ROUTES.API.PAYMENT.GET.requestCharge, async (req, res, next) => {
-  // //   const session = await stripeServiceUtil.retrieveTaskChargeSessionId();
-
-  // //   return res.status(200).send({ session });
-  // // });
-
   app.post(ROUTES.API.PAYMENT.POST.payoutsWebhook, async (req, res, next) => {
     try {
       console.log('payoutsWebhook is triggered');
@@ -335,7 +336,7 @@ module.exports = (app) => {
       console.log('chargesucceeded is triggered');
 
       // sign key by strip
-      let endpointSecret = 'whsec_fH6MZ3UdzMI5yfiP5FaVevvNv3La3CN8';
+      let endpointSecret = keys.stripeWebhookChargesSig;
       let sig = req.headers['stripe-signature'];
       let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
       if (event) {
@@ -424,8 +425,6 @@ module.exports = (app) => {
           .status(400)
           .send('Did Not Process the payment. Could not locate the bidder Account info');
       }
-
-      return res.status(200).send();
     } catch (e) {
       return res.status(400).send({ errorMsg: 'chargesucceeded failured', details: `${e}` });
     }

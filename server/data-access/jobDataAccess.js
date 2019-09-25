@@ -407,92 +407,104 @@ exports.jobDataAccess = {
       return;
     },
     SendPayoutsToBanks: async () => {
-      // find all jobs that are done and does not have payment to bank on the way
-      console.log('-------BidOrBooLogging----------------------');
-      console.log(' SendPayoutsToBanks');
-      return JobModel.find({
-        _awardedBidRef: { $exists: true },
-        state: { $in: ['DONE'] },
-        paymentToBank: { $exists: false },
-      })
-        .lean(true)
-        .exec((err, res) => {
-          if (err) {
-            throw err;
-          }
+      try {
+        // find all jobs that are done and does not have payment to bank on the way
+        console.log('-------BidOrBooLogging----------------------');
+        console.log(' SendPayoutsToBanks');
+        return JobModel.find({
+          _awardedBidRef: { $exists: true },
+          processedPayment: { $exists: true },
+          state: { $in: ['DONE'] },
+          paymentToBank: { $exists: false },
+        })
+          .lean(true)
+          .exec((err, res) => {
+            if (err) {
+              throw err;
+            }
 
-          if (res && res.length > 0) {
-            //xxxxxx
-            // res.forEach(async (job) => {
-            //   const { _id: jobId, processedPayment } = job;
-            //   const { paymentIntentId } = processedPayment;
-            //   const {
-            //     amount_received,
-            //     application_fee_amount,
-            //     transfer_data: { destination: taskerAccId },
-            //   } = await stripeServiceUtil.getPaymentIntents(paymentIntentId);
-            //   accDetails = null;
-            //   // const updateJobAndBid = await jobDataAccess.updateJobAwardedBid(jobId, bidId, {
-            //   //   paymentIntentId: id,
-            //   //   amount,
-            //   // });
-            //   const taskerConnectAccDetails = await stripeServiceUtil.getConnectedAccountDetails(
-            //     taskerAccId
-            //   );
-            //   // confirm payouts enabeld
-            //   if (taskerConnectAccDetails && taskerConnectAccDetails.payouts_enabled) {
-            //     const taskerPayout = amount_received - application_fee_amount;
-            //     const [
-            //       accountBalance,
-            //       payoutsList,
-            //     ] = await stripeServiceUtil.getConnectedAccountBalance(taskerAccId);
-            //     let isThereEnoughToCoverPayout =
-            //       accountBalance &&
-            //       accountBalance.available &&
-            //       accountBalance.available.some((balance) => {
-            //         return balance.amount === taskerPayout;
-            //       });
-            //     // confirm there is enough available balance to cover payment
-            //     if (isThereEnoughToCoverPayout) {
-            //       console.log('send payout');
-            //       const payoutInititated = await stripeServiceUtil.payoutToBank(taskerAccId, {
-            //         amount: taskerPayout,
-            //         metadata: {
-            //           paymentIntentId,
-            //           jobId: jobId.toString(),
-            //           taskerAccId,
-            //           note: 'Released Payout to Tasker',
-            //         },
-            //       });
-            //       console.log({
-            //         amount: taskerPayout,
-            //         paymentIntentId,
-            //         jobId: jobId.toString(),
-            //         taskerAccId,
-            //         note: 'Release Payout to Tasker',
-            //       });
-            //       const { id: payoutId, status } = payoutInititated;
-            //       // update job with the payment details
-            //       const updatedJob = await JobModel.findOneAndUpdate(
-            //         { jobId },
-            //         {
-            //           $set: {
-            //             state: 'PAYMENT_RELEASED',
-            //             payoutDetails: {
-            //               payoutId,
-            //               status,
-            //             },
-            //           },
-            //         },
-            //         { new: true }
-            //       );
-            //       // xxx on update job update bid
-            //     }
-            //   }
-            //   console.log('-------BidOrBooLogging----------------------');
-            // });
-          }
-        });
+            if (res && res.length > 0) {
+              //xxxxxx
+              res.forEach(async (job) => {
+                const { _id: jobId, processedPayment } = job;
+                const {
+                  amount,
+                  applicationFeeAmount,
+                  destinationStripeAcc,
+                  paymentIntentId,
+                } = processedPayment;
+                const {
+                  amount_received,
+                  application_fee_amount,
+                  transfer_data: { destination: taskerAccId },
+                } = await stripeServiceUtil.getPaymentIntents(paymentIntentId);
+
+                const taskerConnectAccDetails = await stripeServiceUtil.getConnectedAccountDetails(
+                  taskerAccId
+                );
+
+                // confirm payouts enabeld
+                if (taskerConnectAccDetails && taskerConnectAccDetails.payouts_enabled) {
+                  const taskerPayout = amount_received - application_fee_amount;
+
+                  const [accountBalance] = await stripeServiceUtil.getConnectedAccountBalance(
+                    taskerAccId
+                  );
+
+                  let totalAvailableBalanceForPayout =
+                    accountBalance &&
+                    accountBalance.available &&
+                    accountBalance.available.reduce(
+                      (sumOfAllAvailableBalances, balanceItem) =>
+                        sumOfAllAvailableBalances + balanceItem.amount,
+                      0
+                    );
+
+                  let isThereEnoughToCoverPayout = totalAvailableBalanceForPayout >= taskerPayout;
+                  // confirm there is enough available balance to cover payment
+                  if (isThereEnoughToCoverPayout) {
+                    console.log('send payout');
+                    const payoutInititated = await stripeServiceUtil.payoutToBank(taskerAccId, {
+                      amount: taskerPayout,
+                      metadata: {
+                        paymentIntentId,
+                        jobId: jobId.toString(),
+                        taskerAccId,
+                        note: 'Released Payout to Tasker',
+                      },
+                    });
+                    console.log({
+                      amount: taskerPayout,
+                      paymentIntentId,
+                      jobId: jobId.toString(),
+                      taskerAccId,
+                      note: 'Release Payout to Tasker',
+                    });
+                    const { id: payoutId, status } = payoutInititated;
+                    // update job with the payment details
+                    const updatedJob = await JobModel.findOneAndUpdate(
+                      { jobId },
+                      {
+                        $set: {
+                          state: 'PAYMENT_RELEASED',
+                          payoutDetails: {
+                            payoutId,
+                            status,
+                          },
+                        },
+                      },
+                      { new: true }
+                    );
+                    // xxx on update job update bid
+                  }
+                }
+                console.log('-------BidOrBooLogging----------------------');
+              });
+            }
+          });
+      } catch (e) {
+        console.error('-------BidOrBooLogging----------------------');
+      }
     },
 
     CleanUpAllBidsAssociatedWithDoneJobs: async () => {
@@ -2090,17 +2102,32 @@ exports.jobDataAccess = {
       }
     });
   },
-  updateJobById: async (jobId, updateDetails) => {
+  updateLatestCheckoutSession: async (jobId, mongoUser_id, sessionClientId) => {
     return new Promise(async (resolve, reject) => {
       try {
         //find the job
-        await JobModel.findOneAndUpdate(
-          { _id: jobId, _ownerRef: mongoUser_id },
-          {
-            ...updateDetails,
-          },
-          { new: true }
-        );
+
+        await JobModel.findOne({ _id: jobId, _ownerRef: mongoUser_id }, async (err, jobDoc) => {
+          if (err) {
+            return reject(err);
+          }
+          jobDoc.latestCheckoutSession = sessionClientId;
+          await jobDoc.save();
+          resolve(true);
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+  updateJobById: async (jobId, mongoUser_id, updateDetails) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await JobModel.findOneAndUpdate({
+          ...updateDetails,
+        })
+          .lean()
+          .exec();
         resolve(true);
       } catch (e) {
         reject(e);

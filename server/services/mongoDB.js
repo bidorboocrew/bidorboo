@@ -16,23 +16,31 @@ module.exports = (process) => {
     mongoose.set('debug', true);
   }
   const dbOptions = {
+    autoIndex: process.env.NODE_ENV !== 'production',
+    useCreateIndex: true,
     useFindAndModify: false,
     useNewUrlParser: true,
-    useCreateIndex: true,
-    keepAlive: 120,
-    reconnectTries: 20, // Never stop trying to reconnect
-    reconnectInterval: 5000, // Reconnect every 500ms,
+    poolSize: 10,
+    keepAlive: true,
+    reconnectTries: 10,
+    reconnectInterval: 3000,
     // config: { autoIndex: false }// avoid performance hit due to schema level indexing
   };
 
-  mongoose.connect(keys.mongoURI, dbOptions, (err) => {
-    if (err) {
-      console.log(
-        `BIDORBOO=== Could not connect to mongodb on localhost.
+  mongoose
+    .connect(keys.mongoURI, dbOptions, (err) => {
+      if (err) {
+        console.log(
+          `BIDORBOO=== Could not connect to mongodb on localhost.
         Ensure that you have mongodb running mongodb accepts connections on standard ports! errorMsg: ${err}`
-      );
-      throw err;
-    }
+        );
+        throw err;
+      }
+    })
+    .catch((error) => console.error(`BIDORBOO=== Mongoose Eror. ${err}`));
+
+  mongoose.connection.on('error', (err) => {
+    console.error(`BIDORBOO=== Mongoose Eror. ${err}`);
   });
 
   mongoose.set('useFindAndModify', false);

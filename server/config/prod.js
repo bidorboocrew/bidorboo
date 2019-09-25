@@ -14,6 +14,7 @@ module.exports = {
   stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
   stripeSecretKey: process.env.STRIPE_SECRET_KEY,
   stripeWebhookConnectedAccSig: process.env.STRIPE_WEBHOOK_CONNECTED_ACC_SIG,
+  stripeWebhookChargesSig: process.env.STRIPE_WEBHOOK_CHARGES_SIG,
   stripeWebhookPayoutAccSig: process.env.STRIPE_WEBHOOK_PAYOUT_ACC_SIG,
   stripeWebhookSessionSig: process.env.STRIPE_WEBHOOK_SESSION_ACC_SIG,
   sendGridKey: process.env.SEND_GRID_KEY,

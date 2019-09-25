@@ -14,97 +14,98 @@ if (process.env.NODE_ENV === 'production') {
   websiteUrl = 'https://www.bidorboo.com';
 }
 
-https: exports.util = {
+exports.util = {
   retrieveConnectedAccount: (account) => {
     return stripe.accounts.retrieve(account);
   },
-  createPaymentIntent: ({ metadata, taskName, amount, destinationAccId, taskId, requester }) => {
-    const description = `BidOrBoo - Charge for your ${taskName} request was recieved.`;
-
-    const BIDORBOO_SERVICECHARGE = 0.06;
-
-    // confirm award and pay
-    const originalCharge = amount.value;
-    const bidOrBooServiceFee = Math.ceil(originalCharge * BIDORBOO_SERVICECHARGE);
-    const totalAmount = (originalCharge + bidOrBooServiceFee) * 100;
-    //stripe.com/docs/api/payment_intents/create
-    https: return stripe.paymentIntents.create({
-      amount: totalAmount,
-      currency: 'cad',
-      application_fee_amount: bidOrBooServiceFee,
-      description: description,
-      payment_method_types: ['card'],
-      statement_descriptor: 'BidOrBoo Charge',
-      receipt_email: requester.email.emailAddress,
-      // confirm: true,
-      metadata: metadata,
-      // setup_future_usage: 'on_session' ,
-      // save_payment_method: true,
-      // customer: customID
-
-      transfer_data: {
-        destination: destinationAccId,
-      },
-      customer: 'cus_FdV8pImnyoVJDp',
-      payment_method: 'pm_1F8JwgIkbQJUBZs8X03HNthR',
-      save_payment_method: true,
-      setup_future_usage: 'on_session',
-      // return_url: `http://localhost:3000/my-request/review-request-details/${taskId}/?success=true`,
-      // cancel_url: `http://localhost:3000/my-request/review-request-details/${taskId}/?success=false`,
-    });
+  retrieveSession: (sessionId) => {
+    return stripe.checkout.sessions.retrieve(sessionId);
   },
-  retrieveTaskChargeSessionId: ({
-    metadata,
-    taskName,
-    amount,
-    destinationAccId,
-    taskId,
-    requester,
-  }) => {
-    const description = `BidOrBoo - Charge for your ${taskName} request was recieved.`;
+  // createPaymentIntent: ({ metadata, taskName, amount, destinationAccId, taskId, requester }) => {
+  //   const description = `BidOrBoo - Charge for your ${taskName} request was recieved.`;
 
-    const BIDORBOO_SERVICECHARGE = 0.06;
+  //   const BIDORBOO_SERVICECHARGE = 0.06;
 
-    // confirm award and pay
-    const originalCharge = amount.value;
-    const bidOrBooServiceFee = Math.ceil(originalCharge * BIDORBOO_SERVICECHARGE);
-    const totalAmount = (originalCharge + bidOrBooServiceFee) * 100;
-    // const bidderPayoutAmount = chargeAmount - bidOrBooTotalCommission;
+  //   // confirm award and pay
+  //   const originalCharge = amount.value;
+  //   const bidOrBooServiceFee = Math.ceil(originalCharge * BIDORBOO_SERVICECHARGE);
+  //   const totalAmount = (originalCharge + bidOrBooServiceFee) * 100;
+  //   //stripe.com/docs/api/payment_intents/create
+  //   https: return stripe.paymentIntents.create({
+  //     amount: totalAmount,
+  //     currency: 'cad',
+  //     application_fee_amount: bidOrBooServiceFee,
+  //     description: description,
+  //     payment_method_types: ['card'],
+  //     statement_descriptor: 'BidOrBoo Charge',
+  //     receipt_email: requester.email.emailAddress,
+  //     // confirm: true,
+  //     metadata: metadata,
+  //     // setup_future_usage: 'on_session' ,
+  //     // save_payment_method: true,
+  //     // customer: customID
 
-    return stripe.checkout.sessions.create({
-      customer: 'cus_FdV8pImnyoVJDp',
-      customer_email: requester.email.emailAddress,
-      line_items: [
-        {
-          name: `BidOrBoo - ${taskName}`,
-          amount: totalAmount,
-          currency: 'cad',
-          quantity: 1,
-          description: description,
-          // images: would be nice to show images
-        },
-      ],
-      payment_intent_data: {
-        application_fee_amount: bidOrBooServiceFee,
-        capture_method: 'automatic',
-        description: description,
-        metadata: metadata,
-        statement_descriptor: 'BidOrBoo Charge',
-        receipt_email: requester.email.emailAddress,
-        setup_future_usage: 'off_session',
-        transfer_data: {
-          destination: destinationAccId,
-        },
-      },
-      submit_type: 'book',
-      client_reference_id: 'cus_FdV8pImnyoVJDp',
-      // requester._id.toString(),
+  //     transfer_data: {
+  //       destination: destinationAccId,
+  //     },
+  //     customer: 'cus_FdV8pImnyoVJDp',
+  //     payment_method: 'pm_1F8JwgIkbQJUBZs8X03HNthR',
+  //     save_payment_method: true,
+  //     setup_future_usage: 'on_session',
+  //     // return_url: `http://localhost:3000/my-request/review-request-details/${taskId}/?success=true`,
+  //     // cancel_url: `http://localhost:3000/my-request/review-request-details/${taskId}/?success=false`,
+  //   });
+  // },
+  // retrieveTaskChargeSessionId: ({
+  //   metadata,
+  //   taskName,
+  //   amount,
+  //   destinationAccId,
+  //   taskId,
+  //   requester,
+  // }) => {
+  //   const description = `BidOrBoo - Charge for booking ${taskName} service`;
 
-      payment_method_types: ['card'],
-      success_url: `${websiteUrl}/my-request/review-request-details/${taskId}/?success=true`,
-      cancel_url: `${websiteUrl}/my-request/review-request-details/${taskId}/?success=false`,
-    });
-  },
+  //   const BIDORBOO_SERVICECHARGE = 0.06;
+
+  //   // confirm award and pay
+  //   const originalCharge = amount.value;
+  //   const bidOrBooServiceFee = Math.ceil(originalCharge * BIDORBOO_SERVICECHARGE);
+  //   const totalAmount = (originalCharge + bidOrBooServiceFee) * 100;
+  //   // const bidderPayoutAmount = chargeAmount - bidOrBooTotalCommission;
+
+  //   return stripe.checkout.sessions.create({
+  //     customer: 'cus_FdV8pImnyoVJDp',
+  //     customer_email: requester.email.emailAddress,
+  //     client_reference_id: 'cus_FdV8pImnyoVJDp',
+  //     payment_method_types: ['card'],
+  //     success_url: `${websiteUrl}/my-request/review-request-details/${taskId}/?success=true`,
+  //     cancel_url: `${websiteUrl}/my-request/review-request-details/${taskId}/?success=false`,
+  //     billing_address_collection: 'auto',
+  //     line_items: [
+  //       {
+  //         name: `BidOrBoo - ${taskName}`,
+  //         amount: totalAmount,
+  //         currency: 'cad',
+  //         quantity: 1,
+  //         description: description,
+  //         // images: would be nice to show images
+  //       },
+  //     ],
+  //     payment_intent_data: {
+  //       application_fee_amount: bidOrBooServiceFee,
+  //       capture_method: 'automatic',
+  //       description: description,
+  //       metadata: metadata,
+  //       statement_descriptor: 'BidOrBoo Charge',
+  //       receipt_email: requester.email.emailAddress,
+  //       setup_future_usage: 'off_session',
+  //       transfer_data: {
+  //         destination: destinationAccId,
+  //       },
+  //     },
+  //   });
+  // },
 
   initializeCustomer: ({ email, name }) => {
     return stripe.customers.create({
@@ -148,7 +149,8 @@ https: exports.util = {
       client_reference_id: requesterId,
       customer: requesterCustomerId,
       submit_type: 'book',
-
+      mode: 'payment',
+      billing_address_collection: 'auto',
       line_items: [
         {
           name: title,
@@ -159,7 +161,6 @@ https: exports.util = {
           images: taskImages ? taskImages : [''],
         },
       ],
-
       payment_intent_data: {
         application_fee_amount: bidOrBooServiceFee,
         capture_method: 'automatic',

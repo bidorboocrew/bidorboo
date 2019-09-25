@@ -23,6 +23,7 @@ const JobSchema = new Schema(
       ref: 'BidModel',
     },
     _reviewRef: { type: Schema.Types.ObjectId, ref: 'ReviewModel' },
+    latestCheckoutSession: { type: String },
     processedPayment: {
       paymentIntentId: { type: String },
       paymentMethodId: { type: String },
