@@ -103,154 +103,157 @@ class OtherUserProfileForReviewPage extends React.Component {
     }
 
     return (
-      <div className="container is-widescreen">
-        <section className="hero is-white is-small">
-          <div className="hero-body">
-            <h1 className="title">
-              <span className="icon">
-                <i className="far fa-user" />
-              </span>
-              <span>{` ${otherUserProfileInfo.displayName}'s Profile`}</span>
-            </h1>
-            <h2>
-              <a className="button is-link" onClick={() => goBackToPreviousRoute()}>
+      <>
+        <br></br>
+        <div className="container is-widescreen">
+          <section className="hero is-white is-small">
+            <div className="hero-body">
+              <h1 className="title">
                 <span className="icon">
-                  <i className="far fa-arrow-alt-circle-left" />
+                  <i className="far fa-user" />
                 </span>
-                <span>Go Back</span>
-              </a>
-            </h2>
-          </div>
-        </section>
+                <span>{` ${otherUserProfileInfo.displayName}'s Profile`}</span>
+              </h1>
+              <h2>
+                <a className="button is-link" onClick={() => goBackToPreviousRoute()}>
+                  <span className="icon">
+                    <i className="far fa-arrow-alt-circle-left" />
+                  </span>
+                  <span>Go Back</span>
+                </a>
+              </h2>
+            </div>
+          </section>
 
-        <div className="card noBordered">
-          <div className="card-content">
-            <div className="content">
-              {/* <div>
+          <div className="card noBordered">
+            <div className="card-content">
+              <div className="content">
+                {/* <div>
                 Global Rating <strong> {globalRating} </strong>
               </div> */}
-              <div style={{ marginBottom: 10 }} className="has-text-centered">
-                <figure
-                  style={{ marginBottom: 6, display: 'inline-block' }}
-                  className="image is-128x128"
-                >
-                  <img
-                    style={{
-                      width: 128,
-                      height: 128,
-                      boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
-                    }}
-                    src={otherUserProfileInfo.profileImage.url}
-                  />
-                </figure>
-                <label style={{ marginBottom: 0 }} className="label">
-                  {otherUserProfileInfo.displayName}
-                </label>
-                {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
-                  <div className="has-text-grey" style={{ lineHeight: '52px', fontSize: 18 }}>
-                    <span className="icon">
-                      <i className="far fa-star" />
-                    </span>
-                    <span>--</span>
+                <div style={{ marginBottom: 10 }} className="has-text-centered">
+                  <figure
+                    style={{ marginBottom: 6, display: 'inline-block' }}
+                    className="image is-128x128"
+                  >
+                    <img
+                      style={{
+                        width: 128,
+                        height: 128,
+                        boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
+                      }}
+                      src={otherUserProfileInfo.profileImage.url}
+                    />
+                  </figure>
+                  <label style={{ marginBottom: 0 }} className="label">
+                    {otherUserProfileInfo.displayName}
+                  </label>
+                  {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
+                    <div className="has-text-grey" style={{ lineHeight: '52px', fontSize: 18 }}>
+                      <span className="icon">
+                        <i className="far fa-star" />
+                      </span>
+                      <span>--</span>
+                    </div>
+                  ) : (
+                    <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 18 }}>
+                      <span className="icon">
+                        <i className="fas fa-star" />
+                      </span>
+                      <span>{globalRating}</span>
+                    </div>
+                  )}
+                  <VerifiedVia userDetails={otherUserProfileInfo} />
+
+                  <label className="help">Status: {membershipStatusDisplay}</label>
+
+                  <label className="help">
+                    Member Sicne: {moment.duration(moment().diff(moment(createdAt))).humanize()}
+                  </label>
+                </div>
+                <div className="tile is-ancestor has-text-centered">
+                  <div className="tile is-parent">
+                    <article className="tile is-child box">
+                      <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
+                        {numberOfTimesBeenRated}
+                      </p>
+                      <p className="is-size-6">ratings recieved</p>
+                    </article>
                   </div>
-                ) : (
-                  <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 18 }}>
-                    <span className="icon">
-                      <i className="fas fa-star" />
-                    </span>
-                    <span>{globalRating}</span>
+                  <div className="tile is-parent">
+                    <article className="tile is-child box">
+                      <p
+                        style={{ marginBottom: 4 }}
+                        className={`title has-text-weight-bold ${
+                          fulfilledBids.length > 0 ? 'has-text-success' : ''
+                        }`}
+                      >
+                        {fulfilledBids.length}
+                      </p>
+                      <p className="is-size-6">Completed Tasks</p>
+                    </article>
                   </div>
+                  <div className="tile is-parent">
+                    <article className="tile is-child box">
+                      <p
+                        style={{ marginBottom: 4 }}
+                        className={`title has-text-weight-bold ${
+                          canceledBids.length > 0 ? 'has-text-danger' : ''
+                        }`}
+                      >
+                        {canceledBids.length}
+                      </p>
+                      <p className="is-size-6">Cancelations of Agreements</p>
+                    </article>
+                  </div>
+                  <div className="tile is-parent">
+                    <article className="tile is-child box">
+                      <p
+                        style={{ marginBottom: 4 }}
+                        className={`title has-text-weight-bold ${
+                          fulfilledJobs.length > 0 ? 'has-text-success' : ''
+                        }`}
+                      >
+                        {fulfilledJobs.length}
+                      </p>
+                      <p className="is-size-6">Requests Posted and fullfilled</p>
+                    </article>
+                  </div>
+                  <div className="tile is-parent">
+                    <article className="tile is-child box">
+                      <p
+                        style={{ marginBottom: 4 }}
+                        className={`title has-text-weight-bold${
+                          canceledJobs.length > 0 ? 'has-text-danger' : ''
+                        }`}
+                      >
+                        {canceledJobs.length}
+                      </p>
+                      <p className="is-size-6">Requests Cancelled after agreement</p>
+                    </article>
+                  </div>
+                </div>
+
+                {asABidderReviews && (
+                  <React.Fragment>
+                    <br />
+                    <label className="label">Reviews recieved as a Tasker :</label>
+                    {asABidderReviews}
+                  </React.Fragment>
                 )}
-                <VerifiedVia userDetails={otherUserProfileInfo} />
 
-                <label className="help">Status: {membershipStatusDisplay}</label>
-
-                <label className="help">
-                  Member Sicne: {moment.duration(moment().diff(moment(createdAt))).humanize()}
-                </label>
+                {asAProposerReviewsRef && (
+                  <React.Fragment>
+                    <br />
+                    <label className="label">Reviews recieved as a Requester :</label>
+                    {asAProposerReviewsRef}
+                  </React.Fragment>
+                )}
               </div>
-              <div className="tile is-ancestor has-text-centered">
-                <div className="tile is-parent">
-                  <article className="tile is-child box">
-                    <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
-                      {numberOfTimesBeenRated}
-                    </p>
-                    <p className="is-size-6">ratings recieved</p>
-                  </article>
-                </div>
-                <div className="tile is-parent">
-                  <article className="tile is-child box">
-                    <p
-                      style={{ marginBottom: 4 }}
-                      className={`title has-text-weight-bold ${
-                        fulfilledBids.length > 0 ? 'has-text-success' : ''
-                      }`}
-                    >
-                      {fulfilledBids.length}
-                    </p>
-                    <p className="is-size-6">Completed Tasks</p>
-                  </article>
-                </div>
-                <div className="tile is-parent">
-                  <article className="tile is-child box">
-                    <p
-                      style={{ marginBottom: 4 }}
-                      className={`title has-text-weight-bold ${
-                        canceledBids.length > 0 ? 'has-text-danger' : ''
-                      }`}
-                    >
-                      {canceledBids.length}
-                    </p>
-                    <p className="is-size-6">Cancelations of Agreements</p>
-                  </article>
-                </div>
-                <div className="tile is-parent">
-                  <article className="tile is-child box">
-                    <p
-                      style={{ marginBottom: 4 }}
-                      className={`title has-text-weight-bold ${
-                        fulfilledJobs.length > 0 ? 'has-text-success' : ''
-                      }`}
-                    >
-                      {fulfilledJobs.length}
-                    </p>
-                    <p className="is-size-6">Requests Posted and fullfilled</p>
-                  </article>
-                </div>
-                <div className="tile is-parent">
-                  <article className="tile is-child box">
-                    <p
-                      style={{ marginBottom: 4 }}
-                      className={`title has-text-weight-bold${
-                        canceledJobs.length > 0 ? 'has-text-danger' : ''
-                      }`}
-                    >
-                      {canceledJobs.length}
-                    </p>
-                    <p className="is-size-6">Requests Cancelled after agreement</p>
-                  </article>
-                </div>
-              </div>
-
-              {asABidderReviews && (
-                <React.Fragment>
-                  <br />
-                  <label className="label">Reviews recieved as a Tasker :</label>
-                  {asABidderReviews}
-                </React.Fragment>
-              )}
-
-              {asAProposerReviewsRef && (
-                <React.Fragment>
-                  <br />
-                  <label className="label">Reviews recieved as a Requester :</label>
-                  {asAProposerReviewsRef}
-                </React.Fragment>
-              )}
             </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }
