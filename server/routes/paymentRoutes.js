@@ -362,6 +362,12 @@ module.exports = (app) => {
 
         console.log('BIDORBOOLOGGING - PAYMENT - process charge');
 
+        const theJob = await jobDataAccess.getJobById(jobId);
+
+        if (theJob && theJob.processedPayment && theJob.processedPayment.chargeId) {
+          // we already reported this , dont do anything
+          return res.status(200).send();
+        }
         // console.log('-------BidOrBooLogging----------------------');
         // console.log('BidOrBooPayment - charge Succeeded');
         // console.log('-------BidOrBooLogging----------------------');

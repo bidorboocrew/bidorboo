@@ -6,7 +6,6 @@ const requireLogin = require('../middleware/requireLogin');
 const utils = require('../utils/utilities');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
 
-
 const SchemaValidator = require('../middleware/SchemaValidator');
 
 // We are using the formatted Joi Validation error
@@ -150,19 +149,10 @@ module.exports = (app) => {
 
   app.get(ROUTES.API.USER.GET.currentUser, async (req, res, next) => {
     try {
-      // xxxx
-      // stripeServiceUtil.deleteAllStripeAccountsInMySystem(true);
-
-      // const [balance, payoutsList] = await stripeServiceUtil.getConnectedAccountBalance(
-      //   'acct_1EmZPhKXcpvKCLJw'
-      // );
-
-      // const x = await stripeServiceUtil.sendPayoutToExternalBank('acct_1EmZPhKXcpvKCLJw', 4800);
-      // await jobDataAccess.BidOrBooAdmin.CleanUpAllExpiredNonAwardedJobs();
       // await jobDataAccess.BidOrBooAdmin.SendPayoutsToBanks();
       let existingUser = null;
       if (req.user) {
-        existingUser = await userDataAccess.findUserAndAllNewNotifications(req.user.userId);
+        existingUser = await userDataAccess.findUserAndAllNewNotifications(req.user._id);
         if (existingUser) {
           return res.send(existingUser);
         }

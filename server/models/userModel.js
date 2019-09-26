@@ -108,7 +108,6 @@ const UserSchema = new Schema(
     _asBidderReviewsRef: [{ type: Schema.Types.ObjectId, ref: 'ReviewModel' }],
     _asProposerReviewsRef: [{ type: Schema.Types.ObjectId, ref: 'ReviewModel' }],
     rating: ratingSchema,
-
     userId: {
       type: String,
       allowBlank: false,
