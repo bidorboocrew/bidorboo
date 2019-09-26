@@ -209,7 +209,7 @@ class MyProfile extends React.Component {
                           }
                         />
 
-                        <DisplayLabelValue
+                        {/* <DisplayLabelValue
                           labelText="ID verification (Optional)"
                           labelValue={
                             <div>
@@ -238,7 +238,7 @@ class MyProfile extends React.Component {
                               )}
                             </div>
                           }
-                        />
+                        /> */}
 
                         <HeaderTitle title="About Me" />
                         <TextareaAutosize
