@@ -21,6 +21,8 @@ module.exports = (process) => {
     keepAlive: true,
     reconnectTries: 10,
     reconnectInterval: 3000,
+    useUnifiedTopology: true,
+    retryWrites: false,
     // config: { autoIndex: false }// avoid performance hit due to schema level indexing
   };
 
