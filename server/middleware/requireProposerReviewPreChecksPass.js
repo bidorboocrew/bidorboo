@@ -30,25 +30,26 @@ module.exports = async (req, res, next) => {
 
       const jobDetails = await jobDataAccess.getAwardedJobDetails(jobId);
 
-      const awardedBidder = jobDetails._awardedBidRef && jobDetails._awardedBidRef._bidderRef;
-      if (!awardedBidder || !awardedBidder._id) {
+      const awardedBidder = jobDetails._awardedBidRef && jobDetails._awardedBidRef._bidderRef._id;
+      if (!awardedBidder) {
         return res.status(403).send({
           errorMsg:
             'the Bidder in this request does not correspond to the appoperiate bidder who fullfilled the job',
         });
       }
+      if (!jobDetails._reviewRef) {
+        await jobDataAccess.kickStartReviewModel({
+          jobId,
+          awardedBidder,
+          proposerId,
+        });
+      }
 
-      if (jobDetails._reviewRef && jobDetails._reviewRef.requiresProposerReview) {
+      if (jobDetails._reviewRef && !jobDetails._reviewRef.requiresProposerReview) {
         return res.status(403).send({
           errorMsg: 'You have already submit a review on this job.',
         });
       }
-
-      await jobDataAccess.kickStartReviewModel({
-        jobId,
-        awardedBidder,
-        proposerId,
-      });
 
       res.locals.bidOrBoo = res.locals.bidOrBoo || {};
       res.locals.bidOrBoo = {
