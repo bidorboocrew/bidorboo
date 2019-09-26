@@ -1,6 +1,13 @@
 const { jobDataAccess } = require('../data-access/jobDataAccess');
 const stripeServiceUtil = require('../services/stripeService').util;
 
+const sendGridEmailing = require('../services/sendGrid').EmailService;
+const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
+const WebPushNotifications = require('../services/WebPushNotifications').WebPushNotifications;
+
+const getAllContactDetails = require('../utils/commonDataUtils')
+  .getAwardedJobOwnerBidderAndRelevantNotificationDetails;
+
 module.exports = async (req, res, next) => {
   try {
     //in the future redirect to login page
@@ -17,11 +24,90 @@ module.exports = async (req, res, next) => {
         const { payment_intent } = await stripeServiceUtil.retrieveSession(
           theJob.latestCheckoutSession
         );
-        const { status } = await stripeServiceUtil.getPaymentIntents(payment_intent);
-        if (status && status === 'succeeded') {
+        const pi = await stripeServiceUtil.getPaymentIntents(payment_intent);
+        if (
+          pi.status &&
+          pi.status === 'succeeded' &&
+          pi.charges &&
+          pi.charges.data &&
+          pi.charges.data[0]
+        ) {
+          const chargeObject = pi.charges.data[0];
+
+          const {
+            id: chargeId,
+            captured,
+            paid,
+            application_fee_amount: applicationFeeAmount,
+            amount,
+            payment_intent: paymentIntentId,
+            payment_method: paymentMethodId,
+            destination: destinationStripeAcc,
+            metadata: { bidId, jobId },
+          } = chargeObject;
+
+          if (captured && paid) {
+            // console.log('-------BidOrBooLogging----------------------');
+            // console.log('BidOrBooPayment - charge Succeeded');
+            // console.log('-------BidOrBooLogging----------------------');
+            // update the job and bidder with the chosen awarded bid
+            await jobDataAccess.updateJobWithAwardedBidAndPaymentDetails(jobId, bidId, {
+              amount,
+              chargeId,
+              applicationFeeAmount,
+              destinationStripeAcc,
+              paymentIntentId,
+              paymentMethodId,
+            });
+            const {
+              requesterDisplayName,
+              taskerDisplayName,
+              jobDisplayName,
+              requestLinkForRequester,
+              requestLinkForTasker,
+              requesterEmailAddress,
+              taskerEmailAddress,
+              taskerPhoneNumber,
+              allowedToEmailRequester,
+              allowedToEmailTasker,
+              allowedToTextTasker,
+              allowedToPushNotifyTasker,
+              taskerPushNotSubscription,
+            } = await getAllContactDetails(jobId);
+            if (allowedToEmailRequester) {
+              sendGridEmailing.tellRequesterThanksforPaymentAndTaskerIsRevealed({
+                to: requesterEmailAddress,
+                requestTitle: jobDisplayName,
+                toDisplayName: requesterDisplayName,
+                linkForOwner: requestLinkForRequester,
+              });
+            }
+            if (allowedToEmailTasker) {
+              sendGridEmailing.tellTaskerThatTheyWereAwarded({
+                to: taskerEmailAddress,
+                requestTitle: jobDisplayName,
+                toDisplayName: taskerDisplayName,
+                linkForBidder: requestLinkForTasker,
+              });
+            }
+            if (allowedToTextTasker) {
+              sendTextService.sendJobIsAwardedText(
+                taskerPhoneNumber,
+                jobDisplayName,
+                requestLinkForTasker
+              );
+            }
+            if (allowedToPushNotifyTasker) {
+              WebPushNotifications.pushYouAreAwarded(taskerPushNotSubscription, {
+                taskerDisplayName: taskerDisplayName,
+                urlToLaunch: requestLinkForTasker,
+              });
+            }
+          }
+
           return res.status(400).send({
             errorMsg:
-              'You have already paid for this service, Your payment will be proccessed and the Task will update to reflect that soon',
+              'You have already awarded and made a payment to book this service, please refresh the page to see the latest state.',
           });
         } else {
           next();
@@ -34,8 +120,10 @@ module.exports = async (req, res, next) => {
     }
   } catch (e) {
     return res.status(400).send({
-      errorMsg: 'failed to validate if there is a payment already for this job',
+      errorMsg:
+        'failed to validate if there is a payment already for this job, use the chat button at the bottom of the screen to reachout to our customer support team',
       details: `${e}`,
     });
   }
 };
+

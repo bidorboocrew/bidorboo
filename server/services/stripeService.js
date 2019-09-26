@@ -208,6 +208,9 @@ exports.util = {
   processDestinationCharge: async (chargeDetails) => {
     return stripe.charges.create({ ...chargeDetails });
   },
+  retrieveACharge: async (chargeId) => {
+    return stripe.charges.retrieve(chargeId);
+  },
   payoutToBank: async (connectedAccId, { amount, metadata }) => {
     return stripe.payouts.create(
       {

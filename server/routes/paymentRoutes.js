@@ -31,7 +31,7 @@ module.exports = (app) => {
     ROUTES.API.PAYMENT.POST.payment,
     requireLogin,
     requireJobOwner,
-    requireJobIsNotAwarded,
+    // requireJobIsNotAwarded,
     requireNoPaymentProcessedForThisJobBefore,
     // requiresCheckPayBidderDetails,
     async (req, res, next) => {
@@ -331,7 +331,7 @@ module.exports = (app) => {
     }
   });
 
-  app.post(ROUTES.API.PAYMENT.POST.chargeSucceeded, async (req, res, next) => {
+  app.post(ROUTES.API.PAYMENT.POST.chargeSucceededWebhook, async (req, res, next) => {
     try {
       console.log('chargesucceeded is triggered');
 
@@ -418,13 +418,8 @@ module.exports = (app) => {
             urlToLaunch: requestLinkForTasker,
           });
         }
-        return res.status(200).send();
-      } else {
-        console.log('BIDORBOOLOGGING - PAYMENT - FAILD - reason unkown');
-        return res
-          .status(400)
-          .send('Did Not Process the payment. Could not locate the bidder Account info');
       }
+      return res.status(200).send();
     } catch (e) {
       return res.status(400).send({ errorMsg: 'chargesucceeded failured', details: `${e}` });
     }

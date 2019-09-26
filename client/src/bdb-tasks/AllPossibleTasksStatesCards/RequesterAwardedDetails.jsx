@@ -36,6 +36,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
     super(props);
     this.state = {
       showDisputeModal: false,
+      showMore: false,
     };
   }
 
