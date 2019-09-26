@@ -30,32 +30,52 @@ describe('Creating records', () => {
   //   }
   // });
 
-  it('find user ', async (done) => {
-    try {
-      const userDataAccess = require('../data-access/userDataAccess');
+  // it('find user ', async (done) => {
+  //   try {
+  //     const userDataAccess = require('../data-access/userDataAccess');
 
-      const { userId } = await userDataAccess.findOneByUserId('test@testtest123.com');
-      assert(userId === 'test@testtest123.com', 'delete user');
+  //     const { userId } = await userDataAccess.findOneByUserId('test@testtest123.com');
+  //     assert(userId === 'test@testtest123.com', 'delete user');
+  //     done();
+  //   } catch (e) {
+  //     console.error(e);
+  //     assert(1 === 2, 'failed to find new user');
+  //     done(e);
+  //   }
+  // });
+
+  // it('delete user ', async (done) => {
+  //   try {
+  //     const userDataAccess = require('../data-access/userDataAccess');
+
+  //     const { userId } = await userDataAccess.findOneByUserId('test@testtest123.com');
+  //     assert(userId === 'test@testtest123.com', 'delete user');
+
+  //     // const { userId } = await userDataAccess.de('test@testtest123.com');
+  //     assert(userId === 'test@testtest123.com', 'delete user');
+
+  //     done();
+  //   } catch (e) {
+  //     console.error(e);
+  //     assert(1 === 2, 'failed to delete user');
+  //     done(e);
+  //   }
+  // });
+
+  it('search jobs', async (done) => {
+    try {
+      const { jobDataAccess } = require('../data-access/jobDataAccess');
+      console.log('search jobs start');
+      const searchResults = await jobDataAccess.getJobsNear({
+        location: { lat: 45.36829, lng: -75.618 },
+        searchRadius: '150',
+      });
+      console.log('search jobs');
+      console.log(searchResults);
+
       done();
     } catch (e) {
-      console.error(e);
-      assert(1 === 2, 'failed to find new user');
-      done(e);
-    }
-  });
-
-  it('delete user ', async (done) => {
-    try {
-      const userDataAccess = require('../data-access/userDataAccess');
-
-      const { userId } = await userDataAccess.findOneByUserId('test@testtest123.com');
-      assert(userId === 'test@testtest123.com', 'delete user');
-
-      // const { userId } = await userDataAccess.de('test@testtest123.com');
-      assert(userId === 'test@testtest123.com', 'delete user');
-
-      done();
-    } catch (e) {
+      console.log('search jobs');
       console.error(e);
       assert(1 === 2, 'failed to delete user');
       done(e);

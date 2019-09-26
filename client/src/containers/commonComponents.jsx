@@ -360,7 +360,7 @@ export const CardTitleAndActionsInfo = ({
 };
 
 const timeToTextMap = {
-  '10': 'flexible, anytime.',
+  '10': 'flexible, anytime',
   '8': 'morning',
   '12': 'afternoon',
   '17': 'evening',
@@ -368,10 +368,10 @@ const timeToTextMap = {
 export const StartDateAndTime = ({ date, renderHelpComponent }) => {
   const startingDate = moment(date).format('DD/MMM/YYYY');
   const selectedTime = `${moment(date).get('hour')}`;
-  let timeText = 'flexible, anytime.';
+  let timeText = 'flexible, anytime';
   switch (`${selectedTime}`) {
     case '10':
-      timeText = 'flexible, anytime.';
+      timeText = 'flexible, anytime';
       break;
     case '8':
       timeText = 'morning.';
@@ -383,7 +383,7 @@ export const StartDateAndTime = ({ date, renderHelpComponent }) => {
       timeText = 'evening.';
       break;
     default:
-      timeText = 'flexible, anytime.';
+      timeText = 'flexible, anytime';
       break;
   }
 

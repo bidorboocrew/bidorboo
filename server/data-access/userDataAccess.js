@@ -467,13 +467,12 @@ exports.resetAndSendEmailVerificationCode = (userId, emailAddress) => {
         .lean(true)
         .exec();
 
-      if (updatedUser && updatedUser.notifications && updatedUser.notifications.email) {
-        sendGridEmailing.sendEmailVerificationCode({
-          to: `${updatedUser.email.emailAddress}`,
-          emailVerificationCode,
-          toDisplayName: `${updatedUser.displayName}`,
-        });
-      }
+      sendGridEmailing.sendEmailVerificationCode({
+        to: `${updatedUser.email.emailAddress}`,
+        emailVerificationCode,
+        toDisplayName: `${updatedUser.displayName}`,
+      });
+
       resolve({ success: true });
     } catch (e) {
       reject({ error: e, success: false });

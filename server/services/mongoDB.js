@@ -11,10 +11,7 @@ module.exports = (process) => {
   // require('../models/paymentModel');
 
   mongoose.Promise = global.Promise;
-  if (process.env.NODE_ENV !== 'production') {
-    // https://stackoverflow.com/questions/18762264/log-all-queries-that-mongoose-fire-in-the-application
-    mongoose.set('debug', true);
-  }
+
   const dbOptions = {
     autoIndex: process.env.NODE_ENV !== 'production',
     useCreateIndex: true,
@@ -31,25 +28,25 @@ module.exports = (process) => {
     .connect(keys.mongoURI, dbOptions, (err) => {
       if (err) {
         console.log(
-          `BIDORBOO=== Could not connect to mongodb on localhost.
+          `BIDORBOOLOGS======== Could not connect to mongodb on localhost.
         Ensure that you have mongodb running mongodb accepts connections on standard ports! errorMsg: ${err}`
         );
         throw err;
       }
     })
-    .catch((error) => console.error(`BIDORBOO=== Mongoose Eror. ${err}`));
+    .catch((error) => console.error(`BIDORBOOLOGS======== Mongoose Eror. ${error}`));
 
   mongoose.connection.on('error', (err) => {
-    console.error(`BIDORBOO=== Mongoose Eror. ${err}`);
+    console.error(`BIDORBOOLOGS======== Mongoose Eror. ${err}`);
   });
 
   mongoose.set('useFindAndModify', false);
 
   process.on('SIGINT', function() {
-    console.log('BIDORBOO=== safe shut down ==== bid or boo ');
+    console.log('BIDORBOOLOGS======== safe shut down ==== bid or boo ');
     mongoose.connection.close(() => {
       console.log(
-        'BIDORBOO=== Mongoose default connection is disconnected due to application termination'
+        'BIDORBOOLOGS======== Mongoose default connection is disconnected due to application termination'
       );
       process.exit(0);
     });

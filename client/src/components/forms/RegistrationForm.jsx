@@ -116,7 +116,7 @@ class NewUserRegistrationForm extends React.Component {
         <TextInput
           id="passwordVerification"
           type="password"
-          label="Verify Your password"
+          label="Verify password"
           placeholder="Enter the same password..."
           error={touched.passwordVerification && errors.passwordVerification}
           value={values.passwordVerification || ''}

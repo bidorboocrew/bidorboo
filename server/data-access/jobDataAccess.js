@@ -1167,9 +1167,11 @@ exports.jobDataAccess = {
   // default search raduis is 15km raduis
   // default include all
   getJobsNear: ({ location, searchRadius = 25000 }) => {
+    console.log('search 111111111jobs');
     return new Promise(async (resolve, reject) => {
       try {
         const today = moment.utc(moment()).toISOString();
+        console.log('search jobs start');
 
         let searchQuery = {
           startingDateAndTime: { $gt: today },
@@ -1210,8 +1212,12 @@ exports.jobDataAccess = {
               select: { _bidderRef: 1, bidAmount: 1 },
             },
           ]);
+          console.log('search 111111111jobs');
+          console.log(results);
         return resolve(results);
       } catch (e) {
+        console.log('search 111111111jobs');
+
         reject(e);
       }
     });

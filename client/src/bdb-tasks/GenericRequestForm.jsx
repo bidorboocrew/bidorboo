@@ -307,7 +307,7 @@ class GenericRequestForm extends React.Component {
                       <option value="morning">Morning (8AM-12PM)</option>
                       <option value="afternoon">Afternoon (12PM-5PM)</option>
                       <option value="evening">Evening (5PM-12AM)</option>
-                      <option value="evening">Anytime (8AM-12AM)</option>
+                      <option value="anytime">Anytime (8AM-12AM)</option>
                     </select>
                     {touched.timeOfDay && errors.timeOfDay && (
                       <div className="help is-danger">{errors.timeOfDay}</div>

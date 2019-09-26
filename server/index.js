@@ -9,7 +9,7 @@ let bugsnagMiddleware = null;
 const bugsnag = require('@bugsnag/js');
 const bugsnagExpress = require('@bugsnag/plugin-express');
 const bugsnagClient = bugsnag(keys.bugSnagApiKey);
-process.env.NODE_ENV === 'production' && bugsnagClient.use(bugsnagExpress);
+bugsnagClient.use(bugsnagExpress);
 bugsnagMiddleware = bugsnagClient.getPlugin('express');
 
 // initialize and start mongodb
@@ -21,7 +21,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
 
-process.env.NODE_ENV === 'production' && app.use(bugsnagMiddleware.requestHandler);
+app.use(bugsnagMiddleware.requestHandler);
 
 // initialize bugsnag
 // require('./services/bugSnag')(app);
@@ -65,7 +65,7 @@ app.use((err, req, res, next) => {
 
 require('./services/CronRepeatingJobs')(app);
 
-process.env.NODE_ENV === 'production' && app.use(bugsnagMiddleware.errorHandler);
+app.use(bugsnagMiddleware.errorHandler);
 
 // serve the static js file
 if (process.env.NODE_ENV === 'production') {
