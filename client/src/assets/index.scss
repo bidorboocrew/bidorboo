@@ -356,6 +356,14 @@ $button-disabled-opacity: 0.85;
 
 @import 'bulma/bulma.sass';
 @import 'bulma-switch/dist/css/bulma-switch.sass';
+// xxx update bulma when a new release comes
+// https://github.com/AITGmbH/tapiodeveloperapp/pull/56/files
+// https://github.com/jgthms/bulma/issues/2503
+.navbar-dropdown.is-boxed.is-active {
+  opacity: 1 !important;
+  pointer-events: auto;
+  transform: translateY(0);
+}
 
 .VerticalAligner {
   display: flex;

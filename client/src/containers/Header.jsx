@@ -188,7 +188,7 @@ class Header extends React.Component {
               height="auto"
               style={{ maxHeight: 'unset' }}
             />
-            <div className={`${isActingAsBidder ? 'has-text-grey-lighter' : 'has-text-dark'}`}>
+            <div className={`${isActingAsBidder ? 'has-text-white' : 'has-text-dark'}`}>
               <div style={{ fontSize: 24 }} className="is-hidden-touch">
                 BIDORBOO
               </div>
@@ -297,7 +297,7 @@ class Header extends React.Component {
               }}
               className="navbar-item has-text-grey"
             >
-              <div className={`${isActingAsBidder ? 'has-text-grey-lighter' : 'has-text-dark'}`}>
+              <div className={`${isActingAsBidder ? 'has-text-white' : 'has-text-dark'}`}>
                 {/* {ROUTES.getRouteTitle()} */}
                 <div style={{ fontSize: 24 }} className="is-hidden-touch">
                   BIDORBOO
