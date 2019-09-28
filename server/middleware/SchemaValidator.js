@@ -27,8 +27,10 @@ module.exports = (useJoiError = false) => {
       const _schema = _.get(Schemas, route);
 
       if (_schema) {
-        // Validate req.body using the schema and validation options
-        return Joi.validate(req.body, _schema, _validationOptions, (err, data) => {
+        try {
+          // Validate req.body using the schema and validation options
+          const { err, value } = _schema.validate(req.body, _validationOptions);
+
           if (err) {
             // Joi Error
             let errorMsgs = '';
@@ -54,13 +56,16 @@ module.exports = (useJoiError = false) => {
             next(throwError);
           } else {
             // Replace req.body with the data after Joi validation
-            req.body = data;
+            req.body = value;
             next();
           }
-        });
+        } catch (e) {
+          console.log(`BIDORBOO======= ${e}`);
+          let error = { errorMsg: 'invalid schema parsing error' };
+          const throwError = new Error(error.errorMsg);
+          next(throwError);
+        }
       }
     }
-
-    next();
   };
 };
