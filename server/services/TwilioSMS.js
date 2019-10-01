@@ -1,7 +1,6 @@
 // emailing services
 const keys = require('../config/keys');
 const twilio = require('twilio');
-const ROUTES = require('../backend-route-constants');
 
 const client = new twilio(keys.twilioAccountSid, keys.twilioAuthToken);
 
@@ -86,5 +85,28 @@ exports.TxtMsgingService = {
       .catch((e) => {
         console.log(`BIDORBOOLOGS======== twilio send msg issue ${e}`);
       });
+  },
+
+  verifyPhone: async (mobileNumber, callback = () => {}) => {
+    // https://www.twilio.com/docs/verify/api/verification#start-new-verification
+    try {
+      const resp = await client.verify
+        .services('VA5dce2df0f6a8cfc84b81f2fc3a903552')
+        .verifications.create({ to: '+16138677243', channel: 'call' });
+      const x = 1;
+    } catch (e) {
+      console.error(e);
+    }
+  },
+  verifyPhoneCode: async (mobileNumber, code, callback = () => {}) => {
+    // https://www.twilio.com/docs/verify/api/verification#start-new-verification
+    try {
+      const resp = await client.verify
+        .services('VA5dce2df0f6a8cfc84b81f2fc3a903552')
+        .verificationChecks.create({ code: '096441', to: '+16138677243' });
+      const x = 1;
+    } catch (e) {
+      console.error(e);
+    }
   },
 };

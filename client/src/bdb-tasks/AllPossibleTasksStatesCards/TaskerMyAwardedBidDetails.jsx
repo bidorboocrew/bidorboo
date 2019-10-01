@@ -632,18 +632,20 @@ class RequesterDetails extends React.Component {
               <div className="field">
                 <label className="has-text-grey">Contact Details</label>
                 <div style={{ fontWeight: 500, fontSize: 18 }}>
-                  <div>
+                  <a
+                    href={`mailto:${emailAddress}?Subject="BIDORBOO - I am your tasker and reaching out to agree on meeting time and details"`}
+                  >
                     <span className="icon">
                       <i className="far fa-envelope" />
                     </span>
                     <span>{emailAddress}</span>
-                  </div>
-                  <div>
+                  </a>
+                  <a href={`tel:${phoneNumber}`}>
                     <span className="icon">
                       <i className="fas fa-mobile-alt" />
                     </span>
                     <span>{phoneNumber}</span>
-                  </div>
+                  </a>
                 </div>
                 <div className="help">
                   *Get in touch to finalize exact details like location to meet, date, time... etc

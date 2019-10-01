@@ -1,5 +1,6 @@
 const userDataAccess = require('../data-access/userDataAccess');
 const { jobDataAccess } = require('../data-access/jobDataAccess');
+const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
 
 const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
@@ -150,6 +151,9 @@ module.exports = (app) => {
   app.get(ROUTES.API.USER.GET.currentUser, async (req, res, next) => {
     try {
       // await jobDataAccess.BidOrBooAdmin.SendPayoutsToBanks();
+      // sendTextService.verifyPhone()
+
+      // sendTextService.verifyPhoneCode();
       let existingUser = null;
       if (req.user) {
         existingUser = await userDataAccess.findUserAndAllNewNotifications(req.user._id);

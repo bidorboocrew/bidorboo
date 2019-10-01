@@ -75,8 +75,8 @@ exports.EmailService = {
         contentHtml: `
         <p>This is an automated reminder for your upcoming scheduled ${requestTitle} task.</p>
         <p>To get in touch with your task owner feel free to contact them on:</p>
-        <p><strong>email address : ${ownerEmailAddress}</strong></p>
-        <p><strong>phone number : ${ownerPhoneNumber}</strong></p>`,
+        <a href="mailto:${ownerEmailAddress}?Subject="BIDORBOO - Iam your tasker for ${requestTitle}"><strong>email address:</strong> ${ownerEmailAddress},</a>
+        <a href="tel:${ownerPhoneNumber}"><strong>phone number</srtong>: ${ownerPhoneNumber},</a>`,
         clickLink: `${linkForBidder}`,
         clickDisplayName: 'View Request Details',
       }),
@@ -112,8 +112,8 @@ exports.EmailService = {
         toDisplayName: toDisplayName || to,
         contentHtml: `<p>This is an automated reminder for your upcoming scheduled ${requestTitle} task.</p>
         <p>To get in touch with your assigned Tasker owner feel free to contact them on:</p>
-      <p><strong>email address : ${bidderEmailAddress}</strong></p>
-      <p><strong>phone number : ${bidderPhoneNumber}</strong></p>`,
+        <a href="mailto:${bidderEmailAddress}?Subject="BIDORBOO - Iam expecting you soon for ${requestTitle}"><strong>email address:</strong> ${bidderEmailAddress},</a>
+        <a href="tel:${bidderPhoneNumber}"><strong>phone number</srtong>: ${bidderPhoneNumber},</a>`,
         clickLink: `${linkForOwner}`,
         clickDisplayName: 'View Request Details',
       }),
@@ -546,9 +546,9 @@ exports.EmailService = {
     <p>jobDisplayName = ${jobDisplayName},</p>
     <p>requestLinkForRequester = ${requestLinkForRequester},</p>
     <p>requestLinkForTasker = ${requestLinkForTasker},</p>
-    <p>requesterEmailAddress = ${requesterEmailAddress},</p>
-    <p>requesterPhoneNumber = ${requesterPhoneNumber},</p>
-    <p>taskerEmailAddress = ${taskerEmailAddress},</p>
+    <a href="mailto:${requesterEmailAddress}?Subject="BIDORBOO DISPUTE"><strong>requesterEmailAddress:</strong> ${requesterEmailAddress},</a>
+    <a href="tel:${requesterPhoneNumber}"><strong>requesterPhoneNumber</srtong>: ${requesterPhoneNumber},</a>
+    <a href="mailto:${taskerEmailAddress}?Subject="BIDORBOO DISPUTE"><strong>taskerEmailAddress:</strong> ${taskerEmailAddress},</a>
     <p>jobId = ${jobId},</p>
     <p>reason = ${reason},</p>
     <p>details = ${details},</p>

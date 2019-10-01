@@ -597,29 +597,20 @@ export const TaskSpecificExtras = ({ extras, templateId }) => {
   return renderedTaskSpecificFields;
 };
 
-export const VerifiedVia = ({
-  userDetails,
-  isCentered = true,
-  smallfont = true,
-  showAll = false,
-}) => {
+export const VerifiedVia = ({ userDetails, isCentered = true, showAll = false }) => {
   const {
     stripeConnect = { isVerified: false },
     phone = { isVerified: false },
     email = { isVerified: false },
     isGmailUser = false,
     isFbUser = false,
-    clearCriminalHistory = false,
+    // clearCriminalHistory = false,
     govId = { isVerified: false },
   } = userDetails;
 
   const atLeastOneVerification =
-    isFbUser ||
-    isGmailUser ||
-    phone.isVerified ||
-    email.isVerified ||
-    stripeConnect.isVerified ||
-    clearCriminalHistory;
+    isFbUser || isGmailUser || phone.isVerified || email.isVerified || stripeConnect.isVerified;
+  // clearCriminalHistory;
 
   return (
     <div
@@ -672,13 +663,13 @@ export const VerifiedVia = ({
         </div>
       )}
 
-      {clearCriminalHistory && (
+      {/* {clearCriminalHistory && (
         <div className="verificationBadge isActive">
           <span title="Verified by criminal check" className="icon">
             <i className="fas fa-gavel has-text-success" />
           </span>
         </div>
-      )}
+      )} */}
 
       {showAll && (
         <>
@@ -711,13 +702,13 @@ export const VerifiedVia = ({
               </span>
             </div>
           )}
-          {!clearCriminalHistory && (
+          {/* {!clearCriminalHistory && (
             <div className="verificationBadge notActive">
               <span title="Verified by criminal check" className="icon">
                 <i className="fas fa-gavel has-text-grey" />
               </span>
             </div>
-          )}
+          )} */}
         </>
       )}
     </div>
@@ -1142,17 +1133,13 @@ export const BidsTableVerifiedVia = ({ userDetails }) => {
     email = { isVerified: false },
     isGmailUser = false,
     isFbUser = false,
-    clearCriminalHistory = false,
+    // clearCriminalHistory = false,
     govId = { isVerified: false },
   } = userDetails;
 
   const atLeastOneVerification =
-    isFbUser ||
-    isGmailUser ||
-    phone.isVerified ||
-    email.isVerified ||
-    stripeConnect.isVerified ||
-    clearCriminalHistory;
+    isFbUser || isGmailUser || phone.isVerified || email.isVerified || stripeConnect.isVerified;
+  // clearCriminalHistory;
 
   return (
     <div>
@@ -1201,13 +1188,13 @@ export const BidsTableVerifiedVia = ({ userDetails }) => {
         </div>
       )}
 
-      {clearCriminalHistory && (
+      {/* {clearCriminalHistory && (
         <div className="verificationBadge isActive small">
           <span title="Verified by criminal check" className="icon">
             <i className="fas fa-gavel has-text-success" />
           </span>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
