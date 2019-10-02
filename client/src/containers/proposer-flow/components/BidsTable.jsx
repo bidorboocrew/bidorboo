@@ -1,9 +1,5 @@
 import React from 'react';
-import { Collapse } from 'react-collapse';
 
-import ReactStars from 'react-stars';
-import * as ROUTES from '../../../constants/frontend-route-consts';
-import { switchRoute } from '../../../utils';
 import {
   BidsTableVerifiedVia,
   CenteredUserImageAndRating,

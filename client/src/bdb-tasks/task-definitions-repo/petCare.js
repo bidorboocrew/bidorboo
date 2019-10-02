@@ -1,7 +1,9 @@
 import React from 'react';
+import TextareaAutosize from 'react-autosize-textarea';
 
 import * as Yup from 'yup';
 import dogWalking_img from '../../assets/images/dogWalking_img.png';
+import { TextAreaInput } from '../../components/forms/FormsHelpers';
 
 export default {
   ID: 'bdbPetSittingWalking',
@@ -93,6 +95,44 @@ export default {
   },
   extras: function() {
     return {
+      dietaryRestrictions: {
+        renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
+          return (
+            <React.Fragment key={'dietryRestrictions'}>
+              <TextAreaInput
+                id="dietryRestrictions"
+                type="text"
+                label="any dietary/medical needs?"
+                helpText="you can say no if your pet doesn't need any"
+                placeholder={'enter any dietry restrictions or medical needs your pet'}
+                error={touched.dietaryRestrictions && errors.dietaryRestrictions}
+                value={values.dietaryRestrictions || ''}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+            </React.Fragment>
+          );
+        },
+        renderSelection: (dietaryRestrictions) => {
+          console.log('I rendered dietaryRestrictions');
+          return (
+            dietaryRestrictions && (
+              <div key={'dietaryRestrictions'} className="group">
+                <label className="label hasSelectedValue">Dietry/medical needs</label>
+                <TextareaAutosize
+                  value={dietaryRestrictions}
+                  className="textarea is-marginless is-paddingless control"
+                  style={{
+                    resize: 'none',
+                    border: 'none',
+                  }}
+                  readOnly
+                />
+              </div>
+            )
+          );
+        },
+      },
       effort: {
         renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
           let effortClass = '';
