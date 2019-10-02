@@ -95,40 +95,62 @@ export default {
   },
   extras: function() {
     return {
-      dietaryRestrictions: {
+      isRequesterHosting: {
         renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
+          let isRequesterHostingClass = '';
+          let isTouched = touched && touched.isRequesterHosting;
+          if (isTouched) {
+            isRequesterHostingClass =
+              values.isRequesterHosting === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          }
           return (
-            <React.Fragment key={'dietryRestrictions'}>
-              <TextAreaInput
-                id="dietryRestrictions"
-                type="text"
-                label="any dietary/medical needs?"
-                helpText="you can say no if your pet doesn't need any"
-                placeholder={'enter any dietry restrictions or medical needs your pet'}
-                error={touched.dietaryRestrictions && errors.dietaryRestrictions}
-                value={values.dietaryRestrictions || ''}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
+            <React.Fragment key={'extras-isRequesterHosting'}>
+              <div className={`group ${isTouched && errors.isRequesterHosting ? 'isError' : ''}`}>
+                <label className={isRequesterHostingClass}>Where will the pet stay?</label>
+                <div>
+                  <div id="isRequesterHosting" className={`select ${isRequesterHostingClass} `}>
+                    <select
+                      id="isRequesterHosting"
+                      value={values.isRequesterHosting}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      <option value="noSelection">-Select One-</option>
+                      <option value="notNecessary">{`No overnight stay is required`}</option>
+                      <option value="yes">{`Owner's Place - Tasker will come and stay at my place`}</option>
+                      <option value="no">{`Tasker's Place - I will drop the pet at the tasker place`}</option>
+                      <option value="decideLater">{`Not Sure - will decide together later`}</option>
+                    </select>
+                    {isTouched && errors.isRequesterHosting && (
+                      <div className="help is-danger">{errors.isRequesterHosting}</div>
+                    )}
+                  </div>
+                </div>
+              </div>
             </React.Fragment>
           );
         },
-        renderSelection: (dietaryRestrictions) => {
+        renderSelection: (isRequesterHosting) => {
+          let selectedValue = null;
+          switch (isRequesterHosting) {
+            case 'notNecessary':
+              selectedValue = 'No overnight stay is required';
+              break;
+            case 'yes':
+              selectedValue = `Owner's Place - Tasker will stay with the pet at the owner's place`;
+              break;
+            case 'no':
+              selectedValue = `Tasker's Place - Owner will drop the pet at the tasker's place`;
+              break;
+            case 'decideLater':
+              selectedValue = 'Unsure - Tasker and Owner can decide later';
+              break;
+          }
           return (
-            dietaryRestrictions && (
-              <div key={'dietaryRestrictions'} className="group">
-                <label className="label hasSelectedValue">Dietry/medical needs</label>
-                <TextareaAutosize
-                  value={dietaryRestrictions}
-                  className="textarea is-marginless is-paddingless control"
-                  style={{
-                    resize: 'none',
-                    border: 'none',
-                  }}
-                  readOnly
-                />
-              </div>
-            )
+            <div key={'extras-isRequesterHosting'} className="group">
+              <label className="label hasSelectedValue">Where will the pet stay?</label>
+              <div className="control">{selectedValue}</div>
+            </div>
           );
         },
       },
@@ -183,6 +205,94 @@ export default {
               <label className="label hasSelectedValue">Task Effort</label>
               <div className="control">{selectedValue}</div>
             </div>
+          );
+        },
+      },
+      requiresWalking: {
+        renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
+          let requiresWalkingClass = '';
+          let isTouched = touched && touched.requiresWalking;
+          if (isTouched) {
+            requiresWalkingClass =
+              values.requiresWalking === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          }
+          return (
+            <React.Fragment key={'extras-requiresWalking'}>
+              <div className={`group ${isTouched && errors.requiresWalking ? 'isError' : ''}`}>
+                <label className={requiresWalkingClass}>{'Requires outdoor walk/play ?'}</label>
+                <div>
+                  <div id="requiresWalking" className={`select ${requiresWalkingClass} `}>
+                    <select
+                      id="requiresWalking"
+                      value={values.requiresWalking}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      <option value="noSelection">-Select One-</option>
+                      <option value="yes">{`Yes - it is required`}</option>
+                      <option value="no">{`No - indoor only`}</option>
+                    </select>
+                    {isTouched && errors.requiresWalking && (
+                      <div className="help is-danger">{errors.requiresWalking}</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </React.Fragment>
+          );
+        },
+        renderSelection: (requiresWalking) => {
+          let selectedValue = null;
+          switch (requiresWalking) {
+            case 'yes':
+              selectedValue = 'Requires walk/play outdoors';
+              break;
+            case 'no':
+              selectedValue = 'Pet stays indoors';
+              break;
+          }
+          return (
+            <div key={'extras-requiresWalking'} className="group">
+              <label className="label hasSelectedValue">Requires outdoor walk/play?</label>
+              <div className="control">{selectedValue}</div>
+            </div>
+          );
+        },
+      },
+      dietaryRestrictions: {
+        renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
+          return (
+            <React.Fragment key={'extras-dietryRestrictions'}>
+              <TextAreaInput
+                id="dietryRestrictions"
+                type="text"
+                label="any dietary/medical needs?"
+                helpText="you can say no if your pet doesn't need any"
+                placeholder={'enter any dietry restrictions or medical needs your pet'}
+                error={touched.dietaryRestrictions && errors.dietaryRestrictions}
+                value={values.dietaryRestrictions || ''}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+            </React.Fragment>
+          );
+        },
+        renderSelection: (dietaryRestrictions) => {
+          return (
+            dietaryRestrictions && (
+              <div key={'extras-dietaryRestrictions'} className="group">
+                <label className="label hasSelectedValue">Dietry/medical needs</label>
+                <TextareaAutosize
+                  value={dietaryRestrictions}
+                  className="textarea is-marginless is-paddingless control"
+                  style={{
+                    resize: 'none',
+                    border: 'none',
+                  }}
+                  readOnly
+                />
+              </div>
+            )
           );
         },
       },
