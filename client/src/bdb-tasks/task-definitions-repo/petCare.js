@@ -114,7 +114,6 @@ export default {
           );
         },
         renderSelection: (dietaryRestrictions) => {
-          console.log('I rendered dietaryRestrictions');
           return (
             dietaryRestrictions && (
               <div key={'dietaryRestrictions'} className="group">
