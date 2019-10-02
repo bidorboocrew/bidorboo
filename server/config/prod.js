@@ -29,4 +29,5 @@ module.exports = {
   twilioAccountSid: process.env.TWILIO_ACCOUNT_SID,
   twilioAuthToken: process.env.TWILIO_AUTH_TOKEN,
   twilioMsgingServiceSid: process.env.TWILIO_MSGING_SERVICE_SID,
+  twilioVerificationServiceSid: process.env.TWILIO_VERIFY_SERVICE_SID,
 };

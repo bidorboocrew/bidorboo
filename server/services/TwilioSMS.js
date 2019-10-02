@@ -66,12 +66,6 @@ exports.TxtMsgingService = {
   },
 
   sendText: async (mobileNumber, msgContent, callback = () => {}) => {
-    // let formattedMobileNumber = `1-${mobileNumber}`;
-
-    // if (mobileNumber && mobileNumber.length > 0) {
-    //   formattedMobileNumber = formattedMobileNumber.replace(/-/g, '');
-    //   formattedMobileNumber = `+${formattedMobileNumber}`;
-    // }
     client.messages
       .create({
         body: `${msgContent}`,
@@ -90,23 +84,22 @@ exports.TxtMsgingService = {
   verifyPhone: async (mobileNumber, callback = () => {}) => {
     // https://www.twilio.com/docs/verify/api/verification#start-new-verification
     try {
-      const resp = await client.verify
-        .services('VA5dce2df0f6a8cfc84b81f2fc3a903552')
-        .verifications.create({ to: '+16138677243', channel: 'call' });
-      const x = 1;
+      await client.verify
+        .services(keys.twilioVerificationServiceSid)
+        .verifications.create({ to: `+1${mobileNumber}`, channel: 'sms' });
     } catch (e) {
-      console.error(e);
+      console.log(`BIDORBOOLOGS======== twilio send verifyPhone issue ${e}`);
     }
   },
   verifyPhoneCode: async (mobileNumber, code, callback = () => {}) => {
     // https://www.twilio.com/docs/verify/api/verification#start-new-verification
     try {
       const resp = await client.verify
-        .services('VA5dce2df0f6a8cfc84b81f2fc3a903552')
-        .verificationChecks.create({ code: '096441', to: '+16138677243' });
-      const x = 1;
+        .services(keys.twilioVerificationServiceSid)
+        .verificationChecks.create({ code, to: `+1${mobileNumber}` });
+      return resp;
     } catch (e) {
-      console.error(e);
+      console.log(`BIDORBOOLOGS======== twilio send verifyPhoneCode issue ${e}`);
     }
   },
 };

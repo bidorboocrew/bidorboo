@@ -288,7 +288,7 @@ class GenericRequestForm extends React.Component {
               <DateInput
                 id="DateInputField"
                 type="text"
-                label="Date"
+                label="Starting date"
                 onChangeEvent={this.updateDateInputFieldValue}
                 error={errors.startingDateAndTime}
                 touched={touched.startingDateAndTime}

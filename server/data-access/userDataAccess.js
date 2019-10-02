@@ -430,8 +430,6 @@ exports.findUserImgDetails = (userId) => {
 exports.resetAndSendPhoneVerificationPin = (userId, phoneNumber) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let phoneVerificationCode = Math.floor(100000 + Math.random() * 900000);
-
       // updte user with this new info
       const updatedUser = await User.findOneAndUpdate(
         { userId },
@@ -440,9 +438,6 @@ exports.resetAndSendPhoneVerificationPin = (userId, phoneNumber) => {
             phone: {
               phoneNumber: phoneNumber,
               isVerified: false,
-            },
-            'verification.phone': {
-              [`${phoneVerificationCode}`]: `${phoneNumber}`,
             },
           },
         },
@@ -453,10 +448,7 @@ exports.resetAndSendPhoneVerificationPin = (userId, phoneNumber) => {
         .lean(true)
         .exec();
 
-      sendTextService.sendPhoneVerificationText(
-        updatedUser.phone.phoneNumber,
-        phoneVerificationCode
-      );
+      sendTextService.verifyPhone(updatedUser.phone.phoneNumber);
       resolve({ success: true, updatedUser: updatedUser });
     } catch (e) {
       reject({ error: e, success: true });

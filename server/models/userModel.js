@@ -178,10 +178,6 @@ const UserSchema = new Schema(
         type: Map,
         of: String,
       },
-      phone: {
-        type: Map,
-        of: String,
-      },
     },
     displayName: {
       type: String,

@@ -59,18 +59,23 @@ module.exports = (app) => {
 
         if (code) {
           const user = await userDataAccess.findOneByUserId(req.user.userId);
+          const { status } = await sendTextService.verifyPhoneCode(user.phone.phoneNumber, code);
 
-          const phoneVerification = user.verification.phone;
-          const phoneNumberCorrespondingToTheCode =
-            phoneVerification && phoneVerification[`${code}`];
-          if (user.phone.phoneNumber === phoneNumberCorrespondingToTheCode) {
+          if (status === 'approved') {
             const userData = {
               phone: { ...user.phone, isVerified: true },
             };
-            const newUser = await userDataAccess.findByUserIdAndUpdate(userId, userData);
+            await userDataAccess.findByUserIdAndUpdate(userId, userData);
             return res.send({ success: true });
           } else {
-            return res.send({ success: false });
+            const userData = {
+              phone: { ...user.phone, isVerified: false },
+            };
+            await userDataAccess.findByUserIdAndUpdate(userId, userData);
+            return res.status(403).send({
+              safeMsg:
+                'Failed To verify Phone, Use the chat button at the bottom of the page to chat with us',
+            });
           }
         } else {
           return res.status(403).send({
@@ -125,20 +130,21 @@ module.exports = (app) => {
         const user = await userDataAccess.findOneByUserId(userId);
 
         if (user) {
-          const verificationRequest = await userDataAccess.resetAndSendPhoneVerificationPin(
+          const { success } = await userDataAccess.resetAndSendPhoneVerificationPin(
             userId,
             user.phone.phoneNumber
           );
-          if (verificationRequest.success) {
-            res.send(verificationRequest);
+
+          if (success) {
+            res.send({ success });
           } else {
             return res.status(400).send({
-              errorMsg: 'unexpected error occured send Verification Msg',
+              errorMsg: 'unexpected error occured while sending Verification Msg',
             });
           }
         } else {
           return res.status(403).send({
-            errorMsg: 'verify Email failed due to missing params',
+            safeMsg: 'verify Email failed due to missing params',
           });
         }
       } catch (e) {
