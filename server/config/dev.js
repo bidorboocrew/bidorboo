@@ -4,7 +4,7 @@
 module.exports = {
   googleClientID: '24863307203-a8tc9rk9uko554s0kl30add2sati6kn0.apps.googleusercontent.com',
   googleClientSecret: 'Oh01FuNLMFSSoTcZVA1BdnxW',
-  // mongoURI: 'mongodb://bidorboocrew:123bidorboocrew321@ds233218.mlab.com:33218/heroku_tr6v8hnj',
+  mongoURI_dev: 'mongodb://bidorboocrew:123bidorboocrew321@ds233218.mlab.com:33218/heroku_tr6v8hnj',
   mongoURI: `mongodb://heroku_zp12hg2j:j4bj1bfg3uqjth9jtl6mtk16af@ds131077-a0.mlab.com:31077,ds131077-a1.mlab.com:31077/heroku_zp12hg2j?replicaSet=rs-ds131077`,
   cookieKey: 'A4CABA6E3F7886CD23F9B43893D62',
   cookieKey2: 'A4719F2E6DBD67DACF4627A3B74A1',
@@ -17,6 +17,8 @@ module.exports = {
   stripeSecretKey: 'sk_test_RdEh2fJUQNRxz1wuFSG06VQy',
   stripeWebhookConnectedAccSig: 'whsec_Y0IC3JsCypMml4DbTmHyeyA3wF0tbFV6',
   stripeWebhookPayoutAccSig: 'whsec_3ullPzWeNfvVRlEgaok8ZyC2OsQl6e1r',
+  stripeWebhookChargesSig: 'whsec_fH6MZ3UdzMI5yfiP5FaVevvNv3La3CN8',
+  stripeWebhookSessionSig: 'whsec_Su0gotLFc9a56WNs1NOCYLliReHjHjlr',
   sendGridKey: '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',
   cloudinaryCloudName: 'hr6bwgs1p',
   cloudinaryPublicApiKey: '199892955566316',
@@ -25,7 +27,8 @@ module.exports = {
   vapidPublicApiKey:
     'BNNIelsxMdODKuerQ6A28c0ASnc0YP7BygBjuTkR0qRgRSJXOonCx5Juk2VZgOLmiAbTl04zER-AbdRScMOzYfE',
   vapidPrivateApiKey: 'mBs1Vn_RlkKliJjiOY8bZNAiifIj1HKOM3EHra-175M',
-  recaptchaApiKey: '6LeYAIAUAAAAAAdNavYfiW2pOX376RxggEdl-n7h',
+  // recaptchaApiKey: '6LeYAIAUAAAAAAdNavYfiW2pOX376RxggEdl-n7h',
+  twilioVerificationServiceSid: 'VA5dce2df0f6a8cfc84b81f2fc3a903552',
   twilioAccountSid: 'ACb8cd42eadeb8898bfcc35e86c88da455',
   twilioAuthToken: 'f1b73ef11d9d750893510667121c41da',
   TWILIO_ACCOUNT_SID: 'ACb8cd42eadeb8898bfcc35e86c88da455',

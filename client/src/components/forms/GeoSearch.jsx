@@ -86,7 +86,7 @@ class GeoSearch extends React.Component {
                     padding: '.375rem 1rem',
                   }
                 : {
-                    color: '#4a4a4a',
+                    color: '#353535',
                     fontSize: '.875rem',
                     lineHeight: '1.5',
                     padding: '.375rem 1rem',
@@ -106,7 +106,11 @@ class GeoSearch extends React.Component {
           </div>
           {autoDetectComponent && autoDetectComponent(value)}
           {!autoDetectComponent && helpText && <p className="help">{helpText}</p>}
-          {touched && error && <p className="help is-danger">{error}</p>}
+          {touched && error && (
+            <div style={{ fontWeight: 500 }} className="help is-danger">
+              {error}
+            </div>
+          )}
         </div>
       );
     };

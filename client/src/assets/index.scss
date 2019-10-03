@@ -4,6 +4,9 @@
 // @import './_variables.scss';
 @import './_animatecss.scss';
 @import './_addToCalendar.scss';
+@import './_cropperjs.scss';
+
+// @import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 // @import './_reactBigCalendar.scss';
 
@@ -324,13 +327,20 @@ a.navbar-item.is-active {
 .title:last-child {
   margin-bottom: 1.5rem;
 }
+.button.is-white {
+  border: 1px solid grey !important;
+}
+.button.is-text {
+  box-shadow: none;
+}
+
 $family-primary: 'Work Sans', sans-serif;
 $family-sans-serif: 'Work Sans', sans-serif;
 $body-background-color: #eeeeee;
 $navbar-height: 4rem;
 $navbar-dropdown-boxed-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
 $orange: #ef2834 !default;
-$yellow: #e19f00 !default;
+$yellow: #ffcd5e !default;
 $green: #26ca70 !default;
 $cyan: #6b88e0 !default;
 $blue: #4285f4 !default;
@@ -346,6 +356,14 @@ $button-disabled-opacity: 0.85;
 
 @import 'bulma/bulma.sass';
 @import 'bulma-switch/dist/css/bulma-switch.sass';
+// xxx update bulma when a new release comes
+// https://github.com/AITGmbH/tapiodeveloperapp/pull/56/files
+// https://github.com/jgthms/bulma/issues/2503
+.navbar-dropdown.is-boxed.is-active {
+  opacity: 1 !important;
+  pointer-events: auto;
+  transform: translateY(0);
+}
 
 .VerticalAligner {
   display: flex;
@@ -462,7 +480,8 @@ input[type='radio'] {
 }
 .button {
   border-radius: 25px;
-  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  // 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
 }
 .tabs {
   background: white;
@@ -502,10 +521,7 @@ article.media.limitHeight {
   max-width: 40rem;
   margin: auto;
 }
-.cropper-container.cropper-bg {
-  width: unset;
-  height: unset;
-}
+
 .ReactStars {
   display: inline-block;
 }
@@ -730,7 +746,9 @@ div.centeredButtonInCard {
     }
   }
 }
-
+.card-content {
+  padding: 1rem;
+}
 .bdbFloatingButtonText {
   box-shadow: 0 5px 4px 0 rgba(0, 0, 0, 0.26) !important;
   position: fixed !important;
@@ -890,7 +908,7 @@ $trans-time: 300ms;
 }
 
 .group {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
   &.isError {
     margin-bottom: 2.25rem;
 
@@ -901,6 +919,9 @@ $trans-time: 300ms;
     .select {
       border-bottom: 1px solid $red;
     }
+  }
+  &.isHelp {
+    margin-bottom: 3rem;
   }
   > label {
     color: #26ca70;

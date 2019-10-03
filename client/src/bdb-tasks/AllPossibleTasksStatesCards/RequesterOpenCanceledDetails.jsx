@@ -38,7 +38,7 @@ export default class RequesterOpenCanceledDetails extends React.Component {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
-    const { TITLE, ID, ICON, IMG  } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
@@ -78,26 +78,22 @@ export default class RequesterOpenCanceledDetails extends React.Component {
                 <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
               )}
             />
+            <div className="has-text-left">
+              <DisplayLabelValue labelText="Address" labelValue={addressText} />
 
-            <DisplayLabelValue labelText="Address" labelValue={addressText} />
-
-            <TaskSpecificExtras templateId={ID} extras={extras} />
-            <div className="group">
-              <label className="label">Detailed Description</label>
-              <span className="is-size-7">
+              <TaskSpecificExtras templateId={ID} extras={extras} />
+              <div className="group">
+                <label className="label hasSelectedValue">Detailed Description</label>
                 <TextareaAutosize
                   value={detailedDescription}
-                  className="textarea is-marginless is-paddingless is-size-6"
+                  className="textarea is-marginless is-paddingless control"
                   style={{
                     resize: 'none',
                     border: 'none',
-                    color: '#4a4a4a',
-                    fontSize: '1rem',
-                    background: '#eeeeee',
                   }}
                   readOnly
                 />
-              </span>
+              </div>
             </div>
           </div>
         </div>

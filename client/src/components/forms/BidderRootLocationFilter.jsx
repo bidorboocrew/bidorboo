@@ -191,7 +191,7 @@ export default class BidderRootLocationFilter extends React.Component {
                 boxShadow:
                   'rgba(255, 255, 255, 0.2) 0px 0px 7px, rgba(236, 255, 255, 0.3) 0px 0px 14px 1px',
               }}
-              className="button is-success is-medium"
+              className="button is-success"
             >
               <span className="icon">
                 <i className="fas fa-search" />
@@ -262,7 +262,7 @@ class GeoSearch extends React.Component {
                     padding: '.375rem 1rem',
                   }
                 : {
-                    color: '#4a4a4a',
+                    color: '#353535',
                     fontSize: '.875rem',
                     lineHeight: '1.5',
                     padding: '.375rem 1rem',

@@ -12,6 +12,7 @@ import {
   JobCardTitle,
   CancelledBy,
   SummaryStartDateAndTime,
+  TaskImagesCarousel,
 } from '../../containers/commonComponents';
 import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
@@ -24,7 +25,7 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
       return <div>TaskerAwardedBidCanceledByTaskerSummary is missing properties</div>;
     }
 
-    const { startingDateAndTime } = job;
+    const { startingDateAndTime, taskImages = [] } = job;
     if (!startingDateAndTime) {
       return <div>TaskerAwardedBidCanceledByTaskerSummary is missing properties</div>;
     }
@@ -50,6 +51,7 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
           <div className="card-content">
             <div className="content">
               <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <TaskImagesCarousel taskImages={taskImages} />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
@@ -69,7 +71,7 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
               }}
               className="button is-danger "
             >
-              View Details
+              VIEW DETAILS
             </a>
           </div>
         </div>

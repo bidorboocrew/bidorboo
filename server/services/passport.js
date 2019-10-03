@@ -28,6 +28,7 @@ const FacebookPassportConfig = {
   clientSecret: keys.facebookClientSecret,
   callbackURL: ROUTES.API.AUTH.FACEBOOK_CALLBACK,
   proxy: true,
+  enableProof: true,
   profileFields: ['id', 'displayName', 'name', 'picture.type(large)', 'emails'],
 };
 //facebook Auth
@@ -46,7 +47,10 @@ passport.use(
         );
         if (anotherUserExistsWithSameEmail) {
           return done(
-            JSON.stringify({ errorMsg: 'a user with the same email already exists' }),
+            JSON.stringify({
+              errorMsg:
+                'a user with the same email already exists, if you need help chat with us. a chat button is located in the footer of this page',
+            }),
             null
           );
         }
@@ -56,11 +60,11 @@ passport.use(
         isFbUser: true,
         displayName: profile.displayName,
         userId: profile.id,
-        email: { emailAddress: userEmail },
+        email: { emailAddress: userEmail, isVerified: true },
         profileImage: {
           url: profile.photos
             ? profile.photos[0].value
-            : 'https://static.thenounproject.com/png/630729-200.png',
+            : 'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1565728175/android-chrome-512x512.png',
         },
       };
 
@@ -94,7 +98,10 @@ passport.use(
         );
         if (anotherUserExistsWithSameEmail) {
           return done(
-            JSON.stringify({ errorMsg: 'a user with the same email already exists' }),
+            JSON.stringify({
+              errorMsg:
+                'a user with the same email already exists, if you need help chat with us. a chat button is located in the footer of this page',
+            }),
             null
           );
         }
@@ -103,11 +110,11 @@ passport.use(
         isGmailUser: true,
         displayName: profile.displayName,
         userId: profile.id,
-        email: { emailAddress: userEmail },
+        email: { emailAddress: userEmail, isVerified: true },
         profileImage: {
           url: profile.photos
             ? profile.photos[0].value
-            : 'https://static.thenounproject.com/png/630729-200.png',
+            : 'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1565728175/android-chrome-512x512.png',
         },
       };
 
@@ -153,7 +160,8 @@ passport.use(
         email: { emailAddress: email },
         password: password,
         displayName: req.body.displayName,
-        profileImgUrl: 'https://static.thenounproject.com/png/630729-200.png',
+        profileImgUrl:
+          'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1565728175/android-chrome-512x512.png',
       };
 
       const user = await userDataAccess.createNewUser(userDetails);

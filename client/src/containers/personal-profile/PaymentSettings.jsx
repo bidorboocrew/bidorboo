@@ -7,7 +7,6 @@ import { bindActionCreators } from 'redux';
 import { updateProfileDetails, updateProfileImage } from '../../app-state/actions/userModelActions';
 import { getMyStripeAccountDetails } from '../../app-state/actions/paymentActions';
 import { Spinner } from '../../components/Spinner';
-import * as ROUTES from '../../constants/frontend-route-consts';
 
 import PaymentSetupForm from '../../components/forms/PaymentSetupForm';
 
@@ -17,7 +16,7 @@ class PaymentSettings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showAddPaymentDetails: false,
+      showAddPaymentDetails: true,
     };
   }
 
@@ -117,7 +116,7 @@ const InitialAccountSetupView = (props) => {
     <React.Fragment>
       <div>
         <div className="group">
-          <div style={{ minHeight: 'unset', height: 'unset' }} className="card limitLargeMaxWidth">
+          <div style={{ minHeight: 'unset', height: 'unset' }} className="card">
             <div style={{ minHeight: 'unset', height: 'unset' }} className="card-content">
               <HeaderTitle title="My Payments Details" />
 

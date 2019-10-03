@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import TextareaAutosize from 'react-autosize-textarea';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
+import { Collapse } from 'react-collapse';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import { REQUEST_STATES } from '../index';
@@ -18,6 +19,7 @@ import {
   BSPastDueExpired,
   JobCardTitle,
   BSAwardedToSomeoneElse,
+  TaskImagesCarousel,
 } from '../../containers/commonComponents';
 
 import TaskerEditOrUpdateBid from '../../containers/bidder-flow/components/TaskerEditOrUpdateBid';
@@ -76,6 +78,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
       extras,
       isPastDue,
       state,
+      taskImages = [],
     } = job;
     if (
       !startingDateAndTime ||
@@ -113,7 +116,8 @@ export default class TaskerMyOpenBidDetails extends React.Component {
 
     const { showMore, showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
-    const isAwardedToSomeoneElse = state === REQUEST_STATES.AWARDED;
+    const isAwardedToSomeoneElse =
+      state === REQUEST_STATES.AWARDED && bid._id !== job._awardedBidRef;
 
     return (
       <React.Fragment>
@@ -210,7 +214,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                   </div>
                 )}
               />
-
+              <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
@@ -227,17 +231,16 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                 </React.Fragment>
               )}
 
-              <div className="group">
-                <label className="label">My Bid</label>
-                <div className="control">{`${bidValue -
-                  Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
-              </div>
-
-              {showMore && (
-                <React.Fragment>
+              <Collapse isOpened={showMore}>
+                <div className="has-text-left">
                   <div className="group">
-                    <label className="label">Requester:</label>
-                    <CenteredUserImageAndRating userDetails={_ownerRef} />
+                    <label className="label hasSelectedValue">My Bid</label>
+                    <div className="control">${bidValue}</div>
+                  </div>
+
+                  <div className="group">
+                    <label className="label hasSelectedValue">Requester</label>
+                    <CenteredUserImageAndRating userDetails={_ownerRef} isCentered={false} />
                   </div>
                   <TaskSpecificExtras templateId={ID} extras={extras} />
                   <LocationLabelAndValue location={location.coordinates} />
@@ -245,26 +248,23 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                   <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
 
                   <div className="group">
-                    <label className="label">Detailed Description</label>
-
+                    <label className="label hasSelectedValue">Detailed Description</label>
                     <TextareaAutosize
                       value={detailedDescription}
-                      className="textarea is-marginless is-paddingless is-size-6"
+                      className="textarea is-marginless is-paddingless control"
                       style={{
                         resize: 'none',
                         border: 'none',
-                        color: '#4a4a4a',
-                        fontSize: '1rem',
                       }}
                       readOnly
                     />
                   </div>
-                </React.Fragment>
-              )}
+                </div>
+              </Collapse>
               <div>
                 {!showMore && (
                   <a onClick={this.toggleShowMore} className="button is-small">
-                    <span style={{ marginRight: 4 }}>show full task details</span>
+                    <span style={{ marginRight: 4 }}>show more details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-down" />
                     </span>

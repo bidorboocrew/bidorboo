@@ -1,8 +1,5 @@
 import React from 'react';
 
-import ReactStars from 'react-stars';
-import * as ROUTES from '../../../constants/frontend-route-consts';
-import { switchRoute } from '../../../utils';
 import {
   BidsTableVerifiedVia,
   CenteredUserImageAndRating,
@@ -73,8 +70,8 @@ export default class BidsTable extends React.Component {
     });
     return (
       <React.Fragment>
-        <div style={{ background: 'transparent' }} className="tabs is-medium is-centered">
-          <ul style={{ marginBottom: 0 }}>
+        <div style={{ background: 'transparent', marginBottom: 0 }} className="tabs is-centered">
+          <ul>
             <li>
               <a>
                 <span className="icon is-small">
@@ -94,7 +91,7 @@ export default class BidsTable extends React.Component {
 const TableWithNoBids = ({ viewedByCount }) => {
   return (
     <>
-      <div style={{ background: 'transparent' }} className="tabs is-medium is-centered">
+      <div style={{ background: 'transparent' }} className="tabs is-centered">
         <ul>
           <li>
             <a>

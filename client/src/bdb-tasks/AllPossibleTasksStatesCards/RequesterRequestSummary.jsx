@@ -14,6 +14,7 @@ import {
   PastdueExpired,
   JobCardTitle,
   TaskersAvailable,
+  TaskImagesCarousel,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -21,6 +22,7 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 class RequesterRequestSummary extends React.Component {
   render() {
     const { job, cancelJobById, notificationFeed } = this.props;
+
     if (!job || !job._id || !notificationFeed || !cancelJobById) {
       return <div>RequesterRequestSummary is missing properties</div>;
     }
@@ -32,6 +34,7 @@ class RequesterRequestSummary extends React.Component {
       isHappeningSoon,
       isHappeningToday,
       isPastDue,
+      taskImages = [],
     } = job;
     if (
       !jobId ||
@@ -57,7 +60,7 @@ class RequesterRequestSummary extends React.Component {
           <div className="card-content">
             <div className="content">
               <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-
+              <TaskImagesCarousel taskImages={taskImages} />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
@@ -127,7 +130,7 @@ const renderFooter = ({ job, notificationFeed, isPastDue }) => {
             <span className="icon">
               <i className="fa fa-hand-paper" />
             </span>
-            <span>{`View Details`}</span>
+            <span>VIEW DETAILS</span>
           </span>
         </a>
       </div>
@@ -145,7 +148,9 @@ const renderFooter = ({ job, notificationFeed, isPastDue }) => {
             <span className="icon">
               <i className="fa fa-hand-paper" />
             </span>
-            <span>{`View ${job._bidsListRef.length > 1 ? 'Offers' : 'Offer'}`}</span>
+            <span>{`View ${
+              job._bidsListRef.length > 1 || job._bidsListRef.length === 0 ? 'offers' : 'offer'
+            }`}</span>
           </span>
 
           {doesthisJobHaveNewBids && (
@@ -166,9 +171,9 @@ const renderFooter = ({ job, notificationFeed, isPastDue }) => {
           onClick={() => {
             switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
           }}
-          className={`button is-link`}
+          className={`button is-white`}
         >
-          <span>View Task</span>
+          <span>VIEW REQUEST</span>
         </a>
       </div>
     );

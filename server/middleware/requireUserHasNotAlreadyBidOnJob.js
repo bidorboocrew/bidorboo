@@ -11,7 +11,7 @@ module.exports = async (req, res, next) => {
       return res.status(403).send({ errorMsg: 'missing paramerters . can not validate the job.' });
     }
 
-    const job = await jobDataAccess.getJobById(jobId);
+    const job = await jobDataAccess.getBidsList(jobId);
     if (!job || !job._id) {
       return res.status(403).send({ errorMsg: 'We could not locate the job.' });
     }
@@ -20,7 +20,7 @@ module.exports = async (req, res, next) => {
       next();
     } else {
       let hasUserAlreadyBid = job._bidsListRef.some((bid) => {
-        return bid._bidderRef.toString() === req.user._id.toString();
+        return bid._bidderRef._id.toString() === req.user._id.toString();
       });
       if (hasUserAlreadyBid) {
         return res.status(403).send({ errorMsg: 'You Already Bid on this job.' });
@@ -31,6 +31,6 @@ module.exports = async (req, res, next) => {
   } catch (e) {
     return res
       .status(400)
-      .send({ errorMsg: 'failed to validate requireUserHasNotAlreadyBidOnJob ', details: `${e}` });
+      .send({ errorMsg: 'Sorry , try to refresh the page and place your bid again.', details: `${e}` });
   }
 };

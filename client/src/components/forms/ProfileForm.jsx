@@ -1,5 +1,4 @@
 import React from 'react';
-import Dropzone from 'react-dropzone';
 import axios from 'axios';
 
 import { withFormik } from 'formik';
@@ -7,13 +6,17 @@ import * as Yup from 'yup';
 import { TextInput, TextAreaInput } from './FormsHelpers';
 import { alphanumericField, phoneNumber } from './FormsValidators';
 
+const MAX_PARAGRAPH_LENGTH = 255;
+const MAX_NAME_LENGTH = 25;
+const MIN_NAME_LENGTH = 3;
+
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
     displayName: Yup.string()
       .ensure()
       .trim()
-      .min(3, 'your name is longer than that. Must be at least 3 chars')
-      .max(25, 'your name is longer 25. Must be at most 25 chars')
+      .min(MIN_NAME_LENGTH, `must be at least ${MIN_NAME_LENGTH} charachters long.`)
+      .max(MAX_NAME_LENGTH, `can not be more than ${MAX_NAME_LENGTH} charachters long`)
       .test('alphanumericField', 'Name can only contain alphabits and numbers', (inputText) => {
         return alphanumericField(inputText);
       })
@@ -29,7 +32,10 @@ const EnhancedForms = withFormik({
       .test('phoneNumber', 'invalid format. an example would be 9053334444', (inputText) => {
         return phoneNumber(inputText);
       }),
-    personalParagraph: Yup.string().max(255, 'Maximum length allowed is 255 charachters'),
+    personalParagraph: Yup.string().max(
+      MAX_PARAGRAPH_LENGTH,
+      `can not be more than ${MAX_PARAGRAPH_LENGTH} charachters long`,
+    ),
   }),
   mapPropsToValues: ({ userDetails }) => {
     const { displayName, personalParagraph, phone, email } = userDetails;
@@ -39,7 +45,6 @@ const EnhancedForms = withFormik({
       phoneNumber: phone.phoneNumber,
       email: email.emailAddress,
       personalParagraph: personalParagraph,
-      // autoDetectlocation,
     };
   },
 
@@ -229,6 +234,8 @@ const ProfileForm = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
       />
+      <br />
+      <br />
       {/* ID VERIFICATION XXXXXX  */}
       {/* <input id="idFrontImg" className="input is-invisible" type="hidden" />
       <label className="label">ID Verification (Optional)</label>

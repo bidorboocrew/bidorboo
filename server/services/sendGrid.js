@@ -19,13 +19,13 @@ exports.EmailService = {
       html: populateHtmlTemplate({
         toDisplayName,
         contentHtml: `
-        <p>Your BidOrBoo Email Verification Code is</p>
-        <p>${emailVerificationCode}</p>
-
-        <p>Click to verify your email Address</p>
+        <p>Email Verification Code</p>
+        <p><strong>${emailVerificationCode}</strong></p>
         `,
+        clickDisplayName: 'Verify Email',
       }),
     };
+
     sgMail.send(msg);
   },
 
@@ -47,6 +47,7 @@ exports.EmailService = {
     //   console.log(response.body);
     //   console.log(response.headers);
     // }
+
     sgMail.send(msg);
   },
   sendJobIsHappeningSoonToTaskerEmail: ({
@@ -74,8 +75,12 @@ exports.EmailService = {
         contentHtml: `
         <p>This is an automated reminder for your upcoming scheduled ${requestTitle} task.</p>
         <p>To get in touch with your task owner feel free to contact them on:</p>
-        <p><strong>email address : ${ownerEmailAddress}</strong></p>
-        <p><strong>phone number : ${ownerPhoneNumber}</strong></p>`,
+        <div>
+        <strong>email address:</strong> <a href="mailto:${ownerEmailAddress}?subject=BIDORBOO - Iam your tasker for ${requestTitle}">${ownerEmailAddress}</a>
+        </div>
+        <div>
+        <strong>phone number:</srtong> <a href="tel:${ownerPhoneNumber}">${ownerPhoneNumber}</a>
+        </div>`,
         clickLink: `${linkForBidder}`,
         clickDisplayName: 'View Request Details',
       }),
@@ -85,6 +90,7 @@ exports.EmailService = {
     //   console.log(response.body);
     //   console.log(response.headers);
     // }
+
     sgMail.send(msg);
   },
   sendJobIsHappeningSoonToRequesterEmail: ({
@@ -110,8 +116,12 @@ exports.EmailService = {
         toDisplayName: toDisplayName || to,
         contentHtml: `<p>This is an automated reminder for your upcoming scheduled ${requestTitle} task.</p>
         <p>To get in touch with your assigned Tasker owner feel free to contact them on:</p>
-      <p><strong>email address : ${bidderEmailAddress}</strong></p>
-      <p><strong>phone number : ${bidderPhoneNumber}</strong></p>`,
+        <div>
+        <strong>email address:</strong> <a href="mailto:${bidderEmailAddress}?subject=BIDORBOO - Iam expecting you soon for ${requestTitle}">${bidderEmailAddress}</a>
+        </div>
+        <div>
+        <strong>phone number:</srtong> <a href="tel:${bidderPhoneNumber}">${bidderPhoneNumber}</a>
+        </div>`,
         clickLink: `${linkForOwner}`,
         clickDisplayName: 'View Request Details',
       }),
@@ -137,6 +147,7 @@ exports.EmailService = {
         clickDisplayName: 'Cancelled Request Details',
       }),
     };
+
     sgMail.send(msg);
   },
 
@@ -165,6 +176,7 @@ exports.EmailService = {
         clickDisplayName: 'Cancelled Request Details',
       }),
     };
+
     sgMail.send(msg);
   },
 
@@ -196,6 +208,7 @@ exports.EmailService = {
         clickDisplayName: 'Cancelled Request Details',
       }),
     };
+
     sgMail.send(msg);
   },
   tellTaskerThatTheyCancelledJob: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
@@ -224,6 +237,7 @@ exports.EmailService = {
         clickDisplayName: 'Cancelled Request Details',
       }),
     };
+
     sgMail.send(msg);
   },
 
@@ -246,6 +260,7 @@ exports.EmailService = {
         clickDisplayName: 'Confirm Task Is Done',
       }),
     };
+
     sgMail.send(msg);
   },
 
@@ -278,6 +293,7 @@ exports.EmailService = {
         clickDisplayName: 'View Request Details',
       }),
     };
+
     sgMail.send(msg);
   },
 
@@ -304,6 +320,7 @@ exports.EmailService = {
         clickDisplayName: 'Completed Request Details',
       }),
     };
+
     sgMail.send(msg);
   },
 
@@ -332,6 +349,7 @@ exports.EmailService = {
         clickDisplayName: 'Completed Request Details',
       }),
     };
+
     sgMail.send(msg);
   },
 
@@ -346,23 +364,21 @@ exports.EmailService = {
       from: 'bidorboocrew@bidorboo.com',
       subject: `BidOrBoo: ${requestTitle} Payment successful!`,
       text: `
-      Thank you for your payment ! We have contacted the Tasker and informed them of this agreement.
+      Thank you for your paymen! We've notified the Tasker
       The assigned Tasker will be ready to do a great job and fulfil your service.
-
-      To View the Tasker full contact info please click on the link below
        ${linkForOwner}
      `,
       html: populateJobUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `
-        <p>Thank you for your payment ! We have contacted the Tasker and informed them of this agreement.</p>
-        <p>The assigned Tasker will be ready to do a great job and fulfil your service.</p>
-        <p>To View the Tasker full contact info please click on the link below</p>
+        <p>Thank you for your payment! We've notified the Tasker</p>
+        <p>The Tasker will be ready to do a great job and fulfil your service.</p>
        `,
         clickLink: `${linkForOwner}`,
         clickDisplayName: 'Assigned Tasker Details',
       }),
     };
+
     sgMail.send(msg);
   },
 
@@ -375,8 +391,7 @@ exports.EmailService = {
       Your ${requestTitle} Bid Won and the request is Assigned to you!
       Please show up prepaired with all the tools required to fulfil this request to the best of your ability
 
-      Remember, showing up on time , clear communication, good manners and thourough jobs will lead to higher ratings
-      allowing you to do requests at a higher Price $ more often.
+      Remember, showing up on time , clear communication, good manners and thourough work will lead to higher ratings
 
       For any changes or to get in touch with the requeter visit the link below
        ${linkForBidder}
@@ -387,8 +402,7 @@ exports.EmailService = {
         <p>Your ${requestTitle} Bid Won and the request is Assigned to you!</p>
         <p>Please show up prepaired with all the tools required to fulfil this request to the best of your ability</p>
 
-        <p>Remember, showing up on time , clear communication, good manners and thourough jobs will lead to higher ratings
-      allowing you to do requests at a higher Price $ more often.</p>
+        <p>Remember, showing up on time , clear communication, good manners and thourough work will lead to higher ratings</p>
 
       <p>For any changes or to get in touch with the requeter visit the link below</p>
        `,
@@ -396,6 +410,7 @@ exports.EmailService = {
         clickDisplayName: 'Assigned Request Details',
       }),
     };
+
     sgMail.send(msg);
   },
   tellDisputeOwnerThatWeWillInvestigate: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
@@ -419,6 +434,7 @@ exports.EmailService = {
         clickDisplayName: 'View Disputed Task',
       }),
     };
+
     sgMail.send(msg);
   },
   informBobCrewAboutFailedPayment: ({ jobId, paymentDetails }) => {
@@ -433,6 +449,7 @@ exports.EmailService = {
         ${JSON.stringify(paymentDetails)}.</p>
       `,
     };
+
     sgMail.send(msg);
   },
 
@@ -457,6 +474,7 @@ exports.EmailService = {
         clickDisplayName: 'Completed Request Details',
       }),
     };
+
     sgMail.send(msg);
   },
   tellRequesterToConfirmJob: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
@@ -481,6 +499,7 @@ exports.EmailService = {
         clickDisplayName: 'Completed Request Details',
       }),
     };
+
     sgMail.send(msg);
   },
   informBobCrewAboutDispute: ({
@@ -506,8 +525,7 @@ exports.EmailService = {
       text: `
      Investigate this dispute filed by user ${userIdWhoFiledDispute} about job ${jobId}.
      the claim details are :
-     ${details}
-     ----------------------------------------
+    ${details}
     Additional info
     whoSubmitted = ${whoSubmitted},
     requesterDisplayName = ${requesterDisplayName},
@@ -527,7 +545,8 @@ exports.EmailService = {
       html: `
       <p>Investigate this dispute filed by user ${userIdWhoFiledDispute} about job ${jobId}.</p>
       <p>the claim details are :</p>
-      <p>${details}</p>
+      <p><strong>${details}</strong></p>
+      <br>
       Additional info
     <p>whoSubmitted = ${whoSubmitted},</p>
     <p>requesterDisplayName = ${requesterDisplayName},</p>
@@ -535,15 +554,22 @@ exports.EmailService = {
     <p>jobDisplayName = ${jobDisplayName},</p>
     <p>requestLinkForRequester = ${requestLinkForRequester},</p>
     <p>requestLinkForTasker = ${requestLinkForTasker},</p>
-    <p>requesterEmailAddress = ${requesterEmailAddress},</p>
-    <p>requesterPhoneNumber = ${requesterPhoneNumber},</p>
-    <p>taskerEmailAddress = ${taskerEmailAddress},</p>
+    <div>
+    <a href="mailto:${requesterEmailAddress}?subject=BIDORBOO DISPUTE"><strong>requesterEmailAddress:</strong> ${requesterEmailAddress}</a>
+    </div>
+    <div>
+    <a href="tel:${requesterPhoneNumber}"><strong>requesterPhoneNumber</srtong>: ${requesterPhoneNumber},</a>
+    </div>
+    <div>
+    <a href="mailto:${taskerEmailAddress}?subject=BIDORBOO DISPUTE"><strong>taskerEmailAddress:</strong> ${taskerEmailAddress}</a>
+    </div>
     <p>jobId = ${jobId},</p>
     <p>reason = ${reason},</p>
     <p>details = ${details},</p>
     <p>processedPayment = ${JSON.stringify(processedPayment)},</p>
       `,
     };
+
     sgMail.send(msg);
   },
 };

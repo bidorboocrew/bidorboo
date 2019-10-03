@@ -66,13 +66,12 @@ export const API = {
       getAllMyRequests: '/api/job/getAllMyRequests',
     },
     POST: {
+      jobImage: '/api/job/uploadImages',
       searchJobs: '/api/job/search',
       newJob: '/api/job/createJob',
       updateSearchThenSearchJobs: '/api/user/updateSearchThenSearchJobs',
     },
     PUT: {
-      jobImage: '/api/job/uploadImages',
-      awardBidder: '/api/job/awardBidder',
       updateViewedBy: '/api/job/updateViewedBy',
       updateBooedBy: '/api/job/updateBooedBy',
       proposerConfirmsJobCompleted: '/api/job/proposerConfirmsJobCompleted',

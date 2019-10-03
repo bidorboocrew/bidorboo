@@ -1,9 +1,11 @@
 import React from 'react';
 
-import { switchRoute } from '../../../utils';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 import AcceptBidPaymentHandling from './AcceptBidPaymentHandling';
-import { UserImageAndRating } from '../../../containers/commonComponents';
+import {
+  BIDORBOO_SERVICECHARGE_FOR_REQUESTER,
+  UserImageAndRating,
+} from '../../../containers/commonComponents';
 
 // confirm award and pay
 const BIDORBOO_SERVICECHARGE = 0.06;
@@ -16,7 +18,7 @@ export default class AcceptBidAndBidderModal extends React.Component {
     }
 
     const bidAmount = bid.bidAmount.value;
-    const bidOrBooServiceFee = Math.ceil(bidAmount * BIDORBOO_SERVICECHARGE);
+    const bidOrBooServiceFee = Math.ceil(bidAmount * BIDORBOO_SERVICECHARGE_FOR_REQUESTER);
 
     return (
       <div className="modal is-active">
@@ -71,10 +73,7 @@ export default class AcceptBidAndBidderModal extends React.Component {
           </section>
           <footer className="modal-card-foot">
             <button style={{ marginLeft: 4 }} onClick={closeModal} className="button">
-              <span className="icon">
-                <i className="far fa-arrow-alt-circle-left" />
-              </span>
-              <span>Go Back</span>
+              <span>Close</span>
             </button>
             <AcceptBidPaymentHandling
               bid={bid}

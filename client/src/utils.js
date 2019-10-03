@@ -17,6 +17,11 @@ export const switchRoute = (routeAndParams, stateContent = null) => {
   return null;
 };
 
+export const delayedReload = (routeAndParams) => {
+  console.error(routeAndParams);
+  setTimeout(() => window.location.reload(), 3000);
+};
+
 export const goBackToPreviousRoute = () => {
   setTimeout(() => {
     appHistory.goBack();
@@ -46,6 +51,8 @@ export const throwErrorNotification = (dispatch, error) => {
       msg = error.response.data.errorMsg.message;
     } else if (error && error.response && error.response.data && error.response.data.errorMsg) {
       msg = error.response.data.errorMsg;
+    } else if (error && error.response && error.response.data && error.response.data.safeMsg) {
+      msg = error.response.data.safeMsg;
     } else {
       msg =
         error && error.response && error.response.data

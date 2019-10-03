@@ -78,7 +78,7 @@ exports.JobFull = {
   extras: 1,
   createdAt: 1,
   updatedAt: 1,
-  // jobImages: 1,
+  taskImages: 1,
 };
 
 exports.PaymentFull = {

@@ -69,7 +69,7 @@ export default class RequesterOpenCanceledSummary extends React.Component {
               }}
               className="button is-fullwidth"
             >
-              View Details
+              VIEW DETAILS
             </a>
           </div>
         </React.Fragment>

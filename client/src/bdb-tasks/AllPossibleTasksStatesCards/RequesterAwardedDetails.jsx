@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TextareaAutosize from 'react-autosize-textarea';
+import { Collapse } from 'react-collapse';
 
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -24,6 +25,7 @@ import {
   SummaryStartDateAndTime,
   CenteredUserImageAndRating,
   AssignedTasker,
+  TaskImagesCarousel,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -34,6 +36,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
     super(props);
     this.state = {
       showDisputeModal: false,
+      showMore: false,
     };
   }
 
@@ -66,6 +69,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
         bidderDisputed: false,
         proposerDisputed: false,
       },
+      taskImages = [],
     } = job;
     if (
       !_id ||
@@ -246,7 +250,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                   </div>
                 )}
               />
-
+              <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
@@ -255,40 +259,38 @@ class RequesterAwardedDetails extends RequestBaseContainer {
               />
 
               <AssignedTasker displayName={_awardedBidRef._bidderRef.displayName} />
-              <TaskCost cost={`${bidValue - Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`} />
-              {showMore && (
-                <React.Fragment>
+
+              <Collapse isOpened={showMore}>
+                <div className="has-text-left">
+                  <TaskCost cost={bidValue} />
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
+
                   <TaskSpecificExtras templateId={ID} extras={extras} />
                   <div className="group">
-                    <label className="label">Detailed Description</label>
-                    <span className="is-size-7">
-                      <TextareaAutosize
-                        value={detailedDescription}
-                        className="textarea is-marginless is-paddingless is-size-6"
-                        style={{
-                          resize: 'none',
-                          border: 'none',
-                          color: '#4a4a4a',
-                          fontSize: '1rem',
-                        }}
-                        readOnly
-                      />
-                    </span>
+                    <label className="label hasSelectedValue">Detailed Description</label>
+                    <TextareaAutosize
+                      value={detailedDescription}
+                      className="textarea is-marginless is-paddingless control"
+                      style={{
+                        resize: 'none',
+                        border: 'none',
+                      }}
+                      readOnly
+                    />
                   </div>
-                </React.Fragment>
-              )}
+                </div>
+              </Collapse>
               <div>
                 {!showMore && (
-                  <a onClick={this.toggleShowMore} className="button is-small">
-                    <span style={{ marginRight: 4 }}>show full task details</span>
+                  <a onClick={this.toggleShowMore} className="button">
+                    <span style={{ marginRight: 4 }}>show more details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-down" />
                     </span>
                   </a>
                 )}
                 {showMore && (
-                  <a onClick={this.toggleShowMore} className="button is-small">
+                  <a onClick={this.toggleShowMore} className="button">
                     <span style={{ marginRight: 4 }}>show less details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-up" />
@@ -493,7 +495,7 @@ class RequesterDisputes extends React.Component {
                       {` Misconduct such as; bullying, threatning or sexual harrasment`}
                     </label>
                   </div>
-                  <div>
+                  <div className="group">
                     <label className="radio">
                       <input
                         type="radio"
@@ -504,7 +506,6 @@ class RequesterDisputes extends React.Component {
                       {` Other`}
                     </label>
                   </div>
-                  <br />
                   <div className="group">
                     <label className="label">Tell us some more details</label>
                     <textarea
@@ -597,20 +598,26 @@ class AssignedTaskerDetails extends React.Component {
             />
 
             <div style={{ marginBottom: '2rem' }}>
-              <div className="field">
-                <label className="has-text-grey">Tasker Contact Info</label>
-                <div style={{ fontWeight: 500, fontSize: 18 }}>
+              <div className="group">
+                <label className="label hasSelectedValue">Tasker Contact Info</label>
+                <div style={{ fontWeight: 500, fontSize: 16 }}>
                   <div>
-                    <span className="icon">
-                      <i className="far fa-envelope" />
-                    </span>
-                    <span>{emailAddress}</span>
+                    <a
+                      href={`mailto:${emailAddress}?subject=BIDORBOO - I requested your service and reaching out to agree on meeting time and details`}
+                    >
+                      <span className="icon">
+                        <i className="far fa-envelope" />
+                      </span>
+                      <span>{emailAddress}</span>
+                    </a>
                   </div>
                   <div>
-                    <span className="icon">
-                      <i className="fas fa-mobile-alt" />
-                    </span>
-                    <span>{phoneNumber}</span>
+                    <a href={`tel:${phoneNumber}`}>
+                      <span className="icon">
+                        <i className="fas fa-mobile-alt" />
+                      </span>
+                      <span>{phoneNumber}</span>
+                    </a>
                   </div>
                 </div>
                 <div className="help">

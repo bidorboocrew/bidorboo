@@ -4,17 +4,6 @@ import moment from 'moment';
 
 import tasksDefinitions from '../../../bdb-tasks/tasksDefinitions';
 
-export const BID_STATUS_TO_DISPLAYLABEL = {
-  OPEN: 'Pending',
-  BOO: 'Boo',
-  BOO_SEEN: 'Boo',
-  WON: 'Awarded',
-  WON_SEEN: 'Awarded',
-  CANCEL: 'Cancelled',
-  CANCEL_SEEN: 'Cancelled',
-};
-
-
 export const AddAwardedJobToCalendar = ({ job }) => {
   if (!job) {
     return null;
@@ -68,7 +57,7 @@ export const AddAwardedJobToCalendar = ({ job }) => {
       listItems={[{ apple: 'iCal' }, { google: 'Google' }, { outlook: 'Outlook' }]}
       displayItemIcons={false}
       event={event}
-      buttonClassClosed="button is-success"
+      buttonClassClosed="button is-info"
     />
   );
 };

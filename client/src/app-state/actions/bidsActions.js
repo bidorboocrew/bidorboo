@@ -1,7 +1,8 @@
 import * as A from '../actionTypes';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
-import { switchRoute, throwErrorNotification } from '../../utils';
+import { switchRoute, throwErrorNotification, delayedReload } from '../../utils';
+import TASKS_DEFINITIONS from '../../bdb-tasks/tasksDefinitions';
 
 export const selectJobToBidOn = (jobDetails) => (dispatch) => {
   dispatch({
@@ -62,35 +63,42 @@ export const getJobToBidOnDetails = (jobId) => (dispatch) =>
       }),
   });
 
-export const submitBid = ({ bidAmount, jobId, recaptchaField }) => (dispatch) => {
+export const submitBid = ({ bidAmount, job }) => (dispatch) => {
   //update store with the job details
+
+  const { _id: jobId, templateId } = job;
+
   dispatch({
     type: A.BIDDER_ACTIONS.POST_A_BID,
     payload: axios
       .post(ROUTES.API.BID.POST.bid, {
-        recaptchaField,
         data: {
-          jobId: jobId,
+          jobId,
           bidAmount: bidAmount,
         },
       })
       .then((resp) => {
         // update recently added job
         if (resp.data && resp.data._id) {
+          const taskDefinition = TASKS_DEFINITIONS[templateId];
           //rediret user to the current bid
-          switchRoute(
-            ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(resp.data._id),
-          );
-
+          switchRoute(ROUTES.CLIENT.BIDDER.mybids);
           dispatch({
-            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+            type: A.UI_ACTIONS.SHOW_SPECIAL_MOMENT,
             payload: {
-              toastDetails: {
-                type: 'success',
-                msg: 'You have made your bid. Good Luck!',
-              },
+              specialMomentContent: taskDefinition.renderThankYouForPostingBid,
             },
           });
+
+          // dispatch({
+          //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          //   payload: {
+          //     toastDetails: {
+          //       type: 'success',
+          //       msg: 'You have made your bid. Good Luck!',
+          //     },
+          //   },
+          // });
         }
       })
       .catch((error) => {
@@ -159,13 +167,14 @@ export const cancelAwardedBid = (bidId) => (dispatch) => {
   });
 };
 
-export const updateBid = ({ bidId, bidAmount, recaptchaField }) => (dispatch) => {
+export const updateBid = ({ bidId, bidAmount, job }) => (dispatch) => {
   //update store with the job details
+  const { templateId } = job;
+
   dispatch({
     type: A.BIDDER_ACTIONS.UPDATE_A_BID,
     payload: axios
       .post(ROUTES.API.BID.PUT.updateMyBid, {
-        recaptchaField,
         data: {
           bidId,
           bidAmount,
@@ -175,17 +184,28 @@ export const updateBid = ({ bidId, bidAmount, recaptchaField }) => (dispatch) =>
         // update recently added job
         if (resp.data && resp.data._id) {
           // xxxx update some store value instead of reloading the page
-          window.location.reload();
+          const taskDefinition = TASKS_DEFINITIONS[templateId];
 
           dispatch({
-            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+            type: A.UI_ACTIONS.SHOW_SPECIAL_MOMENT,
             payload: {
-              toastDetails: {
-                type: 'success',
-                msg: 'You have udpated your bid. Good Luck!',
-              },
+              specialMomentContent: taskDefinition.renderThankYouForEditingBid,
             },
           });
+
+          //rediret user to the current bid
+
+          delayedReload(ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(resp.data._id));
+
+          // dispatch({
+          //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          //   payload: {
+          //     toastDetails: {
+          //       type: 'success',
+          //       msg: 'You have udpated your bid. Good Luck!',
+          //     },
+          //   },
+          // });
         }
       })
       .catch((error) => {

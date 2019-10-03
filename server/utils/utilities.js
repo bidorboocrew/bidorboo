@@ -22,23 +22,31 @@ exports.compareEncryptedWithClearData = async (candidatePassword, encryptedPassw
 };
 
 // handles uploading file, returns file details + deletes temp file + calls back
+//https://flaviocopes.com/how-to-remove-file-node/
+// https://cloudinary.com/documentation/image_transformation_reference
 exports.uploadFileToCloudinary = async (filePath, options, callbackFunc) => {
   return new Promise(async (resolve, reject) => {
     try {
       await cloudinary.v2.uploader.upload(filePath, options, async (error, result) => {
-        // delete temporary intermediate file stored in TEMP_FILE_STORAGE
-        try {
-          await unlinkAsync(filePath);
-          if (callbackFunc) {
-            callbackFunc(error, result);
-          }
-          resolve(true);
-        } catch (e) {
-          reject(e);
-        }
+        callbackFunc && callbackFunc(error, result);
+        resolve(true);
       });
     } catch (e) {
       reject(e);
+    } finally {
+      // delete temporary intermediate file stored in TEMP_FILE_STORAGE
+      try {
+        console.log(`BIDORBOOLOGGING: deleted temporary task file`);
+
+        await unlinkAsync(filePath);
+
+        callbackFunc && callbackFunc(null, null);
+      } catch (e) {
+        console.log(
+          `BIDORBOOLOGGING: file at  (${filePath}) was not deleted successfully due to (${e})`
+        );
+        reject(e);
+      }
     }
   });
 };
@@ -58,6 +66,9 @@ exports.signCloudinaryParams = async (paramsToSign) => {
   });
 };
 
+exports.detroyExistingImg = async (public_id) => {
+  cloudinary.v2.uploader.destroy(public_id);
+};
 //   // delete all images in a folder
 // const mongoUser_id = req.user._id.toString();
 
@@ -68,4 +79,5 @@ exports.signCloudinaryParams = async (paramsToSign) => {
 exports.jobTemplateIdToDefinitionObjectMapper = {
   [`${jobTemplatesDefinitions.HOUSE_CLEANING_DEF.ID}`]: jobTemplatesDefinitions.HOUSE_CLEANING_DEF,
   [`${jobTemplatesDefinitions.CAR_DETAILING_DEF.ID}`]: jobTemplatesDefinitions.CAR_DETAILING_DEF,
+  [`${jobTemplatesDefinitions.PET_CARE_DEF.ID}`]: jobTemplatesDefinitions.PET_CARE_DEF,
 };

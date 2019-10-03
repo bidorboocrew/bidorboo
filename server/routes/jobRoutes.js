@@ -1,9 +1,8 @@
 const { jobDataAccess } = require('../data-access/jobDataAccess');
 const { updateUserLastSearchDetails } = require('../data-access/userDataAccess');
+const { uploadFileToCloudinary } = require('../utils/utilities');
 
-const requirePassesRecaptcha = require('../middleware/requirePassesRecaptcha');
 const ROUTES = require('../backend-route-constants');
-const utils = require('../utils/utilities');
 
 const requireLogin = require('../middleware/requireLogin');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
@@ -80,7 +79,7 @@ module.exports = (app) => {
     ROUTES.API.JOB.DELETE.myJobById,
     requireBidorBooHost,
     requireLogin,
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         const mongoUser_id = req.user._id;
         const jobId = req.body.jobId;
@@ -94,7 +93,8 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To delete job', details: `${e}` });
+        next(e);
+        // return res.status(400).send({ errorMsg: 'Failed To delete job', details: `${e}` });
       }
     }
   );
@@ -137,9 +137,9 @@ module.exports = (app) => {
     requireLogin,
     async (req, res) => {
       try {
-        const userJobsList = await jobDataAccess.getAllRequestsByUserId(req.user.userId);
-        if (userJobsList && userJobsList._postedJobsRef) {
-          return res.send({ allRequests: userJobsList._postedJobsRef });
+        const userJobsList = await jobDataAccess.getAllRequestsByUserId(req.user._id);
+        if (userJobsList && userJobsList) {
+          return res.send({ allRequests: userJobsList });
         }
         return res.send({ allRequests: [] });
       } catch (e) {
@@ -176,84 +176,57 @@ module.exports = (app) => {
     }
   });
 
-  app.post(
-    ROUTES.API.JOB.POST.newJob,
-    requireLogin,
-    requireUserCanPost,
-    // requirePassesRecaptcha,
-    async (req, res) => {
-      try {
-        const { jobDetails } = req.body.data;
-        const mongoUser_id = req.user._id;
-        const newJob = await jobDataAccess.addAJob(jobDetails, mongoUser_id);
-
-        return res.send(newJob);
-      } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To create new job', details: `${e}` });
-      }
-    }
-  );
-  // app.put(ROUTES.API.JOB.PUT.jobImage, requireLogin, async (req, res) => {
-  //   try {
-  //     const filesList = req.files;
-  //     // create new job for this user
-  //     const jobId = req.body.jobId;
-  //     const mongoUser_id = req.user._id;
-  //     let cloudinaryHostedImageObj = [];
-  //     const callbackFunc = (error, result) => {
-  //       // update the user data model
-  //       if (result) {
-  //         const { secure_url, public_id } = result;
-  //         cloudinaryHostedImageObj.push({ secure_url, public_id });
-  //       }
-  //     };
-
-  //     if (filesList && filesList.length > 0) {
-  //       const cloudinaryUploadReqs = [];
-  //       filesList.forEach((file) => {
-  //         cloudinaryUploadReqs.push(
-  //           utils.uploadFileToCloudinary(
-  //             file.path,
-  //             {
-  //               folder: `${mongoUser_id}/${jobId}`,
-  //             },
-  //             callbackFunc
-  //           )
-  //         );
-  //       });
-  //       const uploadImages = await Promise.all(cloudinaryUploadReqs);
-
-  //       if (jobId && cloudinaryHostedImageObj.length > 0) {
-  //         jobDataAccess.addJobImages(jobId, cloudinaryHostedImageObj);
-  //       }
-  //       res.send({
-  //         success: true,
-  //         jobId: jobId,
-  //       });
-  //     }
-  //   } catch (e) {
-  //     return res.status(400).send({ errorMsg: 'Failed To upload job image', details: `${e}` });
-  //   }
-  // });
-
-  app.put(ROUTES.API.JOB.PUT.awardBidder, requireLogin, requireJobOwner, async (req, res) => {
+  app.post(ROUTES.API.JOB.POST.newJob, requireLogin, requireUserCanPost, async (req, res) => {
     try {
-      // create new job for this user
-      const data = req.body.data;
-      // const userId = req.user.userId;
-      // const mongoUser_id = req.user._id;
+      const { jobDetails } = req.body.data;
+      const mongoUser_id = req.user._id;
+      const newJob = await jobDataAccess.addAJob(jobDetails, mongoUser_id);
 
-      const { jobId, bidId } = data;
-      let existingJob = null;
-
-      existingJob = await jobDataAccess.awardBidder(jobId, bidId);
-      if (existingJob) {
-        return res.send(existingJob);
-      }
+      return res.send(newJob);
     } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To award bidder', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To create new job', details: `${e}` });
     }
   });
+  app.post(ROUTES.API.JOB.POST.jobImage, requireLogin, async (req, res) => {
+    try {
+      const filesList = req.files;
+
+      const mongoUser_id = req.user._id;
+
+      let cloudinaryHostedImageObj = [];
+      const callbackFunc = (error, result) => {
+        // update the user data model
+        if (!error && result) {
+          const { secure_url, public_id } = result;
+          cloudinaryHostedImageObj.push({ public_id, url: secure_url });
+        }
+      };
+
+      if (filesList && filesList.length > 0) {
+        const cloudinaryUploadReqs = [];
+        filesList.forEach((file) => {
+          cloudinaryUploadReqs.push(
+            uploadFileToCloudinary(
+              file.path,
+              {
+                folder: `${mongoUser_id}/ReqestsImages`,
+              },
+              callbackFunc
+            )
+          );
+        });
+
+        const imageUploadResults = await Promise.all(cloudinaryUploadReqs);
+
+        res.send({
+          taskImages: cloudinaryHostedImageObj,
+        });
+      }
+    } catch (e) {
+      return res.status(400).send({ errorMsg: 'Failed To upload job image', details: `${e}` });
+    }
+  });
+
 
   app.put(ROUTES.API.JOB.PUT.updateViewedBy, requireLogin, async (req, res) => {
     try {
@@ -342,7 +315,7 @@ module.exports = (app) => {
     }
   );
 
-  app.post(ROUTES.API.JOB.POST.updateSearchThenSearchJobs, async (req, res) => {
+  app.post(ROUTES.API.JOB.POST.updateSearchThenSearchJobs, async (req, res, next) => {
     try {
       const searchDetails = req.body.data;
       if (!searchDetails) {
@@ -373,16 +346,12 @@ module.exports = (app) => {
         });
       }
 
-      existingJob = await jobDataAccess.getJobsNear({
+      let jobsAroundMe = await jobDataAccess.getJobsNear({
         searchRadius,
         location,
       });
 
-      if (existingJob) {
-        return res.send(existingJob);
-      } else {
-        return res.send({ errorMsg: 'JobId Was Not Specified' });
-      }
+      return res.send(jobsAroundMe);
     } catch (e) {
       return res
         .status(400)

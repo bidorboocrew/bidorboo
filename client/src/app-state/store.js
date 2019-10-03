@@ -9,10 +9,12 @@ import combinedReducers from './reducers';
 export const history = require('history').createBrowserHistory();
 
 const getMiddleware = () => {
-  if (process.env.NODE_ENV === 'production') {
-    return applyMiddleware(promise(), loadingBarMiddleware(), thunk);
-  }
-  return applyMiddleware(promise(), loadingBarMiddleware(), thunk);
+  return applyMiddleware(promise, loadingBarMiddleware(), thunk);
 };
 
-export const store = createStore(combinedReducers, composeWithDevTools(getMiddleware()));
+let reduxStore = createStore(combinedReducers, composeWithDevTools(getMiddleware()));
+if (process.env.NODE_ENV === 'production') {
+  reduxStore = createStore(combinedReducers, getMiddleware());
+}
+
+export const store = reduxStore;

@@ -14,7 +14,6 @@ class BidModal extends React.Component {
   componentWillUnmount() {
     const { resetForm, setFieldValue } = this.props;
     setFieldValue('bidAmountField', '', false);
-    setFieldValue('recaptchaField', '', false);
     resetForm();
     console.log('unmounting');
   }
@@ -165,7 +164,7 @@ const EnhancedForms = withFormik({
   }),
 
   handleSubmit: (values, { setSubmitting, props }) => {
-    props.onSubmit({ ...values, recaptchaField: props.recaptcha });
+    props.onSubmit({ ...values });
     setSubmitting(false);
   },
 

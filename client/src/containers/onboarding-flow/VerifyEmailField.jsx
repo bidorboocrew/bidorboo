@@ -34,7 +34,7 @@ class VerifyEmailField extends React.Component {
       } catch (e) {
         // some alert
         alert(
-          'Unable to verify your email, please click the chat button on the right bottom corner of your creend or contact us bidorboocrew@bidorboo.com to resolve this',
+          'Unable to verify your email, please click the chat button in the footer, or contact us bidorboocrew@bidorboo.com to resolve this',
         );
         this.setState({ isResendingVCode: false, inputCodeContent: '' });
       }
@@ -65,6 +65,15 @@ class VerifyEmailField extends React.Component {
         </div>
         <div style={{ display: 'flex' }}>
           <button
+            style={{ borderRadius: 0, boxShadow: 'none' }}
+            onClick={this.handleSendNewCode}
+            className="button is-text"
+            disabled={isResendingVCode || verifyingEmailInProgress}
+          >
+            {`${isResendingVCode ? 'Code Was Sent' : 'Resend My Code'}`}
+          </button>
+          <button
+            style={{ marginLeft: 8, borderRadius: 0 }}
             onClick={() => {
               if (!isResendingVCode || !verifyingEmailInProgress) {
                 if (!inputCodeContent) {
@@ -81,14 +90,6 @@ class VerifyEmailField extends React.Component {
             className="button is-success"
           >
             Verify Email
-          </button>
-          <button
-            style={{ marginLeft: 8 }}
-            onClick={this.handleSendNewCode}
-            className="button"
-            disabled={isResendingVCode || verifyingEmailInProgress}
-          >
-            {`${isResendingVCode ? 'Code Was Sent' : 'Resend My Code'}`}
           </button>
         </div>
         <div className="help">

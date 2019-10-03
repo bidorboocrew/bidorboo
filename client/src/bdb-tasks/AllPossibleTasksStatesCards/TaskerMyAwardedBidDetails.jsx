@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TextareaAutosize from 'react-autosize-textarea';
-import * as Constants from '../../constants/enumConstants';
+import { Collapse } from 'react-collapse';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -21,6 +21,7 @@ import {
   BidAmount,
   BSWaitingOnRequesterToConfirm,
   CenteredUserImageAndRating,
+  TaskImagesCarousel,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -53,6 +54,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
         bidderDisputed: false,
         proposerDisputed: false,
       },
+      taskImages = [],
     } = job;
     if (
       !startingDateAndTime ||
@@ -222,7 +224,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                   </div>
                 )}
               />
-
+              <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
@@ -234,37 +236,32 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
 
               {!bidderConfirmed && !proposerConfirmed && <BSTaskerAwarded isPastDue={isPastDue} />}
 
-              <BidAmount bidAmount={bidValue} />
-              <div className="group">
-                <label className="label hasSelectedValue">Task Address</label>
-                <div className="control">{addressText}</div>
-              </div>
-
-              {showMore && (
-                <React.Fragment>
+              <Collapse isOpened={showMore}>
+                <div className="has-text-left">
+                  <BidAmount bidAmount={bidValue} />
+                  <div className="group">
+                    <label className="label hasSelectedValue">Task Address</label>
+                    <div className="control">{addressText}</div>
+                  </div>
                   <TaskSpecificExtras templateId={ID} extras={extras} />
                   <div className="group">
                     <label className="label hasSelectedValue">Detailed Description</label>
-                    <span className="is-size-7">
-                      <TextareaAutosize
-                        value={detailedDescription}
-                        className="textarea is-marginless is-paddingless is-size-6"
-                        style={{
-                          resize: 'none',
-                          border: 'none',
-                          color: '#4a4a4a',
-                          fontSize: '1rem',
-                        }}
-                        readOnly
-                      />
-                    </span>
+                    <TextareaAutosize
+                      value={detailedDescription}
+                      className="textarea is-marginless is-paddingless control"
+                      style={{
+                        resize: 'none',
+                        border: 'none',
+                      }}
+                      readOnly
+                    />
                   </div>
-                </React.Fragment>
-              )}
+                </div>
+              </Collapse>
               <div>
                 {!showMore && (
                   <a onClick={this.toggleShowMore} className="button is-small">
-                    <span style={{ marginRight: 4 }}>show full task details</span>
+                    <span style={{ marginRight: 4 }}>show more details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-down" />
                     </span>
@@ -636,16 +633,22 @@ class RequesterDetails extends React.Component {
                 <label className="has-text-grey">Contact Details</label>
                 <div style={{ fontWeight: 500, fontSize: 18 }}>
                   <div>
-                    <span className="icon">
-                      <i className="far fa-envelope" />
-                    </span>
-                    <span>{emailAddress}</span>
+                    <a
+                      href={`mailto:${emailAddress}?subject=BIDORBOO - I am your tasker and reaching out to agree on meeting time and details`}
+                    >
+                      <span className="icon">
+                        <i className="far fa-envelope" />
+                      </span>
+                      <span>{emailAddress}</span>
+                    </a>
                   </div>
                   <div>
-                    <span className="icon">
-                      <i className="fas fa-mobile-alt" />
-                    </span>
-                    <span>{phoneNumber}</span>
+                    <a href={`tel:${phoneNumber}`}>
+                      <span className="icon">
+                        <i className="fas fa-mobile-alt" />
+                      </span>
+                      <span>{phoneNumber}</span>
+                    </a>
                   </div>
                 </div>
                 <div className="help">

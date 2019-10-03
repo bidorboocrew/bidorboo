@@ -110,7 +110,7 @@ class FreshdeskChat extends React.Component {
           _id,
         });
       }
-      if (window.fcWidget.isOpen() != true) {
+      if (!window.fcWidget.isOpen()) {
         window.fcWidget.open();
       } else {
         window.fcWidget.close();

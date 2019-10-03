@@ -4,7 +4,12 @@ import DatePickerInput from '../forms/DatePickerInput';
 // import moment from 'moment';
 import TimePickerInput from '../forms/TimePickerInput';
 
-const InputFeedback = ({ error }) => (error ? <p className="help is-danger">{error}</p> : null);
+const InputFeedback = ({ error }) =>
+  error ? (
+    <div style={{ fontWeight: 500 }} className="help is-danger">
+      {error}
+    </div>
+  ) : null;
 
 const Label = ({ error, labelClassName, children, id, ...props }) => {
   return (
@@ -103,7 +108,7 @@ export const TextInput = ({
         />
       </div>
       <HelpText helpText={helpText} />
-      {touched && id && touched[id] && error && <InputFeedback error={error} />}
+      {error && <InputFeedback error={error} />}
     </div>
   );
 };
@@ -135,7 +140,7 @@ export const TextAreaInput = ({
     inputStateClass = 'hasSelectedValue';
   }
   return (
-    <div className={`group ${touched && id && touched[id] && error ? 'isError' : ''}`}>
+    <div className={`group ${error ? 'isError' : ''}`}>
       <label className={inputStateClass}>{label}</label>
       <div>
         <textarea
@@ -151,7 +156,7 @@ export const TextAreaInput = ({
       </div>
       {startWithTemplateButton && startWithTemplateButton}
       <HelpText helpText={helpText} />
-      {touched && id && touched[id] && error && <InputFeedback error={error} />}
+      {error && <InputFeedback error={error} />}
     </div>
   );
 };

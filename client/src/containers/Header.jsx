@@ -188,9 +188,9 @@ class Header extends React.Component {
               height="auto"
               style={{ maxHeight: 'unset' }}
             />
-            <div className={`${isActingAsBidder ? 'has-text-grey-lighter' : 'has-text-dark'}`}>
+            <div className={`${isActingAsBidder ? 'has-text-white' : 'has-text-dark'}`}>
               <div style={{ fontSize: 24 }} className="is-hidden-touch">
-                BidOrBoo
+                BIDORBOO
               </div>
             </div>
           </a>
@@ -210,7 +210,7 @@ class Header extends React.Component {
               <span className="icon">
                 <i className="far fa-plus-square" />
               </span>
-              <span>Request</span>
+              <span>REQUEST</span>
             </a>
             <a
               className={`navbar-item ${
@@ -225,18 +225,18 @@ class Header extends React.Component {
               <span className="icon">
                 <i className="fas fa-hand-rock" />
               </span>
-              <span>Bid</span>
+              <span>BID</span>
             </a>
           </div>
           <div className=" navbar-item">
             <a
               style={{ borderRadius: 2, fontWeight: 400 }}
-              className="button is-success is-medium"
+              className="button is-success"
               onClick={(e) => {
                 this.toggleLoginDialog();
               }}
             >
-              Login
+              LOGIN
             </a>
           </div>
         </div>
@@ -297,10 +297,10 @@ class Header extends React.Component {
               }}
               className="navbar-item has-text-grey"
             >
-              <div className={`${isActingAsBidder ? 'has-text-grey-lighter' : 'has-text-dark'}`}>
+              <div className={`${isActingAsBidder ? 'has-text-white' : 'has-text-dark'}`}>
                 {/* {ROUTES.getRouteTitle()} */}
                 <div style={{ fontSize: 24 }} className="is-hidden-touch">
-                  BidOrBoo
+                  BIDORBOO
                 </div>
               </div>
             </div>
@@ -321,7 +321,7 @@ class Header extends React.Component {
                   <span className="icon">
                     <i className="far fa-plus-square" />
                   </span>
-                  <span>Request</span>
+                  <span>REQUEST</span>
                 </a>
                 <a
                   className={`navbar-item ${
@@ -336,7 +336,7 @@ class Header extends React.Component {
                   <span className="icon">
                     <i className="fas fa-hand-rock" />
                   </span>
-                  <span>Bid</span>
+                  <span>BID</span>
                 </a>
               </div>
             )}
@@ -359,7 +359,7 @@ class Header extends React.Component {
                       <span className="icon">
                         <i className="far fa-plus-square" />
                       </span>
-                      <span>Request</span>
+                      <span>REQUEST</span>
                     </a>
 
                     <a
@@ -391,7 +391,7 @@ class Header extends React.Component {
                           </span>
                         )}
                       </span>
-                      <span>Inbox</span>
+                      <span>INBOX</span>
                     </a>
                   </React.Fragment>
                 )}
@@ -411,7 +411,7 @@ class Header extends React.Component {
                       <span className="icon">
                         <i className="fas fa-hand-rock" />
                       </span>
-                      <span>Bid</span>
+                      <span>BID</span>
                     </a>
 
                     <a
@@ -443,7 +443,7 @@ class Header extends React.Component {
                           </span>
                         )}
                       </span>
-                      <span>Inbox</span>
+                      <span>INBOX</span>
                     </a>
                   </React.Fragment>
                 )}
@@ -522,7 +522,7 @@ class Header extends React.Component {
                         <span className="icon">
                           <i className="far fa-plus-square" />
                         </span>
-                        <span>Request</span>
+                        <span>REQUEST NOW</span>
                       </a>
                       <a
                         id={'viewDependentNavBarItems'}
@@ -553,7 +553,7 @@ class Header extends React.Component {
                             </span>
                           )}
                         </span>
-                        <span>Requests Inbox</span>
+                        <span>REQUESTS INBOX</span>
                       </a>
                     </>
                   )}
@@ -573,7 +573,7 @@ class Header extends React.Component {
                         <span className="icon">
                           <i className="fas fa-hand-rock" />
                         </span>
-                        <span>Bid Now</span>
+                        <span>BID NOW</span>
                       </a>
                       <a
                         onClick={(e) => {
@@ -604,7 +604,7 @@ class Header extends React.Component {
                             </span>
                           )}
                         </span>
-                        <span>Bids Inbox</span>
+                        <span>BIDS INBOX</span>
                       </a>
                     </>
                   )}

@@ -1,15 +1,16 @@
 // http://pm2.keymetrics.io/docs/usage/application-declaration/
-// Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/
+// Options reference: http://doc.pm2.io/en/runtime/reference/ecosystem-file/
 // args: 'one two',
 module.exports = {
   apps: [
     {
       name: 'BidOrBoo',
       script: './index.js',
-      watch: true,
-      instances: 3,
+      watch: false,
+      instances: 1,
+      exec_mode: 'cluster',
       autorestart: true,
-      max_restarts: 5,
+      max_restarts: 3,
       max_memory_restart: '900M',
       env: {
         NODE_ENV: 'development',

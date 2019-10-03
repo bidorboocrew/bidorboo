@@ -1,5 +1,7 @@
 import React from 'react';
 import TextareaAutosize from 'react-autosize-textarea';
+import { Collapse } from 'react-collapse';
+
 import {
   DisplayLabelValue,
   CountDownComponent,
@@ -34,7 +36,7 @@ export default class RequesterRequestDetailsPreview extends React.Component {
     if (!startingDateAndTime || !addressText || !detailedDescription || !_ownerRef) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
-    const { TITLE, ID, ICON, IMG  } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.root);
     }
@@ -59,31 +61,29 @@ export default class RequesterRequestDetailsPreview extends React.Component {
               )}
             />
             <DisplayLabelValue labelText="Address" labelValue={addressText} />
-            {showMore && (
-              <React.Fragment>
+
+            <Collapse isOpened={showMore}>
+              <div className="has-text-left">
                 <TaskSpecificExtras templateId={ID} extras={extras} />
                 <div className="group">
-                  <label className="label">Detailed Description</label>
-                  <span className="is-size-7">
-                    <TextareaAutosize
-                      value={detailedDescription}
-                      className="textarea is-marginless is-paddingless is-size-6"
-                      style={{
-                        resize: 'none',
-                        border: 'none',
-                        color: '#4a4a4a',
-                        fontSize: '1rem',
-                      }}
-                      readOnly
-                    />
-                  </span>
+                  <label className="label hasSelectedValue">Detailed Description</label>
+                  <TextareaAutosize
+                    value={detailedDescription}
+                    className="textarea is-marginless is-paddingless control"
+                    style={{
+                      resize: 'none',
+                      border: 'none',
+                    }}
+                    readOnly
+                  />
                 </div>
-              </React.Fragment>
-            )}
+              </div>
+            </Collapse>
+
             <div>
               {!showMore && (
                 <a onClick={this.toggleShowMore} className="button is-small">
-                  <span style={{ marginRight: 4 }}>show full task details</span>
+                  <span style={{ marginRight: 4 }}>show more details</span>
                   <span className="icon">
                     <i className="fas fa-angle-double-down" />
                   </span>

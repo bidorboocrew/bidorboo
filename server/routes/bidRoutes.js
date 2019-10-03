@@ -2,7 +2,6 @@ const { bidDataAccess } = require('../data-access/bidDataAccess');
 const requireUserHasNotAlreadyBidOnJob = require('../middleware/requireUserHasNotAlreadyBidOnJob');
 const requireUserCanBid = require('../middleware/requireUserCanBid');
 const requireJobIsNotAwarded = require('../middleware/requireJobIsNotAwarded');
-const requirePassesRecaptcha = require('../middleware/requirePassesRecaptcha');
 const ROUTES = require('../backend-route-constants');
 
 const requireLogin = require('../middleware/requireLogin');
@@ -104,7 +103,6 @@ module.exports = (app) => {
     ROUTES.API.BID.POST.bid,
     requireLogin,
     requireUserCanBid,
-    requirePassesRecaptcha,
     requireJobIsNotAwarded,
     requireUserHasNotAlreadyBidOnJob,
     async (req, res) => {
@@ -138,7 +136,6 @@ module.exports = (app) => {
     ROUTES.API.BID.PUT.updateMyBid,
     requireLogin,
     requireUserCanBid,
-    requirePassesRecaptcha,
     async (req, res, done) => {
       try {
         // create new job for this user

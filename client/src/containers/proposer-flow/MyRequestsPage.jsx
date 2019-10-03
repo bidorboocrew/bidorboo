@@ -103,21 +103,23 @@ const FloatingAddNewRequestButton = () => {
 };
 
 const EmptyStateComponent = () => (
-  <div className="has-text-centered">
-    <div style={{ maxWidth: 'unset' }} className="card">
-      <div className="card-content VerticalAligner ">
-        <div className="content has-text-centered ">
-          <div className="is-size-5">You have not requested any services yet</div>
-          <br />
-          <a
-            className="button is-success "
-            onClick={(e) => {
-              e.preventDefault();
-              switchRoute(ROUTES.CLIENT.PROPOSER.root);
-            }}
-          >
-            Post Requests
-          </a>
+  <div className="HorizontalAligner-center column">
+    <div className="is-fullwidth">
+      <div className="card">
+        <div className="card-content VerticalAligner">
+          <div className="has-text-centered">
+            <div className="is-size-6">You have not requested any services yet</div>
+            <br />
+            <a
+              className="button is-success "
+              onClick={(e) => {
+                e.preventDefault();
+                switchRoute(ROUTES.CLIENT.PROPOSER.root);
+              }}
+            >
+              REQUEST A SERVICE
+            </a>
+          </div>
         </div>
       </div>
     </div>

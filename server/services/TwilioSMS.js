@@ -1,7 +1,6 @@
 // emailing services
 const keys = require('../config/keys');
 const twilio = require('twilio');
-const ROUTES = require('../backend-route-constants');
 
 const client = new twilio(keys.twilioAccountSid, keys.twilioAuthToken);
 
@@ -67,13 +66,6 @@ exports.TxtMsgingService = {
   },
 
   sendText: async (mobileNumber, msgContent, callback = () => {}) => {
-    // let formattedMobileNumber = `1-${mobileNumber}`;
-
-    // if (mobileNumber && mobileNumber.length > 0) {
-    //   formattedMobileNumber = formattedMobileNumber.replace(/-/g, '');
-    //   formattedMobileNumber = `+${formattedMobileNumber}`;
-    // }
-
     client.messages
       .create({
         body: `${msgContent}`,
@@ -82,10 +74,32 @@ exports.TxtMsgingService = {
         // from: '+16137022661', // From a valid Twilio number
       })
       .then((message) => {
-        console.log(message.sid);
+        console.log(`BIDORBOOLOGS======== twilio send msg succeeded ${message.sid}`);
       })
       .catch((e) => {
-        console.log(e);
+        console.log(`BIDORBOOLOGS======== twilio send msg issue ${e}`);
       });
+  },
+
+  verifyPhone: async (mobileNumber, callback = () => {}) => {
+    // https://www.twilio.com/docs/verify/api/verification#start-new-verification
+    try {
+      await client.verify
+        .services(keys.twilioVerificationServiceSid)
+        .verifications.create({ to: `+1${mobileNumber}`, channel: 'sms' });
+    } catch (e) {
+      console.log(`BIDORBOOLOGS======== twilio send verifyPhone issue ${e}`);
+    }
+  },
+  verifyPhoneCode: async (mobileNumber, code, callback = () => {}) => {
+    // https://www.twilio.com/docs/verify/api/verification#start-new-verification
+    try {
+      const resp = await client.verify
+        .services(keys.twilioVerificationServiceSid)
+        .verificationChecks.create({ code, to: `+1${mobileNumber}` });
+      return resp;
+    } catch (e) {
+      console.log(`BIDORBOOLOGS======== twilio send verifyPhoneCode issue ${e}`);
+    }
   },
 };

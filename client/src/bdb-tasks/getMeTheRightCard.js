@@ -142,7 +142,7 @@ const TaskerCardTemplates = {
       return <TaskerBidOnTaskDetails job={job} {...otherArgs} />;
     }
   },
-  [BID_STATES.WON]: ({ job, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
+  [BID_STATES.AWARDED]: ({ job, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
     if (job.state === REQUEST_STATES.DISPUTED) {
       if (isSummaryView) {
         return <TaskerMyDisputedBidSummary job={job} {...otherArgs} />;
@@ -210,8 +210,8 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
         console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
       }
       break;
-    case BID_STATES.WON_SEEN:
-    case BID_STATES.WON:
+    case BID_STATES.AWARDED_SEEN:
+    case BID_STATES.AWARDED:
       // return <TaskerMyOpenBidSummary bid={bid} job={_jobRef} {...otherArgs} />;
       try {
         const card = TaskerCardTemplates[bid.state]({
@@ -272,8 +272,8 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
       } catch (e) {
         console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
       }
-    case BID_STATES.PAID_OUT:
-      return <div>This type aint found BID_STATES.PAID_OUT</div>;
+    case BID_STATES.PAYMENT_RELEASED:
+      return <div>This type aint found BID_STATES.PAYMENT_RELEASED</div>;
       break;
     default:
       return <div>default unknown getTaskerBidCard</div>;

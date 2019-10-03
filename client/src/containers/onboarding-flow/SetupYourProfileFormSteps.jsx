@@ -14,16 +14,18 @@ import { updateProfileDetails } from '../../app-state/actions/userModelActions';
 const Step1 = ({ userDetails, showSetupPhoneStep }) => {
   return (
     <div>
-      <div className="subtitle">Verify your email address</div>
+      <div className="subtitle">EMAIL VERIFICATION</div>
       <div className="slide-in-right field">
-        <div>{`We've sent the Code to: `}</div>
-        <div className="has-text-weight-semibold">{`${userDetails.email.emailAddress}`}</div>
-        <br />
+        <div className="group">
+          <label className="label hasSelectedValue">{`We've sent the Code to: `}</label>
+          <div>{`${userDetails.email.emailAddress}`}</div>
+        </div>
+
         <VerifyEmailField {...{ userDetails, showSetupPhoneStep }} />
       </div>
 
-      <button onClick={showSetupPhoneStep} className="button is-link  firstButtonInCard">
-        <span>Do it later</span>
+      <button onClick={showSetupPhoneStep} className="button is-white firstButtonInCard">
+        <span>SKIP</span>
         <span className="icon">
           <i className="fas fa-chevron-right" />
         </span>
@@ -39,20 +41,34 @@ const Step2 = ({
   showEmailVerificationStep,
   showTosStep,
   isEmailAlreadyVerified,
+  showSetupPhoneStep,
+  renderVerificationSection = false,
 }) => {
   return (
     <div style={{ position: 'relative' }}>
-      <div className="subtitle has-text-weight-bold">Let's Setup Your Phone Number</div>
-      <div className="slide-in-right field" style={{ height: '10rem' }}>
-        <UpdatePhoneNumberField
-          showPhoneVerificationStep={showPhoneVerificationStep}
-          userDetails={userDetails}
-          onSubmit={onSubmit}
-        />
-      </div>
-      <br />
-      <button onClick={showTosStep} className="button is-link is-pulled-right">
-        <span>Do it later</span>
+      <div className="subtitle has-text-weight-bold">PHONE VERIFICATION</div>
+      {!renderVerificationSection && (
+        <div className="slide-in-right field" style={{ height: '10rem' }}>
+          <UpdatePhoneNumberField
+            showPhoneVerificationStep={showPhoneVerificationStep}
+            userDetails={userDetails}
+            onSubmit={onSubmit}
+          />
+        </div>
+      )}
+
+      {renderVerificationSection && (
+        <div className="slide-in-right field">
+          <div className="group">
+            <label className="label hasSelectedValue">{`We've sent the Code to: `}</label>
+            <div>{`${userDetails.phone.phoneNumber}`}</div>
+          </div>
+          <VerifyPhoneField {...{ userDetails, showTosStep, showSetupPhoneStep }} />
+        </div>
+      )}
+
+      <button onClick={showTosStep} className="button is-white is-pulled-right">
+        <span>SKIP</span>
         <span className="icon">
           <i className="fas fa-chevron-right" />
         </span>
@@ -72,16 +88,16 @@ const Step2 = ({
 const Step3 = ({ userDetails, showTosStep, showSetupPhoneStep }) => {
   return (
     <div>
-      <div className="subtitle">Verify your phone number</div>
+      <div className="subtitle">PHONE VERIFICATION</div>
       <div className="slide-in-right field">
-        <div>{`We've sent the Code to: `}</div>
-        <div className="has-text-weight-semibold">{`${userDetails.phone.phoneNumber}`}</div>
-        <br />
+        <div className="group">
+          <label className="label hasSelectedValue">{`We've sent the Code to: `}</label>
+          <div>{`${userDetails.phone.phoneNumber}`}</div>
+        </div>
         <VerifyPhoneField {...{ userDetails, showTosStep, showSetupPhoneStep }} />
       </div>
-
-      <button onClick={showTosStep} className="button is-link firstButtonInCard">
-        <span>Do it later</span>
+      <button onClick={showTosStep} className="button is-white firstButtonInCard">
+        <span>SKIP</span>
         <span className="icon">
           <i className="fas fa-chevron-right" />
         </span>
@@ -149,7 +165,6 @@ class Step4 extends React.Component {
         <div className="title has-text-centered">BidOrBoo Terms Of Use</div>
         <div className="slide-in-right field" style={{ height: '10rem' }}>
           <div className="group">
-            <label className="label">Please Read BidOrBoo terms of service</label>
             <div className="control">
               <label style={{ lineHeight: 1.5 }} className="checkbox">
                 <input
@@ -331,12 +346,15 @@ export class SetupYourProfileFormSteps extends React.Component {
         break;
       case 3:
         stepToRender = (
-          <Step3
+          <Step2
+            {...this.props}
             isEmailAlreadyVerified={isEmailAlreadyVerified}
             isPhoneAlreadyVerified={isPhoneAlreadyVerified}
-            {...this.props}
             showTosStep={this.showTosStep}
-            showSetupPhoneStep={this.showSetupPhoneStep}
+            showEmailVerificationStep={this.showEmailVerificationStep}
+            showPhoneVerificationStep={this.showPhoneVerificationStep}
+            onSubmit={updateProfileDetails}
+            renderVerificationSection
           />
         );
         break;

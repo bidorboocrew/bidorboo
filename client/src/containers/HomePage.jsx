@@ -2,9 +2,10 @@ import React from 'react';
 
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
-import howItWorks from '../assets/images/howItWorks.png';
+import HOW_IT_WORKS from '../assets/images/HOW_IT_WORKS.png';
 import MainBanner from '../assets/images/MainBanner.png';
-import RequesterImg from '../assets/images/RequesterImg.png';
+import REQUESTER_MAINPAGE from '../assets/images/REQUESTER_MAINPAGE.png';
+import TASKER_MAINPAGE from '../assets/images/TASKER_MAINPAGE.png';
 
 export default class HomePage extends React.Component {
   render() {
@@ -39,7 +40,7 @@ export default class HomePage extends React.Component {
                 onClick={(e) => {
                   switchRoute(ROUTES.CLIENT.PROPOSER.root);
                 }}
-                className="button is-success is-medium"
+                className="button is-medium is-white"
               >
                 <span className="icon">
                   <i className="far fa-plus-square" />
@@ -118,10 +119,16 @@ export default class HomePage extends React.Component {
 
 const RequestAService = (props) => {
   return (
-    <div style={{ height: '31rem' }} className="card cardWithButton">
+    <div
+      onClick={() => {
+        switchRoute(ROUTES.CLIENT.PROPOSER.root);
+      }}
+      style={{ cursor: 'pointer' }}
+      className="card cardWithButton"
+    >
       <div className="card-image">
-        <figure className="image is-4by3">
-          <img src={RequesterImg} alt="Placeholder image" />
+        <figure className="image">
+          <img src={REQUESTER_MAINPAGE} alt="Placeholder image" />
         </figure>
       </div>
       <div className="card-content">
@@ -129,29 +136,35 @@ const RequestAService = (props) => {
           <HowItWorksRequestService />
         </div>
       </div>
-      <div className="centeredButtonInCard">
+      {/* <div className="centeredButtonInCard">
         <button
           onClick={() => {
             switchRoute(ROUTES.CLIENT.PROPOSER.root);
           }}
-          className="button is-fullwidth is-success"
+          className="button is-fullwidth is-white"
         >
           <span className="icon">
             <i className="far fa-plus-square" />
           </span>
           <span>Request</span>
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
 
 const ProvideAService = () => {
   return (
-    <div style={{ height: '31rem' }} className="card cardWithButton">
+    <div
+      onClick={(e) => {
+        switchRoute(ROUTES.CLIENT.BIDDER.root);
+      }}
+      style={{ cursor: 'pointer' }}
+      className="card cardWithButton"
+    >
       <div className="card-image">
-        <figure className="image is-4by3">
-          <img src={RequesterImg} alt="Placeholder image" />
+        <figure className="image">
+          <img src={TASKER_MAINPAGE} alt="Placeholder image" />
         </figure>
       </div>
       <div className="card-content">
@@ -159,7 +172,7 @@ const ProvideAService = () => {
           <HowItWorksProvideService />
         </div>
       </div>
-      <div className="centeredButtonInCard">
+      {/* <div className="centeredButtonInCard">
         <button
           onClick={(e) => {
             switchRoute(ROUTES.CLIENT.BIDDER.root);
@@ -171,7 +184,7 @@ const ProvideAService = () => {
           </span>
           <span>Bid</span>
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -179,7 +192,7 @@ const ProvideAService = () => {
 const HowItWorksRequestService = () => {
   return (
     <div>
-      <h1 className="title has-text-centered">Request A Service?</h1>
+      <h1 className="title">Request A Service</h1>
       <ul>
         <li>
           <p className="is-size-5">Fill A Request</p>
@@ -198,7 +211,7 @@ const HowItWorksRequestService = () => {
 const HowItWorksProvideService = () => {
   return (
     <div>
-      <h1 className="title has-text-centered">Want To Earn Money?</h1>
+      <h1 className="title">Earn Money</h1>
       <ul>
         <li>
           <p className="is-size-5">Browse Tasks</p>
@@ -218,8 +231,8 @@ const VideoExplanation = () => {
   return (
     <div style={{ height: 'unset' }} className="card">
       <div className="card-image">
-        <figure className="image is-4by3">
-          <img src={howItWorks} alt="Placeholder image" />
+        <figure className="image">
+          <img src={HOW_IT_WORKS} alt="Placeholder image" />
         </figure>
       </div>
       <div className="card-content">

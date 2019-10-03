@@ -1,10 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 import moment from 'moment';
 import AddToCalendar from 'react-add-to-calendar';
+
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import * as ROUTES from '../constants/frontend-route-consts';
-import { switchRoute } from '../utils';
+import { switchRoute, goBackToPreviousRoute } from '../utils';
 
 import TASKS_DEFINITIONS from '../bdb-tasks/tasksDefinitions';
+export const REQUEST_STATES = {
+  OPEN: 'OPEN',
+  AWARDED: 'AWARDED',
+  DISPUTED: 'DISPUTED',
+  AWARDED_JOB_CANCELED_BY_BIDDER: 'AWARDED_JOB_CANCELED_BY_BIDDER',
+  AWARDED_JOB_CANCELED_BY_REQUESTER: 'AWARDED_JOB_CANCELED_BY_REQUESTER',
+  CANCELED_OPEN: 'CANCELED_OPEN',
+  DONE: 'DONE',
+  PAIDOUT: 'PAIDOUT',
+  PAYMENT_RELEASED: 'PAYMENT_RELEASED',
+  PAYMENT_TO_BANK_FAILED: 'PAYMENT_TO_BANK_FAILED',
+  ARCHIVE: 'ARCHIVE',
+};
+
+export const BID_STATES = {
+  OPEN: 'OPEN',
+  AWARDED: 'AWARDED',
+  AWARDED_SEEN: 'AWARDED_SEEN',
+  AWARDED_BID_CANCELED_BY_TASKER: 'AWARDED_BID_CANCELED_BY_TASKER',
+  DISPUTED: 'DISPUTED',
+  AWARDED_BID_CANCELED_BY_REQUESTER: 'AWARDED_BID_CANCELED_BY_REQUESTER',
+  DONE: 'DONE',
+  PAYMENT_RELEASED: 'PAYMENT_RELEASED',
+  PAYMENT_TO_BANK_FAILED: 'PAYMENT_TO_BANK_FAILED',
+  ARCHIVE: 'ARCHIVE',
+};
+
+export const POINT_OF_VIEW = {
+  REQUESTER: 'REQUESTER',
+  TASKER: 'TASKER',
+};
+
+export const BIDORBOO_SERVICECHARGE_FOR_REQUESTER = 0.06;
 
 export const getDaysSinceCreated = (createdAt) => {
   let daysSinceCreated = '';
@@ -42,7 +79,7 @@ export const AvgBidDisplayLabelAndValue = ({ bidsList }) => {
 export const DisplayLabelValue = ({ labelText, labelValue, renderHelpComponent = () => null }) => {
   return (
     <div className="group">
-      <label className="label">{labelText}</label>
+      <label className="label hasSelectedValue">{labelText}</label>
       <div className="control">{labelValue}</div>
       {renderHelpComponent()}
     </div>
@@ -107,14 +144,14 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false, large = 
           <div className={`${large ? 'is-size-6' : 'is-size-6'}`}>{trimmedDisplayName}</div>
 
           {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
-            <div className="has-text-grey" style={{ lineHeight: '52px', fontSize: 18 }}>
+            <div className="has-text-grey" style={{ lineHeight: '52px', fontSize: 16 }}>
               <span className="icon">
                 <i className="far fa-star" />
               </span>
-              <span>Not Rated</span>
+              <span>--</span>
             </div>
           ) : (
-            <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 18 }}>
+            <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 16 }}>
               <span className="icon">
                 <i className="fas fa-star" />
               </span>
@@ -184,18 +221,18 @@ export const CenteredUserImageAndRating = ({
           <div className={`${large ? 'is-size-5' : 'is-size-6'}`}>{trimmedDisplayName}</div>
 
           {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
-            <div className="has-text-grey" style={{ lineHeight: '52px', fontSize: 18 }}>
+            <div className="has-text-warning" style={{ lineHeight: '52px', fontSize: 16 }}>
               <span className="icon">
                 <i className="far fa-star" />
               </span>
-              <span>Not Rated</span>
+              <span className="has-text-dark">--</span>
             </div>
           ) : (
-            <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 18 }}>
+            <div className="has-text-warning" style={{ lineHeight: '52px', fontSize: 16 }}>
               <span className="icon">
                 <i className="fas fa-star" />
               </span>
-              <span>{rating.globalRating}</span>
+              <span className="has-text-dark">{rating.globalRating}</span>
             </div>
           )}
         </div>
@@ -236,14 +273,14 @@ export const CenteredUserImageAndRating = ({
   //       <div className={`${large ? 'is-size-5' : 'is-size-6'}`}>{trimmedDisplayName}</div>
 
   //       {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
-  //         <div className="has-text-grey" style={{ lineHeight: '52px', fontSize: 18 }}>
+  //         <div className="has-text-grey" style={{ lineHeight: '52px', fontSize: 16 }}>
   //           <span className="icon">
   //             <i className="far fa-star" />
   //           </span>
-  //           <span>Not Rated</span>
+  //           <span>--</span>
   //         </div>
   //       ) : (
-  //         <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 18 }}>
+  //         <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 16 }}>
   //           <span className="icon">
   //             <i className="fas fa-star" />
   //           </span>
@@ -323,7 +360,7 @@ export const CardTitleAndActionsInfo = ({
 };
 
 const timeToTextMap = {
-  '10': 'flexible, anytime.',
+  '10': 'flexible, anytime',
   '8': 'morning',
   '12': 'afternoon',
   '17': 'evening',
@@ -331,10 +368,10 @@ const timeToTextMap = {
 export const StartDateAndTime = ({ date, renderHelpComponent }) => {
   const startingDate = moment(date).format('DD/MMM/YYYY');
   const selectedTime = `${moment(date).get('hour')}`;
-  let timeText = 'flexible, anytime.';
+  let timeText = 'flexible, anytime';
   switch (`${selectedTime}`) {
     case '10':
-      timeText = 'flexible, anytime.';
+      timeText = 'flexible, anytime';
       break;
     case '8':
       timeText = 'morning.';
@@ -346,7 +383,7 @@ export const StartDateAndTime = ({ date, renderHelpComponent }) => {
       timeText = 'evening.';
       break;
     default:
-      timeText = 'flexible, anytime.';
+      timeText = 'flexible, anytime';
       break;
   }
 
@@ -449,7 +486,7 @@ export class LocationLabelAndValue extends React.Component {
       <div className="group">
         <label className="label hasSelectedValue">Location Near</label>
         <div className="control">{this.state.addressText}</div>
-        <p className="help">* exact location will be shared when the requester accepts your bid</p>
+        <p className="help">*This is an approximate location</p>
       </div>
     );
   }
@@ -560,29 +597,20 @@ export const TaskSpecificExtras = ({ extras, templateId }) => {
   return renderedTaskSpecificFields;
 };
 
-export const VerifiedVia = ({
-  userDetails,
-  isCentered = true,
-  smallfont = true,
-  showAll = false,
-}) => {
+export const VerifiedVia = ({ userDetails, isCentered = true, showAll = false }) => {
   const {
     stripeConnect = { isVerified: false },
     phone = { isVerified: false },
     email = { isVerified: false },
     isGmailUser = false,
     isFbUser = false,
-    clearCriminalHistory = false,
+    // clearCriminalHistory = false,
     govId = { isVerified: false },
   } = userDetails;
 
   const atLeastOneVerification =
-    isFbUser ||
-    isGmailUser ||
-    phone.isVerified ||
-    email.isVerified ||
-    stripeConnect.isVerified ||
-    clearCriminalHistory;
+    isFbUser || isGmailUser || phone.isVerified || email.isVerified || stripeConnect.isVerified;
+  // clearCriminalHistory;
 
   return (
     <div
@@ -590,7 +618,7 @@ export const VerifiedVia = ({
       className={`${isCentered ? 'has-text-centered' : ''}`}
     >
       <label className="label">verifications</label>
-      {!atLeastOneVerification && <label className="has-text-grey">Unverified</label>}
+
       {isFbUser && (
         <div className="verificationBadge isActive">
           <span title="Verified by facebook" className="icon">
@@ -635,13 +663,13 @@ export const VerifiedVia = ({
         </div>
       )}
 
-      {clearCriminalHistory && (
+      {/* {clearCriminalHistory && (
         <div className="verificationBadge isActive">
           <span title="Verified by criminal check" className="icon">
             <i className="fas fa-gavel has-text-success" />
           </span>
         </div>
-      )}
+      )} */}
 
       {showAll && (
         <>
@@ -674,13 +702,13 @@ export const VerifiedVia = ({
               </span>
             </div>
           )}
-          {!clearCriminalHistory && (
+          {/* {!clearCriminalHistory && (
             <div className="verificationBadge notActive">
               <span title="Verified by criminal check" className="icon">
                 <i className="fas fa-gavel has-text-grey" />
               </span>
             </div>
-          )}
+          )} */}
         </>
       )}
     </div>
@@ -697,7 +725,7 @@ export const SummaryStartDateAndTime = ({ date }) => {
           display: 'flex',
           justifyContent: 'center',
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           maxWidth: 300,
           margin: 'auto',
         }}
@@ -716,7 +744,7 @@ export const AwaitingOnTasker = () => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
         }}
       >
@@ -724,7 +752,7 @@ export const AwaitingOnTasker = () => {
           style={{
             display: 'inline-block',
             flexGrow: 0,
-            fontSize: 18,
+            fontSize: 16,
             width: 28,
             marginRight: 8,
           }}
@@ -736,7 +764,7 @@ export const AwaitingOnTasker = () => {
         <div
           style={{
             display: 'inline-block',
-            fontSize: 18,
+            fontSize: 16,
           }}
         >
           Waiting For Taskers
@@ -754,13 +782,13 @@ export const PastdueExpired = () => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
         }}
       >
         <div
           style={{
-            fontSize: 18,
+            fontSize: 16,
             borderRadius: '100%',
             border: '1px solid #ef2834',
             width: 28,
@@ -776,7 +804,7 @@ export const PastdueExpired = () => {
         <div
           style={{
             display: 'inline-block',
-            fontSize: 18,
+            fontSize: 16,
           }}
         >
           Past Due - Expired
@@ -795,13 +823,13 @@ export const TaskersAvailable = ({ numberOfAvailableTaskers }) => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
         }}
       >
         <div
           style={{
-            fontSize: 18,
+            fontSize: 16,
             borderRadius: '100%',
             width: 28,
             background: '#6b88e0',
@@ -815,7 +843,7 @@ export const TaskersAvailable = ({ numberOfAvailableTaskers }) => {
         </div>
         <div
           style={{
-            fontSize: 18,
+            fontSize: 16,
             display: 'inline-block',
           }}
         >
@@ -839,13 +867,13 @@ export const AssignedTasker = ({ displayName }) => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
         }}
       >
         <div
           style={{
-            fontSize: 18,
+            fontSize: 16,
             width: 28,
             marginRight: 8,
             alignItems: 'center',
@@ -860,7 +888,7 @@ export const AssignedTasker = ({ displayName }) => {
         </div>
         <div
           style={{
-            fontSize: 18,
+            fontSize: 16,
             display: 'inline-block',
           }}
         >
@@ -918,7 +946,7 @@ export const CancelledBy = ({ name, refundAmount }) => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
           // background: 'lightgrey',
         }}
@@ -927,7 +955,7 @@ export const CancelledBy = ({ name, refundAmount }) => {
           style={{
             display: 'inline-block',
             flexGrow: 0,
-            fontSize: 18,
+            fontSize: 16,
             borderRadius: '100%',
             border: '1px solid #ef2834',
             width: 28,
@@ -942,7 +970,7 @@ export const CancelledBy = ({ name, refundAmount }) => {
         <div
           style={{
             display: 'inline-block',
-            fontSize: 18,
+            fontSize: 16,
           }}
         >
           {`Cancelled by ${name}`}
@@ -961,7 +989,7 @@ export const DisputedBy = ({ name }) => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
         }}
       >
@@ -969,7 +997,7 @@ export const DisputedBy = ({ name }) => {
           style={{
             display: 'inline-block',
             flexGrow: 0,
-            fontSize: 18,
+            fontSize: 16,
             borderRadius: '100%',
             border: '1px dashed #ef2834',
             width: 28,
@@ -983,7 +1011,7 @@ export const DisputedBy = ({ name }) => {
         <div
           style={{
             display: 'inline-block',
-            fontSize: 18,
+            fontSize: 16,
           }}
         >
           {`Disputed by ${name}`}
@@ -1021,7 +1049,7 @@ export const TaskIsFulfilled = () => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
           // background: 'lightgrey',
         }}
@@ -1030,7 +1058,7 @@ export const TaskIsFulfilled = () => {
           style={{
             display: 'inline-block',
             flexGrow: 0,
-            fontSize: 18,
+            fontSize: 16,
             borderRadius: '100%',
             width: 28,
             background: '#00d1b2',
@@ -1044,7 +1072,7 @@ export const TaskIsFulfilled = () => {
         <div
           style={{
             display: 'inline-block',
-            fontSize: 18,
+            fontSize: 16,
           }}
         >
           {`Task is Fullfilled`}
@@ -1063,7 +1091,7 @@ export const ArchiveTask = ({ displayName = '' }) => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
         }}
       >
@@ -1071,7 +1099,7 @@ export const ArchiveTask = ({ displayName = '' }) => {
           style={{
             display: 'inline-block',
             flexGrow: 0,
-            fontSize: 18,
+            fontSize: 16,
             borderRadius: '100%',
             border: '1px solid #353535',
             width: 28,
@@ -1085,10 +1113,10 @@ export const ArchiveTask = ({ displayName = '' }) => {
         <div
           style={{
             display: 'inline-block',
-            fontSize: 18,
+            fontSize: 16,
           }}
         >
-          {`Done & Archived`}
+          Archived
         </div>
       </div>
       {/* <div>
@@ -1105,17 +1133,13 @@ export const BidsTableVerifiedVia = ({ userDetails }) => {
     email = { isVerified: false },
     isGmailUser = false,
     isFbUser = false,
-    clearCriminalHistory = false,
+    // clearCriminalHistory = false,
     govId = { isVerified: false },
   } = userDetails;
 
   const atLeastOneVerification =
-    isFbUser ||
-    isGmailUser ||
-    phone.isVerified ||
-    email.isVerified ||
-    stripeConnect.isVerified ||
-    clearCriminalHistory;
+    isFbUser || isGmailUser || phone.isVerified || email.isVerified || stripeConnect.isVerified;
+  // clearCriminalHistory;
 
   return (
     <div>
@@ -1164,13 +1188,13 @@ export const BidsTableVerifiedVia = ({ userDetails }) => {
         </div>
       )}
 
-      {clearCriminalHistory && (
+      {/* {clearCriminalHistory && (
         <div className="verificationBadge isActive small">
           <span title="Verified by criminal check" className="icon">
             <i className="fas fa-gavel has-text-success" />
           </span>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
@@ -1181,7 +1205,7 @@ export const BSawaitingOnRequester = () => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
         }}
       >
@@ -1189,7 +1213,7 @@ export const BSawaitingOnRequester = () => {
           style={{
             display: 'inline-block',
             flexGrow: 0,
-            fontSize: 18,
+            fontSize: 16,
             width: 28,
             marginRight: 8,
           }}
@@ -1201,7 +1225,7 @@ export const BSawaitingOnRequester = () => {
         <div
           style={{
             display: 'inline-block',
-            fontSize: 18,
+            fontSize: 16,
           }}
         >
           Awaiting On Requester
@@ -1218,13 +1242,13 @@ export const BSPastDueExpired = () => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
         }}
       >
         <div
           style={{
-            fontSize: 18,
+            fontSize: 16,
             borderRadius: '100%',
             border: '1px solid #ef2834',
             width: 28,
@@ -1239,7 +1263,7 @@ export const BSPastDueExpired = () => {
         <div
           style={{
             display: 'inline-block',
-            fontSize: 18,
+            fontSize: 16,
           }}
         >
           Past Due - Expired
@@ -1256,13 +1280,13 @@ export const BSAwardedToSomeoneElse = () => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
         }}
       >
         <div
           style={{
-            fontSize: 18,
+            fontSize: 16,
             borderRadius: '100%',
             border: '1px solid #35335',
             width: 28,
@@ -1278,7 +1302,7 @@ export const BSAwardedToSomeoneElse = () => {
         <div
           style={{
             display: 'inline-block',
-            fontSize: 18,
+            fontSize: 16,
           }}
         >
           Bid Rejected
@@ -1295,13 +1319,13 @@ export const BSTaskerAwarded = ({ isPastDue }) => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
         }}
       >
         <div
           style={{
-            fontSize: 18,
+            fontSize: 16,
             width: 28,
             marginRight: 8,
             alignItems: 'center',
@@ -1316,7 +1340,7 @@ export const BSTaskerAwarded = ({ isPastDue }) => {
         </div>
         <div
           style={{
-            fontSize: 18,
+            fontSize: 16,
             display: 'inline-block',
           }}
         >
@@ -1336,13 +1360,13 @@ export const BSWaitingOnRequesterToConfirm = ({ isPastDue }) => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
         }}
       >
         <div
           style={{
-            fontSize: 18,
+            fontSize: 16,
             width: 28,
             marginRight: 8,
             alignItems: 'center',
@@ -1357,7 +1381,7 @@ export const BSWaitingOnRequesterToConfirm = ({ isPastDue }) => {
         </div>
         <div
           style={{
-            fontSize: 18,
+            fontSize: 16,
             display: 'inline-block',
           }}
         >
@@ -1375,13 +1399,13 @@ export const BSTaskIsDone = () => {
       <div
         style={{
           fontWeight: 500,
-          fontSize: 18,
+          fontSize: 16,
           padding: 5,
         }}
       >
         <div
           style={{
-            fontSize: 18,
+            fontSize: 16,
             borderRadius: '100%',
             border: '1px solid #4285f4',
             width: 28,
@@ -1396,7 +1420,7 @@ export const BSTaskIsDone = () => {
         <div
           style={{
             display: 'inline-block',
-            fontSize: 18,
+            fontSize: 16,
           }}
         >
           Task Is Done
@@ -1405,4 +1429,75 @@ export const BSTaskIsDone = () => {
       </div>
     </div>
   );
+};
+// https://github.com/leandrowd/react-responsive-carousel
+export const TaskImagesCarousel = ({ taskImages, isLarge = false }) => {
+  if (taskImages && taskImages.length > 0) {
+    taskImages = taskImages.map((taskImage, i) => (
+      <div key={i}>
+        <img
+          style={{ objectFit: 'contain', height: isLarge ? '16rem' : '8rem' }}
+          src={taskImage.url}
+        />
+      </div>
+    ));
+
+    return (
+      <Carousel
+        showThumbs={false}
+        showArrows={true}
+        infiniteLoop
+        // centerMode
+      >
+        {taskImages}
+      </Carousel>
+    );
+  }
+  return null;
+};
+
+export const RenderBackButton = () => {
+  return (
+    <a style={{ margin: '0 0 1rem 0' }} className="button" onClick={() => goBackToPreviousRoute()}>
+      <span className="icon is-large">
+        <i className="fas fa-chevron-left" />
+      </span>
+    </a>
+  );
+};
+// https://github.com/FormidableLabs/nuka-carousel
+// export const TaskImagesCarousel = ({ taskImages }) => {
+
+//   if (taskImages && taskImages.length > 0) {
+//     let carouselImg = taskImages.map((taskImage) => <img src={taskImage.url} />);
+
+//     return (
+//       <Carousel
+//         renderCenterLeftControls={({ previousSlide }) => (
+//           <button className="button is-danger is-outlined" onClick={previousSlide}>
+//             <i className="fas fa-arrow-left" />
+//           </button>
+//         )}
+//         renderCenterRightControls={({ nextSlide }) => (
+//           <button className="button is-danger is-outlined" onClick={nextSlide}>
+//             <i className="fas fa-arrow-right" />
+//           </button>
+//         )}
+//       >
+//         {carouselImg}
+//       </Carousel>
+//     );
+//   }
+//   return null;
+// };
+
+export const redirectBasedOnJobState = ({ state, _id: jobId }) => {
+  switch (state) {
+    case REQUEST_STATES.OPEN:
+      switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(jobId));
+      break;
+    default:
+      switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
+      break;
+  }
 };

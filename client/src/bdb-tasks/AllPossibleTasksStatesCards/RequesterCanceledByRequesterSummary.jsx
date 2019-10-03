@@ -4,6 +4,7 @@ import {
   SummaryStartDateAndTime,
   JobCardTitle,
   CancelledBy,
+  TaskImagesCarousel,
 } from '../../containers/commonComponents';
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -27,6 +28,7 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
       displayStatus,
       state,
       _ownerRef,
+      taskImages = [],
     } = job;
     if (
       !startingDateAndTime ||
@@ -55,7 +57,7 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
         <div className="card-content">
           <div className="content">
             <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-
+            <TaskImagesCarousel taskImages={taskImages} />
             <SummaryStartDateAndTime
               date={startingDateAndTime}
               renderHelpComponent={() => (
@@ -74,7 +76,7 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
             }}
             className="button is-danger"
           >
-            View Details
+            VIEW DETAILS
           </a>
         </div>
       </div>

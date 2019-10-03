@@ -30,9 +30,12 @@ module.exports = {
         personsWebhook: '/api/stripewebhook/persons',
         connectedAccountsWebhook: '/api/stripewebhook/connectedAccounts',
         payoutsWebhook: '/api/stripewebhook/payoutsWebhook',
+        checkoutFulfillment: '/api/stripewebhook/checkoutFulfillment',
+        chargeSucceededWebhook: '/api/stripewebhook/chargeSucceeded',
       },
       GET: {
-        payment: '/api/payment',
+        // requestCharge: '/api/requestCharge',
+        // payment: '/api/payment',
         myStripeAccountDetails: '/api/myStripeAccountDetails',
       },
       PUT: {
@@ -77,13 +80,12 @@ module.exports = {
         getAllMyRequests: '/api/job/getAllMyRequests',
       },
       POST: {
+        jobImage: '/api/job/uploadImages',
         searchJobs: '/api/job/search',
         newJob: '/api/job/createJob',
         updateSearchThenSearchJobs: '/api/user/updateSearchThenSearchJobs',
       },
       PUT: {
-        jobImage: '/api/job/uploadImages',
-        awardBidder: '/api/job/awardBidder',
         updateViewedBy: '/api/job/updateViewedBy',
         updateBooedBy: '/api/job/updateBooedBy',
         proposerConfirmsJobCompleted: '/api/job/proposerConfirmsJobCompleted',

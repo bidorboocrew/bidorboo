@@ -2,10 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { postNewJob } from '../../app-state/actions/jobActions';
+import { postNewJob, uploadTaskImages } from '../../app-state/actions/jobActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
-import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute } from '../../utils';
+import { RenderBackButton } from '../commonComponents';
 import GenericRequestForm from '../../bdb-tasks/GenericRequestForm';
 
 const creatJobsByIdMap = {
@@ -14,6 +13,9 @@ const creatJobsByIdMap = {
   },
   [`bdbCarDetailing`]: (props) => {
     return <GenericRequestForm requestTemplateId={'bdbCarDetailing'} {...props} />;
+  },
+  [`bdbPetSittingWalking`]: (props) => {
+    return <GenericRequestForm requestTemplateId={'bdbPetSittingWalking'} {...props} />;
   },
 };
 
@@ -34,8 +36,9 @@ class CreateAJobPage extends React.Component {
     const { chosenTemplate } = this.state;
 
     return (
-      <div className="columns is-centered is-mobile slide-in-right">
-        <div className="column limitLargeMaxWidth">
+      <div className="columns is-centered is-mobile">
+        <div className="column limitLargeMaxWidth slide-in-right">
+          <RenderBackButton />
           {/* create job based on ID */}
           {creatJobsByIdMap[`${chosenTemplate}`] &&
             creatJobsByIdMap[`${chosenTemplate}`](this.props)}
@@ -55,6 +58,7 @@ const mapStateToProps = ({ userReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     postNewJob: bindActionCreators(postNewJob, dispatch),
+    uploadTaskImages: bindActionCreators(uploadTaskImages, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };

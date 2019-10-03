@@ -42,31 +42,29 @@ export default {
       .oneOf(['isRequired', 'notRequired'], '*Please select a value from the drop down')
       .required('*Please select a value from the drop down'),
   },
-  renderThankYouCard: function(setShowModal) {
-    return (
-      <div style={{ padding: '1.5rem', background: 'white' }}>
-        <div>
-          <img
-            src={carDetailing_img}
-            alt="BidOrBoo task img"
-            style={{ height: 125, width: 125, objectFit: 'cover' }}
-          />
-        </div>
-        <h1 className="title" style={{ color: '#6a748a', fontWeight: 300, marginBottom: '0.5rem' }}>
-          Thank You!
-        </h1>
-
-        <p style={{ fontSize: 18, fontWeight: 500, paddingBottom: '1rem' }}>
-          Our Taskers will be bidding on this request shortly
-        </p>
-        <a className="button is-large is-success" onClick={() => setShowModal(false)}>
-          <span className="icon is-large">
-            <i className="fas fa-arrow-right" />
-          </span>
-        </a>
-      </div>
-    );
+  renderThankYouForPostingMoment: function(setShowModal) {
+    return renderThankyouMoment({
+      carDetailing_img,
+      setShowModal,
+      subText: 'Our Taskers will be bidding on this request shortly',
+    });
   },
+  renderThankYouForPostingBid: function(setShowModal) {
+    return renderThankyouMoment({
+      carDetailing_img,
+      setShowModal,
+      subText: 'The Requester Will Be notified. Good Luck',
+    });
+  },
+  renderThankYouForEditingBid: function(setShowModal) {
+    return renderThankyouMoment({
+      carDetailing_img,
+      setShowModal,
+      mainText: 'Bid Was Updated!',
+      subText: 'The Requester Will Be notified. Good Luck',
+    });
+  },
+
   renderSummaryCard: function({ withDetails = true }) {
     return (
       <div style={{ padding: `${!withDetails ? '0 0 1.5rem 0' : '1.5rem'}` }}>
@@ -293,4 +291,33 @@ export default {
       },
     };
   },
+};
+
+const renderThankyouMoment = ({
+  carDetailing_img,
+  setShowModal,
+  mainText = 'Thank You!',
+  subText,
+}) => {
+  return (
+    <div style={{ padding: '1.5rem', background: 'white' }}>
+      <div>
+        <img
+          src={carDetailing_img}
+          alt="BidOrBoo task img"
+          style={{ height: 125, width: 125, objectFit: 'cover' }}
+        />
+      </div>
+      <h1 className="title" style={{ color: '#6a748a', fontWeight: 300, marginBottom: '0.5rem' }}>
+        {mainText}
+      </h1>
+
+      <p style={{ fontSize: 18, fontWeight: 500, paddingBottom: '1rem' }}>{subText}</p>
+      <a className="button is-large is-success" onClick={() => setShowModal(false)}>
+        <span className="icon is-large">
+          <i className="fas fa-arrow-right" />
+        </span>
+      </a>
+    </div>
+  );
 };

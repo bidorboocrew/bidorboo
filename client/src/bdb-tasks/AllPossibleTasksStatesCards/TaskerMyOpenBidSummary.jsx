@@ -14,6 +14,7 @@ import {
   BSPastDueExpired,
   JobCardTitle,
   BSAwardedToSomeoneElse,
+  TaskImagesCarousel,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -31,7 +32,7 @@ class TaskerMyOpenBidSummary extends React.Component {
       return <div>TaskerMyOpenBidSummary is missing properties</div>;
     }
 
-    const { startingDateAndTime, location, isPastDue, state } = job;
+    const { startingDateAndTime, location, isPastDue, state, taskImages = [] } = job;
     if (!startingDateAndTime || !location || isPastDue === 'undefined') {
       return <div>TaskerMyOpenBidSummary is missing properties</div>;
     }
@@ -58,13 +59,16 @@ class TaskerMyOpenBidSummary extends React.Component {
       return <div>TaskerMyOpenBidSummary is missing properties</div>;
     }
 
-    const isAwardedToSomeoneElse = state === REQUEST_STATES.AWARDED;
+    const isAwardedToSomeoneElse =
+      state === REQUEST_STATES.AWARDED && bid._id !== job._awardedBidRef;
 
     return (
       <div className={`card has-text-centered cardWithButton`}>
         <div className="card-content">
           <div className="content">
             <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+
+            <TaskImagesCarousel taskImages={taskImages} />
 
             <SummaryStartDateAndTime
               date={startingDateAndTime}
@@ -127,7 +131,7 @@ const renderFooter = ({ bid, isPastDue, isAwardedToSomeoneElse }) => {
           }}
           className={`button is-fullwidth ${isPastDue ? '' : 'is-info'}`}
         >
-          <span>Change My Bid</span>
+          <span>Change my bid</span>
         </a>
       </div>
     );

@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
+import { RenderBackButton } from '../commonComponents';
 
 import { Spinner } from '../../components/Spinner';
 import {
@@ -64,7 +65,8 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
 
     return (
       <div className="columns is-centered is-mobile">
-        <div className="column limitLargeMaxWidth">
+        <div className="column limitLargeMaxWidth slide-in-right">
+          <RenderBackButton />
           {getMeTheRightRequestCard({
             job: selectedAwardedJob,
             isSummaryView: false,

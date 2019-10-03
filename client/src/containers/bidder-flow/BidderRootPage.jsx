@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Collapse } from 'react-collapse';
+
 import BidRootBg from '../../assets/images/BidRootBg.png';
 
 import { getCurrentUser } from '../../app-state/actions/authActions';
 
-import { getAllJobsToBidOn, searchJobsToBidOn } from '../../app-state/actions/jobActions';
+import { searchJobsToBidOn } from '../../app-state/actions/jobActions';
 
 import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
 
@@ -32,7 +34,7 @@ class BidderRootPage extends React.Component {
         lat: 45.296898,
       },
       activeSearchParams: {
-        searchRadius: '25',
+        searchRadius: '100',
         addressText: '',
         latLng: { lng: -75.801867, lat: 45.296898 },
       },
@@ -164,14 +166,14 @@ class BidderRootPage extends React.Component {
   };
 
   render() {
-    const { isLoading, isLoggedIn, ListOfJobsToBidOn, userDetails } = this.props;
+    const { isLoading, isLoggedIn, listOfJobsToBidOn, userDetails } = this.props;
     const { isThereAnActiveSearch, userLastStoredSearchParams, showMapView } = this.state;
 
     const { mapCenterPoint, mapZoomLevel, activeSearchParams } = this.state;
 
     let currentJobsList = isLoggedIn
-      ? ListOfJobsToBidOn.filter((job) => job._ownerRef._id !== userDetails._id)
-      : ListOfJobsToBidOn;
+      ? listOfJobsToBidOn.filter((job) => job._ownerRef._id !== userDetails._id)
+      : listOfJobsToBidOn;
 
     currentJobsList = currentJobsList.map((job) => {
       return {
@@ -186,13 +188,15 @@ class BidderRootPage extends React.Component {
 
     return (
       <div>
-        <section className="hero is-small">
-          <div
-            style={{ padding: '1rem 0.5rem', backgroundImage: `url(${BidRootBg})` }}
-            className="hero-body"
-          >
+        <section className="hero is-small is-dark">
+          <div className="hero-body">
             <div className="container">
-              <h1 className="has-text-white title">Search For Tasks</h1>
+              <h1
+                style={{ marginBottom: '0.5rem', paddingLeft: 10 }}
+                className="has-text-white subtitle"
+              >
+                Search For Tasks
+              </h1>
 
               <div
                 style={{ background: 'transparent' }}
@@ -236,26 +240,23 @@ class BidderRootPage extends React.Component {
         )}
         {!isLoading && (
           <React.Fragment>
-            {showMapView && currentJobsList && currentJobsList.length > 0 && (
-              <React.Fragment>
-                <br />
-                <div className="container slide-in-bottom-small">
-                  <MapSection
-                    mapCenterPoint={mapCenterPoint}
-                    mapZoomLevel={mapZoomLevel}
-                    jobsList={currentJobsList}
-                    {...this.props}
-                  />
-                  <div
-                    style={{ marginBottom: 6 }}
-                    className="help container is-widescreen has-text-grey has-text-centered"
-                  >
-                    {` ${(currentJobsList && currentJobsList.length) ||
-                      0} open requests in the search area`}
-                  </div>
+            <Collapse isOpened={showMapView}>
+              <div style={{ marginTop: '1.25rem' }} className="container slide-in-bottom-small">
+                <MapSection
+                  mapCenterPoint={mapCenterPoint}
+                  mapZoomLevel={mapZoomLevel}
+                  jobsList={currentJobsList}
+                  {...this.props}
+                />
+                <div
+                  style={{ marginBottom: 6 }}
+                  className="help container is-widescreen has-text-grey has-text-centered"
+                >
+                  {` ${(currentJobsList && currentJobsList.length) ||
+                    0} open requests in the search area`}
                 </div>
-              </React.Fragment>
-            )}
+              </div>
+            </Collapse>
 
             {anyVisibleJobs && (
               <BidderRootFilterWrapper
@@ -319,14 +320,14 @@ const mapStateToProps = ({ jobsReducer, userReducer }) => {
     isLoading: jobsReducer.isLoading,
     userDetails: userReducer.userDetails,
     isLoggedIn: userReducer.isLoggedIn,
-    ListOfJobsToBidOn: jobsReducer.ListOfJobsToBidOn,
+    listOfJobsToBidOn: jobsReducer.listOfJobsToBidOn,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     selectJobToBidOn: bindActionCreators(selectJobToBidOn, dispatch),
-    getAllJobsToBidOn: bindActionCreators(getAllJobsToBidOn, dispatch),
+
     searchJobsToBidOn: bindActionCreators(searchJobsToBidOn, dispatch),
     getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),

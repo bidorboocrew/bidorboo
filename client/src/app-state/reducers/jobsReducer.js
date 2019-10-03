@@ -5,7 +5,7 @@ const initialState = {
   allMyRequests: [],
   myOpenJobsList: [],
   myAwardedJobsList: [],
-  ListOfJobsToBidOn: [],
+  listOfJobsToBidOn: [],
   error: null,
   isLoading: false,
   mapCenterPoint: { lat: 45.4215, lng: -75.6972 },
@@ -19,6 +19,7 @@ const getMyOpenJobs = {
   isPending: (state = initialState, { payload }) => ({
     ...state,
     isLoading: true,
+    myOpenJobsList: [],
   }),
   isFullfilled: (state = initialState, { payload }) => {
     let myOpenJobs = payload.data && payload.data._postedJobsRef ? payload.data._postedJobsRef : [];
@@ -37,6 +38,7 @@ const getAllMyRequests = {
   isPending: (state = initialState) => ({
     ...state,
     isLoading: true,
+    allMyRequests: [],
   }),
   isFullfilled: (state = initialState, { payload }) => {
     let allMyRequests = payload.data.allRequests;
@@ -55,6 +57,7 @@ const getMyAwardedJobs = {
   isPending: (state = initialState, { payload }) => ({
     ...state,
     isLoading: true,
+    myAwardedJobsList: [],
   }),
   isFullfilled: (state = initialState, { payload }) => {
     let myAwardedJobs =
@@ -74,12 +77,13 @@ const getPostedJobs = {
   isPending: (state = initialState, { payload }) => ({
     ...state,
     isLoading: true,
+    listOfJobsToBidOn: [],
   }),
   isFullfilled: (state = initialState, { payload }) => {
     let allThePostedJobs = payload.data ? payload.data : [];
     return {
       ...state,
-      ListOfJobsToBidOn: allThePostedJobs,
+      listOfJobsToBidOn: allThePostedJobs,
       isLoading: false,
     };
   },
@@ -96,6 +100,7 @@ const searchJob = {
   performSearch: (state = initialState, { payload }) => ({
     ...state,
     mapCenterPoint: payload.searchLocation,
+    listOfJobsToBidOn: [],
   }),
   isPending: (state = initialState, { payload }) => ({
     ...state,
@@ -103,7 +108,7 @@ const searchJob = {
   }),
   isFullfilled: (state = initialState, { payload }) => {
     let searchResult = payload && payload.data ? payload.data : [];
-    return { ...state, ListOfJobsToBidOn: searchResult, isLoading: false };
+    return { ...state, listOfJobsToBidOn: searchResult, isLoading: false };
   },
   isRejected: (state = initialState, { payload }) => {
     const searchJobsError =
@@ -115,12 +120,6 @@ const searchJob = {
 };
 
 const updateSelectedActivePostedJob = (state = initialState, { payload }) => {
-  return {
-    ...state,
-    selectedJobWithBids: payload.data,
-  };
-};
-const updateSelectedJobToBidOn = (state = initialState, { payload }) => {
   return {
     ...state,
     selectedJobWithBids: payload.data,
@@ -233,9 +232,9 @@ export default handleActions(
     [`${A.JOB_ACTIONS.DELETE_JOB_BY_ID}${A._FULFILLED}`]: deleteJob.isFullfilled,
     [`${A.JOB_ACTIONS.DELETE_JOB_BY_ID}${A._REJECTED}`]: deleteJob.isRejected,
 
-    [`${A.JOB_ACTIONS.GET_ALL_POSTED_JOBS}${A._PENDING}`]: getPostedJobs.isPending,
-    [`${A.JOB_ACTIONS.GET_ALL_POSTED_JOBS}${A._FULFILLED}`]: getPostedJobs.isFullfilled,
-    [`${A.JOB_ACTIONS.GET_ALL_POSTED_JOBS}${A._REJECTED}`]: getPostedJobs.isRejected,
+    // [`${A.JOB_ACTIONS.GET_ALL_POSTED_JOBS}${A._PENDING}`]: getPostedJobs.isPending,
+    // [`${A.JOB_ACTIONS.GET_ALL_POSTED_JOBS}${A._FULFILLED}`]: getPostedJobs.isFullfilled,
+    // [`${A.JOB_ACTIONS.GET_ALL_POSTED_JOBS}${A._REJECTED}`]: getPostedJobs.isRejected,
     [`${A.JOB_ACTIONS.SEARCH_JOB}`]: searchJob.performSearch,
     [`${A.JOB_ACTIONS.SEARCH_JOB}${A._PENDING}`]: searchJob.isPending,
     [`${A.JOB_ACTIONS.SEARCH_JOB}${A._FULFILLED}`]: searchJob.isFullfilled,

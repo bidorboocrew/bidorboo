@@ -87,15 +87,19 @@ export const searchJobsToBidOn = (values) => (dispatch) => {
   });
 };
 
-export const getAllJobsToBidOn = () => (dispatch) => {
-  dispatch({
-    type: A.JOB_ACTIONS.GET_ALL_POSTED_JOBS,
-    payload: axios.get(ROUTES.API.JOB.GET.alljobsToBidOn),
-  });
-};
+// export const getAllJobsToBidOn = () => (dispatch) => {
+//   debugger;
+//   dispatch({
+//     type: A.JOB_ACTIONS.GET_ALL_POSTED_JOBS,
+//     payload: axios.get(ROUTES.API.JOB.GET.alljobsToBidOn),
+//   });
+// };
 
-export const getPostedJobDetails = (jobId) => (dispatch) =>
-  dispatch({
+export const getPostedJobDetails = (jobId) => (dispatch) => {
+  if (!jobId) {
+    return;
+  }
+  return dispatch({
     type: A.JOB_ACTIONS.GET_POSTED_JOB_DETAILS_BY_ID,
     payload: axios
       .get(ROUTES.API.JOB.GET.myJobById, { params: { jobId } })
@@ -111,11 +115,13 @@ export const getPostedJobDetails = (jobId) => (dispatch) =>
         throwErrorNotification(dispatch, error);
       }),
   });
-
+};
 export const searchByLocation = (userSearchQuery) => (dispatch) => {
   const serverSearchQuery = {
     searchLocation: userSearchQuery.locationField,
-    searchRaduis: userSearchQuery.searchRadiusField * 1000, // translate to KM
+    searchRaduis: userSearchQuery.searchRadiusField
+      ? userSearchQuery.searchRadiusField * 1000
+      : 100000, // translate to KM
     jobTypeFilter: userSearchQuery.filterJobsByCategoryField, // list of categories to exclude from the search
   };
 
@@ -316,22 +322,22 @@ export const postNewJob = (jobDetails) => (dispatch) => {
 
           switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
 
-          dispatch({
-            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-            payload: {
-              toastDetails: {
-                type: 'success',
-                msg: 'Service Request was sucessfully created.',
-              },
-            },
-          });
+          // dispatch({
+          //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          //   payload: {
+          //     toastDetails: {
+          //       type: 'success',
+          //       msg: 'Service Request was sucessfully created.',
+          //     },
+          //   },
+          // });
 
           const taskDefinition = TASKS_DEFINITIONS[templateId];
 
           dispatch({
             type: A.UI_ACTIONS.SHOW_SPECIAL_MOMENT,
             payload: {
-              specialMomentContent: taskDefinition.renderThankYouCard,
+              specialMomentContent: taskDefinition.renderThankYouForPostingMoment,
             },
           });
         }
@@ -340,6 +346,49 @@ export const postNewJob = (jobDetails) => (dispatch) => {
         throwErrorNotification(dispatch, error);
       }),
   });
+};
+
+export const uploadTaskImages = (taskImages) => (dispatch) => {
+  let data = new FormData();
+
+  taskImages &&
+    taskImages.length > 0 &&
+    taskImages.forEach((file, index) => {
+      data.append('filesToUpload', file, `jobImages+${index}`);
+    });
+  const config = {
+    headers: { 'content-type': 'multipart/form-data' },
+  };
+
+  if (taskImages && taskImages.length) {
+    return dispatch({
+      type: A.JOB_ACTIONS.ADD_NEW_JOB,
+      payload: axios.put(ROUTES.API.JOB.PUT.jobImage, data, config).then((resp2) => {
+        if (resp2 && resp2.data.success && resp2.data.jobId) {
+          dispatch({
+            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+            payload: {
+              toastDetails: {
+                type: 'success',
+                msg: 'Images Were Uploaded.',
+              },
+            },
+          });
+        }
+        // switch route to show the currently added job
+      }),
+    });
+  } else {
+    dispatch({
+      type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+      payload: {
+        toastDetails: {
+          type: 'success',
+          msg: 'Failed to upload images.',
+        },
+      },
+    });
+  }
 };
 
 /**

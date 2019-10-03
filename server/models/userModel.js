@@ -5,13 +5,37 @@ const { encryptData, compareEncryptedWithClearData } = require('../utils/utiliti
 require('mongoose-type-email');
 const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
 
-const MAX_PARAGRAPH_LENGTH = 500;
-const MAX_NAME_LENGTH = 50;
+const MAX_COMMENT_LENGTH = 500;
+const MIN_COMMENT_LENGTH = 10;
+const MAX_PARAGRAPH_LENGTH = 255;
+const MAX_NAME_LENGTH = 25;
+const MIN_NAME_LENGTH = 3;
 
 const ratingSchema = {
-  totalOfAllRatings: { type: Number, default: 0 },
-  numberOfTimesBeenRated: { type: Number, default: 0 },
-  globalRating: { type: Number, default: 0 },
+  totalOfAllRatings: {
+    type: Number,
+    default: 0,
+    validate: {
+      validator: (totalOfAllRatings) => totalOfAllRatings >= 0,
+      message: 'Total Rating must be greater than 0',
+    },
+  },
+  numberOfTimesBeenRated: {
+    type: Number,
+    default: 0,
+    validate: {
+      validator: (numberOfTimesBeenRated) => numberOfTimesBeenRated >= 0,
+      message: 'Number Of Times this User Was Rated must be greater than 0',
+    },
+  },
+  globalRating: {
+    type: Number,
+    default: 0,
+    validate: {
+      validator: (globalRating) => globalRating >= 0,
+      message: 'Global Rating must be greater than 0',
+    },
+  },
   fulfilledBids: {
     type: [{ type: Schema.Types.ObjectId, ref: 'BidModel' }],
   },
@@ -24,7 +48,23 @@ const ratingSchema = {
   canceledJobs: {
     type: [{ type: Schema.Types.ObjectId, ref: 'JobModel' }],
   },
-  latestComment: { type: String, trim: true },
+  latestComment: {
+    type: String,
+    trim: true,
+    validate: {
+      validator: (latestComment) => {
+        return (
+          latestComment.length > MIN_COMMENT_LENGTH && latestComment.length < MAX_COMMENT_LENGTH
+        );
+      },
+      message:
+        'Review Comment must be between ' +
+        MIN_COMMENT_LENGTH +
+        ' and ' +
+        MAX_COMMENT_LENGTH +
+        ' charachters long',
+    },
+  },
 };
 
 const UserSchema = new Schema(
@@ -53,7 +93,7 @@ const UserSchema = new Schema(
       },
       text: {
         type: Boolean,
-        default: true,
+        default: false,
       },
       newPostedTasks: { type: Boolean, default: true },
     },
@@ -70,11 +110,15 @@ const UserSchema = new Schema(
     rating: ratingSchema,
     userId: {
       type: String,
+      allowBlank: false,
       lowercase: true,
       trim: true,
       index: true,
       unique: true,
-      required: true,
+      required: [
+        true,
+        "We couldn't locate your user Id. sorry! try registering with another email",
+      ],
     },
     email: {
       emailAddress: {
@@ -83,7 +127,10 @@ const UserSchema = new Schema(
         lowercase: true,
         trim: true,
         index: true,
-        unique: true,
+        unique: [
+          true,
+          'This email is already registered, if you forgot the username and password chat with us and we can help you reset your details',
+        ],
       },
       isVerified: {
         type: Boolean,
@@ -92,7 +139,13 @@ const UserSchema = new Schema(
     },
     // use this as default of search
     lastSearch: {
-      searchRadius: { type: Number },
+      searchRadius: {
+        type: Number,
+        validate: {
+          validator: (searchRadius) => searchRadius >= 10 && searchRadius <= 250,
+          message: 'search radius must be between 10 and 250 km',
+        },
+      },
       location: { type: mongoose.Schema.Types.Point, index: '2dsphere' },
       addressText: { type: String },
     },
@@ -100,7 +153,8 @@ const UserSchema = new Schema(
       type: String,
       allowBlank: false,
       trim: true,
-      minlength: 6,
+      minlength: [6, 'password must be at least 6 chars in length'],
+      maxlength: [25, 'password must be at most 25 chars in length'],
       required: false,
     },
     phone: {
@@ -109,6 +163,10 @@ const UserSchema = new Schema(
         trim: true,
         allowBlank: false,
         trim: true,
+        validate: {
+          validator: (phoneNumber) => phoneNumber.length == 10 && /^[0-9]*$/.test(phoneNumber),
+          message: 'Phone number must be 10 digits without area code and of the format 0003334444',
+        },
       },
       isVerified: {
         type: Boolean,
@@ -120,23 +178,43 @@ const UserSchema = new Schema(
         type: Map,
         of: String,
       },
-      phone: {
-        type: Map,
-        of: String,
-      },
     },
     displayName: {
       type: String,
       trim: true,
-      maxlength: MAX_NAME_LENGTH,
+      allowBlank: false,
+      minlength: [
+        MIN_NAME_LENGTH,
+        'display name must be at least ' + MIN_NAME_LENGTH + ' chars in length',
+      ],
+      maxlength: [
+        MAX_NAME_LENGTH,
+        'display name must be at most ' + MAX_NAME_LENGTH + ' chars in length',
+      ],
     },
     profileImage: {
-      url: { type: String, default: 'https://static.thenounproject.com/png/630729-200.png' },
+      url: {
+        type: String,
+        default:
+          'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1565728175/android-chrome-512x512.png',
+      },
       public_id: { type: String },
     },
-    addressText: { type: String, maxlength: MAX_PARAGRAPH_LENGTH },
+    addressText: {
+      type: String,
+      maxlength: [
+        MAX_PARAGRAPH_LENGTH,
+        'your personal paragraph can not be more than ' + MAX_PARAGRAPH_LENGTH + ' char long',
+      ],
+    },
     // skills: [String], // list of strings representing their skills
-    personalParagraph: { type: String, maxlength: MAX_PARAGRAPH_LENGTH }, // a blob about who they are
+    personalParagraph: {
+      type: String,
+      maxlength: [
+        MAX_PARAGRAPH_LENGTH,
+        'your personal paragraph can not be more than ' + MAX_PARAGRAPH_LENGTH + ' char long',
+      ],
+    }, // a blob about who they are
     // paymentRefs: [String], // ID to fetch their payments through our system to generate an invoice
     membershipStatus: {
       type: String,
@@ -158,7 +236,11 @@ const UserSchema = new Schema(
       default: 'REGULAR',
     },
     tos_acceptance: {
-      Agreed: { type: Boolean, required: true, default: false },
+      Agreed: {
+        type: Boolean,
+        required: [true, 'You Must Agree to BIDORBOO Terms of use to proceed'],
+        default: false,
+      },
       date: { type: Date },
       ip: { type: String },
     },
@@ -168,6 +250,13 @@ const UserSchema = new Schema(
       front: { type: String },
       back: { type: String },
       isVerified: { type: Boolean },
+    },
+    stripeCustomerAccId: {
+      type: String,
+      required: [
+        true,
+        'We could not establish a stripe customer account. In order to proceed please chat with us via the chat button in the footer',
+      ],
     },
     stripeConnect: {
       accId: { type: String },
@@ -186,7 +275,7 @@ const UserSchema = new Schema(
       },
     },
   },
-  { timestamps: true, toObject: { virtuals: true } } // createdAt and updatedAt auto  generated by mongoose
+  { timestamps: true } // createdAt and updatedAt auto  generated by mongoose
 );
 
 UserSchema.pre('save', async function(next) {

@@ -209,7 +209,7 @@ class MyProfile extends React.Component {
                           }
                         />
 
-                        <DisplayLabelValue
+                        {/* <DisplayLabelValue
                           labelText="ID verification (Optional)"
                           labelValue={
                             <div>
@@ -238,20 +238,20 @@ class MyProfile extends React.Component {
                               )}
                             </div>
                           }
-                        />
+                        /> */}
 
                         <HeaderTitle title="About Me" />
                         <TextareaAutosize
                           value={personalParagraph}
-                          className="textarea is-marginless is-paddingless"
+                          className="textarea is-marginless is-paddingless control"
                           style={{
                             resize: 'none',
                             border: 'none',
-                            color: '#4a4a4a',
-                            height: 'auto',
                           }}
                           readOnly
                         />
+                        <br />
+                        <br />
                       </div>
                     )}
                     {isEditProfile && (
@@ -302,7 +302,7 @@ const HeaderTitle = (props) => {
       style={{
         marginTop: 8,
         marginBottom: 4,
-        fontSize: '1rem',
+        fontSize: 16,
         borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
       }}
     >
@@ -313,7 +313,9 @@ const HeaderTitle = (props) => {
 const DisplayLabelValue = ({ labelText, labelValue, renderExtraStuff }) => {
   return (
     <div className="group">
-      <label className="label">{typeof labelText === 'function' ? labelText() : labelText}</label>
+      <label className="label hasSelectedValue">
+        {typeof labelText === 'function' ? labelText() : labelText}
+      </label>
       <div className="control"> {labelValue}</div>
       {renderExtraStuff && renderExtraStuff()}
     </div>

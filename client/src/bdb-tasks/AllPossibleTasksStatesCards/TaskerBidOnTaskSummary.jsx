@@ -14,12 +14,12 @@ import { switchRoute } from '../../utils';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 import {
-  AvgBidDisplayLabelAndValue,
   SummaryStartDateAndTime,
-  CenteredUserImageAndRating,
   CardTitleAndActionsInfo,
   JobCardTitle,
   CountDownComponent,
+  TaskImagesCarousel,
+  CenteredUserImageAndRating,
 } from '../../containers/commonComponents';
 
 import { getUserExistingBid, didUserAlreadyView } from '../../containers/commonUtils';
@@ -71,6 +71,7 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
       _ownerRef,
       state,
       extras,
+      taskImages = [],
     } = job;
     if (!startingDateAndTime || !templateId || !_ownerRef || !state || !extras) {
       return <div>TaskerBidOnTaskSummary is missing properties</div>;
@@ -93,15 +94,19 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
           <div style={{ ...specialStyle }} className="card-content">
             <div className="content">
               <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-              {/* {!isOnMapView && <CenteredUserImageAndRating clipUserName userDetails={_ownerRef} />} */}
+              <TaskImagesCarousel taskImages={taskImages} />
+              <div className="group">
+                <label className="label hasSelectedValue">Requester</label>
+                {!isOnMapView && (
+                  <CenteredUserImageAndRating clipUserName userDetails={_ownerRef} />
+                )}
+              </div>
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
-              {/* <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} /> */}
-
               {!isOnMapView && (
                 <div className="group">
                   <label className="label">Task Info</label>
@@ -116,7 +121,6 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                   />
                 </div>
               )}
-
               {!isOnMapView && (
                 <React.Fragment>
                   {userAlreadyBid ? (
@@ -167,9 +171,14 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                           if (!isLoggedIn) {
                             showLoginDialog(true);
                             return;
-                          } else if (!userDetails.canBid) {
-                            this.toggleRegisterAsTasker();
-                          } else if (userDetails.canBid) {
+                          }
+                          // else if (!userDetails.canBid) {
+                          //   // xxxxxxxxxxx re enable this very important
+                          //   // this.toggleRegisterAsTasker();
+                          // }
+
+                          // else if (userDetails.canBid) {
+                          else {
                             updateViewedBy(job);
                             switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
                           }
@@ -239,9 +248,13 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                           if (!isLoggedIn) {
                             showLoginDialog(true);
                             return;
-                          } else if (!userDetails.canBid) {
-                            this.toggleRegisterAsTasker();
-                          } else if (userDetails.canBid) {
+                          }
+                          //  else if (!userDetails.canBid) {
+                          //   xxxxxxxxxxxxxxxxxxxx reenable
+                          //   this.toggleRegisterAsTasker();
+                          // }
+                          // else if (userDetails.canBid) {
+                          else {
                             updateViewedBy(job);
                             switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
                           }

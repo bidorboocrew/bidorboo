@@ -4,7 +4,7 @@
 // xxxxx fery important
 // https://github.com/deanhume/pwa-update-available
 // https://developers.google.com/web/fundamentals/primers/service-workers/
-var CACHE_NAME = 'bob-app-cache-v6.8.0';
+var CACHE_NAME = 'bob-app-cache-v9.0.0';
 var THREE_MONTHS_IN_SECONDS = 7776000;
 // var googleMapsReq = new Request(
 //   'https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=places,geometry',
@@ -15,7 +15,7 @@ var THREE_MONTHS_IN_SECONDS = 7776000;
 //     },
 //   },
 // );
-var fontAwesomeReq = new Request('https://use.fontawesome.com/releases/v5.6.3/css/all.css', {
+var fontAwesomeReq = new Request('https://use.fontawesome.com/releases/v5.8.2/css/all.css', {
   mode: 'no-cors',
   headers: {
     'Cache-Control': 'max-age=' + THREE_MONTHS_IN_SECONDS,
@@ -23,7 +23,7 @@ var fontAwesomeReq = new Request('https://use.fontawesome.com/releases/v5.6.3/cs
 });
 
 var googleFontsReq = new Request(
-  'https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap',
+  'https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700&display=swap',
   {
     mode: 'no-cors',
     headers: {
@@ -155,15 +155,16 @@ self.addEventListener('fetch', function(event) {
   );
 });
 
+// https://developers.google.com/web/fundamentals/push-notifications/notification-behaviour
 self.addEventListener('push', (event) => {
   var data = event.data.json();
 
   var title = data.title;
   var options = {
     body: data.body,
-    icon: '/android-chrome-192x192.png',
-    badge: '/android-chrome-192x192-mono.png',
-    image: '/mstile-310x310.png',
+    icon: 'android-chrome-192x192.png',
+    badge: 'android-chrome-192x192-mono.png',
+    image: 'mstile-310x310.png',
     data: data.urlToLaunch || 'https://www.bidorboo.com',
     actions: [{ action: 'viewUpdate', title: 'View Update' }],
   };

@@ -243,9 +243,7 @@ exports.jobDataAccess = {
                   .exec();
 
                 console.log(
-                  `CleanUpAllExpiredNonAwardedJobs deleted job id ${
-                    job._id
-                  } which was suppose to happen ${jobStartDate}`
+                  `CleanUpAllExpiredNonAwardedJobs deleted job id ${job._id} which was suppose to happen ${jobStartDate}`
                 );
                 await JobModel.deleteOne({ _id: job._id.toString() })
                   .lean(true)
@@ -409,84 +407,104 @@ exports.jobDataAccess = {
       return;
     },
     SendPayoutsToBanks: async () => {
-      // find all jobs that are done and does not have payment to bank on the way
-      console.log('-------BidOrBooLogging----------------------');
-      console.log(' SendPayoutsToBanks');
-      return JobModel.find({
-        _awardedBidRef: { $exists: true },
-        state: { $in: ['DONE'] },
-        paymentToBank: { $exists: false },
-      })
-        .lean(true)
-        .exec((err, res) => {
-          if (err) {
-            throw err;
-          }
+      try {
+        // find all jobs that are done and does not have payment to bank on the way
+        console.log('-------BidOrBooLogging----------------------');
+        console.log(' SendPayoutsToBanks');
+        return JobModel.find({
+          _awardedBidRef: { $exists: true },
+          processedPayment: { $exists: true },
+          state: { $in: ['DONE'] },
+          paymentToBank: { $exists: false },
+        })
+          .lean(true)
+          .exec((err, res) => {
+            if (err) {
+              throw err;
+            }
 
-          if (res && res.length > 0) {
-            res.forEach(async (job) => {
-              const { _id, processedPayment } = job;
-              const { chargeId, bidderPayout, bidderStripeAcc } = processedPayment;
-              const accDetails = await stripeServiceUtil.getConnectedAccountDetails(
-                bidderStripeAcc
-              );
+            if (res && res.length > 0) {
+              //xxxxxx
+              res.forEach(async (job) => {
+                const { _id: jobId, processedPayment } = job;
+                const {
+                  amount,
+                  applicationFeeAmount,
+                  destinationStripeAcc,
+                  paymentIntentId,
+                } = processedPayment;
+                const {
+                  amount_received,
+                  application_fee_amount,
+                  transfer_data: { destination: taskerAccId },
+                } = await stripeServiceUtil.getPaymentIntents(paymentIntentId);
 
-              // confirm payouts enabeld
-              if (accDetails && accDetails.payouts_enabled) {
-                const [
-                  accountBalance,
-                  payoutsList,
-                ] = await stripeServiceUtil.getConnectedAccountBalance(bidderStripeAcc);
+                const taskerConnectAccDetails = await stripeServiceUtil.getConnectedAccountDetails(
+                  taskerAccId
+                );
 
-                const isThereEnoughToCoverPayout =
-                  accountBalance &&
-                  accountBalance.available &&
-                  accountBalance.available.some((balance) => {
-                    return balance.amount >= bidderPayout;
-                  });
+                // confirm payouts enabeld
+                if (taskerConnectAccDetails && taskerConnectAccDetails.payouts_enabled) {
+                  const taskerPayout = amount_received - application_fee_amount;
 
-                // confirm there is enough available balance to cover payment
-                if (isThereEnoughToCoverPayout) {
-                  console.log('send payout');
+                  const [accountBalance] = await stripeServiceUtil.getConnectedAccountBalance(
+                    taskerAccId
+                  );
 
-                  const payoutInititated = await stripeServiceUtil.payoutToBank(bidderStripeAcc, {
-                    amount: bidderPayout,
-                    metadata: {
-                      chargeId,
-                      jobId: _id.toString(),
-                      bidderStripeAcc,
+                  let totalAvailableBalanceForPayout =
+                    accountBalance &&
+                    accountBalance.available &&
+                    accountBalance.available.reduce(
+                      (sumOfAllAvailableBalances, balanceItem) =>
+                        sumOfAllAvailableBalances + balanceItem.amount,
+                      0
+                    );
+
+                  let isThereEnoughToCoverPayout = totalAvailableBalanceForPayout >= taskerPayout;
+                  // confirm there is enough available balance to cover payment
+                  if (isThereEnoughToCoverPayout) {
+                    console.log('send payout');
+                    const payoutInititated = await stripeServiceUtil.payoutToBank(taskerAccId, {
+                      amount: taskerPayout,
+                      metadata: {
+                        paymentIntentId,
+                        jobId: jobId.toString(),
+                        taskerAccId,
+                        note: 'Released Payout to Tasker',
+                      },
+                    });
+                    console.log({
+                      amount: taskerPayout,
+                      paymentIntentId,
+                      jobId: jobId.toString(),
+                      taskerAccId,
                       note: 'Release Payout to Tasker',
-                    },
-                  });
-                  console.log({
-                    amount: bidderPayout,
-                    chargeId,
-                    jobId: _id.toString(),
-                    bidderStripeAcc,
-                    note: 'Release Payout to Tasker',
-                  });
-
-                  const { id, status } = payoutInititated;
-                  // update job with the payment details
-                  await JobModel.findOneAndUpdate(
-                    { _id },
-                    {
-                      $set: {
-                        state: 'PAYMENT_RELEASED',
-                        payoutDetails: {
-                          id,
-                          status,
+                    });
+                    const { id: payoutId, status } = payoutInititated;
+                    // update job with the payment details
+                    const updatedJob = await JobModel.findOneAndUpdate(
+                      { jobId },
+                      {
+                        $set: {
+                          state: 'PAYMENT_RELEASED',
+                          payoutDetails: {
+                            payoutId,
+                            status,
+                          },
                         },
                       },
-                    },
-                    { new: true }
-                  );
+                      { new: true }
+                    );
+                    // xxx on update job update bid
+                  }
                 }
-              }
-              console.log('-------BidOrBooLogging----------------------');
-            });
-          }
-        });
+                console.log('-------BidOrBooLogging----------------------');
+              });
+            }
+          });
+      } catch (e) {
+        console.error('-------BidOrBooLogging----------------------');
+      }
     },
 
     CleanUpAllBidsAssociatedWithDoneJobs: async () => {
@@ -615,90 +633,92 @@ exports.jobDataAccess = {
   },
 
   // get jobs for a user and filter by a given state
-  getAllRequestsByUserId: async (userId) => {
-    return User.findOne({ userId: userId }, { _postedJobsRef: 1 })
-      .populate({
-        path: '_postedJobsRef',
-        match: {
-          $or: [
-            {
-              $and: [
-                { state: { $eq: 'OPEN' } },
-                {
-                  startingDateAndTime: {
-                    $gt: moment()
-                      .utc()
-                      .toISOString(),
+  getAllRequestsByUserId: async (_id) => {
+    return JobModel.find(
+      {
+        $and: [
+          { _ownerRef: { $eq: _id } },
+          {
+            $or: [
+              {
+                $and: [
+                  { state: { $eq: 'OPEN' } },
+                  {
+                    startingDateAndTime: {
+                      $gt: moment()
+                        .utc()
+                        .toISOString(),
+                    },
                   },
-                },
-              ],
-            },
-            {
-              state: {
-                $in: [
-                  'AWARDED', //
-                  'DISPUTED', // disputed job
-                  'AWARDED_JOB_CANCELED_BY_BIDDER',
-                  'AWARDED_JOB_CANCELED_BY_REQUESTER',
-                  'DONE',
                 ],
               },
-            },
-          ],
-        },
-        select: {
-          booedBy: 0,
-          processedPayment: 0,
-          updatedAt: 0,
-          viewedBy: 0,
-          hideFrom: 0,
-          createdAt: 0,
-        },
-        options: { sort: { startingDateAndTime: 1 } },
-        populate: [
-          {
-            path: '_reviewRef',
-            select: {
-              proposerReview: 1,
-              bidderReview: 1,
-              revealToBoth: 1,
-              requiresProposerReview: 1,
-              requiresBidderReview: 1,
-            },
-          },
-          {
-            path: '_awardedBidRef',
-            model: 'BidModel',
-            select: {
-              _bidderRef: 1,
-              isNewBid: 1,
-              state: 1,
-              bidAmount: 1,
-            },
-            populate: {
-              path: '_bidderRef',
-              select: {
-                displayName: 1,
-                email: 1,
-                phone: 1,
-                profileImage: 1,
-                rating: 1,
-                userId: 1,
+              {
+                state: {
+                  $in: [
+                    'AWARDED', //
+                    'DISPUTED', // disputed job
+                    'AWARDED_JOB_CANCELED_BY_BIDDER',
+                    'AWARDED_JOB_CANCELED_BY_REQUESTER',
+                    'DONE',
+                  ],
+                },
               },
-            },
-          },
-          {
-            path: '_ownerRef',
-            select: {
-              displayName: 1,
-              email: 1,
-              phone: 1,
-              profileImage: 1,
-              rating: 1,
-              userId: 1,
-            },
+            ],
           },
         ],
+      },
+      {
+        booedBy: 0,
+        processedPayment: 0,
+        updatedAt: 0,
+        viewedBy: 0,
+        hideFrom: 0,
+        createdAt: 0,
+      },
+      // xxx how to skip
+      { limit: 1000, sort: { startingDateAndTime: 1 } }
+    )
+      .populate({
+        path: '_reviewRef',
+        select: {
+          proposerReview: 1,
+          bidderReview: 1,
+          revealToBoth: 1,
+          requiresProposerReview: 1,
+          requiresBidderReview: 1,
+        },
+      })
+      .populate({
+        path: '_awardedBidRef',
+        model: 'BidModel',
+        select: {
+          _bidderRef: 1,
+          isNewBid: 1,
+          state: 1,
+          bidAmount: 1,
+        },
+        populate: {
+          path: '_bidderRef',
+          select: {
+            displayName: 1,
+            email: 1,
+            phone: 1,
+            profileImage: 1,
+            rating: 1,
+            userId: 1,
+          },
+        },
+      })
+      .populate({
+        path: '_ownerRef',
+        select: {
+          displayName: 1,
+          email: 1,
+          phone: 1,
+          profileImage: 1,
+          rating: 1,
+          userId: 1,
+        },
       })
       .lean({ virtuals: true })
       .exec();
@@ -718,7 +738,30 @@ exports.jobDataAccess = {
   },
   getJobById: (jobId) => {
     return JobModel.findById(jobId)
+      .lean(true)
+      .exec();
+  },
+  getBidsList: (jobId) => {
+    return JobModel.findById(jobId)
       .populate({ path: '_bidsListRef', select: { _bidderRef: 1 } })
+      .lean(true)
+      .exec();
+  },
+  getJobWithOwnerDetails: (jobId) => {
+    return JobModel.findById(jobId)
+      .populate({
+        path: '_ownerRef',
+        select: {
+          displayName: 1,
+          profileImage: 1,
+          rating: 1,
+          _id: 1,
+          notifications: 1,
+          email: 1,
+          stripeCustomerAccId: 1,
+          taskImages: 1,
+        },
+      })
       .lean({ virtuals: true })
       .exec();
   },
@@ -751,10 +794,7 @@ exports.jobDataAccess = {
   getJobWithBidDetails: async (mongDbUserId, jobId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const jobWithBidDetails = await JobModel.findOne(
-          { _id: jobId, _ownerRef: mongDbUserId },
-          { ...schemaHelpers.JobFull }
-        )
+        const jobWithBidDetails = await JobModel.findOne({ _id: jobId, _ownerRef: mongDbUserId })
           .populate([
             {
               path: '_ownerRef',
@@ -839,6 +879,7 @@ exports.jobDataAccess = {
             durationOfJob: 1,
             templateId: 1,
             extras: 1,
+            taskImages: 1,
           }
         )
           .populate([
@@ -934,7 +975,7 @@ exports.jobDataAccess = {
         },
       }
     )
-      .lean({ virtuals: true })
+      .lean()
       .exec();
   },
   updateState: (jobId, stateValue) => {
@@ -992,7 +1033,7 @@ exports.jobDataAccess = {
   getAwardedJobDetails: async (jobId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const jobWithBidderDetails = await JobModel.findById({ _id: jobId })
+        const jobWithBidderDetails = await JobModel.findOne({ _id: jobId })
           .populate([
             {
               path: '_awardedBidRef',
@@ -1099,6 +1140,7 @@ exports.jobDataAccess = {
             extras: 1,
             state: 1,
             location: 1,
+            taskImages: 1,
           },
           {
             sort: { startingDateAndTime: 1 },
@@ -1125,9 +1167,11 @@ exports.jobDataAccess = {
   // default search raduis is 15km raduis
   // default include all
   getJobsNear: ({ location, searchRadius = 25000 }) => {
+    console.log('search 111111111jobs');
     return new Promise(async (resolve, reject) => {
       try {
-        const today = moment.utc(moment());
+        const today = moment.utc(moment()).toISOString();
+        console.log('search jobs start');
 
         let searchQuery = {
           startingDateAndTime: { $gt: today },
@@ -1145,50 +1189,49 @@ exports.jobDataAccess = {
         };
 
         // filter by date
-        const results = await JobModel.find(
-          searchQuery,
-          {
-            _ownerRef: 1,
-            templateId: 1,
-            startingDateAndTime: 1,
-            extras: 1,
-            state: 1,
-            location: 1,
-            _bidsListRef: 1,
-            viewedBy: 1,
-            hideFrom: 1,
-          },
-          { lean: { virtuals: true } }
-        )
+        const results = await JobModel.find(searchQuery, {
+          _ownerRef: 1,
+          templateId: 1,
+          startingDateAndTime: 1,
+          extras: 1,
+          state: 1,
+          location: 1,
+          _bidsListRef: 1,
+          viewedBy: 1,
+          hideFrom: 1,
+          taskImages: 1,
+        })
           .sort({ startingDateAndTime: 1 })
           .populate([
             {
               path: '_ownerRef',
               select: { displayName: 1, profileImage: 1, _id: 1, rating: 1 },
-              options: { lean: { virtuals: true } },
             },
             {
               path: '_bidsListRef',
               select: { _bidderRef: 1, bidAmount: 1 },
-              options: { lean: { virtuals: true } },
             },
           ]);
+          console.log('search 111111111jobs');
+          console.log(results);
         return resolve(results);
       } catch (e) {
+        console.log('search 111111111jobs');
+
         reject(e);
       }
     });
   },
 
-  updateJobAwardedBid: async (jobId, bidId, processedPaymentDetails) => {
+  updateJobWithAwardedBidAndPaymentDetails: async (jobId, bidId, processedPaymentDetails) => {
     return Promise.all([
       BidModel.findOneAndUpdate(
         { _id: bidId },
         {
-          $set: { state: 'WON' },
+          $set: { state: 'AWARDED' },
         }
       )
-        .lean(true)
+        .lean()
         .exec(),
       JobModel.findOneAndUpdate(
         { _id: jobId },
@@ -1196,78 +1239,18 @@ exports.jobDataAccess = {
           $set: {
             _awardedBidRef: bidId,
             state: 'AWARDED',
-            processedPayment: { ...processedPaymentDetails },
+            processedPayment: processedPaymentDetails,
           },
         }
       )
-        .lean({ virtuals: true })
+        .lean()
         .exec(),
     ]);
   },
 
-  awardBidder: async (jobId, bidId) => {
-    const updateRelevantItems = await Promise.all([
-      BidModel.findOneAndUpdate(
-        { _id: bidId },
-        {
-          $set: { state: 'WON' },
-        }
-      )
-        .lean(true)
-        .exec(),
-      JobModel.findOneAndUpdate(
-        { _id: jobId },
-        {
-          $set: { _awardedBidRef: bidId, state: 'AWARDED' },
-        }
-      )
-        .lean({ virtuals: true })
-        .exec(),
-    ]);
-
-    return JobModel.findOne(
-      { _id: jobId },
-      {
-        addressText: 0,
-        updatedAt: 0,
-        jobReview: 0,
-        extras: 0,
-        properties: 0,
-        __v: 0,
-        _bidsListRef: 0,
-        whoSeenThis: 0,
-        _ownerRef: 0,
-        ownerId: 0,
-        bidderIds: 0,
-        hideForUserIds: 0,
-      }
-    )
-      .populate({
-        path: '_awardedBidRef',
-        select: {
-          _jobRef: 0,
-        },
-        populate: {
-          path: '_bidderRef',
-          select: {
-            _postedJobsRef: 0,
-            _postedBidsRef: 0,
-            userRole: 0,
-            extras: 0,
-            settings: 0,
-            creditCards: 0,
-            updatedAt: 0,
-            __v: 0,
-            verificationIdImage: 0,
-          },
-        },
-      })
-
-      .lean({ virtuals: true })
-      .exec();
-  },
   findOneByJobId: (id) => {
     return JobModel.findOne({ _id: id })
+      .populate({ path: '_ownerRef' })
       .lean({ virtuals: true })
       .exec();
   },
@@ -1415,7 +1398,7 @@ exports.jobDataAccess = {
           // const payoutInititated = await stripeServiceUtil.payoutToBank(
           //   updatedTasker.stripeConnect.accId,
           //   {
-          //     amount: processedPayment.bidderPayout,
+          //     amount: processedPayment.taskerPayout,
           //     metadata: {
           //       requesterId,
           //       requesterEmailAddress,
@@ -1757,9 +1740,7 @@ exports.jobDataAccess = {
     return new Promise(async (resolve, reject) => {
       try {
         //find the job
-        const job = await JobModel.findOne({ _id: jobId, _ownerRef: mongoUser_id })
-          .lean({ virtuals: true })
-          .exec();
+        const job = await JobModel.findOne({ _id: jobId, _ownerRef: mongoUser_id }).exec();
 
         if (!job || !job._id || !job._ownerRef._id || !job.state) {
           return reject('Error while canceling job. contact us at bidorboocrew@bidorboo.com');
@@ -1767,14 +1748,8 @@ exports.jobDataAccess = {
 
         // if we are cancelling an open job
         if (job.state === 'OPEN') {
-          const updatedJob = await JobModel.findOneAndUpdate(
-            { _id: job._id, _ownerRef: mongoUser_id },
-            {
-              $set: { state: 'CANCELED_OPEN' },
-            },
-            { new: true }
-          );
-          resolve(updatedJob);
+          await job.remove();
+          resolve();
         }
 
         // if we are cancelling an awardedJob
@@ -1805,9 +1780,13 @@ exports.jobDataAccess = {
             processedPayment,
           } = await getAllContactDetails(jobId);
 
+          const paymentIntent = await stripeServiceUtil.getPaymentIntents(
+            processedPayment.paymentIntentId
+          );
+          const charge = paymentIntent.charges.data[0];
           const refundCharge = await stripeServiceUtil.partialRefundTransation({
-            chargeId: processedPayment.chargeId,
-            refundAmount: processedPayment.amount * BIDORBOO_REFUND_AMOUNT,
+            chargeId: charge.id,
+            refundAmount: charge.amount * BIDORBOO_REFUND_AMOUNT,
             metadata: {
               requesterId,
               requesterEmailAddress,
@@ -1920,13 +1899,13 @@ exports.jobDataAccess = {
             if (
               !updatedJob._id ||
               !updatedJob.processedPayment.refund ||
-              updatedJob.state === 'AWARDED_JOB_CANCELED_BY_REQUESTER'
+              updatedJob.state !== 'AWARDED_JOB_CANCELED_BY_REQUESTER'
             ) {
-              return reject({ success: false, ErrorMsg: 'failed to update the associated job' });
+              return reject('failed to update the associated job');
             }
 
             if (!updatedBid._id || updatedBid.state !== 'AWARDED_BID_CANCELED_BY_REQUESTER') {
-              return reject({ success: false, ErrorMsg: 'failed to update the associated bid' });
+              return reject('failed to update the associated bid');
             }
 
             if (
@@ -1941,10 +1920,7 @@ exports.jobDataAccess = {
                 }
               );
               if (!addedThisToCanceledJobs) {
-                return reject({
-                  success: false,
-                  ErrorMsg: 'failed to update the associated Tasker',
-                });
+                return reject('failed to update the associated Tasker');
               }
             }
 
@@ -2132,17 +2108,32 @@ exports.jobDataAccess = {
       }
     });
   },
-  updateJobById: async (jobId, updateDetails) => {
+  updateLatestCheckoutSession: async (jobId, mongoUser_id, sessionClientId) => {
     return new Promise(async (resolve, reject) => {
       try {
         //find the job
-        await JobModel.findOneAndUpdate(
-          { _id: jobId, _ownerRef: mongoUser_id },
-          {
-            ...updateDetails,
-          },
-          { new: true }
-        );
+
+        await JobModel.findOne({ _id: jobId, _ownerRef: mongoUser_id }, async (err, jobDoc) => {
+          if (err) {
+            return reject(err);
+          }
+          jobDoc.latestCheckoutSession = sessionClientId;
+          await jobDoc.save();
+          resolve(true);
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+  updateJobById: async (jobId, mongoUser_id, updateDetails) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await JobModel.findOneAndUpdate({
+          ...updateDetails,
+        })
+          .lean()
+          .exec();
         resolve(true);
       } catch (e) {
         reject(e);

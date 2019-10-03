@@ -1,12 +1,9 @@
 import React from 'react';
+import { Collapse } from 'react-collapse';
 
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
-import {
-  CountDownComponent,
-  StartDateAndTime,
-  DisplayShortAddress,
-} from '../../containers/commonComponents';
+import { CountDownComponent, StartDateAndTime } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
@@ -82,9 +79,8 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
             </div>
 
             <div className="group">
-              <label className="label">My Bid</label>
-              <div className={`has-text-danger`}>{`${bidValue -
-                Math.ceil(bidValue * 0.04)}$ (${bidCurrency})`}</div>
+              <label className="label hasSelectedValue">My Bid</label>
+              <div className={`has-text-danger`}>${bidValue}</div>
               <div className="help">* on hold</div>
             </div>
             <StartDateAndTime
@@ -106,7 +102,7 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
             }}
             className="button is-fullwidth is-danger"
           >
-            View Details
+            VIEW DETAILS
           </a>
         </div>
       </div>

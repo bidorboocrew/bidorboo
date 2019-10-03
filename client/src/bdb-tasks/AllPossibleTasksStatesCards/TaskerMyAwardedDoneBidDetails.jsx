@@ -1,5 +1,6 @@
 import React from 'react';
 import TextareaAutosize from 'react-autosize-textarea';
+import { Collapse } from 'react-collapse';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -18,6 +19,7 @@ import {
   CenteredUserImageAndRating,
   TaskIsFulfilled,
   ArchiveTask,
+  TaskImagesCarousel,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -47,6 +49,7 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
         requiresProposerReview: true,
         requiresBidderReview: true,
       },
+      taskImages = [],
     } = job;
     if (
       !startingDateAndTime ||
@@ -92,6 +95,7 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
           <div style={{ borderBottom: 0 }} className="card-content">
             <div className="content">
               <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
@@ -103,40 +107,35 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
 
               {requiresBidderReview && <TaskIsFulfilled />}
 
-              <BidAmount
-                bidAmount={bidValue}
-                renderHelp={() => <div className="help">Your Payout is on the way</div>}
-              />
-
-              {showMore && (
-                <React.Fragment>
+              <Collapse isOpened={showMore}>
+                <div className="has-text-left">
+                  <BidAmount
+                    bidAmount={bidValue}
+                    renderHelp={() => <div className="help">Your Payout is on the way</div>}
+                  />
                   <div className="group">
                     <label className="label hasSelectedValue">Task Address</label>
                     <div className="control">{addressText}</div>
                   </div>
                   <TaskSpecificExtras templateId={ID} extras={extras} />
                   <div className="group">
-                    <label className="label">Detailed Description</label>
-                    <span className="is-size-7">
-                      <TextareaAutosize
-                        value={detailedDescription}
-                        className="textarea is-marginless is-paddingless is-size-6"
-                        style={{
-                          resize: 'none',
-                          border: 'none',
-                          color: '#4a4a4a',
-                          fontSize: '1rem',
-                        }}
-                        readOnly
-                      />
-                    </span>
+                    <label className="label hasSelectedValue">Detailed Description</label>
+                    <TextareaAutosize
+                      value={detailedDescription}
+                      className="textarea is-marginless is-paddingless control"
+                      style={{
+                        resize: 'none',
+                        border: 'none',
+                      }}
+                      readOnly
+                    />
                   </div>
-                </React.Fragment>
-              )}
+                </div>
+              </Collapse>
               <div>
                 {!showMore && (
                   <a onClick={this.toggleShowMore} className="button is-small">
-                    <span style={{ marginRight: 4 }}>show full task details</span>
+                    <span style={{ marginRight: 4 }}>show more details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-down" />
                     </span>
@@ -175,7 +174,7 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
                     }}
                     className={`button firstButtonInCard is-dark`}
                   >
-                    {`Done & Archived`}
+                    Archived
                   </a>
                 )}
               </>
@@ -241,7 +240,11 @@ class RequesterDetails extends React.Component {
                 </li>
               </ul>
             </div>
-            <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large />
+            <CenteredUserImageAndRating
+              userDetails={otherUserProfileInfo}
+              large
+              isCentered={false}
+            />
             <br />
           </div>
         </div>

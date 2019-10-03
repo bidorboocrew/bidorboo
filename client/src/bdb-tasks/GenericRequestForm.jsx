@@ -6,7 +6,9 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
+import { Collapse } from 'react-collapse';
+import axios from 'axios';
 import { withFormik } from 'formik';
 import haversineOffset from 'haversine-offset';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
@@ -19,7 +21,7 @@ import { TextAreaInput, GeoAddressInput, DateInput } from '../components/forms/F
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 import TASKS_DEFINITIONS from './tasksDefinitions';
-
+import UploaderComponent from './UploaderComponent';
 // for reverse geocoding , get address from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
 // https://stackoverflow.com/questions/6478914/reverse-geocoding-code
@@ -42,6 +44,11 @@ class GenericRequestForm extends React.Component {
     this.extrasFunc = TASKS_DEFINITIONS[this.requestTemplateId].extras.bind(this);
     this.extrasValidations = TASKS_DEFINITIONS[this.requestTemplateId].extrasValidation.bind(this);
   }
+
+  updateTaskThumbnails = (fieldIdAndValue) => {
+    this.props.setFieldValue(fieldIdAndValue.fieldId, fieldIdAndValue.fieldValue, false);
+  };
+
   shouldShowAutodetectControl = () => {
     return navigator.geolocation ? (
       <div
@@ -149,12 +156,7 @@ class GenericRequestForm extends React.Component {
       handleSubmit,
       handleBlur,
     } = this.props;
-
-    const { ID, TASK_EXPECTATIONS, renderSummaryCard, SUGGESTION_TEXT } = TASKS_DEFINITIONS[
-      this.requestTemplateId
-    ];
-
-    const { location, detailedDescription, startingDateAndTime, addressText, templateId } = values;
+    const { ID, renderSummaryCard } = TASKS_DEFINITIONS[this.requestTemplateId];
 
     const extrasFields = this.extrasFunc();
     const taskSpecificExtraFormFields = [];
@@ -169,6 +171,8 @@ class GenericRequestForm extends React.Component {
         values.timeOfDay === 'noSelection' || errors.timeOfDay ? 'is-danger' : 'hasSelectedValue';
     }
 
+    const hasAtLeastOneTaskImg = !!values.taskImg1 || !!values.taskImg2 || !!values.taskImg3;
+
     return (
       <React.Fragment>
         <div style={{ borderTop: '2px solid #26ca70' }} className="card limitLargeMaxWidth">
@@ -176,13 +180,48 @@ class GenericRequestForm extends React.Component {
             <form onSubmit={handleSubmit}>
               {renderSummaryCard({ withDetails: false })}
 
+              <input id="templateId" className="input is-invisible" type="hidden" value={ID} />
+
               <input
-                id="recaptcha"
+                id="taskImg1"
                 className="input is-invisible"
                 type="hidden"
-                value={values.recaptcha || ''}
+                value={values.taskImg1 || ''}
               />
-              <input id="templateId" className="input is-invisible" type="hidden" value={ID} />
+              <input
+                id="taskImg2"
+                className="input is-invisible"
+                type="hidden"
+                value={values.taskImg1 || ''}
+              />
+              <input
+                id="taskImg3"
+                className="input is-invisible"
+                type="hidden"
+                value={values.taskImg1 || ''}
+              />
+
+              <div className="group">
+                <label className={`label ${hasAtLeastOneTaskImg ? 'hasSelectedValue' : ''}`}>
+                  Upload Images <span className="has-text-grey-lighter">(Optional)</span>
+                </label>
+
+                <ImageUploaderButton
+                  updateTaskThumbnails={this.updateTaskThumbnails}
+                  fieldId={'taskImg1'}
+                />
+                <Collapse isOpened={hasAtLeastOneTaskImg}>
+                  <ImageUploaderButton
+                    updateTaskThumbnails={this.updateTaskThumbnails}
+                    fieldId={'taskImg2'}
+                  />
+
+                  <ImageUploaderButton
+                    updateTaskThumbnails={this.updateTaskThumbnails}
+                    fieldId={'taskImg3'}
+                  />
+                </Collapse>
+              </div>
 
               <input
                 id="addressText"
@@ -248,13 +287,13 @@ class GenericRequestForm extends React.Component {
               <DateInput
                 id="DateInputField"
                 type="text"
-                label="Date"
+                label="Starting date"
                 onChangeEvent={this.updateDateInputFieldValue}
                 error={errors.startingDateAndTime}
                 touched={touched.startingDateAndTime}
               />
               <div className={`group ${touched.timeOfDay && errors.timeOfDay ? 'isError' : ''}`}>
-                <label className={timeOfDayClass}>{'Time Of Day'}</label>
+                <label className={timeOfDayClass}>{'Approximate Starting time'}</label>
                 <div>
                   <div className={`select ${timeOfDayClass}`}>
                     <select
@@ -267,7 +306,7 @@ class GenericRequestForm extends React.Component {
                       <option value="morning">Morning (8AM-12PM)</option>
                       <option value="afternoon">Afternoon (12PM-5PM)</option>
                       <option value="evening">Evening (5PM-12AM)</option>
-                      <option value="evening">Anytime (8AM-12AM)</option>
+                      <option value="anytime">Anytime (8AM-12AM)</option>
                     </select>
                     {touched.timeOfDay && errors.timeOfDay && (
                       <div className="help is-danger">{errors.timeOfDay}</div>
@@ -306,8 +345,9 @@ class GenericRequestForm extends React.Component {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-
+              <br></br>
               <button
+                type="submit"
                 style={{
                   marginLeft: '1rem',
                   borderRadius: 25,
@@ -317,7 +357,6 @@ class GenericRequestForm extends React.Component {
                   fontWeight: 400,
                   boxShadow: '0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1)',
                 }}
-                type="submit"
                 className={`button is-success is-medium ${isSubmitting ? 'is-loading' : ''}`}
                 disabled={isSubmitting}
               >
@@ -415,10 +454,10 @@ const EnhancedForms = withFormik({
       templateId: Yup.string()
         .ensure()
         .trim()
-        .oneOf(['bdbCarDetailing', 'bdbHouseCleaning'])
+        .oneOf(['bdbCarDetailing', 'bdbHouseCleaning', 'bdbPetSittingWalking'])
         .required('Template Id missing or not recognized, This field is required'),
       startingDateAndTime: Yup.date()
-        .min(moment().add(1, 'day'), '*Tasks Can not be scheduled in the past')
+        .min(moment(), '*Tasks Can not be scheduled in the past')
         .max(moment().add(30, 'd'), '*Tasks can only be scheduled a month in advance')
         .required('* Date Field is required'),
       timeOfDay: Yup.string()
@@ -490,8 +529,10 @@ const EnhancedForms = withFormik({
       ...TASKS_DEFINITIONS[props.requestTemplateId].defaultExtrasValues,
     };
   },
-  handleSubmit: (values, { setSubmitting, props }) => {
+  handleSubmit: async (values, { setSubmitting, props }) => {
+    debugger;
     const { postNewJob } = props;
+    setSubmitting(true);
 
     // process the values to be sent to the server
     const {
@@ -500,8 +541,38 @@ const EnhancedForms = withFormik({
       startingDateAndTime,
       addressText,
       templateId,
+      taskImg1,
+      taskImg2,
+      taskImg3,
       ...extras // everything else
     } = values;
+
+    let userUploadedImages = [];
+    if (!!taskImg1) {
+      userUploadedImages.push(taskImg1);
+    }
+    if (!!taskImg2) {
+      userUploadedImages.push(taskImg2);
+    }
+    if (!!taskImg3) {
+      userUploadedImages.push(taskImg3);
+    }
+
+    let finalImages = [];
+    if (userUploadedImages.length > 0) {
+      try {
+        const { data: resultOfImageUpload } = await uploadTaskImages(userUploadedImages);
+        if (
+          resultOfImageUpload &&
+          resultOfImageUpload.taskImages &&
+          resultOfImageUpload.taskImages.length > 0
+        ) {
+          finalImages = resultOfImageUpload.taskImages;
+        }
+      } catch (e) {
+        console.log('error uploading images');
+      }
+    }
 
     //  offset the location for security
     // https://www.npmjs.com/package/haversine-offset
@@ -532,7 +603,7 @@ const EnhancedForms = withFormik({
       console.log('failed to create location');
     }
 
-    const mappedFieldsToJobSchema = {
+    let mappedFieldsToJobSchema = {
       detailedDescription: detailedDescription,
       location: {
         type: 'Point',
@@ -545,7 +616,15 @@ const EnhancedForms = withFormik({
         ...extras,
       },
     };
-    postNewJob(mappedFieldsToJobSchema);
+
+    if (finalImages) {
+      mappedFieldsToJobSchema = {
+        ...mappedFieldsToJobSchema,
+        taskImages: finalImages,
+      };
+    }
+
+    await postNewJob(mappedFieldsToJobSchema);
 
     setSubmitting(false);
   },
@@ -555,3 +634,103 @@ const EnhancedForms = withFormik({
 export default EnhancedForms(GenericRequestForm);
 
 export const HelpText = ({ helpText }) => (helpText ? <p className="help">{helpText}</p> : null);
+
+const ImageUploaderButton = ({ updateTaskThumbnails, fieldId }) => {
+  const [thumb, setThumb] = useState(null);
+  const [showUploader, setshowUploader] = useState(false);
+
+  return (
+    <div style={{ marginBottom: '1.5rem' }}>
+      {showUploader && (
+        <UploaderComponent
+          thumb={thumb}
+          shouldShow={showUploader}
+          closeDialog={() => setshowUploader(false)}
+          onDoneCropping={(thumb, actualblob) => {
+            setThumb(thumb);
+            setshowUploader(false);
+            updateTaskThumbnails({ fieldId, fieldValue: actualblob });
+          }}
+        />
+      )}
+      <div
+        style={{
+          position: 'relative',
+          height: 100,
+          width: 200,
+          background: '#eeeeee',
+          border: thumb ? '' : '1px dashed #26ca70',
+        }}
+      >
+        {thumb && (
+          <img
+            style={{
+              height: 99,
+              width: 200,
+              border: 'none',
+              objectFit: 'contain',
+              border: '1px solid #eeeeee',
+            }}
+            onClick={() => setshowUploader(true)}
+            src={thumb}
+          />
+        )}
+        <div
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: '0.5rem',
+            height: 20,
+          }}
+        >
+          <button type="button" onClick={() => setshowUploader(true)} className="button is-success">
+            <span>
+              <i className="fa fa-camera" aria-hidden="true" />
+            </span>
+          </button>
+        </div>
+
+        {thumb && (
+          <div
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              right: '0.5rem',
+              height: 20,
+            }}
+          >
+            <button
+              type="button"
+              onClick={() => {
+                setThumb(null);
+                updateTaskThumbnails({ fieldId, fieldValue: '' });
+              }}
+              className="button is-dark"
+            >
+              <span>
+                <i className="far fa-trash-alt" aria-hidden="true" />
+              </span>
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export const uploadTaskImages = (taskImages) => {
+  if (taskImages && taskImages.length > 0) {
+    let data = new FormData();
+
+    taskImages &&
+      taskImages.length > 0 &&
+      taskImages.forEach((file, index) => {
+        data.append('filesToUpload', file, `jobImages+${index}`);
+      });
+    const config = {
+      headers: { 'content-type': 'multipart/form-data' },
+    };
+
+    return axios.post(ROUTES.API.JOB.POST.jobImage, data, config);
+  }
+};

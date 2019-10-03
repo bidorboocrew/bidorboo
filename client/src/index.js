@@ -8,7 +8,6 @@ import bugsnag from '@bugsnag/js';
 import bugsnagReact from '@bugsnag/plugin-react';
 
 import { Provider } from 'react-redux';
-import { StripeProvider } from 'react-stripe-elements';
 
 import App from './containers/App';
 
@@ -19,15 +18,13 @@ import GetNotificationsAndScroll from './GetNotificationsAndScroll';
 import { registerServiceWorker } from './registerServiceWorker';
 
 window.BidorBoo = window.BidorBoo || { SWRegistering: 0 };
-const stripe = window.Stripe ? window.Stripe(`${process.env.REACT_APP_STRIPE_KEY}`) : {};
-window.BidorBoo.stripe = Object.freeze(stripe);
 
-const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_SECRET}`);
-bugsnagClient.use(bugsnagReact, React);
-const ErrorBoundary = bugsnagClient.getPlugin('react');
-ReactDOM.render(
-  <ErrorBoundary>
-    <StripeProvider apiKey={`${process.env.REACT_APP_STRIPE_KEY}`}>
+if (process.env.NODE_ENV === 'production') {
+  const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_SECRET}`);
+  bugsnagClient.use(bugsnagReact, React);
+  const ErrorBoundary = bugsnagClient.getPlugin('react');
+  ReactDOM.render(
+    <ErrorBoundary>
       <Provider store={store}>
         <Router history={appHistory}>
           <GetNotificationsAndScroll>
@@ -35,9 +32,20 @@ ReactDOM.render(
           </GetNotificationsAndScroll>
         </Router>
       </Provider>
-    </StripeProvider>
-  </ErrorBoundary>,
-  document.getElementById('BidOrBoo-app'),
-);
+    </ErrorBoundary>,
+    document.getElementById('BidOrBoo-app'),
+  );
 
-registerServiceWorker(`${process.env.REACT_APP_VAPID_KEY}`, false);
+  registerServiceWorker(`${process.env.REACT_APP_VAPID_KEY}`, false);
+} else {
+  ReactDOM.render(
+    <Provider store={store}>
+      <Router history={appHistory}>
+        <GetNotificationsAndScroll>
+          <App />
+        </GetNotificationsAndScroll>
+      </Router>
+    </Provider>,
+    document.getElementById('BidOrBoo-app'),
+  );
+}

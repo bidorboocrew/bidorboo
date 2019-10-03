@@ -169,13 +169,13 @@ class NotificationSettings extends React.Component {
                 </a>
               </div>
             </div>
-            <a
+            <button
               className="button firstButtonInCard is-success"
               onClick={this.submit}
               disabled={!this.state.areThereChanges}
             >
               Update Settings
-            </a>
+            </button>
           </div>
         </div>
       </div>

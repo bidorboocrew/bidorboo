@@ -13,8 +13,10 @@ const renderTask = (taskDetails) => {
       style={{
         background: 'white',
         borderRadius: 0,
+        height: '100%',
         position: 'relative',
         boxShadow: '0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1)',
+        minHeight: '12rem',
       }}
     >
       {renderSummaryCard && renderSummaryCard({})}

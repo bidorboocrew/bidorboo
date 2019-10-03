@@ -4,6 +4,7 @@ const User = mongoose.model('UserModel');
 const sendGridEmailing = require('../services/sendGrid').EmailService;
 const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
 const moment = require('moment');
+const stripeServiceUtil = require('../services/stripeService').util;
 
 exports.updateStripeAccountRequirementsDetails = ({
   eventId,
@@ -84,7 +85,7 @@ exports.getMyPastRequestedServices = (mongoUser_id) => {
         {
           path: 'jobId',
           select: {
-            'processedPayment.proposerPaid': 1,
+            processedPayment: 1,
             state: 1,
             jobCompletion: 1,
             location: 1,
@@ -127,7 +128,7 @@ exports.getMyPastProvidedServices = (mongoUser_id) => {
         {
           path: 'jobId',
           select: {
-            'processedPayment.bidderPayout': 1,
+            processedPayment: 1,
             state: 1,
             jobCompletion: 1,
             location: 1,
@@ -251,28 +252,48 @@ exports.findByIdAndGetPopulatedBids = (userId) =>
     .lean(true)
     .exec();
 
-exports.findUserAndAllNewNotifications = async (userId) => {
+exports.findUserAndAllNewNotifications = async (mongoUserId) => {
   return new Promise(async (resolve, reject) => {
     try {
       // xxxxx maybe we should notify of canceled by tasker
-      const bidsWithUpdatedStatus = ['WON', 'AWARDED', 'AWARDED_BID_CANCELED_BY_REQUESTER'];
+      const unseenBids = [
+        'AWARDED',
+        'DISPUTED',
+        'AWARDED_BID_CANCELED_BY_TASKER',
+        'AWARDED_BID_CANCELED_BY_REQUESTER',
+      ];
+      const seenBids = ['AWARDED_SEEN'];
 
-      const user = await User.findOne(
-        { userId },
-        {
-          _asBidderReviewsRef: 0,
-          _asProposerReviewsRef: 0,
-          verification: 0,
-          pushSubscription: 0,
-          settings: 0,
-          extras: 0,
-          updatedAt: 0,
-          password: 0,
-        }
-      )
+      const unseenRequests = [
+        'OPEN',
+        'DISPUTED',
+        'AWARDED_BID_CANCELED_BY_TASKER',
+        'AWARDED_BID_CANCELED_BY_REQUESTER',
+      ];
+
+      const user = await User.findById(mongoUserId, {
+        rating: 1,
+        _postedJobsRef: 1,
+        _postedBidsRef: 1,
+        appView: 1,
+        isGmailUser: 1,
+        isFbUser: 1,
+        notifications: 1,
+        rating: 1,
+        userId: 1,
+        email: 1,
+        phone: 1,
+        lastSearch: 1,
+        displayName: 1,
+        profileImage: 1,
+        addressText: 1,
+        personalParagraph: 1,
+        membershipStatus: 1,
+        tos_acceptance: 1,
+      })
         .populate({
           path: '_postedJobsRef',
-          match: { state: { $in: ['OPEN', 'AWARDED', 'AWARDED_JOB_CANCELED_BY_BIDDER'] } },
+          match: { state: { $in: unseenRequests } },
           select: {
             _bidsListRef: 1,
             state: 1,
@@ -284,22 +305,10 @@ exports.findUserAndAllNewNotifications = async (userId) => {
             select: { isNewBid: 1 },
             match: { isNewBid: { $eq: true } },
           },
-          // populate: [
-          //   {
-          //     path: '_bidsListRef',
-          //     select: schemaHelpers.BidFull,
-          //     match: { isNewBid: { $eq: true } },
-          //   },
-          //   // {
-          //   path: '_reviewRef',
-          //   select: { _id: 1 },
-          //   match: { state: { $eq: 'AWAITING' } },
-          // },
-          // ],
         })
         .populate({
           path: '_postedBidsRef',
-          match: { state: { $eq: 'WON' } },
+          match: { state: { $in: [...unseenBids, ...seenBids] } },
           select: { _jobRef: 1 },
           populate: {
             path: '_jobRef',
@@ -309,118 +318,118 @@ exports.findUserAndAllNewNotifications = async (userId) => {
             },
           },
         })
-        .lean({ virtuals: true })
+        .lean()
         .exec();
 
       let z_notify_jobsWithNewBids =
         user._postedJobsRef &&
         user._postedJobsRef.filter((job) => {
-          return job._bidsListRef && job._bidsListRef.length > 0;
+          return job.state === 'OPEN' && job._bidsListRef && job._bidsListRef.length > 0;
         });
 
       let z_notify_myBidsWithNewStatus =
         user._postedBidsRef &&
         user._postedBidsRef.filter((myBid) => {
-          return bidsWithUpdatedStatus.includes(myBid.state);
+          return unseenBids.includes(myBid.state);
         });
 
-      let z_track_workToDo =
-        user._postedBidsRef &&
-        user._postedBidsRef.filter((myBid) => {
-          return myBid.state === 'AWARDED';
-        });
+      // let z_track_workToDo =
+      //   user._postedBidsRef &&
+      //   user._postedBidsRef.filter((myBid) => {
+      //     return myBid.state === 'AWARDED' || myBid.state === 'AWARDED_SEEN';
+      //   });
 
-      let reviewsOnFullfilledJobs =
-        user._postedJobsRef &&
-        user._postedJobsRef.filter((job) => {
-          return job._reviewRef && job._reviewRef;
-        });
-      let reviewsOnFullfilledBids =
-        user._postedBidsRef &&
-        user._postedBidsRef.filter((mybids) => {
-          return mybids._jobRef && mybids._jobRef._reviewRef;
-        });
+      // let reviewsOnFullfilledJobs =
+      //   user._postedJobsRef &&
+      //   user._postedJobsRef.filter((job) => {
+      //     return job._reviewRef && job._reviewRef;
+      //   });
 
-      let z_track_reviewsToBeFilled = [...reviewsOnFullfilledBids, ...reviewsOnFullfilledJobs];
+      // let reviewsOnFullfilledBids =
+      //   user._postedBidsRef &&
+      //   user._postedBidsRef.filter((mybids) => {
+      //     return mybids._jobRef && mybids._jobRef._reviewRef;
+      //   });
 
-      const startOfToday = moment()
-        .tz('America/Toronto')
-        .startOf('day')
-        .toISOString();
+      // let z_track_reviewsToBeFilled = [...reviewsOnFullfilledBids, ...reviewsOnFullfilledJobs];
 
-      const endOfToday = moment()
-        .tz('America/Toronto')
-        .endOf('day')
-        .toISOString();
+      // const startOfToday = moment()
+      //   .tz('America/Toronto')
+      //   .startOf('day')
+      //   .toISOString();
 
-      const z_jobsHappeningToday =
-        user._postedJobsRef &&
-        user._postedJobsRef
-          .filter((job) => {
-            return job.state === 'AWARDED';
-          })
-          .filter((job) => {
-            const jobStartDate = job.startingDateAndTime;
+      // const endOfToday = moment()
+      //   .tz('America/Toronto')
+      //   .endOf('day')
+      //   .toISOString();
 
-            // normalize the start date to the same timezone to comapre
-            const normalizedStartDate = moment(jobStartDate)
-              .tz('America/Toronto')
-              .toISOString();
+      // const z_jobsHappeningToday =
+      //   user._postedJobsRef &&
+      //   user._postedJobsRef
+      //     .filter((job) => {
+      //       return job.state === 'AWARDED';
+      //     })
+      //     .filter((job) => {
+      //       const jobStartDate = job.startingDateAndTime;
 
-            const isJobHappeningAfterToday = moment(normalizedStartDate).isAfter(startOfToday);
-            const isJobHappeningBeforeTomorrow = moment(normalizedStartDate).isSameOrBefore(
-              endOfToday
-            );
-            return isJobHappeningAfterToday && isJobHappeningBeforeTomorrow;
-          });
+      //       // normalize the start date to the same timezone to comapre
+      //       const normalizedStartDate = moment(jobStartDate)
+      //         .tz('America/Toronto')
+      //         .toISOString();
 
-      let z_bidsHappeningToday =
-        user._postedBidsRef &&
-        user._postedBidsRef
-          .filter((myBid) => {
-            return myBid.state === 'WON';
-          })
-          .filter((myBid) => {
-            const referenceJob = myBid._jobRef;
+      //       const isJobHappeningAfterToday = moment(normalizedStartDate).isAfter(startOfToday);
+      //       const isJobHappeningBeforeTomorrow = moment(normalizedStartDate).isSameOrBefore(
+      //         endOfToday
+      //       );
+      //       return isJobHappeningAfterToday && isJobHappeningBeforeTomorrow;
+      //     });
 
-            const jobStartDate = referenceJob.startingDateAndTime;
+      // let z_bidsHappeningToday =
+      //   user._postedBidsRef &&
+      //   user._postedBidsRef
+      //     .filter((myBid) => {
+      //       return myBid.state === 'AWARDED';
+      //     })
+      //     .filter((myBid) => {
+      //       const referenceJob = myBid._jobRef;
 
-            // normalize the start date to the same timezone to comapre
-            const normalizedStartDate = moment(jobStartDate)
-              .tz('America/Toronto')
-              .toISOString();
+      //       const jobStartDate = referenceJob.startingDateAndTime;
 
-            const isJobHappeningAfterToday = moment(normalizedStartDate).isAfter(startOfToday);
-            const isJobHappeningBeforeTomorrow = moment(normalizedStartDate).isSameOrBefore(
-              endOfToday
-            );
-            return isJobHappeningAfterToday && isJobHappeningBeforeTomorrow;
-          });
+      //       // normalize the start date to the same timezone to comapre
+      //       const normalizedStartDate = moment(jobStartDate)
+      //         .tz('America/Toronto')
+      //         .toISOString();
 
+      //       const isJobHappeningAfterToday = moment(normalizedStartDate).isAfter(startOfToday);
+      //       const isJobHappeningBeforeTomorrow = moment(normalizedStartDate).isSameOrBefore(
+      //         endOfToday
+      //       );
+      //       return isJobHappeningAfterToday && isJobHappeningBeforeTomorrow;
+      //     });
+      user._postedBidsRef = [];
+      user._postedJobsRef = [];
       resolve({
         ...user,
         z_notify_jobsWithNewBids,
         z_notify_myBidsWithNewStatus,
-        z_track_reviewsToBeFilled,
-        z_track_workToDo,
-        z_jobsHappeningToday,
-        z_bidsHappeningToday,
+        // z_track_reviewsToBeFilled,
+        // z_track_workToDo,
+        // z_jobsHappeningToday,
+        // z_bidsHappeningToday,
       });
     } catch (e) {
       reject(e);
     }
   });
 };
-exports.findUserImgDetails = (userId) =>
-  User.findOne({ userId }, { profileImage: 1 })
+exports.findUserImgDetails = (userId) => {
+  return User.findOne({ userId }, { profileImage: 1 })
     .lean(true)
     .exec();
-
+};
 exports.resetAndSendPhoneVerificationPin = (userId, phoneNumber) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let phoneVerificationCode = Math.floor(100000 + Math.random() * 900000);
-
       // updte user with this new info
       const updatedUser = await User.findOneAndUpdate(
         { userId },
@@ -429,9 +438,6 @@ exports.resetAndSendPhoneVerificationPin = (userId, phoneNumber) => {
             phone: {
               phoneNumber: phoneNumber,
               isVerified: false,
-            },
-            'verification.phone': {
-              [`${phoneVerificationCode}`]: `${phoneNumber}`,
             },
           },
         },
@@ -442,10 +448,7 @@ exports.resetAndSendPhoneVerificationPin = (userId, phoneNumber) => {
         .lean(true)
         .exec();
 
-      sendTextService.sendPhoneVerificationText(
-        updatedUser.phone.phoneNumber,
-        phoneVerificationCode
-      );
+      sendTextService.verifyPhone(updatedUser.phone.phoneNumber);
       resolve({ success: true, updatedUser: updatedUser });
     } catch (e) {
       reject({ error: e, success: true });
@@ -477,13 +480,12 @@ exports.resetAndSendEmailVerificationCode = (userId, emailAddress) => {
         .lean(true)
         .exec();
 
-      if (updatedUser && updatedUser.notifications && updatedUser.notifications.email) {
-        sendGridEmailing.sendEmailVerificationCode({
-          to: `${updatedUser.email.emailAddress}`,
-          emailVerificationCode,
-          toDisplayName: `${updatedUser.displayName}`,
-        });
-      }
+      sendGridEmailing.sendEmailVerificationCode({
+        to: `${updatedUser.email.emailAddress}`,
+        emailVerificationCode,
+        toDisplayName: `${updatedUser.displayName}`,
+      });
+
       resolve({ success: true });
     } catch (e) {
       reject({ error: e, success: false });
@@ -494,11 +496,17 @@ exports.resetAndSendEmailVerificationCode = (userId, emailAddress) => {
 exports.createNewUser = async (userDetails) => {
   return new Promise(async (resolve, reject) => {
     try {
+      const { id } = await stripeServiceUtil.initializeCustomer({
+        email: userDetails.email.emailAddress,
+        name: userDetails.displayName,
+      });
+
       const newUser = await new User({
         ...userDetails,
+        stripeCustomerAccId: id,
       }).save();
 
-      if (newUser.email.emailAddress) {
+      if (newUser.email.emailAddress && !newUser.email.isVerified) {
         this.resetAndSendEmailVerificationCode(newUser.userId, newUser.email.emailAddress);
       }
 

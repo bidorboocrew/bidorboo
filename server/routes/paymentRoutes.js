@@ -1,11 +1,12 @@
 const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
-const requiresCheckPayBidderDetails = require('../middleware/requiresCheckPayBidderDetails');
+// const requiresCheckPayBidderDetails = require('../middleware/requiresCheckPayBidderDetails');
 const requireJobOwner = require('../middleware/requireJobOwner');
+const requireNoPaymentProcessedForThisJobBefore = require('../middleware/requireNoPaymentProcessedForThisJobBefore');
+
 const requireJobIsNotAwarded = require('../middleware/requireJobIsNotAwarded');
 const userDataAccess = require('../data-access/userDataAccess');
-const requirePassesRecaptcha = require('../middleware/requirePassesRecaptcha');
 
 const sendGridEmailing = require('../services/sendGrid').EmailService;
 const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
@@ -13,10 +14,12 @@ const WebPushNotifications = require('../services/WebPushNotifications').WebPush
 
 const stripeServiceUtil = require('../services/stripeService').util;
 const requireUserHasAStripeAccountOrInitalizeOne = require('../middleware/requireUserHasAStripeAccountOrInitalizeOne');
-// const requireHasAnExistingStripeAcc = require('../middleware/requireHasAnExistingStripeAcc');
 
-const { paymentDataAccess } = require('../data-access/paymentDataAccess');
+// const { paymentDataAccess } = require('../data-access/paymentDataAccess');
 const { jobDataAccess } = require('../data-access/jobDataAccess');
+const { bidDataAccess } = require('../data-access/bidDataAccess');
+
+const { getChargeDistributionDetails } = require('../utils/chargesCalculatorUtil');
 
 const getAllContactDetails = require('../utils/commonDataUtils')
   .getAwardedJobOwnerBidderAndRelevantNotificationDetails;
@@ -26,171 +29,118 @@ const keys = require('../config/keys');
 module.exports = (app) => {
   app.post(
     ROUTES.API.PAYMENT.POST.payment,
-    requireBidorBooHost,
     requireLogin,
-    requirePassesRecaptcha,
     requireJobOwner,
-    requireJobIsNotAwarded,
-    requiresCheckPayBidderDetails,
-    async (req, res) => {
+    // requireJobIsNotAwarded,
+    requireNoPaymentProcessedForThisJobBefore,
+    // requiresCheckPayBidderDetails,
+    async (req, res, next) => {
       try {
-        const { stripeTransactionToken, chargeAmount } = req.body.data;
-        // requiresPayBidderCheck will ensure we are setup
-        const { _jobRef, _id, _bidderRef, bidAmount } = res.locals.bidOrBooPayBider.theBid;
+        const mongoUser_id = req.user._id.toString();
 
-        let stripeAccDetails = await userDataAccess.getUserStripeAccount(_bidderRef._id.toString());
+        const { jobId, bidId } = req.body.data;
 
-        if (stripeAccDetails.accId) {
-          /**
-           * chargeAmount already includes the 6% charged to the end user
-           * so we need to do :
-           * BidOrBoo charges proposer 6%
-           * BidOrBoo charges Bidder 4%
-           *
-           * chargeAmount passed in includes the 6% charge on the proposer
-           *
-           */
-          console.log('BidOrBooPayment - started');
-          const originalBidAmount = bidAmount.value * 100;
+        const theBid = await bidDataAccess.getBidById(bidId);
+        const theJob = await jobDataAccess.getJobWithOwnerDetails(jobId);
 
-          const bidOrBooChargeOnBidder = Math.ceil(originalBidAmount * 0.04);
-          const bidOrBooChargeOnProposer = chargeAmount - originalBidAmount; //100 as we expect in cents
-          const bidOrBooTotalCommission = bidOrBooChargeOnBidder + bidOrBooChargeOnProposer;
-
-          const bidderPayoutAmount = chargeAmount - bidOrBooTotalCommission;
-
-          const description = `BidOrBoo - Charge for your ${
-            _jobRef.templateId
-          } request was recieved.`;
-
-          console.log('-------BidOrBooLogging----------------------');
-          console.log('BidOrBooPayment - initiated charge details');
-          console.log('BidOrBooPayment - BidOrBoo Fees ' + bidOrBooTotalCommission);
-          console.log({
-            bidOrBooChargeOnBidder,
-            bidOrBooChargeOnProposer,
-            bidOrBooTotalCommission,
-            bidderId: _bidderRef._id.toString(),
-            bidderEmail: _bidderRef.email.emailAddress,
-            proposerId: req.user._id.toString(),
-            proposerEmail: _jobRef._ownerRef.email.emailAddress,
-            jobId: _jobRef._id.toString(),
-            bidId: _id.toString(),
-            note: `Requester Paid for  ${_jobRef.templateId}`,
-          });
-          console.log('-------BidOrBooLogging----------------------');
-          const charge = await stripeServiceUtil.processDestinationCharge({
-            statement_descriptor: 'BidOrBoo Charge',
-            amount: chargeAmount,
-            currency: 'CAD',
-            description,
-            receipt_email: _jobRef._ownerRef.email.emailAddress,
-            source: stripeTransactionToken,
-            // application_fee_amount: bidOrBooTotalCommission,
-            transfer_data: {
-              amount: bidderPayoutAmount, // the final # sent to awarded bidder
-              destination: stripeAccDetails.accId,
-            },
-            metadata: {
-              bidderId: _bidderRef._id.toString(),
-              bidderEmail: _bidderRef.email.emailAddress,
-              proposerId: req.user._id.toString(),
-              proposerEmail: _jobRef._ownerRef.email.emailAddress,
-              jobId: _jobRef._id.toString(),
-              bidId: _id.toString(),
-              note: `Requester Paid for  ${_jobRef.templateId}`,
-            },
-          });
-
-          if (charge && charge.status === 'succeeded') {
-            console.log('-------BidOrBooLogging----------------------');
-            console.log('BidOrBooPayment - charge Succeeded');
-            console.log('-------BidOrBooLogging----------------------');
-            // update the job and bidder with the chosen awarded bid
-            const updateJobAndBid = await jobDataAccess.updateJobAwardedBid(
-              _jobRef._id.toString(),
-              _id.toString(),
-              {
-                paymentSourceId: stripeTransactionToken,
-                amount: charge.amount,
-                chargeId: charge.id,
-                bidderPayout: bidderPayoutAmount,
-                platformCharge: bidOrBooTotalCommission,
-                proposerPaid: chargeAmount,
-                bidderStripeAcc: stripeAccDetails.accId,
-              }
-            );
-
-            const {
-              requesterDisplayName,
-              taskerDisplayName,
-              jobDisplayName,
-              requestLinkForRequester,
-              requestLinkForTasker,
-              requesterEmailAddress,
-              taskerEmailAddress,
-              taskerPhoneNumber,
-              allowedToEmailRequester,
-              allowedToEmailTasker,
-              allowedToTextTasker,
-              allowedToPushNotifyTasker,
-              taskerPushNotSubscription,
-            } = await getAllContactDetails(_jobRef._id);
-
-            if (allowedToEmailRequester) {
-              sendGridEmailing.tellRequesterThanksforPaymentAndTaskerIsRevealed({
-                to: requesterEmailAddress,
-                requestTitle: jobDisplayName,
-                toDisplayName: requesterDisplayName,
-                linkForOwner: requestLinkForRequester,
-              });
-            }
-            if (allowedToEmailTasker) {
-              sendGridEmailing.tellTaskerThatTheyWereAwarded({
-                to: taskerEmailAddress,
-                requestTitle: jobDisplayName,
-                toDisplayName: taskerDisplayName,
-                linkForBidder: requestLinkForTasker,
-              });
-            }
-
-            if (allowedToTextTasker) {
-              sendTextService.sendJobIsAwardedText(
-                taskerPhoneNumber,
-                jobDisplayName,
-                requestLinkForTasker
-              );
-            }
-
-            if (allowedToPushNotifyTasker) {
-              WebPushNotifications.pushYouAreAwarded(taskerPushNotSubscription, {
-                taskerDisplayName: taskerDisplayName,
-                urlToLaunch: requestLinkForTasker,
-              });
-            }
-
-            res.send({ success: true });
-          }
-        } else {
-          return res.status(400).send({
-            errorMsg: 'Did Not Process the payment. Could not locate the bidder Account info',
+        if (!theBid || !theBid._id || !theJob || !theJob._id) {
+          return res.status(403).send({
+            errorMsg:
+              "Couldn't locate the job and corresponding Bid. Your card was NOT charged, reload the page and try again.",
           });
         }
+
+        const { _bidderRef, bidAmount } = theBid;
+        const {
+          email: bidderEmailObject,
+          _id: bidderIdObject,
+          userId: bidderUserId,
+          displayName: bidderDisplayName,
+        } = _bidderRef;
+        const bidderEmail = bidderEmailObject.emailAddress;
+        const bidderId = bidderIdObject.toString();
+
+        const requesterEmail = theJob._ownerRef.email.emailAddress;
+        const requesterId = theJob._ownerRef._id.toString();
+        const requesterCustomerId = theJob._ownerRef.stripeCustomerAccId;
+        const taskImages =
+          theJob.taskImages && theJob.taskImages.length > 0
+            ? theJob.taskImages.map((image) => image.url)
+            : [];
+
+        // confirm award and pay
+        const { requesterTotalPayment, bidOrBooPlatformFee } = getChargeDistributionDetails(
+          bidAmount.value
+        );
+
+        let stripeAccDetails = await userDataAccess.getUserStripeAccount(bidderId);
+
+        if (!stripeAccDetails.accId) {
+          // user does not have a stripe account , we must establish one
+          const newStripeConnectAcc = await stripeServiceUtil.initializeConnectedAccount({
+            _id: bidderId,
+            userId: bidderUserId,
+            displayName: bidderDisplayName,
+            email: bidderEmail,
+          });
+          if (newStripeConnectAcc.id) {
+            const updateUser = await userDataAccess.findByUserIdAndUpdate(bidderUserId, {
+              stripeConnect: {
+                accId: newStripeConnectAcc.id,
+              },
+            });
+            stripeAccDetails = updateUser.stripeConnect;
+          } else {
+            return res.status(400).send({
+              errorMsg:
+                'The bidder does not have a stripe accoutn with us. Sorry we can not process yoru payment for this bidder',
+            });
+          }
+        }
+
+        if (stripeAccDetails.accId) {
+          console.log('BIDORBOOLOGGING - PAYMENT - process charge');
+          const { id: sessionClientId } = await stripeServiceUtil.createChargeForSessionId({
+            taskImages,
+            metadata: {
+              bidderId,
+              bidderEmail,
+              proposerId: req.user._id.toString(),
+              requesterEmail,
+              jobId,
+              bidId,
+              note: `Requester Paid for ${theJob.displayTitle || theJob.templateId}`,
+            },
+            taskId: jobId,
+            taskName: theJob.displayTitle || theJob.templateId,
+            requesterEmail,
+            totalCharge: requesterTotalPayment,
+            bidOrBooServiceFee: bidOrBooPlatformFee,
+            requesterId,
+            taskerAccId: stripeAccDetails.accId,
+            requesterCustomerId,
+          });
+
+          await jobDataAccess.updateLatestCheckoutSession(jobId, mongoUser_id, sessionClientId);
+
+          return res.status(200).send({ sessionClientId });
+        }
       } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To create charge', details: `${e}` });
+        e.safeMsg = "We couldn't confirm the charge details. NO charge was applied to your card";
+        next(e);
       }
     }
   );
 
-  app.get(ROUTES.API.PAYMENT.GET.payment, requireBidorBooHost, requireLogin, async (req, res) => {
-    try {
-      const paymentsDetails = await paymentDataAccess.getAllPaymentsDetails();
+  // app.get(ROUTES.API.PAYMENT.GET.payment, requireLogin, async (req, res) => {
+  //   try {
+  //     const paymentsDetails = await paymentDataAccess.getAllPaymentsDetails();
 
-      res.send({ paymentsDetails: paymentsDetails });
-    } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To create charge', details: `${e}` });
-    }
-  });
+  //     res.send({ paymentsDetails });
+  //   } catch (e) {
+  //     return res.status(400).send({ errorMsg: 'Failed To create charge', details: `${e}` });
+  //   }
+  // });
 
   app.put(
     ROUTES.API.PAYMENT.PUT.setupPaymentDetails,
@@ -273,12 +223,12 @@ module.exports = (app) => {
       }
     }
   );
-  /**
-   * user verification
-   * verification issues with image
-   * https://stripe.com/docs/connect/payouts#using-manual-payouts
-   */
-  //xxxx
+  // /**
+  //  * user verification
+  //  * verification issues with image
+  //  * https://stripe.com/docs/connect/payouts#using-manual-payouts
+  //  */
+  // //xxxx
   app.post(ROUTES.API.PAYMENT.POST.connectedAccountsWebhook, async (req, res, next) => {
     try {
       console.log('-------BidOrBooLogging----------------------');
@@ -357,7 +307,7 @@ module.exports = (app) => {
             jobDataAccess.updateJobById(jobId, {
               $set: {
                 state: 'ARCHIVE',
-                'payoutDetails.status': status,
+                'payoutDetails.status': { status, id },
               },
             });
             //xxx inform user that it is paid via msg email..etc
@@ -368,7 +318,7 @@ module.exports = (app) => {
             jobDataAccess.updateJobById(jobId, {
               $set: {
                 state: 'PAYMENT_TO_BANK_FAILED',
-                'payoutDetails.status': status,
+                'payoutDetails.status': { status, id },
               },
             });
             sendGridEmailing.informBobCrewAboutFailedPayment({ jobId, data });
@@ -376,6 +326,145 @@ module.exports = (app) => {
         }
       }
       return res.status(200).send();
+    } catch (e) {
+      return res.status(400).send({ errorMsg: 'payoutsWebhook failured', details: `${e}` });
+    }
+  });
+
+  app.post(ROUTES.API.PAYMENT.POST.chargeSucceededWebhook, async (req, res, next) => {
+    try {
+      console.log('chargesucceeded is triggered');
+
+      // sign key by strip
+      let endpointSecret = keys.stripeWebhookChargesSig;
+      let sig = req.headers['stripe-signature'];
+      let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
+      if (event) {
+        const {
+          data: { object: chargeObject },
+        } = event;
+
+        const {
+          id: chargeId,
+          captured,
+          paid,
+          application_fee_amount: applicationFeeAmount,
+          amount,
+          payment_intent: paymentIntentId,
+          payment_method: paymentMethodId,
+          destination: destinationStripeAcc,
+          metadata: { bidId, jobId },
+        } = chargeObject;
+
+        if (!captured || !paid) {
+          return res.status(400).send('charge not captured');
+        }
+
+        console.log('BIDORBOOLOGGING - PAYMENT - process charge');
+
+        const theJob = await jobDataAccess.getJobById(jobId);
+
+        if (theJob && theJob.processedPayment && theJob.processedPayment.chargeId) {
+          // we already reported this , dont do anything
+          return res.status(200).send();
+        }
+        // console.log('-------BidOrBooLogging----------------------');
+        // console.log('BidOrBooPayment - charge Succeeded');
+        // console.log('-------BidOrBooLogging----------------------');
+        // update the job and bidder with the chosen awarded bid
+        await jobDataAccess.updateJobWithAwardedBidAndPaymentDetails(jobId, bidId, {
+          amount,
+          chargeId,
+          applicationFeeAmount,
+          destinationStripeAcc,
+          paymentIntentId,
+          paymentMethodId,
+        });
+        const {
+          requesterDisplayName,
+          taskerDisplayName,
+          jobDisplayName,
+          requestLinkForRequester,
+          requestLinkForTasker,
+          requesterEmailAddress,
+          taskerEmailAddress,
+          taskerPhoneNumber,
+          allowedToEmailRequester,
+          allowedToEmailTasker,
+          allowedToTextTasker,
+          allowedToPushNotifyTasker,
+          taskerPushNotSubscription,
+        } = await getAllContactDetails(jobId);
+        if (allowedToEmailRequester) {
+          sendGridEmailing.tellRequesterThanksforPaymentAndTaskerIsRevealed({
+            to: requesterEmailAddress,
+            requestTitle: jobDisplayName,
+            toDisplayName: requesterDisplayName,
+            linkForOwner: requestLinkForRequester,
+          });
+        }
+        if (allowedToEmailTasker) {
+          sendGridEmailing.tellTaskerThatTheyWereAwarded({
+            to: taskerEmailAddress,
+            requestTitle: jobDisplayName,
+            toDisplayName: taskerDisplayName,
+            linkForBidder: requestLinkForTasker,
+          });
+        }
+        if (allowedToTextTasker) {
+          sendTextService.sendJobIsAwardedText(
+            taskerPhoneNumber,
+            jobDisplayName,
+            requestLinkForTasker
+          );
+        }
+        if (allowedToPushNotifyTasker) {
+          WebPushNotifications.pushYouAreAwarded(taskerPushNotSubscription, {
+            taskerDisplayName: taskerDisplayName,
+            urlToLaunch: requestLinkForTasker,
+          });
+        }
+      }
+      return res.status(200).send();
+    } catch (e) {
+      return res.status(400).send({ errorMsg: 'chargesucceeded failured', details: `${e}` });
+    }
+  });
+
+  app.post(ROUTES.API.PAYMENT.POST.checkoutFulfillment, async (req, res, next) => {
+    try {
+      return res.status(200).send();
+      // console.log('payoutsWebhook is triggered');
+
+      // // sign key by strip
+      // let endpointSecret = keys.stripeWebhookSessionSig;
+      // let sig = req.headers['stripe-signature'];
+      // let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
+
+      // if (event) {
+      //   const { type } = event;
+
+      //   // update customer card with card in this
+      //   // update address
+      //   if (type === 'checkout.session.completed') {
+      //     const session = event.data.object;
+      //     const { payment_intent } = session;
+      //     const paymentIntentDetails = await stripeServiceUtil.getPaymentIntents(payment_intent);
+      //     const { metadata, id } = paymentIntentDetails;
+
+      //     const { jobId, bidId, amount } = metadata;
+
+      //     const updateJobAndBid = await jobDataAccess.updateJobAwardedBid(jobId, bidId, {
+      //       paymentIntentId: id,
+      //       amount,
+      //     });
+
+      //     return res.status(200).send();
+      //   }
+      // }
+      // return res.status(400).send({
+      //   safeMsg: 'something went wrong handling payment, our crew wil be in touch with you',
+      // });
     } catch (e) {
       return res.status(400).send({ errorMsg: 'payoutsWebhook failured', details: `${e}` });
     }
