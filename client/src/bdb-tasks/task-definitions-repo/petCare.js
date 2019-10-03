@@ -3,7 +3,7 @@ import TextareaAutosize from 'react-autosize-textarea';
 
 import * as Yup from 'yup';
 import dogWalking_img from '../../assets/images/dogWalking_img.png';
-import { TextAreaInput } from '../../components/forms/FormsHelpers';
+import { TextAreaInput, TextInput } from '../../components/forms/FormsHelpers';
 
 export default {
   ID: 'bdbPetSittingWalking',
@@ -39,7 +39,7 @@ export default {
       .ensure()
       .trim()
       .min(3, 'must be minimum 3 chars, examples : 3hours, 1 day , 3 months')
-      .min(30, 'can not be more than 30 characthers , examples : 3hours, 1 day , 3 months')
+      .max(30, 'can not be more than 30 characthers , examples : 3hours, 1 day , 3 months')
       .required('*Please select the duration of the service required'),
     dietaryRestrictions: Yup.string()
       .ensure()
@@ -125,25 +125,17 @@ export default {
           }
           return (
             <React.Fragment key={'extras-duration'}>
-              <div className={`group ${isTouched && errors.duration ? 'isError' : ''}`}>
-                <label className={durationClass}>{'Service duration'}</label>
-                <div>
-                  <input
-                    className={`input ${durationClass} `}
-                    id="duration"
-                    value={values.duration}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    placeholder="for example: 3 hours , 3 days , 1 week ..etc"
-                  />
-                  {isTouched && errors.duration && (
-                    <div className="help is-danger">{errors.duration}</div>
-                  )}
-                  <div className="help">
-                    How long do you need the Tasker to take care of your pet?
-                  </div>
-                </div>
-              </div>
+              <TextInput
+                id="duration"
+                type="text"
+                label="Service duration"
+                helpText="How long do you need the Tasker to take care of your pet?"
+                placeholder={'for example: 3 hours , 3 days , 1 week , until 1/10/2021 ..,etc'}
+                error={touched.duration && errors.duration}
+                value={values.duration || ''}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
             </React.Fragment>
           );
         },

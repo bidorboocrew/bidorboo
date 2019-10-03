@@ -26,6 +26,7 @@ export default class DatePickerInput extends React.Component {
   }
 
   handleChange = (date) => {
+    debugger;
     const dateWithTimeZone = moment.utc(date);
     this.setState({
       selectedDate: dateWithTimeZone.toDate(),
@@ -39,9 +40,9 @@ export default class DatePickerInput extends React.Component {
     const { selectedDate } = this.state;
 
     let dateClass = '';
-
-    if (!!selectedDate && selectedDate.toDate) {
-      dateClass = selectedDate.toDate && !error ? 'hasSelectedValue' : 'is-danger';
+    debugger;
+    if (!!selectedDate) {
+      dateClass = selectedDate && !error ? 'hasSelectedValue' : 'is-danger';
     }
     if (touched && error) {
       dateClass = 'is-danger';
@@ -55,7 +56,9 @@ export default class DatePickerInput extends React.Component {
             selected={selectedDate}
             onChange={this.handleChange}
             minDate={this.minDate}
-            maxDate={moment().add(30, 'd').toDate()}
+            maxDate={moment()
+              .add(30, 'd')
+              .toDate()}
             disabledKeyboardNavigation
             customInput={<CustomDateButton />}
             placeholderText="Select a date..."
