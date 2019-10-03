@@ -109,20 +109,13 @@ export default {
   },
   extrasValidation: function(values) {
     let errors = {};
-    if (!values.effort || values.effort === 'noSelection') {
-      errors.effort = 'Please select the required effort';
-    }
+
     return errors;
   },
   extras: function() {
     return {
       duration: {
         renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
-          let durationClass = '';
-          let isTouched = touched && touched.duration;
-          if (isTouched) {
-            durationClass = values.duration === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
-          }
           return (
             <React.Fragment key={'extras-duration'}>
               <TextInput

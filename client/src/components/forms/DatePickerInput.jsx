@@ -26,7 +26,6 @@ export default class DatePickerInput extends React.Component {
   }
 
   handleChange = (date) => {
-    debugger;
     const dateWithTimeZone = moment.utc(date);
     this.setState({
       selectedDate: dateWithTimeZone.toDate(),
@@ -40,7 +39,6 @@ export default class DatePickerInput extends React.Component {
     const { selectedDate } = this.state;
 
     let dateClass = '';
-    debugger;
     if (!!selectedDate) {
       dateClass = selectedDate && !error ? 'hasSelectedValue' : 'is-danger';
     }
@@ -66,7 +64,11 @@ export default class DatePickerInput extends React.Component {
           />
         </div>
         {helpText && <p className="help">{helpText}</p>}
-        {touched && error && <p className="help is-danger">{error}</p>}
+        {touched && error && (
+          <div style={{ fontWeight: 500 }} className="help is-danger">
+            {error}
+          </div>
+        )}
       </div>
     );
   }

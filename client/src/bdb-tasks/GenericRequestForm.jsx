@@ -156,7 +156,6 @@ class GenericRequestForm extends React.Component {
       handleSubmit,
       handleBlur,
     } = this.props;
-
     const { ID, renderSummaryCard } = TASKS_DEFINITIONS[this.requestTemplateId];
 
     const extrasFields = this.extrasFunc();
@@ -346,7 +345,7 @@ class GenericRequestForm extends React.Component {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-
+              <br></br>
               <button
                 type="submit"
                 style={{
@@ -531,6 +530,7 @@ const EnhancedForms = withFormik({
     };
   },
   handleSubmit: async (values, { setSubmitting, props }) => {
+    debugger;
     const { postNewJob } = props;
     setSubmitting(true);
 

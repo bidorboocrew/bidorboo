@@ -90,9 +90,9 @@ export default {
   },
   extrasValidation: function(values) {
     let errors = {};
-    if (!values.effort || values.effort === 'noSelection') {
-      errors.effort = 'Please select the required effort';
-    }
+    // if (!values.effort || values.effort === 'noSelection') {
+    //   errors.effort = 'Please select the required effort';
+    // }
     return errors;
   },
   extras: function() {

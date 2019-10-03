@@ -4,7 +4,12 @@ import DatePickerInput from '../forms/DatePickerInput';
 // import moment from 'moment';
 import TimePickerInput from '../forms/TimePickerInput';
 
-const InputFeedback = ({ error }) => (error ? <p className="help is-danger">{error}</p> : null);
+const InputFeedback = ({ error }) =>
+  error ? (
+    <div style={{ fontWeight: 500 }} className="help is-danger">
+      {error}
+    </div>
+  ) : null;
 
 const Label = ({ error, labelClassName, children, id, ...props }) => {
   return (
@@ -103,7 +108,7 @@ export const TextInput = ({
         />
       </div>
       <HelpText helpText={helpText} />
-      {touched && id && touched[id] && error && <InputFeedback error={error} />}
+      {error && <InputFeedback error={error} />}
     </div>
   );
 };
