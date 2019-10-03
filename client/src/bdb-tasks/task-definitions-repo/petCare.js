@@ -17,13 +17,33 @@ export default {
 `,
   defaultExtrasValues: {
     effort: 'noSelection',
+    isRequesterHosting: 'noSelection',
+    requiresWalking: 'noSelection',
+    dietaryRestrictions: '',
   },
   extraValidationSchema: {
+    isRequesterHosting: Yup.string()
+      .ensure()
+      .trim()
+      .oneOf(
+        ['ownersPlace', 'taskersPlace', 'decideLater'],
+        '*Please select an option from the drop down',
+      )
+      .required('*Please select where will the pet stay during the service required'),
+    requiresWalking: Yup.string()
+      .ensure()
+      .trim()
+      .oneOf(['yes', 'no'], '*Please select an option from the drop down')
+      .required('*Please select whether or not the pet requires outdoor walking'),
     effort: Yup.string()
       .ensure()
       .trim()
       .oneOf(['small', 'medium', 'large'], '*Please select an option from the drop down')
       .required('*Please select the effort required'),
+    dietaryRestrictions: Yup.string()
+      .ensure()
+      .trim()
+      .max(200, 'can not be more than 200 charachters'),
   },
 
   renderThankYouForPostingMoment: function(setShowModal) {
@@ -105,8 +125,17 @@ export default {
           }
           return (
             <React.Fragment key={'extras-isRequesterHosting'}>
-              <div className={`group ${isTouched && errors.isRequesterHosting ? 'isError' : ''}`}>
-                <label className={isRequesterHostingClass}>Where will the pet stay?</label>
+              <div
+                className={`group ${isTouched && errors.isRequesterHosting ? 'isError' : ''} ${
+                  values.isRequesterHosting === 'ownersPlace' ||
+                  values.isRequesterHosting === 'taskersPlace'
+                    ? 'isHelp'
+                    : ''
+                }`}
+              >
+                <label className={isRequesterHostingClass}>
+                  Where will the pet stay during this service?
+                </label>
                 <div>
                   <div id="isRequesterHosting" className={`select ${isRequesterHostingClass} `}>
                     <select
@@ -116,13 +145,20 @@ export default {
                       onBlur={handleBlur}
                     >
                       <option value="noSelection">-Select One-</option>
-                      <option value="notNecessary">{`No overnight stay is required`}</option>
-                      <option value="yes">{`Owner's Place - Tasker will come and stay at my place`}</option>
-                      <option value="no">{`Tasker's Place - I will drop the pet at the tasker place`}</option>
-                      <option value="decideLater">{`Not Sure - will decide together later`}</option>
+                      <option value="ownersPlace">{`At My place`}</option>
+                      <option value="taskersPlace">{`At Tasker's place`}</option>
+                      <option value="decideLater">{`Unsure - decide later`}</option>
                     </select>
                     {isTouched && errors.isRequesterHosting && (
                       <div className="help is-danger">{errors.isRequesterHosting}</div>
+                    )}
+                    {values.isRequesterHosting === 'ownersPlace' && (
+                      <div className="help">
+                        Tasker will come to your home and take care/check on the pet
+                      </div>
+                    )}
+                    {values.isRequesterHosting === 'taskersPlace' && (
+                      <div className="help">Your pet will be in the caring home of our Tasker</div>
                     )}
                   </div>
                 </div>
@@ -132,24 +168,36 @@ export default {
         },
         renderSelection: (isRequesterHosting) => {
           let selectedValue = null;
+          let helperText = null;
           switch (isRequesterHosting) {
-            case 'notNecessary':
-              selectedValue = 'No overnight stay is required';
+            case 'ownersPlace':
+              selectedValue = `Owner's Place`;
+              helperText = (
+                <div className="help">
+                  Tasker expected to go to the pet owner's home and take care/check on the pet
+                  regularly for the duration of the service.
+                </div>
+              );
               break;
-            case 'yes':
-              selectedValue = `Owner's Place - Tasker will stay with the pet at the owner's place`;
-              break;
-            case 'no':
+            case 'taskersPlace':
               selectedValue = `Tasker's Place - Owner will drop the pet at the tasker's place`;
+              helperText = (
+                <div className="help">
+                  The pet will be in the caring <strong>home of the Tasker</strong> for the duration
+                  of the service.
+                </div>
+              );
               break;
             case 'decideLater':
-              selectedValue = 'Unsure - Tasker and Owner can decide later';
+              selectedValue =
+                'The Owner and Tasker should be willing to have the service take place in thier homes and will decide later after the task is awarded';
               break;
           }
           return (
             <div key={'extras-isRequesterHosting'} className="group">
               <label className="label hasSelectedValue">Where will the pet stay?</label>
               <div className="control">{selectedValue}</div>
+              {helperText}
             </div>
           );
         },
@@ -219,7 +267,7 @@ export default {
           return (
             <React.Fragment key={'extras-requiresWalking'}>
               <div className={`group ${isTouched && errors.requiresWalking ? 'isError' : ''}`}>
-                <label className={requiresWalkingClass}>{'Requires outdoor walk/play ?'}</label>
+                <label className={requiresWalkingClass}>{'does the pet need outdoor walks?'}</label>
                 <div>
                   <div id="requiresWalking" className={`select ${requiresWalkingClass} `}>
                     <select
@@ -229,8 +277,8 @@ export default {
                       onBlur={handleBlur}
                     >
                       <option value="noSelection">-Select One-</option>
-                      <option value="yes">{`Yes - it is required`}</option>
-                      <option value="no">{`No - indoor only`}</option>
+                      <option value="yes">{`Yes`}</option>
+                      <option value="no">{`No`}</option>
                     </select>
                     {isTouched && errors.requiresWalking && (
                       <div className="help is-danger">{errors.requiresWalking}</div>
@@ -245,15 +293,15 @@ export default {
           let selectedValue = null;
           switch (requiresWalking) {
             case 'yes':
-              selectedValue = 'Requires walk/play outdoors';
+              selectedValue = 'Yes - requires outdoor walk/play';
               break;
             case 'no':
-              selectedValue = 'Pet stays indoors';
+              selectedValue = 'No - The pet stays indoors';
               break;
           }
           return (
             <div key={'extras-requiresWalking'} className="group">
-              <label className="label hasSelectedValue">Requires outdoor walk/play?</label>
+              <label className="label hasSelectedValue">Can the pet go outdoors?</label>
               <div className="control">{selectedValue}</div>
             </div>
           );
@@ -264,9 +312,9 @@ export default {
           return (
             <React.Fragment key={'extras-dietryRestrictions'}>
               <TextAreaInput
-                id="dietryRestrictions"
+                id="dietaryRestrictions"
                 type="text"
-                label="any dietary/medical needs?"
+                label="Any dietary/medical/special needs?"
                 helpText="you can say no if your pet doesn't need any"
                 placeholder={'enter any dietry restrictions or medical needs your pet'}
                 error={touched.dietaryRestrictions && errors.dietaryRestrictions}

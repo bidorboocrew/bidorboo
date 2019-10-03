@@ -920,6 +920,9 @@ $trans-time: 300ms;
       border-bottom: 1px solid $red;
     }
   }
+  &.isHelp {
+    margin-bottom: 3rem;
+  }
   > label {
     color: #26ca70;
     font-size: 14px;
