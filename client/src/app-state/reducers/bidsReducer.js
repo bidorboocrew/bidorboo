@@ -23,6 +23,7 @@ const allMyPostedBids = {
   isPending: (state = initialState) => ({
     ...state,
     isLoadingBids: true,
+    openBidsList: [],
   }),
   isFullfilled: (state = initialState, { payload }) => {
     if (payload) {
@@ -60,7 +61,6 @@ const getOpenBidDetails = {
   isFullfilled: (state = initialState, { payload }) => {
     if (payload) {
       const bid = payload && payload.data;
-
       return {
         ...state,
         isLoadingBids: false,
@@ -158,9 +158,7 @@ export default handleActions(
 
     // get awarded bid details
     [`${A.BIDDER_ACTIONS.GET_AWARDED_BID_DETAILS}${A._PENDING}`]: getAwardedBidDetail.isPending,
-    [`${A.BIDDER_ACTIONS.GET_AWARDED_BID_DETAILS}${
-      A._FULFILLED
-    }`]: getAwardedBidDetail.isFullfilled,
+    [`${A.BIDDER_ACTIONS.GET_AWARDED_BID_DETAILS}${A._FULFILLED}`]: getAwardedBidDetail.isFullfilled,
     [`${A.BIDDER_ACTIONS.GET_AWARDED_BID_DETAILS}${A._REJECTED}`]: getAwardedBidDetail.isRejected,
     [`${A.AUTH_ACTIONS.USER_IS_LOGGED_OUT}`]: setLoggedOutState,
   },

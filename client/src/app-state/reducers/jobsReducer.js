@@ -19,6 +19,7 @@ const getMyOpenJobs = {
   isPending: (state = initialState, { payload }) => ({
     ...state,
     isLoading: true,
+    myOpenJobsList: [],
   }),
   isFullfilled: (state = initialState, { payload }) => {
     let myOpenJobs = payload.data && payload.data._postedJobsRef ? payload.data._postedJobsRef : [];
@@ -37,6 +38,7 @@ const getAllMyRequests = {
   isPending: (state = initialState) => ({
     ...state,
     isLoading: true,
+    allMyRequests: [],
   }),
   isFullfilled: (state = initialState, { payload }) => {
     let allMyRequests = payload.data.allRequests;
@@ -55,6 +57,7 @@ const getMyAwardedJobs = {
   isPending: (state = initialState, { payload }) => ({
     ...state,
     isLoading: true,
+    myAwardedJobsList: [],
   }),
   isFullfilled: (state = initialState, { payload }) => {
     let myAwardedJobs =
@@ -74,9 +77,9 @@ const getPostedJobs = {
   isPending: (state = initialState, { payload }) => ({
     ...state,
     isLoading: true,
+    listOfJobsToBidOn: [],
   }),
   isFullfilled: (state = initialState, { payload }) => {
-
     let allThePostedJobs = payload.data ? payload.data : [];
     return {
       ...state,
@@ -97,6 +100,7 @@ const searchJob = {
   performSearch: (state = initialState, { payload }) => ({
     ...state,
     mapCenterPoint: payload.searchLocation,
+    listOfJobsToBidOn: [],
   }),
   isPending: (state = initialState, { payload }) => ({
     ...state,
@@ -116,12 +120,6 @@ const searchJob = {
 };
 
 const updateSelectedActivePostedJob = (state = initialState, { payload }) => {
-  return {
-    ...state,
-    selectedJobWithBids: payload.data,
-  };
-};
-const updateSelectedJobToBidOn = (state = initialState, { payload }) => {
   return {
     ...state,
     selectedJobWithBids: payload.data,
