@@ -16,7 +16,7 @@ export default {
 *Does your pet have any special needs (medicines, allergies, physical issues ...etc)?
 `,
   defaultExtrasValues: {
-    effort: 'noSelection',
+    duration: '',
     isRequesterHosting: 'noSelection',
     requiresWalking: 'noSelection',
     dietaryRestrictions: '',
@@ -35,11 +35,12 @@ export default {
       .trim()
       .oneOf(['yes', 'no'], '*Please select an option from the drop down')
       .required('*Please select whether or not the pet requires outdoor walking'),
-    effort: Yup.string()
+    duration: Yup.string()
       .ensure()
       .trim()
-      .oneOf(['small', 'medium', 'large'], '*Please select an option from the drop down')
-      .required('*Please select the effort required'),
+      .min(3, 'must be minimum 3 chars, examples : 3hours, 1 day , 3 months')
+      .min(30, 'can not be more than 30 characthers , examples : 3hours, 1 day , 3 months')
+      .required('*Please select the duration of the service required'),
     dietaryRestrictions: Yup.string()
       .ensure()
       .trim()
@@ -115,6 +116,46 @@ export default {
   },
   extras: function() {
     return {
+      duration: {
+        renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
+          let durationClass = '';
+          let isTouched = touched && touched.duration;
+          if (isTouched) {
+            durationClass = values.duration === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          }
+          return (
+            <React.Fragment key={'extras-duration'}>
+              <div className={`group ${isTouched && errors.duration ? 'isError' : ''}`}>
+                <label className={durationClass}>{'Service duration'}</label>
+                <div>
+                  <input
+                    className={`input ${durationClass} `}
+                    id="duration"
+                    value={values.duration}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    placeholder="for example: 3 hours , 3 days , 1 week ..etc"
+                  />
+                  {isTouched && errors.duration && (
+                    <div className="help is-danger">{errors.duration}</div>
+                  )}
+                  <div className="help">
+                    How long do you need the Tasker to take care of your pet?
+                  </div>
+                </div>
+              </div>
+            </React.Fragment>
+          );
+        },
+        renderSelection: (durationText) => {
+          return (
+            <div key={'extras-duration'} className="group">
+              <label className="label hasSelectedValue">Duration of service</label>
+              <div className="control">{durationText}</div>
+            </div>
+          );
+        },
+      },
       isRequesterHosting: {
         renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
           let isRequesterHostingClass = '';
@@ -202,60 +243,7 @@ export default {
           );
         },
       },
-      effort: {
-        renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
-          let effortClass = '';
-          let isTouched = touched && touched.effort;
-          if (isTouched) {
-            effortClass = values.effort === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
-          }
-          return (
-            <React.Fragment key={'extras-effort'}>
-              <div className={`group ${isTouched && errors.effort ? 'isError' : ''}`}>
-                <label className={effortClass}>{'Approximate Duration'}</label>
-                <div>
-                  <div id="effort" className={`select ${effortClass} `}>
-                    <select
-                      id="effort"
-                      value={values.effort}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    >
-                      <option value="noSelection">-Select One-</option>
-                      <option value="small">{`Small (1-3 hours)`}</option>
-                      <option value="medium">{`Medium (3-6 hours)`}</option>
-                      <option value="large">{`Large (6-8 hours)`}</option>
-                    </select>
-                    {isTouched && errors.effort && (
-                      <div className="help is-danger">{errors.effort}</div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </React.Fragment>
-          );
-        },
-        renderSelection: (size) => {
-          let selectedValue = null;
-          switch (size) {
-            case 'small':
-              selectedValue = 'Small (1-3 hours)';
-              break;
-            case 'medium':
-              selectedValue = 'Medium (3-6 hours)';
-              break;
-            case 'large':
-              selectedValue = 'Large (6-8 hours)';
-              break;
-          }
-          return (
-            <div key={'extras-effort'} className="group">
-              <label className="label hasSelectedValue">Task Effort</label>
-              <div className="control">{selectedValue}</div>
-            </div>
-          );
-        },
-      },
+
       requiresWalking: {
         renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
           let requiresWalkingClass = '';
@@ -315,7 +303,7 @@ export default {
                 id="dietaryRestrictions"
                 type="text"
                 label="Any dietary/medical/special needs?"
-                helpText="you can say no if your pet doesn't need any"
+                helpText="Type in, None or leave this empty if your pet doesn't need any"
                 placeholder={'enter any dietry restrictions or medical needs your pet'}
                 error={touched.dietaryRestrictions && errors.dietaryRestrictions}
                 value={values.dietaryRestrictions || ''}
