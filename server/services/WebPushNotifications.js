@@ -1,3 +1,5 @@
+// https://developers.google.com/web/fundamentals/push-notifications/notification-behaviour
+
 const keys = require('../config/keys');
 const webpush = require('web-push');
 
