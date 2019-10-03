@@ -75,8 +75,12 @@ exports.EmailService = {
         contentHtml: `
         <p>This is an automated reminder for your upcoming scheduled ${requestTitle} task.</p>
         <p>To get in touch with your task owner feel free to contact them on:</p>
-        <a href="mailto:${ownerEmailAddress}?Subject="BIDORBOO - Iam your tasker for ${requestTitle}"><strong>email address:</strong> ${ownerEmailAddress},</a>
-        <a href="tel:${ownerPhoneNumber}"><strong>phone number</srtong>: ${ownerPhoneNumber},</a>`,
+        <div>
+        <strong>email address:</strong> <a href="mailto:${ownerEmailAddress}?subject=BIDORBOO - Iam your tasker for ${requestTitle}">${ownerEmailAddress}</a>
+        </div>
+        <div>
+        <strong>phone number:</srtong> <a href="tel:${ownerPhoneNumber}">${ownerPhoneNumber}</a>
+        </div>`,
         clickLink: `${linkForBidder}`,
         clickDisplayName: 'View Request Details',
       }),
@@ -112,8 +116,12 @@ exports.EmailService = {
         toDisplayName: toDisplayName || to,
         contentHtml: `<p>This is an automated reminder for your upcoming scheduled ${requestTitle} task.</p>
         <p>To get in touch with your assigned Tasker owner feel free to contact them on:</p>
-        <a href="mailto:${bidderEmailAddress}?Subject="BIDORBOO - Iam expecting you soon for ${requestTitle}"><strong>email address:</strong> ${bidderEmailAddress},</a>
-        <a href="tel:${bidderPhoneNumber}"><strong>phone number</srtong>: ${bidderPhoneNumber},</a>`,
+        <div>
+        <strong>email address:</strong> <a href="mailto:${bidderEmailAddress}?subject=BIDORBOO - Iam expecting you soon for ${requestTitle}">${bidderEmailAddress}</a>
+        </div>
+        <div>
+        <strong>phone number:</srtong> <a href="tel:${bidderPhoneNumber}">${bidderPhoneNumber}</a>
+        </div>`,
         clickLink: `${linkForOwner}`,
         clickDisplayName: 'View Request Details',
       }),
@@ -517,8 +525,7 @@ exports.EmailService = {
       text: `
      Investigate this dispute filed by user ${userIdWhoFiledDispute} about job ${jobId}.
      the claim details are :
-     ${details}
-     ----------------------------------------
+    ${details}
     Additional info
     whoSubmitted = ${whoSubmitted},
     requesterDisplayName = ${requesterDisplayName},
@@ -538,7 +545,8 @@ exports.EmailService = {
       html: `
       <p>Investigate this dispute filed by user ${userIdWhoFiledDispute} about job ${jobId}.</p>
       <p>the claim details are :</p>
-      <p>${details}</p>
+      <p><strong>${details}</strong></p>
+      <br>
       Additional info
     <p>whoSubmitted = ${whoSubmitted},</p>
     <p>requesterDisplayName = ${requesterDisplayName},</p>
@@ -546,9 +554,15 @@ exports.EmailService = {
     <p>jobDisplayName = ${jobDisplayName},</p>
     <p>requestLinkForRequester = ${requestLinkForRequester},</p>
     <p>requestLinkForTasker = ${requestLinkForTasker},</p>
-    <a href="mailto:${requesterEmailAddress}?Subject="BIDORBOO DISPUTE"><strong>requesterEmailAddress:</strong> ${requesterEmailAddress},</a>
+    <div>
+    <a href="mailto:${requesterEmailAddress}?subject=BIDORBOO DISPUTE"><strong>requesterEmailAddress:</strong> ${requesterEmailAddress}</a>
+    </div>
+    <div>
     <a href="tel:${requesterPhoneNumber}"><strong>requesterPhoneNumber</srtong>: ${requesterPhoneNumber},</a>
-    <a href="mailto:${taskerEmailAddress}?Subject="BIDORBOO DISPUTE"><strong>taskerEmailAddress:</strong> ${taskerEmailAddress},</a>
+    </div>
+    <div>
+    <a href="mailto:${taskerEmailAddress}?subject=BIDORBOO DISPUTE"><strong>taskerEmailAddress:</strong> ${taskerEmailAddress}</a>
+    </div>
     <p>jobId = ${jobId},</p>
     <p>reason = ${reason},</p>
     <p>details = ${details},</p>
