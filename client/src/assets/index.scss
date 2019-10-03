@@ -940,7 +940,6 @@ $trans-time: 300ms;
   select,
   .textarea,
   .select {
-    padding-top: 0;
     box-shadow: none;
     border-radius: 0;
     border-top: none;
@@ -951,8 +950,7 @@ $trans-time: 300ms;
     display: inline-block;
     outline: none !important;
     outline-color: transparent !important;
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 4px;
     color: #363636;
     width: 100%;
     box-shadow: none !important;
