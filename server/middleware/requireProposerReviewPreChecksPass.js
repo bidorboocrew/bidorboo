@@ -40,7 +40,7 @@ module.exports = async (req, res, next) => {
       if (!jobDetails._reviewRef) {
         await jobDataAccess.kickStartReviewModel({
           jobId,
-          awardedBidder,
+          bidderId: awardedBidder,
           proposerId,
         });
       }
@@ -68,6 +68,8 @@ module.exports = async (req, res, next) => {
     }
   } catch (e) {
     return res.status(400).send({
+      safeMsg:
+        'some error occured, please chat with our customer support using the chat button at the bottom of the page',
       errorMsg: 'failed to pass requireProposerReviewPreChecksPass',
       details: `${e}`,
     });
