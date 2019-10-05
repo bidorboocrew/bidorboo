@@ -692,10 +692,10 @@ exports.jobDataAccess = {
         path: '_awardedBidRef',
         model: 'BidModel',
         select: {
-          _bidderRef: 1,
+          // _bidderRef: 1,
           isNewBid: 1,
           state: 1,
-          bidAmount: 1,
+          // bidAmount: 1,
         },
         populate: {
           path: '_bidderRef',

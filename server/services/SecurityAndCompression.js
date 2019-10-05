@@ -39,7 +39,7 @@ module.exports = (app) => {
       // see Configuration
       uri: keys.mongoURI,
     }),
-    max: 40,
+    max: 50,
     windowMs: 1 * 60 * 1000,
   });
 
