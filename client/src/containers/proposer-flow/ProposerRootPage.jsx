@@ -21,10 +21,7 @@ class ProposerRoot extends React.Component {
     return (
       <React.Fragment>
         <section className="hero is-white">
-          <div
-            // style={{ backgroundImage: `url(${RequestRootBg})` }}
-            className="hero-body has-text-centered"
-          >
+          <div className="hero-body has-text-centered">
             <div className="container">
               <h1 style={{ marginBottom: 0 }} className="title">
                 What services are you looking for?

@@ -258,6 +258,8 @@ const UserSchema = new Schema(
         'We could not establish a stripe customer account. In order to proceed please chat with us via the chat button in the footer',
       ],
     },
+    // canBid: { type: Boolean, default: false },
+    // canPost: { type: Boolean, default: false },
     stripeConnect: {
       accId: { type: String },
       // when payoutsEnabled && chargesEnabled

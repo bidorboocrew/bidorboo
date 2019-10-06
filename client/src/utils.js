@@ -4,7 +4,6 @@ import moment from 'moment-timezone';
 
 export const switchRoute = (routeAndParams, stateContent = null) => {
   // setTimeout(() => {
-    debugger
   if (stateContent) {
     console.info('switchign to route ' + routeAndParams);
     appHistory.push({ pathname: routeAndParams, state: { ...stateContent } });

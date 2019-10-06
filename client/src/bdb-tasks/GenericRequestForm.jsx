@@ -530,7 +530,6 @@ const EnhancedForms = withFormik({
     };
   },
   handleSubmit: async (values, { setSubmitting, props }) => {
-    debugger;
     const { postNewJob } = props;
     setSubmitting(true);
 
