@@ -135,39 +135,43 @@ class App extends React.Component {
 
             <Route exact path={ROUTES.CLIENT.HOME} component={HomePage} />
             <Route exact path={ROUTES.CLIENT.PROPOSER.root} component={ProposerRootPage} />
-            <Route exact path={ROUTES.CLIENT.PROPOSER.createjob} component={CreateAJobPage} />
+            <Route exact path={`${ROUTES.CLIENT.PROPOSER.createjob}`} component={CreateAJobPage} />
             <Route exact path={ROUTES.CLIENT.BIDDER.root} component={BidderRootPage} />
             <Route exact path={ROUTES.CLIENT.BIDDER.bidOnJobPage} component={BidOnJobPage} />
             <Route
               exact
-              path={ROUTES.CLIENT.USER_ROFILE_FOR_REVIEW}
+              path={`${ROUTES.CLIENT.USER_ROFILE_FOR_REVIEW}`}
               component={OtherUserProfileForReviewPage}
             />
             {/* loggedInPaths paths */}
 
-            <Route exact path={ROUTES.CLIENT.ONBOARDING} component={FirstTimeUser} />
-
-            <Route exact path={ROUTES.CLIENT.PROPOSER.myRequestsPag} component={MyRequestsPage} />
+            <Route exact path={`${ROUTES.CLIENT.ONBOARDING}`} component={FirstTimeUser} />
 
             <Route
               exact
-              path={ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}
+              path={`${ROUTES.CLIENT.PROPOSER.myRequestsPage}`}
+              component={MyRequestsPage}
+            />
+
+            <Route
+              exact
+              path={`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}`}
               component={ReviewRequestAndBidsPage}
             />
             <Route
               exact
-              path={ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}
+              path={`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}`}
               component={ReviewMyAwardedJobAndWinningBidPage}
             />
             <Route exact path={ROUTES.CLIENT.BIDDER.mybids} component={MyBidsPage} />
             <Route
               exact
-              path={ROUTES.CLIENT.BIDDER.reviewMyOpenBidAndTheRequestDetails}
+              path={`${ROUTES.CLIENT.BIDDER.reviewMyOpenBidAndTheRequestDetails}`}
               component={ReviewBidAndRequestPage}
             />
             <Route
               exact
-              path={ROUTES.CLIENT.BIDDER.awardedBidDetailsPage}
+              path={`${ROUTES.CLIENT.BIDDER.awardedBidDetailsPage}`}
               component={ReviewAwardedBidPage}
             />
             <Route exact path={ROUTES.CLIENT.MY_PROFILE.basicSettings} component={MyProfile} />
@@ -176,25 +180,25 @@ class App extends React.Component {
               path={ROUTES.CLIENT.MY_PROFILE.paymentSettings}
               component={PaymentSettings}
             />
-            <Route exact path={ROUTES.CLIENT.VERIFICATION} component={VerificationPage} />
+            <Route exact path={`${ROUTES.CLIENT.VERIFICATION}`} component={VerificationPage} />
             <Route
               exact
-              path={ROUTES.CLIENT.REVIEW.proposerJobReview}
+              path={`${ROUTES.CLIENT.REVIEW.proposerJobReview}`}
               component={ProposerReviewingCompletedJob}
             />
             <Route
               exact
-              path={ROUTES.CLIENT.REVIEW.bidderJobReview}
+              path={`${ROUTES.CLIENT.REVIEW.bidderJobReview}`}
               component={BidderReviewingCompletedJob}
             />
             <Route
               exact
-              path={ROUTES.CLIENT.MY_PROFILE.pastProvidedServices}
+              path={`${ROUTES.CLIENT.MY_PROFILE.pastProvidedServices}`}
               component={PastProvidedServices}
             />
             <Route
               exact
-              path={ROUTES.CLIENT.MY_PROFILE.pastRequestedServices}
+              path={`${ROUTES.CLIENT.MY_PROFILE.pastRequestedServices}`}
               component={PastRequestedServices}
             />
             <Redirect path="*" to={ROUTES.CLIENT.ENTRY} />
@@ -219,11 +223,13 @@ class App extends React.Component {
                   </div>
                   <div>
                     <a
-                      style={{ color: '#4285f4' }}
+                      style={{
+                        color: '#4285f4',
+                        textDecoration: 'underline',
+                        padding: '0.25rem',
+                        margin: '0.5rem',
+                      }}
                       className="is-size-7"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      // href={ROUTES.CLIENT.TOS}
                       onClick={() => switchRoute(ROUTES.CLIENT.TOS)}
                     >
                       {`BidOrBoo Terms`}
@@ -231,7 +237,12 @@ class App extends React.Component {
                   </div>
                   <div>
                     <a
-                      style={{ color: '#4285f4' }}
+                      style={{
+                        color: '#4285f4',
+                        padding: '0.25rem',
+                        margin: '0.5rem',
+                        textDecoration: 'underline',
+                      }}
                       target="_blank"
                       rel="noopener noreferrer"
                       href="https://stripe.com/connect-account/legal"
