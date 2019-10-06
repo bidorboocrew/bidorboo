@@ -318,7 +318,7 @@ exports.findUserAndAllNewNotifications = async (mongoUserId) => {
             },
           },
         })
-        .lean()
+        .lean({ virtuals: true })
         .exec();
 
       let z_notify_jobsWithNewBids =

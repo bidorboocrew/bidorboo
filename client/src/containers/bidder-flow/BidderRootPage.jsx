@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Collapse } from 'react-collapse';
 
-import BidRootBg from '../../assets/images/BidRootBg.png';
-
 import { getCurrentUser } from '../../app-state/actions/authActions';
 
 import { searchJobsToBidOn } from '../../app-state/actions/jobActions';
@@ -174,6 +172,7 @@ class BidderRootPage extends React.Component {
     let currentJobsList = isLoggedIn
       ? listOfJobsToBidOn.filter((job) => job._ownerRef._id !== userDetails._id)
       : listOfJobsToBidOn;
+    const taskerCanBid = userDetails && userDetails.canBid;
 
     currentJobsList = currentJobsList.map((job) => {
       return {
@@ -187,130 +186,153 @@ class BidderRootPage extends React.Component {
     const searchWithNoResults = isThereAnActiveSearch && !anyVisibleJobs;
 
     return (
-      <div>
-        <section className="hero is-small is-dark">
-          <div className="hero-body">
-            <div className="container">
-              <h1
-                style={{ marginBottom: '0.5rem', paddingLeft: 10 }}
-                className="has-text-white subtitle"
-              >
-                Search For Tasks
-              </h1>
+      <>
+        {!taskerCanBid && (
+          <section className="hero is-medium is-light is-bold">
+            <div className="hero-body">
+              <div className="container">
+                <h1 style={{ marginBottom: '0.5rem', paddingLeft: 10 }} className="subtitle">
+                  Want to provide your services and earn money?
+                </h1>
+                <button className="button is-warning">BECOME A TASKER NOW</button>
+                <div className="help has-text-dark">*Registration will take ~5 minutes</div>
+              </div>
+            </div>
+          </section>
+        )}
+        {taskerCanBid && (
+          <div>
+            <section className="hero is-small is-dark">
+              <div className="hero-body">
+                <div className="container">
+                  <h1
+                    style={{ marginBottom: '0.5rem', paddingLeft: 10 }}
+                    className="has-text-white subtitle"
+                  >
+                    Search For Tasks
+                  </h1>
 
-              <div
-                style={{ background: 'transparent' }}
-                className="card cardWithButton nofixedwidth disabled has-text-centered"
-              >
-                <div style={{ padding: 0 }} className="card-content">
-                  <BidderRootLocationFilter
+                  <div
+                    style={{ background: 'transparent' }}
+                    className="card cardWithButton nofixedwidth disabled has-text-centered"
+                  >
+                    <div style={{ padding: 0 }} className="card-content">
+                      <BidderRootLocationFilter
+                        submitSearchLocationParams={this.submitSearchLocationParams}
+                        updateSearchLocationState={this.updateSearchLocationState}
+                        activeSearchParams={activeSearchParams}
+                        userLastStoredSearchParams={userLastStoredSearchParams}
+                        {...this.props}
+                      />
+                    </div>
+                  </div>
+                  <div className="columns is-centered is-mobile is-multiline">
+                    <div className="column has-text-left">
+                      <div
+                        style={{ marginBottom: '0.75rem', textAlign: 'left', marginTop: '0.75rem' }}
+                      >
+                        <input
+                          id="togglemapView"
+                          type="checkbox"
+                          name="togglemapView"
+                          className="switch is-rounded is-success"
+                          onChange={this.toggleMapView}
+                          checked={showMapView}
+                        />
+                        <label style={{ fontWeight: 500, color: 'white' }} htmlFor="togglemapView">
+                          Toggle Map View
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {isLoading && (
+              <section className="section">
+                <Spinner renderLabel="getting requests..." isLoading={isLoading} size={'large'} />
+              </section>
+            )}
+            {!isLoading && (
+              <React.Fragment>
+                <Collapse isOpened={showMapView}>
+                  <div style={{ marginTop: '1.25rem' }} className="container slide-in-bottom-small">
+                    <MapSection
+                      mapCenterPoint={mapCenterPoint}
+                      mapZoomLevel={mapZoomLevel}
+                      jobsList={currentJobsList}
+                      {...this.props}
+                    />
+                    <div
+                      style={{ marginBottom: 6 }}
+                      className="help container is-widescreen has-text-grey has-text-centered"
+                    >
+                      {` ${(currentJobsList && currentJobsList.length) ||
+                        0} open requests in the search area`}
+                    </div>
+                  </div>
+                </Collapse>
+
+                {anyVisibleJobs && (
+                  <BidderRootFilterWrapper
                     submitSearchLocationParams={this.submitSearchLocationParams}
                     updateSearchLocationState={this.updateSearchLocationState}
                     activeSearchParams={activeSearchParams}
                     userLastStoredSearchParams={userLastStoredSearchParams}
                     {...this.props}
                   />
-                </div>
-              </div>
-              <div className="columns is-centered is-mobile is-multiline">
-                <div className="column has-text-left">
-                  <div style={{ marginBottom: '0.75rem', textAlign: 'left', marginTop: '0.75rem' }}>
-                    <input
-                      id="togglemapView"
-                      type="checkbox"
-                      name="togglemapView"
-                      className="switch is-rounded is-success"
-                      onChange={this.toggleMapView}
-                      checked={showMapView}
+                )}
+
+                {currentJobsList && currentJobsList.length > 0 && (
+                  <>
+                    <AllJobsView
+                      jobsList={currentJobsList}
+                      {...this.props}
+                      showMapView={showMapView}
                     />
-                    <label style={{ fontWeight: 500, color: 'white' }} htmlFor="togglemapView">
-                      Toggle Map View
-                    </label>
+                  </>
+                )}
+
+                {!isThereAnActiveSearch && (
+                  <div className="HorizontalAligner-center column">
+                    <div className="is-fullwidth">
+                      <div className="card">
+                        <div className="card-content VerticalAligner">
+                          <div className="has-text-centered">
+                            <div className="is-size-6">
+                              Search to Find Tasks in Areas where you're able to provide them
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </div>
+                )}
+                {searchWithNoResults && (
+                  <div className="HorizontalAligner-center column">
+                    <div className="is-fullwidth">
+                      <div className="card">
+                        <div className="card-content VerticalAligner">
+                          <div className="has-text-centered">
+                            <div className="is-size-6">
+                              No Tasks available around this area at this time.
+                            </div>
+                            <br />
+                            <div className="help">
+                              Try Changing Your Search Criteria or search a different area
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </React.Fragment>
+            )}
           </div>
-        </section>
-
-        {isLoading && (
-          <section className="section">
-            <Spinner renderLabel="getting requests..." isLoading={isLoading} size={'large'} />
-          </section>
         )}
-        {!isLoading && (
-          <React.Fragment>
-            <Collapse isOpened={showMapView}>
-              <div style={{ marginTop: '1.25rem' }} className="container slide-in-bottom-small">
-                <MapSection
-                  mapCenterPoint={mapCenterPoint}
-                  mapZoomLevel={mapZoomLevel}
-                  jobsList={currentJobsList}
-                  {...this.props}
-                />
-                <div
-                  style={{ marginBottom: 6 }}
-                  className="help container is-widescreen has-text-grey has-text-centered"
-                >
-                  {` ${(currentJobsList && currentJobsList.length) ||
-                    0} open requests in the search area`}
-                </div>
-              </div>
-            </Collapse>
-
-            {anyVisibleJobs && (
-              <BidderRootFilterWrapper
-                submitSearchLocationParams={this.submitSearchLocationParams}
-                updateSearchLocationState={this.updateSearchLocationState}
-                activeSearchParams={activeSearchParams}
-                userLastStoredSearchParams={userLastStoredSearchParams}
-                {...this.props}
-              />
-            )}
-
-            {currentJobsList && currentJobsList.length > 0 && (
-              <>
-                <AllJobsView jobsList={currentJobsList} {...this.props} showMapView={showMapView} />
-              </>
-            )}
-
-            {!isThereAnActiveSearch && (
-              <div className="HorizontalAligner-center column">
-                <div className="is-fullwidth">
-                  <div className="card">
-                    <div className="card-content VerticalAligner">
-                      <div className="has-text-centered">
-                        <div className="is-size-6">
-                          Search to Find Tasks in Areas where you're able to provide them
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-            {searchWithNoResults && (
-              <div className="HorizontalAligner-center column">
-                <div className="is-fullwidth">
-                  <div className="card">
-                    <div className="card-content VerticalAligner">
-                      <div className="has-text-centered">
-                        <div className="is-size-6">
-                          No Tasks available around this area at this time.
-                        </div>
-                        <br />
-                        <div className="help">
-                          Try Changing Your Search Criteria or search a different area
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </React.Fragment>
-        )}
-      </div>
+      </>
     );
   }
 }

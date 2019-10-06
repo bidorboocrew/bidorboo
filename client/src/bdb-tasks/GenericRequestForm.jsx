@@ -392,7 +392,7 @@ class GenericRequestForm extends React.Component {
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
       const getCurrentPositionOptions = {
-        maximumAge: 10000,
+        maximumAge: 5 * 60 * 1000,
         timeout: 5000,
         enableHighAccuracy: true,
       };
