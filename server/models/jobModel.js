@@ -251,9 +251,7 @@ JobSchema.pre('remove', async function(next) {
     await BidModel.remove({ _id: { $in: this._bidsListRef } }).exec();
     // delete images from cloudinary xxxx
     if (this.taskImages && this.taskImages.length > 0) {
-      await Promise.all(
-        this.taskImages.map(({ public_id }) => cloudinary.v2.uploader.destroy(public_id))
-      );
+      await Promise.all(this.taskImages.map(({ public_id }) => detroyExistingImg(public_id)));
     }
     next();
   } catch (e) {

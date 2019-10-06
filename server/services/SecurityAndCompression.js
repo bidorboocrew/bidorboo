@@ -17,8 +17,7 @@ module.exports = (app) => {
   app.use(cspMiddleware);
 
   // security package
-  app.use(helmet({ xssFilter: false }));
-  app.use(helmet.hidePoweredBy({ setTo: 'PHP 4.2.0' }));
+  app.use(helmet({ hidePoweredBy: { setTo: 'PHP 4.2.0' } }));
 
   // performance
   app.use(

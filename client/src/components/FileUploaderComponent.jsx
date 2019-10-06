@@ -4,7 +4,7 @@ import { withFormik } from 'formik';
 import autoBind from 'react-autobind';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
-const MAX_FILE_SIZE_IN_MB = 1000000 * 3; //3MB
+const MAX_FILE_SIZE_IN_MB = 1000000 * 10; //10MB
 
 const formikEnhancer = withFormik({
   handleSubmit: (payload, { props }) => {
