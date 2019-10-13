@@ -44,18 +44,32 @@ class PaymentSettings extends React.Component {
     }
 
     let { stripeConnect } = userDetails;
+
+    const firstTimeSetup = !(stripeConnect && stripeConnect.accId);
+    const pendingVerification = stripeConnect && stripeConnect.accId && !stripeConnect.isVerified;
+
+    const verifiedAccount =
+      stripeConnect &&
+      stripeConnect.accId &&
+      stripeConnect.isVerified &&
+      stripeConnect.payoutsEnabled;
+    debugger;
     return (
       <div className="columns is-centered">
         <div className="column is-narrow">
-          {(!stripeConnect || !stripeConnect.last4BankAcc) && (
+          {firstTimeSetup && (
             <InitialAccountSetupView
               {...this.props}
               {...this.state}
               toggleAddPaymentDetails={this.toggleAddPaymentDetails}
             />
           )}
-
-          {stripeConnect && stripeConnect.last4BankAcc && (
+          {pendingVerification && (
+            <React.Fragment>
+              <EstablishedAccountView {...this.props} />
+            </React.Fragment>
+          )}
+          {verifiedAccount && (
             <React.Fragment>
               <EstablishedAccountView {...this.props} />
             </React.Fragment>
@@ -135,6 +149,9 @@ const InitialAccountSetupView = (props) => {
                     <strong>Setup Payout Banking Details</strong>
                   </label>
                   <div className="help">
+                    You must be <strong>18 years or older</strong> to provide services
+                  </div>
+                  <div className="help">
                     * All Your data is secured via
                     <a href="https://stripe.com/ca" target="_blank">
                       {` Stripe payment gateway.`}
@@ -142,7 +159,8 @@ const InitialAccountSetupView = (props) => {
                     {` A world class secure payment processing platform.`} <br />
                   </div>
                   <div className="help">
-                    * We will use this to deposit your earnings after completing tasks
+                    * Once verified, this will be the primary deposit account after you complete a
+                    tasks
                   </div>
                 </div>
 
@@ -180,10 +198,21 @@ const EstablishedAccountView = (props) => {
   const { userDetails, myStripeAccountDetails } = props;
 
   let { stripeConnect } = userDetails;
-  if (!myStripeAccountDetails) {
-    return null;
-  }
+  let { accRequirements } = stripeConnect;
 
+  // const isAccountDisabled = !!accRequirements.disabled_reason;
+  // const disabledReasonMsg =
+  //   accRequirements.disabled_reason +
+  //   ' \nPlease use the chat button at the bottom of the page to chat with our customer support.';
+  // const deadlineToSubmitDocs = accRequirements.current_deadline;
+
+  // const { external_account, individual } = currently_due;
+  // const isLast4OfSinNeeded = false;
+  // if (individual) {
+  //   if (individual.ssn_last_4) {
+  //     isLast4OfSinNeeded = true;
+  //   }
+  // }
   return (
     <section style={{ backgroundColor: 'white', padding: '0.25rem' }}>
       <HeaderTitle title="Account Details" />

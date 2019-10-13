@@ -130,8 +130,12 @@ export default class UploaderComponent extends React.Component {
                   id="filesToUpload"
                   name="filesToUpload"
                   onDropAccepted={this.onDrophandler}
-                  onDropRejected={() =>
-                    alert('File not accepted, must be an image file less than 5MB')
+                  onDropRejected={(file, event) =>
+                    alert(
+                      'File not accepted, must be an image file less than 10MB ' +
+                        `${event && event}` +
+                        `${file && file}`,
+                    )
                   }
                 >
                   <React.Fragment>
