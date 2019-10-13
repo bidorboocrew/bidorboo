@@ -3,7 +3,7 @@ import Dropzone from 'react-dropzone';
 import Cropper from 'react-cropper';
 import ReactDOM from 'react-dom';
 
-const MAX_FILE_SIZE_IN_MB = 1000000 * 3; //3MB
+const MAX_FILE_SIZE_IN_MB = 1000000 * 10; //10MB
 
 export default class UploaderComponent extends React.Component {
   constructor(props) {
@@ -119,7 +119,7 @@ export default class UploaderComponent extends React.Component {
               <div className="column">
                 <Dropzone
                   onDropRejected={(e) => {
-                    alert('this file is not accepted must be an img file less than 3MB');
+                    alert('this file is not accepted must be an img file less than 10MB');
                   }}
                   accept="image/*"
                   style={!showCropper ? {} : { height: 0 }}

@@ -9,9 +9,9 @@ import * as Yup from 'yup';
 
 import { TextInput } from './FormsHelpers';
 
-import { phoneNumber } from './FormsValidators';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { Spinner } from '../../components/Spinner';
+const MAX_FILE_SIZE_IN_MB = 1000000 * 10; //10MB
 
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
@@ -626,7 +626,11 @@ const PaymentSetupForm = (props) => {
                 onDrop={(files) => {
                   setFieldValue('idFrontImg', files[0], true);
                 }}
-                accept={['image/png', 'image/jpeg']}
+                accept={'image/*'}
+                onDropRejected={(e) => {
+                  alert('this file is not accepted must be an img file less than 10MB');
+                }}
+                maxSize={MAX_FILE_SIZE_IN_MB}
               >
                 <label className="file-label">
                   <span className="file-cta">
@@ -643,11 +647,15 @@ const PaymentSetupForm = (props) => {
               <br />
               <input id="idBackImg" className="input is-invisible" type="hidden" />
               <Dropzone
+                maxSize={MAX_FILE_SIZE_IN_MB}
                 className="file is-boxed idVerification"
                 onDrop={(files) => {
                   setFieldValue('idBackImg', files[0], true);
                 }}
-                accept={['image/png', 'image/jpeg']}
+                accept={'image/*'}
+                onDropRejected={(e) => {
+                  alert('this file is not accepted must be an img file less than 10MB');
+                }}
               >
                 <label className="file-label">
                   <span className="file-cta">
@@ -664,7 +672,7 @@ const PaymentSetupForm = (props) => {
               <div className="help">
                 {`* Accepted IDs: Passport, government-issued ID, or driver's license. `}
               </div>
-              <div className="help">{`* Must be .JPEG or .PNG les than 5MB`}</div>
+              <div className="help">{`* Must be .JPEG or .PNG les than 10MB`}</div>
               <br />
               <div className="group">
                 <div className="control">
