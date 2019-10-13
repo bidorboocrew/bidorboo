@@ -15,9 +15,9 @@ import NotificationSettings from './NotificationSettings';
 import VerifyEmailButton from './VerifyEmailButton';
 import VerifyPhoneButton from './VerifyPhoneButton';
 import { VerifiedVia } from '../commonComponents';
-import { switchRoute } from '../../utils';
 
-import * as ROUTES from '../../constants/frontend-route-consts';
+import OtherUserProfileForReviewPage from '../OtherUserProfileForReviewPage';
+
 class MyProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -270,6 +270,26 @@ class MyProfile extends React.Component {
               <NotificationSettings />
             </div>
           </div>
+        </div>
+        <div>
+          <br></br>
+          <br></br>
+          <div style={{ background: 'transparent' }} className="tabs is-centered">
+            <ul style={{ marginLeft: 0 }}>
+              <li className="is-active">
+                <a>
+                  <span className="icon is-small">
+                    <i className="fas fa-wave-square" aria-hidden="true" />
+                  </span>
+                  <span>YOUR BIDORBOO PULSE</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <OtherUserProfileForReviewPage
+            isMyPersonalProfile
+            match={{ params: { userId: userDetails._id } }}
+          ></OtherUserProfileForReviewPage>
         </div>
       </React.Fragment>
     );

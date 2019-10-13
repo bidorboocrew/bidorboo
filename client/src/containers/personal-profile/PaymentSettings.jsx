@@ -288,6 +288,7 @@ const EstablishedAccountView = (props) => {
                       {myStripeAccountDetails.balanceDetails.potentialFuturePayouts}$
                     </p>
                     <p className="is-size-6">Future Payouts</p>
+                    <p className="help">*on the way to your bank</p>
                   </article>
                 </div>
                 <div className="tile is-parent">
@@ -296,6 +297,7 @@ const EstablishedAccountView = (props) => {
                       {myStripeAccountDetails.balanceDetails.pastEarnings}$
                     </p>
                     <p className="is-size-6">Past Earnings</p>
+                    <p className="help">*already paid out</p>
                   </article>
                 </div>
               </div>
