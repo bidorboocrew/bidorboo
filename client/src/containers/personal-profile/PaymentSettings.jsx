@@ -198,7 +198,7 @@ const EstablishedAccountView = (props) => {
   const { userDetails, myStripeAccountDetails } = props;
 
   let { stripeConnect } = userDetails;
-  let { accRequirements } = stripeConnect;
+  let istherePaymentDetails = myStripeAccountDetails && myStripeAccountDetails.balanceDetails;
 
   // const isAccountDisabled = !!accRequirements.disabled_reason;
   // const disabledReasonMsg =
@@ -223,7 +223,7 @@ const EstablishedAccountView = (props) => {
           <div className="control">
             <label className="radio">
               <input type="radio" name="foobar" checked readOnly />
-              {` Bank Account last 4 digits `}
+              {` Bank Account number ******`}
               <strong>{stripeConnect.last4BankAcc}</strong>
             </label>
           </div>
@@ -240,16 +240,18 @@ const EstablishedAccountView = (props) => {
                 </span>
               </div>
 
-              <div className="panel-block is-active">
-                <span className="has-text-success">
+              <div style={{ padding: '0.5rem' }}>
+                <div className="has-text-success">
                   <span className="icon">
                     <i className="fas fa-check is-success" />
                   </span>
-                  <span>
-                    Congratulations your account is Verified. All payments will be immediately paid
-                    into your bank account upon completing tasks.
-                  </span>
-                </span>
+                  <span>Congratulations your bank account is Verified.</span>
+                </div>
+                <div>Payouts will be sent to this bank acc upon completing Tasks.</div>
+                <div className="help">
+                  *To change your primary payout bank account click the chat button at the bottom of
+                  the page
+                </div>
               </div>
             </React.Fragment>
           ) : (
@@ -262,7 +264,7 @@ const EstablishedAccountView = (props) => {
                   <span>Pending Verification</span>
                 </span>
               </div>
-              <div className="panel-block is-active">
+              <div style={{ padding: '0.5rem' }}>
                 <p>
                   <strong>Don't Worry !</strong>
                   <br />
@@ -276,15 +278,26 @@ const EstablishedAccountView = (props) => {
           return verificationStatus;
         })()}
         <div className="panel-heading is-size-6 has-text-weight-semibold">Your Earnings</div>
-        <div className="panel-block is-active">
-          Earnings will be listed below
-          {myStripeAccountDetails &&
-            myStripeAccountDetails.balanceDetails &&
+        <div style={{ padding: '0.5rem' }}>
+          {istherePaymentDetails &&
             myStripeAccountDetails.balanceDetails.potentialFuturePayouts > 0 && (
-              <div style={{ wordBreak: 'break-all' }}>
-                Pending Payments Amount
-                {`${myStripeAccountDetails.balanceDetails.potentialFuturePayouts}`}
-                Balance Details {`${JSON.stringify(myStripeAccountDetails.balanceDetails)}`}
+              <div className="tile is-ancestor has-text-centered">
+                <div className="tile is-parent">
+                  <article className="tile is-child box">
+                    <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
+                      {myStripeAccountDetails.balanceDetails.potentialFuturePayouts}$
+                    </p>
+                    <p className="is-size-6">Future Payouts</p>
+                  </article>
+                </div>
+                <div className="tile is-parent">
+                  <article className="tile is-child box">
+                    <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
+                      {myStripeAccountDetails.balanceDetails.pastEarnings}$
+                    </p>
+                    <p className="is-size-6">Past Earnings</p>
+                  </article>
+                </div>
               </div>
             )}
         </div>

@@ -10,7 +10,6 @@ import { bindActionCreators } from 'redux';
 import { getOtherUserProfileInfo } from '../app-state/actions/userModelActions';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute, goBackToPreviousRoute } from '../utils';
-import ReactStars from 'react-stars';
 import { Spinner } from '../components/Spinner';
 import { VerifiedVia } from './commonComponents';
 import * as Constants from '../constants/enumConstants';
