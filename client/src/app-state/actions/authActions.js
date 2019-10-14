@@ -163,6 +163,7 @@ export const onLogout = () => (dispatch) =>
           },
         },
       });
+      window.location.reload();
     }),
   });
 

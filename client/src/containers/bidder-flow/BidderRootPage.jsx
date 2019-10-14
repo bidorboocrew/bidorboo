@@ -167,7 +167,7 @@ class BidderRootPage extends React.Component {
   };
 
   render() {
-    const { isLoading, isLoggedIn, listOfJobsToBidOn, userDetails } = this.props;
+    const { isLoading, isLoggedIn, listOfJobsToBidOn, userDetails, showLoginDialog } = this.props;
     const { isThereAnActiveSearch, userLastStoredSearchParams, showMapView } = this.state;
 
     const { mapCenterPoint, mapZoomLevel, activeSearchParams } = this.state;
@@ -199,7 +199,14 @@ class BidderRootPage extends React.Component {
                 </h1>
                 <button
                   className="button is-dark"
-                  onClick={() => switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings)}
+                  onClick={() => {
+                    if (!isLoggedIn) {
+                      showLoginDialog(true);
+                      return;
+                    }
+
+                    switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings);
+                  }}
                 >
                   BECOME A TASKER
                 </button>
