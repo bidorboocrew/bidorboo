@@ -174,8 +174,11 @@ class MyProfile extends React.Component {
                                 </span>
                               )}
                               {!email.isVerified && (
-                                <span style={{ marginLeft: 6 }} className="has-text-danger">
-                                  <span style={{ marginLeft: 2 }}>(Not Verified)</span>
+                                <span
+                                  className="has-text-danger"
+                                  style={{ marginLeft: 2, marginRight: 4 }}
+                                >
+                                  (Not Verified)
                                 </span>
                               )}
                             </div>
@@ -201,8 +204,11 @@ class MyProfile extends React.Component {
                                 </span>
                               )}
                               {!phone.isVerified && (
-                                <span style={{ marginLeft: 6 }} className="has-text-danger">
-                                  <span style={{ marginLeft: 2 }}>(Not Verified)</span>
+                                <span
+                                  style={{ marginLeft: 2, marginRight: 4 }}
+                                  className="has-text-danger"
+                                >
+                                  (Not Verified)
                                 </span>
                               )}
                             </div>
