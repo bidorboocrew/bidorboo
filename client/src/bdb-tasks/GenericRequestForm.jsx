@@ -172,7 +172,6 @@ class GenericRequestForm extends React.Component {
     }
 
     const hasAtLeastOneTaskImg = !!values.taskImg1 || !!values.taskImg2 || !!values.taskImg3;
-
     return (
       <React.Fragment>
         <div style={{ borderTop: '2px solid #26ca70' }} className="card limitLargeMaxWidth">
@@ -346,6 +345,9 @@ class GenericRequestForm extends React.Component {
                 onBlur={handleBlur}
               />
               <br></br>
+              {errors && Object.keys(errors).length > 0 && (
+                <div className="help is-danger">* some fields are missing or contain errors. Scroll up if needed.</div>
+              )}
               <button
                 type="submit"
                 style={{
