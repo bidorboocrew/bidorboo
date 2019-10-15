@@ -53,7 +53,7 @@ class PaymentSettings extends React.Component {
       stripeConnect.accId &&
       stripeConnect.isVerified &&
       stripeConnect.payoutsEnabled;
-    debugger;
+
     return (
       <div className="columns is-centered">
         <div className="column is-narrow">
@@ -64,11 +64,12 @@ class PaymentSettings extends React.Component {
               toggleAddPaymentDetails={this.toggleAddPaymentDetails}
             />
           )}
-          {pendingVerification && (
+          {/* {xxxxxxxxxxxxxx xxx you need to allow updates} */}
+          {/* {pendingVerification && (
             <React.Fragment>
               <EstablishedAccountView {...this.props} />
             </React.Fragment>
-          )}
+          )} */}
           {verifiedAccount && (
             <React.Fragment>
               <EstablishedAccountView {...this.props} />
@@ -149,7 +150,7 @@ const InitialAccountSetupView = (props) => {
                     <strong>Setup Payout Banking Details</strong>
                   </label>
                   <div className="help">
-                    You must be <strong>18 years or older</strong> to provide services
+                    * You must be <strong>18 years or older</strong> to provide services
                   </div>
                   <div className="help">
                     * All Your data is secured via
@@ -199,7 +200,7 @@ const EstablishedAccountView = (props) => {
 
   let { stripeConnect } = userDetails;
   let istherePaymentDetails = myStripeAccountDetails && myStripeAccountDetails.balanceDetails;
-
+  debugger;
   // const isAccountDisabled = !!accRequirements.disabled_reason;
   // const disabledReasonMsg =
   //   accRequirements.disabled_reason +
@@ -279,29 +280,28 @@ const EstablishedAccountView = (props) => {
         })()}
         <div className="panel-heading is-size-6 has-text-weight-semibold">Your Earnings</div>
         <div style={{ padding: '0.5rem' }}>
-          {istherePaymentDetails &&
-            myStripeAccountDetails.balanceDetails.potentialFuturePayouts > 0 && (
-              <div className="tile is-ancestor has-text-centered">
-                <div className="tile is-parent">
-                  <article className="tile is-child box">
-                    <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
-                      {myStripeAccountDetails.balanceDetails.potentialFuturePayouts}$
-                    </p>
-                    <p className="is-size-6">Future Payouts</p>
-                    <p className="help">*on the way to your bank</p>
-                  </article>
-                </div>
-                <div className="tile is-parent">
-                  <article className="tile is-child box">
-                    <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
-                      {myStripeAccountDetails.balanceDetails.pastEarnings}$
-                    </p>
-                    <p className="is-size-6">Past Earnings</p>
-                    <p className="help">*already paid out</p>
-                  </article>
-                </div>
+          {istherePaymentDetails && (
+            <div className="tile is-ancestor has-text-centered">
+              <div className="tile is-parent">
+                <article className="tile is-child box">
+                  <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
+                    {`0$`}
+                  </p>
+                  <p className="is-size-6">Future Payouts</p>
+                  <p className="help">*on the way to your bank</p>
+                </article>
               </div>
-            )}
+              <div className="tile is-parent">
+                <article className="tile is-child box">
+                  <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
+                    {`0$`}
+                  </p>
+                  <p className="is-size-6">Past Earnings</p>
+                  <p className="help">*already paid out</p>
+                </article>
+              </div>
+            </div>
+          )}
         </div>
       </nav>
     </section>
