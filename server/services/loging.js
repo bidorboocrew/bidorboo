@@ -5,7 +5,7 @@ const morgan = require('morgan');
 module.exports = (app, process) => {
   app.use(morgan('tiny'));
   morganBody(app, {
-    maxBodyLength: 200,
+    maxBodyLength: 500,
     prettify: true,
     logRequestBody: true,
     logResponseBody: true,
