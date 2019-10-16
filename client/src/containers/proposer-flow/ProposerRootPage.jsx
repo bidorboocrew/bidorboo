@@ -8,7 +8,7 @@ import { getAllActiveRequestsTemplateCards } from '../../bdb-tasks/getAllRequest
 class ProposerRoot extends React.Component {
   constructor(props) {
     super(props);
-    this.AllActiveTasks = getAllActiveRequestsTemplateCards().map((task, index) => {
+    this.AllActiveTasks = getAllActiveRequestsTemplateCards({ ...props }).map((task, index) => {
       return (
         <div key={index} className="column is-narrow isforCards slide-in-bottom-small">
           {task}

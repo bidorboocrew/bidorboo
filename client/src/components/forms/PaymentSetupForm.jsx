@@ -12,7 +12,7 @@ import { TextInput } from './FormsHelpers';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { Spinner } from '../../components/Spinner';
 const MAX_FILE_SIZE_IN_MB = 1000000 * 10; //10MB
-
+const NO_SELECTION = 'NO_SELECTION';
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
     // phone_number: Yup.string()
@@ -238,7 +238,6 @@ const PaymentSetupForm = (props) => {
     handleChange,
     handleBlur,
     handleSubmit,
-    onCancel,
     isValid,
     setFieldValue,
     isSubmitting,
@@ -255,6 +254,11 @@ const PaymentSetupForm = (props) => {
         )
       );
     });
+  }
+  let provinceSelect = '';
+  let isTouched = touched && touched.address_province;
+  if (isTouched) {
+    provinceSelect = values.address_province === NO_SELECTION ? 'is-danger' : 'hasSelectedValue';
   }
 
   return (
@@ -347,7 +351,7 @@ const PaymentSetupForm = (props) => {
                 onBlur={handleBlur}
               /> */}
 
-              <label className="label">Date of birth</label>
+              <label className={`label`}>Date of birth</label>
               <div className="field is-grouped">
                 <div style={{ marginRight: 10 }} className="group">
                   <div className="control">
@@ -574,13 +578,9 @@ const PaymentSetupForm = (props) => {
               </div>
 
               <div className="group">
-                <label className="label">Select Province</label>
+                <label className={`label ${provinceSelect}`}>Select Province</label>
                 <div className="control">
-                  <div
-                    className={`select ${
-                      touched.address_province && errors.address_province ? 'is-danger' : ''
-                    }`}
-                  >
+                  <div className={`select ${provinceSelect}`}>
                     <select
                       error={touched.address_province && errors.address_province}
                       value={values.address_province || ''}
@@ -707,9 +707,9 @@ const PaymentSetupForm = (props) => {
                 Submit
               </button>
               {/* <div className="help">
-              * Provide your info as it appears on your legal document such as your: Passport,
-              government-issued ID, or driver's license
-            </div> */}
+                * Provide your info as it appears on your legal document such as your: Passport,
+                government-issued ID, or driver's license
+              </div> */}
               {errorsList}
             </div>
           </div>

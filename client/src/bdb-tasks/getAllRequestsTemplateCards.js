@@ -5,8 +5,9 @@ import { switchRoute } from '../utils';
 
 import TASKS_DEFINITIONS from './tasksDefinitions';
 
-const renderTask = (taskDetails) => {
-  const { ID, renderSummaryCard } = taskDetails;
+const renderTask = ({ task, isLoggedIn, showLoginDialog }) => {
+  debugger;
+  const { ID, renderSummaryCard } = task;
 
   return (
     <div
@@ -24,6 +25,10 @@ const renderTask = (taskDetails) => {
       <a
         style={{ fontSize: 14, width: 132, borderRadius: 25 }}
         onClick={() => {
+          if (!isLoggedIn) {
+            showLoginDialog(true);
+            return;
+          }
           switchRoute(ROUTES.CLIENT.PROPOSER.dynamicCreateJob(ID));
         }}
         className="button is-success firstButtonInCard"
@@ -34,11 +39,11 @@ const renderTask = (taskDetails) => {
   );
 };
 
-export const getAllActiveRequestsTemplateCards = () => {
+export const getAllActiveRequestsTemplateCards = (props) => {
   const taskIds = Object.keys(TASKS_DEFINITIONS);
   const taskDefinitions = taskIds.map((key) => TASKS_DEFINITIONS[`${key}`]);
 
-  const restuls = taskDefinitions.map((task) => renderTask(task));
+  const restuls = taskDefinitions.map((task) => renderTask({ task, ...props }));
 
   return restuls;
 };

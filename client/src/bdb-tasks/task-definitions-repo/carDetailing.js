@@ -3,7 +3,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import carDetailing_img from '../../assets/images/carDetailing_img.png';
 
-const NO_SELECTION = NO_SELECTION;
+const NO_SELECTION = 'NO_SELECTION';
 
 export default {
   ID: 'bdbCarDetailing',
