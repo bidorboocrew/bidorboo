@@ -25,6 +25,7 @@ module.exports = (process) => {
     retryWrites: false,
     // config: { autoIndex: false }// avoid performance hit due to schema level indexing
   };
+  mongoose.set('debug', process.env.NODE_ENV === 'production' ? false : true);
 
   mongoose
     .connect(keys.mongoURI, dbOptions, (err) => {
@@ -41,7 +42,6 @@ module.exports = (process) => {
   mongoose.connection.on('error', (err) => {
     console.error(`BIDORBOOLOGS======== Mongoose Eror. ${err}`);
   });
-
   mongoose.set('useFindAndModify', false);
 
   process.on('SIGINT', function() {

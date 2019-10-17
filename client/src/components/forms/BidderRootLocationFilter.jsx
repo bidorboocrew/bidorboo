@@ -141,7 +141,7 @@ export default class BidderRootLocationFilter extends React.Component {
         <div style={{ width: 500, padding: 10 }}>
           <div>
             <label style={{ fontWeight: 400 }} className="label">
-              Enter An Address
+              Address
             </label>
             <GeoSearch
               value={addressText}
@@ -184,15 +184,7 @@ export default class BidderRootLocationFilter extends React.Component {
               justifyContent: 'center',
             }}
           >
-            <div
-              disabled={disableSubmit}
-              onClick={this.handleSubmit}
-              style={{
-                boxShadow:
-                  'rgba(255, 255, 255, 0.2) 0px 0px 7px, rgba(236, 255, 255, 0.3) 0px 0px 14px 1px',
-              }}
-              className="button is-success"
-            >
+            <div disabled={disableSubmit} onClick={this.handleSubmit} className="button is-success">
               <span className="icon">
                 <i className="fas fa-search" />
               </span>

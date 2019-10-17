@@ -3,14 +3,15 @@ const morganBody = require('morgan-body');
 const morgan = require('morgan');
 
 module.exports = (app, process) => {
-  app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
+  app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev', { immediate: true }));
   morganBody(app, {
     maxBodyLength: 500,
     prettify: true,
     logRequestBody: true,
     logResponseBody: true,
     theme: 'dracula',
-    immediate: true,
+    logReqDateTime: true,
+    logReqUserAgent: true,
   });
 
   process.on('uncaughtException', function(err) {

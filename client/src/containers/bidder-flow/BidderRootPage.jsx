@@ -198,7 +198,7 @@ class BidderRootPage extends React.Component {
                   Want to provide your services and earn money?
                 </h1>
                 <button
-                  className="button is-dark"
+                  className="button is-link"
                   onClick={() => {
                     if (!isLoggedIn) {
                       showLoginDialog(true);
@@ -271,6 +271,15 @@ class BidderRootPage extends React.Component {
           )}
           {!isLoading && (
             <React.Fragment>
+              {isThereAnActiveSearch && (
+                <div
+                  style={{ marginBottom: 6 }}
+                  className="help container is-widescreen has-text-grey has-text-centered"
+                >
+                  {` ${(currentJobsList && currentJobsList.length) ||
+                    0} tasks available in the search area`}
+                </div>
+              )}
               <Collapse isOpened={showMapView}>
                 <div style={{ marginTop: '1.25rem' }} className="container slide-in-bottom-small">
                   <MapSection
@@ -279,13 +288,6 @@ class BidderRootPage extends React.Component {
                     jobsList={currentJobsList}
                     {...this.props}
                   />
-                  <div
-                    style={{ marginBottom: 6 }}
-                    className="help container is-widescreen has-text-grey has-text-centered"
-                  >
-                    {` ${(currentJobsList && currentJobsList.length) ||
-                      0} open requests in the search area`}
-                  </div>
                 </div>
               </Collapse>
 
@@ -315,9 +317,7 @@ class BidderRootPage extends React.Component {
                     <div className="card">
                       <div className="card-content VerticalAligner">
                         <div className="has-text-centered">
-                          <div className="is-size-6">
-                            Search to Find Tasks in Areas where you're able to provide them
-                          </div>
+                          <div className="is-size-6">Search for tasks in areas near you</div>
                         </div>
                       </div>
                     </div>

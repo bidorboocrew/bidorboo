@@ -109,7 +109,15 @@ export const updateOnBoardingDetails = ({ agreedToTOS }) => (dispatch) => {
       })
       .then((resp) => {
         if (resp.data && resp.data.success) {
-          switchRoute(`${ROUTES.CLIENT.MY_PROFILE.basicSettings}`);
+          dispatch({
+            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+            payload: {
+              toastDetails: {
+                type: 'success',
+                msg: `Congratulations. you are all setup`,
+              },
+            },
+          });
         }
       })
       .catch((error) => {

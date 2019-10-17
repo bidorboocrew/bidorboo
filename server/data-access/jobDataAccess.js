@@ -1166,7 +1166,7 @@ exports.jobDataAccess = {
   // get jobs near a given location
   // default search raduis is 15km raduis
   // default include all
-  getJobsNear: ({ location, searchRadius = 25000 }) => {
+  getJobsNear: ({ location, searchRadius = 25000 }, mongoUser_id = '') => {
     console.log('search 111111111jobs');
     return new Promise(async (resolve, reject) => {
       try {
@@ -1211,13 +1211,20 @@ exports.jobDataAccess = {
               path: '_bidsListRef',
               select: { _bidderRef: 1, bidAmount: 1 },
             },
-          ]);
-          console.log('search 111111111jobs');
-          console.log(results);
-        return resolve(results);
-      } catch (e) {
-        console.log('search 111111111jobs');
+          ])
+          .lean();
 
+        jobsUserDidNotBidOn = results.filter((task) => {
+          if (task._bidsListRef && task._bidsListRef.length > 0) {
+            let currentUserAlreadyBid = task._bidsListRef.some(
+              (bidsList) => bidsList._bidderRef.toString() === mongoUser_id.toString()
+            );
+            return !currentUserAlreadyBid;
+          }
+          return true;
+        });
+        return resolve(jobsUserDidNotBidOn);
+      } catch (e) {
         reject(e);
       }
     });
