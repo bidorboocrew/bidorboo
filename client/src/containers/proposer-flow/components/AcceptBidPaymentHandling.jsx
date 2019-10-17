@@ -50,7 +50,7 @@ class AcceptBidPaymentHandling extends React.Component {
   //         // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
   //         sessionId: sessionClientId,
   //       });
-  //     debugger;
+  //
   //   } catch (e) {
   //     console.error(e);
   //   }

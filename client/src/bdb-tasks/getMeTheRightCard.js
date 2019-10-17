@@ -13,6 +13,7 @@ import {
   RequesterCanceledByTaskerDetails,
   TaskerBidOnTaskDetails,
   TaskerBidOnTaskSummary,
+  TaskerBidOnTaskSummaryOnMap,
   TaskerMyOpenBidSummary,
   TaskerMyOpenBidDetails,
   TaskerMyAwardedBidSummary,
@@ -134,6 +135,7 @@ const TaskerCardTemplates = {
       if (withBidDetails) {
         return <TaskerMyOpenBidSummary job={job} {...otherArgs} />;
       }
+
       return <TaskerBidOnTaskSummary job={job} {...otherArgs} />;
     } else {
       if (withBidDetails) {
@@ -298,6 +300,7 @@ export const getMeTheRightBidCard = ({ bid, isSummaryView, ...otherArgs }) => {
 };
 
 export const getMeTheRightRequestCard = ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
+
   if (!job || !job.templateId) {
     console.error('no job passed in');
     return; //return

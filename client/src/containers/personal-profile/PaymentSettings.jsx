@@ -150,7 +150,7 @@ const InitialAccountSetupView = (props) => {
                     <strong>Setup Payout Banking Details</strong>
                   </label>
                   <div className="help">
-                    * You must be <strong>18 years or older</strong> to provide services
+                    * You must be <strong>19 years or older</strong> to provide services
                   </div>
                   <div className="help">
                     * All Your data is secured via
@@ -200,7 +200,7 @@ const EstablishedAccountView = (props) => {
 
   let { stripeConnect } = userDetails;
   let istherePaymentDetails = myStripeAccountDetails && myStripeAccountDetails.balanceDetails;
-  debugger;
+
   // const isAccountDisabled = !!accRequirements.disabled_reason;
   // const disabledReasonMsg =
   //   accRequirements.disabled_reason +

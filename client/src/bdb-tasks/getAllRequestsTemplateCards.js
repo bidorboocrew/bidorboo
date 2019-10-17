@@ -6,7 +6,7 @@ import { switchRoute } from '../utils';
 import TASKS_DEFINITIONS from './tasksDefinitions';
 
 const renderTask = ({ task, isLoggedIn, showLoginDialog }) => {
-  debugger;
+
   const { ID, renderSummaryCard } = task;
 
   return (
