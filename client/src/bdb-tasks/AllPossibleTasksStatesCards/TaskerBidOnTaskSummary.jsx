@@ -348,34 +348,3 @@ const ShowRegisterAsTaskerModal = ({ handleClose }) => {
     </React.Fragment>
   );
 };
-
-// <div
-//           className={`card cardWithButton ${isOnMapView ? 'bdb-infoBoxCard' : 'limitWidthOfCard'}`}
-//         >
-//           <div className="card-content">
-//             <div className="content">
-// <CardTitleAndActionsInfo
-//   isOnMapView={isOnMapView}
-//   userAlreadyBid={userAlreadyBid}
-//   jobState={state}
-//   templateId={templateId}
-//   bidsList={_bidsListRef}
-//   userAlreadyView={userAlreadyView}
-// />
-
-//               <div className="group">
-//                 <label className="label">Requester:</label>
-//                 <UserImageAndRating clipUserName userDetails={_ownerRef} />
-//               </div>
-//               <StartDateAndTime
-//                 date={startingDateAndTime}
-//                 renderHelpComponent={() => (
-//                   <CountDownComponent startingDate={startingDateAndTime} />
-//                 )}
-//               />
-//               {/* {!isOnMapView && <TaskSpecificExtras templateId={ID} extras={extras} />} */}
-//               {!isOnMapView && <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />}
-//             </div>
-
-//           </div>
-//         </div>

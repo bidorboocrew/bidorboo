@@ -66,6 +66,7 @@ class Cluster extends React.Component {
   }
 
   showInfoBox = (job) => {
+    debugger
     this.setState(
       () => ({ showInfoBoxForJobId: job._id }),
       () => {
