@@ -135,8 +135,12 @@ export const getCurrentUser = () => (dispatch) =>
               });
             }
           }
-          if (resp.data.membershipStatus === 'NEW_MEMBER') {
-            switchRoute(ROUTES.CLIENT.ONBOARDING);
+          if (
+            resp.data.membershipStatus === 'NEW_MEMBER' &&
+            window.location.pathname !== ROUTES.CLIENT.TOS
+          ) {
+
+            switchRoute(ROUTES.CLIENT.ONBOARDING, { redirectUrl: window.location.pathname });
           }
         }
       })
@@ -163,6 +167,7 @@ export const onLogout = () => (dispatch) =>
           },
         },
       });
+      window.location.reload();
     }),
   });
 
@@ -220,7 +225,13 @@ export const registerNewUser = (userData) => (dispatch) =>
           dispatch({
             type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
           });
-          switchRoute(ROUTES.CLIENT.ONBOARDING);
+          if (
+            resp.data.membershipStatus === 'NEW_MEMBER' &&
+            window.location.pathname !== ROUTES.CLIENT.TOS
+          ) {
+
+            switchRoute(ROUTES.CLIENT.ONBOARDING, { redirectUrl: window.location.pathname });
+          }
         }
       })
       .catch((error) => {

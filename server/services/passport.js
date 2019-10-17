@@ -19,7 +19,7 @@ passport.deserializeUser(async (id, done) => {
     const user = await userDataAccess.findSessionUserById(id);
     return done(null, user);
   } catch (e) {
-    return done({ errorMsg: 'Failed To deserializeUser', details: `${e}` }, null);
+    return done(e, null);
   }
 });
 
@@ -47,10 +47,9 @@ passport.use(
         );
         if (anotherUserExistsWithSameEmail) {
           return done(
-            JSON.stringify({
-              errorMsg:
-                'a user with the same email already exists, if you need help chat with us. a chat button is located in the footer of this page',
-            }),
+            new Error(
+              'a user with the same email already exists, if you need help chat with us. a chat button is located in the footer of this page'
+            ),
             null
           );
         }
@@ -72,7 +71,7 @@ passport.use(
 
       return done(null, { ...user, stripeConnect: {} });
     } catch (e) {
-      return done({ errorMsg: 'Failed To facebook Auth', details: `${e}` }, null);
+      return done(e, null);
     }
   })
 );
@@ -98,10 +97,9 @@ passport.use(
         );
         if (anotherUserExistsWithSameEmail) {
           return done(
-            JSON.stringify({
-              errorMsg:
-                'a user with the same email already exists, if you need help chat with us. a chat button is located in the footer of this page',
-            }),
+            new Error(
+              'a user with the same email already exists, if you need help chat with us. a chat button is located in the footer of this page'
+            ),
             null
           );
         }
@@ -122,8 +120,7 @@ passport.use(
 
       return done(null, { ...user, stripeConnect: {} });
     } catch (e) {
-      console.error('Failed To google Auth' + e);
-      return done({ errorMsg: 'Failed To google Auth', details: `${JSON.stringify(e)}` }, null);
+      return done(e, null);
     }
   })
 );
@@ -139,20 +136,12 @@ passport.use(
   new LocalStrategy(LocalStrategyConfig, async (req, email, password, done) => {
     try {
       if (!email || !password || !req.body.displayName) {
-        return done(
-          {
-            errorMsg: 'invalid inputs either username or password was not provided',
-          },
-          null
-        );
+        return done(new Error('invalid inputs either username or password was not provided'), null);
       }
       const trimmedEmail = email.trim();
       const existingUser = await userDataAccess.checkIfUserAlreadyExist(trimmedEmail, trimmedEmail);
       if (existingUser) {
-        return done(
-          JSON.stringify({ errorMsg: 'a user with the same email already exists' }),
-          null
-        );
+        return done(new Error('a user with the same email already exists'), null);
       }
 
       const userDetails = {
@@ -168,10 +157,7 @@ passport.use(
       done(null, user);
     } catch (err) {
       console.error('Failed To google Auth' + e);
-      return done(
-        { errorMsg: 'Failed To register local Auth', details: `${JSON.stringify(e)}` },
-        null
-      );
+      return done(err, null);
     }
   })
 );
@@ -180,9 +166,7 @@ passport.use(
   new LocalStrategy(LocalStrategyConfig, async (req, email, password, done) => {
     try {
       if (!email || !password) {
-        return done({
-          errorMsg: 'invalid inputs either username or password was not provided',
-        });
+        return done(new Error('invalid inputs either username or password was not provided'), null);
       }
 
       const existingUser = await userDataAccess.findOneByEmailId(email, false);
@@ -198,7 +182,7 @@ passport.use(
         return done({ errorMsg: 'invalid credentials' }, null);
       }
     } catch (err) {
-      done({ errorMsg: 'failed to login user', details: err }, null);
+      return done(err, null);
     }
   })
 );

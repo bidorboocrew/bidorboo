@@ -37,7 +37,7 @@ import {
   OtherUserProfileForReviewPage,
   PastProvidedServices,
   PastRequestedServices,
-  TermsOfUse,
+  TermsOfService,
 } from './index';
 
 import ShowSpecialMomentModal from './ShowSpecialMomentModal';
@@ -68,6 +68,7 @@ class App extends React.Component {
   }
 
   render() {
+
     if (this.state.hasError) {
       // You can render any custom fallback UI
       return (
@@ -99,7 +100,7 @@ class App extends React.Component {
       );
     }
 
-    const { s_toastDetails, s_showMomentContent } = this.props;
+    const { s_toastDetails } = this.props;
     // if (authIsInProgress) {
     //   return (
     //     <Spinner renderLabel="Authenticating..." isLoading={authIsInProgress} size={'large'} />
@@ -131,8 +132,6 @@ class App extends React.Component {
         <div id="RoutesWrapper" className="has-navbar-fixed-top">
           <Switch>
             {/* public paths */}
-            <Route exact path={ROUTES.CLIENT.TOS} component={TermsOfUse} />
-
             <Route exact path={ROUTES.CLIENT.HOME} component={HomePage} />
             <Route exact path={ROUTES.CLIENT.PROPOSER.root} component={ProposerRootPage} />
             <Route exact path={`${ROUTES.CLIENT.PROPOSER.createjob}`} component={CreateAJobPage} />
@@ -191,18 +190,17 @@ class App extends React.Component {
               path={`${ROUTES.CLIENT.REVIEW.bidderJobReview}`}
               component={BidderReviewingCompletedJob}
             />
-            <Route
+            {/* <Route
               exact
               path={`${ROUTES.CLIENT.MY_PROFILE.pastProvidedServices}`}
               component={PastProvidedServices}
-            />
-            <Route
+            /> */}
+            {/* <Route
               exact
               path={`${ROUTES.CLIENT.MY_PROFILE.pastRequestedServices}`}
               component={PastRequestedServices}
-            />
-            <Redirect path="*" to={ROUTES.CLIENT.ENTRY} />
-
+            /> */}
+            <Route exact path={ROUTES.CLIENT.TOS} component={TermsOfService} />
             <Redirect path="*" to={ROUTES.CLIENT.HOME} />
           </Switch>
         </div>
@@ -213,28 +211,30 @@ class App extends React.Component {
                 <div>
                   <p className="has-text-white is-size-7">Availablility</p>
                   <div className="is-size-7">
-                    <img
-                      width={21}
-                      height={21}
-                      alt="Canada"
-                      style={{ WebkitFilter: 'grayscale(50%)', filter: 'grayscale(50%)' }}
-                      src={canadaFlag}
-                    />
+                    <img width={21} height={21} alt="Canada" src={canadaFlag} />
                   </div>
                   <div>
                     <a
-                      style={{ padding: '0.25rem', margin: '0.5rem', textDecoration: 'underline' }}
+                      style={{
+                        color: '#4285f4',
+                        textDecoration: 'underline',
+                        padding: '0.25rem',
+                        margin: '0.5rem',
+                      }}
                       className="is-size-7"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href={`${ROUTES.CLIENT.TOS}`}
+                      onClick={() => switchRoute(ROUTES.CLIENT.TOS)}
                     >
                       {`BidOrBoo Terms`}
                     </a>
                   </div>
                   <div>
                     <a
-                      style={{ padding: '0.25rem', margin: '0.5rem', textDecoration: 'underline' }}
+                      style={{
+                        color: '#4285f4',
+                        padding: '0.25rem',
+                        margin: '0.5rem',
+                        textDecoration: 'underline',
+                      }}
                       target="_blank"
                       rel="noopener noreferrer"
                       href="https://stripe.com/connect-account/legal"

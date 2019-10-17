@@ -2,9 +2,13 @@ import React from 'react';
 import * as ROUTES from '../../../constants/frontend-route-consts';
 import { switchRoute } from '../../../utils';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { updateViewedBy } from '../../../app-state/actions/jobActions';
+import { showLoginDialog } from '../../../app-state/actions/uiActions';
 import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../../bdb-tasks/getMeTheRightCard';
 
-export default class AllJobsView extends React.Component {
+export class AllJobsView extends React.Component {
   render() {
     const { jobsList } = this.props;
     return jobsList && jobsList.length > 0 ? (
@@ -16,6 +20,25 @@ export default class AllJobsView extends React.Component {
     );
   }
 }
+
+const mapStateToProps = ({ userReducer }) => {
+  return {
+    isLoggedIn: userReducer.isLoggedIn,
+    userDetails: userReducer.userDetails,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
+    updateViewedBy: bindActionCreators(updateViewedBy, dispatch),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AllJobsView);
 
 const EmptyStateComponent = () => {
   return (
@@ -41,7 +64,7 @@ const EmptyStateComponent = () => {
 };
 
 const OtherPeoplesJobs = (props) => {
-  const { userDetails, jobsList, showMapView } = props;
+  const { jobsList, showMapView, isLoggedIn, userDetails, showLoginDialog, updateViewedBy } = props;
 
   const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
   const components = jobsList
@@ -53,8 +76,11 @@ const OtherPeoplesJobs = (props) => {
             job,
             isSummaryView: true,
             pointOfView: POINT_OF_VIEW.TASKER,
-            userDetails: userDetails,
             showMapView: showMapView,
+            isLoggedIn,
+            userDetails,
+            showLoginDialog,
+            updateViewedBy,
           })}
         </div>
       );

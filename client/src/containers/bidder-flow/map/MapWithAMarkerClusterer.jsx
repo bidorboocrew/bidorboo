@@ -66,14 +66,20 @@ class Cluster extends React.Component {
   }
 
   showInfoBox = (job) => {
+
     this.setState(
       () => ({ showInfoBoxForJobId: job._id }),
       () => {
-        job &&
+
+        if (
+          job &&
           job.location &&
           job.location.coordinates &&
           job.location.coordinates.length === 2 &&
-          job.zoomOnInfo &&
+          job.zoomOnInfo
+        ) {
+
+
           job.zoomOnInfo(
             {
               lng: job.location.coordinates[0],
@@ -84,6 +90,7 @@ class Cluster extends React.Component {
               mapDiv && mapDiv.scrollIntoView && mapDiv.scrollIntoView();
             },
           );
+        }
       },
     );
   };

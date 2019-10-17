@@ -1,5 +1,4 @@
 const userDataAccess = require('../data-access/userDataAccess');
-const { jobDataAccess } = require('../data-access/jobDataAccess');
 const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
 
 const ROUTES = require('../backend-route-constants');

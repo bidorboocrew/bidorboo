@@ -98,9 +98,9 @@ export const getOtherUserProfileInfo = (otherUserId) => (dispatch) =>
       }),
   });
 
-export const updateOnBoardingDetails = ({ agreedToTOS }) => (dispatch) => {
+export const updateOnBoardingDetails = ({ agreedToTOS }, callback = () => null) => (dispatch) => {
   return dispatch({
-    type: A.USER_MODEL_ACTIONS.UPDATE_USER_ON_BOARDING_DETAILS,
+    type: A.USER_MODEL_ACTIONS.F,
     payload: axios
       .put(ROUTES.API.USER.PUT.updateOnboardingDetails, {
         data: {
@@ -109,7 +109,16 @@ export const updateOnBoardingDetails = ({ agreedToTOS }) => (dispatch) => {
       })
       .then((resp) => {
         if (resp.data && resp.data.success) {
-          switchRoute(`${ROUTES.CLIENT.MY_PROFILE.basicSettings}`);
+          dispatch({
+            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+            payload: {
+              toastDetails: {
+                type: 'success',
+                msg: `Congratulations. you are all setup`,
+              },
+            },
+          });
+          callback();
         }
       })
       .catch((error) => {

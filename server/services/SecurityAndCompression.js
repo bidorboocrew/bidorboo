@@ -17,8 +17,7 @@ module.exports = (app) => {
   app.use(cspMiddleware);
 
   // security package
-  app.use(helmet({ xssFilter: false }));
-  app.use(helmet.hidePoweredBy({ setTo: 'PHP 4.2.0' }));
+  app.use(helmet({ hidePoweredBy: { setTo: 'PHP 4.2.0' } }));
 
   // performance
   app.use(
@@ -39,13 +38,13 @@ module.exports = (app) => {
       // see Configuration
       uri: keys.mongoURI,
     }),
-    max: 40,
+    max: 50,
     windowMs: 1 * 60 * 1000,
   });
 
   //  apply to all requests
-  app.use(limiter);
+  process.env.NODE_ENV === 'production' && app.use(limiter);
   // https://github.com/SegFaultx64/express-http-to-https#readme
   // Don't redirect if the hostname is `localhost:port` or the route is `/insecure`
-  app.use(redirectToHTTPS([/localhost:(\d{4})/]));
+  process.env.NODE_ENV === 'production' && app.use(redirectToHTTPS([/localhost:(\d{4})/]));
 };

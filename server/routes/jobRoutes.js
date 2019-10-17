@@ -165,7 +165,7 @@ module.exports = (app) => {
         jobTypeFilter: searchParams.jobTypeFilter,
       };
 
-      existingJob = await jobDataAccess.getJobsNear(searchQuery);
+      existingJob = await jobDataAccess.getJobsNear(searchQuery, req.user ? req.user._id : '');
       if (existingJob) {
         return res.send(existingJob);
       } else {
@@ -226,7 +226,6 @@ module.exports = (app) => {
       return res.status(400).send({ errorMsg: 'Failed To upload job image', details: `${e}` });
     }
   });
-
 
   app.put(ROUTES.API.JOB.PUT.updateViewedBy, requireLogin, async (req, res) => {
     try {
@@ -346,10 +345,13 @@ module.exports = (app) => {
         });
       }
 
-      let jobsAroundMe = await jobDataAccess.getJobsNear({
-        searchRadius,
-        location,
-      });
+      let jobsAroundMe = await jobDataAccess.getJobsNear(
+        {
+          searchRadius,
+          location,
+        },
+        req.user ? req.user._id : ''
+      );
 
       return res.send(jobsAroundMe);
     } catch (e) {

@@ -23,11 +23,13 @@ module.exports = (app) => {
       maxAge: expiryDate, // 24 hours
       keys: [keys.cookieKey, keys.cookieKey2],
       cookie: {
-        secure: true,
+        secure: process.env.NODE_ENV === 'production',
         httpOnly: true,
         domain: 'bidorboo.com',
         expires: new Date(Date.now() + expiryDate),
       },
+      resave: false,
+      saveUninitialized: true,
     })
   );
   app.use(cookieParser());

@@ -108,7 +108,7 @@ export const API = {
 export const CLIENT = {
   ENTRY: '/BidOrBoo',
   HOME: '/BidOrBoo',
-  TOS: '/BidOrBoo/termsAndPrivacy',
+  TOS: '/terms-of-service',
   ONBOARDING: '/on-boarding',
   USER_ROFILE_FOR_REVIEW: '/user-profile/:userId',
   dynamicUserProfileForReview: (userId) => `/user-profile/${userId}`,

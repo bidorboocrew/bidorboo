@@ -3,7 +3,7 @@ const cloudinary = require('cloudinary');
 const multer = require('multer');
 const path = require('path');
 
-const MAX_FILE_SIZE_IN_MB = 1000000 * 10; //3MB
+const MAX_FILE_SIZE_IN_MB = 3000000; //5MB
 const EXPECTED_FILE_INPUT_ID_IN_THE_FORM = 'filesToUpload';
 
 const TEMP_FILE_STORAGE = path.resolve(__dirname, '../../uploadsTempDir');

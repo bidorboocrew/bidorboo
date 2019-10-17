@@ -290,6 +290,8 @@ exports.findUserAndAllNewNotifications = async (mongoUserId) => {
         personalParagraph: 1,
         membershipStatus: 1,
         tos_acceptance: 1,
+        // we only really need this for payment page
+        stripeConnect:1,
       })
         .populate({
           path: '_postedJobsRef',
@@ -318,7 +320,7 @@ exports.findUserAndAllNewNotifications = async (mongoUserId) => {
             },
           },
         })
-        .lean()
+        .lean({ virtuals: true })
         .exec();
 
       let z_notify_jobsWithNewBids =

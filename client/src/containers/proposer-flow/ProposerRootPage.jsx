@@ -8,7 +8,7 @@ import { getAllActiveRequestsTemplateCards } from '../../bdb-tasks/getAllRequest
 class ProposerRoot extends React.Component {
   constructor(props) {
     super(props);
-    this.AllActiveTasks = getAllActiveRequestsTemplateCards().map((task, index) => {
+    this.AllActiveTasks = getAllActiveRequestsTemplateCards({ ...props }).map((task, index) => {
       return (
         <div key={index} className="column is-narrow isforCards slide-in-bottom-small">
           {task}
@@ -21,10 +21,7 @@ class ProposerRoot extends React.Component {
     return (
       <React.Fragment>
         <section className="hero is-white">
-          <div
-            // style={{ backgroundImage: `url(${RequestRootBg})` }}
-            className="hero-body has-text-centered"
-          >
+          <div className="hero-body has-text-centered">
             <div className="container">
               <h1 style={{ marginBottom: 0 }} className="title">
                 What services are you looking for?

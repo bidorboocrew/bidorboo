@@ -172,7 +172,6 @@ class GenericRequestForm extends React.Component {
     }
 
     const hasAtLeastOneTaskImg = !!values.taskImg1 || !!values.taskImg2 || !!values.taskImg3;
-
     return (
       <React.Fragment>
         <div style={{ borderTop: '2px solid #26ca70' }} className="card limitLargeMaxWidth">
@@ -346,6 +345,9 @@ class GenericRequestForm extends React.Component {
                 onBlur={handleBlur}
               />
               <br></br>
+              {errors && Object.keys(errors).length > 0 && (
+                <div className="help is-danger">* some fields are missing or contain errors. Scroll up if needed.</div>
+              )}
               <button
                 type="submit"
                 style={{
@@ -392,7 +394,7 @@ class GenericRequestForm extends React.Component {
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
       const getCurrentPositionOptions = {
-        maximumAge: 10000,
+        maximumAge: 5 * 60 * 1000,
         timeout: 5000,
         enableHighAccuracy: true,
       };
@@ -530,7 +532,6 @@ const EnhancedForms = withFormik({
     };
   },
   handleSubmit: async (values, { setSubmitting, props }) => {
-    debugger;
     const { postNewJob } = props;
     setSubmitting(true);
 

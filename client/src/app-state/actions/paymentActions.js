@@ -64,7 +64,7 @@ export const submitPayment = ({ jobId, bidId }) => async (dispatch) => {
     throwErrorNotification(dispatch, error);
   }
 
-  // debugger;
+  //
   // dispatch({
   //   type: A.PROPOSER_ACTIONS.AWARD_BIDDER_AND_MAKE_A_PAYMENT,
   //   payload: axios
@@ -76,7 +76,7 @@ export const submitPayment = ({ jobId, bidId }) => async (dispatch) => {
   //     })
   //     .then((resp) => {
   //       // axios.get(ROUTES.API.PAYMENT.GET.payment).then((resp) => {});
-  //       debugger;
+  //
   //       // update recently added job
   //       if (resp.data && resp.data.success) {
   //         // dispatch({

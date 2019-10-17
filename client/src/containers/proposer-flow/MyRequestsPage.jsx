@@ -15,6 +15,7 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
 class MyRequestsPage extends React.Component {
+
   componentDidMount() {
     this.props.getAllMyRequests();
   }

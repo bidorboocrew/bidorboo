@@ -15,9 +15,9 @@ import NotificationSettings from './NotificationSettings';
 import VerifyEmailButton from './VerifyEmailButton';
 import VerifyPhoneButton from './VerifyPhoneButton';
 import { VerifiedVia } from '../commonComponents';
-import { switchRoute } from '../../utils';
 
-import * as ROUTES from '../../constants/frontend-route-consts';
+import OtherUserProfileForReviewPage from '../OtherUserProfileForReviewPage';
+
 class MyProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -174,8 +174,11 @@ class MyProfile extends React.Component {
                                 </span>
                               )}
                               {!email.isVerified && (
-                                <span style={{ marginLeft: 6 }} className="has-text-danger">
-                                  <span style={{ marginLeft: 2 }}>(Not Verified)</span>
+                                <span
+                                  className="has-text-danger"
+                                  style={{ marginLeft: 2, marginRight: 4 }}
+                                >
+                                  (Not Verified)
                                 </span>
                               )}
                             </div>
@@ -201,8 +204,11 @@ class MyProfile extends React.Component {
                                 </span>
                               )}
                               {!phone.isVerified && (
-                                <span style={{ marginLeft: 6 }} className="has-text-danger">
-                                  <span style={{ marginLeft: 2 }}>(Not Verified)</span>
+                                <span
+                                  style={{ marginLeft: 2, marginRight: 4 }}
+                                  className="has-text-danger"
+                                >
+                                  (Not Verified)
                                 </span>
                               )}
                             </div>
@@ -270,6 +276,26 @@ class MyProfile extends React.Component {
               <NotificationSettings />
             </div>
           </div>
+        </div>
+        <div>
+          <br></br>
+          <br></br>
+          <div style={{ background: 'transparent' }} className="tabs is-centered">
+            <ul style={{ marginLeft: 0 }}>
+              <li className="is-active">
+                <a>
+                  <span className="icon is-small">
+                    <i className="fas fa-wave-square" aria-hidden="true" />
+                  </span>
+                  <span>YOUR BIDORBOO PULSE</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <OtherUserProfileForReviewPage
+            isMyPersonalProfile
+            match={{ params: { userId: userDetails._id } }}
+          ></OtherUserProfileForReviewPage>
         </div>
       </React.Fragment>
     );

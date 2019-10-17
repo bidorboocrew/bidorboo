@@ -258,6 +258,8 @@ const UserSchema = new Schema(
         'We could not establish a stripe customer account. In order to proceed please chat with us via the chat button in the footer',
       ],
     },
+    // canBid: { type: Boolean, default: false },
+    // canPost: { type: Boolean, default: false },
     stripeConnect: {
       accId: { type: String },
       // when payoutsEnabled && chargesEnabled
@@ -291,22 +293,22 @@ UserSchema.pre('save', async function(next) {
 
 UserSchema.virtual('canPost').get(function() {
   // return this.phone && this.phone.isVerified &&
-  return this.email && this.email.isVerified;
+  return !!(this.phone && this.phone.isVerified && this.email && this.email.isVerified);
 });
 
 UserSchema.virtual('canBid').get(function() {
-  return this.email && this.email.isVerified;
+  // return this.email && this.email.isVerified;
 
-  // return !!(
-  // this.phone &&
-  // this.phone.isVerified &&
-  // this.email &&
-  // this.email.isVerified
-  // // this.stripeConnect &&
-  // this.stripeConnect.accId &&
-  // this.stripeConnect.isVerified &&
-  // this.stripeConnect.payoutsEnabled
-  // );
+  return !!(
+    this.phone &&
+    this.phone.isVerified &&
+    this.email &&
+    this.email.isVerified &&
+    this.stripeConnect &&
+    this.stripeConnect.accId &&
+    this.stripeConnect.isVerified &&
+    this.stripeConnect.payoutsEnabled
+  );
 });
 
 UserSchema.virtual('disabledReasonMsg').get(function() {

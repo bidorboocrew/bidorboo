@@ -44,18 +44,33 @@ class PaymentSettings extends React.Component {
     }
 
     let { stripeConnect } = userDetails;
+
+    const firstTimeSetup = !(stripeConnect && stripeConnect.accId);
+    const pendingVerification = stripeConnect && stripeConnect.accId && !stripeConnect.isVerified;
+
+    const verifiedAccount =
+      stripeConnect &&
+      stripeConnect.accId &&
+      stripeConnect.isVerified &&
+      stripeConnect.payoutsEnabled;
+
     return (
       <div className="columns is-centered">
         <div className="column is-narrow">
-          {(!stripeConnect || !stripeConnect.last4BankAcc) && (
+          {firstTimeSetup && (
             <InitialAccountSetupView
               {...this.props}
               {...this.state}
               toggleAddPaymentDetails={this.toggleAddPaymentDetails}
             />
           )}
-
-          {stripeConnect && stripeConnect.last4BankAcc && (
+          {/* {xxxxxxxxxxxxxx xxx you need to allow updates} */}
+          {/* {pendingVerification && (
+            <React.Fragment>
+              <EstablishedAccountView {...this.props} />
+            </React.Fragment>
+          )} */}
+          {verifiedAccount && (
             <React.Fragment>
               <EstablishedAccountView {...this.props} />
             </React.Fragment>
@@ -135,6 +150,9 @@ const InitialAccountSetupView = (props) => {
                     <strong>Setup Payout Banking Details</strong>
                   </label>
                   <div className="help">
+                    * You must be <strong>19 years or older</strong> to provide services
+                  </div>
+                  <div className="help">
                     * All Your data is secured via
                     <a href="https://stripe.com/ca" target="_blank">
                       {` Stripe payment gateway.`}
@@ -142,7 +160,8 @@ const InitialAccountSetupView = (props) => {
                     {` A world class secure payment processing platform.`} <br />
                   </div>
                   <div className="help">
-                    * We will use this to deposit your earnings after completing tasks
+                    * Once verified, this will be the primary deposit account after you complete a
+                    tasks
                   </div>
                 </div>
 
@@ -180,10 +199,21 @@ const EstablishedAccountView = (props) => {
   const { userDetails, myStripeAccountDetails } = props;
 
   let { stripeConnect } = userDetails;
-  if (!myStripeAccountDetails) {
-    return null;
-  }
+  let istherePaymentDetails = myStripeAccountDetails && myStripeAccountDetails.balanceDetails;
 
+  // const isAccountDisabled = !!accRequirements.disabled_reason;
+  // const disabledReasonMsg =
+  //   accRequirements.disabled_reason +
+  //   ' \nPlease use the chat button at the bottom of the page to chat with our customer support.';
+  // const deadlineToSubmitDocs = accRequirements.current_deadline;
+
+  // const { external_account, individual } = currently_due;
+  // const isLast4OfSinNeeded = false;
+  // if (individual) {
+  //   if (individual.ssn_last_4) {
+  //     isLast4OfSinNeeded = true;
+  //   }
+  // }
   return (
     <section style={{ backgroundColor: 'white', padding: '0.25rem' }}>
       <HeaderTitle title="Account Details" />
@@ -194,7 +224,7 @@ const EstablishedAccountView = (props) => {
           <div className="control">
             <label className="radio">
               <input type="radio" name="foobar" checked readOnly />
-              {` Bank Account last 4 digits `}
+              {` Bank Account number ******`}
               <strong>{stripeConnect.last4BankAcc}</strong>
             </label>
           </div>
@@ -211,16 +241,18 @@ const EstablishedAccountView = (props) => {
                 </span>
               </div>
 
-              <div className="panel-block is-active">
-                <span className="has-text-success">
+              <div style={{ padding: '0.5rem' }}>
+                <div className="has-text-success">
                   <span className="icon">
                     <i className="fas fa-check is-success" />
                   </span>
-                  <span>
-                    Congratulations your account is Verified. All payments will be immediately paid
-                    into your bank account upon completing tasks.
-                  </span>
-                </span>
+                  <span>Congratulations your bank account is Verified.</span>
+                </div>
+                <div>Payouts will be sent to this bank acc upon completing Tasks.</div>
+                <div className="help">
+                  *To change your primary payout bank account click the chat button at the bottom of
+                  the page
+                </div>
               </div>
             </React.Fragment>
           ) : (
@@ -233,7 +265,7 @@ const EstablishedAccountView = (props) => {
                   <span>Pending Verification</span>
                 </span>
               </div>
-              <div className="panel-block is-active">
+              <div style={{ padding: '0.5rem' }}>
                 <p>
                   <strong>Don't Worry !</strong>
                   <br />
@@ -247,17 +279,29 @@ const EstablishedAccountView = (props) => {
           return verificationStatus;
         })()}
         <div className="panel-heading is-size-6 has-text-weight-semibold">Your Earnings</div>
-        <div className="panel-block is-active">
-          Earnings will be listed below
-          {myStripeAccountDetails &&
-            myStripeAccountDetails.balanceDetails &&
-            myStripeAccountDetails.balanceDetails.potentialFuturePayouts > 0 && (
-              <div style={{ wordBreak: 'break-all' }}>
-                Pending Payments Amount
-                {`${myStripeAccountDetails.balanceDetails.potentialFuturePayouts}`}
-                Balance Details {`${JSON.stringify(myStripeAccountDetails.balanceDetails)}`}
+        <div style={{ padding: '0.5rem' }}>
+          {istherePaymentDetails && (
+            <div className="tile is-ancestor has-text-centered">
+              <div className="tile is-parent">
+                <article className="tile is-child box">
+                  <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
+                    {`0$`}
+                  </p>
+                  <p className="is-size-6">Future Payouts</p>
+                  <p className="help">*on the way to your bank</p>
+                </article>
               </div>
-            )}
+              <div className="tile is-parent">
+                <article className="tile is-child box">
+                  <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
+                    {`0$`}
+                  </p>
+                  <p className="is-size-6">Past Earnings</p>
+                  <p className="help">*already paid out</p>
+                </article>
+              </div>
+            </div>
+          )}
         </div>
       </nav>
     </section>

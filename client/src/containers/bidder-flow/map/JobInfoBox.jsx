@@ -1,14 +1,23 @@
 /*global google*/
+
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { updateViewedBy } from '../../../app-state/actions/jobActions';
+import { showLoginDialog } from '../../../app-state/actions/uiActions';
 import React from 'react';
 import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox';
 
-import {
-  getMeTheRightRequestCard,
-  POINT_OF_VIEW,
-} from '../../../bdb-tasks/getMeTheRightCard';
-export default class JobInfoBox extends React.Component {
+import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../../bdb-tasks/getMeTheRightCard';
+export class JobInfoBox extends React.Component {
   render() {
-    const { job, userDetails, toggleShowInfoBox } = this.props;
+    const {
+      job,
+      userDetails,
+      toggleShowInfoBox,
+      isLoggedIn,
+      showLoginDialog,
+      updateViewedBy,
+    } = this.props;
 
     return (
       <InfoBox
@@ -33,11 +42,33 @@ export default class JobInfoBox extends React.Component {
           job,
           isSummaryView: true,
           pointOfView: POINT_OF_VIEW.TASKER,
-          userDetails: userDetails,
           onCloseHandler: toggleShowInfoBox,
           isOnMapView: true,
+          isLoggedIn,
+          userDetails,
+          showLoginDialog,
+          updateViewedBy,
         })}
       </InfoBox>
     );
   }
 }
+
+const mapStateToProps = ({ userReducer }) => {
+  return {
+    isLoggedIn: userReducer.isLoggedIn,
+    userDetails: userReducer.userDetails,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
+    updateViewedBy: bindActionCreators(updateViewedBy, dispatch),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(JobInfoBox);

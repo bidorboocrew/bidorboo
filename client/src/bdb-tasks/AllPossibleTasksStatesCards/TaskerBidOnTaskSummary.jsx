@@ -1,14 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import {
-  proposerConfirmsJobCompletion,
-  cancelJobById,
-  updateViewedBy,
-} from '../../app-state/actions/jobActions';
-import { showLoginDialog } from '../../app-state/actions/uiActions';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -26,22 +18,15 @@ import { getUserExistingBid, didUserAlreadyView } from '../../containers/commonU
 
 import RequestBaseContainer from './RequestBaseContainer';
 
-class TaskerBidOnTaskSummary extends RequestBaseContainer {
+export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
   toggleRegisterAsTasker = () => {
     this.setState({ showRegisterAsTaskerModal: !this.state.showRegisterAsTaskerModal });
   };
 
   render() {
-    const {
-      job,
-      otherArgs = {},
-      isLoggedIn,
-      userDetails,
-      showLoginDialog,
-      updateViewedBy,
-    } = this.props;
+    const { job, otherArgs = {} } = this.props;
     const { showRegisterAsTaskerModal } = this.state;
-    const { showMapView } = otherArgs;
+    const { showMapView, isLoggedIn, userDetails, showLoginDialog, updateViewedBy } = otherArgs;
     if (
       !job ||
       !job._id ||
@@ -94,7 +79,7 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
           <div style={{ ...specialStyle }} className="card-content">
             <div className="content">
               <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-              <TaskImagesCarousel taskImages={taskImages} />
+              {!isOnMapView && <TaskImagesCarousel taskImages={taskImages} />}
               <div className="group">
                 <label className="label hasSelectedValue">Requester</label>
                 {!isOnMapView && (
@@ -279,29 +264,6 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
   }
 }
 
-const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
-  return {
-    isLoggedIn: userReducer.isLoggedIn,
-    selectedAwardedJob: jobsReducer.selectedAwardedJob,
-    userDetails: userReducer.userDetails,
-    notificationFeed: uiReducer.notificationFeed,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
-    cancelJobById: bindActionCreators(cancelJobById, dispatch),
-    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
-    updateViewedBy: bindActionCreators(updateViewedBy, dispatch),
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(TaskerBidOnTaskSummary);
-
 const ShowRegisterAsTaskerModal = ({ handleClose }) => {
   return (
     <React.Fragment>
@@ -317,7 +279,7 @@ const ShowRegisterAsTaskerModal = ({ handleClose }) => {
                 <label className="label">In order to bid on jobs you must :</label>
               </div>
               <ul>
-                <li>- Be at least 16 years of old</li>
+                <li>- Be at least 19 years of old</li>
                 <li>
                   <a onClick={() => switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings)}>
                     - Verify your email and phone info
@@ -348,34 +310,3 @@ const ShowRegisterAsTaskerModal = ({ handleClose }) => {
     </React.Fragment>
   );
 };
-
-// <div
-//           className={`card cardWithButton ${isOnMapView ? 'bdb-infoBoxCard' : 'limitWidthOfCard'}`}
-//         >
-//           <div className="card-content">
-//             <div className="content">
-// <CardTitleAndActionsInfo
-//   isOnMapView={isOnMapView}
-//   userAlreadyBid={userAlreadyBid}
-//   jobState={state}
-//   templateId={templateId}
-//   bidsList={_bidsListRef}
-//   userAlreadyView={userAlreadyView}
-// />
-
-//               <div className="group">
-//                 <label className="label">Requester:</label>
-//                 <UserImageAndRating clipUserName userDetails={_ownerRef} />
-//               </div>
-//               <StartDateAndTime
-//                 date={startingDateAndTime}
-//                 renderHelpComponent={() => (
-//                   <CountDownComponent startingDate={startingDateAndTime} />
-//                 )}
-//               />
-//               {/* {!isOnMapView && <TaskSpecificExtras templateId={ID} extras={extras} />} */}
-//               {!isOnMapView && <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />}
-//             </div>
-
-//           </div>
-//         </div>

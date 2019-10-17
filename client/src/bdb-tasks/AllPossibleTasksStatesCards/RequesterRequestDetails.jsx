@@ -122,8 +122,7 @@ class RequesterRequestDetails extends React.Component {
                 </header>
                 <section className="modal-card-body">
                   <div className="content">
-                    When you cancel a request we will delete it and all associated bids within 24
-                    hours.
+                    When you cancel a request we will delete it and all associated bids
                     <br /> You can always post a new request at any time
                   </div>
                   <div className="help">*This action will NOT affect your ratings.</div>
