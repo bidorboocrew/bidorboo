@@ -15,7 +15,7 @@ export class FirstTimeUser extends React.Component {
     if (!isLoggedIn || !userDetails) {
       switchRoute(`${ROUTES.CLIENT.HOME}`);
     } else if (userDetails.membershipStatus !== 'NEW_MEMBER') {
-      switchRoute(`${ROUTES.CLIENT.HOME}`);
+      switchRoute(`${ROUTES.CLIENT.MY_PROFILE.basicSettings}`);
     }
   }
 

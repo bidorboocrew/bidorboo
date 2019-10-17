@@ -68,7 +68,7 @@ class App extends React.Component {
   }
 
   render() {
-    debugger;
+
     if (this.state.hasError) {
       // You can render any custom fallback UI
       return (

@@ -2,7 +2,7 @@ import React from 'react';
 
 export default class TermsOfService extends React.Component {
   render() {
-    debugger;
+
     return (
       <section className="hero is-white">
         <div className="hero-body has-text-centered">
