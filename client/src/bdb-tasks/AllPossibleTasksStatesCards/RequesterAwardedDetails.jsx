@@ -612,6 +612,16 @@ class AssignedTaskerDetails extends React.Component {
                     </a>
                   </div>
                   <div>
+                    <a
+                      href={`sms://${phoneNumber}?body=Hello%20I%20assigned%20you%20a%20task%20from%20BIDORBOO%20and%20am%20reaching%20out%20to%20agree%20on%20meeting%20time%20and%20details`}
+                    >
+                      <span className="icon">
+                        <i className="fas fa-sms" />
+                      </span>
+                      <span>{phoneNumber}</span>
+                    </a>
+                  </div>
+                  <div>
                     <a href={`tel:${phoneNumber}`}>
                       <span className="icon">
                         <i className="fas fa-mobile-alt" />
