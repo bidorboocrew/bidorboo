@@ -130,11 +130,9 @@ class Step4 extends React.Component {
   };
 
   verifyAndSubmitOnBoarding = () => {
-
     const { hasAgreedToTOS } = this.state;
-    const { location } = this.props;
-    const shouldRedirect =
-      this.props.location && this.props.location.state && this.props.location.redirectUrl;
+    const { location, updateOnBoardingDetails } = this.props;
+    const shouldRedirect = location && location.state && location.state.redirectUrl;
 
     let errors = {};
     if (!hasAgreedToTOS) {
@@ -148,12 +146,11 @@ class Step4 extends React.Component {
         } else {
           // no issues submit to server here
 
-          this.props.updateOnBoardingDetails(
+          updateOnBoardingDetails(
             {
               agreedToTOS: this.state.hasAgreedToTOS,
             },
             () => {
-
               if (shouldRedirect) {
                 switchRoute(location.state.redirectUrl);
               }
