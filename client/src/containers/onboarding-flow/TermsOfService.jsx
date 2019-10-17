@@ -2,14 +2,1351 @@ import React from 'react';
 
 export default class TermsOfService extends React.Component {
   render() {
-
     return (
       <section className="hero is-white">
         <div className="hero-body has-text-centered">
           <div className="container">
             <h1 style={{ marginBottom: 0 }} className="title">
-              BIDORBOO INC TERMS OF USE (IN PROGRESS)
+              BIDORBOO INC TERMS OF SERVICE & PRIVACY (UNDER REVIEW BY LEGAL)
             </h1>
+            <div style={{ textAlign: 'left' }}>
+              <div className="group">
+                <label className="label">BIDORBOO Terms of Service</label>
+                <div className="help">Last updated: Nov 1, 2019</div>
+              </div>
+              <p>
+                These Terms of Service constitute a legally binding agreement between you and
+                BIDORBOO, Inc. (“Company” or “BIDORBOO”) governing your use of the BIDORBOO Platform
+                (as defined below), Company’s website (https://www.BIDORBOO.com or the “Site”) and
+                mobile applications (the “Apps”). The BIDORBOO Platform and related services
+                provided by Company, the Site, and Apps, including without limitation communications
+                and information (whether in writing, orally, or otherwise howsoever) provided by
+                Company to potential and actual Taskers and Clients (both as defined at Section 1)
+                in relation to the services, together are hereinafter collectively referred to as
+                the “BIDORBOO Platform.”
+              </p>
+              <br></br>
+              <p>
+                Any personal data you submit to the BIDORBOO Platform or which we collect about you
+                is governed by our Privacy Policy (“Privacy Policy”). A copy of our Privacy Policy
+                is available here. You acknowledge that by using the BIDORBOO Platform you have
+                reviewed the Privacy Policy.
+              </p>
+              <br></br>
+              <p>
+                Your use of the BIDORBOO Platform constitutes your acceptance of and agreement to
+                all of the terms and conditions in these Terms of Service, the Privacy Policy, the
+                BIDORBOO Happiness Pledge (the “Happiness Pledge”), and any future amendments and
+                additions to this Agreement (as defined below) as we may publish from time to time.
+                The Privacy Policy and the Happiness Pledge are incorporated by reference into these
+                Terms of Service and together form and are hereinafter referred to as this
+                “Agreement”.
+              </p>
+              <br></br>
+              <p>
+                PLEASE NOTE: THIS AGREEMENT GOVERNS HOW DISPUTES BETWEEN YOU AND BIDORBOO CAN BE
+                RESOLVED. IT CONTAINS A BINDING AND FINAL ARBITRATION PROVISION AND CLASS ACTION
+                WAIVER (SECTION 19 OR 20, AS APPLICABLE). PLEASE READ CAREFULLY AS IT AFFECTS YOUR
+                LEGAL RIGHTS, INCLUDING, IF APPLICABLE, YOUR RIGHT TO OPT OUT OF ARBITRATION.
+              </p>
+              <br></br>
+              <p>
+                IN ADDITION, BY ENTERING INTO THIS AGREEMENT, YOU EXPRESSLY ACKNOWLEDGE THAT YOU
+                HAVE READ, UNDERSTAND AND AGREE, WITHOUT LIMITATION OR QUALIFICATION, TO BE BOUND BY
+                THIS AGREEMENT (INCLUDING THE DISPUTE RESOLUTION AND ARBITRATION PROVISIONS IN
+                SECTION 19 OR 20, AS APPLICABLE) AND YOU ACCEPT ALL OF ITS TERMS.
+              </p>
+              <br></br>
+              IF YOU DO NOT AGREE TO BE BOUND BY THIS AGREEMENT, YOU MAY NOT USE OR ACCESS THE
+              BIDORBOO PLATFORM.
+              <br></br>
+              <p>
+                Your use of the BIDORBOO Platform in a country other than the country in which you
+                register constitutes your acceptance of and agreement to all of the terms and
+                conditions in the Terms of Service, the Privacy Policy, and the BIDORBOO Happiness
+                Pledge for that country. See complete list of terms by country here.
+              </p>
+              <br></br>
+              <p>
+                You must be 19 years old (for Canada based users) or at least the legally required
+                age in the jurisdiction in which you reside, and otherwise capable of entering into
+                binding contracts, in order to use or access the BIDORBOO Platform. If you are under
+                19 years old (for Canada based users) or the age of majority in your jurisdiction,
+                then you may not use or access the BIDORBOO Platform. Children under 13 years old
+                are prohibited from accessing the BIDORBOO Platform or otherwise providing any
+                personal information to BIDORBOO.
+              </p>
+              <br></br>A few highlights of these Terms of Service include:
+              <br></br>A few highlights of these Terms of Service include: Your agreement that the
+              <p>
+                BIDORBOO Platform is provided “as is” and without warranty (Section 17). Your
+                agreement that Company has no liability regarding the BIDORBOO Platform or the
+                performance of Tasks (as defined below at Section 1) (Section 17). Your
+                acknowledgment and agreement that Clients, and not BIDORBOO, scope, supervise,
+                direct, control, and monitor a Tasker’s work and the Tasks (Section 1). Your
+                acknowledgement and agreement that Clients are solely responsible for determining if
+                the Tasker they hire is qualified to perform the task at hand. Your acknowledgement
+                and agreement that Taskers are independent contractors of Clients and not employees,
+                independent contractors or service providers of BIDORBOO (Sections 1 and 12) Your
+                consent to release Company from liability based on claims between Users (Section 2),
+                in respect of Tasker claims (Section 12) and generally (Section 17). Your agreement
+                to indemnify Company from claims due to your use or inability to use the BIDORBOO
+                Platform or content submitted from your account to the BIDORBOO Platform (Section
+                18). Your consent to submit any claims against Company to binding arbitration, and
+                on an individual basis only, to the extent permissible by law (Section 19).
+              </p>
+              <br></br>
+              <p>
+                1. The BIDORBOO Platform Connects Taskers and Clients The BIDORBOO Platform is a
+                web-based communications platform which enables connections between Clients and
+                Taskers. “Clients” are individuals and/or businesses seeking to obtain short-term
+                task services (“Tasks”) from Taskers and are therefore clients of Taskers, and
+                “Taskers” are individuals and/or businesses seeking to perform Tasks for Clients.
+                Clients and Taskers together are hereinafter referred to as “Users.” If you agree on
+                the terms of a Task with another User, you and such other User form a Service
+                Agreement directly between the two of you as set forth in more detail in Section 3
+                below.
+                <br></br>
+                TASKERS ARE INDEPENDENT CONTRACTORS OF CLIENTS AND NOT EMPLOYEES, PARTNERS,
+                REPRESENTATIVES, AGENTS, JOINT VENTURERS, INDEPENDENT CONTRACTORS OR FRANCHISEES OF
+                COMPANY. COMPANY DOES NOT PERFORM TASKS AND DOES NOT EMPLOY INDIVIDUALS TO PERFORM
+                TASKS. USERS HEREBY ACKNOWLEDGE THAT COMPANY DOES NOT SUPERVISE, DIRECT, CONTROL OR
+                MONITOR A TASKER’S WORK AND EXPRESSLY DISCLAIMS ANY RESPONSIBILITY AND LIABILITY FOR
+                THE WORK PERFORMED AND THE TASKS IN ANY MANNER, INCLUDING BUT NOT LIMITED TO A
+                WARRANTY OR CONDITION OF GOOD AND WORKMANLIKE SERVICES, WARRANTY OR CONDITION OF
+                QUALITY OR FITNESS FOR A PARTICULAR PURPOSE, OR COMPLIANCE WITH ANY LAW, REGULATION,
+                OR CODE.
+                <br></br>
+                The BIDORBOO Platform only enables connections between Users for the fulfillment of
+                Tasks. Company is not responsible for the performance or communications of Users,
+                nor does it have control over the quality, timing, legality, failure to provide, or
+                any other aspect whatsoever of Tasks, Taskers, Clients, nor of the integrity,
+                responsibility, competence, qualifications, or any of the actions or omissions
+                whatsoever of any Users, or of any ratings provided by Users with respect to each
+                other. Company makes no warranties or representations about the suitability,
+                reliability, timeliness, or accuracy of the Tasks requested or services provided by,
+                or the communications of or between, Users identified through the BIDORBOO Platform,
+                whether in public, private, or offline interactions or otherwise howsoever.
+              </p>
+              <br></br>
+              <p>
+                2. User Vetting and User Representations and Warranties User Vetting In Company’s
+                sole discretion, Users may be subject to an extensive vetting process before they
+                can register for and during their use of the BIDORBOO Platform, including but not
+                limited to a verification of identity, using third party services as appropriate
+                (“Identity Checks”). Although Company may perform Identity Checks, Company is not
+                required to do so and cannot confirm that each User is who they claim to be. Company
+                cannot and does not assume any responsibility for the accuracy or reliability of
+                Identity Check information or any information provided through the BIDORBOO
+                Platform.
+                <br></br>
+                When interacting with other Users, you should exercise caution and common sense to
+                protect your personal safety, data, and property, just as you would when interacting
+                with other persons whom you don’t know. BIDORBOO will not be liable for any false or
+                misleading statements made by Users of the BIDORBOO Platform. NEITHER BIDORBOO NOR
+                ITS PARENTS, AFFILIATES OR LICENSORS, INCLUDING THEIR RESPECTIVE DIRECTORS,
+                OFFICERS, SHAREHOLDERS, AGENTS, INVESTORS, SUBSIDIARIES, ATTORNEYS, REPRESENTATIVES,
+                INSURERS, EMPLOYEES, SUCCESSORS AND ASSIGNS (HEREINAFTER REFERRED TO COLLECTIVELY AS
+                “BIDORBOO AND AFFILIATES”) IS RESPONSIBLE FOR THE CONDUCT, ACTS, OR OMISSIONS,
+                WHETHER ONLINE OR OFFLINE, OF ANY USER OF THE BIDORBOO PLATFORM AND YOU HEREBY
+                RELEASE BIDORBOO AND AFFILIATES FROM ANY AND ALL LIABILITY, CLAIMS, DEMANDS, OR
+                DAMAGES OF EVERY KIND AND NATURE, KNOWN AND UNKNOWN, SUSPECTED AND UNSUSPECTED,
+                DISCLOSED AND UNDISCLOSED, ARISING OUT OF OR IN ANY WAY CONNECTED WITH THE BIDORBOO
+                PLATFORM.
+                <br></br>
+                User Representations and Warranties
+                <br></br>
+                You represent and warrant that: (1) you are 19 years of age or older (for Canada
+                based users) or are at least of the legally required age in the jurisdiction in
+                which you reside, and are otherwise capable of entering into binding contracts, and
+                (2) you have the right, authority and capacity to enter into this Agreement and to
+                abide by the terms and conditions of this Agreement, and that you will so abide.
+                Where you enter into this Agreement on behalf of a company or other organization,
+                you represent and warrant that you have authority to act on behalf of that entity
+                and to bind that entity to this Agreement.
+                <br></br>
+                You further represent and warrant that you have read, understand, and agree to be
+                bound by these Terms of Service, the Happiness Pledge, and the Privacy Policy in
+                order to access and use the BIDORBOO Platform. You hereby warrant and represent that
+                you will respect the privacy (including without limitation private, family and home
+                life), property and data protection rights of Users and that you will not record
+                (whether video or audio or otherwise) any Task or any interaction by or with any
+                User and/or Company in connection with the BIDORBOO Platform without the prior
+                written consent of Company and/or the relevant User, as applicable. You further
+                represent and warrant that you will fulfill the commitments you make to other Users,
+                including paying/receiving payment through the BIDORBOO Platform using the PSP (as
+                defined below), performing the Task(s) agreed upon as between the Tasker and Client,
+                communicating clearly and promptly through the chat thread and/or responding to
+                invitations promptly, being present and/or available at the time you agree upon with
+                your Tasker or Client as the case may be, and only utilizing the third party payment
+                processing system specified or approved by us to make or receive payment for
+                services provided through the BIDORBOO Platform (the “PSP”). You also represent and
+                warrant that you will act professionally and responsibly in your interactions with
+                other Users. You warrant that you will not purchase or deliver controlled substances
+                on the BIDORBOO platform. You further represent and warrant that when using or
+                accessing the BIDORBOO Platform, you will act in accordance with any applicable
+                local, state, provincial, national, or international law or custom and in good
+                faith.
+                <br></br>
+                You hereby warrant and represent that, other than as fully and promptly disclosed to
+                Company as set forth below, you do not have any motivation, status, or interest
+                which Company may reasonably wish to know about in connection with the BIDORBOO
+                Platform, including without limitation, if you are using or will or intend to use
+                the BIDORBOO Platform for any journalistic, investigative, or unlawful purpose. You
+                hereby warrant and represent that you will promptly disclose to Company in writing
+                any such motivation, status or interest, whether existing prior to registration or
+                as arises during your use of the BIDORBOO Platform.
+                <br></br>
+                Taskers additionally represent and warrant that you will provide timely,
+                high-quality services to your Clients, you will only offer and provide services for
+                which you have the necessary skills and expertise, and you will provide the services
+                safely and in accordance with all applicable laws, and that you have the legal right
+                to work in the country in which you are performing Tasks.
+              </p>
+              <br></br>
+              <p>
+                3. Contract between Clients and Taskers You acknowledge and agree that a legally
+                binding contract (the “Service Agreement”) is formed when you agree on the terms of
+                a Task with another User. The terms of the Service Agreement include the terms set
+                forth in this Section 3, the engagement terms proposed and accepted on the BIDORBOO
+                Platform, and any other contractual terms accepted by both the Tasker and their
+                Client to the extent such terms do not conflict with the terms in this Agreement,
+                including this Section 3, and do not expand Company’s obligations or restrict
+                Company’s rights under this Agreement. You agree that Company is not a party to any
+                Service Agreement and the formation of a Service Agreement will not, under any
+                circumstance, create an employment or other service relationship between Company and
+                the Tasker (or Assistants (as defined below)), nor will it create an employment
+                relationship between the Client and the Tasker (or Assistants (as defined below)).
+                Company’s role is restricted solely to acting as a limited payment collection agent
+                for the Tasker to facilitate payment on behalf of the Tasker through the BIDORBOO
+                Platform using the PSP in respect of Tasks they perform. In acting as the limited
+                payment collection agent for particular Tasks on the BIDORBOO Platform, BIDORBOO
+                disclaims any other agency or authority to act on behalf of the Tasker, and assumes
+                no liability or responsibility for any acts or omissions of the Tasker, either
+                within or outside of the BIDORBOO Platform.
+                <br></br>
+                Where approved in advance by the Client, the Tasker is not obligated to personally
+                perform the Task. Before any Task services are performed by any assistants, helpers,
+                subcontractors or other personnel engaged by the Tasker (collectively “Assistants”),
+                the Tasker shall require any such individuals to become fully registered, oriented
+                and verified Taskers on the BIDORBOO Platform. A Tasker’s failure to comply with
+                this provision by bringing an Assistant who is not a registered Tasker could lead to
+                removal from the BIDORBOO Platform. The Tasker assumes full and sole responsibility
+                for the acts and omissions of such Assistants, including without limitation the
+                payment of all compensation, benefits and expenses of Assistants, if any, and for
+                all required and applicable income tax withholdings as to the Tasker and all persons
+                engaged by the Tasker in the performance of the Task services.
+                <br></br>
+                While using the BIDORBOO Platform, Clients, in their sole discretion, determine
+                whether they will be present or not when a Task is performed and/or completed.
+                Clients who elect not to be present when a Task is performed and/or completed agree
+                that if someone other than them (i.e. spouse, roommate, friend, etcetera) is present
+                when the Task is performed, they are appointing that person as their agent
+                (“Client’s Agent”) and the Tasker may take and follow direction from the Client’s
+                Agent as if such direction was given from the Client him or herself.
+                <br></br>
+                The Client shall pay their Tasker directly for completed Task services through the
+                PSP as indicated on the BIDORBOO Platform at the rates agreed to by the parties in
+                the Service Agreement. Each User agrees to comply with the Service Agreement and
+                this Agreement during the engagement, performance and completion of a Task. Both
+                Users agree to notify Company of any disputes prior to negotiation of or filing of
+                any claims and to negotiate any dispute informally via Company representatives for
+                at least thirty (30) days before initiating any proceeding. BIDORBOO reserves the
+                right to suspend or terminate any account or Task pending the resolution of any
+                dispute.
+              </p>
+              <br></br>
+              <p>
+                4. Billing and Payment Users of the BIDORBOO Platform contract for Tasks directly
+                with other Users. Company will not be a party to any contracts for Tasks or
+                services. Payment for Task services through the BIDORBOO Platform is made directly
+                from the Client to the Tasker via the PSP, and not by Company. Company is not
+                obligated to pay Tasker for Client’s failure to pay for services.
+                <br></br>
+                Users of the BIDORBOO Platform will be required to provide their payment method
+                details to Company and the PSP. Taskers are responsible for invoicing their Clients
+                within 24 hours of the work being performed, even if the Task is not completed in
+                its entirety or is designated as “ongoing”. Clients will be responsible for paying
+                the invoice for each Task (the “Invoice”), which will include (i) the pricing terms
+                of the Task agreed with and provided by a Tasker (“Task Payment”), (ii) any out of
+                pocket expenses agreed with and submitted by a Tasker in connection with the Task,
+                (iii) any tip or gratuity, if applicable, (iv) the service charge Company assesses
+                to the Client as payable for the use of the BIDORBOO Platform, variable based on the
+                Task Payment amount, and (v) the platform fee (sometimes referred to as Trust &
+                Support Fee) Company assesses to the Client, which is used to offset Company’s cost
+                of providing Users with customer support, providing the Happiness Pledge set forth
+                in Section 13, and other various business objectives, and (vi) cancellation fees, if
+                applicable. Taskers will be responsible for paying (i) registration fees, if
+                applicable and (ii) cancellation fees, if applicable and (iii) repayment of
+                erroneous payments. Clients may also be charged credit card processing fees equal to
+                three percent (3%) of the aggregate expense amount if expenses related to a Task
+                individually, or Tasks in the aggregate over a 30-day period, exceed $300.00.
+                <br></br>
+                Taskers may be required to register with the PSP, agree to terms of service of the
+                PSP, and go through a vetting process at the request of the PSP to set up their
+                account with the PSP (the “PSP Services Agreement”). By accepting these Terms of
+                Service, each Tasker agrees that they have downloaded or printed, and reviewed and
+                agreed to, the PSP Services Agreement. Please note that BIDORBOO is not a party to
+                the PSP Services Agreement and that you, the PSP and any other parties listed in the
+                PSP Services Agreement are the parties to the PSP Services Agreement and that
+                BIDORBOO has no obligations, responsibility or liability to any Tasker or other
+                party under the PSP Services Agreement.
+                <br></br>
+                To help prevent fraud and safeguard User information from the risk of unauthorized
+                access, Company and/or the PSP may validate an account before activation. As part of
+                the account validation, a temporary charge is placed on the account associated with
+                the User and then refunded within 1-3 business days. Due to the difference in PSP
+                and credit card issuer requirements, this temporary charge may vary between $0.01 to
+                $5,000.00, depending on the estimated value of the Task and expenses.
+                <br></br>
+                When Client receives confirmation through the BIDORBOO Platform or via email that a
+                Task has been completed, Client automatically authorizes the PSP to process the
+                Invoice. Users may be charged a one-hour cancellation fee through the PSP if you
+                book (or accept) a Task, but cancel it before the scheduled time for performance.
+                <br></br>
+                Company reserves the right (but not the obligation), in its sole discretion, upon
+                request from Client or Tasker, or upon notice of any potential fraud, unauthorized
+                charges or other misuse of the BIDORBOO Platform, to (i) place on hold any Task
+                Payment, out of pocket expenses, and/or tip or gratuity (if applicable) or (ii)
+                refund or provide credits, or arrange for the PSP to do so.
+                <br></br>
+                Task Payment and fees must be paid through the PSP as indicated on the BIDORBOO
+                Platform.
+                <br></br>
+                Users of the BIDORBOO Platform will be liable for any taxes required to be paid on
+                the Tasks provided under the Agreement.
+              </p>
+              <br></br>
+              <p>
+                5. Contests, Gift Cards, and Promotional Codes Company may from time to time provide
+                certain promotional opportunities and contests to Users. All such promotions will be
+                run at the sole discretion of Company, and can be activated, modified, or removed at
+                any time by Company without advance notification. The liability of any of Company’s
+                corporate partners pursuant to such promotional opportunities and contests shall be
+                limited pursuant to Section 17 of these Terms of Service.
+                <br></br>
+                Company gift cards (“Gift Cards”) and promotional codes (“Promo Codes”) may be
+                available and can be used to pay Task Payments and Company service charges and
+                platform fees in part or in full, but may not be used to pay for reimbursement of
+                out of pocket expenses or tips associated with a Task provided through the BIDORBOO
+                Platform.
+                <br></br>
+                (a) Promo Codes Promo Codes are an offer by Company to reduce the amount a Client
+                has to pay in relation to a Task Payment, service fee, and/or platform fee. Promo
+                Codes will not affect the amount of the Task Payment a Tasker ultimately receives.
+                The use or application of any Promo Code is solely intended as a promotional
+                initiative and does not in any way create a relationship or engagement between
+                Company or the Tasker or represent wages, fees or other amounts paid to the Tasker
+                by Company. You agree that you will use Promo Codes in accordance with the terms of
+                the Promo Code. Company reserves the right to withhold or deduct credits or other
+                features or benefits obtained through the use of a Promo Code by you or any other
+                User in the event that Company determines or believes that the use or redemption of
+                a Promo Code was in error, fraudulent, illegal, or in violation of the applicable
+                Promo Code terms or this Agreement.
+              </p>
+              <br></br>
+              <p>
+                6. Public Areas; Acceptable Use The BIDORBOO Platform may contain profiles, email
+                systems, blogs, message boards, reviews, ratings, applications, job postings, chat
+                areas, news groups, forums, communities and/or other message or communication
+                facilities (“Public Areas”) that allow Users to communicate with other Users. You
+                may only use such community areas to send and receive messages and materials that
+                are relevant and proper to the applicable forum. For the safety and integrity of the
+                BIDORBOO Platform, you should not share your personal contact information with other
+                Users.
+                <br></br>
+                Without limitation, while using the BIDORBOO Platform, you may not:
+                <br></br>
+                Defame, abuse, harass, stalk, threaten, intimidate, misrepresent, mislead or
+                otherwise violate the legal rights (such as, but not limited to, rights of privacy,
+                confidentiality, reputation, and publicity) of others, including Users and BIDORBOO
+                staff, or use information learned from the BIDORBOO Platform or during the
+                performance of Tasks to otherwise defame, abuse, harass, stalk, threaten,
+                intimidate, misrepresent, mislead, or otherwise violate the legal rights of any
+                other User or Company staff; Publish, post, upload, distribute or disseminate any
+                profane, defamatory, infringing, obscene or unlawful topic, name, material or
+                information on the BIDORBOO Platform; Use the BIDORBOO Platform for any unauthorized
+                purpose, including, but not limited to posting or completing a Task in violation of
+                local, state, provincial, national, or international law; Upload files that contain
+                software or other material that violates the intellectual property rights (or rights
+                of privacy or publicity) of any User, third party, or Company; Upload files that
+                contain viruses, Trojan horses, corrupted files, or any other similar software that
+                may damage the operation of another’s computer; Post or upload any content to which
+                you have not obtained any necessary rights or permissions to use accordingly;
+                Advertise or offer to sell any goods or services for any commercial purpose through
+                the BIDORBOO Platform which are not relevant to the Task services offered through
+                the BIDORBOO Platform; Post or complete a Task requiring a User to (i) purchase or
+                obtain gift cards or money orders (ii) purchase high value items (over $300) without
+                obtaining pre-authorization from Company, (iii) provide ridesharing or other peer to
+                peer transportation services, (iv) post ratings or reviews on any third party
+                website in breach of such third party website’s terms of use, or (v) otherwise
+                engage in activity that is illegal or deemed dangerous, harmful or otherwise
+                inappropriate by Company in its sole discretion; Conduct or forward surveys,
+                contests, pyramid schemes, or chain letters; Impersonate another person or a User or
+                allow any other person or entity to use your identification to post or view
+                comments; Post the same Task repeatedly (“Spamming”) – Spamming is strictly
+                prohibited; Download any file posted by another User that a User knows, or
+                reasonably should know, cannot be legally distributed through the BIDORBOO Platform;
+                Restrict or inhibit any other User from using and enjoying the Public Areas; Imply
+                or state that any statements you make are endorsed by BIDORBOO, without the prior
+                written consent of BIDORBOO; Use a robot, spider, manual, meta tag, “hidden text,”
+                agent, robot, script, and/or automatic processes or devices to data-mine,
+                data-crawl, scrape, collect, mine, republish, redistribute, transmit, sell, license,
+                download, manage or index the BIDORBOO Platform, or the electronic addresses or
+                personal information of others, in any manner; Frame or utilize framing techniques
+                to enclose the BIDORBOO Platform or any portion thereof; Hack or interfere with the
+                BIDORBOO Platform, its servers or any connected networks; Adapt, alter, license,
+                sublicense or translate the BIDORBOO Platform for your own personal or commercial
+                use; Remove or alter, visually or otherwise, any copyrights, trademarks or
+                proprietary marks or rights owned by BIDORBOO and Affiliates; Upload content to the
+                BIDORBOO Platform that is offensive and/or harmful, including, but not limited to,
+                content that advocates, endorses, condones or promotes racism, bigotry, hatred or
+                physical harm of any kind against any individual or group of individuals; Upload
+                content that provides materials or access to materials that exploit people in an
+                abusive, violent or sexual manner; Use the BIDORBOO Platform to solicit for any
+                other business, website or service, or otherwise contact Users for employment,
+                contracting or any purpose not related to use of the BIDORBOO Platform as set forth
+                herein; Use the BIDORBOO Platform to collect usernames, email addresses, or other
+                personal information of Users by electronic or other means; Use the BIDORBOO
+                Platform or the Task services in violation of this Agreement; Use the BIDORBOO
+                Platform in a manner that is false or misleading (directly or by omission or failure
+                to update information) or for the purpose of accessing or otherwise obtaining
+                Company’s trade secret information for public disclosure or other purposes; Attempt
+                to circumvent the payments system or service fees in any way including, but not
+                limited to, processing payments outside of the BIDORBOO Platform, providing
+                inaccurate information on invoices, or otherwise invoicing in a fraudulent manner;
+                Register under different usernames or identities after your account has been
+                suspended or terminated, or register under multiple usernames or false identities,
+                or register using a false or disposable email or phone number; or Cause any third
+                party to engage in the restricted activities above. You understand that all
+                submissions made to Public Areas will be public and that you will be publicly
+                identified by your name or login identification when communicating in Public Areas.
+                BIDORBOO will not be responsible for the action of any Users with respect to any
+                information or materials posted in Public Areas.
+              </p>
+              <br></br>
+              <p>
+                7. Mobile App Updates and Upgrades By installing one of the Apps, you consent to the
+                installation of the App and any updates or upgrades that are released through the
+                BIDORBOO Platform. The App (including any updates or upgrades) may (i) cause your
+                device to automatically communicate with BIDORBOO’s servers to deliver the App
+                functionality and to record usage metrics, (ii) affect App-related preferences or
+                data stored your device, and (iii) collect personal information as set out in our
+                Privacy Policy. You can uninstall the App at any time.
+              </p>
+              <br></br>
+              <p>
+                8. Termination and Suspension Company may terminate or limit your right to use the
+                BIDORBOO Platform in the event that we are investigating or believe that you have
+                breached any provision of this Agreement (a “User Breach”), by providing you with
+                written or email notice. Such termination or limitation will be effective
+                immediately upon delivery of such notice.
+                <br></br>
+                If Company terminates or limits your right to use the BIDORBOO Platform pursuant to
+                this Section 8, you are prohibited from registering and creating a new account under
+                your name, a fake or borrowed name, or the name of any third party, even if you may
+                be acting on behalf of the third party. If Company terminates or limits your right
+                to use the BIDORBOO Platform as a Client due to a User Breach, you will not be
+                entitled to any refund of unused balance in your account.
+                <br></br>
+                Even after your right to use the BIDORBOO Platform is terminated or limited, this
+                Agreement will remain enforceable against you. Company reserves the right to take
+                appropriate legal action, including but not limited to pursuing arbitration in
+                accordance with Section 19 of these Terms of Service.
+                <br></br>
+                Company reserves the right to modify or discontinue, temporarily or permanently, all
+                or any portion of the BIDORBOO Platform at its sole discretion. Company is not
+                liable to you for any modification or discontinuance of all or any portion of the
+                BIDORBOO Platform. Company has the right to restrict anyone from completing
+                registration as a Tasker if Company believes such person may threaten the safety and
+                integrity of the BIDORBOO Platform, or if, in Company’s discretion, such restriction
+                is necessary to address any other reasonable business concern.
+                <br></br>
+                You may terminate this Agreement at any time by ceasing all use of the BIDORBOO
+                Platform. All parts of this Agreement which by their nature should survive the
+                expiration or termination of this Agreement shall continue in full force and effect
+                subsequent to and notwithstanding the expiration or termination of this Agreement.
+              </p>
+              <br></br>
+              <p>
+                9. Account, Password, Security, and Mobile Phone Use You must register with Company
+                and create an account to use the BIDORBOO Platform (an “Account”). You are the sole
+                authorized user of your account. You are responsible for maintaining the
+                confidentiality of any log-in, password, and account number provided by you or given
+                to you by Company for accessing the BIDORBOO Platform. You are solely and fully
+                responsible for all activities that occur under your password or account, even if
+                not authorized by you. If you are accessing and using the BIDORBOO Platform on
+                someone else’s behalf, you represent that you have the authority to bind that person
+                as the principal to all Terms provided herein. Company has no control over the use
+                of any User’s account and expressly disclaims any liability derived therefrom.
+                Should you suspect that any unauthorized party may be using your password or account
+                or you suspect any other breach of security, you agree to contact Company
+                immediately.
+                <br></br>
+                By providing your mobile phone number and using the BIDORBOO Platform, you hereby
+                affirmatively consent to BIDORBOO’s use of your mobile phone number for calls and
+                recurring texts, (including with an autodialer and/or prerecorded voice) in order to
+                (a) perform and improve upon the BIDORBOO Platform, (b) facilitate the carrying out
+                of Tasks through the BIDORBOO Platform, (c) provide you with information and
+                reminders regarding your registration, orientation, upcoming Tasks, product
+                alterations, changes and updates, service outages or alterations. These calls and
+                texts may include, among other things, reminders about uncompleted or upcoming Tasks
+                and/or in follow up to any push notifications delivered through our mobile
+                application. Company will not assess any charges for calls or texts, but standard
+                message, data or other charges from your wireless carrier may apply. You may opt-out
+                of receiving texts messages from us by modifying your account settings on the Site
+                or Apps, texting “STOP” in response to any texts, or by emailing
+                opt-out-texts@BIDORBOO.com and specifying you want to opt-out of texts. You may
+                opt-out of receiving calls from us by stating that you no longer wish to receive
+                calls during any call with us, or by emailing opt-out-texts@BIDORBOO.com and
+                specifying you want to opt-out of calls. You understand that we may send you a text
+                confirming any opt-out by you.
+              </p>
+              <br></br>
+              <p>
+                10. User Generated Content “User Generated Content” is defined as any information
+                and materials you provide to Company, its corporate partners, or other Users in
+                connection with your registration for and use of the BIDORBOO Platform, including
+                without limitation that posted or transmitted for use in Public Areas. You are
+                solely responsible for User Generated Content, and we act merely as a passive
+                conduit for your online distribution and publication of your User Generated Content.
+                You acknowledge and agree that BIDORBOO is not involved in the creation or
+                development of User Generated Content, disclaims any responsibility for User
+                Generated Content, and cannot be liable for claims arising out of or relating to
+                User Generated Content. Further, you acknowledge and agree that BIDORBOO has no
+                obligation to monitor, review, or remove User Generated Content, but reserves the
+                right to limit or remove User Generated Content on the BIDORBOO Platform at its sole
+                discretion.
+                <br></br>
+                You hereby represent and warrant to Company that your User Generated Content (a)
+                will not be false, inaccurate, incomplete or misleading; (b) will not be fraudulent
+                or involve the sale of counterfeit or stolen items; (c) will not infringe on any
+                third party’s copyright, patent, trademark, trade secret or other proprietary right
+                or rights of publicity, personality or privacy; (d) will not violate any law,
+                statute, ordinance, or regulation (including without limitation those governing
+                export control, consumer protection, unfair competition, anti-discrimination, false
+                advertising, anti-spam or privacy); (e) will not be defamatory, libelous, unlawfully
+                threatening, or unlawfully harassing; (f) will not be obscene or contain pornography
+                (including but not limited to child pornography) or be harmful to minors; (g) will
+                not contain any viruses, Trojan Horses, worms, time bombs, cancelbots or other
+                computer programming routines that are intended to damage, detrimentally interfere
+                with, surreptitiously intercept or expropriate any system, data or personal
+                information; (h) will not represent you being employed or directly engaged by or
+                affiliated with BIDORBOO or purport you to act as a representative or agent of
+                BIDORBOO; and (i) will not create liability for Company or cause Company to lose (in
+                whole or in part) the services of its ISPs or other partners or suppliers.
+                <br></br>
+                The BIDORBOO Platform hosts User Generated Content relating to reviews and ratings
+                of specific Taskers (“Feedback”). Such Feedback is such User’s opinion and not the
+                opinion of Company, has not been verified or approved by Company and each Client
+                should undertake their own research to be satisfied that a specific Tasker is the
+                right person for a Task. You agree that Company is not responsible or liable for any
+                Feedback or other User Generated Content. Company encourages each User to give
+                objective, constructive and honest Feedback about the other Users with whom they
+                have transacted. Company is not obligated to investigate any remarks posted by Users
+                for accuracy or reliability but may do so at its discretion.
+                <br></br>
+                You hereby grant Company a non-exclusive, worldwide, perpetual, irrevocable,
+                royalty-free, sublicensable (through multiple tiers) right to exercise all
+                copyrights, publicity rights, and any other rights you have in your User Generated
+                Content, in any media now known or not currently known in order to perform and
+                improve upon the BIDORBOO Platform.
+                <br></br>
+                Each Tasker who provides to Company any videotape, film, recording, photograph,
+                voice, or all related instrumental, musical, or other sound effects (collectively,
+                “Media”), in exchange for the right to use the BIDORBOO Platform, hereby waives any
+                and all moral rights in connection with such Media and irrevocably grants to Company
+                the non-exclusive, fully-paid, royalty-free, transferable, sublicensable, worldwide,
+                unrestricted, and perpetual right to:
+                <br></br>
+                Exhibit, distribute, display, transmit, and broadcast on any and all media,
+                including, without limitation, the internet, any videotape, film, recording or
+                photograph that such User provides to Company or that Company takes of Tasker, and
+                use, reproduce, modify, or creative derivatives of such Tasker picture, silhouette
+                and other reproductions of their physical likeness (as the same may appear in any
+                still camera photograph and/or motion picture film or video) (collectively the
+                “Physical Likeness”); Reproduce in all media any recordings of such Tasker’s voice,
+                and all related instrumental, musical, or other sound effects (collectively, the
+                “Voice”), made in connection with the BIDORBOO Platform; Use, and permit to be used,
+                such Tasker’s Physical Likeness and Voice in the advertising, marketing, and/or
+                publicizing of the BIDORBOO Platform in any media; and Use, and permit to be used,
+                such Tasker’s name and identity in connection with the BIDORBOO Platform. Each
+                Tasker warrants and represents that they have the lawful authority to grant the
+                rights set out above.
+                <br></br>
+                Each Tasker hereby waives all rights and releases BIDORBOO and Affiliates from, and
+                shall neither sue nor bring any proceeding against any such parties for, any claim
+                or cause of action, whether now known or unknown, for defamation, invasion of right
+                to privacy, publicity or personality or any similar matter, or based upon or
+                relating to the use and exploitation of such Tasker’s identity, likeness or voice in
+                connection with the BIDORBOO Platform.
+                <br></br>
+                Each Tasker acknowledges that BIDORBOO shall not owe any financial or other
+                remuneration for using the recordings provided hereunder by such Tasker, either for
+                initial or subsequent transmission or playback, and further acknowledges that
+                BIDORBOO is not responsible for any expense or liability incurred as a result of
+                such Tasker’s recordings or participation in any recordings, including any loss of
+                such recording data.
+              </p>
+              <br></br>
+              <p>
+                11. Links to Third-Party Websites The BIDORBOO Platform may contain links (such as
+                hyperlinks) to third-party websites. Such links do not constitute endorsement by
+                Company or association with those websites, their content or their operators. Such
+                links (including without limitation external websites that are framed by the
+                BIDORBOO Platform as well as any advertisements displayed in connection therewith)
+                are provided as an information service, for reference and convenience only. Company
+                does not control any such websites, and is not responsible for their (i)
+                availability or accuracy, or (ii) content, advertising, products, or services. It is
+                your responsibility to evaluate the content and usefulness of the information
+                obtained from other websites. You acknowledge and agree that BIDORBOO is not
+                involved in the creation or development of third-party websites and disclaims any
+                responsibility for third-party websites, and cannot be liable for claims arising out
+                of or relating to third-party websites. Further, you acknowledge and agree that
+                BIDORBOO has no obligation to monitor, review, or remove links to third-party
+                websites, but reserves the right to limit or remove links to third-party websites on
+                the BIDORBOO Platform at its sole discretion.
+                <br></br>
+                The use of any website controlled, owned or operated by third parties is governed by
+                the terms and conditions of use and privacy policies for those websites. You access
+                such third-party websites at your own risk. BIDORBOO expressly disclaims any
+                liability arising in connection with your use and/or viewing of any websites or
+                other material associated with links that may appear on the BIDORBOO Platform. You
+                hereby agree to hold BIDORBOO harmless from any liability that may result from the
+                use of links that may appear on the BIDORBOO Platform.
+                <br></br>
+                As part of the functionality of the BIDORBOO Platform, you may link your account
+                with online accounts you may have with third party service providers (such as
+                Facebook) (each such account, a “Third-Party Account”) by either: (i) providing your
+                Third-Party Account login information through the BIDORBOO Platform; or (ii)
+                allowing BIDORBOO to access your Third-Party Account, as is permitted under the
+                applicable terms and conditions that govern your use of each Third-Party Account.
+                You represent that you are entitled to disclose your Third-Party Account login
+                information to BIDORBOO and/or grant BIDORBOO access to your Third-Party Account
+                (including, but not limited to, for use for the purposes described herein), without
+                breach by you of any of the terms and conditions that govern your use of the
+                applicable Third-Party Account and without obligating BIDORBOO to pay any fees or
+                making BIDORBOO subject to any usage limitations imposed by such third-party service
+                providers. By granting BIDORBOO access to any Third-Party Accounts, you understand
+                that (i) BIDORBOO may access, make available and store (if applicable) any content
+                that you have provided to and stored in your Third-Party Account (the “SNS Content”)
+                so that it is available on and through the BIDORBOO Platform via your account,
+                including without limitation any friend lists, and (ii) BIDORBOO may submit and
+                receive additional information to your Third-Party Account to the extent you are
+                notified of this when you link your account with the Third-Party Account. Unless
+                otherwise specified in these Terms of Service, all SNS Content, if any, shall be
+                considered to be User Generated Content. Depending on the Third-Party Accounts you
+                choose, and subject to the privacy settings that you have set in such Third-Party
+                Accounts, personally identifiable information that you post to your Third-Party
+                Accounts may be available on and through your account on the BIDORBOO Platform.
+                Please note that if a Third-Party Account or associated service becomes unavailable
+                or BIDORBOO’s access to such Third-Party Account is terminated by the third-party
+                service provider, then SNS Content may no longer be available on and through the
+                BIDORBOO Platform. You will have the ability to disable the connection between your
+                account on the BIDORBOO Platform and your Third-Party Accounts at any time, as set
+                forth below. PLEASE NOTE THAT YOUR RELATIONSHIP WITH THE THIRD-PARTY SERVICE
+                PROVIDERS ASSOCIATED WITH YOUR THIRD-PARTY ACCOUNTS IS GOVERNED SOLELY BY YOUR
+                AGREEMENT(S) WITH SUCH THIRD PARTY SERVICE PROVIDERS. Company makes no effort to
+                review any SNS Content for any purpose, including but not limited to, for accuracy,
+                legality, or non-infringement, and Company is not responsible for any SNS Content.
+              </p>
+              <br></br>
+              <p>
+                12. Worker Classification and Withholdings AS SET FORTH IN SECTION 1, BIDORBOO DOES
+                NOT PERFORM TASKS AND DOES NOT EMPLOY INDIVIDUALS TO PERFORM TASKS. EACH USER
+                ASSUMES ALL LIABILITY FOR PROPER CLASSIFICATION OF SUCH USER’S WORKERS BASED ON
+                APPLICABLE LEGAL GUIDELINES. IF A CLIENT, YOU INDEMNIFY AND HOLD BIDORBOO AND
+                AFFILIATES HARMLESS, AND IF A TASKER, YOU FULLY AND FINALLY RELEASE BIDORBOO AND
+                AFFILIATES, FROM ALL LIABILITIES, CLAIMS, CAUSES OF ACTION, DEMANDS, DAMAGES,
+                LOSSES, FINES, PENALTIES OR OTHER COSTS OR EXPENSES THAT TASKERS OR ASSISTANTS MAY
+                INCUR OR BECOME ENTITLED TO, WHETHER UNDER CONTRACT, COMMON LAW, CIVIL LAW, STATUTE
+                OR OTHERWISE, IN RESPECT OF TASKS OR SERVICE AGREEMENTS OR THE USE OF THE BIDORBOO
+                PLATFORM, INCLUDING WITH RESPECT TO MISCLASSIFICATION OF TASKERS AND ASSISTANTS AND
+                THE TERMINATION OR CESSATION OF ANY TASKS, SERVICE AGREEMENTS, THIS AGREEMENT OR THE
+                USE OF THE BIDORBOO PLATFORM.
+                <br></br>
+                Users do not have authority to enter into written or oral — whether implied or
+                express — contracts on behalf of Company. Each User acknowledges and agrees that
+                BIDORBOO does not, in any way, supervise, scope, direct, control or monitor a
+                Tasker’s work or Tasks performed in any manner. Company does not set a Tasker’s work
+                hours or location of work. BIDORBOO will not provide any equipment, tools, labor or
+                materials needed for a particular Task. BIDORBOO does not provide any supervision to
+                Users.
+                <br></br>
+                The BIDORBOO Platform is not an employment agency service or business and BIDORBOO
+                is not an employer of any User. As such, BIDORBOO is not responsible for and will
+                not be liable for workers’ compensation or any tax payments or withholding,
+                including but not limited to applicable sales taxes, unemployment or employment
+                insurance, Canada Pension Plan, social security, disability insurance or any other
+                applicable federal, provincial or state withholdings in connection with a User’s use
+                of the BIDORBOO Platform. Taskers acknowledge and confirm that they are responsible
+                for exercising their own business judgment in entering into Service Agreements and
+                performing Tasks and that, depending on how they exercise such business judgment,
+                there is a chance for individual profit or loss.
+                <br></br>
+                This Section 12 in no way limits the generality of Section 17.
+              </p>
+              <br></br>
+              <p>
+                13. BIDORBOO Happiness Pledge The BIDORBOO Happiness Pledge is part of this
+                Agreement and incorporated by reference. Taskers determine what categories they are
+                qualified to task in, and scope the Task directly with their Client. BIDORBOO does
+                not oversee, monitor or direct how a Tasker performs a Task, does not monitor Tasks
+                or chat threads between Users, and does not otherwise oversee or assume
+                responsibility for the actions of Users. Clients are advised to confirm with their
+                Tasker that their Tasker is qualified to perform the Task prior to the Task taking
+                place. BIDORBOO is not liable for the acts or omissions of Users, nor does BIDORBOO
+                provide insurance against any losses sustained by Users. That said, BIDORBOO wants
+                Users to be happy about their experience using the BIDORBOO Platform and the
+                Happiness Pledge is in place to encourage continued use of the BIDORBOO Platform.
+                <br></br>
+                Payments made under the Happiness Pledge are entirely discretionary, however, and
+                subject to certain conditions, limitations and exclusions, as described in the
+                Happiness Pledge. The Happiness Pledge does not supercede any of the terms set forth
+                in the Terms of Service or the Privacy Policy, including any of the limitations on
+                liability set forth in Sections 12 and 17 of these Terms of Service. In the unlikely
+                event of a conflict with the Happiness Pledge, these Terms of Service prevail over
+                any contrary interpretation of the Happiness Pledge. The BIDORBOO Happiness Pledge
+                is not intended to be any sort of insurance and BIDORBOO is not an insurer, as such
+                terms are understood for regulatory purposes.
+              </p>
+              <br></br>
+              <p>
+                14. Intellectual Property Rights All text, graphics, editorial content, data,
+                formatting, graphs, designs, HTML, look and feel, photographs, music, sounds,
+                images, software, videos, designs, trademarks, logos, typefaces and other content
+                (collectively “Proprietary Material”) that Users see or read through the BIDORBOO
+                Platform is owned by BIDORBOO, excluding User Generated Content, which Users hereby
+                grant BIDORBOO a license to use. Proprietary Material is protected in all forms,
+                media and technologies now known or hereinafter developed. BIDORBOO owns all
+                Proprietary Material, as well as the coordination, selection, arrangement and
+                enhancement of such Proprietary Materials as a Collective Work under the United
+                States Copyright Act, as amended. The Proprietary Material is protected by the
+                domestic and international laws governing copyright, patents, and other proprietary
+                rights. Users may not copy, download, use, redesign, reconfigure, or retransmit
+                anything from the BIDORBOO Platform without BIDORBOO’s express prior written consent
+                and, if applicable, the holder of the rights to the User Generated Content. Any use
+                of such Proprietary Material, other than as permitted therein, is expressly
+                prohibited without the prior permission of BIDORBOO and, if applicable, the holder
+                of the rights to the User Generated Content.
+                <br></br>
+                The service marks and trademarks of BIDORBOO, including without limitation BIDORBOO
+                and BIDORBOO logos, are service marks owned by BIDORBOO. Any other trademarks,
+                service marks, logos and/or trade names appearing via the BIDORBOO Platform are the
+                property of their respective owners. You may not copy or use any of these marks,
+                logos or trade names without the express prior written consent of the owner.
+              </p>
+              <br></br>
+              <p>
+                15. Copyright Complaints and Copyright Agent BIDORBOO respects the intellectual
+                property of others, and expects Users to do the same. If you believe, in good faith,
+                that any materials provided on or in connection with the BIDORBOO Platform infringe
+                upon your copyright or other intellectual property right, please send the following
+                information to BIDORBOO’s Copyright Agent at: BIDORBOO, Inc., by direct chat from
+                the Footer of our website (the Chat button) or by email bidorboocrew@bidorboo.com:
+                <br></br>A description of the copyrighted work that you claim has been infringed,
+                including the URL (Internet address) or other specific location on the BIDORBOO
+                Platform where the material you claim is infringed is located. Include enough
+                information to allow BIDORBOO to locate the material, and explain why you think an
+                infringement has taken place; A description of the location where the original or an
+                authorized copy of the copyrighted work exists -- for example, the URL (Internet
+                address) where it is posted or the name of the book in which it has been published;
+                Your address, telephone number, and e-mail address; A statement by you that you have
+                a good faith belief that the disputed use is not authorized by the copyright owner,
+                its agent, or the law; A statement by you, made under penalty of perjury, that the
+                information in your notice is accurate, and that you are the copyright owner or
+                authorized to act on the copyright owner’s behalf; and An electronic or physical
+                signature of the owner of the copyright or the person authorized to act on behalf of
+                the owner of the copyright interest. 16. Confidential Information You acknowledge
+                that Confidential Information (as defined below) is a valuable, special and unique
+                asset of BIDORBOO and agree that you will not disclose, transfer, use (or seek to
+                induce others to disclose, transfer or use) any Confidential Information for any
+                purpose other than using the BIDORBOO Platform in accordance with these Terms of
+                Service. If relevant, you may disclose the Confidential Information to your
+                authorized employees and agents provided that they are also bound to maintain the
+                confidentiality of Confidential Information. You shall promptly notify BIDORBOO in
+                writing of any circumstances that may constitute unauthorized disclosure, transfer,
+                or use of Confidential Information. You shall use best efforts to protect
+                Confidential Information from unauthorized disclosure, transfer or use. You shall
+                return all originals and any copies of any and all materials containing Confidential
+                Information to BIDORBOO upon termination of this Agreement for any reason
+                whatsoever.
+                <br></br>
+                The term “Confidential Information” shall mean any and all of BIDORBOO’s trade
+                secrets, confidential and proprietary information, and all other information and
+                data of BIDORBOO that is not generally known to the public or other third parties
+                who could derive value, economic or otherwise, from its use or disclosure.
+                Confidential Information shall be deemed to include technical data, know-how,
+                research, product plans, products, services, customers, markets, software,
+                developments, inventions, processes, formulas, technology, designs, drawings,
+                engineering, hardware configuration information, marketing, finances, strategic and
+                other proprietary and confidential information relating to BIDORBOO or BIDORBOO’s
+                business, operations or properties, including information about BIDORBOO’s staff,
+                Users or partners, or other business information disclosed directly or indirectly in
+                writing, orally or by drawings or observation.
+              </p>
+              <br></br>
+              <p>
+                17. Disclaimer of Warranties (a) Use Of The BIDORBOO Platform Is Entirely At Your
+                Own Risk
+                <br></br>
+                THE BIDORBOO PLATFORM IS PROVIDED ON AN “AS IS” BASIS WITHOUT WARRANTIES OR
+                CONDITIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,
+                WARRANTIES OR CONDITIONS OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND
+                NON-INFRINGEMENT. BIDORBOO MAKES NO WARRANTIES OR REPRESENTATIONS ABOUT THE ACCURACY
+                OR COMPLETENESS OF THE CONTENT PROVIDED THROUGH THE BIDORBOO PLATFORM OR THE CONTENT
+                OF ANY SITES LINKED TO THE BIDORBOO PLATFORM AND ASSUMES NO LIABILITY OR
+                RESPONSIBILITY IN CONTRACT, WARRANTY OR IN TORT FOR ANY (I) ERRORS, MISTAKES, OR
+                INACCURACIES OF CONTENT, (II) PERSONAL INJURY OR PROPERTY DAMAGE, OF ANY NATURE
+                WHATSOEVER, RESULTING FROM YOUR ACCESS TO AND USE OF THE BIDORBOO PLATFORM, (III)
+                ANY ACCESS TO OR USE OF OUR SECURE SERVERS AND/OR ANY AND ALL PERSONAL INFORMATION
+                AND/OR FINANCIAL INFORMATION STORED THEREIN; AND (IV) EVENTS BEYOND OUR REASONABLE
+                CONTROL.
+                <br></br>
+                BIDORBOO does not warrant, endorse, guarantee or assume responsibility for any
+                service advertised or offered by a third party through the BIDORBOO Platform or any
+                hyperlinked website or featured in any banner or other advertising, and BIDORBOO
+                will not be a party to or in any way be responsible for monitoring any transaction
+                between you and third-party providers of products or services. As with the purchase
+                of a product or service through any medium or in any environment, you should use
+                your best judgment and exercise caution where appropriate. Without limiting the
+                foregoing, BIDORBOO and Affiliates do not warrant that access to the BIDORBOO
+                Platform will be uninterrupted or that the BIDORBOO Platform will be error-free; nor
+                do they make any warranty as to the results that may be obtained from the use of the
+                BIDORBOO Platform, or as to the timeliness, accuracy, reliability, completeness or
+                content of any Task, service, information or materials provided through or in
+                connection with the use of the BIDORBOO Platform. BIDORBOO and Affiliates are not
+                responsible for the conduct, whether online or offline, of any User. BIDORBOO and
+                Affiliates do not warrant that the BIDORBOO Platform is free from computer viruses,
+                system failures, worms, trojan horses, or other harmful components or malfunctions,
+                including during hyperlink to or from third-party websites. BIDORBOO and Affiliates
+                cannot and do not guarantee that any personal information supplied by you will not
+                be misappropriated, intercepted, deleted, destroyed or used by others.
+                <br></br>
+                Notwithstanding any feature a Client may use to expedite BIDORBOO selection, each
+                Client is responsible for determining the Task and selecting their Tasker and
+                BIDORBOO does not warrant any goods or services purchased by a Client and does not
+                recommend any particular Tasker. BIDORBOO does not provide any warranties or
+                guarantees regarding any Tasker’s professional accreditation, registration or
+                license.
+                <br></br>
+                In addition, no individual or entity shall be a third party beneficiary of these
+                terms. These terms are solely for the benefit of the parties to this Agreement and
+                are not intended to and shall not be construed to give any person or entity other
+                than you any interest, remedy, claim, liability, reimbursement, claim of action or
+                any other rights (including, without limitation, any third party beneficiary
+                rights), with respect to or in connection with any agreement or provision contained
+                herein or contemplated hereby.
+                <br></br>
+                (b) No Liability You acknowledge and agree that BIDORBOO is only willing to provide
+                the BIDORBOO Platform if you agree to certain limitations of our liability to you
+                and third parties. Therefore, you agree not to hold BIDORBOO and Affiliates, or
+                their corporate partners, liable for any claims, demands, damages, expenses, losses,
+                governmental obligations, suits, and/or controversies of every kind and nature,
+                known and unknown, suspected and unsuspected, disclosed and undisclosed, direct,
+                indirect, incidental, actual, consequential, economic, special, or exemplary,
+                including attorneys fees and costs (collectively, “Liabilities”) that have arisen or
+                may arise, relating to your or any other party’s use of or inability to use the
+                BIDORBOO Platform, including without limitation any Liabilities arising in
+                connection with the conduct, act or omission of any User (including without
+                limitation stalking, harassment that is sexual or otherwise, acts of physical
+                violence, and destruction of personal property), any dispute with any User, any
+                instruction, advice, act, or service provided by BIDORBOO and Affiliates and any
+                destruction of your User Generated Content.
+                <br></br>
+                UNDER NO CIRCUMSTANCES WILL BIDORBOO AND AFFILIATES OR THEIR CORPORATE PARTNERS BE
+                LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, ACTUAL, CONSEQUENTIAL, ECONOMIC,
+                SPECIAL OR EXEMPLARY DAMAGES (INCLUDING BUT NOT LIMITED TO LOST PROFITS, LOSS OF
+                DATA, LOSS OF GOODWILL, SERVICE INTERRUPTION, COMPUTER DAMAGE, SYSTEM FAILURE,
+                FAILURE TO STORE ANY INFORMATION OR OTHER CONTENT MAINTAINED OR TRANSMITTED BY
+                BIDORBOO, OR THE COST OF SUBSTITUTE PRODUCTS OR SERVICES) ARISING IN CONNECTION WITH
+                YOUR USE OF OR INABILITY TO USE THE BIDORBOO PLATFORM OR THE TASK SERVICES, EVEN IF
+                ADVISED OF THE POSSIBILITY OF THE SAME. SOME JURISDICTIONS DO NOT ALLOW THE
+                EXCLUSION OR LIMITATION OF INCIDENTAL OR CONSEQUENTIAL DAMAGES, SO THE ABOVE
+                LIMITATIONS MAY NOT APPLY TO YOU IN THEIR ENTIRETY.
+                <br></br>
+                BIDORBOO AND AFFILIATES EXPRESSLY DISCLAIM ANY LIABILITY THAT MAY ARISE BETWEEN
+                USERS OF ITS BIDORBOO PLATFORM. BIDORBOO AND AFFILIATES ALSO DO NOT ACCEPT ANY
+                LIABILITY WITH RESPECT TO THE QUALITY OR FITNESS OF ANY WORK PERFORMED VIA THE
+                BIDORBOO PLATFORM.
+                <br></br>
+                IF, NOTWITHSTANDING THE FOREGOING EXCLUSIONS, IT IS DETERMINED THAT BIDORBOO AND
+                AFFILIATES OR THEIR CORPORATE PARTNERS ARE LIABLE FOR DAMAGES, IN NO EVENT WILL THE
+                AGGREGATE LIABILITY, WHETHER ARISING IN CONTRACT, TORT, STRICT LIABILITY OR
+                OTHERWISE, EXCEED THE TOTAL FEES PAID BY YOU TO COMPANY DURING THE SIX (6) MONTHS
+                PRIOR TO THE TIME SUCH CLAIM AROSE, TO THE EXTENT PERMITTED BY APPLICABLE LAW.
+                <br></br>
+                Some jurisdictions do not allow the exclusion of certain warranties or limitation of
+                liability for consequential or incidental damages, so certain aspects of the
+                limitations above may not apply to you.
+                <br></br>
+                (c) Release THE BIDORBOO PLATFORM IS ONLY A VENUE FOR CONNECTING USERS. BECAUSE
+                BIDORBOO IS NOT A PARTY TO OR OTHERWISE INVOLVED IN THE ACTUAL CONTRACT BETWEEN
+                USERS OR IN THE COMPLETION OF THE TASK, IN THE EVENT THAT YOU HAVE A DISPUTE WITH
+                ONE OR MORE USERS, YOU HEREBY RELEASE BIDORBOO AND AFFILIATES AND THEIR CORPORATE
+                PARTNERS FROM ANY AND ALL CLAIMS, DEMANDS, DAMAGES (INCLUDING DIRECT, INDIRECT,
+                INCIDENTAL, ACTUAL, CONSEQUENTIAL, ECONOMIC, SPECIAL, OR EXEMPLARY), EXPENSES,
+                LOSSES, GOVERNMENTAL OBLIGATIONS, SUITS AND/OR CONTROVERSIES OF EVERY KIND AND
+                NATURE, KNOWN AND UNKNOWN, SUSPECTED AND UNSUSPECTED, DISCLOSED AND UNDISCLOSED,
+                ARISING OUT OF OR IN ANY WAY CONNECTED WITH SUCH DISPUTE.
+                <br></br>
+                TO THE EXTENT APPLICABLE, YOU HEREBY WAIVE THE PROTECTIONS OF CALIFORNIA CIVIL CODE
+                § 1542 (AND ANY ANALOGOUS LAW IN ANY OTHER APPLICABLE JURISDICTION) WHICH READS AS
+                FOLLOWS: “A GENERAL RELEASE DOES NOT EXTEND TO CLAIMS WHICH THE CREDITOR DOES NOT
+                KNOW OR SUSPECT TO EXIST IN HIS OR HER FAVOR AT THE TIME OF EXECUTING THE RELEASE,
+                WHICH IF KNOWN BY HIM OR HER MUST HAVE MATERIALLY AFFECTED HIS OR HER SETTLEMENT
+                WITH THE DEBTOR.”
+              </p>
+              <br></br>
+              <p>
+                18. Indemnification You hereby agree to indemnify, defend, and hold harmless
+                BIDORBOO and Affiliates, and their attorneys, insurers, independent contractors,
+                providers, successors and assigns (the “Indemnified Parties”) from and against any
+                and all Liabilities incurred in connection with (i) your use or inability to use the
+                BIDORBOO Platform or perform Tasks, or (ii) your breach or violation of this
+                Agreement; (iii) your violation of any law, or the rights of any User or third party
+                and (iv) any content submitted by you or using your account to the BIDORBOO
+                Platform, including, but not limited to the extent such content may infringe on the
+                intellectual rights of a third party or otherwise be illegal or unlawful. You also
+                agree to indemnify the Indemnified Parties for any Liabilities resulting from your
+                use of software robots, spiders, crawlers, or similar data gathering and extraction
+                tools, or any other action you take that imposes an unreasonable burden or loan on
+                our infrastructure. BIDORBOO reserves the right, in its own sole discretion, to
+                assume the exclusive defense and control at its own expense of any matter otherwise
+                subject to your indemnification. You will not, in any event, settle any claim or
+                matter without the prior written consent of BIDORBOO.
+              </p>
+              <br></br>
+              <p>
+                19. Dispute Resolution – Arbitration & Class Action Waiver (Canada Users) USERS
+                RESIDING IN THE UNITED STATES: PLEASE READ THIS SECTION CAREFULLY — IT AFFECTS YOUR
+                LEGAL RIGHTS AND GOVERNS HOW YOU AND BIDORBOO CAN BRING CLAIMS AGAINST EACH OTHER.
+                THIS SECTION WILL, WITH LIMITED EXCEPTION, REQUIRE YOU AND BIDORBOO TO SUBMIT CLAIMS
+                AGAINST EACH OTHER TO BINDING AND FINAL ARBITRATION ON AN INDIVIDUAL BASIS.
+                <br></br>
+                SECTION 19 DOES NOT APPLY TO USERS RESIDING IN CANADA, AND USERS RESIDING IN CANADA
+                AND BIDORBOO AGREE THAT SECTION 20 SHALL APPLY INSTEAD.
+                <br></br>
+                (a) Informal Negotiations
+                <br></br>
+                To expedite resolution and reduce the cost of any dispute, controversy or claim
+                between you and BIDORBOO (each a “Claim” and collectively “Claims”), you and
+                BIDORBOO agree to first attempt to negotiate any Claim (except those Claims
+                expressly excluded below) informally for at least thirty (30) days before initiating
+                any arbitration. This pre-arbitration negotiation shall be initiated by providing
+                written notice to the other party—including a brief written statement describing the
+                name, address, and contact information of the notifying party, the facts giving rise
+                to the Claim, and the relief requested. You must send such written notice to
+                BIDORBOO, Inc., 425 Second Street, 5th Floor, San Francisco California, 94107
+                Attention: Legal. If necessary to preserve a Claim under any applicable statute of
+                limitations, you or BIDORBOO may initiate arbitration while engaging in the informal
+                negotiations.
+                <br></br>
+                During this pre-arbitration negotiation, all offers, promises, conduct and
+                statements, whether oral or written, made in the course of the negotiation by any of
+                the parties, their agents, employees, and attorneys are confidential, privileged and
+                inadmissible for any purpose, including as evidence of liability, in arbitration or
+                other proceeding involving the parties.
+                <br></br>
+                After a good faith effort to negotiate, if you or BIDORBOO believe a Claim cannot be
+                resolved informally, the party intending to pursue arbitration agrees to notify the
+                other party via email prior to initiating the arbitration. In order to initiate
+                arbitration, a claim must be filed with the American Arbitration Association (“AAA”)
+                and the written Demand for Arbitration (available at www.adr.org) must be provided
+                to the other party, as specified in the Commercial Arbitration Rules (the “AAA
+                Rules”).
+                <br></br>
+                (b) Agreement to Binding Arbitration
+                <br></br>
+                IN EXCHANGE FOR THE BENEFITS OF THE SPEEDY, ECONOMICAL, AND IMPARTIAL DISPUTE
+                RESOLUTION PROCEDURE OF ARBITRATION, YOU AND BIDORBOO MUTUALLY AGREE TO WAIVE YOUR
+                RESPECTIVE RIGHTS TO RESOLUTION OF ALL CLAIMS BETWEEN YOU (EXCEPT THOSE EXPRESSLY
+                EXCLUDED BELOW) IN A COURT OF LAW BY A JUDGE OR JURY AND AGREE TO RESOLVE ANY
+                DISPUTES BY BINDING ARBITRATION ON AN INDIVIDUAL BASIS AS SET FORTH HEREIN.
+                <br></br>
+                This agreement to arbitrate contained in this Section 19 (“Arbitration Agreement”)
+                is governed by the Federal Arbitration Act and survives the termination of this
+                Agreement and your relationship with Company.
+                <br></br>
+                Claims covered by this Arbitration Agreement include, but are not limited to, any
+                dispute, claim or controversy whether based on past, present or future events
+                arising out of or relating to: this Agreement and prior versions (including the
+                breach, termination, enforcement, interpretation or validity thereof); the BIDORBOO
+                Platform, services, or Tasks; your relationship with BIDORBOO; the threatened or
+                actual suspension, deactivation or termination of your Account or this Agreement;
+                payments made by you or any payments made or allegedly owed to you; any city,
+                county, state or federal wage-hour law; compensation, breaks and rests periods,
+                expense reimbursement, wrongful termination, discrimination, harassment,
+                retaliation, fraud, defamation, trade secrets, unfair competition, emotional
+                distress; any promotions or offers made by Company; breach of any express or implied
+                contract or breach of any express or implied covenant; claims arising under federal
+                or state consumer protection laws; claims arising under antitrust laws; claims
+                arising under the Telephone Consumer Protection Act and Fair Credit Reporting Act;
+                and claims arising under the Fair Labor Standards Act, Civil Rights Act of 1964,
+                Uniform Trade Secrets Act, Americans With Disabilities Act, Age Discrimination in
+                Employment Act, Older Workers Benefit Protection Act, Family Medical Leave Act,
+                Employee Retirement Income Security Act (except for individual claims for employee
+                benefits under any benefit plan sponsored by Company and covered by the Employee
+                Retirement Income Security Act of 1974 or funded by insurance), and state statutes,
+                if any, addressing the same or similar subject matters; and all other federal and
+                state statutory and common law claims.
+                <br></br>
+                If there is a dispute about the arbitrability of any Claim (including questions
+                about the scope, applicability, interpretation, validity, and enforceability of this
+                arbitration agreement), you and BIDORBOO agree that this threshold dispute shall be
+                delegated to the arbitrator (not a court) and that the arbitrator shall have initial
+                authority to resolve such threshold disputes, except as expressly provided below.
+                <br></br>
+                YOU ACKNOWLEDGE AND UNDERSTAND THAT YOU AND BIDORBOO ARE WAIVING THE RIGHT TO SUE IN
+                COURT OR HAVE A JURY TRIAL FOR ALL CLAIMS, UNLESS EXPRESSLY EXCLUDED IN THIS
+                ARBITRATION AGREEMENT. THIS ARBITRATION AGREEMENT IS INTENDED TO REQUIRE ARBITRATION
+                OF EVERY CLAIM OR DISPUTE THAT CAN LAWFULLY BE ARBITRATED, EXCEPT THOSE CLAIMS AND
+                DISPUTES WHICH BY THE TERMS OF THIS ARBITRATION AGREEMENT ARE EXPRESSLY EXCLUDED
+                FROM THE REQUIREMENT TO ARBITRATE.
+                <br></br>
+                (c) Agreement Prohibiting Class Actions and Non-Individualized Relief
+                <br></br>
+                Except as otherwise required under applicable law, you and BIDORBOO agree that any
+                arbitration will be limited to the Claim between BIDORBOO and you individually. YOU
+                ACKNOWLEDGE AND AGREE THAT YOU AND BIDORBOO ARE EACH WAIVING THE RIGHT TO
+                PARTICIPATE AS A PLAINTIFF OR CLASS MEMBER IN ANY PURPORTED CLASS ACTION LAWSUIT,
+                CLASS-WIDE ARBITRATION, OR ANY OTHER REPRESENTATIVE PROCEEDING (“Class Action
+                Waiver”). Further, unless both you and BIDORBOO otherwise agree, the arbitrator may
+                not consolidate more than one person’s claims, and may not otherwise preside over
+                any form of any class or representative proceeding. The arbitrator shall have no
+                authority to consider or resolve any Claim or issue any relief on any basis other
+                than an individual basis. The arbitrator shall have no authority to consider or
+                resolve any Claim or issue any relief on a class, collective, or representative
+                basis. Notwithstanding the foregoing, this Class Action Waiver shall not apply to
+                Private Attorney General Act Claims brought against Company, which are addressed
+                separately in Section 19(d) below.
+                <br></br>
+                Notwithstanding any other provision of this Agreement, the Arbitration Agreement or
+                the AAA Rules (as defined below), disputes regarding the scope, applicability,
+                enforceability, revocability or validity of the Class Action Waiver may be resolved
+                only by a civil court of competent jurisdiction and not by an arbitrator. In any
+                case in which: (i) the Claim is filed as a class, collective, or representative
+                action and (ii) there is a final judicial determination that the Class Action Waiver
+                is unenforceable as to any Claims, then those Claims shall be severed from any
+                remaining Claims and may remain in a civil court of competent jurisdiction, but the
+                Class Action Waiver shall be enforced in arbitration on an individual basis as to
+                all other Claims to the fullest extent possible.
+                <br></br>
+                (d) Representative PAGA Waiver
+                <br></br>
+                Notwithstanding any other provision of this Agreement, the Arbitration Agreement or
+                the AAA Rules, to the fullest extent allowed by law: (1) you and BIDORBOO agree not
+                to bring a representative action on behalf of others under the California Private
+                Attorneys General Act of 2004 (“PAGA”), California Labor Code § 2698 et seq., in any
+                court or in arbitration, and (2) for any claim brought on a private attorney general
+                basis, including under PAGA, both you and Company agree that any such Claim shall be
+                resolved in arbitration on an individual basis only (i.e., to resolve whether you
+                have personally been aggrieved or subject to any violations of law), and that such
+                an action may not be used to resolve the claims or rights of other individuals in a
+                single or collective proceeding (i.e., to resolve whether other individuals have
+                been aggrieved or subject to any violations of law) (collectively, “Representative
+                PAGA Waiver”). Notwithstanding any other provision of this Agreement, the
+                Arbitration Agreement or the AAA Rules, disputes regarding the scope, applicability,
+                enforceability, revocability or validity of this representative PAGA Waiver may be
+                resolved only by a civil court of competent jurisdiction and not by an arbitrator.
+                If any provision of this representative PAGA Waiver is found to be unenforceable or
+                unlawful for any reason: (i) the unenforceable provision shall be severed from this
+                Agreement; (ii) severance of the unenforceable provision shall have no impact
+                whatsoever on the Arbitration Agreement or the requirement that any remaining Claims
+                be arbitrated on an individual basis pursuant to the Arbitration Agreement; and
+                (iii) any such representative PAGA or other representative private attorneys general
+                act Claims must be litigated in a civil court of competent jurisdiction and not in
+                arbitration. To the extent that there are any Claims to be litigated in a civil
+                court of competent jurisdiction because a civil court of competent jurisdiction
+                determines that the representative PAGA Waiver is unenforceable with respect to
+                those Claims, the parties agree that court litigation of those Claims shall be
+                stayed pending the outcome of any individual Claims in arbitration.
+                <br></br>
+                (e) Rules and Logistics Governing Arbitration
+                <br></br>
+                The arbitration will be commenced and conducted under the AAA Rules in effect at the
+                time the arbitration is initiated and modified by the terms set forth in this
+                Agreement, and, where appropriate, the AAA’s Supplementary Procedures for Consumer
+                Related Disputes (“AAA Consumer Rules”), both of which are available at the AAA
+                website www.adr.org or by calling the AAA at 1-800-778-7879. Notwithstanding the
+                foregoing, if requested by you and if proper based on the facts and circumstances of
+                the Claims presented, the arbitrator shall have the discretion to select a different
+                set of AAA Rules, but in no event shall the arbitrator consolidate more than one
+                person’s Claims, or otherwise preside over any form of representative, collective,
+                or class proceeding. You and BIDORBOO agree that the arbitration shall be
+                administered before a single arbitrator mutually agreed upon by the parties, and if
+                the parties cannot agree within thirty (30) days after names of potential
+                arbitrators have been proposed, then by a single arbitrator who is chosen by the
+                AAA.
+                <br></br>
+                As part of the arbitration, both you and Company will have the opportunity for
+                reasonable discovery of non-privileged information that is relevant to the Claim(s).
+                The arbitrator may award any individualized remedies that would be available in
+                court. The arbitrator may award declaratory or injunctive relief only in favor of
+                the individual party seeking relief and only to the extent necessary to provide
+                relief warranted by that party’s individual claims. The arbitrator will provide a
+                reasoned written statement of the arbitrator’s decision, which shall explain the
+                award given and the findings and conclusions on which the decision is based.
+                <br></br>
+                The arbitrator will decide the substance of all Claims in accordance with applicable
+                law, and will honor all claims of privilege recognized by law. The arbitrator’s
+                award shall be final and binding and judgment on the award rendered by the
+                arbitrator may be entered in any court having jurisdiction thereof.
+                <br></br>
+                Your arbitration fees and your share of arbitrator compensation will be governed by
+                the AAA Rules (and, where appropriate, limited by the AAA Consumer Rules) subject to
+                the following modifications:
+                <br></br>
+                (i) If Company initiates arbitration under this Arbitration Agreement, Company will
+                pay all AAA filing and arbitration fees.
+                <br></br>
+                (ii) If a Client or Tasker files a Claim in accordance with this Arbitration
+                Agreement and the associated claim for damages does not exceed USD $10,000, Company
+                will pay all AAA filing and arbitration fees unless the arbitrator finds that either
+                the substance of your claim or the relief sought in your Demand for Arbitration was
+                frivolous or was brought for an improper purpose (as measured by the standards set
+                forth in Federal Rule of Civil Procedure 11(b)).
+                <br></br>
+                (iii) If a Client or Tasker files a Claim in accordance with this Arbitration
+                Agreement and the associated claim for damages exceeds USD $10,000, Company shall
+                pay all costs unique to arbitration (as compared to the costs of adjudicating the
+                same claims before a court), including the regular and customary arbitration fees
+                and expenses, and the Client or Tasker shall be responsible for contributing up to
+                an amount equal to the filing fee that would be paid to initiate the claim in the
+                court of general jurisdiction in the state in which they perform Tasks, unless a
+                lower fee amount would be owed by you as required by law or the applicable AAA
+                Rules. Any dispute as to whether a cost is unique to arbitration shall be resolved
+                by the arbitrator. If the arbitrator finds that the substance of your claim or the
+                relief sought is frivolous or brought for an improper purpose, however, then the
+                allocation of fees will be governed by the applicable AAA Rules.
+                <br></br>
+                (iv) Except as required by law or the applicable AAA Rules, each party shall pay its
+                own attorneys’ fees and pay any costs that are not unique to the arbitration (i.e.,
+                costs that each party would incur if the Claim(s) were litigated in a court, such as
+                costs to subpoena witnesses and/or documents, take depositions and purchase
+                deposition transcripts, copy documents, etc.).
+                <br></br>
+                (v) At the conclusion of any arbitration, the arbitrator may award reasonable fees
+                and costs or any portion thereof to the prevailing party, to the extent authorized
+                by applicable law or the applicable AAA Rules.
+                <br></br>
+                Unless you and Company agree otherwise, any arbitration hearings between Company and
+                a Tasker will take place in the county of your billing address, and any arbitration
+                hearings between Company and a Client will take place in the county in which you
+                received Task services. If AAA arbitration is unavailable in your county, the
+                arbitration hearings will take place in the nearest available location for a AAA
+                arbitration.
+                <br></br>
+                (f) Exceptions to Arbitration
+                <br></br>
+                The following types of Claims may be, but are not required to be, arbitrated under
+                the Arbitration Agreement:
+                <br></br>
+                Claims for workers’ compensation, disability insurance and unemployment insurance
+                benefits; Small claims actions that are within the scope of small claims court
+                jurisdiction and brought on an individual basis; Applications for provisional
+                remedies, preliminary injunctions, and temporary restraining orders, including those
+                relating to actual or threatened infringement, misappropriation, or violation of a
+                party’s copyrights, trademarks, trade secrets, patents, or other intellectual
+                property rights; A representative action brought on behalf of others under PAGA or
+                other private attorney general acts, to the extent the representative PAGA Waiver in
+                Section 19(d) is deemed unenforceable by a court of competent jurisdiction; and
+                Claims that may not be subject to arbitration as a matter of general law not
+                preempted by the Federal Arbitration Act. Nothing in this Arbitration Agreement
+                prevents you from making a report to or filing a claim or charge with the Equal
+                Employment Opportunity Commission, Canada Department of Labor, Securities Exchange
+                Commission, National Labor Relations Board, or Office of Federal Contract Compliance
+                Programs, or similar local, state or federal agency, and nothing in this Arbitration
+                Agreement shall be deemed to preclude or excuse a party from bringing an
+                administrative claim before any agency in order to fulfill the party’s obligation to
+                exhaust administrative remedies before making a claim in arbitration. However, you
+                knowingly and voluntarily waive the right to seek or recover money damages of any
+                type pursuant to any administrative complaint and instead may seek such relief only
+                through arbitration under this Agreement. This Agreement and Arbitration Agreement
+                do not prevent you from participating in an investigation by a government agency of
+                any report, claim or charge otherwise covered by this Arbitration Agreement and do
+                not prevent you from receiving an award for information provided to any government
+                agencies.
+                <br></br>
+                (g) Severability
+                <br></br>
+                Except as otherwise provided in the severability provisions in Sections 19(c) and
+                19(d) above, in the event that any portion of this Arbitration Agreement is deemed
+                illegal or unenforceable, such provision shall be severed and the remainder of the
+                Arbitration Agreement shall be given full force and effect.
+                <br></br>
+                (h) Right to Opt Out of Arbitration Agreement
+                <br></br>
+                If you are a Tasker, you may opt out of the Arbitration Agreement by notifying
+                Company in writing within thirty (30) days of your agreement to these Terms of
+                Service. To opt out, you must send a written notification to Company at BIDORBOO,
+                Inc., 425 Second Street, 5th Floor, San Francisco California, 94107 Attention:
+                Legal, that includes (a) your account username, (b) your name, (c) your address, (d)
+                your telephone number, (e) your email address, and (f) a clear statement indicating
+                that you do not wish to resolve claims through arbitration and demonstrating
+                compliance with the 30-day time limit to opt out of the above arbitration and class
+                action/jury trial waiver provisions.
+              </p>
+              <br></br>
+              <p>
+                20. Dispute Resolution – Arbitration & Class Action Waiver (Canadian Users) USERS
+                RESIDING IN CANADA: PLEASE READ THIS SECTION CAREFULLY — IT AFFECTS YOUR LEGAL
+                RIGHTS AND GOVERNS HOW YOU AND BIDORBOO CAN BRING CLAIMS AGAINST EACH OTHER. THIS
+                SECTION WILL, WITH LIMITED EXCEPTIONS, REQUIRE YOU AND BIDORBOO TO SUBMIT CLAIMS
+                AGAINST EACH OTHER TO BINDING AND FINAL ARBITRATION ON AN INDIVIDUAL BASIS.
+                <br></br>
+                SECTION 20 DOES NOT APPLY TO USERS RESIDING IN THE UNITED STATES, AND USERS RESIDING
+                IN THE UNITED STATES AND BIDORBOO AGREE THAT SECTION 19 SHALL APPLY INSTEAD.
+                <br></br>
+                The validity, interpretation, construction, and performance of these Terms shall be
+                governed by the laws of the province or territory in which you reside.
+                <br></br>
+                Except where prohibited by law, any controversy, claim or dispute arising out of,
+                relating to, or in respect of these Terms, including their negotiation, validity,
+                existence, breach, termination, construction or application, or the rights, duties
+                or obligations of any party, or the rights, duties or obligations of any party
+                derived from or associated with these Terms (a “Dispute”), shall be referred to and
+                determined by a single arbitrator in a final and binding arbitration administered
+                under the rules of ADR Institute of Canada, Inc.’s Arbitration Rules. If the parties
+                have not agreed upon an arbitrator within 14 days, unless otherwise agreed by the
+                parties in writing, the parties shall ask the ADR Institute of Canada, Inc. to
+                appoint a single arbitrator. For greater certainty, neither Taskers nor Clients
+                shall commence or participate in a class proceeding or other aggregate action in
+                respect of any Dispute, except and to the extent that provincial consumer protection
+                legislation expressly preserves such an entitlement in the context of the particular
+                Dispute.
+                <br></br>
+                The seat of the arbitration shall be the same as the provincial or territorial law
+                governing these Terms. The arbitration shall be heard in the capital of the seat,
+                unless the parties agree otherwise. The costs and expenses of the arbitrator shall
+                be shared equally between the parties. A party to the arbitration has no right of
+                appeal from any award of the Arbitrator, whether characterized as final, interim,
+                interlocutory or partial.
+                <br></br>
+                All Disputes referred to arbitration (including the scope of the agreement to
+                arbitrate, the law relating to the enforcement of the agreement to arbitrate, any
+                relevant limitation periods, the law governing the procedure of the arbitration, the
+                law relating to available remedies, set-off claims and conflict of laws rules) shall
+                be governed by the law of the seat. Each party hereby irrevocably consents to venue
+                in the capital of the seat, and to the jurisdiction of competent courts in the
+                capital of the seat for all litigation that may be brought, however it is agreed and
+                acknowledged that the intention of the parties is to arbitrate the Dispute without
+                recourse to the courts.
+                <br></br>A party to these Terms may take such steps as are permitted or required to
+                enforce an award made by an Arbitrator. Except as required by law, and only to the
+                extent that such disclosure is reasonably necessary, or for the purposes of
+                obtaining professional advice, the existence of the arbitration and any element of
+                the arbitration, including any award, shall be confidential and shall not be
+                disclosed to any non-party to the arbitration. No document or other evidence or
+                information prepared for or produced by or on behalf of any party to the arbitration
+                shall be disclosed to any non-party to the arbitration.
+              </p>
+              <br></br>
+              <p>
+                21. Governing Law
+                <br></br>
+                USERS RESIDING IN CANADA: Except as provided in Section 20 or expressly provided
+                otherwise, this Agreement and your use of the BIDORBOO Platform will be governed by,
+                and will be construed under, the laws of the Province of Ontario, without regard to
+                choice of law principles. This choice of law provision is only intended to specify
+                the use of Ontario law to interpret this Agreement and is not intended to create any
+                substantive right to non-residents of Ontario to assert claims under Ontario law
+                whether by statute, common law, or otherwise.
+              </p>
+              <br></br>
+              <p>
+                22. No Agency; No Employment No agency, partnership, joint venture,
+                employer-employee or franchiser-franchisee relationship is intended or created by
+                this Agreement.
+              </p>
+              <br></br>
+              <p>
+                23. General Provisions Failure by Company to enforce any provision(s) of this
+                Agreement will not be construed as a waiver of any provision or right. This
+                Agreement constitutes the complete and exclusive agreement between you and Company
+                with respect to its subject matter, and supersedes and governs any and all prior
+                agreements or communications. The provisions of this Agreement are intended to be
+                interpreted in a manner which makes them valid, legal, and enforceable. Except for
+                the “Agreement Prohibiting Class Actions and Non-Individualized Relief” in Section
+                19, in the event any provision is found to be partially or wholly invalid, illegal
+                or unenforceable, (1) such provision shall be modified or restructured to the extent
+                and in the manner necessary to render it valid, legal, and enforceable or, (2) if
+                such provision cannot be so modified or restructured, it shall be excised from the
+                Agreement without affecting the validity, legality or enforceability of any of the
+                remaining provisions. This Agreement may not be assigned or transferred by you
+                without our prior written approval. We may assign or transfer this Agreement without
+                your consent, including but not limited to assignments: (i) to a parent or
+                subsidiary, (ii) to an acquirer of assets, or (iii) to any other successor or
+                acquirer. Any assignment in violation of this Section 23 shall be null and void.
+                This Agreement will inure to the benefit of Company, its successors and assigns.
+              </p>
+              <br></br>
+              <p>
+                24. Licensing Taskers alone are responsible for identifying and obtaining any
+                required licenses, permits, or registrations before offering services and
+                undertaking Tasks. Indeed, certain types of Tasks and services may be prohibited
+                altogether, and it is the responsibility of Taskers to avoid such prohibited Tasks
+                and services. Penalties may include fines or other enforcement. If you have
+                questions about how local laws apply to your Tasks and services on the platform, you
+                can and should first seek separate legal guidance.
+                <br></br>
+                Because BIDORBOO does not oversee, monitor or supervise the posting, scoping or
+                performance of Tasks, Clients must determine for themselves whether a Tasker is
+                qualified to perform the specific Task at hand. Clients may wish to consult their
+                state/provincial/territorial or local requirements to determine whether certain
+                Tasks are required to be performed by a licensed professional.
+              </p>
+              <br></br>
+              <p>
+                25. Changes to this Agreement and the BIDORBOO Platform Company reserves the right,
+                at its sole and absolute discretion, to change, modify, add to, supplement, suspend,
+                discontinue, or delete any of the terms and conditions of this Agreement (including
+                the Terms of Service, Privacy Policy, and Happiness Pledge) and review, improve,
+                modify or discontinue, temporarily or permanently, the BIDORBOO Platform or any
+                content or information through the BIDORBOO Platform at any time, effective with or
+                without prior notice and without any liability to Company. Company will endeavor to
+                notify you of material changes by email, but will not be liable for any failure to
+                do so. If any future changes to this Agreement are unacceptable to you or cause you
+                to no longer be in compliance with this Agreement, you must terminate, and
+                immediately stop using, the BIDORBOO Platform. Your continued use of the BIDORBOO
+                Platform following any revision to this Agreement constitutes your complete and
+                irrevocable acceptance of any and all such changes. Company may also impose limits
+                on certain features or restrict your access to part or all of the BIDORBOO Platform
+                without notice or liability.
+              </p>
+              <br></br>
+              <p>
+                26. No Rights of Third Parties None of the terms of this Agreement are enforceable
+                by any persons who are not a party to this Agreement.
+              </p>
+              <br></br>
+              <p>
+                27. Notices and Consent to Receive Notices Electronically You consent to receive any
+                agreements, notices, disclosures and other communications (collectively, “Notices”)
+                to which this Agreement refers electronically including without limitation by e-mail
+                or by posting Notices on this Site. You agree that all Notices that we provide to
+                you electronically satisfy any legal requirement that such communications be in
+                writing. Unless otherwise specified in this Agreement, all notices under this
+                Agreement will be in writing and will be deemed to have been duly given when
+                received, if personally delivered or sent by certified or registered mail, return
+                receipt requested; when receipt is electronically confirmed, if transmitted by
+                facsimile or email; or the day after it is sent, if sent for next day delivery by a
+                recognized overnight delivery service.
+              </p>
+              <br></br>
+              <p>
+                If you have any questions about these Terms of Service or about the BIDORBOO
+                Platform, please contact us by direct chat from the Footer of our website (the Chat
+                button) or by email bidorboocrew@bidorboo.com
+              </p>
+              <br></br>
+              <p className="has-text-weight-semibold">
+                I HEREBY ACKNOWLEDGE THAT I HAVE READ AND UNDERSTAND THE FOREGOING TERMS OF SERVICE,
+                AS WELL AS THE PRIVACY POLICY AND HAPPINESS PLEDGE, AND AGREE THAT MY USE OF THE
+                BIDORBOO PLATFORM IS AN ACKNOWLEDGMENT OF MY AGREEMENT TO BE BOUND BY THE TERMS AND
+                CONDITIONS OF THIS AGREEMENT.
+              </p>
+            </div>
           </div>
         </div>
       </section>
