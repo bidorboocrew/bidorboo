@@ -36,4 +36,4 @@ export { default as PastProvidedServices } from './PastProvidedServices';
 export { default as PastRequestedServices } from './PastRequestedServices';
 
 export { default as FirstTimeUser } from './onboarding-flow/FirstTimeUser';
-export { default as TermsOfUse } from './TermsOfUse';
+export { default as TermsOfService } from './onboarding-flow/TermsOfService';
