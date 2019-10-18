@@ -24,8 +24,9 @@ module.exports = (app) => {
       keys: [keys.cookieKey, keys.cookieKey2],
       cookie: {
         secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production',
         httpOnly: true,
-        domain: 'bidorboo.com',
+        domain: process.env.NODE_ENV === 'production' ? 'bidorboo.com' : 'localhost.com',
         expires: new Date(Date.now() + expiryDate),
       },
       resave: false,

@@ -17,6 +17,7 @@ import '../assets/index.scss';
 
 import {
   Header,
+  ShareButtons,
   HomePage,
   MyProfile,
   PaymentSettings,
@@ -36,8 +37,8 @@ import {
   ProposerReviewingCompletedJob,
   BidderReviewingCompletedJob,
   OtherUserProfileForReviewPage,
-  PastProvidedServices,
-  PastRequestedServices,
+  // PastProvidedServices,
+  // PastRequestedServices,
   TermsOfService,
 } from './index';
 
@@ -73,7 +74,7 @@ class App extends React.Component {
       // You can render any custom fallback UI
       return (
         <div id="bidorboo-root-view">
-          <Header id="bidorboo-header" />
+          <Header id="bidorboo-header" />x{' '}
           <section className="hero is-fullheight">
             <div className="hero-body">
               <div className="container">
@@ -113,6 +114,7 @@ class App extends React.Component {
         <div id="bidorboo-root-modals" />
         {/* this sill be where action sheets mount */}
         <div id="bidorboo-root-action-sheet" />
+        <ShareButtons></ShareButtons>
         <Toast toastDetails={s_toastDetails} />
         <ShowSpecialMomentModal />
         <LoadingBar

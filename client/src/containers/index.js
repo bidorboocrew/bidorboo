@@ -39,3 +39,4 @@ export { default as FirstTimeUser } from './onboarding-flow/FirstTimeUser';
 export { default as ResetLocalPassword } from './onboarding-flow/ResetLocalPassword';
 
 export { default as TermsOfService } from './onboarding-flow/TermsOfService';
+export { default as ShareButtons } from './ShareButtons';
