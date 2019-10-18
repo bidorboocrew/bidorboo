@@ -110,10 +110,9 @@ export default class ShareButtons extends React.Component {
             zIndex: 999,
             left: 10,
             cursor: 'pointer',
-            background: 'white',
           }}
           onClick={this.toggleShareModal}
-          className="button is-info is-outlined"
+          className="button is-info is-outlined is-light"
         >
           <span className="icon">
             <i className="fas fa-share-alt"></i>
