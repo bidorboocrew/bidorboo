@@ -25,6 +25,7 @@ import {
   CreateAJobPage,
   MyRequestsPage,
   FirstTimeUser,
+  ResetLocalPassword,
   ReviewMyAwardedJobAndWinningBidPage,
   ReviewRequestAndBidsPage,
   BidderRootPage,
@@ -68,7 +69,6 @@ class App extends React.Component {
   }
 
   render() {
-
     if (this.state.hasError) {
       // You can render any custom fallback UI
       return (
@@ -145,6 +145,7 @@ class App extends React.Component {
             {/* loggedInPaths paths */}
 
             <Route exact path={`${ROUTES.CLIENT.ONBOARDING}`} component={FirstTimeUser} />
+            <Route exact path={`${ROUTES.CLIENT.RESETPASSWORD}`} component={ResetLocalPassword} />
 
             <Route
               exact
