@@ -49,12 +49,14 @@ export default class ShareButtons extends React.Component {
         {showShareModal &&
           this.rootModal &&
           ReactDOM.createPortal(
-            <div className="modal is-active">
+            <div className="modal is-active has-text-centered">
               <div onClick={this.toggleShareModal} className="modal-background"></div>
               <div className="modal-content">
                 <div className="modal-card">
                   <div className="modal-card-body">
-                    <p className="control">Share this page Via</p>
+                    <p className="control has-text-centered has-text-weight-semibold">
+                      Share this page Via
+                    </p>
 
                     <button
                       onClick={this.copyToClipboard}
@@ -81,11 +83,6 @@ export default class ShareButtons extends React.Component {
                       </FacebookShareButton>
                     </div>
                     <div style={{ display: 'inline-block', margin: 8 }}>
-                      <TwitterShareButton className="socialShare" url={shareUrl} title={'BIDORBOO'}>
-                        <TwitterIcon size={48} round />
-                      </TwitterShareButton>
-                    </div>
-                    <div style={{ display: 'inline-block', margin: 8 }}>
                       <WhatsappShareButton
                         className="socialShare"
                         url={shareUrl}
@@ -106,7 +103,18 @@ export default class ShareButtons extends React.Component {
             </div>,
             this.rootModal,
           )}
-        <button onClick={this.toggleShareModal} className="button is-round">
+        <button
+          style={{
+            position: 'fixed',
+            bottom: '2rem',
+            zIndex: 999,
+            left: 10,
+            cursor: 'pointer',
+            background: 'white',
+          }}
+          onClick={this.toggleShareModal}
+          className="button is-info is-outlined"
+        >
           <span className="icon">
             <i className="fas fa-share-alt"></i>
           </span>
