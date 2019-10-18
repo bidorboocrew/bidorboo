@@ -148,12 +148,13 @@ export class ResetLocalPassword extends React.Component {
                 </div>
                 {showLoginNow && (
                   <>
-                    <p className="subtitle has-text-succes">
+                    <p className="subtitle has-text-success has-text-weight-bold">
                       Your password was updated successfully
                     </p>
                     <div>
-                      please click the login button in our application bar and use your new
-                      credentials to login
+                      please click the
+                      <span className="has-text-success has-text-weight-bold">{` Login`}</span> button in
+                      our application bar and use your new credentials to login
                     </div>
                   </>
                 )}

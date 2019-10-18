@@ -58,8 +58,10 @@ module.exports = (app) => {
         emailVerification && emailVerification[`${verificationCode}`];
       if (user.email.emailAddress === emailCorrespondingToTheCode) {
         const encryptedPassword = await encryptData(password1);
+
         const userData = {
-          email: { ...user.email, isVerified: true, password: encryptedPassword },
+          email: { ...user.email, isVerified: true },
+          password: encryptedPassword,
         };
         await userDataAccess.findByUserIdAndUpdate(userId, userData);
 
