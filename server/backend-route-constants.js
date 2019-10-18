@@ -61,6 +61,8 @@ module.exports = {
         verifyPhone: '/api/user/verifyPhone',
         resendVerificationEmail: '/api/user/resendVerificationEmail',
         resendVerificationMsg: '/api/user/resendVerificationMsg',
+        loggedOutRequestEmailVerificationCode: '/api/user/requestEmailVerificationCode',
+        updateUserPassword: '/api/user/updateUserPassword',
       },
     },
     REVIEW: {

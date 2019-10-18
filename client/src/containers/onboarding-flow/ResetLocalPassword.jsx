@@ -1,17 +1,14 @@
 import React from 'react';
+import axios from 'axios';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
-import { updateOnBoardingDetails } from '../../app-state/actions/userModelActions';
 import logoImg from '../../assets/images/android-chrome-192x192.png';
-import SetupYourProfileFormSteps from './SetupYourProfileFormSteps';
 
 const Steps = {
   enterEmail: 'enterEmail',
-  enterVerificationCode: 'enterVerificationCode',
   enterNewPassword: 'enterNewPassword',
 };
 const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -33,19 +30,33 @@ export class ResetLocalPassword extends React.Component {
       showLoginNow: false,
     };
   }
-  sendVerificationCodeToEmail = () => {
+
+  componentDidMount() {
+    const { isLoggedIn } = this.props;
+
+    isLoggedIn && switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
+  }
+  requestVerificationCode = async () => {
     const { emailAddress } = this.state;
 
     const isValidEmail =
       emailAddress && emailAddress.length > 3 && re.test(String(emailAddress).toLowerCase());
 
     if (isValidEmail) {
-      this.setState(
-        () => ({ step: Steps.enterVerificationCode }),
-        () => {
-          // do some axios call to send verification code
+      const sendVerificationResp = await axios.post(
+        ROUTES.API.USER.POST.loggedOutRequestEmailVerificationCode,
+        {
+          data: {
+            emailAddress,
+          },
         },
       );
+
+      if (sendVerificationResp && sendVerificationResp.data && sendVerificationResp.data.success) {
+        this.setState({ step: Steps.enterNewPassword });
+      } else {
+        this.setState({ showOopsSomethingWentWrong: true });
+      }
     } else {
       this.setState({ isValidEmail: false });
     }
@@ -68,8 +79,11 @@ export class ResetLocalPassword extends React.Component {
   };
 
   submitNewPassword = async () => {
-    const { password1, password2 } = this.state;
+    const { password1, password2, verificationCode, emailAddress } = this.state;
 
+    const isValidEmail =
+      emailAddress && emailAddress.length > 3 && re.test(String(emailAddress).toLowerCase());
+    const isValidVerificationCode = verificationCode && verificationCode.length === 6;
     const isValidPassword =
       password1 &&
       password1.length > 6 &&
@@ -77,17 +91,27 @@ export class ResetLocalPassword extends React.Component {
       password2.length > 6 &&
       password1 === password2;
 
-    if (isValidPassword) {
-      // some axios call with status success or not
-      const passwordUpdated = true;
-      if (passwordUpdated) {
-        this.setState({ showLoginNow: true });
-      } else {
-        // show error
+    if (isValidEmail && isValidPassword && isValidVerificationCode) {
+      try {
+        const updatePasswordResp = await axios.post(ROUTES.API.USER.POST.updateUserPassword, {
+          data: {
+            password1,
+            password2,
+            verificationCode,
+            emailAddress,
+          },
+        });
+        if (updatePasswordResp && updatePasswordResp.data && updatePasswordResp.data.success) {
+          this.setState({ showLoginNow: true });
+        } else {
+          this.setState({ showOopsSomethingWentWrong: true });
+        }
+      } catch (e) {
         this.setState({ showOopsSomethingWentWrong: true });
+        console.error('failed to update password' + e);
       }
     } else {
-      this.setState({ isValidPassword: false });
+      this.setState({ isValidPassword, isValidPassword, isValidVerificationCode });
     }
   };
   render() {
@@ -161,10 +185,7 @@ export class ResetLocalPassword extends React.Component {
                         </div>
                       )}
                     </div>
-                    <button
-                      className="button is-success"
-                      onClick={this.sendVerificationCodeToEmail}
-                    >
+                    <button className="button is-success" onClick={this.requestVerificationCode}>
                       Send Verification Code
                     </button>
                     <div className="help">
@@ -173,42 +194,29 @@ export class ResetLocalPassword extends React.Component {
                   </div>
                 )}
 
-                {!showLoginNow &&
-                  !showOopsSomethingWentWrong &&
-                  step === Steps.enterVerificationCode && (
-                    <div>
-                      <p>We've sent a verification code to {`${emailAddress}`}</p>
-                      <div className={`group`}>
-                        <label className="label">Enter the verification code</label>
-                        <input
-                          value={verificationCode}
-                          type="number"
-                          onChange={(e) => {
-                            this.setState({ verificationCode: e.target.value });
-                          }}
-                          style={{ flexGrow: 1, borderRadius: 0 }}
-                          className={`input ${isValidVerificationCode ? '' : 'is-danger'}`}
-                          placeholder="enter verification code..."
-                        />
-                        {!isValidVerificationCode && (
-                          <div className="help has-text-danger">
-                            *invalid verification code. Please check your email
-                          </div>
-                        )}
-                      </div>
-                      <button className="button is-success" onClick={this.submitVerificationCode}>
-                        SUBMIT
-                      </button>
-                      <div className="help">*Make sure to check your junk folder just in case</div>
-                      <div className="help">
-                        *You can always chat with our customer support at the bottom using the chat
-                        button in the footer
-                      </div>
-                    </div>
-                  )}
-
                 {!showLoginNow && !showOopsSomethingWentWrong && step === Steps.enterNewPassword && (
                   <div>
+                    <p>We've sent a verification code to {`${emailAddress}`}</p>
+                    <div className={`group`}>
+                      <label className="label">Enter the verification code</label>
+                      <input
+                        value={verificationCode}
+                        type="number"
+                        onChange={(e) => {
+                          this.setState({ verificationCode: e.target.value });
+                        }}
+                        style={{ flexGrow: 1, borderRadius: 0 }}
+                        className={`input ${isValidVerificationCode ? '' : 'is-danger'}`}
+                        placeholder="enter verification code..."
+                      />
+                      {!isValidVerificationCode && (
+                        <div className="help has-text-danger">
+                          *invalid verification code. Please check your email
+                        </div>
+                      )}
+                      <div className="help">*check junk folder of your email just in case.</div>
+                    </div>
+                    <br></br>
                     <p>Enter a new password for {`${emailAddress}`}</p>
                     <div className={`group`}>
                       <label className="label">Enter Password</label>
@@ -248,6 +256,11 @@ export class ResetLocalPassword extends React.Component {
                     <button className="button is-success" onClick={this.submitNewPassword}>
                       Update password
                     </button>
+
+                    <div className="help">
+                      *You can always chat with our customer support at the bottom using the chat
+                      button in the footer
+                    </div>
                   </div>
                 )}
               </div>
@@ -259,18 +272,13 @@ export class ResetLocalPassword extends React.Component {
   }
 }
 
-const mapStateToProps = ({ userReducer, uiReducer }) => {
-  const { userDetails } = userReducer;
-  return {};
-};
-
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = ({ userReducer }) => {
   return {
-    // resetPassword: bindActionCreators(resetPassword, dispatch),
+    isLoggedIn: userReducer.isLoggedIn,
   };
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  null,
 )(ResetLocalPassword);
