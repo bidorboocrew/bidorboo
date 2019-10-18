@@ -108,8 +108,8 @@ export class ResetLocalPassword extends React.Component {
       <div className="columns is-multiline is-centered is-mobile">
         <div className="column limitLargeMaxWidth">
           <div>
-            <section className="hero">
-              <div style={{ padding: '1.5rem 0.5rem 0 0.5rem' }} className="hero-body">
+            <section className="hero is-white">
+              <div className="hero-body">
                 <div className="container">
                   <div className="title has-text-grey">
                     <img
