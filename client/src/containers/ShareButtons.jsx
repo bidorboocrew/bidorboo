@@ -55,41 +55,45 @@ export default class ShareButtons extends React.Component {
                 <div className="modal-card">
                   <div className="modal-card-body">
                     <p className="control">Share this page Via</p>
-                    <div>
-                      <button
-                        onClick={this.copyToClipboard}
-                        style={{ width: 48, height: 48 }}
-                        className="button"
-                      >
-                        <span className="icon">
-                          <i className="far fa-copy"></i>
-                        </span>
-                      </button>
-                    </div>
-                    <div>
+
+                    <button
+                      onClick={this.copyToClipboard}
+                      style={{ width: 48, height: 48, display: 'inline-block', margin: 8 }}
+                      className="button"
+                    >
+                      <span className="icon">
+                        <i className="far fa-copy"></i>
+                      </span>
+                    </button>
+
+                    <div style={{ display: 'inline-block', margin: 8 }}>
                       <EmailShareButton className="socialShare" url={shareUrl} subject={'BIDORBOO'}>
                         <EmailIcon size={48} round />
                       </EmailShareButton>
                     </div>
-                    <div>
-                      <FacebookShareButton url={shareUrl} quote={'BIDORBOO'}>
+                    <div style={{ display: 'inline-block', margin: 8 }}>
+                      <FacebookShareButton
+                        className="socialShare"
+                        url={shareUrl}
+                        quote={'BIDORBOO'}
+                      >
                         <FacebookIcon size={48} round />
                       </FacebookShareButton>
                     </div>
-                    <div>
-                      <TwitterShareButton url={shareUrl} title={'BIDORBOO'}>
+                    <div style={{ display: 'inline-block', margin: 8 }}>
+                      <TwitterShareButton className="socialShare" url={shareUrl} title={'BIDORBOO'}>
                         <TwitterIcon size={48} round />
                       </TwitterShareButton>
                     </div>
-                    <div>
-                      <WhatsappShareButton url={shareUrl} title={'BIDORBOO'} separator=":: ">
+                    <div style={{ display: 'inline-block', margin: 8 }}>
+                      <WhatsappShareButton
+                        className="socialShare"
+                        url={shareUrl}
+                        title={'BIDORBOO'}
+                        separator=":: "
+                      >
                         <WhatsappIcon size={48} round />
                       </WhatsappShareButton>
-                    </div>
-                    <div>
-                      <LinkedinShareButton url={shareUrl}>
-                        <LinkedinIcon size={48} round />
-                      </LinkedinShareButton>
                     </div>
                   </div>
                 </div>
