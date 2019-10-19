@@ -174,7 +174,7 @@ self.addEventListener('push', (event) => {
     options.renotify = true;
     options.tag = data.tag;
   }
-  if (datarequireInteraction) {
+  if (data.requireInteraction) {
     options.requireInteraction = true;
   }
 
