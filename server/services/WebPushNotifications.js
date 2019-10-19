@@ -125,6 +125,7 @@ exports.WebPushNotifications = {
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
           tag: urlToLaunch,
+          requireInteraction: true,
         });
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
         return { success: true };
