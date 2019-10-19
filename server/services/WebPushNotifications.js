@@ -24,6 +24,7 @@ exports.WebPushNotifications = {
           body: `Tasker is done ! Click for more details`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+          tag: urlToLaunch,
         });
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
         return { success: true };
@@ -48,6 +49,7 @@ exports.WebPushNotifications = {
           body: `It is cancelled! Click for more details`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+          tag: urlToLaunch,
         });
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
         return { success: true };
@@ -72,6 +74,7 @@ exports.WebPushNotifications = {
           body: `It is DONE! Click to Rate it`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+          tag: urlToLaunch,
         });
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
         return { success: true };
@@ -96,6 +99,7 @@ exports.WebPushNotifications = {
           body: `Click to rate the tasker`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+          tag: urlToLaunch,
         });
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
         return { success: true };
@@ -120,6 +124,8 @@ exports.WebPushNotifications = {
           body: `Click to confirm completion and Rate the tasker`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+          tag: urlToLaunch,
+          requireInteraction: true,
         });
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
         return { success: true };
@@ -144,6 +150,7 @@ exports.WebPushNotifications = {
           body: `It is happening soon! Click for more details`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+          tag: urlToLaunch,
         });
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
         return { success: true };
@@ -168,6 +175,7 @@ exports.WebPushNotifications = {
           body: `You have been awarded a job. click for details`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+          tag: urlToLaunch,
         });
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
         return { success: true };
@@ -189,6 +197,7 @@ exports.WebPushNotifications = {
           body,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+          tag: urlToLaunch,
         });
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
         return { success: true };

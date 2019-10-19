@@ -94,6 +94,7 @@ export class LoginOrRegisterModal extends React.Component {
                   </div>
                   <LocalLoginForm
                     originPath={currentPage}
+                    handleCancel={handleCancel}
                     onSubmit={(vals) => {
                       bidOrBooLogin(vals);
                       handleCancel();

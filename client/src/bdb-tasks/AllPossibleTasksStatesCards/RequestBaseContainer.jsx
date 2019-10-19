@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class RequestBaseContainer extends React.Component {
+export default class RequestBaseContainer extends React.PureComponent {
   constructor(props) {
     super(props);
 

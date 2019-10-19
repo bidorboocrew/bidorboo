@@ -2,6 +2,8 @@ import React from 'react';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { TextInput } from './FormsHelpers';
+import { switchRoute } from '../../utils';
+import * as ROUTES from '../../constants/frontend-route-consts';
 
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
@@ -44,9 +46,9 @@ class LocalLoginForm extends React.Component {
       handleBlur,
       handleSubmit,
       // handleReset,
-      setFieldValue,
       isValid,
       isSubmitting,
+      handleCancel,
     } = this.props;
 
     return (
@@ -87,7 +89,10 @@ class LocalLoginForm extends React.Component {
           <button
             style={{ boxShadow: 'none', padding: 0, marginTop: 14 }}
             className="button is-text is-small"
-            onClick={() => alert('Not implemented yet')}
+            onClick={() => {
+              switchRoute(ROUTES.CLIENT.RESETPASSWORD);
+              handleCancel();
+            }}
             disabled={isSubmitting}
           >
             reset your credentials ?

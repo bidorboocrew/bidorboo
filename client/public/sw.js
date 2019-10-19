@@ -4,9 +4,8 @@
 // xxxxx fery important
 // https://github.com/deanhume/pwa-update-available
 // https://developers.google.com/web/fundamentals/primers/service-workers/
-var CACHE_NAME = 'bob-app-cache-v9.0.0';
+var CACHE_NAME = 'bob-app-cache-v1.0.1';
 var THREE_MONTHS_IN_SECONDS = 7776000;
-<<<<<<< Updated upstream
 // var googleMapsReq = new Request(
 //   'https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=places,geometry',
 //   {
@@ -16,21 +15,6 @@ var THREE_MONTHS_IN_SECONDS = 7776000;
 //     },
 //   },
 // );
-var fontAwesomeReq = new Request('https://use.fontawesome.com/releases/v5.8.2/css/all.css', {
-  mode: 'no-cors',
-  headers: {
-    'Cache-Control': 'max-age=' + THREE_MONTHS_IN_SECONDS,
-=======
-var googleMapsReq = new Request(
-  'https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=places,geometry',
-  {
-    mode: 'no-cors',
-    headers: {
-      'Cache-Control': 'max-age=' + THREE_MONTHS_IN_SECONDS,
-    },
->>>>>>> Stashed changes
-  },
-);
 // var fontAwesomeReq = new Request('https://use.fontawesome.com/releases/v5.6.3/css/all.css', {
 //   mode: 'no-cors',
 //   headers: {
@@ -66,7 +50,7 @@ var urlsToCache = [
   '/mstile-150x150.png',
   '/mstile-310x150.png',
   '/mstile-310x310.png',
-  '/android-chrome-192x192-mono.png'
+  '/android-chrome-192x192-mono.png',
 ];
 
 // https://developers.google.com/web/fundamentals/primers/service-workers/
@@ -176,14 +160,23 @@ self.addEventListener('push', (event) => {
   var data = event.data.json();
 
   var title = data.title;
+
   var options = {
     body: data.body,
     icon: 'android-chrome-192x192.png',
     badge: 'android-chrome-192x192-mono.png',
-    image: 'mstile-310x310.png',
+    image: 'android-chrome-192x192.png',
+    // image: 'mstile-310x310.png',
     data: data.urlToLaunch || 'https://www.bidorboo.com',
     actions: [{ action: 'viewUpdate', title: 'View Update' }],
   };
+  if (data.tag) {
+    options.renotify = true;
+    options.tag = data.tag;
+  }
+  if (data.requireInteraction) {
+    options.requireInteraction = true;
+  }
 
   event.waitUntil(self.registration.showNotification(title, options));
 });

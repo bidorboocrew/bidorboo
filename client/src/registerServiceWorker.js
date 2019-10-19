@@ -80,6 +80,7 @@ const installSW = (vapidKey, shouldRegisterNewWebPushSubscription) => {
         console.info('WEBPUSH  Registered \n');
 
         // if (shouldRegisterNewWebPushSubscription) {
+        // registerPushNotification
         await axios.post('/api/push/register', {
           data: {
             subscription: JSON.stringify(subscription),

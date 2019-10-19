@@ -33,6 +33,8 @@ export const API = {
       verifyPhone: '/api/user/verifyPhone',
       resendVerificationEmail: '/api/user/resendVerificationEmail',
       resendVerificationMsg: '/api/user/resendVerificationMsg',
+      loggedOutRequestEmailVerificationCode: '/api/user/requestEmailVerificationCode',
+      updateUserPassword: '/api/user/updateUserPassword',
     },
   },
   PAYMENT: {
@@ -110,6 +112,7 @@ export const CLIENT = {
   HOME: '/BidOrBoo',
   TOS: '/terms-of-service',
   ONBOARDING: '/on-boarding',
+  RESETPASSWORD: '/reset-password',
   USER_ROFILE_FOR_REVIEW: '/user-profile/:userId',
   dynamicUserProfileForReview: (userId) => `/user-profile/${userId}`,
   VERIFICATION: '/verification/:field/:code',

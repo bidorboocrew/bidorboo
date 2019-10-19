@@ -1,5 +1,6 @@
 const userDataAccess = require('../data-access/userDataAccess');
 const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
+const { encryptData } = require('../utils/utilities');
 
 const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
@@ -14,6 +15,70 @@ const validateRequest = SchemaValidator(true);
 
 // const cloudinary = require('cloudinary');
 module.exports = (app) => {
+  app.post(ROUTES.API.USER.POST.updateUserPassword, requireBidorBooHost, async (req, res, next) => {
+    try {
+      if (
+        !req.body ||
+        !req.body.data ||
+        !req.body.data.emailAddress ||
+        !req.body.data.verificationCode ||
+        !req.body.data.password2 ||
+        !req.body.data.password1
+      ) {
+        return res.status(400).send({
+          safeMsg:
+            "Missing Parameteres, We couldn't update your password, Use the chat button in the footer to chat with our client support team",
+        });
+      }
+
+      const { verificationCode, emailAddress, password1, password2 } = req.body.data;
+
+      const isValidPassword =
+        password1 &&
+        password1.length > 6 &&
+        password2 &&
+        password2.length > 6 &&
+        password1 === password2;
+      if (!isValidPassword) {
+        return res.status(400).send({
+          safeMsg: 'Password do not match.',
+        });
+      }
+
+      const user = await userDataAccess.findOneByEmailId(emailAddress);
+      if (!user) {
+        return res.status(400).send({
+          safeMsg:
+            'Sorry something went wrong, Make sure you used the right email and verification code',
+        });
+      }
+      const { userId, verification } = user;
+      const emailVerification = verification.email;
+      const emailCorrespondingToTheCode =
+        emailVerification && emailVerification[`${verificationCode}`];
+      if (user.email.emailAddress === emailCorrespondingToTheCode) {
+        const encryptedPassword = await encryptData(password1);
+
+        const userData = {
+          email: { ...user.email, isVerified: true },
+          password: encryptedPassword,
+        };
+        await userDataAccess.findByUserIdAndUpdate(userId, userData);
+
+        return res.send({ success: true });
+      } else {
+        return res.status(400).send({
+          safeMsg:
+            'Sorry something went wrong, Make sure you used the right email and verification code',
+        });
+      }
+    } catch (e) {
+      e.safeMsg =
+        "unexpected error occured.We couldn't update your password, Use the chat button in the footer to chat with our client support team";
+      return next(e);
+    }
+  });
+
   app.post(
     ROUTES.API.USER.POST.verifyEmail,
     requireBidorBooHost,
@@ -37,7 +102,7 @@ module.exports = (app) => {
             return res.send({ success: false });
           }
         } else {
-          return res.status(403).send({
+          return res.status(400).send({
             errorMsg: 'verifyEmail failed due to missing params',
           });
         }
@@ -71,13 +136,13 @@ module.exports = (app) => {
               phone: { ...user.phone, isVerified: false },
             };
             await userDataAccess.findByUserIdAndUpdate(userId, userData);
-            return res.status(403).send({
+            return res.status(400).send({
               safeMsg:
                 'Failed To verify Phone, Use the chat button at the bottom of the page to chat with us',
             });
           }
         } else {
-          return res.status(403).send({
+          return res.status(400).send({
             errorMsg: 'verifyPhone failed due to missing params',
           });
         }
@@ -109,7 +174,7 @@ module.exports = (app) => {
             });
           }
         } else {
-          return res.status(403).send({
+          return res.status(400).send({
             errorMsg: 'verifyEmail failed due to missing params',
           });
         }
@@ -142,12 +207,55 @@ module.exports = (app) => {
             });
           }
         } else {
-          return res.status(403).send({
+          return res.status(400).send({
             safeMsg: 'verify Email failed due to missing params',
           });
         }
       } catch (e) {
         e.safeMsg = 'Failed To send verification message';
+        return next(e);
+      }
+    }
+  );
+
+  // xxxx
+  app.post(
+    ROUTES.API.USER.POST.loggedOutRequestEmailVerificationCode,
+    requireBidorBooHost,
+    async (req, res, next) => {
+      try {
+        if (!req.body || !req.body.data || !req.body.data.emailAddress) {
+          return res.status(400).send({
+            safeMsg:
+              'Missing Parameteres, We couldnt send the verification code. Use the chat button in the footer to chat with our client support team',
+          });
+        }
+        const { emailAddress } = req.body.data;
+
+        const user = await userDataAccess.findOneByEmailId(emailAddress);
+        if (!user) {
+          return res.status(400).send({
+            safeMsg:
+              'Sorry something went wrong, Make sure you spelled and used the right email as you used upon registration with BIDORBOO',
+          });
+        }
+
+        const { success } = await userDataAccess.resetAndSendEmailVerificationCode(
+          user.userId,
+          user.email.emailAddress
+        );
+
+        if (success) {
+          res.send({ success });
+        } else {
+          return res.status(400).send({
+            safeMsg:
+              'unexpected error occured while sending Verification Email, Use the chat button in the footer to chat with our client support team',
+          });
+        }
+      } catch (e) {
+        e.safeMsg =
+          'unexpected error occured while sending Verification Email, Use the chat button in the footer to chat with our client support team';
         return next(e);
       }
     }
@@ -205,7 +313,7 @@ module.exports = (app) => {
   app.get(ROUTES.API.USER.GET.otherUserProfileInfo, async (req, res, next) => {
     try {
       if (!req.query || !req.query.otherUserId) {
-        return res.status(403).send({
+        return res.status(400).send({
           errorMsg: 'get otherUserProfileInfo failed due to missing params',
         });
       }
@@ -227,7 +335,7 @@ module.exports = (app) => {
     try {
       const notificationSettings = req.body.data;
       if (!notificationSettings) {
-        return res.status(403).send({
+        return res.status(400).send({
           errorMsg: 'notificationSettings failed due to missing params',
         });
       }
@@ -353,7 +461,7 @@ module.exports = (app) => {
         }
         return res.send(userWithNewProfileImg);
       } else {
-        return res.status(403).send({
+        return res.status(400).send({
           errorMsg: 'image upload failed due to missing params',
         });
       }

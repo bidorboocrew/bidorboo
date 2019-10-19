@@ -13,30 +13,30 @@ module.exports = (app) => {
     keys.vapidPrivateApiKey
   );
 
-  app.post(ROUTES.API.PUSH.POST.pushNotification, async (req, res) => {
-    try {
-      subscription = JSON.parse(req.body.data);
-      const data = {
-        title: req.body.payLoad.initialDetails.fromTemplateIdField,
-        body: "It's a success!",
-        icon:
-          'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1545981752/BidOrBoo/android-chrome-192x192.png',
-      };
+  // app.post(ROUTES.API.PUSH.POST.pushNotification, async (req, res) => {
+  //   try {
+  //     subscription = JSON.parse(req.body.data);
+  //     const data = {
+  //       title: req.body.payLoad.initialDetails.fromTemplateIdField,
+  //       body: "It's a success!",
+  //       icon:
+  //         'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1545981752/BidOrBoo/android-chrome-192x192.png',
+  //     };
 
-      // const payLoad = JSON.stringify({ notificationDetails: 'what do you want to send to user' });
-      const payLoad = JSON.stringify(data);
-      await webpush.sendNotification(subscription, payLoad);
-      res.status(201).json({});
-    } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To send notification', details: `${e}` });
-    }
-  });
+  //     // const payLoad = JSON.stringify({ notificationDetails: 'what do you want to send to user' });
+  //     const payLoad = JSON.stringify(data);
+  //     await webpush.sendNotification(subscription, payLoad);
+  //     res.status(201).json({});
+  //   } catch (e) {
+  //     return res.status(400).send({ errorMsg: 'Failed To send notification', details: `${e}` });
+  //   }
+  // });
 
-  app.delete(ROUTES.API.PUSH.DELETE.unregisterPushNotification, (req, res, next) => {
-    subscription = null;
-    clearInterval(pushIntervalID);
-    res.sendStatus(200);
-  });
+  // app.delete(ROUTES.API.PUSH.DELETE.unregisterPushNotification, (req, res, next) => {
+  //   subscription = null;
+  //   clearInterval(pushIntervalID);
+  //   res.sendStatus(200);
+  // });
   app.post(ROUTES.API.PUSH.POST.registerPushNotification, async (req, res, next) => {
     try {
       // user is not logged in . do not bother
@@ -55,6 +55,7 @@ module.exports = (app) => {
           icon:
             'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1545981752/BidOrBoo/android-chrome-192x192.png',
           urlToLaunch: 'https://www.bidorboo.com/my-profile/basic-settings',
+          tag: 'bidorboo-basic-settings',
         });
         await webpush.sendNotification(JSON.parse(subscription), payload);
       }
