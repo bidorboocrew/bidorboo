@@ -186,7 +186,7 @@ exports.util = {
       },
       reason: 'requested_by_customer',
       reverse_transfer: true,
-      // refund_application_fee: true,
+      refund_application_fee: true,
     });
   },
   fullRefundTransaction: ({ chargeId, metadata }) => {

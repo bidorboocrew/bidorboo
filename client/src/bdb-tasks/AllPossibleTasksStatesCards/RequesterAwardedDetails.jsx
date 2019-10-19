@@ -140,10 +140,12 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                 </header>
                 <section className="modal-card-body">
                   <div className="content">
-                    <div>Cancelling an assigned request is considered a missed appointment.</div>
+                    <div className="has-text-danger">
+                      Cancelling an assigned request is considered a missed appointment.
+                    </div>
                     <br />
                     <div>
-                      We understand that life "happens" , but to keep things fair for you and the
+                      We understand that life happens, but to keep things fair for you and the
                       tasker we encourage you to reach out and try to reschedule this task to avoid
                       cancellation
                     </div>
@@ -152,7 +154,10 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                     <div className="group">
                       <label className="label">What you need to know:</label>
                       <div className="control">
-                        * You will be <strong>penalized 20%</strong>
+                        * You will recieve a refund of
+                        <span className="has-text-danger has-text-weight-semibold">
+                          {` 80% of your original payment `}
+                        </span>
                       </div>
                       <div className="control">* Your global rating will be impacted</div>
                       <div className="control">

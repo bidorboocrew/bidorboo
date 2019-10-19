@@ -147,10 +147,12 @@ exports.bidDataAccess = {
               UserModel.findByIdAndUpdate(
                 taskerId,
                 {
+                  $set: {
+                    'rating.latestComment':
+                      'BidOrBoo Auto Review: Cancelled Thier Request After Making an Agreement with A Tasker',
+                  },
                   $push: {
                     'rating.canceledBids': bidId,
-                    'rating.latestComment':
-                      'BidOrBoo Auto Review: Cancelled On The Requester After Making An Agreement',
                   },
                   $inc: {
                     'rating.globalRating': -0.25,

@@ -1837,10 +1837,12 @@ exports.jobDataAccess = {
               User.findOneAndUpdate(
                 { _id: mongoUser_id },
                 {
-                  $push: {
-                    'rating.canceledJobs': jobId,
+                  $set: {
                     'rating.latestComment':
                       'BidOrBoo Auto Review: Cancelled Thier Request After Making an Agreement with A Tasker',
+                  },
+                  $push: {
+                    'rating.canceledJobs': jobId,
                   },
                   $inc: {
                     'rating.globalRating': -0.25,
