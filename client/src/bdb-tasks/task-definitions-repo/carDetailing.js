@@ -120,6 +120,7 @@ export default {
     }
     return errors;
   },
+  enableImageUploadField: true,
   extras: function() {
     return {
       carSize: {

@@ -9,11 +9,10 @@ export default {
   ICON: 'fas fa-home',
   IMG: houseCleaning_img,
   DESCRIPTION: `Does your place need a cleaning ? Let our Taskers clean your space.`,
-  SUGGESTION_TEXT: `*What Areas would you like the Tasker to focus on (living room , bathrooms, bedrooms) ?
-
-*Do you have pets living in the house , if so what kind of pet (cats-dogs-hamster) ?
-
-*Will the tasker be required to move heavy items (couch-beds-fridge) ?
+  SUGGESTION_TEXT: `(1/2)Do you have pets in the house?
+[Answer here: ]
+(2/2)Will the tasker be required to move heavy items (couch-beds-fridge) ?
+[Answer here: ]
 `,
   defaultExtrasValues: {
     effort: 'noSelection',
@@ -24,6 +23,27 @@ export default {
       .trim()
       .oneOf(['small', 'medium', 'large'], '*Please select an option from the drop down')
       .required('*Please select the effort required'),
+    bathroomCount: Yup.string()
+      .ensure()
+      .trim()
+      .oneOf(
+        ['One', 'Two', 'Three', 'Four', 'Five', 'Six'],
+        '*Please select an option from the drop down',
+      )
+      .required('*Please select the number of bathroom that require cleaning'),
+    bedroomCount: Yup.string()
+      .ensure()
+      .trim()
+      .oneOf(
+        ['One', 'Two', 'Three', 'Four', 'Five', 'Six'],
+        '*Please select an option from the drop down',
+      )
+      .required('*Please select the number of bathroom that require cleaning'),
+    basementCleaning: Yup.string()
+      .ensure()
+      .trim()
+      .oneOf(['Yes (required)', 'No (not required)'], '*Please select an option from the drop down')
+      .required('*Please select the number of bathroom that require cleaning'),
   },
 
   renderThankYouForPostingMoment: function(setShowModal) {
@@ -95,8 +115,147 @@ export default {
     // }
     return errors;
   },
+  enableImageUploadField: false,
   extras: function() {
     return {
+      bedroomCount: {
+        renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
+          let bedroomCountClass = '';
+          let isTouched = touched && touched.bedroomCount;
+          if (isTouched) {
+            bedroomCountClass =
+              values.bedroomCount === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          }
+          return (
+            <React.Fragment key={'extras-bedroomCount'}>
+              <div className={`group ${isTouched && errors.bedroomCount ? 'isError' : ''}`}>
+                <label className={bedroomCountClass}>{'How many bedrooms?'}</label>
+                <div>
+                  <div className={`select ${bedroomCountClass} `}>
+                    <select
+                      id="bedroomCount"
+                      value={values.bedroomCount}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      <option value="noSelection">-Select One-</option>
+                      <option value="One">1</option>
+                      <option value="Two">2</option>
+                      <option value="Three">3</option>
+                      <option value="Four">4</option>
+                      <option value="Five">5</option>
+                      <option value="Six">6</option>
+                    </select>
+                    {isTouched && errors.bedroomCount && (
+                      <div className="help is-danger">{errors.bedroomCount}</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </React.Fragment>
+          );
+        },
+        renderSelection: (bedroomCount) => {
+          return (
+            <div key={'extras-bedroomCount'} className="group">
+              <label className="label hasSelectedValue">Number of bedrooms</label>
+              <div className="control">
+                {bedroomCount === 1 ? `${bedroomCount} bedroom` : `${bedroomCount} bedrooms`}
+              </div>
+            </div>
+          );
+        },
+      },
+      bathroomCount: {
+        renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
+          let bathroomCountClass = '';
+          let isTouched = touched && touched.bathroomCount;
+          if (isTouched) {
+            bathroomCountClass =
+              values.bathroomCount === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          }
+          return (
+            <React.Fragment key={'extras-bathroomCount'}>
+              <div className={`group ${isTouched && errors.bathroomCount ? 'isError' : ''}`}>
+                <label className={bathroomCountClass}>{'How many bathrooms?'}</label>
+                <div>
+                  <div className={`select ${bathroomCountClass} `}>
+                    <select
+                      id="bathroomCount"
+                      value={values.bathroomCount}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      <option value="noSelection">-Select One-</option>
+                      <option value="One">1</option>
+                      <option value="Two">2</option>
+                      <option value="Three">3</option>
+                      <option value="Four">4</option>
+                      <option value="Five">5</option>
+                      <option value="Six">6</option>
+                    </select>
+                    {isTouched && errors.bathroomCount && (
+                      <div className="help is-danger">{errors.bathroomCount}</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </React.Fragment>
+          );
+        },
+        renderSelection: (bathroomCount) => {
+          return (
+            <div key={'extras-bathroomCount'} className="group">
+              <label className="label hasSelectedValue">Number of bathrooms</label>
+              <div className="control">
+                {bathroomCount === 1 ? `${bathroomCount} bathroom` : `${bathroomCount} bathrooms`}
+              </div>
+            </div>
+          );
+        },
+      },
+      basementCleaning: {
+        renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
+          let basementCleaningClass = '';
+          let isTouched = touched && touched.basementCleaning;
+          if (isTouched) {
+            basementCleaningClass =
+              values.basementCleaning === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          }
+          return (
+            <React.Fragment key={'extras-basementCleaning'}>
+              <div className={`group ${isTouched && errors.basementCleaning ? 'isError' : ''}`}>
+                <label className={basementCleaningClass}>{'Is basement cleaning Required ?'}</label>
+                <div>
+                  <div className={`select ${basementCleaningClass} `}>
+                    <select
+                      id="basementCleaning"
+                      value={values.basementCleaning}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      <option value="noSelection">-Select One-</option>
+                      <option value="Yes (required)">Yes (required)</option>
+                      <option value="No (not required)">No (not required)</option>
+                    </select>
+                    {isTouched && errors.basementCleaning && (
+                      <div className="help is-danger">{errors.basementCleaning}</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </React.Fragment>
+          );
+        },
+        renderSelection: (basementCleaning) => {
+          return (
+            <div key={'extras-basementCleaning'} className="group">
+              <label className="label hasSelectedValue">Basement Cleaning</label>
+              <div className="control">{basementCleaning}</div>
+            </div>
+          );
+        },
+      },
       effort: {
         renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
           let effortClass = '';
@@ -107,7 +266,7 @@ export default {
           return (
             <React.Fragment key={'extras-effort'}>
               <div className={`group ${isTouched && errors.effort ? 'isError' : ''}`}>
-                <label className={effortClass}>{'Approximate Duration'}</label>
+                <label className={effortClass}>{'Approximate cleaning duration'}</label>
                 <div>
                   <div id="effort" className={`select ${effortClass} `}>
                     <select

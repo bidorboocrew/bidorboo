@@ -152,11 +152,14 @@ class GenericRequestForm extends React.Component {
       setFieldValue,
       touched,
       errors,
+      dirty,
       handleChange,
       handleSubmit,
       handleBlur,
     } = this.props;
-    const { ID, renderSummaryCard } = TASKS_DEFINITIONS[this.requestTemplateId];
+    const { ID, renderSummaryCard, enableImageUploadField } = TASKS_DEFINITIONS[
+      this.requestTemplateId
+    ];
 
     const extrasFields = this.extrasFunc();
     const taskSpecificExtraFormFields = [];
@@ -172,6 +175,7 @@ class GenericRequestForm extends React.Component {
     }
 
     const hasAtLeastOneTaskImg = !!values.taskImg1 || !!values.taskImg2 || !!values.taskImg3;
+
     return (
       <React.Fragment>
         <div style={{ borderTop: '2px solid #26ca70' }} className="card limitLargeMaxWidth">
@@ -200,27 +204,29 @@ class GenericRequestForm extends React.Component {
                 value={values.taskImg1 || ''}
               />
 
-              <div className="group">
-                <label className={`label ${hasAtLeastOneTaskImg ? 'hasSelectedValue' : ''}`}>
-                  Upload Images <span className="has-text-grey-lighter">(Optional)</span>
-                </label>
-
-                <ImageUploaderButton
-                  updateTaskThumbnails={this.updateTaskThumbnails}
-                  fieldId={'taskImg1'}
-                />
-                <Collapse isOpened={hasAtLeastOneTaskImg}>
-                  <ImageUploaderButton
-                    updateTaskThumbnails={this.updateTaskThumbnails}
-                    fieldId={'taskImg2'}
-                  />
+              {enableImageUploadField && (
+                <div className="group">
+                  <label className={`label ${hasAtLeastOneTaskImg ? 'hasSelectedValue' : ''}`}>
+                    Upload Images <span className="has-text-grey-lighter">(Optional)</span>
+                  </label>
 
                   <ImageUploaderButton
                     updateTaskThumbnails={this.updateTaskThumbnails}
-                    fieldId={'taskImg3'}
+                    fieldId={'taskImg1'}
                   />
-                </Collapse>
-              </div>
+                  <Collapse isOpened={hasAtLeastOneTaskImg}>
+                    <ImageUploaderButton
+                      updateTaskThumbnails={this.updateTaskThumbnails}
+                      fieldId={'taskImg2'}
+                    />
+
+                    <ImageUploaderButton
+                      updateTaskThumbnails={this.updateTaskThumbnails}
+                      fieldId={'taskImg3'}
+                    />
+                  </Collapse>
+                </div>
+              )}
 
               <input
                 id="addressText"
@@ -292,7 +298,7 @@ class GenericRequestForm extends React.Component {
                 touched={touched.startingDateAndTime}
               />
               <div className={`group ${touched.timeOfDay && errors.timeOfDay ? 'isError' : ''}`}>
-                <label className={timeOfDayClass}>{'Approximate Starting time'}</label>
+                <label className={timeOfDayClass}>{'Preferred starting time'}</label>
                 <div>
                   <div className={`select ${timeOfDayClass}`}>
                     <select
@@ -345,8 +351,10 @@ class GenericRequestForm extends React.Component {
                 onBlur={handleBlur}
               />
               <br></br>
-              {errors && Object.keys(errors).length > 0 && (
-                <div className="help is-danger">* some fields are missing or contain errors. Scroll up if needed.</div>
+              {dirty && errors && Object.keys(errors).length > 0 && (
+                <div className="help is-dark">
+                  * some fields are missing or contain errors. Scroll up if needed.
+                </div>
               )}
               <button
                 type="submit"
