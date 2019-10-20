@@ -44,7 +44,7 @@ app.use(passport.session());
 // instantiate app routes
 require('./services/populateAppRoutes')(app);
 
-app.use(errors());
+// app.use(errors());
 
 // error handling
 app.use((err, req, res, next) => {

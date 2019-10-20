@@ -8,12 +8,20 @@ const requireLogin = require('../middleware/requireLogin');
 const utils = require('../utils/utilities');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
 
-const SchemaValidator = require('../middleware/SchemaValidator');
-const { resetPasswordReqSchema } = require('../routeSchemas/requestSchema');
+const {
+  resetPasswordReqSchema,
+  verifyViaCode,
+  loggedoutEmailVerificationReq,
+  notificationSettingsUpdateReq,
+  agreeToTosReq,
+  userDetailsReqSchema,
+  updateAppViewReq,
+} = require('../routeSchemas/userRoutesReqSchema');
 
 // We are using the formatted Joi Validation error
 // Pass false as argument to use a generic error
-const validateRequest = SchemaValidator(true);
+// const SchemaValidator = require('../middleware/SchemaValidator');
+// const validateRequest = SchemaValidator(true);
 
 // const cloudinary = require('cloudinary');
 module.exports = (app) => {
@@ -23,33 +31,7 @@ module.exports = (app) => {
     celebrate(resetPasswordReqSchema),
     async (req, res, next) => {
       try {
-        if (
-          !req.body ||
-          !req.body.data ||
-          !req.body.data.emailAddress ||
-          !req.body.data.verificationCode ||
-          !req.body.data.password2 ||
-          !req.body.data.password1
-        ) {
-          return res.status(400).send({
-            safeMsg:
-              "Missing Parameteres, We couldn't update your password, Use the chat button in the footer to chat with our client support team",
-          });
-        }
-
-        const { verificationCode, emailAddress, password1, password2 } = req.body.data;
-
-        const isValidPassword =
-          password1 &&
-          password1.length > 6 &&
-          password2 &&
-          password2.length > 6 &&
-          password1 === password2;
-        if (!isValidPassword) {
-          return res.status(400).send({
-            safeMsg: 'Password do not match.',
-          });
-        }
+        const { verificationCode, emailAddress, password1 } = req.body.data;
 
         const user = await userDataAccess.findOneByEmailId(emailAddress);
         if (!user) {
@@ -90,28 +72,24 @@ module.exports = (app) => {
     ROUTES.API.USER.POST.verifyEmail,
     requireBidorBooHost,
     requireLogin,
+    celebrate(verifyViaCode),
     async (req, res, next) => {
       try {
         const userId = req.user.userId;
         const { code } = req.body.data;
-        if (code) {
-          const user = await userDataAccess.findOneByUserId(userId);
 
-          const emailVerification = user.verification.email;
-          const emailCorrespondingToTheCode = emailVerification && emailVerification[`${code}`];
-          if (user.email.emailAddress === emailCorrespondingToTheCode) {
-            const userData = {
-              email: { ...user.email, isVerified: true },
-            };
-            const newUser = await userDataAccess.findByUserIdAndUpdate(userId, userData);
-            return res.send({ success: true });
-          } else {
-            return res.send({ success: false });
-          }
+        const user = await userDataAccess.findOneByUserId(userId);
+
+        const emailVerification = user.verification.email;
+        const emailCorrespondingToTheCode = emailVerification && emailVerification[`${code}`];
+        if (user.email.emailAddress === emailCorrespondingToTheCode) {
+          const userData = {
+            email: { ...user.email, isVerified: true },
+          };
+          await userDataAccess.findByUserIdAndUpdate(userId, userData);
+          return res.send({ success: true });
         } else {
-          return res.status(400).send({
-            errorMsg: 'verifyEmail failed due to missing params',
-          });
+          return res.send({ success: false });
         }
       } catch (e) {
         e.safeMsg = 'Failed To verify Email';
@@ -123,34 +101,28 @@ module.exports = (app) => {
     ROUTES.API.USER.POST.verifyPhone,
     requireBidorBooHost,
     requireLogin,
+    celebrate(verifyViaCode),
     async (req, res, next) => {
       try {
         const userId = req.user.userId;
-        const { code } = req.body.data;
 
-        if (code) {
-          const user = await userDataAccess.findOneByUserId(req.user.userId);
-          const { status } = await sendTextService.verifyPhoneCode(user.phone.phoneNumber, code);
+        const user = await userDataAccess.findOneByUserId(req.user.userId);
+        const { status } = await sendTextService.verifyPhoneCode(user.phone.phoneNumber, code);
 
-          if (status === 'approved') {
-            const userData = {
-              phone: { ...user.phone, isVerified: true },
-            };
-            await userDataAccess.findByUserIdAndUpdate(userId, userData);
-            return res.send({ success: true });
-          } else {
-            const userData = {
-              phone: { ...user.phone, isVerified: false },
-            };
-            await userDataAccess.findByUserIdAndUpdate(userId, userData);
-            return res.status(400).send({
-              safeMsg:
-                'Failed To verify Phone, Use the chat button at the bottom of the page to chat with us',
-            });
-          }
+        if (status === 'approved') {
+          const userData = {
+            phone: { ...user.phone, isVerified: true },
+          };
+          await userDataAccess.findByUserIdAndUpdate(userId, userData);
+          return res.send({ success: true });
         } else {
+          const userData = {
+            phone: { ...user.phone, isVerified: false },
+          };
+          await userDataAccess.findByUserIdAndUpdate(userId, userData);
           return res.status(400).send({
-            errorMsg: 'verifyPhone failed due to missing params',
+            safeMsg:
+              'Failed To verify Phone, Use the chat button at the bottom of the page to chat with us',
           });
         }
       } catch (e) {
@@ -182,7 +154,7 @@ module.exports = (app) => {
           }
         } else {
           return res.status(400).send({
-            errorMsg: 'verifyEmail failed due to missing params',
+            safeMsg: 'Failed To send verification email',
           });
         }
       } catch (e) {
@@ -215,7 +187,7 @@ module.exports = (app) => {
           }
         } else {
           return res.status(400).send({
-            safeMsg: 'verify Email failed due to missing params',
+            safeMsg: 'verify message failed',
           });
         }
       } catch (e) {
@@ -229,14 +201,9 @@ module.exports = (app) => {
   app.post(
     ROUTES.API.USER.POST.loggedOutRequestEmailVerificationCode,
     requireBidorBooHost,
+    celebrate(loggedoutEmailVerificationReq),
     async (req, res, next) => {
       try {
-        if (!req.body || !req.body.data || !req.body.data.emailAddress) {
-          return res.status(400).send({
-            safeMsg:
-              'Missing Parameteres, We couldnt send the verification code. Use the chat button in the footer to chat with our client support team',
-          });
-        }
         const { emailAddress } = req.body.data;
 
         const user = await userDataAccess.findOneByEmailId(emailAddress);
@@ -338,55 +305,57 @@ module.exports = (app) => {
     }
   });
 
-  app.put(ROUTES.API.USER.PUT.notificationSettings, requireLogin, async (req, res, next) => {
-    try {
-      const notificationSettings = req.body.data;
-      if (!notificationSettings) {
-        return res.status(400).send({
-          errorMsg: 'notificationSettings failed due to missing params',
-        });
+  app.put(
+    ROUTES.API.USER.PUT.notificationSettings,
+    requireLogin,
+    celebrate(notificationSettingsUpdateReq),
+    async (req, res, next) => {
+      try {
+        const notificationSettings = req.body.data;
+        if (!notificationSettings) {
+          return res.status(400).send({
+            errorMsg: 'notificationSettings failed due to missing params',
+          });
+        }
+        const userId = req.user.userId;
+        await userDataAccess.updateNotificationSettings(userId, notificationSettings);
+        return res.send({ success: true });
+      } catch (e) {
+        e.safeMsg = 'Failed To get notification settings';
+        return next(e);
       }
-      const userId = req.user.userId;
-      await userDataAccess.updateNotificationSettings(userId, notificationSettings);
-      return res.send({ success: true });
-    } catch (e) {
-      e.safeMsg = 'Failed To get notification settings';
-      return next(e);
     }
-  });
+  );
 
-  app.put(ROUTES.API.USER.PUT.updateOnboardingDetails, requireLogin, async (req, res, next) => {
-    try {
-      const { agreedToTOS } = req.body.data;
+  app.put(
+    ROUTES.API.USER.PUT.updateOnboardingDetails,
+    requireLogin,
+    celebrate(agreeToTosReq),
+    async (req, res, next) => {
+      try {
+        let newDetails = {
+          tos_acceptance: {
+            Agreed: true,
+            date: Math.floor(Date.now() / 1000), //HARD CODED
+            ip: req.connection.remoteAddress, //HARD CODED
+          },
+          membershipStatus: 'ONBOARDED_MEMBER',
+        };
 
-      if (!agreedToTOS) {
-        return res.status(400).send({
-          errorMsg: 'You Must accept our Terms of Use in order to procceed',
-        });
+        const userId = req.user.userId;
+        await userDataAccess.updateUserProfileDetails(userId, newDetails);
+        return res.send({ success: true });
+      } catch (e) {
+        e.safeMsg = 'Failed To update update Onboarding Details';
+        return next(e);
       }
-
-      let newDetails = {
-        tos_acceptance: {
-          Agreed: true,
-          date: Math.floor(Date.now() / 1000), //HARD CODED
-          ip: req.connection.remoteAddress, //HARD CODED
-        },
-        membershipStatus: 'ONBOARDED_MEMBER',
-      };
-
-      const userId = req.user.userId;
-      await userDataAccess.updateUserProfileDetails(userId, newDetails);
-      return res.send({ success: true });
-    } catch (e) {
-      e.safeMsg = 'Failed To update update Onboarding Details';
-      return next(e);
     }
-  });
+  );
 
   app.put(
     ROUTES.API.USER.PUT.userDetails,
     requireLogin,
-    validateRequest,
+    celebrate(userDetailsReqSchema),
     async (req, res, next) => {
       try {
         const userId = req.user.userId;
@@ -408,17 +377,22 @@ module.exports = (app) => {
     }
   );
 
-  app.put(ROUTES.API.USER.PUT.updateAppView, requireLogin, async (req, res, next) => {
-    try {
-      const { appViewId } = req.body.data;
-      const userId = req.user.userId;
-      const userAfterUpdates = await userDataAccess.updateUserAppView(userId, appViewId);
-      return res.send(userAfterUpdates);
-    } catch (e) {
-      e.safeMsg = 'Failed To update update user app view';
-      return next(e);
+  app.put(
+    ROUTES.API.USER.PUT.updateAppView,
+    requireLogin,
+    celebrate(updateAppViewReq),
+    async (req, res, next) => {
+      try {
+        const { appViewId } = req.body.data;
+        const userId = req.user.userId;
+        const userAfterUpdates = await userDataAccess.updateUserAppView(userId, appViewId);
+        return res.send(userAfterUpdates);
+      } catch (e) {
+        e.safeMsg = 'Failed To update update user app view';
+        return next(e);
+      }
     }
-  });
+  );
 
   app.put(ROUTES.API.USER.PUT.profilePicture, requireLogin, async (req, res, next) => {
     try {
