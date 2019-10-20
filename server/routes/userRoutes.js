@@ -1,12 +1,14 @@
 const userDataAccess = require('../data-access/userDataAccess');
 const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
 const { encryptData } = require('../utils/utilities');
-const { celebrate, Joi, errors } = require('celebrate');
+const { celebrate } = require('celebrate');
 
 const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 const utils = require('../utils/utilities');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
+
+const { jobDataAccess } = require('../data-access/jobDataAccess');
 
 const {
   resetPasswordReqSchema,
@@ -237,7 +239,7 @@ module.exports = (app) => {
 
   app.get(ROUTES.API.USER.GET.currentUser, async (req, res, next) => {
     try {
-      // await jobDataAccess.BidOrBooAdmin.SendPayoutsToBanks();
+      await jobDataAccess.BidOrBooAdmin.CleanUpAllExpiredNonAwardedJobs();
       // sendTextService.verifyPhone()
 
       // sendTextService.verifyPhoneCode();

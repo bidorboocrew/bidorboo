@@ -171,11 +171,6 @@ exports.jobDataAccess = {
       return;
     },
     CleanUpAllExpiredNonAwardedJobs: async () => {
-      // const past48Hours = moment()
-      //   .subtract(2, 'days')
-      //   .tz('America/Toronto')
-      //   .toISOString();
-
       const rightNow = moment.utc(moment());
 
       await JobModel.find({
@@ -189,7 +184,6 @@ exports.jobDataAccess = {
             path: '_bidderRef',
           },
         })
-        .lean(true)
         .exec((err, res) => {
           if (err) {
             throw err;
@@ -197,6 +191,7 @@ exports.jobDataAccess = {
 
           if (res && res.length > 0) {
             res.forEach(async (job) => {
+              const { _id: jobId, _ownerRef } = job;
               const jobStartDate = moment(job.startingDateAndTime);
 
               // normalize the start date to the same timezone to comapre
@@ -207,48 +202,48 @@ exports.jobDataAccess = {
               const isJobPastDue = moment(jobStartDate).isSameOrBefore(rightNow);
 
               if (isJobPastDue) {
-                console.log('-------BidOrBooLogging----------------------');
-
-                const areThereAnyBids = job._bidsListRef && job._bidsListRef.length > 0;
-                if (areThereAnyBids) {
-                  bidsIds = [];
-                  biddersIds = [];
-                  job._bidsListRef.forEach((bidRef) => {
-                    bidsIds.push(bidRef._id.toString());
-                    biddersIds.push(bidRef._bidderRef._id.toString());
-                  });
-
-                  biddersIds.forEach(async (bidderId) => {
-                    // clean ref for bidders
-                    await User.findOneAndUpdate(
-                      { _id: bidderId },
-                      { $pull: { _postedBidsRef: { $in: bidsIds } } },
-                      { new: true }
-                    )
-                      .lean(true)
-                      .exec();
-                  });
-
-                  bidsIds.forEach(async (bidId) => {
-                    await BidModel.deleteOne({ _id: bidId });
-                  });
+                try {
+                  job.remove()
+                  console.log(
+                    `CleanUpAllExpiredNonAwardedJobs deleted job id ${jobId} which was suppose to happen ${jobStartDate} on this day ${rightNow}`
+                  );
+                } catch (e) {
+                  console.error('-------error in cron job----------------------' + e);
                 }
+                // console.log('-------BidOrBooLogging----------------------');
 
-                await User.findOneAndUpdate(
-                  { _id: job._ownerRef.toString() },
-                  { $pull: { _postedJobsRef: { $in: [job._id] } } },
-                  { new: true }
-                )
-                  .lean(true)
-                  .exec();
+                // const areThereAnyBids = job._bidsListRef && job._bidsListRef.length > 0;
+                // if (areThereAnyBids) {
+                //   bidsIds = [];
+                //   biddersIds = [];
+                //   job._bidsListRef.forEach((bidRef) => {
+                //     bidsIds.push(bidRef._id.toString());
+                //     biddersIds.push(bidRef._bidderRef._id.toString());
+                //   });
 
-                console.log(
-                  `CleanUpAllExpiredNonAwardedJobs deleted job id ${job._id} which was suppose to happen ${jobStartDate}`
-                );
-                await JobModel.deleteOne({ _id: job._id.toString() })
-                  .lean(true)
-                  .exec();
-                console.log('-------BidOrBooLogging----------------------');
+                //   biddersIds.forEach(async (bidderId) => {
+                //     // clean ref for bidders
+                //     await User.findOneAndUpdate(
+                //       { _id: bidderId },
+                //       { $pull: { _postedBidsRef: { $in: bidsIds } } },
+                //       { new: true }
+                //     )
+                //       .lean(true)
+                //       .exec();
+                //   });
+
+                //   bidsIds.forEach(async (bidId) => {
+                //     await BidModel.deleteOne({ _id: bidId });
+                //   });
+                // }
+
+                // await User.findOneAndUpdate(
+                //   { _id: job._ownerRef.toString() },
+                //   { $pull: { _postedJobsRef: { $in: [job._id] } } },
+                //   { new: true }
+                // )
+                //   .lean(true)
+                //   .exec();
               }
             });
           }
@@ -1167,7 +1162,6 @@ exports.jobDataAccess = {
   // default search raduis is 15km raduis
   // default include all
   getJobsNear: ({ location, searchRadius = 25000 }, mongoUser_id = '') => {
-    console.log('search 111111111jobs');
     return new Promise(async (resolve, reject) => {
       try {
         const today = moment.utc(moment()).toISOString();
