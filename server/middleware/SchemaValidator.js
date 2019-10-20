@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const Joi = require('@hapi/joi');
 const Schemas = require('../routeSchemas/schemas');
 
 module.exports = (useJoiError = false) => {
