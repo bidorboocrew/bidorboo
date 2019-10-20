@@ -107,19 +107,19 @@ export default {
       </div>
     );
   },
-  extrasValidation: function(values) {
-    let errors = {};
-    if (!values.carSize || values.carSize === NO_SELECTION) {
-      errors.carSize = '*Please select a value from the drop down';
-    }
-    if (!values.interiorType || values.interiorType === NO_SELECTION) {
-      errors.interiorType = '*Please select a value from the drop down';
-    }
-    if (!values.trunkCleaning || values.trunkCleaning === NO_SELECTION) {
-      errors.trunkCleaning = '*Please select a value from the drop down';
-    }
-    return errors;
-  },
+  // extrasValidation: function(values) {
+  //   let errors = {};
+  //   if (!values.carSize || values.carSize === NO_SELECTION) {
+  //     errors.carSize = '*Please select a value from the drop down';
+  //   }
+  //   if (!values.interiorType || values.interiorType === NO_SELECTION) {
+  //     errors.interiorType = '*Please select a value from the drop down';
+  //   }
+  //   if (!values.trunkCleaning || values.trunkCleaning === NO_SELECTION) {
+  //     errors.trunkCleaning = '*Please select a value from the drop down';
+  //   }
+  //   return errors;
+  // },
   enableImageUploadField: true,
   extras: function() {
     return {

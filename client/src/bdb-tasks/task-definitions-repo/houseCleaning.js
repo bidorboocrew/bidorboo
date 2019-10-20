@@ -44,6 +44,11 @@ export default {
       .trim()
       .oneOf(['Yes (required)', 'No (not required)'], '*Please select an option from the drop down')
       .required('*Please select the number of bathroom that require cleaning'),
+    equipmentProvider: Yup.string()
+      .ensure()
+      .trim()
+      .oneOf(['taskerProvides', 'requesterProvides'], '*Please select an option from the drop down')
+      .required('*Please select the number of bathroom that require cleaning'),
   },
 
   renderThankYouForPostingMoment: function(setShowModal) {
@@ -108,16 +113,70 @@ export default {
       </div>
     );
   },
-  extrasValidation: function(values) {
-    let errors = {};
-    // if (!values.effort || values.effort === 'noSelection') {
-    //   errors.effort = 'Please select the required effort';
-    // }
-    return errors;
-  },
+  // extrasValidation: function(values) {
+  //   let errors = {};
+  // if (!values.effort || values.effort === 'noSelection') {
+  //   errors.effort = 'Please select the required effort';
+  // }
+  //   return errors;
+  // },
   enableImageUploadField: false,
   extras: function() {
     return {
+      effort: {
+        renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
+          let effortClass = '';
+          let isTouched = touched && touched.effort;
+          if (isTouched) {
+            effortClass = values.effort === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          }
+          return (
+            <React.Fragment key={'extras-effort'}>
+              <div className={`group ${isTouched && errors.effort ? 'isError' : ''}`}>
+                <label className={effortClass}>{'Approximate cleaning duration'}</label>
+                <div>
+                  <div id="effort" className={`select ${effortClass} `}>
+                    <select
+                      id="effort"
+                      value={values.effort}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      <option value="noSelection">-Select One-</option>
+                      <option value="small">{`Small (1-3 hours)`}</option>
+                      <option value="medium">{`Medium (3-6 hours)`}</option>
+                      <option value="large">{`Large (6-8 hours)`}</option>
+                    </select>
+                    {isTouched && errors.effort && (
+                      <div className="help is-danger">{errors.effort}</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </React.Fragment>
+          );
+        },
+        renderSelection: (size) => {
+          let selectedValue = null;
+          switch (size) {
+            case 'small':
+              selectedValue = 'Small (1-3 hours)';
+              break;
+            case 'medium':
+              selectedValue = 'Medium (3-6 hours)';
+              break;
+            case 'large':
+              selectedValue = 'Large (6-8 hours)';
+              break;
+          }
+          return (
+            <div key={'extras-effort'} className="group">
+              <label className="label hasSelectedValue">Task Effort</label>
+              <div className="control">{selectedValue}</div>
+            </div>
+          );
+        },
+      },
       bedroomCount: {
         renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
           let bedroomCountClass = '';
@@ -256,32 +315,35 @@ export default {
           );
         },
       },
-      effort: {
+
+      equipmentProvider: {
         renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
-          let effortClass = '';
-          let isTouched = touched && touched.effort;
+          let equipmentProviderClass = '';
+          let isTouched = touched && touched.equipmentProvider;
           if (isTouched) {
-            effortClass = values.effort === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+            equipmentProviderClass =
+              values.equipmentProvider === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
           }
           return (
-            <React.Fragment key={'extras-effort'}>
-              <div className={`group ${isTouched && errors.effort ? 'isError' : ''}`}>
-                <label className={effortClass}>{'Approximate cleaning duration'}</label>
+            <React.Fragment key={'extras-equipmentProvider'}>
+              <div className={`group ${isTouched && errors.equipmentProvider ? 'isError' : ''}`}>
+                <label className={equipmentProviderClass}>
+                  {'Should tasker bring Vaccum/Mob?'}
+                </label>
                 <div>
-                  <div id="effort" className={`select ${effortClass} `}>
+                  <div className={`select ${equipmentProviderClass}`}>
                     <select
-                      id="effort"
-                      value={values.effort}
+                      id="equipmentProvider"
+                      value={values.equipmentProvider}
                       onChange={handleChange}
                       onBlur={handleBlur}
                     >
                       <option value="noSelection">-Select One-</option>
-                      <option value="small">{`Small (1-3 hours)`}</option>
-                      <option value="medium">{`Medium (3-6 hours)`}</option>
-                      <option value="large">{`Large (6-8 hours)`}</option>
+                      <option value="taskerProvides">Yes (Tasker brings vaccum/mop)</option>
+                      <option value="requesterProvides">No (I will provide them)</option>
                     </select>
-                    {isTouched && errors.effort && (
-                      <div className="help is-danger">{errors.effort}</div>
+                    {isTouched && errors.equipmentProvider && (
+                      <div className="help is-danger">{errors.equipmentProvider}</div>
                     )}
                   </div>
                 </div>
@@ -289,23 +351,20 @@ export default {
             </React.Fragment>
           );
         },
-        renderSelection: (size) => {
-          let selectedValue = null;
-          switch (size) {
-            case 'small':
-              selectedValue = 'Small (1-3 hours)';
+        renderSelection: (equipmentProvider) => {
+          let valueOfField = '';
+          switch (equipmentProvider) {
+            case 'taskerProvides':
+              valueOfField = 'Tasker must bring Vaccum/Mop';
               break;
-            case 'medium':
-              selectedValue = 'Medium (3-6 hours)';
-              break;
-            case 'large':
-              selectedValue = 'Large (6-8 hours)';
+            case 'requesterProvides':
+              valueOfField = 'The requester will provide Vaccum/Mop';
               break;
           }
           return (
-            <div key={'extras-effort'} className="group">
-              <label className="label hasSelectedValue">Task Effort</label>
-              <div className="control">{selectedValue}</div>
+            <div key={'extras-equipmentProvider'} className="group">
+              <label className="label hasSelectedValue">Who will provide vaccum/mop?</label>
+              <div className="control">{valueOfField}</div>
             </div>
           );
         },

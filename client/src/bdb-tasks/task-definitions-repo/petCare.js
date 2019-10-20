@@ -107,11 +107,11 @@ export default {
       </div>
     );
   },
-  extrasValidation: function(values) {
-    let errors = {};
+  // extrasValidation: function(values) {
+  //   let errors = {};
 
-    return errors;
-  },
+  //   return errors;
+  // },
   enableImageUploadField: true,
   extras: function() {
     return {

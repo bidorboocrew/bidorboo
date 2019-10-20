@@ -42,7 +42,9 @@ class GenericRequestForm extends React.Component {
     }
     // extras
     this.extrasFunc = TASKS_DEFINITIONS[this.requestTemplateId].extras.bind(this);
-    this.extrasValidations = TASKS_DEFINITIONS[this.requestTemplateId].extrasValidation.bind(this);
+    this.extrasValidations =
+      TASKS_DEFINITIONS[this.requestTemplateId].extrasValidation &&
+      TASKS_DEFINITIONS[this.requestTemplateId].extrasValidation.bind(this);
   }
 
   updateTaskThumbnails = (fieldIdAndValue) => {
