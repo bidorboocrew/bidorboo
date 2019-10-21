@@ -619,7 +619,7 @@ class Header extends React.Component {
               )}
 
               <div
-                id="myprofile-step"
+                // id="myprofile-step"
                 className={`navbar-item dropdown is-right  ${
                   isProfileMenuActive ? 'is-active' : ''
                 }`}
@@ -713,7 +713,7 @@ class Header extends React.Component {
                       )}
                       <hr className="navbar-divider" />
                       <a
-                        id="myprofile-step"
+                        // id="myprofile-step"
                         onClick={() => {
                           this.closeMenuThenExecute(() => {
                             switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);

@@ -30,10 +30,7 @@ exports.jobDataAccess = {
         .toISOString();
 
       await JobModel.find({
-        $and: [
-          { _awardedBidRef: { $exists: true } },
-          { startingDateAndTime: { $exists: true }, state: { $eq: 'AWARDED' } },
-        ],
+        $and: [{ _awardedBidRef: { $exists: true } }, { state: { $eq: 'AWARDED' } }],
       })
         .populate({
           path: '_ownerRef',
@@ -79,6 +76,7 @@ exports.jobDataAccess = {
               const isJobHappeningBeforeTomorrow = moment(normalizedStartDate).isSameOrBefore(
                 theNext24Hours
               );
+
               if (isJobHappeningAfterNow && isJobHappeningBeforeTomorrow) {
                 const jobId = job._id.toString();
                 const awardedBidId = job._awardedBidRef._id.toString();
@@ -203,7 +201,7 @@ exports.jobDataAccess = {
 
               if (isJobPastDue) {
                 try {
-                  job.remove()
+                  job.remove();
                   console.log(
                     `CleanUpAllExpiredNonAwardedJobs deleted job id ${jobId} which was suppose to happen ${jobStartDate} on this day ${rightNow}`
                   );
@@ -508,7 +506,7 @@ exports.jobDataAccess = {
 
       await JobModel.find({
         _awardedBidRef: { $exists: true },
-        state: { $in: ['ARCHIVE'] },
+        state: { $eq: 'ARCHIVE' },
       })
         .populate({
           path: '_bidsListRef',
@@ -524,36 +522,32 @@ exports.jobDataAccess = {
           }
 
           if (res && res.length > 0) {
-            res.forEach(async (job) => {
+            res.forEach((job) => {
               const areThereAnyBids = job._bidsListRef && job._bidsListRef.length > 0;
               if (areThereAnyBids) {
-                console.log('cleaned ' + job._id);
-
                 bidsIds = [];
                 biddersIds = [];
                 const awardedBidRefId = job._awardedBidRef._id.toString();
 
                 job._bidsListRef.forEach((bidRef) => {
                   // dont delete the awardedBidRef
-                  if (bidRef._id.toString() !== awardedBidRefId) {
+                  if (bidRef._id.toString() !== awardedBidRefId.toString()) {
                     bidsIds.push(bidRef._id.toString());
                     biddersIds.push(bidRef._bidderRef._id.toString());
                   }
                 });
 
-                biddersIds.forEach(async (bidderId) => {
+                biddersIds.forEach((bidderId) => {
                   // clean ref for bidders
-                  await User.findOneAndUpdate(
+                  User.findOneAndUpdate(
                     { _id: bidderId },
                     { $pull: { _postedBidsRef: { $in: bidsIds } } }
-                  )
-                    .lean(true)
-                    .exec();
+                  ).exec();
                 });
 
                 // clean the bids for bidders
-                bidsIds.forEach(async (bidId) => {
-                  await BidModel.deleteOne({ _id: bidId });
+                bidsIds.forEach((bidId) => {
+                  BidModel.deleteOne({ _id: bidId });
                 });
               }
             });
