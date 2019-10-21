@@ -159,6 +159,7 @@ const TaskerCardTemplates = {
       }
     }
   },
+
   [BID_STATES.AWARDED_BID_CANCELED_BY_TASKER]: ({
     job,
     isSummaryView,
@@ -216,7 +217,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
     case BID_STATES.AWARDED:
       // return <TaskerMyOpenBidSummary bid={bid} job={_jobRef} {...otherArgs} />;
       try {
-        const card = TaskerCardTemplates[bid.state]({
+        const card = TaskerCardTemplates[BID_STATES.AWARDED]({
           bid,
           job: _jobRef,
           isSummaryView,
@@ -300,7 +301,6 @@ export const getMeTheRightBidCard = ({ bid, isSummaryView, ...otherArgs }) => {
 };
 
 export const getMeTheRightRequestCard = ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
-
   if (!job || !job.templateId) {
     console.error('no job passed in');
     return; //return

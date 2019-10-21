@@ -136,7 +136,7 @@ const renderFooter = ({ bid, notificationFeed, updateBidState }) => {
           style={{ position: 'relative' }}
           onClick={(e) => {
             e.preventDefault();
-            updateBidState(bid._id, 'AWARDED_SEEN');
+            newUnseenState && updateBidState(bid._id, 'AWARDED_SEEN');
 
             switchRoute(
               ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
