@@ -10,7 +10,7 @@ export default class AddToMobileHomeScreenBanner extends React.Component {
     this.installPrompt = null;
 
     this.beforeInstallPromptFunc = (e) => {
-      debugger;
+
       // For older browsers
       e.preventDefault();
       // console.log('Install Prompt fired');

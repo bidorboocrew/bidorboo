@@ -34,6 +34,7 @@ const showSpecialMoment = (state = initialState, { payload }) => {
   };
 };
 const updateNotificationFeed = (state = initialState, { payload }) => {
+
   if (payload) {
     // const
     const jobIdsWithNewBids = payload.z_notify_jobsWithNewBids || [];

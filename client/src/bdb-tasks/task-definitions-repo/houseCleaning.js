@@ -10,9 +10,9 @@ export default {
   IMG: houseCleaning_img,
   DESCRIPTION: `Does your place need a cleaning ? Let our Taskers clean your space.`,
   SUGGESTION_TEXT: `(1/2)Do you have pets in the house?
-[Answer here: ]
+[Answer here:   ]
 (2/2)Will the tasker be required to move heavy items (couch-beds-fridge) ?
-[Answer here: ]
+[Answer here:   ]
 `,
   defaultExtrasValues: {
     effort: 'noSelection',

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { proposerConfirmsJobCompletion } from '../../app-state/actions/jobActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
+import { updateBidState } from '../../app-state/actions/bidsActions';
 
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -21,7 +22,7 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 class TaskerMyAwardedBidSummary extends React.Component {
   render() {
-    const { bid, job, cancelAwardedBid } = this.props;
+    const { bid, job, cancelAwardedBid, notificationFeed, updateBidState } = this.props;
 
     if (!bid || !job || !cancelAwardedBid) {
       return <div>TaskerMyAwardedBidSummary is missing properties</div>;
@@ -88,7 +89,7 @@ class TaskerMyAwardedBidSummary extends React.Component {
               {!bidderConfirmed && !proposerConfirmed && <BSTaskerAwarded isPastDue={isPastDue} />}
             </div>
           </div>
-          {renderFooter({ bid, isPastDue, jobCompletion })}
+          {renderFooter({ bid, isPastDue, jobCompletion, notificationFeed, updateBidState })}
         </div>
       </React.Fragment>
     );
@@ -109,6 +110,7 @@ const mapDispatchToProps = (dispatch) => {
     proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
     cancelAwardedBid: bindActionCreators(cancelAwardedBid, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
+    updateBidState: bindActionCreators(updateBidState, dispatch),
   };
 };
 
@@ -117,19 +119,39 @@ export default connect(
   mapDispatchToProps,
 )(TaskerMyAwardedBidSummary);
 
-const renderFooter = ({ bid }) => {
+const renderFooter = ({ bid, notificationFeed, updateBidState }) => {
+  let newUnseenState = false;
+  if (notificationFeed && notificationFeed.myBidsWithNewStatus) {
+    for (let i = 0; i < notificationFeed.myBidsWithNewStatus.length; i++) {
+      if (notificationFeed.myBidsWithNewStatus[i]._id === bid._id) {
+        newUnseenState = true;
+        break;
+      }
+    }
+  }
   return (
     <React.Fragment>
       <div className="centeredButtonInCard">
         <a
           style={{ position: 'relative' }}
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
+            updateBidState(bid._id, 'AWARDED_SEEN');
+
             switchRoute(
               ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
             );
           }}
           className="button is-success"
         >
+          {newUnseenState && (
+            <div
+              style={{ position: 'absolute', top: -5, right: 0, fontSize: 10 }}
+              className="has-text-danger"
+            >
+              <i className="fas fa-circle" />
+            </div>
+          )}
           VIEW DETAILS
         </a>
       </div>
