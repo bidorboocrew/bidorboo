@@ -250,10 +250,6 @@ exports.jobDataAccess = {
       return;
     },
     nagRequesterToConfirmJob: async () => {
-      // const past48Hours = moment()
-      //   .tz('America/Toronto')
-      //   .toISOString();
-
       await JobModel.find({
         $and: [
           { state: { $eq: 'AWARDED' } },
@@ -300,8 +296,7 @@ exports.jobDataAccess = {
                     $set: {
                       state: 'DONE',
                     },
-                  },
-                  { new: true }
+                  }
                 )
                   .lean(true)
                   .exec();
@@ -407,7 +402,7 @@ exports.jobDataAccess = {
         return JobModel.find({
           _awardedBidRef: { $exists: true },
           processedPayment: { $exists: true },
-          state: { $in: ['DONE'] },
+          state: { $eq: 'DONE' },
           paymentToBank: { $exists: false },
         })
           .lean(true)
@@ -425,23 +420,44 @@ exports.jobDataAccess = {
                   applicationFeeAmount,
                   destinationStripeAcc,
                   paymentIntentId,
+                  refund,
                 } = processedPayment;
-                const {
-                  amount_received,
-                  application_fee_amount,
-                  transfer_data: { destination: taskerAccId },
-                } = await stripeServiceUtil.getPaymentIntents(paymentIntentId);
 
                 const taskerConnectAccDetails = await stripeServiceUtil.getConnectedAccountDetails(
-                  taskerAccId
+                  destinationStripeAcc
                 );
 
                 // confirm payouts enabeld
                 if (taskerConnectAccDetails && taskerConnectAccDetails.payouts_enabled) {
-                  const taskerPayout = amount_received - application_fee_amount;
+                  let taskerPayout = 0;
+                  if (refund && refund.status === 'succeeded') {
+                    // application fee is refunded at a rate proportional to the refund amount
+                    //  so
+                    const ratioOfRefund = refund.amount / amount;
+                    const actualKeptBidOrBooApplicationFees = ratioOfRefund * applicationFeeAmount;
+                    taskerPayout = amount - refund.amount - actualKeptBidOrBooApplicationFees;
+                  } else if (refund && refund.status !== 'succeeded') {
+                    console.log(
+                      'BIDORBOO_PAYMENTS: DANGER INVESTIGATE WHY THIS IS NOT SUCCESSFUL' +
+                        JSON.stringify(job)
+                    );
+                    return;
+                  }
+                  if (!refund) {
+                    taskerPayout = amount - applicationFeeAmount;
+                  }
+
+                  // xxxxxxxx saeed investigate if this is asfer than relying on db
+                  // const {
+                  //   amount_received,
+                  //   application_fee_amount,
+                  //   transfer_data: { destination: destinationStripeAcc },
+                  // } = await stripeServiceUtil.getPaymentIntents(paymentIntentId);
+
+                  // taskerPayout = amount_received - application_fee_amount;
 
                   const [accountBalance] = await stripeServiceUtil.getConnectedAccountBalance(
-                    taskerAccId
+                    destinationStripeAcc
                   );
 
                   let totalAvailableBalanceForPayout =
@@ -457,26 +473,29 @@ exports.jobDataAccess = {
                   // confirm there is enough available balance to cover payment
                   if (isThereEnoughToCoverPayout) {
                     console.log('send payout');
-                    const payoutInititated = await stripeServiceUtil.payoutToBank(taskerAccId, {
-                      amount: taskerPayout,
-                      metadata: {
-                        paymentIntentId,
-                        jobId: jobId.toString(),
-                        taskerAccId,
-                        note: 'Released Payout to Tasker',
-                      },
-                    });
+                    const payoutInititated = await stripeServiceUtil.payoutToBank(
+                      destinationStripeAcc,
+                      {
+                        amount: taskerPayout,
+                        metadata: {
+                          paymentIntentId,
+                          jobId: jobId.toString(),
+                          destinationStripeAcc,
+                          note: 'Released Payout to Tasker',
+                        },
+                      }
+                    );
                     console.log({
                       amount: taskerPayout,
                       paymentIntentId,
                       jobId: jobId.toString(),
-                      taskerAccId,
+                      destinationStripeAcc,
                       note: 'Release Payout to Tasker',
                     });
                     const { id: payoutId, status } = payoutInititated;
                     // update job with the payment details
-                    const updatedJob = await JobModel.findOneAndUpdate(
-                      { jobId },
+                    JobModel.findOneAndUpdate(
+                      { _id: jobId },
                       {
                         $set: {
                           state: 'PAYMENT_RELEASED',
@@ -485,18 +504,29 @@ exports.jobDataAccess = {
                             status,
                           },
                         },
-                      },
-                      { new: true }
+                      }
                     );
                     // xxx on update job update bid
+                  } else {
+                    console.log('BIDORBOO_PAYMENTS: NOT_ENOUGH_TO_PAYOUT');
+                    console.log('destinationStripeAcc ' + destinationStripeAcc);
+                    console.log('job ' + JSON.stringify(job));
+                    console.log('-----------------------------------------');
                   }
+                } else {
+                  console.log(
+                    'BIDORBOO_PAYMENTS: DANGER PAYOUT IS NOT ENABLED PLEASE INVESTIGATE WHY'
+                  );
+                  console.log('destinationStripeAcc ' + destinationStripeAcc);
+                  console.log('job ' + JSON.stringify(job));
+                  console.log('-----------------------------------------');
                 }
                 console.log('-------BidOrBooLogging----------------------');
               });
             }
           });
       } catch (e) {
-        console.error('-------BidOrBooLogging----------------------');
+        console.log('BIDORBOO_PAYMENTS: DANGER PAYOUT FAILURe ' + e);
       }
     },
 

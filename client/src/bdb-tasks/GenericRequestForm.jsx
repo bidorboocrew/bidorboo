@@ -275,7 +275,7 @@ class GenericRequestForm extends React.Component {
                     .then((results) => getLatLng(results[0]))
                     .then((latLng) => {
                       setFieldValue('location', latLng, true);
-                      console.log('Success', latLng);
+                      // console.log('Success', latLng);
                     })
                     .catch((error) => {
                       errors.addressText = 'error getting lat lng ' + error;
@@ -455,7 +455,7 @@ class GenericRequestForm extends React.Component {
         getCurrentPositionOptions,
       );
     } else {
-      console.log('no html 5 geo location');
+      console.error('no html 5 geo location');
     }
   };
 }
@@ -581,7 +581,7 @@ const EnhancedForms = withFormik({
           finalImages = resultOfImageUpload.taskImages;
         }
       } catch (e) {
-        console.log('error uploading images');
+        console.error('error uploading images');
       }
     }
 
@@ -611,7 +611,7 @@ const EnhancedForms = withFormik({
         lng = Math.max(postOffset.lng, -180).toFixed(5);
       }
     } catch (e) {
-      console.log('failed to create location');
+      console.error('failed to create location');
     }
 
     let mappedFieldsToJobSchema = {

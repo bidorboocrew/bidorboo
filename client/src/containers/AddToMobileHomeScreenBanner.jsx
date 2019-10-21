@@ -13,7 +13,7 @@ export default class AddToMobileHomeScreenBanner extends React.Component {
       debugger;
       // For older browsers
       e.preventDefault();
-      console.log('Install Prompt fired');
+      // console.log('Install Prompt fired');
       this.installPrompt = e;
       // See if the app is already installed, in that case, do nothing
       if (
@@ -52,7 +52,7 @@ export default class AddToMobileHomeScreenBanner extends React.Component {
     this.setState({ shouldShowBanner: false });
   };
   componentDidMount() {
-    console.log('Listening for Install prompt');
+    // console.log('Listening for Install prompt');
     window.addEventListener('beforeinstallprompt', this.beforeInstallPromptFunc);
   }
   componentWillUnmount() {

@@ -466,7 +466,7 @@ export class LocationLabelAndValue extends React.Component {
                   });
                 }
               } catch (e) {
-                console.log('ignore this for now xxxx saeed fix');
+                console.error('error '+e);
               }
             }
           }

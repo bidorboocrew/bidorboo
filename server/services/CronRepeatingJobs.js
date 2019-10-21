@@ -26,6 +26,7 @@ module.exports = () => {
         '00 00 00 * * *',
         async () => {
           try {
+            // SAEED you dealt with this
             console.log('start running cron job: CleanUpAllExpiredNonAwardedJobs');
             console.time('CleanUpAllExpiredNonAwardedJobs');
             await jobDataAccess.BidOrBooAdmin.CleanUpAllExpiredNonAwardedJobs();
@@ -46,6 +47,7 @@ module.exports = () => {
         '00 00 20 * * *',
         async () => {
           try {
+            // SAEED you dealt with this
             console.log('start running cron job: SendRemindersForUpcomingJobs');
             console.time('SendRemindersForUpcomingJobs');
             await jobDataAccess.BidOrBooAdmin.SendRemindersForUpcomingJobs();
@@ -69,6 +71,7 @@ module.exports = () => {
         '00 00 03 * * *',
         async () => {
           try {
+            // SAEED you dealt with this
             console.log('start running cron job: CleanUpAllBidsAssociatedWithDoneJobs');
             console.time('CleanUpAllBidsAssociatedWithDoneJobs');
             await jobDataAccess.BidOrBooAdmin.CleanUpAllBidsAssociatedWithDoneJobs();
@@ -88,6 +91,7 @@ module.exports = () => {
         '00 00 03 * * *',
         async () => {
           try {
+            // SAEED you dealt with this
             console.log(
               'start running cron job: InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct ' +
                 new Date()

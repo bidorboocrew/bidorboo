@@ -51,8 +51,8 @@ class App extends React.Component {
   }
 
   componentDidCatch(error, info) {
-    console.log('bdb error details ' + error);
-    console.log('failure info ' + info);
+    console.error('bdb error details ' + error);
+    console.error('failure info ' + info);
   }
 
   static getDerivedStateFromError(error) {

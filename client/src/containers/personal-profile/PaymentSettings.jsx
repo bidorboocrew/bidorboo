@@ -186,11 +186,7 @@ const InitialAccountSetupView = (props) => {
       </div>
       <br />
       {showAddPaymentDetails && (
-        <PaymentSetupForm
-          userDetails={userDetails}
-          onCancel={toggleAddPaymentDetails}
-          onSubmit={(vals) => console.log(vals)}
-        />
+        <PaymentSetupForm userDetails={userDetails} onCancel={toggleAddPaymentDetails} />
       )}
     </React.Fragment>
   );

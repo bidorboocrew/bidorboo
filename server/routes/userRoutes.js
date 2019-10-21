@@ -239,7 +239,7 @@ module.exports = (app) => {
 
   app.get(ROUTES.API.USER.GET.currentUser, async (req, res, next) => {
     try {
-      await jobDataAccess.BidOrBooAdmin.CleanUpAllBidsAssociatedWithDoneJobs();
+      // await jobDataAccess.BidOrBooAdmin.SendPayoutsToBanks();
       // sendTextService.verifyPhone()
 
       // sendTextService.verifyPhoneCode();

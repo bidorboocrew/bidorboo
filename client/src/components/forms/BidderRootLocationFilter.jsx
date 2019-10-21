@@ -97,7 +97,7 @@ export default class BidderRootLocationFilter extends React.Component {
         getCurrentPositionOptions,
       );
     } else {
-      console.log('no html 5 geo location');
+      console.error('no html 5 geo location');
     }
   };
 
