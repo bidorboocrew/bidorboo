@@ -170,9 +170,9 @@ class Header extends React.Component {
           isActive={shouldShowLoginDialog}
           handleCancel={this.toggleLoginDialog}
         />
-        <div style={{ flexGrow: 1 }} className="navbar-brand">
+        <div style={{ flexGrow: 1, cursor: 'pointer' }} className="navbar-brand">
           <a
-            style={{ paddingRight: 4 }}
+            style={{ paddingRight: 4, cursor: 'pointer' }}
             id="BidOrBoo-logo-step"
             onClick={() => {
               this.closeMenuThenExecute(() => {
@@ -188,8 +188,15 @@ class Header extends React.Component {
               height="auto"
               style={{ maxHeight: 'unset' }}
             />
-            <div className={`${isActingAsBidder ? 'has-text-white' : 'has-text-dark'}`}>
-              <div style={{ fontSize: 24 }} className="is-hidden-touch">
+            <div
+              onClick={() => {
+                this.closeMenuThenExecute(() => {
+                  switchRoute(ROUTES.CLIENT.HOME);
+                });
+              }}
+              className={`${isActingAsBidder ? 'has-text-white' : 'has-text-dark'}`}
+            >
+              <div style={{ fontSize: 24, cursor: 'pointer' }} className="is-hidden-touch">
                 BIDORBOO
               </div>
             </div>
@@ -612,7 +619,7 @@ class Header extends React.Component {
               )}
 
               <div
-                id="myprofile-step"
+                // id="myprofile-step"
                 className={`navbar-item dropdown is-right  ${
                   isProfileMenuActive ? 'is-active' : ''
                 }`}
@@ -706,7 +713,7 @@ class Header extends React.Component {
                       )}
                       <hr className="navbar-divider" />
                       <a
-                        id="myprofile-step"
+                        // id="myprofile-step"
                         onClick={() => {
                           this.closeMenuThenExecute(() => {
                             switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);

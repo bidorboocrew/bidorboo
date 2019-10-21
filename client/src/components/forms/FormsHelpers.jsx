@@ -144,7 +144,7 @@ export const TextAreaInput = ({
       <label className={inputStateClass}>{label}</label>
       <div>
         <textarea
-          style={{ resize: 'none', height: 'unset', minHeight: 100 }}
+          style={{ resize: 'none', height: 'unset', minHeight: 150 }}
           className={`input ${inputStateClass} ${iconLeft ? 'has-icon-left' : ''}`}
           id={id}
           type={type}

@@ -59,7 +59,7 @@ export default class UploaderComponent extends React.Component {
       };
     };
 
-    this.reader.onerror = (error) => console.log('reader1' + error);
+    this.reader.onerror = (error) => console.error('reader1' + error);
     this.reader.readAsDataURL(files[0]);
   };
 
@@ -86,7 +86,7 @@ export default class UploaderComponent extends React.Component {
       // write the ArrayBuffer to a blob, and you're done
       return new Blob([ab], { type: mimeString });
     } catch (e) {
-      console.logt('error parsing file ' + e);
+      console.error('error parsing file ' + e);
     }
   };
 

@@ -51,8 +51,8 @@ class App extends React.Component {
   }
 
   componentDidCatch(error, info) {
-    console.log('bdb error details ' + error);
-    console.log('failure info ' + info);
+    console.error('bdb error details ' + error);
+    console.error('failure info ' + info);
   }
 
   static getDerivedStateFromError(error) {
@@ -114,7 +114,7 @@ class App extends React.Component {
         <div id="bidorboo-root-modals" />
         {/* this sill be where action sheets mount */}
         <div id="bidorboo-root-action-sheet" />
-        <ShareButtons></ShareButtons>
+        {/* <ShareButtons></ShareButtons> */}
         <Toast toastDetails={s_toastDetails} />
         <ShowSpecialMomentModal />
         <LoadingBar

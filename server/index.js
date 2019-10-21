@@ -3,6 +3,7 @@ const passport = require('passport');
 const path = require('path');
 
 const keys = require('./config/keys');
+const { errors } = require('celebrate');
 
 let bugsnagMiddleware = null;
 // initialize bugsnag
@@ -43,10 +44,15 @@ app.use(passport.session());
 // instantiate app routes
 require('./services/populateAppRoutes')(app);
 
+// app.use(errors());
+
 // error handling
 app.use((err, req, res, next) => {
   console.log('BIDORBOOLOGS ======== error handler BEGIN==========');
   console.log(err); // Log error message in our server's console
+  if (err.joi) {
+    return res.status(400).send({ safeMsg: err.joi.message });
+  }
 
   if (!err.statusCode) {
     err.statusCode = 400;

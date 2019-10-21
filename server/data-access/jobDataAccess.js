@@ -30,10 +30,7 @@ exports.jobDataAccess = {
         .toISOString();
 
       await JobModel.find({
-        $and: [
-          { _awardedBidRef: { $exists: true } },
-          { startingDateAndTime: { $exists: true }, state: { $eq: 'AWARDED' } },
-        ],
+        $and: [{ _awardedBidRef: { $exists: true } }, { state: { $eq: 'AWARDED' } }],
       })
         .populate({
           path: '_ownerRef',
@@ -79,6 +76,7 @@ exports.jobDataAccess = {
               const isJobHappeningBeforeTomorrow = moment(normalizedStartDate).isSameOrBefore(
                 theNext24Hours
               );
+
               if (isJobHappeningAfterNow && isJobHappeningBeforeTomorrow) {
                 const jobId = job._id.toString();
                 const awardedBidId = job._awardedBidRef._id.toString();
@@ -171,11 +169,6 @@ exports.jobDataAccess = {
       return;
     },
     CleanUpAllExpiredNonAwardedJobs: async () => {
-      // const past48Hours = moment()
-      //   .subtract(2, 'days')
-      //   .tz('America/Toronto')
-      //   .toISOString();
-
       const rightNow = moment.utc(moment());
 
       await JobModel.find({
@@ -189,7 +182,6 @@ exports.jobDataAccess = {
             path: '_bidderRef',
           },
         })
-        .lean(true)
         .exec((err, res) => {
           if (err) {
             throw err;
@@ -197,6 +189,7 @@ exports.jobDataAccess = {
 
           if (res && res.length > 0) {
             res.forEach(async (job) => {
+              const { _id: jobId, _ownerRef } = job;
               const jobStartDate = moment(job.startingDateAndTime);
 
               // normalize the start date to the same timezone to comapre
@@ -207,48 +200,48 @@ exports.jobDataAccess = {
               const isJobPastDue = moment(jobStartDate).isSameOrBefore(rightNow);
 
               if (isJobPastDue) {
-                console.log('-------BidOrBooLogging----------------------');
-
-                const areThereAnyBids = job._bidsListRef && job._bidsListRef.length > 0;
-                if (areThereAnyBids) {
-                  bidsIds = [];
-                  biddersIds = [];
-                  job._bidsListRef.forEach((bidRef) => {
-                    bidsIds.push(bidRef._id.toString());
-                    biddersIds.push(bidRef._bidderRef._id.toString());
-                  });
-
-                  biddersIds.forEach(async (bidderId) => {
-                    // clean ref for bidders
-                    await User.findOneAndUpdate(
-                      { _id: bidderId },
-                      { $pull: { _postedBidsRef: { $in: bidsIds } } },
-                      { new: true }
-                    )
-                      .lean(true)
-                      .exec();
-                  });
-
-                  bidsIds.forEach(async (bidId) => {
-                    await BidModel.deleteOne({ _id: bidId });
-                  });
+                try {
+                  job.remove();
+                  console.log(
+                    `CleanUpAllExpiredNonAwardedJobs deleted job id ${jobId} which was suppose to happen ${jobStartDate} on this day ${rightNow}`
+                  );
+                } catch (e) {
+                  console.error('-------error in cron job----------------------' + e);
                 }
+                // console.log('-------BidOrBooLogging----------------------');
 
-                await User.findOneAndUpdate(
-                  { _id: job._ownerRef.toString() },
-                  { $pull: { _postedJobsRef: { $in: [job._id] } } },
-                  { new: true }
-                )
-                  .lean(true)
-                  .exec();
+                // const areThereAnyBids = job._bidsListRef && job._bidsListRef.length > 0;
+                // if (areThereAnyBids) {
+                //   bidsIds = [];
+                //   biddersIds = [];
+                //   job._bidsListRef.forEach((bidRef) => {
+                //     bidsIds.push(bidRef._id.toString());
+                //     biddersIds.push(bidRef._bidderRef._id.toString());
+                //   });
 
-                console.log(
-                  `CleanUpAllExpiredNonAwardedJobs deleted job id ${job._id} which was suppose to happen ${jobStartDate}`
-                );
-                await JobModel.deleteOne({ _id: job._id.toString() })
-                  .lean(true)
-                  .exec();
-                console.log('-------BidOrBooLogging----------------------');
+                //   biddersIds.forEach(async (bidderId) => {
+                //     // clean ref for bidders
+                //     await User.findOneAndUpdate(
+                //       { _id: bidderId },
+                //       { $pull: { _postedBidsRef: { $in: bidsIds } } },
+                //       { new: true }
+                //     )
+                //       .lean(true)
+                //       .exec();
+                //   });
+
+                //   bidsIds.forEach(async (bidId) => {
+                //     await BidModel.deleteOne({ _id: bidId });
+                //   });
+                // }
+
+                // await User.findOneAndUpdate(
+                //   { _id: job._ownerRef.toString() },
+                //   { $pull: { _postedJobsRef: { $in: [job._id] } } },
+                //   { new: true }
+                // )
+                //   .lean(true)
+                //   .exec();
               }
             });
           }
@@ -257,10 +250,6 @@ exports.jobDataAccess = {
       return;
     },
     nagRequesterToConfirmJob: async () => {
-      // const past48Hours = moment()
-      //   .tz('America/Toronto')
-      //   .toISOString();
-
       await JobModel.find({
         $and: [
           { state: { $eq: 'AWARDED' } },
@@ -307,8 +296,7 @@ exports.jobDataAccess = {
                     $set: {
                       state: 'DONE',
                     },
-                  },
-                  { new: true }
+                  }
                 )
                   .lean(true)
                   .exec();
@@ -414,7 +402,7 @@ exports.jobDataAccess = {
         return JobModel.find({
           _awardedBidRef: { $exists: true },
           processedPayment: { $exists: true },
-          state: { $in: ['DONE'] },
+          state: { $eq: 'DONE' },
           paymentToBank: { $exists: false },
         })
           .lean(true)
@@ -432,23 +420,44 @@ exports.jobDataAccess = {
                   applicationFeeAmount,
                   destinationStripeAcc,
                   paymentIntentId,
+                  refund,
                 } = processedPayment;
-                const {
-                  amount_received,
-                  application_fee_amount,
-                  transfer_data: { destination: taskerAccId },
-                } = await stripeServiceUtil.getPaymentIntents(paymentIntentId);
 
                 const taskerConnectAccDetails = await stripeServiceUtil.getConnectedAccountDetails(
-                  taskerAccId
+                  destinationStripeAcc
                 );
 
                 // confirm payouts enabeld
                 if (taskerConnectAccDetails && taskerConnectAccDetails.payouts_enabled) {
-                  const taskerPayout = amount_received - application_fee_amount;
+                  let taskerPayout = 0;
+                  if (refund && refund.status === 'succeeded') {
+                    // application fee is refunded at a rate proportional to the refund amount
+                    //  so
+                    const ratioOfRefund = refund.amount / amount;
+                    const actualKeptBidOrBooApplicationFees = ratioOfRefund * applicationFeeAmount;
+                    taskerPayout = amount - refund.amount - actualKeptBidOrBooApplicationFees;
+                  } else if (refund && refund.status !== 'succeeded') {
+                    console.log(
+                      'BIDORBOO_PAYMENTS: DANGER INVESTIGATE WHY THIS IS NOT SUCCESSFUL' +
+                        JSON.stringify(job)
+                    );
+                    return;
+                  }
+                  if (!refund) {
+                    taskerPayout = amount - applicationFeeAmount;
+                  }
+
+                  // xxxxxxxx saeed investigate if this is asfer than relying on db
+                  // const {
+                  //   amount_received,
+                  //   application_fee_amount,
+                  //   transfer_data: { destination: destinationStripeAcc },
+                  // } = await stripeServiceUtil.getPaymentIntents(paymentIntentId);
+
+                  // taskerPayout = amount_received - application_fee_amount;
 
                   const [accountBalance] = await stripeServiceUtil.getConnectedAccountBalance(
-                    taskerAccId
+                    destinationStripeAcc
                   );
 
                   let totalAvailableBalanceForPayout =
@@ -464,26 +473,29 @@ exports.jobDataAccess = {
                   // confirm there is enough available balance to cover payment
                   if (isThereEnoughToCoverPayout) {
                     console.log('send payout');
-                    const payoutInititated = await stripeServiceUtil.payoutToBank(taskerAccId, {
-                      amount: taskerPayout,
-                      metadata: {
-                        paymentIntentId,
-                        jobId: jobId.toString(),
-                        taskerAccId,
-                        note: 'Released Payout to Tasker',
-                      },
-                    });
+                    const payoutInititated = await stripeServiceUtil.payoutToBank(
+                      destinationStripeAcc,
+                      {
+                        amount: taskerPayout,
+                        metadata: {
+                          paymentIntentId,
+                          jobId: jobId.toString(),
+                          destinationStripeAcc,
+                          note: 'Released Payout to Tasker',
+                        },
+                      }
+                    );
                     console.log({
                       amount: taskerPayout,
                       paymentIntentId,
                       jobId: jobId.toString(),
-                      taskerAccId,
+                      destinationStripeAcc,
                       note: 'Release Payout to Tasker',
                     });
                     const { id: payoutId, status } = payoutInititated;
                     // update job with the payment details
-                    const updatedJob = await JobModel.findOneAndUpdate(
-                      { jobId },
+                    JobModel.findOneAndUpdate(
+                      { _id: jobId },
                       {
                         $set: {
                           state: 'PAYMENT_RELEASED',
@@ -492,18 +504,29 @@ exports.jobDataAccess = {
                             status,
                           },
                         },
-                      },
-                      { new: true }
+                      }
                     );
                     // xxx on update job update bid
+                  } else {
+                    console.log('BIDORBOO_PAYMENTS: NOT_ENOUGH_TO_PAYOUT');
+                    console.log('destinationStripeAcc ' + destinationStripeAcc);
+                    console.log('job ' + JSON.stringify(job));
+                    console.log('-----------------------------------------');
                   }
+                } else {
+                  console.log(
+                    'BIDORBOO_PAYMENTS: DANGER PAYOUT IS NOT ENABLED PLEASE INVESTIGATE WHY'
+                  );
+                  console.log('destinationStripeAcc ' + destinationStripeAcc);
+                  console.log('job ' + JSON.stringify(job));
+                  console.log('-----------------------------------------');
                 }
                 console.log('-------BidOrBooLogging----------------------');
               });
             }
           });
       } catch (e) {
-        console.error('-------BidOrBooLogging----------------------');
+        console.log('BIDORBOO_PAYMENTS: DANGER PAYOUT FAILURe ' + e);
       }
     },
 
@@ -513,7 +536,7 @@ exports.jobDataAccess = {
 
       await JobModel.find({
         _awardedBidRef: { $exists: true },
-        state: { $in: ['ARCHIVE'] },
+        state: { $eq: 'ARCHIVE' },
       })
         .populate({
           path: '_bidsListRef',
@@ -529,36 +552,32 @@ exports.jobDataAccess = {
           }
 
           if (res && res.length > 0) {
-            res.forEach(async (job) => {
+            res.forEach((job) => {
               const areThereAnyBids = job._bidsListRef && job._bidsListRef.length > 0;
               if (areThereAnyBids) {
-                console.log('cleaned ' + job._id);
-
                 bidsIds = [];
                 biddersIds = [];
                 const awardedBidRefId = job._awardedBidRef._id.toString();
 
                 job._bidsListRef.forEach((bidRef) => {
                   // dont delete the awardedBidRef
-                  if (bidRef._id.toString() !== awardedBidRefId) {
+                  if (bidRef._id.toString() !== awardedBidRefId.toString()) {
                     bidsIds.push(bidRef._id.toString());
                     biddersIds.push(bidRef._bidderRef._id.toString());
                   }
                 });
 
-                biddersIds.forEach(async (bidderId) => {
+                biddersIds.forEach((bidderId) => {
                   // clean ref for bidders
-                  await User.findOneAndUpdate(
+                  User.findOneAndUpdate(
                     { _id: bidderId },
                     { $pull: { _postedBidsRef: { $in: bidsIds } } }
-                  )
-                    .lean(true)
-                    .exec();
+                  ).exec();
                 });
 
                 // clean the bids for bidders
-                bidsIds.forEach(async (bidId) => {
-                  await BidModel.deleteOne({ _id: bidId });
+                bidsIds.forEach((bidId) => {
+                  BidModel.deleteOne({ _id: bidId });
                 });
               }
             });
@@ -1167,7 +1186,6 @@ exports.jobDataAccess = {
   // default search raduis is 15km raduis
   // default include all
   getJobsNear: ({ location, searchRadius = 25000 }, mongoUser_id = '') => {
-    console.log('search 111111111jobs');
     return new Promise(async (resolve, reject) => {
       try {
         const today = moment.utc(moment()).toISOString();

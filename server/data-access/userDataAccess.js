@@ -291,7 +291,7 @@ exports.findUserAndAllNewNotifications = async (mongoUserId) => {
         membershipStatus: 1,
         tos_acceptance: 1,
         // we only really need this for payment page
-        stripeConnect:1,
+        stripeConnect: 1,
       })
         .populate({
           path: '_postedJobsRef',
@@ -311,7 +311,7 @@ exports.findUserAndAllNewNotifications = async (mongoUserId) => {
         .populate({
           path: '_postedBidsRef',
           match: { state: { $in: [...unseenBids, ...seenBids] } },
-          select: { _jobRef: 1 },
+          select: { _jobRef: 1, state: 1 },
           populate: {
             path: '_jobRef',
             select: {

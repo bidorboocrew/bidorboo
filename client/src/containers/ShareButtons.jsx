@@ -39,6 +39,7 @@ export default class ShareButtons extends React.Component {
     document.execCommand('copy');
     document.body.removeChild(el);
     alert('link copied to clipboard');
+    this.toggleShareModal();
   };
   render() {
     const { showShareModal } = this.state;

@@ -153,8 +153,8 @@ export class ResetLocalPassword extends React.Component {
                     </p>
                     <div>
                       please click the
-                      <span className="has-text-success has-text-weight-bold">{` Login`}</span> button in
-                      our application bar and use your new credentials to login
+                      <span className="has-text-success has-text-weight-bold">{` Login`}</span>{' '}
+                      button in our application bar and use your new credentials to login
                     </div>
                   </>
                 )}
@@ -229,7 +229,7 @@ export class ResetLocalPassword extends React.Component {
                         }}
                         style={{ flexGrow: 1, borderRadius: 0 }}
                         className={`input ${isValidPassword ? '' : 'is-danger'}`}
-                        placeholder="enter verification code..."
+                        placeholder="Enter your new password..."
                       />
                     </div>
 
@@ -243,7 +243,7 @@ export class ResetLocalPassword extends React.Component {
                         }}
                         style={{ flexGrow: 1, borderRadius: 0 }}
                         className={`input ${isValidPassword ? '' : 'is-danger'}`}
-                        placeholder="enter verification code..."
+                        placeholder="Enter the same password..."
                       />
                     </div>
 

@@ -81,6 +81,7 @@ const getPostedJobs = {
   }),
   isFullfilled: (state = initialState, { payload }) => {
     let allThePostedJobs = payload.data ? payload.data : [];
+
     return {
       ...state,
       listOfJobsToBidOn: allThePostedJobs,

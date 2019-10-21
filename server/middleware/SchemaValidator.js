@@ -1,71 +1,70 @@
-const _ = require('lodash');
-const Joi = require('@hapi/joi');
-const Schemas = require('../routeSchemas/schemas');
+// const _ = require('lodash');
+// const Schemas = require('../routeSchemas/schemas');
 
-module.exports = (useJoiError = false) => {
-  // useJoiError determines if we should respond with the base Joi error
-  // boolean: defaults to false
-  const _useJoiError = _.isBoolean(useJoiError) && useJoiError;
+// module.exports = (useJoiError = false) => {
+//   // useJoiError determines if we should respond with the base Joi error
+//   // boolean: defaults to false
+//   const _useJoiError = _.isBoolean(useJoiError) && useJoiError;
 
-  // enabled HTTP methods for request data validation
-  const _supportedMethods = ['post', 'put'];
+//   // enabled HTTP methods for request data validation
+//   const _supportedMethods = ['post', 'put'];
 
-  // Joi validation options
-  const _validationOptions = {
-    abortEarly: false, // abort after the last validation error
-    allowUnknown: true, // allow unknown keys that will be ignored
-    stripUnknown: true, // remove unknown keys from the validated data
-  };
+//   // Joi validation options
+//   const _validationOptions = {
+//     abortEarly: false, // abort after the last validation error
+//     allowUnknown: true, // allow unknown keys that will be ignored
+//     stripUnknown: true, // remove unknown keys from the validated data
+//   };
 
-  // return the validation middleware
-  return (req, res, next) => {
-    const route = req.route.path;
-    const method = req.method.toLowerCase();
+//   // return the validation middleware
+//   return (req, res, next) => {
+//     const route = req.route.path;
+//     const method = req.method.toLowerCase();
 
-    if (_.includes(_supportedMethods, method) && _.has(Schemas, route)) {
-      // get schema for the current route
-      const _schema = _.get(Schemas, route);
+//     if (_.includes(_supportedMethods, method) && _.has(Schemas, route)) {
+//       // get schema for the current route
+//       const _schema = _.get(Schemas, route);
 
-      if (_schema) {
-        try {
-          // Validate req.body using the schema and validation options
-          const { err, value } = _schema.validate(req.body, _validationOptions);
+//       if (_schema) {
+//         try {
+//           // Validate req.body using the schema and validation options
+//           const { err, value } = _schema.validate(req.body, _validationOptions);
 
-          if (err) {
-            // Joi Error
-            let errorMsgs = '';
-            err.details &&
-              err.details.forEach(({ message }) => {
-                errorMsgs += `${message} , `;
-              });
+//           if (err) {
+//             // Joi Error
+//             let errorMsgs = '';
+//             err.details &&
+//               err.details.forEach(({ message }) => {
+//                 errorMsgs += `${message} , `;
+//               });
 
-            const JoiError = {
-              success: false,
-              errorMsg: errorMsgs,
-            };
+//             const JoiError = {
+//               success: false,
+//               errorMsg: errorMsgs,
+//             };
 
-            // Custom Error
-            const CustomError = {
-              success: false,
-              errorMsg: 'Invalid request data. Please review request and try again.',
-            };
+//             // Custom Error
+//             const CustomError = {
+//               success: false,
+//               errorMsg: 'Invalid request data. Please review request and try again.',
+//             };
 
-            // Send back the JSON error response
-            let error = _useJoiError ? JoiError : CustomError;
-            const throwError = new Error(error.errorMsg);
-            next(throwError);
-          } else {
-            // Replace req.body with the data after Joi validation
-            req.body = value;
-            next();
-          }
-        } catch (e) {
-          console.log(`BIDORBOO======= ${e}`);
-          let error = { errorMsg: 'invalid schema parsing error' };
-          const throwError = new Error(error.errorMsg);
-          next(throwError);
-        }
-      }
-    }
-  };
-};
+//             // Send back the JSON error response
+//             let error = _useJoiError ? JoiError : CustomError;
+//             const throwError = new Error(error.errorMsg);
+//             next(throwError);
+//           } else {
+//             // Replace req.body with the data after Joi validation
+//             req.body = value;
+//             next();
+//           }
+//         } catch (e) {
+//           console.log(`BIDORBOO======= ${e}`);
+//           let error = { errorMsg: 'invalid schema parsing error' };
+//           const throwError = new Error(error.errorMsg);
+//           next(throwError);
+//         }
+//       }
+//     }
+//   };
+// };
