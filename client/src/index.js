@@ -32,7 +32,7 @@ ReactDOM.render(
       </Router>
     </Provider>
   </ErrorBoundary>,
-  document.getElementById('BidOrBoo-app'),
+  document.getElementById('BIDORBOO-app'),
 );
 
 registerServiceWorker(`${process.env.REACT_APP_VAPID_KEY}`, false);

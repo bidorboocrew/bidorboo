@@ -118,7 +118,7 @@ export const getCurrentUser = () => (dispatch) =>
             payload: {
               toastDetails: {
                 type: 'success',
-                msg: `Welcome to BidOrBoo ${resp.data.displayName || resp.data.email.emailAddress}`,
+                msg: `Welcome to BIDORBOO ${resp.data.displayName || resp.data.email.emailAddress}`,
               },
             },
           });
@@ -194,7 +194,7 @@ export const bidOrBooLogin = (userData) => (dispatch) =>
             payload: {
               toastDetails: {
                 type: 'success',
-                msg: `Welcome to BidOrBoo ${resp.data.displayName || resp.data.email.emailAddress}`,
+                msg: `Welcome to BIDORBOO ${resp.data.displayName || resp.data.email.emailAddress}`,
               },
             },
           });

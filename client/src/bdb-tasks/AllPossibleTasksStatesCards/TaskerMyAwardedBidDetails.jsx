@@ -134,7 +134,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                       <ul>
                         <li>Your global rating will be negatively impacted</li>
                         <li>This cancellation will show up on your profile</li>
-                        <li>If many cancellations happen in a row you will be ban from BidOrBoo</li>
+                        <li>If many cancellations happen in a row you will be ban from BIDORBOO</li>
                       </ul>
                     </div>
                   </div>
@@ -548,7 +548,7 @@ class TaskerDisputes extends React.Component {
                     />
                   </div>
                   <div className="help">
-                    * BidOrBoo Support will confirm all these details and will get in touch with the
+                    * BIDORBOO Support will confirm all these details and will get in touch with the
                     Tasker to resolve this issue
                   </div>
                 </section>

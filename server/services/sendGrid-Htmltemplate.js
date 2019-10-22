@@ -5,7 +5,7 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
   <head>
   <meta charset="utf-8" />
   <meta
-    name="BidOrBoo"
+    name="BIDORBOO"
     content="BidorBoo, Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy."
   />
   <meta
@@ -17,11 +17,11 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
     content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
   />
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="application-name" content="BidOrBoo" />
+  <meta name="application-name" content="BIDORBOO" />
   <meta name="msapplication-TileColor" content="#603cba" />
   <meta name="theme-color" content="#ffffff" />
 
-  <title>BidOrBoo Update</title>
+  <title>BIDORBOO Update</title>
   <style>
     img {
       border: none;
@@ -213,7 +213,7 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
           <div class="content">
 
           <!-- START CENTERED WHITE CONTAINER -->
-          <span class="preheader">BidOrBoo updates!</span>
+          <span class="preheader">BIDORBOO updates!</span>
 
         <table dir="ltr" class="m_-7318686519169392378Section m_-7318686519169392378Header" width="100%" style="border:0;border-collapse:collapse;margin:0;padding:0;background-color:#ffffff">
           <tbody>

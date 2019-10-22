@@ -20,7 +20,7 @@ exports.WebPushNotifications = {
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
-          title: `BidOrBoo: ${requestTitle} awaiting your confirmation!`,
+          title: `BIDORBOO: ${requestTitle} awaiting your confirmation!`,
           body: `Tasker is done ! Click for more details`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
@@ -45,7 +45,7 @@ exports.WebPushNotifications = {
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
-          title: `BidOrBoo: ${requestTitle} Was Cancelled!`,
+          title: `BIDORBOO: ${requestTitle} Was Cancelled!`,
           body: `It is cancelled! Click for more details`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
@@ -70,7 +70,7 @@ exports.WebPushNotifications = {
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
-          title: `BidOrBoo: ${requestTitle} is Completed!`,
+          title: `BIDORBOO: ${requestTitle} is Completed!`,
           body: `It is DONE! Click to Rate it`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
@@ -95,7 +95,7 @@ exports.WebPushNotifications = {
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
-          title: `BidOrBoo Marked ${requestTitle} as Complete because you did not act in 3 days.`,
+          title: `BIDORBOO Marked ${requestTitle} as Complete because you did not act in 3 days.`,
           body: `Click to rate the tasker`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
@@ -120,7 +120,7 @@ exports.WebPushNotifications = {
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
-          title: `BidOrBoo: Confirm that ${requestTitle} is Completed!`,
+          title: `BIDORBOO: Confirm that ${requestTitle} is Completed!`,
           body: `Click to confirm completion and Rate the tasker`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
@@ -146,7 +146,7 @@ exports.WebPushNotifications = {
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
-          title: `BidOrBoo: ${requestTitle} is Happening Soon!`,
+          title: `BIDORBOO: ${requestTitle} is Happening Soon!`,
           body: `It is happening soon! Click for more details`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',

@@ -20,7 +20,7 @@ module.exports = (app) => {
   //       title: req.body.payLoad.initialDetails.fromTemplateIdField,
   //       body: "It's a success!",
   //       icon:
-  //         'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1545981752/BidOrBoo/android-chrome-192x192.png',
+  //         'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1545981752/BIDORBOO/android-chrome-192x192.png',
   //     };
 
   //     // const payLoad = JSON.stringify({ notificationDetails: 'what do you want to send to user' });
@@ -50,10 +50,10 @@ module.exports = (app) => {
       const noPushWasSentBefore = !!currentUser.pushSubscription;
       if (!noPushWasSentBefore) {
         const payload = JSON.stringify({
-          title: 'BidOrBoo Push Enabled.',
-          body: ' Welcome to BidOrBoo , You Can Control Notification settings in your profile',
+          title: 'BIDORBOO Push Enabled.',
+          body: ' Welcome to BIDORBOO , You Can Control Notification settings in your profile',
           icon:
-            'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1545981752/BidOrBoo/android-chrome-192x192.png',
+            'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1545981752/BIDORBOO/android-chrome-192x192.png',
           urlToLaunch: 'https://www.bidorboo.com/my-profile/basic-settings',
           tag: 'bidorboo-basic-settings',
         });

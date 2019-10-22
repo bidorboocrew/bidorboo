@@ -383,7 +383,7 @@ class RequesterConfirmsCompletion extends React.Component {
                 </header>
                 <section className="modal-card-body">
                   <p>
-                    BidOrBoo crew is happy to know that our tasker fulfilled your request, and we
+                    BIDORBOO crew is happy to know that our tasker fulfilled your request, and we
                     hope that it was done to your satisfaction.
                   </p>
                   <br />

@@ -81,7 +81,7 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
                 <li>Your global rating will be negatively impacted</li>
                 <li>
                   If many cancellations happen in a row you will be <strong>banned</strong> from
-                  BidOrBoo
+                  BIDORBOO
                 </li>
               </ul>
             </div>
