@@ -363,7 +363,7 @@ class Header extends React.Component {
                     });
                   }}
                 >
-                  <span tyle={{ position: 'relative' }} className="icon">
+                  <span style={{ position: 'relative' }} className="icon">
                     <i className="fas fa-hand-rock" />
                     {bidsGotAwardedToMe && (
                       <span
