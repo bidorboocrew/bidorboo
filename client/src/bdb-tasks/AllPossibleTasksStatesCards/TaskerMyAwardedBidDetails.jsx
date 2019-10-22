@@ -134,7 +134,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                       <ul>
                         <li>Your global rating will be negatively impacted</li>
                         <li>This cancellation will show up on your profile</li>
-                        <li>If many cancellations happen in a row you will be ban from BidOrBoo</li>
+                        <li>If many cancellations happen in a row you will be ban from BIDORBOO</li>
                       </ul>
                     </div>
                   </div>
@@ -305,7 +305,9 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                 </a>
               )}
               {!proposerConfirmed && !bidderConfirmed && (
-                <TaskerConfirmsCompletion {...this.props} />
+                <div className="firstButtonInCard nofixedwidth">
+                  <TaskerConfirmsCompletion {...this.props} />
+                </div>
               )}
             </>
           )}
@@ -410,8 +412,8 @@ class TaskerConfirmsCompletion extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-
-        <a onClick={this.toggleModal} className="button firstButtonInCard nofixedwidth is-success">
+        <br></br>
+        <a onClick={this.toggleModal} className="button is-success">
           I've Completed This Task
         </a>
       </React.Fragment>
@@ -548,7 +550,7 @@ class TaskerDisputes extends React.Component {
                     />
                   </div>
                   <div className="help">
-                    * BidOrBoo Support will confirm all these details and will get in touch with the
+                    * BIDORBOO Support will confirm all these details and will get in touch with the
                     Tasker to resolve this issue
                   </div>
                 </section>

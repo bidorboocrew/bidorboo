@@ -18,7 +18,7 @@ export default {
 *Is there any pet stains or hair on the seats ?
 
 `,
-  TASK_EXPECTATIONS: `BidOrBoo Tasker will bring the cleaning products and equipments required to clean your car thouroughally`,
+  TASK_EXPECTATIONS: `BIDORBOO Tasker will bring the cleaning products and equipments required to clean your car thouroughally`,
   defaultExtrasValues: {
     carSize: NO_SELECTION,
     interiorType: NO_SELECTION,
@@ -75,7 +75,7 @@ export default {
                 {/* <i className="fas fa-car-alt" style={{ fontSize: 68, color: '#ee2a36' }} /> */}
                 <img
                   src={carDetailing_img}
-                  alt="BidOrBoo task img"
+                  alt="BIDORBOO task img"
                   style={{ height: 125, width: 125, objectFit: 'cover' }}
                 />
               </div>
@@ -96,7 +96,7 @@ export default {
 
                 {!withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
-                    BidOrBoo Tasker will bring the cleaning products and equipments required to
+                    BIDORBOO Tasker will bring the cleaning products and equipments required to
                     clean your car thouroughally
                   </p>
                 )}
@@ -305,7 +305,7 @@ const renderThankyouMoment = ({
       <div>
         <img
           src={carDetailing_img}
-          alt="BidOrBoo task img"
+          alt="BIDORBOO task img"
           style={{ height: 125, width: 125, objectFit: 'cover' }}
         />
       </div>

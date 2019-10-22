@@ -138,7 +138,7 @@ export class ResetLocalPassword extends React.Component {
                   <div className="title has-text-grey">
                     <img
                       src={logoImg}
-                      alt="BidOrBoo"
+                      alt="BIDORBOO"
                       width="24"
                       height="24"
                       style={{ maxHeight: 'unset' }}

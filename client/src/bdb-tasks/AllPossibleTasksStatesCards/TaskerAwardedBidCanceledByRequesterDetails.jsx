@@ -78,7 +78,7 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
                   they cancelled after awarding you.
                 </li>
                 <li>
-                  If The requester cancels often we will <strong>ban</strong> them from BidOrBoo
+                  If The requester cancels often we will <strong>ban</strong> them from BIDORBOO
                 </li>
               </ul>
             </div>

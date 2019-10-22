@@ -227,7 +227,7 @@ class App extends React.Component {
                       className="is-size-7"
                       onClick={() => switchRoute(ROUTES.CLIENT.TOS)}
                     >
-                      {`BidOrBoo Terms`}
+                      {`BIDORBOO Terms`}
                     </a>
                   </div>
                   <div>
@@ -251,8 +251,8 @@ class App extends React.Component {
               <div className="level-item has-text-centered">
                 <div>
                   <div className="has-text-white is-size-7">
-                    <img src={logoImg} alt="BidOrBoo" width={21} height={21} />
-                    {` BidOrBoo Inc`}
+                    <img src={logoImg} alt="BIDORBOO" width={21} height={21} />
+                    {` BIDORBOO Inc`}
                   </div>
                   <div style={{ marginTop: 6 }}>
                     <AddToMobileHomeScreenBanner />

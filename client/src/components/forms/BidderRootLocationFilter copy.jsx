@@ -113,7 +113,7 @@ export default class BidderRootLocationFilter extends React.Component {
     if (err.code === 1) {
       // Access denied by user
       msg =
-        'PERMISSION_DENIED - You have not given BidOrBoo permission to detect your address. Please go to your browser settings and enable auto detect location for BidorBoo.com';
+        'PERMISSION_DENIED - You have not given BIDORBOO permission to detect your address. Please go to your browser settings and enable auto detect location for BidorBoo.com';
     } else if (err.code === 2) {
       // Position unavailable
       msg = 'POSITION_UNAVAILABLE';
@@ -203,7 +203,7 @@ export default class BidderRootLocationFilter extends React.Component {
             <>
               <div style={{ padding: '0.5rem' }}>
                 <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
-                  Should BidOrBoo Notify you When A New Task is Posted?
+                  Should BIDORBOO Notify you When A New Task is Posted?
                 </div>
 
                 <input

@@ -149,7 +149,7 @@ exports.bidDataAccess = {
                 {
                   $set: {
                     'rating.latestComment':
-                      'BidOrBoo Auto Review: Cancelled Thier Request After Making an Agreement with A Tasker',
+                      'BIDORBOO Auto Review: Cancelled Thier Request After Making an Agreement with A Tasker',
                   },
                   $push: {
                     'rating.canceledBids': bidId,

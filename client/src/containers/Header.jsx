@@ -108,7 +108,7 @@ class Header extends React.Component {
           return { activeNavBarMenuId: HREF_TO_TABID.MY_PROFILE };
         }
       }
-      if (nextProp.history.location.pathname.includes('BidOrBoo')) {
+      if (nextProp.history.location.pathname.includes('BIDORBOO')) {
         if (prevState.activeNavBarMenuId !== 'HREF_TO_TABID.HOME') {
           return { activeNavBarMenuId: 'HREF_TO_TABID.HOME ' };
         }
@@ -157,7 +157,7 @@ class Header extends React.Component {
     const isActingAsBidder = userAppView === 'BIDDER';
 
     let onlyShowReqAndBidButtons =
-      window.location.href.includes('BidOrBoo') ||
+      window.location.href.includes('BIDORBOO') ||
       window.location.href.includes('my-profile') ||
       window.location.href.includes('my-archive');
 
@@ -173,7 +173,7 @@ class Header extends React.Component {
         <div style={{ flexGrow: 1, cursor: 'pointer' }} className="navbar-brand">
           <a
             style={{ paddingRight: 4, cursor: 'pointer' }}
-            id="BidOrBoo-logo-step"
+            id="BIDORBOO-logo-step"
             onClick={() => {
               this.closeMenuThenExecute(() => {
                 switchRoute(ROUTES.CLIENT.HOME);
@@ -183,7 +183,7 @@ class Header extends React.Component {
           >
             <img
               src={logoImg}
-              alt="BidOrBoo"
+              alt="BIDORBOO"
               width="34"
               height="auto"
               style={{ maxHeight: 'unset' }}
@@ -196,7 +196,15 @@ class Header extends React.Component {
               }}
               className={`${isActingAsBidder ? 'has-text-white' : 'has-text-dark'}`}
             >
-              <div style={{ fontSize: 24, cursor: 'pointer' }} className="is-hidden-touch">
+              <div
+                OnClick={() => {
+                  this.closeMenuThenExecute(() => {
+                    switchRoute(ROUTES.CLIENT.HOME);
+                  });
+                }}
+                style={{ fontSize: 24, cursor: 'pointer' }}
+                className="is-hidden-touch"
+              >
                 BIDORBOO
               </div>
             </div>
@@ -278,7 +286,7 @@ class Header extends React.Component {
           <div className="navbar-brand">
             <a
               style={{ paddingRight: 4 }}
-              id="BidOrBoo-logo-step"
+              id="BIDORBOO-logo-step"
               onClick={() => {
                 this.closeMenuThenExecute(() => {
                   switchRoute(ROUTES.CLIENT.HOME);
@@ -290,7 +298,7 @@ class Header extends React.Component {
             >
               <img
                 src={logoImg}
-                alt="BidOrBoo"
+                alt="BIDORBOO"
                 width="34"
                 height="auto"
                 style={{ maxHeight: 'unset' }}
@@ -325,8 +333,23 @@ class Header extends React.Component {
                     });
                   }}
                 >
-                  <span className="icon">
+                  <span style={{ position: 'relative' }} className="icon">
                     <i className="far fa-plus-square" />
+                    {jobRecievedNewBids && (
+                      <span
+                        style={{
+                          fontSize: 8,
+                          position: 'absolute',
+                          top: -6,
+                          left: -6,
+                          borderRadius: '100%',
+                          textAlign: 'center',
+                        }}
+                        className="icon has-text-danger"
+                      >
+                        <i className="fas fa-circle" />
+                      </span>
+                    )}
                   </span>
                   <span>REQUEST</span>
                 </a>
@@ -340,8 +363,23 @@ class Header extends React.Component {
                     });
                   }}
                 >
-                  <span className="icon">
+                  <span tyle={{ position: 'relative' }} className="icon">
                     <i className="fas fa-hand-rock" />
+                    {bidsGotAwardedToMe && (
+                      <span
+                        style={{
+                          fontSize: 8,
+                          position: 'absolute',
+                          top: -6,
+                          left: -6,
+                          borderRadius: '100%',
+                          textAlign: 'center',
+                        }}
+                        className="icon has-text-danger"
+                      >
+                        <i className="fas fa-circle" />
+                      </span>
+                    )}
                   </span>
                   <span>BID</span>
                 </a>

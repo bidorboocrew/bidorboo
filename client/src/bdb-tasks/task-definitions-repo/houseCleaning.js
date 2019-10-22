@@ -102,7 +102,7 @@ export default {
                 )}
                 {!withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
-                    BidOrBoo Tasker will bring All purpose cleaning products and equipments required
+                    BIDORBOO Tasker will bring All purpose cleaning products and equipments required
                     to clean your house thouroughally.
                   </p>
                 )}
@@ -371,7 +371,7 @@ export default {
       },
     };
   },
-  TASK_EXPECTATIONS: `BidOrBoo Tasker will bring All purpose cleaning products and equipments required to clean your house thouroughally.`,
+  TASK_EXPECTATIONS: `BIDORBOO Tasker will bring All purpose cleaning products and equipments required to clean your house thouroughally.`,
 };
 const renderThankyouMoment = ({
   houseCleaning_img,

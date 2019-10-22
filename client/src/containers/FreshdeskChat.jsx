@@ -14,7 +14,7 @@ class FreshdeskChat extends React.Component {
           disableEvents: true,
           headerProperty: {
             //If you have multiple sites you can use the appName and appLogo to overwrite the values.
-            appName: 'BidOrBoo',
+            appName: 'BIDORBOO',
             appLogo:
               'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1562257900/android-chrome-512x512.png',
             backgroundColor: '#ef2834',
@@ -52,7 +52,7 @@ class FreshdeskChat extends React.Component {
           disableEvents: true,
           headerProperty: {
             //If you have multiple sites you can use the appName and appLogo to overwrite the values.
-            appName: 'BidOrBoo',
+            appName: 'BIDORBOO',
             appLogo:
               'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1562257900/android-chrome-512x512.png',
             backgroundColor: '#ef2834',
