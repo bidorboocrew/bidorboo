@@ -305,7 +305,9 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                 </a>
               )}
               {!proposerConfirmed && !bidderConfirmed && (
-                <TaskerConfirmsCompletion {...this.props} />
+                <div className="firstButtonInCard nofixedwidth">
+                  <TaskerConfirmsCompletion {...this.props} />
+                </div>
               )}
             </>
           )}
@@ -410,8 +412,8 @@ class TaskerConfirmsCompletion extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-
-        <a onClick={this.toggleModal} className="button firstButtonInCard nofixedwidth is-success">
+        <br></br>
+        <a onClick={this.toggleModal} className="button is-success">
           I've Completed This Task
         </a>
       </React.Fragment>
