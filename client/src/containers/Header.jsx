@@ -196,7 +196,15 @@ class Header extends React.Component {
               }}
               className={`${isActingAsBidder ? 'has-text-white' : 'has-text-dark'}`}
             >
-              <div style={{ fontSize: 24, cursor: 'pointer' }} className="is-hidden-touch">
+              <div
+                OnClick={() => {
+                  this.closeMenuThenExecute(() => {
+                    switchRoute(ROUTES.CLIENT.HOME);
+                  });
+                }}
+                style={{ fontSize: 24, cursor: 'pointer' }}
+                className="is-hidden-touch"
+              >
                 BIDORBOO
               </div>
             </div>
@@ -325,8 +333,23 @@ class Header extends React.Component {
                     });
                   }}
                 >
-                  <span className="icon">
+                  <span style={{ position: 'relative' }} className="icon">
                     <i className="far fa-plus-square" />
+                    {jobRecievedNewBids && (
+                      <span
+                        style={{
+                          fontSize: 8,
+                          position: 'absolute',
+                          top: -6,
+                          left: -6,
+                          borderRadius: '100%',
+                          textAlign: 'center',
+                        }}
+                        className="icon has-text-danger"
+                      >
+                        <i className="fas fa-circle" />
+                      </span>
+                    )}
                   </span>
                   <span>REQUEST</span>
                 </a>
@@ -340,8 +363,23 @@ class Header extends React.Component {
                     });
                   }}
                 >
-                  <span className="icon">
+                  <span tyle={{ position: 'relative' }} className="icon">
                     <i className="fas fa-hand-rock" />
+                    {bidsGotAwardedToMe && (
+                      <span
+                        style={{
+                          fontSize: 8,
+                          position: 'absolute',
+                          top: -6,
+                          left: -6,
+                          borderRadius: '100%',
+                          textAlign: 'center',
+                        }}
+                        className="icon has-text-danger"
+                      >
+                        <i className="fas fa-circle" />
+                      </span>
+                    )}
                   </span>
                   <span>BID</span>
                 </a>
