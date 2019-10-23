@@ -95,7 +95,7 @@ const UserSchema = new Schema(
         type: Boolean,
         default: false,
       },
-      newPostedTasks: { type: Boolean, default: true },
+      newPostedTasks: { type: Boolean, default: false },
     },
     _postedJobsRef: {
       type: [{ type: Schema.Types.ObjectId, ref: 'JobModel' }],

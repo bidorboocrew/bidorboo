@@ -1328,7 +1328,6 @@ exports.jobDataAccess = {
         resolve({ success: true });
       } catch (e) {
         console.log('BIDORBOO_ERROR: couldnt notify interested taskers ' + JSON.stringify(e));
-        reject(e);
       }
     });
   },

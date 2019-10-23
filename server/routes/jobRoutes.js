@@ -183,7 +183,7 @@ module.exports = (app) => {
       const newJob = await jobDataAccess.addAJob(jobDetails, mongoUser_id);
 
       // notify users that are interested xxxx FIX TO READ USER PREFERENCE on search RADUIS
-      await jobDataAccess.getUsersNearJobAndNotifyThem(newJob, req.user.userId);
+      jobDataAccess.getUsersNearJobAndNotifyThem(newJob, req.user.userId);
 
       return res.send(newJob);
     } catch (e) {
