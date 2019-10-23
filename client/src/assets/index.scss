@@ -161,6 +161,17 @@ html body {
     }
     #navbarmenu {
       background: #363636 !important;
+      > div > div.navbar-item.dropdown.is-right > nav > div > a > span.displayname {
+        color: white;
+      }
+    }
+    #navbarmenu > div > div.navbar-item.dropdown.is-right.is-active > nav > div > a {
+      &:hover {
+        background: rgba(#fff, 0.8) !important;
+      }
+    }
+    #navbarmenu > div > div.navbar-item.dropdown.is-right.is-active > nav > div > div {
+      background: #363636;
     }
     * #mobile-nav-burger {
       color: white !important;

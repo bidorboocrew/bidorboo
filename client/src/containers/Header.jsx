@@ -676,7 +676,7 @@ class Header extends React.Component {
                           />
                         </figure>
                       </span>
-                      <span>{displayName}</span>
+                      <span className="displayname">{displayName}</span>
                     </a>
 
                     <div
