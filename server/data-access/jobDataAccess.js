@@ -1283,40 +1283,39 @@ exports.jobDataAccess = {
     });
   },
 
-  getUsersNearJobAndNotifyThem: (job) => {
-    let searchQuery = {
-      'email.isVerified': { $eq: true },
-      'notifications.email': { $eq: true },
-      'notifications.newPostedTasks': { $eq: true },
-      lastSearch: { $exists: true },
-      'lastSearch.tasksTypeFilter': job.templateId,
-      'lastSearch.location': {
-        $near: {
-          $geometry: {
-            type: 'Point',
-            coordinates: [job.location.coordinates[0], job.location.coordinates[1]],
+  getUsersNearJobAndNotifyThem: async (job, userId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let searchQuery = {
+          // userId: { $not: { $in: [userId] } },
+          'email.isVerified': { $eq: true },
+          'notifications.email': { $eq: true },
+          'notifications.newPostedTasks': { $eq: true },
+          lastSearch: { $exists: true },
+          'lastSearch.tasksTypeFilter': job.templateId,
+          'lastSearch.location': {
+            $near: {
+              $geometry: {
+                type: 'Point',
+                coordinates: [job.location.coordinates[0], job.location.coordinates[1]],
+              },
+              // XXXXX MAKE SURE TO READ LOATION.SEARCHRADUIS INSTEAD
+              $maxDistance: 100 * 1000,
+              $minDistance: 0,
+            },
           },
-          // XXXXX MAKE SURE TO READ LOATION.SEARCHRADUIS INSTEAD
-          $maxDistance: 100 * 1000,
-          $minDistance: 0,
-        },
-      },
-    };
+        };
 
-    User.find(searchQuery, {
-      email: 1,
-      lastSearch: 1,
-      notifications: 1,
-      displayName: 1,
-    })
-      .lean()
-      .exec((err, userstoNotify) => {
-        if (err) {
-          console.log('BIDORBOO_ERROR: couldnt notify users about new job ' + JSON.stringify(e));
-          return;
-        }
-        userstoNotify &&
-          userstoNotify.length > 0 &&
+        const userstoNotify = await User.find(searchQuery, {
+          email: 1,
+          lastSearch: 1,
+          notifications: 1,
+          displayName: 1,
+        })
+          .lean()
+          .exec();
+
+        if (userstoNotify && userstoNotify.length > 0) {
           userstoNotify.forEach((user) => {
             sendGridEmailing.sendNewJobInYourAreaNotification({
               to: user.email.emailAddress,
@@ -1325,10 +1324,13 @@ exports.jobDataAccess = {
               linkForBidder: ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id),
             });
           });
-      })
-      .catch((e) => {
-        console.log('BIDORBOO_ERROR: couldnt notify users about new job ' + JSON.stringify(e));
-      });
+        }
+        resolve({ success: true });
+      } catch (e) {
+        console.log('BIDORBOO_ERROR: couldnt notify interested taskers ' + JSON.stringify(e));
+        reject(e);
+      }
+    });
   },
 
   updateJobWithAwardedBidAndPaymentDetails: async (jobId, bidId, processedPaymentDetails) => {
