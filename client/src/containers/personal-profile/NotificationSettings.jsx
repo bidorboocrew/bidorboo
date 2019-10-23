@@ -165,7 +165,7 @@ class NotificationSettings extends React.Component {
                 {`* Get custom notifications about newly posted tasks based on your
                   search criteria under the `}
                 <a rel="noopener noreferrer" href={ROUTES.CLIENT.BIDDER.root}>
-                  {` Bid Page`}
+                  {` Jobs search page`}
                 </a>
               </div>
             </div>

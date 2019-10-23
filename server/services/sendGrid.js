@@ -26,7 +26,9 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg);
+    sgMail.send(msg).catch((e) => {
+      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+    });
   },
 
   sendNewBidRecievedEmail: ({ to, toDisplayName, taskName, clickLink }) => {
@@ -48,8 +50,11 @@ exports.EmailService = {
     //   console.log(response.headers);
     // }
 
-    sgMail.send(msg);
+    sgMail.send(msg).catch((e) => {
+      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+    });
   },
+
   sendJobIsHappeningSoonToTaskerEmail: ({
     to,
     requestTitle,
@@ -91,8 +96,44 @@ exports.EmailService = {
     //   console.log(response.headers);
     // }
 
-    sgMail.send(msg);
+    sgMail.send(msg).catch((e) => {
+      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+    });
   },
+
+  sendNewJobInYourAreaNotification: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
+    const msg = {
+      to,
+      from: 'bidorboocrew@bidorboo.com',
+      subject: `new ${requestTitle} request was posted in your area`,
+      text: `
+      Act fast, be the first to bid on it
+
+        ${requestTitle} request was posted in your area.
+        ${linkForBidder}
+     `,
+
+      html: populateJobUpdates({
+        toDisplayName: toDisplayName || to,
+        contentHtml: `
+        <p>Act fast, be the first to bid on it</p>
+        <p>${requestTitle} request was posted in your area.</p>
+        `,
+        clickLink: `${linkForBidder}`,
+        clickDisplayName: 'Bid Now',
+      }),
+    };
+    // function(error, response) {
+    //   console.log(response.statusCode);
+    //   console.log(response.body);
+    //   console.log(response.headers);
+    // }
+
+    sgMail.send(msg).catch((e) => {
+      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+    });
+  },
+
   sendJobIsHappeningSoonToRequesterEmail: ({
     to,
     requestTitle,
@@ -127,7 +168,9 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg);
+    sgMail.send(msg).catch((e) => {
+      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+    });
   },
   tellTaskerThatRequesterCancelledJob: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
     const msg = {
@@ -148,7 +191,9 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg);
+    sgMail.send(msg).catch((e) => {
+      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+    });
   },
 
   tellRequeterThatTheyHaveCancelledAnAwardedJob: ({
@@ -177,7 +222,9 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg);
+    sgMail.send(msg).catch((e) => {
+      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+    });
   },
 
   tellRequeterThatTheTaskerHaveCancelledAnAwardedJob: ({
@@ -209,7 +256,9 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg);
+    sgMail.send(msg).catch((e) => {
+      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+    });
   },
   tellTaskerThatTheyCancelledJob: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
     const msg = {
@@ -238,7 +287,9 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg);
+    sgMail.send(msg).catch((e) => {
+      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+    });
   },
 
   tellRequesterToConfirmCompletion: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
@@ -261,7 +312,9 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg);
+    sgMail.send(msg).catch((e) => {
+      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+    });
   },
 
   tellTaskerWeWaitingOnRequesterToConfirmCompletion: ({
@@ -294,7 +347,9 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg);
+    sgMail.send(msg).catch((e) => {
+      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+    });
   },
 
   tellRequesterJobIsCompleteBeginRating: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
@@ -321,7 +376,9 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg);
+    sgMail.send(msg).catch((e) => {
+      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+    });
   },
 
   tellTaskerJobIsCompleteBeginRating: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
@@ -350,7 +407,9 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg);
+    sgMail.send(msg).catch((e) => {
+      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+    });
   },
 
   tellRequesterThanksforPaymentAndTaskerIsRevealed: ({
@@ -379,7 +438,9 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg);
+    sgMail.send(msg).catch((e) => {
+      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+    });
   },
 
   tellTaskerThatTheyWereAwarded: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
@@ -411,7 +472,9 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg);
+    sgMail.send(msg).catch((e) => {
+      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+    });
   },
   tellDisputeOwnerThatWeWillInvestigate: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
     const msg = {
@@ -435,7 +498,9 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg);
+    sgMail.send(msg).catch((e) => {
+      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+    });
   },
   informBobCrewAboutFailedPayment: ({ jobId, paymentDetails }) => {
     const msg = {
@@ -450,7 +515,9 @@ exports.EmailService = {
       `,
     };
 
-    sgMail.send(msg);
+    sgMail.send(msg).catch((e) => {
+      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+    });
   },
 
   tellRequesterThatWeMarkedJobDone: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
@@ -475,7 +542,9 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg);
+    sgMail.send(msg).catch((e) => {
+      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+    });
   },
   tellRequesterToConfirmJob: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
     const msg = {
@@ -500,7 +569,9 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg);
+    sgMail.send(msg).catch((e) => {
+      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+    });
   },
   informBobCrewAboutDispute: ({
     whoSubmitted,
@@ -570,6 +641,8 @@ exports.EmailService = {
       `,
     };
 
-    sgMail.send(msg);
+    sgMail.send(msg).catch((e) => {
+      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+    });
   },
 };

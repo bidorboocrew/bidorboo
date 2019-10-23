@@ -21,7 +21,9 @@ import MapSection from './map/MapSection';
 
 import AllJobsView from './components/AllJobsView';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
+import SubscribeToSearchResultsToggle from './SubscribeToSearchResultsToggle';
 
+import TASKS_DEFINITIONS from '../../bdb-tasks/tasksDefinitions';
 class BidderRootPage extends React.Component {
   constructor(props) {
     super(props);
@@ -38,6 +40,7 @@ class BidderRootPage extends React.Component {
         searchRadius: '100',
         addressText: '',
         latLng: { lng: -75.801867, lat: 45.296898 },
+        tasksTypeFilter: [...Object.keys(TASKS_DEFINITIONS)],
       },
     };
     this.mapRootRef = React.createRef();
@@ -49,7 +52,7 @@ class BidderRootPage extends React.Component {
     if (this.props.isLoggedIn && prevProps.isLoggedIn !== this.props.isLoggedIn) {
       const userLastStoredSearchParams = userDetails && userDetails.lastSearch;
       if (userLastStoredSearchParams) {
-        const { searchRadius, location, addressText } = userLastStoredSearchParams;
+        const { searchRadius, location, addressText, tasksTypeFilter } = userLastStoredSearchParams;
         const { coordinates } = location;
 
         this.setState(
@@ -60,11 +63,13 @@ class BidderRootPage extends React.Component {
                 searchRadius,
                 latLng: { lng: coordinates[0], lat: coordinates[1] },
                 addressText,
+                tasksTypeFilter,
               },
               activeSearchParams: {
                 searchRadius,
                 latLng: { lng: coordinates[0], lat: coordinates[1] },
                 addressText,
+                tasksTypeFilter,
               },
             };
           },
@@ -73,6 +78,7 @@ class BidderRootPage extends React.Component {
               searchRadius,
               location: { lng: coordinates[0], lat: coordinates[1] },
               addressText,
+              tasksTypeFilter,
             });
           },
         );
@@ -85,7 +91,7 @@ class BidderRootPage extends React.Component {
     if (isLoggedIn) {
       const userLastStoredSearchParams = userDetails && userDetails.lastSearch;
       if (userLastStoredSearchParams) {
-        const { searchRadius, location, addressText } = userLastStoredSearchParams;
+        const { searchRadius, location, addressText, tasksTypeFilter } = userLastStoredSearchParams;
         const { coordinates } = location;
 
         this.setState(
@@ -96,11 +102,13 @@ class BidderRootPage extends React.Component {
                 searchRadius,
                 latLng: { lng: coordinates[0], lat: coordinates[1] },
                 addressText,
+                tasksTypeFilter,
               },
               activeSearchParams: {
                 searchRadius,
                 latLng: { lng: coordinates[0], lat: coordinates[1] },
                 addressText,
+                tasksTypeFilter,
               },
             };
           },
@@ -109,6 +117,7 @@ class BidderRootPage extends React.Component {
               searchRadius,
               location: { lng: coordinates[0], lat: coordinates[1] },
               addressText,
+              tasksTypeFilter,
             });
           },
         );
@@ -116,7 +125,7 @@ class BidderRootPage extends React.Component {
     }
   }
 
-  submitSearchLocationParams = ({ addressText, latLng, searchRadius }) => {
+  submitSearchLocationParams = ({ addressText, latLng, searchRadius, tasksTypeFilter }) => {
     const { searchJobsToBidOn } = this.props;
 
     // do some validation xxxxx latLng
@@ -128,6 +137,7 @@ class BidderRootPage extends React.Component {
           addressText,
           latLng,
           searchRadius,
+          tasksTypeFilter,
         },
       }),
       () => {
@@ -135,6 +145,7 @@ class BidderRootPage extends React.Component {
           searchRadius: searchRadius,
           location: latLng,
           addressText,
+          tasksTypeFilter,
         });
       },
     );
@@ -152,7 +163,6 @@ class BidderRootPage extends React.Component {
   };
 
   zoomAndCenterAroundMarker = (latLngNewCenter, callback) => {
-
     this.setState(
       () => {
         return { mapCenterPoint: { ...latLngNewCenter }, mapZoomLevel: 12 };
@@ -195,11 +205,11 @@ class BidderRootPage extends React.Component {
           <section className="hero is-warning is-small">
             <div className="hero-body">
               <div className="container">
-                <h1 style={{ marginBottom: '0.5rem', paddingLeft: 10 }} className="subtitle">
+                <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
                   Want to provide your services and earn money?
                 </h1>
                 <button
-                  className="button is-link"
+                  className="button is-small is-danger"
                   onClick={() => {
                     if (!isLoggedIn) {
                       showLoginDialog(true);
@@ -209,7 +219,10 @@ class BidderRootPage extends React.Component {
                     switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings);
                   }}
                 >
-                  BECOME A TASKER
+                  <span className="icon">
+                    <i className="far fa-credit-card" aria-hidden="true" />
+                  </span>
+                  <span>ADD YOUR PAYOUT BANKING</span>
                 </button>
                 <div className="help has-text-dark">*Registration will take ~5 minutes</div>
               </div>
@@ -225,23 +238,26 @@ class BidderRootPage extends React.Component {
                   style={{ marginBottom: '0.5rem', paddingLeft: 10 }}
                   className="has-text-white subtitle"
                 >
-                  Search For Tasks
+                  Search For Jobs Near
                 </h1>
 
-                <div
-                  style={{ background: 'transparent' }}
-                  className="card cardWithButton nofixedwidth disabled has-text-centered"
-                >
-                  <div style={{ padding: 0 }} className="card-content">
-                    <BidderRootLocationFilter
-                      submitSearchLocationParams={this.submitSearchLocationParams}
-                      updateSearchLocationState={this.updateSearchLocationState}
-                      activeSearchParams={activeSearchParams}
-                      userLastStoredSearchParams={userLastStoredSearchParams}
-                      {...this.props}
-                    />
+                <BidderRootLocationFilter
+                  submitSearchLocationParams={this.submitSearchLocationParams}
+                  updateSearchLocationState={this.updateSearchLocationState}
+                  activeSearchParams={activeSearchParams}
+                  userLastStoredSearchParams={userLastStoredSearchParams}
+                  {...this.props}
+                />
+                <br></br>
+                {/* <TasksICanDoSettings></TasksICanDoSettings> */}
+
+                {isLoggedIn && (
+                  <div className="columns is-centered is-mobile is-multiline">
+                    <div className="column has-text-left">
+                      <SubscribeToSearchResultsToggle />
+                    </div>
                   </div>
-                </div>
+                )}
                 <div className="columns is-centered is-mobile is-multiline">
                   <div className="column has-text-left">
                     <div
@@ -256,7 +272,7 @@ class BidderRootPage extends React.Component {
                         checked={showMapView}
                       />
                       <label style={{ fontWeight: 500, color: 'white' }} htmlFor="togglemapView">
-                        Toggle Map View
+                        Toggle map view
                       </label>
                     </div>
                   </div>

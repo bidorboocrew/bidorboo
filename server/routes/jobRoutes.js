@@ -182,6 +182,9 @@ module.exports = (app) => {
       const mongoUser_id = req.user._id;
       const newJob = await jobDataAccess.addAJob(jobDetails, mongoUser_id);
 
+      // notify users that are interested xxxx FIX TO READ USER PREFERENCE on search RADUIS
+      jobDataAccess.getUsersNearJobAndNotifyThem(newJob, req.user.userId);
+
       return res.send(newJob);
     } catch (e) {
       return res.status(400).send({ errorMsg: 'Failed To create new job', details: `${e}` });
@@ -322,7 +325,12 @@ module.exports = (app) => {
           errorMsg: 'searchDetails failed due to missing params',
         });
       }
-      const { searchRadius, location, addressText } = searchDetails;
+      const {
+        searchRadius,
+        location,
+        addressText,
+        tasksTypeFilter = ['bdbHouseCleaning', 'bdbCarDetailing', 'bdbPetSittingWalking'],
+      } = searchDetails;
       if (
         !searchRadius ||
         !addressText ||
@@ -342,6 +350,7 @@ module.exports = (app) => {
           searchRadius,
           location,
           addressText,
+          tasksTypeFilter,
         });
       }
 
@@ -349,6 +358,7 @@ module.exports = (app) => {
         {
           searchRadius,
           location,
+          tasksTypeFilter,
         },
         req.user ? req.user._id : ''
       );

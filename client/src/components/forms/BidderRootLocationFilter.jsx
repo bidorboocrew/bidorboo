@@ -9,6 +9,7 @@
 
 import React from 'react';
 
+import TASKS_DEFINITIONS from '../../bdb-tasks/tasksDefinitions';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
 // for reverse geocoding , get addressText from lat lng
@@ -22,9 +23,6 @@ export default class BidderRootLocationFilter extends React.Component {
     if (this.google) {
       this.geocoder = new this.google.maps.Geocoder();
     }
-    this.state = {
-      enableNotifyMeAboutJobsInMyArea: false,
-    };
   }
 
   handleChange = (addressText, latLng) => {
@@ -33,6 +31,9 @@ export default class BidderRootLocationFilter extends React.Component {
 
   updateSearchRaduisSelection = (event) => {
     this.props.updateSearchLocationState({ searchRadius: event.target.value });
+  };
+  updateTaskTypesFilter = (taskTypes) => {
+    this.props.updateSearchLocationState({ tasksTypeFilter: taskTypes });
   };
 
   handleSelect = (addressText) => {
@@ -125,6 +126,7 @@ export default class BidderRootLocationFilter extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { activeSearchParams, submitSearchLocationParams } = this.props;
+
     submitSearchLocationParams({
       ...activeSearchParams,
     });
@@ -132,64 +134,64 @@ export default class BidderRootLocationFilter extends React.Component {
 
   render() {
     const { activeSearchParams } = this.props;
-    const { addressText, latLng, searchRadius } = activeSearchParams;
+    const { addressText, latLng, searchRadius, tasksTypeFilter } = activeSearchParams;
 
     const disableSubmit = !addressText || !latLng || !latLng.lat || !latLng.lng || !searchRadius;
 
     return (
-      <div style={{ width: '100%', display: 'flex', flexWrap: 'wrap', textAlign: 'left' }}>
-        <div style={{ width: 500, padding: 10 }}>
-          <div>
-            <label style={{ fontWeight: 400 }} className="label">
-              Address
-            </label>
-            <GeoSearch
-              value={addressText}
-              onChange={this.handleChange}
-              onSelect={this.handleSelect}
-              handleSelect={this.handleSelect}
-              onError={this.errorHandling}
-              placeholder="Start entering an adddress"
-              forceSetAddressValue={addressText}
-              id="filter-tasker-job"
-            />
+      <div
+        style={{ background: '#363636', height: 'unset', border: '1px solid #26ca70' }}
+        className="card cardWithButton nofixedwidth"
+      >
+        <div className="card-content">
+          <div className="content has-text-left">
+            <div className="group">
+              <label style={{ fontWeight: 400 }} className="label">
+                Address
+              </label>
+              <GeoSearch
+                value={addressText}
+                onChange={this.handleChange}
+                onSelect={this.handleSelect}
+                handleSelect={this.handleSelect}
+                onError={this.errorHandling}
+                placeholder="Start entering an adddress"
+                forceSetAddressValue={addressText}
+                id="filter-tasker-job"
+              />
 
-            <a
-              style={{ marginTop: 6, fontSize: 14, color: 'white' }}
-              onClick={this.autoDetectCurrentAddress}
-              className="is-small is-text"
-            >
-              <span className="icon">
-                <i className="fas fa-map-marker-alt" />
-              </span>
-              <span>Auto Detect</span>
-            </a>
-          </div>
-        </div>
-        <div style={{ width: 150, padding: 10 }}>
-          <SearchRadius
-            updateSearchRaduisSelection={this.updateSearchRaduisSelection}
-            searchRadiusValue={searchRadius}
-          />
-        </div>
-        <div style={{ padding: '10px 10px 20px 10px' }}>
-          <div
-            style={{
-              display: '-webkit-box',
-              display: '-webkit-flex',
-              display: '-ms-flexbox',
-              display: 'flex',
-              alignItems: 'center',
-              height: '90px',
-              justifyContent: 'center',
-            }}
-          >
-            <div disabled={disableSubmit} onClick={this.handleSubmit} className="button is-success">
-              <span className="icon">
-                <i className="fas fa-search" />
-              </span>
-              <span>{`Search`}</span>
+              <a
+                style={{ marginTop: 6, fontSize: 14, color: 'white' }}
+                onClick={this.autoDetectCurrentAddress}
+                className="is-small is-text"
+              >
+                <span className="icon">
+                  <i className="fas fa-map-marker-alt" />
+                </span>
+                <span>Auto Detect</span>
+              </a>
             </div>
+            <SearchRadius
+              updateSearchRaduisSelection={this.updateSearchRaduisSelection}
+              searchRadiusValue={searchRadius}
+            />
+            <br></br>
+            <TaskTypeFilter
+              updateTaskTypesFilter={this.updateTaskTypesFilter}
+              currentFilters={tasksTypeFilter}
+            ></TaskTypeFilter>
+            <br></br>
+          </div>
+
+          <div
+            disabled={disableSubmit}
+            onClick={this.handleSubmit}
+            className="firstButtonInCard button is-success"
+          >
+            <span className="icon">
+              <i className="fas fa-search" />
+            </span>
+            <span>{`Search`}</span>
           </div>
         </div>
       </div>
@@ -321,6 +323,54 @@ class SearchRadius extends React.Component {
             </select>
           </div>
         </div>
+      </div>
+    );
+  }
+}
+
+class TaskTypeFilter extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { taskTypesIds: {} };
+  }
+
+  createTaskFilterButtonTags = () => {
+    const { currentFilters } = this.props;
+
+    const filterButtons = Object.keys(TASKS_DEFINITIONS).map((key) => {
+      // let controlClass = `tag is-rounded ${taskTypesIds[key] ? 'is-link' : ''}`;
+      let controlClass = `tag is-rounded ${currentFilters.indexOf(key) > -1 && 'is-link'}`;
+      return (
+        <span
+          style={{ cursor: 'pointer', minWidth: 165 }}
+          key={`key-${key}`}
+          onClick={() => {
+            const { updateTaskTypesFilter } = this.props;
+            let currentActiveFilters = [...currentFilters];
+            if (currentActiveFilters.indexOf(key) > -1) {
+              currentActiveFilters.splice(currentActiveFilters.indexOf(key), 1);
+            } else {
+              currentActiveFilters.push(key);
+            }
+            updateTaskTypesFilter(currentActiveFilters);
+          }}
+          className={controlClass}
+        >
+          {TASKS_DEFINITIONS[key].TITLE}
+        </span>
+      );
+    });
+    return filterButtons;
+  };
+
+  render() {
+    const listOfTasks = this.createTaskFilterButtonTags();
+    return (
+      <div className="has-text-left">
+        <div className="group">
+          <label className="label">Filter By service type</label>
+        </div>
+        <div className="tags are-medium">{listOfTasks}</div>
       </div>
     );
   }

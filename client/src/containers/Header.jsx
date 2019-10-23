@@ -197,7 +197,7 @@ class Header extends React.Component {
               className={`${isActingAsBidder ? 'has-text-white' : 'has-text-dark'}`}
             >
               <div
-                OnClick={() => {
+                onClick={() => {
                   this.closeMenuThenExecute(() => {
                     switchRoute(ROUTES.CLIENT.HOME);
                   });
@@ -363,7 +363,7 @@ class Header extends React.Component {
                     });
                   }}
                 >
-                  <span tyle={{ position: 'relative' }} className="icon">
+                  <span style={{ position: 'relative' }} className="icon">
                     <i className="fas fa-hand-rock" />
                     {bidsGotAwardedToMe && (
                       <span
@@ -676,7 +676,7 @@ class Header extends React.Component {
                           />
                         </figure>
                       </span>
-                      <span>{displayName}</span>
+                      <span className="displayname">{displayName}</span>
                     </a>
 
                     <div

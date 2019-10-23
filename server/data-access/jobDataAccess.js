@@ -17,37 +17,29 @@ const stripeServiceUtil = require('../services/stripeService').util;
 const BIDORBOO_REFUND_AMOUNT = 0.8;
 const getAllContactDetails = require('../utils/commonDataUtils')
   .getAwardedJobOwnerBidderAndRelevantNotificationDetails;
+const templateIdToDisplayName = {
+  bdbHouseCleaning: 'House Cleaning',
+  bdbCarDetailing: 'Car Detailing',
+  bdbPetSittingWalking: 'Pet Sitting/Walking',
+};
 exports.jobDataAccess = {
   BidOrBooAdmin: {
     SendRemindersForUpcomingJobs: async () => {
-      const now = moment()
-        .tz('America/Toronto')
-        .toISOString();
+      try {
+        const now = moment()
+          .tz('America/Toronto')
+          .toISOString();
 
-      const theNext24Hours = moment()
-        .tz('America/Toronto')
-        .add(1, 'day')
-        .toISOString();
+        const theNext24Hours = moment()
+          .tz('America/Toronto')
+          .add(1, 'day')
+          .toISOString();
 
-      await JobModel.find({
-        $and: [{ _awardedBidRef: { $exists: true } }, { state: { $eq: 'AWARDED' } }],
-      })
-        .populate({
-          path: '_ownerRef',
-          select: {
-            _id: 1,
-            displayName: 1,
-            email: 1,
-            phone: 1,
-            pushSubscription: 1,
-            notifications: 1,
-          },
+        await JobModel.find({
+          $and: [{ _awardedBidRef: { $exists: true } }, { state: { $eq: 'AWARDED' } }],
         })
-        .populate({
-          path: '_awardedBidRef',
-          select: { _bidderRef: 1 },
-          populate: {
-            path: '_bidderRef',
+          .populate({
+            path: '_ownerRef',
             select: {
               _id: 1,
               displayName: 1,
@@ -56,348 +48,359 @@ exports.jobDataAccess = {
               pushSubscription: 1,
               notifications: 1,
             },
-          },
-        })
-        .lean()
-        .exec((err, res) => {
-          if (err) {
-            throw err;
-          }
-          if (res && res.length > 0) {
-            res.forEach(async (job) => {
-              const jobStartDate = job.startingDateAndTime;
+          })
+          .populate({
+            path: '_awardedBidRef',
+            select: { _bidderRef: 1 },
+            populate: {
+              path: '_bidderRef',
+              select: {
+                _id: 1,
+                displayName: 1,
+                email: 1,
+                phone: 1,
+                pushSubscription: 1,
+                notifications: 1,
+              },
+            },
+          })
+          .lean()
+          .exec((err, res) => {
+            if (err) {
+              throw err;
+            }
+            if (res && res.length > 0) {
+              try {
+                res.forEach(async (job) => {
+                  const jobStartDate = job.startingDateAndTime;
 
-              // normalize the start date to the same timezone to comapre
-              const normalizedStartDate = moment(jobStartDate)
-                .tz('America/Toronto')
-                .toISOString();
+                  // normalize the start date to the same timezone to comapre
+                  const normalizedStartDate = moment(jobStartDate)
+                    .tz('America/Toronto')
+                    .toISOString();
 
-              const isJobHappeningAfterNow = moment(normalizedStartDate).isAfter(now);
-              const isJobHappeningBeforeTomorrow = moment(normalizedStartDate).isSameOrBefore(
-                theNext24Hours
-              );
-
-              if (isJobHappeningAfterNow && isJobHappeningBeforeTomorrow) {
-                const jobId = job._id.toString();
-                const awardedBidId = job._awardedBidRef._id.toString();
-                const ownerDetails = job._ownerRef;
-                const ownerEmailAddress =
-                  ownerDetails.email && ownerDetails.email.emailAddress
-                    ? ownerDetails.email.emailAddress
-                    : '';
-                const ownerPhoneNumber =
-                  ownerDetails.phone && ownerDetails.phone.phoneNumber
-                    ? ownerDetails.phone.phoneNumber
-                    : '';
-                const linkForOwner = ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId);
-                const awardedBidderDetails = job._awardedBidRef._bidderRef;
-                const bidderEmailAddress =
-                  awardedBidderDetails.email && awardedBidderDetails.email.emailAddress
-                    ? awardedBidderDetails.email.emailAddress
-                    : '';
-                const bidderPhoneNumber =
-                  awardedBidderDetails.phone && awardedBidderDetails.phone.phoneNumber
-                    ? awardedBidderDetails.phone.phoneNumber
-                    : '';
-                const linkForBidder = ROUTES.CLIENT.BIDDER.dynamicCurrentAwardedBid(awardedBidId);
-                if (ownerDetails.notifications && ownerDetails.notifications.email) {
-                  sendGridEmailing.sendJobIsHappeningSoonToRequesterEmail({
-                    to: ownerEmailAddress,
-                    requestTitle: job.templateId,
-                    toDisplayName: `${ownerDetails.displayName}`,
-                    bidderEmailAddress,
-                    bidderPhoneNumber,
-                    linkForOwner,
-                  });
-                }
-                if (
-                  awardedBidderDetails.notifications &&
-                  awardedBidderDetails.notifications.email
-                ) {
-                  sendGridEmailing.sendJobIsHappeningSoonToTaskerEmail({
-                    to: bidderEmailAddress,
-                    requestTitle: job.templateId,
-                    toDisplayName: `${awardedBidderDetails.displayName}`,
-                    ownerEmailAddress,
-                    ownerPhoneNumber,
-                    linkForBidder,
-                  });
-                }
-
-                if (
-                  ownerPhoneNumber &&
-                  ownerDetails.notifications &&
-                  ownerDetails.notifications.text
-                ) {
-                  sendTextService.sendJobIsHappeningSoonText(
-                    ownerPhoneNumber,
-                    job.templateId,
-                    linkForOwner
+                  const isJobHappeningAfterNow = moment(normalizedStartDate).isAfter(now);
+                  const isJobHappeningBeforeTomorrow = moment(normalizedStartDate).isSameOrBefore(
+                    theNext24Hours
                   );
-                }
-                if (
-                  bidderPhoneNumber &&
-                  awardedBidderDetails.notifications &&
-                  awardedBidderDetails.notifications.text
-                ) {
-                  sendTextService.sendJobIsHappeningSoonText(
-                    bidderPhoneNumber,
-                    job.templateId,
-                    linkForBidder
-                  );
-                }
 
-                if (ownerDetails.notifications && ownerDetails.notifications.push) {
-                  WebPushNotifications.pushJobIsHappeningSoon(ownerDetails.pushSubscription, {
-                    requestTitle: job.templateId,
-                    urlToLaunch: linkForOwner,
-                  });
-                }
-                if (awardedBidderDetails.notifications && awardedBidderDetails.notifications.push) {
-                  WebPushNotifications.pushJobIsHappeningSoon(
-                    awardedBidderDetails.pushSubscription,
-                    {
-                      requestTitle: job.templateId,
-                      urlToLaunch: linkForBidder,
+                  if (isJobHappeningAfterNow && isJobHappeningBeforeTomorrow) {
+                    const jobId = job._id.toString();
+                    const awardedBidId = job._awardedBidRef._id.toString();
+                    const ownerDetails = job._ownerRef;
+                    const ownerEmailAddress =
+                      ownerDetails.email && ownerDetails.email.emailAddress
+                        ? ownerDetails.email.emailAddress
+                        : '';
+                    const ownerPhoneNumber =
+                      ownerDetails.phone && ownerDetails.phone.phoneNumber
+                        ? ownerDetails.phone.phoneNumber
+                        : '';
+                    const linkForOwner = ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(
+                      jobId
+                    );
+                    const awardedBidderDetails = job._awardedBidRef._bidderRef;
+                    const bidderEmailAddress =
+                      awardedBidderDetails.email && awardedBidderDetails.email.emailAddress
+                        ? awardedBidderDetails.email.emailAddress
+                        : '';
+                    const bidderPhoneNumber =
+                      awardedBidderDetails.phone && awardedBidderDetails.phone.phoneNumber
+                        ? awardedBidderDetails.phone.phoneNumber
+                        : '';
+                    const linkForBidder = ROUTES.CLIENT.BIDDER.dynamicCurrentAwardedBid(
+                      awardedBidId
+                    );
+                    if (ownerDetails.notifications && ownerDetails.notifications.email) {
+                      sendGridEmailing.sendJobIsHappeningSoonToRequesterEmail({
+                        to: ownerEmailAddress,
+                        requestTitle: job.templateId,
+                        toDisplayName: `${ownerDetails.displayName}`,
+                        bidderEmailAddress,
+                        bidderPhoneNumber,
+                        linkForOwner,
+                      });
                     }
-                  );
-                }
+                    if (
+                      awardedBidderDetails.notifications &&
+                      awardedBidderDetails.notifications.email
+                    ) {
+                      sendGridEmailing.sendJobIsHappeningSoonToTaskerEmail({
+                        to: bidderEmailAddress,
+                        requestTitle: job.templateId,
+                        toDisplayName: `${awardedBidderDetails.displayName}`,
+                        ownerEmailAddress,
+                        ownerPhoneNumber,
+                        linkForBidder,
+                      });
+                    }
+
+                    if (
+                      ownerPhoneNumber &&
+                      ownerDetails.notifications &&
+                      ownerDetails.notifications.text
+                    ) {
+                      sendTextService.sendJobIsHappeningSoonText(
+                        ownerPhoneNumber,
+                        job.templateId,
+                        linkForOwner
+                      );
+                    }
+                    if (
+                      bidderPhoneNumber &&
+                      awardedBidderDetails.notifications &&
+                      awardedBidderDetails.notifications.text
+                    ) {
+                      sendTextService.sendJobIsHappeningSoonText(
+                        bidderPhoneNumber,
+                        job.templateId,
+                        linkForBidder
+                      );
+                    }
+
+                    if (ownerDetails.notifications && ownerDetails.notifications.push) {
+                      WebPushNotifications.pushJobIsHappeningSoon(ownerDetails.pushSubscription, {
+                        requestTitle: job.templateId,
+                        urlToLaunch: linkForOwner,
+                      });
+                    }
+                    if (
+                      awardedBidderDetails.notifications &&
+                      awardedBidderDetails.notifications.push
+                    ) {
+                      WebPushNotifications.pushJobIsHappeningSoon(
+                        awardedBidderDetails.pushSubscription,
+                        {
+                          requestTitle: job.templateId,
+                          urlToLaunch: linkForBidder,
+                        }
+                      );
+                    }
+                  }
+                });
+              } catch (innerError) {
+                throw innerError;
               }
-            });
-          }
-        });
-      return;
+            }
+          });
+        return;
+      } catch (e) {
+        console.log('BIDORBOO_ERROR: SendRemindersForUpcomingJobs_Error ' + JSON.stringify(e));
+      }
     },
     CleanUpAllExpiredNonAwardedJobs: async () => {
-      const rightNow = moment.utc(moment());
+      try {
+        const rightNow = moment.utc(moment());
 
-      await JobModel.find({
-        startingDateAndTime: { $exists: true },
-        _awardedBidRef: { $exists: false },
-      })
-        .populate({
-          path: '_bidsListRef',
-          select: { _id: 1, _bidderRef: 1 },
-          populate: {
-            path: '_bidderRef',
-          },
+        await JobModel.find({
+          startingDateAndTime: { $exists: true },
+          _awardedBidRef: { $exists: false },
         })
-        .exec((err, res) => {
-          if (err) {
-            throw err;
-          }
+          .populate({
+            path: '_bidsListRef',
+            select: { _id: 1, _bidderRef: 1 },
+            populate: {
+              path: '_bidderRef',
+            },
+          })
+          .exec((err, res) => {
+            if (err) {
+              throw err;
+            }
 
-          if (res && res.length > 0) {
-            res.forEach(async (job) => {
-              const { _id: jobId, _ownerRef } = job;
-              const jobStartDate = moment(job.startingDateAndTime);
+            if (res && res.length > 0) {
+              res.forEach((job) => {
+                const { _id: jobId, _ownerRef } = job;
+                const jobStartDate = moment(job.startingDateAndTime);
 
-              // normalize the start date to the same timezone to comapre
-              // const normalizedStartDate = moment(jobStartDate)
-              //   .tz('America/Toronto')
-              //   .toISOString();
+                // normalize the start date to the same timezone to comapre
+                // const normalizedStartDate = moment(jobStartDate)
+                //   .tz('America/Toronto')
+                //   .toISOString();
 
-              const isJobPastDue = moment(jobStartDate).isSameOrBefore(rightNow);
+                const isJobPastDue = moment(jobStartDate).isSameOrBefore(rightNow);
 
-              if (isJobPastDue) {
-                try {
-                  job.remove();
-                  console.log(
-                    `CleanUpAllExpiredNonAwardedJobs deleted job id ${jobId} which was suppose to happen ${jobStartDate} on this day ${rightNow}`
-                  );
-                } catch (e) {
-                  console.error('-------error in cron job----------------------' + e);
+                if (isJobPastDue) {
+                  try {
+                    job.remove().catch((e) => {
+                      console.log(
+                        'BIDORBOO_ERROR: CleanUpAllExpiredNonAwardedJobs_REMOVE_JOB_ISSUE ' +
+                          JSON.stringify(e)
+                      );
+                    });
+                    console.log(
+                      `CleanUpAllExpiredNonAwardedJobs deleted job id ${jobId} which was suppose to happen ${jobStartDate} on this day ${rightNow}`
+                    );
+                  } catch (innerError) {
+                    throw innerError;
+                  }
                 }
-                // console.log('-------BidOrBooLogging----------------------');
+              });
+            }
+          });
 
-                // const areThereAnyBids = job._bidsListRef && job._bidsListRef.length > 0;
-                // if (areThereAnyBids) {
-                //   bidsIds = [];
-                //   biddersIds = [];
-                //   job._bidsListRef.forEach((bidRef) => {
-                //     bidsIds.push(bidRef._id.toString());
-                //     biddersIds.push(bidRef._bidderRef._id.toString());
-                //   });
-
-                //   biddersIds.forEach(async (bidderId) => {
-                //     // clean ref for bidders
-                //     await User.findOneAndUpdate(
-                //       { _id: bidderId },
-                //       { $pull: { _postedBidsRef: { $in: bidsIds } } },
-                //       { new: true }
-                //     )
-                //       .lean(true)
-                //       .exec();
-                //   });
-
-                //   bidsIds.forEach(async (bidId) => {
-                //     await BidModel.deleteOne({ _id: bidId });
-                //   });
-                // }
-
-                // await User.findOneAndUpdate(
-                //   { _id: job._ownerRef.toString() },
-                //   { $pull: { _postedJobsRef: { $in: [job._id] } } },
-                //   { new: true }
-                // )
-                //   .lean(true)
-                //   .exec();
-              }
-            });
-          }
-        });
-
-      return;
+        return;
+      } catch (e) {
+        console.log('BIDORBOO_ERROR: CleanUpAllExpiredNonAwardedJobs_Error ' + JSON.stringify(e));
+      }
     },
     nagRequesterToConfirmJob: async () => {
-      await JobModel.find({
-        $and: [
-          { state: { $eq: 'AWARDED' } },
-          { jobCompletion: { $exists: true } },
-          { _awardedBidRef: { $exists: true } },
-          { 'jobCompletion.proposerConfirmed': { $eq: false } },
-          { 'jobCompletion.proposerDisputed': { $eq: false } },
-          { 'jobCompletion.bidderConfirmed': { $eq: true } },
-        ],
-      })
-        .lean(true)
-        .exec((err, res) => {
-          if (err) {
-            throw err;
-          }
+      try {
+        await JobModel.find({
+          $and: [
+            { state: { $eq: 'AWARDED' } },
+            { jobCompletion: { $exists: true } },
+            { _awardedBidRef: { $exists: true } },
+            { 'jobCompletion.proposerConfirmed': { $eq: false } },
+            { 'jobCompletion.proposerDisputed': { $eq: false } },
+            { 'jobCompletion.bidderConfirmed': { $eq: true } },
+          ],
+        })
+          .lean(true)
+          .exec((err, res) => {
+            if (err) {
+              throw err;
+            }
 
-          const threeDaysAgo = moment.utc().subtract(3, 'days');
+            const threeDaysAgo = moment.utc().subtract(3, 'days');
 
-          if (res && res.length > 0) {
-            res.forEach(async (job) => {
-              const jobStartDate = job.startingDateAndTime;
-              const markAsDoneAnyways = moment(jobStartDate).isBefore(threeDaysAgo);
+            if (res && res.length > 0) {
+              try {
+                res.forEach(async (job) => {
+                  const jobStartDate = job.startingDateAndTime;
+                  const markAsDoneAnyways = moment(jobStartDate).isBefore(threeDaysAgo);
 
-              const {
-                requesterDisplayName,
-                jobDisplayName,
-                requestLinkForRequester,
-                requesterEmailAddress,
-                requesterPhoneNumber,
-                allowedToEmailRequester,
-                allowedToTextRequester,
-                allowedToPushNotifyRequester,
-                requesterPushNotSubscription,
-              } = await getAllContactDetails(job._id);
-              console.log('-------BidOrBooLogging----------------------');
+                  const {
+                    requesterDisplayName,
+                    jobDisplayName,
+                    requestLinkForRequester,
+                    requesterEmailAddress,
+                    requesterPhoneNumber,
+                    allowedToEmailRequester,
+                    allowedToTextRequester,
+                    allowedToPushNotifyRequester,
+                    requesterPushNotSubscription,
+                  } = await getAllContactDetails(job._id);
 
-              if (markAsDoneAnyways) {
-                console.log('-------AUTO MARK JOB DONE----------------------');
-                console.log(job._id);
+                  if (markAsDoneAnyways) {
+                    console.log('-------AUTO MARK JOB DONE----------------------');
+                    console.log(job._id);
 
-                await JobModel.findOneAndUpdate(
-                  { _id: job._id },
-                  {
-                    $set: {
-                      state: 'DONE',
-                    },
+                    await JobModel.findOneAndUpdate(
+                      { _id: job._id },
+                      {
+                        $set: {
+                          state: 'DONE',
+                        },
+                      }
+                    )
+                      .lean(true)
+                      .exec();
+                    console.log('-------AUTO MARK JOB DONE----------------------');
+                    if (allowedToEmailRequester) {
+                      console.log(
+                        'sensendGridEmailingdTextService.tellRequesterThatWeMarkedJobDone'
+                      );
+                      console.log({
+                        to: requesterEmailAddress,
+                        requestTitle: jobDisplayName,
+                        toDisplayName: requesterDisplayName,
+                        linkForOwner: requestLinkForRequester,
+                      });
+                      sendGridEmailing.tellRequesterThatWeMarkedJobDone({
+                        to: requesterEmailAddress,
+                        requestTitle: jobDisplayName,
+                        toDisplayName: requesterDisplayName,
+                        linkForOwner: requestLinkForRequester,
+                      });
+                    }
+
+                    if (allowedToTextRequester) {
+                      console.log('sendTextService.tellRequesterThatWeMarkedJobDone');
+                      console.log({
+                        requesterPhoneNumber,
+                        jobDisplayName,
+                        requestLinkForRequester,
+                      });
+                      sendTextService.tellRequesterThatWeMarkedJobDone(
+                        requesterPhoneNumber,
+                        jobDisplayName,
+                        requestLinkForRequester
+                      );
+                    }
+
+                    if (allowedToPushNotifyRequester) {
+                      console.log('WebPushNotifications.tellRequesterToConfirmJob');
+                      console.log({
+                        requestTitle: jobDisplayName,
+                        urlToLaunch: requestLinkForRequester,
+                      });
+
+                      WebPushNotifications.tellRequesterToConfirmJob(requesterPushNotSubscription, {
+                        requestTitle: jobDisplayName,
+                        urlToLaunch: requestLinkForRequester,
+                      });
+                    }
+                  } else {
+                    if (allowedToEmailRequester) {
+                      console.log('sensendGridEmailingdTextService.tellRequesterToConfirmJob');
+                      console.log({
+                        to: requesterEmailAddress,
+                        requestTitle: jobDisplayName,
+                        toDisplayName: requesterDisplayName,
+                        linkForOwner: requestLinkForRequester,
+                      });
+                      sendGridEmailing.tellRequesterToConfirmJob({
+                        to: requesterEmailAddress,
+                        requestTitle: jobDisplayName,
+                        toDisplayName: requesterDisplayName,
+                        linkForOwner: requestLinkForRequester,
+                      });
+                    }
+
+                    if (allowedToTextRequester) {
+                      console.log('sendTextService.tellRequesterToConfirmJob');
+                      console.log({
+                        requesterPhoneNumber,
+                        jobDisplayName,
+                        requestLinkForRequester,
+                      });
+                      sendTextService.tellRequesterToConfirmJob(
+                        requesterPhoneNumber,
+                        jobDisplayName,
+                        requestLinkForRequester
+                      );
+                    }
+
+                    if (allowedToPushNotifyRequester) {
+                      console.log('WebPushNotifications.tellRequesterToConfirmJob');
+                      console.log({
+                        requestTitle: jobDisplayName,
+                        urlToLaunch: requestLinkForRequester,
+                      });
+
+                      WebPushNotifications.tellRequesterToConfirmJob(requesterPushNotSubscription, {
+                        requestTitle: jobDisplayName,
+                        urlToLaunch: requestLinkForRequester,
+                      });
+                    }
                   }
-                )
-                  .lean(true)
-                  .exec();
-                console.log('-------AUTO MARK JOB DONE----------------------');
-                if (allowedToEmailRequester) {
-                  console.log('sensendGridEmailingdTextService.tellRequesterThatWeMarkedJobDone');
-                  console.log({
-                    to: requesterEmailAddress,
-                    requestTitle: jobDisplayName,
-                    toDisplayName: requesterDisplayName,
-                    linkForOwner: requestLinkForRequester,
-                  });
-                  sendGridEmailing.tellRequesterThatWeMarkedJobDone({
-                    to: requesterEmailAddress,
-                    requestTitle: jobDisplayName,
-                    toDisplayName: requesterDisplayName,
-                    linkForOwner: requestLinkForRequester,
-                  });
-                }
-
-                if (allowedToTextRequester) {
-                  console.log('sendTextService.tellRequesterThatWeMarkedJobDone');
-                  console.log({
-                    requesterPhoneNumber,
-                    jobDisplayName,
-                    requestLinkForRequester,
-                  });
-                  sendTextService.tellRequesterThatWeMarkedJobDone(
-                    requesterPhoneNumber,
-                    jobDisplayName,
-                    requestLinkForRequester
-                  );
-                }
-
-                if (allowedToPushNotifyRequester) {
-                  console.log('WebPushNotifications.tellRequesterToConfirmJob');
-                  console.log({
-                    requestTitle: jobDisplayName,
-                    urlToLaunch: requestLinkForRequester,
-                  });
-
-                  WebPushNotifications.tellRequesterToConfirmJob(requesterPushNotSubscription, {
-                    requestTitle: jobDisplayName,
-                    urlToLaunch: requestLinkForRequester,
-                  });
-                }
-              } else {
-                if (allowedToEmailRequester) {
-                  console.log('sensendGridEmailingdTextService.tellRequesterToConfirmJob');
-                  console.log({
-                    to: requesterEmailAddress,
-                    requestTitle: jobDisplayName,
-                    toDisplayName: requesterDisplayName,
-                    linkForOwner: requestLinkForRequester,
-                  });
-                  sendGridEmailing.tellRequesterToConfirmJob({
-                    to: requesterEmailAddress,
-                    requestTitle: jobDisplayName,
-                    toDisplayName: requesterDisplayName,
-                    linkForOwner: requestLinkForRequester,
-                  });
-                }
-
-                if (allowedToTextRequester) {
-                  console.log('sendTextService.tellRequesterToConfirmJob');
-                  console.log({
-                    requesterPhoneNumber,
-                    jobDisplayName,
-                    requestLinkForRequester,
-                  });
-                  sendTextService.tellRequesterToConfirmJob(
-                    requesterPhoneNumber,
-                    jobDisplayName,
-                    requestLinkForRequester
-                  );
-                }
-
-                if (allowedToPushNotifyRequester) {
-                  console.log('WebPushNotifications.tellRequesterToConfirmJob');
-                  console.log({
-                    requestTitle: jobDisplayName,
-                    urlToLaunch: requestLinkForRequester,
-                  });
-
-                  WebPushNotifications.tellRequesterToConfirmJob(requesterPushNotSubscription, {
-                    requestTitle: jobDisplayName,
-                    urlToLaunch: requestLinkForRequester,
-                  });
-                }
+                });
+              } catch (innerError) {
+                throw innerError;
               }
-              console.log('-------BidOrBooLogging----------------------');
-            });
-          }
-        });
+            }
+          });
 
-      return;
+        return;
+      } catch (e) {
+        console.log('BIDORBOO_ERROR: nagRequesterToConfirmJob_Error ' + JSON.stringify(e));
+      }
     },
     SendPayoutsToBanks: async () => {
       try {
         // find all jobs that are done and does not have payment to bank on the way
-        console.log('-------BidOrBooLogging----------------------');
+
         console.log(' SendPayoutsToBanks');
         return JobModel.find({
           _awardedBidRef: { $exists: true },
@@ -412,179 +415,210 @@ exports.jobDataAccess = {
             }
 
             if (res && res.length > 0) {
-              //xxxxxx
-              res.forEach(async (job) => {
-                const { _id: jobId, processedPayment } = job;
-                const {
-                  amount,
-                  applicationFeeAmount,
-                  destinationStripeAcc,
-                  paymentIntentId,
-                  refund,
-                } = processedPayment;
+              try {
+                //xxxxxx
+                res.forEach(async (job) => {
+                  const { _id: jobId, processedPayment } = job;
+                  const {
+                    amount,
+                    applicationFeeAmount,
+                    destinationStripeAcc,
+                    paymentIntentId,
+                    refund,
+                  } = processedPayment;
 
-                const taskerConnectAccDetails = await stripeServiceUtil.getConnectedAccountDetails(
-                  destinationStripeAcc
-                );
-
-                // confirm payouts enabeld
-                if (taskerConnectAccDetails && taskerConnectAccDetails.payouts_enabled) {
-                  let taskerPayout = 0;
-                  if (refund && refund.status === 'succeeded') {
-                    // application fee is refunded at a rate proportional to the refund amount
-                    //  so
-                    const ratioOfRefund = refund.amount / amount;
-                    const actualKeptBidOrBooApplicationFees = ratioOfRefund * applicationFeeAmount;
-                    taskerPayout = amount - refund.amount - actualKeptBidOrBooApplicationFees;
-                  } else if (refund && refund.status !== 'succeeded') {
-                    console.log(
-                      'BIDORBOO_PAYMENTS: DANGER INVESTIGATE WHY THIS IS NOT SUCCESSFUL' +
-                        JSON.stringify(job)
-                    );
-                    return;
-                  }
-                  if (!refund) {
-                    taskerPayout = amount - applicationFeeAmount;
-                  }
-
-                  // xxxxxxxx saeed investigate if this is asfer than relying on db
-                  // const {
-                  //   amount_received,
-                  //   application_fee_amount,
-                  //   transfer_data: { destination: destinationStripeAcc },
-                  // } = await stripeServiceUtil.getPaymentIntents(paymentIntentId);
-
-                  // taskerPayout = amount_received - application_fee_amount;
-
-                  const [accountBalance] = await stripeServiceUtil.getConnectedAccountBalance(
+                  const taskerConnectAccDetails = await stripeServiceUtil.getConnectedAccountDetails(
                     destinationStripeAcc
                   );
 
-                  let totalAvailableBalanceForPayout =
-                    accountBalance &&
-                    accountBalance.available &&
-                    accountBalance.available.reduce(
-                      (sumOfAllAvailableBalances, balanceItem) =>
-                        sumOfAllAvailableBalances + balanceItem.amount,
-                      0
+                  // confirm payouts enabeld
+                  if (taskerConnectAccDetails && taskerConnectAccDetails.payouts_enabled) {
+                    let taskerPayout = 0;
+                    if (refund && refund.status === 'succeeded') {
+                      // application fee is refunded at a rate proportional to the refund amount
+                      //  so
+                      const ratioOfRefund = refund.amount / amount;
+                      const actualKeptBidOrBooApplicationFees =
+                        ratioOfRefund * applicationFeeAmount;
+                      taskerPayout = amount - refund.amount - actualKeptBidOrBooApplicationFees;
+                    } else if (refund && refund.status !== 'succeeded') {
+                      console.log(
+                        'BIDORBOO_PAYMENTS: DANGER INVESTIGATE WHY THIS IS NOT SUCCESSFUL' +
+                          JSON.stringify(job)
+                      );
+                      return;
+                    }
+                    if (!refund) {
+                      taskerPayout = amount - applicationFeeAmount;
+                    }
+
+                    // xxxxxxxx saeed investigate if this is asfer than relying on db
+                    // const {
+                    //   amount_received,
+                    //   application_fee_amount,
+                    //   transfer_data: { destination: destinationStripeAcc },
+                    // } = await stripeServiceUtil.getPaymentIntents(paymentIntentId);
+
+                    // taskerPayout = amount_received - application_fee_amount;
+
+                    const [accountBalance] = await stripeServiceUtil.getConnectedAccountBalance(
+                      destinationStripeAcc
                     );
 
-                  let isThereEnoughToCoverPayout = totalAvailableBalanceForPayout >= taskerPayout;
-                  // confirm there is enough available balance to cover payment
-                  if (isThereEnoughToCoverPayout) {
-                    console.log('send payout');
-                    const payoutInititated = await stripeServiceUtil.payoutToBank(
-                      destinationStripeAcc,
-                      {
-                        amount: taskerPayout,
-                        metadata: {
-                          paymentIntentId,
-                          jobId: jobId.toString(),
-                          destinationStripeAcc,
-                          note: 'Released Payout to Tasker',
-                        },
-                      }
-                    );
-                    console.log({
-                      amount: taskerPayout,
-                      paymentIntentId,
-                      jobId: jobId.toString(),
-                      destinationStripeAcc,
-                      note: 'Release Payout to Tasker',
-                    });
-                    const { id: payoutId, status } = payoutInititated;
-                    // update job with the payment details
-                    JobModel.findOneAndUpdate(
-                      { _id: jobId },
-                      {
-                        $set: {
-                          state: 'PAYMENT_RELEASED',
-                          payoutDetails: {
-                            payoutId,
-                            status,
+                    let totalAvailableBalanceForPayout =
+                      accountBalance &&
+                      accountBalance.available &&
+                      accountBalance.available.reduce(
+                        (sumOfAllAvailableBalances, balanceItem) =>
+                          sumOfAllAvailableBalances + balanceItem.amount,
+                        0
+                      );
+
+                    let isThereEnoughToCoverPayout = totalAvailableBalanceForPayout >= taskerPayout;
+                    // confirm there is enough available balance to cover payment
+                    if (isThereEnoughToCoverPayout) {
+                      console.log('send payout');
+                      const payoutInititated = await stripeServiceUtil.payoutToBank(
+                        destinationStripeAcc,
+                        {
+                          amount: taskerPayout,
+                          metadata: {
+                            paymentIntentId,
+                            jobId: jobId.toString(),
+                            destinationStripeAcc,
+                            note: 'Released Payout to Tasker',
                           },
-                        },
-                      }
-                    );
-                    // xxx on update job update bid
+                        }
+                      );
+                      console.log({
+                        amount: taskerPayout,
+                        paymentIntentId,
+                        jobId: jobId.toString(),
+                        destinationStripeAcc,
+                        note: 'Release Payout to Tasker',
+                      });
+                      const { id: payoutId, status } = payoutInititated;
+                      // update job with the payment details
+                      JobModel.findOneAndUpdate(
+                        { _id: jobId },
+                        {
+                          $set: {
+                            state: 'PAYMENT_RELEASED',
+                            payoutDetails: {
+                              payoutId,
+                              status,
+                            },
+                          },
+                        }
+                      )
+                        .exec()
+                        .catch((fail) =>
+                          console.log(
+                            'BIDORBOO_ERROR: SendPayoutsToBanks_Error ' + JSON.stringify(fail)
+                          )
+                        );
+                      // xxx on update job update bid
+                    } else {
+                      console.log('BIDORBOO_PAYMENTS: NOT_ENOUGH_TO_PAYOUT');
+                      console.log('destinationStripeAcc ' + destinationStripeAcc);
+                      console.log('job ' + JSON.stringify(job));
+                      console.log('-----------------------------------------');
+                    }
                   } else {
-                    console.log('BIDORBOO_PAYMENTS: NOT_ENOUGH_TO_PAYOUT');
+                    console.log(
+                      'BIDORBOO_PAYMENTS: DANGER PAYOUT IS NOT ENABLED PLEASE INVESTIGATE WHY'
+                    );
                     console.log('destinationStripeAcc ' + destinationStripeAcc);
                     console.log('job ' + JSON.stringify(job));
                     console.log('-----------------------------------------');
                   }
-                } else {
-                  console.log(
-                    'BIDORBOO_PAYMENTS: DANGER PAYOUT IS NOT ENABLED PLEASE INVESTIGATE WHY'
-                  );
-                  console.log('destinationStripeAcc ' + destinationStripeAcc);
-                  console.log('job ' + JSON.stringify(job));
-                  console.log('-----------------------------------------');
-                }
-                console.log('-------BidOrBooLogging----------------------');
-              });
+                });
+              } catch (innerError) {
+                throw innerError;
+              }
             }
           });
       } catch (e) {
-        console.log('BIDORBOO_PAYMENTS: DANGER PAYOUT FAILURe ' + e);
+        console.log('BIDORBOO_ERROR: SendPayoutsToBanks_Error ' + JSON.stringify(e));
       }
     },
 
     CleanUpAllBidsAssociatedWithDoneJobs: async () => {
-      console.log('-------BidOrBooLogging----------------------');
-      console.log('CleanUpAllBidsAssociatedWithDoneJobs');
-
-      await JobModel.find({
-        _awardedBidRef: { $exists: true },
-        state: { $eq: 'ARCHIVE' },
-      })
-        .populate({
-          path: '_bidsListRef',
-          select: { _id: 1, _bidderRef: 1 },
-          populate: {
-            path: '_bidderRef',
-          },
+      try {
+        await JobModel.find({
+          _awardedBidRef: { $exists: true },
+          state: { $eq: 'ARCHIVE' },
         })
-        .lean(true)
-        .exec((err, res) => {
-          if (err) {
-            throw err;
-          }
+          .populate({
+            path: '_bidsListRef',
+            select: { _id: 1, _bidderRef: 1 },
+            populate: {
+              path: '_bidderRef',
+            },
+          })
+          .lean(true)
+          .exec((err, res) => {
+            if (err) {
+              throw err;
+            }
 
-          if (res && res.length > 0) {
-            res.forEach((job) => {
-              const areThereAnyBids = job._bidsListRef && job._bidsListRef.length > 0;
-              if (areThereAnyBids) {
-                bidsIds = [];
-                biddersIds = [];
-                const awardedBidRefId = job._awardedBidRef._id.toString();
+            if (res && res.length > 0) {
+              try {
+                res.forEach((job) => {
+                  const areThereAnyBids = job._bidsListRef && job._bidsListRef.length > 0;
+                  if (areThereAnyBids) {
+                    bidsIds = [];
+                    biddersIds = [];
+                    const awardedBidRefId = job._awardedBidRef._id.toString();
 
-                job._bidsListRef.forEach((bidRef) => {
-                  // dont delete the awardedBidRef
-                  if (bidRef._id.toString() !== awardedBidRefId.toString()) {
-                    bidsIds.push(bidRef._id.toString());
-                    biddersIds.push(bidRef._bidderRef._id.toString());
+                    job._bidsListRef.forEach((bidRef) => {
+                      // dont delete the awardedBidRef
+                      if (bidRef._id.toString() !== awardedBidRefId.toString()) {
+                        bidsIds.push(bidRef._id.toString());
+                        biddersIds.push(bidRef._bidderRef._id.toString());
+                      }
+                    });
+
+                    biddersIds.forEach((bidderId) => {
+                      // clean ref for bidders
+                      User.findOneAndUpdate(
+                        { _id: bidderId },
+                        { $pull: { _postedBidsRef: { $in: bidsIds } } }
+                      )
+                        .exec()
+                        .catch((fail) =>
+                          console.log(
+                            'BIDORBOO_ERROR: CleanUpAllBidsAssociatedWithDoneJobs_Error User.findOneAndUpdate ' +
+                              JSON.stringify(fail)
+                          )
+                        );
+                    });
+
+                    // clean the bids for bidders
+                    bidsIds.forEach((bidId) => {
+                      BidModel.deleteOne({ _id: bidId })
+                        .exec()
+                        .catch((fail2) =>
+                          console.log(
+                            'BIDORBOO_ERROR: CleanUpAllBidsAssociatedWithDoneJobs_Error BidModel.deleteOne ' +
+                              JSON.stringify(fail2)
+                          )
+                        );
+                    });
                   }
                 });
-
-                biddersIds.forEach((bidderId) => {
-                  // clean ref for bidders
-                  User.findOneAndUpdate(
-                    { _id: bidderId },
-                    { $pull: { _postedBidsRef: { $in: bidsIds } } }
-                  ).exec();
-                });
-
-                // clean the bids for bidders
-                bidsIds.forEach((bidId) => {
-                  BidModel.deleteOne({ _id: bidId });
-                });
+              } catch (innerError) {
+                throw innerError;
               }
-            });
-          }
-        });
+            }
+          });
 
-      return;
+        return;
+      } catch (e) {
+        console.log(
+          'BIDORBOO_ERROR: CleanUpAllBidsAssociatedWithDoneJobs_Error ' + JSON.stringify(e)
+        );
+      }
     },
   },
 
@@ -1185,7 +1219,7 @@ exports.jobDataAccess = {
   // get jobs near a given location
   // default search raduis is 15km raduis
   // default include all
-  getJobsNear: ({ location, searchRadius = 25000 }, mongoUser_id = '') => {
+  getJobsNear: ({ location, searchRadius = 25000, tasksTypeFilter }, mongoUser_id = '') => {
     return new Promise(async (resolve, reject) => {
       try {
         const today = moment.utc(moment()).toISOString();
@@ -1194,6 +1228,7 @@ exports.jobDataAccess = {
         let searchQuery = {
           startingDateAndTime: { $gt: today },
           state: { $eq: 'OPEN' },
+          templateId: { $in: tasksTypeFilter },
           location: {
             $near: {
               $geometry: {
@@ -1244,6 +1279,55 @@ exports.jobDataAccess = {
         return resolve(jobsUserDidNotBidOn);
       } catch (e) {
         reject(e);
+      }
+    });
+  },
+
+  getUsersNearJobAndNotifyThem: async (job, userId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let searchQuery = {
+          // userId: { $not: { $in: [userId] } },
+          'email.isVerified': { $eq: true },
+          'notifications.email': { $eq: true },
+          'notifications.newPostedTasks': { $eq: true },
+          lastSearch: { $exists: true },
+          'lastSearch.tasksTypeFilter': job.templateId,
+          'lastSearch.location': {
+            $near: {
+              $geometry: {
+                type: 'Point',
+                coordinates: [job.location.coordinates[0], job.location.coordinates[1]],
+              },
+              // XXXXX MAKE SURE TO READ LOATION.SEARCHRADUIS INSTEAD
+              $maxDistance: 100 * 1000,
+              $minDistance: 0,
+            },
+          },
+        };
+
+        const userstoNotify = await User.find(searchQuery, {
+          email: 1,
+          lastSearch: 1,
+          notifications: 1,
+          displayName: 1,
+        })
+          .lean()
+          .exec();
+
+        if (userstoNotify && userstoNotify.length > 0) {
+          userstoNotify.forEach((user) => {
+            sendGridEmailing.sendNewJobInYourAreaNotification({
+              to: user.email.emailAddress,
+              requestTitle: templateIdToDisplayName[job.templateId],
+              toDisplayName: user.displayName,
+              linkForBidder: ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id),
+            });
+          });
+        }
+        resolve({ success: true });
+      } catch (e) {
+        console.log('BIDORBOO_ERROR: couldnt notify interested taskers ' + JSON.stringify(e));
       }
     });
   },

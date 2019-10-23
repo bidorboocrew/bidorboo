@@ -279,6 +279,7 @@ exports.findUserAndAllNewNotifications = async (mongoUserId) => {
         isGmailUser: 1,
         isFbUser: 1,
         notifications: 1,
+        tasksICanDo: 1,
         rating: 1,
         userId: 1,
         email: 1,
@@ -588,7 +589,10 @@ exports.updateNotificationSettings = (userId, notificationSettings) => {
   });
 };
 
-exports.updateUserLastSearchDetails = (userId, { searchRadius, location, addressText }) => {
+exports.updateUserLastSearchDetails = (
+  userId,
+  { searchRadius, location, addressText, tasksTypeFilter }
+) => {
   return new Promise(async (resolve, reject) => {
     try {
       let updatedUser = await User.findOneAndUpdate(
@@ -599,6 +603,7 @@ exports.updateUserLastSearchDetails = (userId, { searchRadius, location, address
               searchRadius,
               location: { type: 'Point', coordinates: [location.lng, location.lat] },
               addressText,
+              tasksTypeFilter,
             },
           },
         },

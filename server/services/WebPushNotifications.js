@@ -26,7 +26,9 @@ exports.WebPushNotifications = {
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
           tag: urlToLaunch,
         });
-        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
+        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
+          console.log('BIDORBOO_ERROR: WEBPUSH ISSUE ' + JSON.stringify(e));
+        });
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };
@@ -51,7 +53,9 @@ exports.WebPushNotifications = {
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
           tag: urlToLaunch,
         });
-        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
+        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
+          console.log('BIDORBOO_ERROR: WEBPUSH ISSUE ' + JSON.stringify(e));
+        });
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };
@@ -76,7 +80,9 @@ exports.WebPushNotifications = {
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
           tag: urlToLaunch,
         });
-        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
+        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
+          console.log('BIDORBOO_ERROR: WEBPUSH ISSUE ' + JSON.stringify(e));
+        });
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };
@@ -101,7 +107,9 @@ exports.WebPushNotifications = {
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
           tag: urlToLaunch,
         });
-        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
+        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
+          console.log('BIDORBOO_ERROR: WEBPUSH ISSUE ' + JSON.stringify(e));
+        });
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };
@@ -127,7 +135,9 @@ exports.WebPushNotifications = {
           tag: urlToLaunch,
           requireInteraction: true,
         });
-        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
+        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
+          console.log('BIDORBOO_ERROR: WEBPUSH ISSUE ' + JSON.stringify(e));
+        });
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };
@@ -152,7 +162,9 @@ exports.WebPushNotifications = {
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
           tag: urlToLaunch,
         });
-        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
+        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
+          console.log('BIDORBOO_ERROR: WEBPUSH ISSUE ' + JSON.stringify(e));
+        });
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };
@@ -177,7 +189,9 @@ exports.WebPushNotifications = {
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
           tag: urlToLaunch,
         });
-        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
+        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
+          console.log('BIDORBOO_ERROR: WEBPUSH ISSUE ' + JSON.stringify(e));
+        });
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };
@@ -199,7 +213,9 @@ exports.WebPushNotifications = {
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
           tag: urlToLaunch,
         });
-        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload);
+        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
+          console.log('BIDORBOO_ERROR: WEBPUSH ISSUE ' + JSON.stringify(e));
+        });
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };

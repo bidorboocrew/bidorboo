@@ -36,6 +36,8 @@ export const getMyPastProvidedServices = () => (dispatch) => {
   });
 };
 
+
+
 export const updateProfileDetails = (profileDetails) => (dispatch) => {
   const updateProfileCall = axios
     .put(ROUTES.API.USER.PUT.userDetails, {

@@ -95,7 +95,7 @@ const UserSchema = new Schema(
         type: Boolean,
         default: false,
       },
-      newPostedTasks: { type: Boolean, default: true },
+      newPostedTasks: { type: Boolean, default: false },
     },
     _postedJobsRef: {
       type: [{ type: Schema.Types.ObjectId, ref: 'JobModel' }],
@@ -148,7 +148,15 @@ const UserSchema = new Schema(
       },
       location: { type: mongoose.Schema.Types.Point, index: '2dsphere' },
       addressText: { type: String },
+      tasksTypeFilter: [
+        {
+          type: String,
+          enum: ['bdbHouseCleaning', 'bdbCarDetailing', 'bdbPetSittingWalking'],
+          default: ['bdbHouseCleaning', 'bdbCarDetailing', 'bdbPetSittingWalking'],
+        },
+      ],
     },
+
     password: {
       type: String,
       allowBlank: false,
