@@ -18,6 +18,7 @@ const {
   agreeToTosReq,
   userDetailsReqSchema,
   updateAppViewReq,
+  tasksICanDoReq,
 } = require('../routeSchemas/userRoutesReqSchema');
 
 // We are using the formatted Joi Validation error
@@ -324,6 +325,23 @@ module.exports = (app) => {
         return res.send({ success: true });
       } catch (e) {
         e.safeMsg = 'Failed To get notification settings';
+        return next(e);
+      }
+    }
+  );
+
+  app.put(
+    ROUTES.API.USER.PUT.tasksICanDo,
+    requireLogin,
+    celebrate(tasksICanDoReq),
+    async (req, res, next) => {
+      try {
+        const { tasksICanDo } = req.body.data;
+        const userId = req.user.userId;
+        await userDataAccess.findByUserIdAndUpdate(userId, { tasksICanDo });
+        return res.send({ success: true });
+      } catch (e) {
+        e.safeMsg = 'Failed To update the list of tasks user can do settings';
         return next(e);
       }
     }

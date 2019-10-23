@@ -55,6 +55,7 @@ module.exports = {
         profilePicture: '/api/user/updateProfileImage',
         updateAppView: '/api/user/updateAppView',
         updateOnboardingDetails: '/api/user/updateOnboardingDetails',
+        tasksICanDo: '/api/user/tasksICanDo',
       },
       POST: {
         verifyEmail: '/api/user/verifyEmail',

@@ -100,6 +100,24 @@ exports.agreeToTosReq = {
   }),
 };
 
+exports.tasksICanDoReq = {
+  body: Joi.object({
+    data: Joi.object({
+      tasksICanDo: Joi.array()
+        .items(
+          Joi.string()
+            .trim()
+            .valid(['bdbHouseCleaning', 'bdbCarDetailing', 'bdbPetSittingWalking'])
+        )
+        .error(() => {
+          return {
+            message: 'Tasks I can do settings was not updated',
+          };
+        })
+        .required(),
+    }),
+  }),
+};
 exports.loggedoutEmailVerificationReq = {
   body: Joi.object({
     data: Joi.object({
