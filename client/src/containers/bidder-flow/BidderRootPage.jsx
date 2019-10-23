@@ -225,22 +225,39 @@ class BidderRootPage extends React.Component {
                   style={{ marginBottom: '0.5rem', paddingLeft: 10 }}
                   className="has-text-white subtitle"
                 >
-                  Search For Jobs Near You
+                  Search For Jobs Near
                 </h1>
 
-                <div
-                  style={{ background: 'transparent' }}
-                  className="card cardWithButton nofixedwidth disabled has-text-centered"
-                >
-                  <div style={{ padding: 0 }} className="card-content">
-                    <BidderRootLocationFilter
-                      submitSearchLocationParams={this.submitSearchLocationParams}
-                      updateSearchLocationState={this.updateSearchLocationState}
-                      activeSearchParams={activeSearchParams}
-                      userLastStoredSearchParams={userLastStoredSearchParams}
-                      {...this.props}
-                    />
-                    <TasksICanDoSettings></TasksICanDoSettings>
+                <BidderRootLocationFilter
+                  submitSearchLocationParams={this.submitSearchLocationParams}
+                  updateSearchLocationState={this.updateSearchLocationState}
+                  activeSearchParams={activeSearchParams}
+                  userLastStoredSearchParams={userLastStoredSearchParams}
+                  {...this.props}
+                />
+                <br></br>
+                {/* <TasksICanDoSettings></TasksICanDoSettings> */}
+
+                <div className="columns is-centered is-mobile is-multiline">
+                  <div className="column has-text-left">
+                    <div
+                      style={{ marginBottom: '0.75rem', textAlign: 'left', marginTop: '0.75rem' }}
+                    >
+                      <input
+                        id="togglemapView"
+                        type="checkbox"
+                        name="togglemapView"
+                        className="switch is-rounded is-success"
+                        onChange={this.toggleMapView}
+                        checked={showMapView}
+                      />
+                      <label style={{ fontWeight: 500, color: 'white' }} htmlFor="togglemapView">
+                        Subscribe to search results
+                      </label>
+                      <p className="help has-text-white">
+                        *Get notified when newly posted jobs matches your search criteria
+                      </p>
+                    </div>
                   </div>
                 </div>
                 <div className="columns is-centered is-mobile is-multiline">
@@ -257,7 +274,7 @@ class BidderRootPage extends React.Component {
                         checked={showMapView}
                       />
                       <label style={{ fontWeight: 500, color: 'white' }} htmlFor="togglemapView">
-                        Toggle Map View
+                        Toggle map view
                       </label>
                     </div>
                   </div>
