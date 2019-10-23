@@ -9,9 +9,6 @@
 
 import React from 'react';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { updateTasksICanDo } from '../../app-state/actions/userModelActions';
 import TASKS_DEFINITIONS from '../../bdb-tasks/tasksDefinitions';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
@@ -35,7 +32,9 @@ export default class BidderRootLocationFilter extends React.Component {
   updateSearchRaduisSelection = (event) => {
     this.props.updateSearchLocationState({ searchRadius: event.target.value });
   };
-  updateTaskTypesFilter = () => {};
+  updateTaskTypesFilter = (taskTypes) => {
+    this.props.updateSearchLocationState({ tasksTypeFilter: taskTypes });
+  };
 
   handleSelect = (addressText) => {
     if (addressText && addressText.length > 3) {
@@ -127,6 +126,7 @@ export default class BidderRootLocationFilter extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { activeSearchParams, submitSearchLocationParams } = this.props;
+
     submitSearchLocationParams({
       ...activeSearchParams,
     });
@@ -134,7 +134,7 @@ export default class BidderRootLocationFilter extends React.Component {
 
   render() {
     const { activeSearchParams } = this.props;
-    const { addressText, latLng, searchRadius } = activeSearchParams;
+    const { addressText, latLng, searchRadius, tasksTypeFilter } = activeSearchParams;
 
     const disableSubmit = !addressText || !latLng || !latLng.lat || !latLng.lng || !searchRadius;
 
@@ -176,7 +176,10 @@ export default class BidderRootLocationFilter extends React.Component {
               searchRadiusValue={searchRadius}
             />
             <br></br>
-            <TaskTypeFilter updateTaskTypesFilter={this.updateTaskTypesFilter}></TaskTypeFilter>
+            <TaskTypeFilter
+              updateTaskTypesFilter={this.updateTaskTypesFilter}
+              currentFilters={tasksTypeFilter}
+            ></TaskTypeFilter>
             <br></br>
           </div>
 
@@ -325,62 +328,43 @@ class SearchRadius extends React.Component {
   }
 }
 
-class TasksICanDoSettings extends React.Component {
+class TaskTypeFilter extends React.Component {
   constructor(props) {
     super(props);
-    let taskTypesIds = {};
-    Object.keys(TASKS_DEFINITIONS).forEach((key) => {
-      taskTypesIds[key] = false;
-    });
-    this.state = { taskTypesIds, areThereChanges: false };
-  }
-  componentDidMount() {
-    const { userDetails } = this.props;
-    if (userDetails && userDetails._id && userDetails.tasksICanDo) {
-      const { tasksICanDo } = userDetails;
-      let taskTypesIds = {};
-      Object.keys(TASKS_DEFINITIONS).forEach((key) => {
-        taskTypesIds[key] = tasksICanDo.indexOf(key) > -1;
-      });
-
-      this.setState({ taskTypesIds, areThereChanges: false });
-    }
+    this.state = { taskTypesIds: {} };
   }
 
-  render() {
-    const { taskTypesIds } = this.state;
+  createTaskFilterButtonTags = () => {
+    const { currentFilters } = this.props;
 
-    const listOfTasks = Object.keys(TASKS_DEFINITIONS).map((key) => {
+    const filterButtons = Object.keys(TASKS_DEFINITIONS).map((key) => {
+      // let controlClass = `tag is-rounded ${taskTypesIds[key] ? 'is-link' : ''}`;
+      let controlClass = `tag is-rounded ${currentFilters.indexOf(key) > -1 && 'is-link'}`;
       return (
         <span
           style={{ cursor: 'pointer', minWidth: 165 }}
           key={`key-${key}`}
-          onClick={() =>
-            this.setState(
-              () => ({
-                areThereChanges: true,
-                taskTypesIds: {
-                  ...taskTypesIds,
-                  [key]: !taskTypesIds[key],
-                },
-              }),
-              () => {
-                const { updateTaskTypesFilter } = this.props;
-
-                const { taskTypesIds } = this.state;
-                const subscribetoTaskIds = Object.keys(taskTypesIds).filter((key) => {
-                  return !!taskTypesIds[key];
-                });
-                updateTaskTypesFilter(subscribetoTaskIds);
-              },
-            )
-          }
-          className={`tag is-rounded ${taskTypesIds[key] ? 'is-link' : ''}`}
+          onClick={() => {
+            const { updateTaskTypesFilter } = this.props;
+            let currentActiveFilters = [...currentFilters];
+            if (currentActiveFilters.indexOf(key) > -1) {
+              currentActiveFilters.splice(currentActiveFilters.indexOf(key), 1);
+            } else {
+              currentActiveFilters.push(key);
+            }
+            updateTaskTypesFilter(currentActiveFilters);
+          }}
+          className={controlClass}
         >
           {TASKS_DEFINITIONS[key].TITLE}
         </span>
       );
     });
+    return filterButtons;
+  };
+
+  render() {
+    const listOfTasks = this.createTaskFilterButtonTags();
     return (
       <div className="has-text-left">
         <div className="group">
@@ -391,22 +375,3 @@ class TasksICanDoSettings extends React.Component {
     );
   }
 }
-
-const mapStateToProps = ({ userReducer }) => {
-  const { userDetails } = userReducer;
-
-  return {
-    userDetails: userDetails,
-    isLoggedIn: userReducer.isLoggedIn,
-  };
-};
-const mapDispatchToProps = (dispatch) => {
-  return {
-    updateTasksICanDo: bindActionCreators(updateTasksICanDo, dispatch),
-  };
-};
-
-const TaskTypeFilter = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(TasksICanDoSettings);

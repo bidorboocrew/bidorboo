@@ -8,7 +8,6 @@ const requireLogin = require('../middleware/requireLogin');
 const utils = require('../utils/utilities');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
 
-const { jobDataAccess } = require('../data-access/jobDataAccess');
 
 const {
   resetPasswordReqSchema,
@@ -325,23 +324,6 @@ module.exports = (app) => {
         return res.send({ success: true });
       } catch (e) {
         e.safeMsg = 'Failed To get notification settings';
-        return next(e);
-      }
-    }
-  );
-
-  app.put(
-    ROUTES.API.USER.PUT.tasksICanDo,
-    requireLogin,
-    celebrate(tasksICanDoReq),
-    async (req, res, next) => {
-      try {
-        const { tasksICanDo } = req.body.data;
-        const userId = req.user.userId;
-        await userDataAccess.findByUserIdAndUpdate(userId, { tasksICanDo });
-        return res.send({ success: true });
-      } catch (e) {
-        e.safeMsg = 'Failed To update the list of tasks user can do settings';
         return next(e);
       }
     }

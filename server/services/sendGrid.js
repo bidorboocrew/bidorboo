@@ -54,6 +54,7 @@ exports.EmailService = {
       console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
     });
   },
+
   sendJobIsHappeningSoonToTaskerEmail: ({
     to,
     requestTitle,
@@ -99,6 +100,40 @@ exports.EmailService = {
       console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
     });
   },
+
+  sendNewJobInYourAreaNotification: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
+    const msg = {
+      to,
+      from: 'bidorboocrew@bidorboo.com',
+      subject: `new ${requestTitle} request was posted in your area`,
+      text: `
+      Act fast, be the first to bid on it
+
+        ${requestTitle} request was posted in your area.
+        ${linkForBidder}
+     `,
+
+      html: populateJobUpdates({
+        toDisplayName: toDisplayName || to,
+        contentHtml: `
+        <p>Act fast, be the first to bid on it</p>
+        <p>${requestTitle} request was posted in your area.</p>
+        `,
+        clickLink: `${linkForBidder}`,
+        clickDisplayName: 'Bid Now',
+      }),
+    };
+    // function(error, response) {
+    //   console.log(response.statusCode);
+    //   console.log(response.body);
+    //   console.log(response.headers);
+    // }
+
+    sgMail.send(msg).catch((e) => {
+      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+    });
+  },
+
   sendJobIsHappeningSoonToRequesterEmail: ({
     to,
     requestTitle,
