@@ -12,6 +12,8 @@ import FileUploaderComponent from '../../components/FileUploaderComponent';
 
 import { getCurrentUser } from '../../app-state/actions/authActions';
 import NotificationSettings from './NotificationSettings';
+import TasksICanDoSettings from './TasksICanDoSettings';
+
 import VerifyEmailButton from './VerifyEmailButton';
 import VerifyPhoneButton from './VerifyPhoneButton';
 import { VerifiedVia } from '../commonComponents';
@@ -274,6 +276,9 @@ class MyProfile extends React.Component {
 
             <div className="column">
               <NotificationSettings />
+            </div>
+            <div className="column">
+              <TasksICanDoSettings />
             </div>
           </div>
         </div>

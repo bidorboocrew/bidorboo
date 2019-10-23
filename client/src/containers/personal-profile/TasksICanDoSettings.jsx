@@ -4,55 +4,66 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { updateTasksICanDo } from '../../app-state/actions/userModelActions';
 import TASKS_DEFINITIONS from '../../bdb-tasks/tasksDefinitions';
+import * as ROUTES from '../../constants/frontend-route-consts';
+
 class TasksICanDoSettings extends React.Component {
+  constructor(props) {
+    super(props);
+    let taskTypesIds = {};
+    Object.keys(TASKS_DEFINITIONS).forEach((key) => {
+      taskTypesIds[key] = false;
+    });
+    this.state = { taskTypesIds, areThereChanges: false };
+  }
   componentDidMount() {
     const { userDetails } = this.props;
     if (userDetails && userDetails._id && userDetails.tasksICanDo) {
       const { tasksICanDo } = userDetails;
-      let tasksICanDoSettings = {};
+      let taskTypesIds = {};
       Object.keys(TASKS_DEFINITIONS).forEach((key) => {
-        tasksICanDoSettings[key] = tasksICanDo.indexOf(key) > -1;
+        taskTypesIds[key] = tasksICanDo.indexOf(key) > -1;
       });
 
-      this.setState({ tasksICanDoSettings });
+      this.setState({ taskTypesIds, areThereChanges: false });
     }
   }
-  toggleSetting = (taskTypeId) => {
-    this.setState({
-      tasksICanDoSettings: {
-        ...tasksICanDoSettings,
-        [taskTypeId]: !tasksICanDoSettings[taskTypeId],
-      },
-    });
-  };
 
   submit = () => {
     // call server to update this setting
     const { updateTasksICanDo } = this.props;
 
-    const { tasksICanDoTypeIds } = this.state;
-    debugger;
-    updateTasksICanDo({
-      ...tasksICanDoTypeIds,
+    const { taskTypesIds } = this.state;
+    const subscribetoTaskIds = Object.keys(taskTypesIds).filter((key) => {
+      return !!taskTypesIds[key];
     });
+    updateTasksICanDo(subscribetoTaskIds);
     this.setState({ areThereChanges: false });
   };
 
   render() {
+    const { taskTypesIds } = this.state;
+
     const listOfTasks = Object.keys(TASKS_DEFINITIONS).map((key) => {
       return (
-        <div className="group">
+        <div key={`key-${key}`} className="group">
           <input
-            key={`key-${key}`}
-            id="key"
+            id={key}
+            name={key}
             type="checkbox"
-            name="pushNotification"
             className="switch is-rounded is-success"
-            onChange={() => this.toggleSetting(key)}
-            checked={this.state.tasksICanDoTypeIds[key] || false}
+            onChange={() =>
+              this.setState({
+                areThereChanges: true,
+                taskTypesIds: {
+                  ...this.state.taskTypesIds,
+                  [key]: !this.state.taskTypesIds[key],
+                },
+              })
+            }
+            checked={taskTypesIds[key]}
           />
-          <label className="has-text-dark" htmlFor="pushNotification">
-            Enable Push Notifications
+          <label className="has-text-dark" htmlFor={key}>
+            {TASKS_DEFINITIONS[key].TITLE}
           </label>
         </div>
       );
@@ -62,20 +73,23 @@ class TasksICanDoSettings extends React.Component {
         <header className="card-header">
           <p className="card-header-title">
             <span className="icon">
-              <i className="fas fa-bell" />
+              <i className="fas fa-toolbox" />
             </span>
-            <span>Services I can provide</span>
+            <span>Want to be a tasker?</span>
           </p>
         </header>
         <div className="card-content">
           <div className="content">
             <div className="group">
-              <label className="label">Why it is important?</label>
-              <ul>
-                <li>We will show custom results when you search for tasks</li>
-              </ul>
+              <label className="label">What services can you provide?</label>
             </div>
             {listOfTasks}
+            <div className="help">
+              {`* We will display custom results based on your selection when you visit `}
+              <a rel="noopener noreferrer" href={ROUTES.CLIENT.BIDDER.root}>
+                {` Jobs search page`}
+              </a>
+            </div>
             <button
               className="button firstButtonInCard is-success"
               onClick={this.submit}

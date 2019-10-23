@@ -279,6 +279,7 @@ exports.findUserAndAllNewNotifications = async (mongoUserId) => {
         isGmailUser: 1,
         isFbUser: 1,
         notifications: 1,
+        tasksICanDo: 1,
         rating: 1,
         userId: 1,
         email: 1,
