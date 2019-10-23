@@ -197,7 +197,7 @@ class Header extends React.Component {
               className={`${isActingAsBidder ? 'has-text-white' : 'has-text-dark'}`}
             >
               <div
-                OnClick={() => {
+                onClick={() => {
                   this.closeMenuThenExecute(() => {
                     switchRoute(ROUTES.CLIENT.HOME);
                   });

@@ -23,6 +23,7 @@ import AllJobsView from './components/AllJobsView';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 import SubscribeToSearchResultsToggle from './SubscribeToSearchResultsToggle';
 
+import TASKS_DEFINITIONS from '../../bdb-tasks/tasksDefinitions';
 class BidderRootPage extends React.Component {
   constructor(props) {
     super(props);
@@ -39,7 +40,7 @@ class BidderRootPage extends React.Component {
         searchRadius: '100',
         addressText: '',
         latLng: { lng: -75.801867, lat: 45.296898 },
-        tasksTypeFilter: [],
+        tasksTypeFilter: [...Object.keys(TASKS_DEFINITIONS)],
       },
     };
     this.mapRootRef = React.createRef();
@@ -204,11 +205,11 @@ class BidderRootPage extends React.Component {
           <section className="hero is-warning is-small">
             <div className="hero-body">
               <div className="container">
-                <h1 style={{ marginBottom: '0.5rem', paddingLeft: 10 }} className="subtitle">
+                <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
                   Want to provide your services and earn money?
                 </h1>
                 <button
-                  className="button is-link"
+                  className="button is-small is-danger"
                   onClick={() => {
                     if (!isLoggedIn) {
                       showLoginDialog(true);
@@ -218,7 +219,10 @@ class BidderRootPage extends React.Component {
                     switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings);
                   }}
                 >
-                  SETUP TASKER ACCOUNT
+                  <span className="icon">
+                    <i className="far fa-credit-card" aria-hidden="true" />
+                  </span>
+                  <span>ADD YOUR PAYOUT BANKING</span>
                 </button>
                 <div className="help has-text-dark">*Registration will take ~5 minutes</div>
               </div>
@@ -247,11 +251,13 @@ class BidderRootPage extends React.Component {
                 <br></br>
                 {/* <TasksICanDoSettings></TasksICanDoSettings> */}
 
-                <div className="columns is-centered is-mobile is-multiline">
-                  <div className="column has-text-left">
-                    <SubscribeToSearchResultsToggle />
+                {isLoggedIn && (
+                  <div className="columns is-centered is-mobile is-multiline">
+                    <div className="column has-text-left">
+                      <SubscribeToSearchResultsToggle />
+                    </div>
                   </div>
-                </div>
+                )}
                 <div className="columns is-centered is-mobile is-multiline">
                   <div className="column has-text-left">
                     <div
