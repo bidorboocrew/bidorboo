@@ -21,6 +21,7 @@ import MapSection from './map/MapSection';
 
 import AllJobsView from './components/AllJobsView';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
+import TasksICanDoSettings from './TasksICanDoSettings';
 
 class BidderRootPage extends React.Component {
   constructor(props) {
@@ -152,7 +153,6 @@ class BidderRootPage extends React.Component {
   };
 
   zoomAndCenterAroundMarker = (latLngNewCenter, callback) => {
-
     this.setState(
       () => {
         return { mapCenterPoint: { ...latLngNewCenter }, mapZoomLevel: 12 };
@@ -225,7 +225,7 @@ class BidderRootPage extends React.Component {
                   style={{ marginBottom: '0.5rem', paddingLeft: 10 }}
                   className="has-text-white subtitle"
                 >
-                  Search For Tasks
+                  Search For Jobs Near You
                 </h1>
 
                 <div
@@ -240,6 +240,7 @@ class BidderRootPage extends React.Component {
                       userLastStoredSearchParams={userLastStoredSearchParams}
                       {...this.props}
                     />
+                    <TasksICanDoSettings></TasksICanDoSettings>
                   </div>
                 </div>
                 <div className="columns is-centered is-mobile is-multiline">
