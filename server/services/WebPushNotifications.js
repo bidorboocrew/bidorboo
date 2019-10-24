@@ -64,6 +64,29 @@ exports.WebPushNotifications = {
       return e;
     }
   },
+  pushNewJobInYourArea: async (targetUserPushSubscription, { requestTitle, urlToLaunch }) => {
+    // if (process.env.NODE_ENV !== 'production') {
+    //   return;
+    // }
+    try {
+      if (targetUserPushSubscription) {
+        const payload = JSON.stringify({
+          title: `NEW ${requestTitle} request in your area!`,
+          body: `Act fast, be the first to bid`,
+          urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+          tag: urlToLaunch,
+        });
+        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
+          console.log('BIDORBOO_ERROR: WEBPUSH ISSUE ' + JSON.stringify(e));
+        });
+        return { success: true };
+      } else {
+        return { success: false, errorMsg: 'This user has not subscribed' };
+      }
+    } catch (e) {
+      return e;
+    }
+  },
   pushAwardedJobWasCompleted: async (
     targetUserPushSubscription,
     { requestTitle, icon, urlToLaunch }

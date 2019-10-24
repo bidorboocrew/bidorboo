@@ -107,17 +107,16 @@ exports.EmailService = {
       from: 'bidorboocrew@bidorboo.com',
       subject: `new ${requestTitle} request was posted in your area`,
       text: `
+      ${requestTitle} request was posted in your area.
       Act fast, be the first to bid on it
-
-        ${requestTitle} request was posted in your area.
-        ${linkForBidder}
+      ${linkForBidder}
      `,
 
       html: populateJobUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `
-        <p>Act fast, be the first to bid on it</p>
         <p>${requestTitle} request was posted in your area.</p>
+        <p>Act fast, be the first to bid on it</p>
         `,
         clickLink: `${linkForBidder}`,
         clickDisplayName: 'Bid Now',

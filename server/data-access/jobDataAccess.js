@@ -1311,6 +1311,7 @@ exports.jobDataAccess = {
           lastSearch: 1,
           notifications: 1,
           displayName: 1,
+          pushSubscription: 1,
         })
           .lean()
           .exec();
@@ -1323,6 +1324,10 @@ exports.jobDataAccess = {
               toDisplayName: user.displayName,
               linkForBidder: ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id),
             });
+          });
+          WebPushNotifications.pushNewJobInYourArea(user.pushSubscription, {
+            requestTitle: templateIdToDisplayName[job.templateId],
+            urlToLaunch: ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id),
           });
         }
         resolve({ success: true });

@@ -414,7 +414,7 @@ class TaskerConfirmsCompletion extends React.Component {
           )}
         <br></br> <br></br>
         <a onClick={this.toggleModal} className="button is-success">
-          I've Completed This Task
+          Confirm completion
         </a>
       </React.Fragment>
     );
