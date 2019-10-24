@@ -89,44 +89,46 @@ class VerifyEmailButton extends React.Component {
                             disabled={isResendingVCode || verifyingEmailInProgress}
                             style={{ flexGrow: 1, borderRadius: 0 }}
                             className="input"
-                            placeholder="Enter 6 digits Verification Code"
+                            placeholder="Enter verification code"
                           />
-                          <div
-                            onClick={() => {
-                              if (!isResendingVCode || !verifyingEmailInProgress) {
-                                if (!inputCodeContent) {
-                                  alert('Please use the 6 digits code we sent to your email');
-                                } else if (inputCodeContent.length === 6) {
-                                  verifyEmail(`${inputCodeContent}`);
-                                  this.toggleEnterPinDialog();
-                                } else {
-                                  alert(
-                                    "you've entered an invalid code. code is a 6 digit sent to your email",
-                                  );
-                                }
-                              }
-                            }}
-                            style={{ borderRadius: 0 }}
-                            disabled={
-                              !inputCodeContent || isResendingVCode || verifyingEmailInProgress
-                            }
-                            className="button is-info"
-                          >
-                            Submit Code
-                          </div>
-                          <button
-                            style={{ marginLeft: 6 }}
-                            onClick={this.handleSendNewCode}
-                            className="button is-text"
-                            disabled={isResendingVCode || verifyingEmailInProgress}
-                          >
-                            {`${isResendingVCode ? 'pin sent' : 'resend pin'}`}
-                          </button>
                         </div>
                         <div className="help">
                           * Check your email inbox/junk folders for emails from
                           bidorboocrew@bidorboo.com
                         </div>
+                        <br></br>
+
+                        <button
+                          style={{ marginRight: 6 }}
+                          onClick={this.handleSendNewCode}
+                          className="button is-text"
+                          disabled={isResendingVCode || verifyingEmailInProgress}
+                        >
+                          {`${isResendingVCode ? 'pin sent' : 'resend pin'}`}
+                        </button>
+                        <button
+                          onClick={() => {
+                            if (!isResendingVCode || !verifyingEmailInProgress) {
+                              if (!inputCodeContent) {
+                                alert('Please use the 6 digits code we sent to your email');
+                              } else if (inputCodeContent.length === 6) {
+                                verifyEmail(`${inputCodeContent}`);
+                                this.toggleEnterPinDialog();
+                              } else {
+                                alert(
+                                  "you've entered an invalid code. code is a 6 digit sent to your email",
+                                );
+                              }
+                            }
+                          }}
+                          style={{ borderRadius: 0 }}
+                          disabled={
+                            !inputCodeContent || isResendingVCode || verifyingEmailInProgress
+                          }
+                          className="button is-info"
+                        >
+                          Submit Code
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -137,10 +139,7 @@ class VerifyEmailButton extends React.Component {
                     onClick={this.toggleEnterPinDialog}
                     className="button is-outline"
                   >
-                    <span className="icon">
-                      <i className="far fa-arrow-alt-circle-left" />
-                    </span>
-                    <span>Go Back</span>
+                    <span>Cancel</span>
                   </button>
                 </footer>
               </div>

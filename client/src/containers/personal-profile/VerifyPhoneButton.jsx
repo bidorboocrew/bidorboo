@@ -57,7 +57,11 @@ class VerifyPhoneButton extends React.Component {
               <div className="modal-card">
                 <header className="modal-card-head">
                   <div className="modal-card-title">Verify Your Phone</div>
-                  <button onClick={this.toggleEnterPinDialog} />
+                  <button
+                    onClick={this.toggleEnterPinDialog}
+                    className="delete"
+                    aria-label="close"
+                  />
                 </header>
                 <section className="modal-card-body">
                   <div className="content">
@@ -84,40 +88,42 @@ class VerifyPhoneButton extends React.Component {
                             disabled={isResendingVCode || verifyingPhoneInProgress}
                             style={{ flexGrow: 1, borderRadius: 0 }}
                             className="input"
-                            placeholder="Enter 6 digits Verification Code"
+                            placeholder="Enter verification code..."
                           />
-                          <div
-                            onClick={() => {
-                              if (!isResendingVCode || !verifyingPhoneInProgress) {
-                                if (!inputCodeContent) {
-                                  alert('Please use the 6 digits code we sent to your phone');
-                                } else if (inputCodeContent.length === 6) {
-                                  verifyPhone(`${inputCodeContent}`, this.toggleEnterPinDialog);
-                                } else {
-                                  alert(
-                                    "you've entered an invalid code. code is a 6 digit sent to your phone",
-                                  );
-                                }
-                              }
-                            }}
-                            style={{ borderRadius: 0 }}
-                            disabled={
-                              !inputCodeContent || isResendingVCode || verifyingPhoneInProgress
-                            }
-                            className="button is-info"
-                          >
-                            Submit Code
-                          </div>
-                          <button
-                            style={{ marginLeft: 6 }}
-                            onClick={this.handleSendNewCode}
-                            className="button is-text"
-                            disabled={isResendingVCode || verifyingPhoneInProgress}
-                          >
-                            {`${isResendingVCode ? 'pin sent' : 'resend pin'}`}
-                          </button>
                         </div>
                         <div className="help">* Check your phone text msgs</div>
+
+                        <br></br>
+                        <button
+                          style={{ marginRight: 6 }}
+                          onClick={this.handleSendNewCode}
+                          className="button is-text"
+                          disabled={isResendingVCode || verifyingPhoneInProgress}
+                        >
+                          {`${isResendingVCode ? 'pin sent' : 'resend pin'}`}
+                        </button>
+                        <button
+                          onClick={() => {
+                            if (!isResendingVCode || !verifyingPhoneInProgress) {
+                              if (!inputCodeContent) {
+                                alert('Please use the 6 digits code we sent to your phone');
+                              } else if (inputCodeContent.length === 6) {
+                                verifyPhone(`${inputCodeContent}`, this.toggleEnterPinDialog);
+                              } else {
+                                alert(
+                                  "you've entered an invalid code. code is a 6 digit sent to your phone",
+                                );
+                              }
+                            }
+                          }}
+                          style={{ borderRadius: 0 }}
+                          disabled={
+                            !inputCodeContent || isResendingVCode || verifyingPhoneInProgress
+                          }
+                          className="button is-info"
+                        >
+                          Submit Code
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -128,10 +134,7 @@ class VerifyPhoneButton extends React.Component {
                     onClick={this.toggleEnterPinDialog}
                     className="button is-outline"
                   >
-                    <span className="icon">
-                      <i className="far fa-arrow-alt-circle-left" />
-                    </span>
-                    <span>Go Back</span>
+                    <span>Cancel</span>
                   </button>
                 </footer>
               </div>
