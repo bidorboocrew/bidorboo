@@ -45,7 +45,7 @@ class PaymentSettings extends React.Component {
 
     let { stripeConnect } = userDetails;
 
-    const firstTimeSetup = !(stripeConnect && stripeConnect.accId);
+    const firstTimeSetup = !stripeConnect || !stripeConnect.accId || !stripeConnect.last4BankAcc;
     const pendingVerification = stripeConnect && stripeConnect.accId && !stripeConnect.isVerified;
 
     const verifiedAccount =
