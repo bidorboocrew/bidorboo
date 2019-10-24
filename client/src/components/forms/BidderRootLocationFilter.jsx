@@ -140,7 +140,7 @@ export default class BidderRootLocationFilter extends React.Component {
 
     return (
       <div
-        style={{ background: '#363636', height: 'unset', border: '1px solid #26ca70' }}
+        style={{ height: 'unset', border: '1px solid #26ca70' }}
         className="card cardWithButton nofixedwidth"
       >
         <div className="card-content">
@@ -161,7 +161,7 @@ export default class BidderRootLocationFilter extends React.Component {
               />
 
               <a
-                style={{ marginTop: 6, fontSize: 14, color: 'white' }}
+                style={{ marginTop: 6, fontSize: 14, color: '#ce1bbf' }}
                 onClick={this.autoDetectCurrentAddress}
                 className="is-small is-text"
               >

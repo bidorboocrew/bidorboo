@@ -56,7 +56,7 @@ class BidderRootPage extends React.Component {
         userLastStoredSearchParams.location &&
         userLastStoredSearchParams.addressText &&
         userLastStoredSearchParams.searchRadius &&
-        userLastStoredSearchParams.coordinates
+        userLastStoredSearchParams.location.coordinates
       ) {
         const { searchRadius, location, addressText, tasksTypeFilter } = userLastStoredSearchParams;
         const { coordinates } = location;
@@ -101,7 +101,7 @@ class BidderRootPage extends React.Component {
         userLastStoredSearchParams.location &&
         userLastStoredSearchParams.addressText &&
         userLastStoredSearchParams.searchRadius &&
-        userLastStoredSearchParams.coordinates
+        userLastStoredSearchParams.location.coordinates
       ) {
         const { searchRadius, location, addressText, tasksTypeFilter } = userLastStoredSearchParams;
         const { coordinates } = location;
@@ -243,13 +243,10 @@ class BidderRootPage extends React.Component {
         )}
 
         <div>
-          <section className="hero is-small is-dark">
+          <section className="hero is-small is-light">
             <div className="hero-body">
               <div className="container">
-                <h1
-                  style={{ marginBottom: '0.5rem', paddingLeft: 10 }}
-                  className="has-text-white subtitle"
-                >
+                <h1 style={{ marginBottom: '0.5rem', paddingLeft: 10 }} className="subtitle">
                   Search For Jobs Near
                 </h1>
 
@@ -283,7 +280,7 @@ class BidderRootPage extends React.Component {
                         onChange={this.toggleMapView}
                         checked={showMapView}
                       />
-                      <label style={{ fontWeight: 500, color: 'white' }} htmlFor="togglemapView">
+                      <label style={{ fontWeight: 500 }} htmlFor="togglemapView">
                         Toggle map view
                       </label>
                     </div>

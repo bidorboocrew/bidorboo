@@ -1289,7 +1289,6 @@ exports.jobDataAccess = {
         let searchQuery = {
           // userId: { $not: { $in: [userId] } },
           'email.isVerified': { $eq: true },
-          'notifications.email': { $eq: true },
           'notifications.newPostedTasks': { $eq: true },
           lastSearch: { $exists: true },
           'lastSearch.tasksTypeFilter': job.templateId,
@@ -1324,10 +1323,10 @@ exports.jobDataAccess = {
               toDisplayName: user.displayName,
               linkForBidder: ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id),
             });
-          });
-          WebPushNotifications.pushNewJobInYourArea(user.pushSubscription, {
-            requestTitle: templateIdToDisplayName[job.templateId],
-            urlToLaunch: ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id),
+            WebPushNotifications.pushNewJobInYourArea(user.pushSubscription, {
+              requestTitle: templateIdToDisplayName[job.templateId],
+              urlToLaunch: ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id),
+            });
           });
         }
         resolve({ success: true });
