@@ -3,7 +3,7 @@ const passport = require('passport');
 const path = require('path');
 
 const keys = require('./config/keys');
-const { errors } = require('celebrate');
+// const { errors } = require('celebrate');
 
 // initialize bugsnag
 const bugsnag = require('@bugsnag/js');
@@ -12,9 +12,11 @@ let bugsnagClient;
 let bugsnagMiddleware;
 
 if (process.env.NODE_ENV === 'production') {
+  bugsnagClient = bugsnag(keys.bugSnagApiKey);
+  bugsnagMiddleware = bugsnagClient.getPlugin('express');
+
   bugsnag(keys.bugSnagApiKey);
   bugsnagClient.use(bugsnagExpress);
-  bugsnagMiddleware = bugsnagClient.getPlugin('express');
 }
 // initialize and start mongodb
 require('./services/mongoDB')(process);
