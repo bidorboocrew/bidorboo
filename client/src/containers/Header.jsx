@@ -133,7 +133,7 @@ class Header extends React.Component {
     const {
       isHamburgerOpen,
       isProfileMenuActive,
-      isNotificationMenuActive,
+      // isNotificationMenuActive,
       activeNavBarMenuId,
     } = this.state;
 

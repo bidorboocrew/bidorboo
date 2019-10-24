@@ -51,7 +51,13 @@ class BidderRootPage extends React.Component {
 
     if (this.props.isLoggedIn && prevProps.isLoggedIn !== this.props.isLoggedIn) {
       const userLastStoredSearchParams = userDetails && userDetails.lastSearch;
-      if (userLastStoredSearchParams) {
+      if (
+        userLastStoredSearchParams &&
+        userLastStoredSearchParams.location &&
+        userLastStoredSearchParams.addressText &&
+        userLastStoredSearchParams.searchRadius &&
+        userLastStoredSearchParams.coordinates
+      ) {
         const { searchRadius, location, addressText, tasksTypeFilter } = userLastStoredSearchParams;
         const { coordinates } = location;
 
@@ -90,7 +96,13 @@ class BidderRootPage extends React.Component {
 
     if (isLoggedIn) {
       const userLastStoredSearchParams = userDetails && userDetails.lastSearch;
-      if (userLastStoredSearchParams) {
+      if (
+        userLastStoredSearchParams &&
+        userLastStoredSearchParams.location &&
+        userLastStoredSearchParams.addressText &&
+        userLastStoredSearchParams.searchRadius &&
+        userLastStoredSearchParams.coordinates
+      ) {
         const { searchRadius, location, addressText, tasksTypeFilter } = userLastStoredSearchParams;
         const { coordinates } = location;
 
