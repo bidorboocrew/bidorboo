@@ -11,7 +11,7 @@ export default class TermsOfService extends React.Component {
             </h1>
             <div style={{ textAlign: 'left' }}>
               <div className="group">
-                <label className="label">BIDORBOO Terms of Service</label>
+                <label className="label">BIDORBOO INC Terms of Service</label>
                 <div className="help">Last updated: Nov 1, 2019</div>
               </div>
               <p>
@@ -35,12 +35,11 @@ export default class TermsOfService extends React.Component {
               <br></br>
               <p>
                 Your use of the BIDORBOO Platform constitutes your acceptance of and agreement to
-                all of the terms and conditions in these Terms of Service, the Privacy Policy, the
-                BIDORBOO Happiness Pledge (the “Happiness Pledge”), and any future amendments and
-                additions to this Agreement (as defined below) as we may publish from time to time.
-                The Privacy Policy and the Happiness Pledge are incorporated by reference into these
-                Terms of Service and together form and are hereinafter referred to as this
-                “Agreement”.
+                all of the terms and conditions in these Terms of Service, the Privacy Policy, and
+                any future amendments and additions to this Agreement (as defined below) as we may
+                publish from time to time. The Privacy Policy and the Happiness Pledge are
+                incorporated by reference into these Terms of Service and together form and are
+                hereinafter referred to as this “Agreement”.
               </p>
               <br></br>
               <p>
@@ -63,8 +62,8 @@ export default class TermsOfService extends React.Component {
               <p>
                 Your use of the BIDORBOO Platform in a country other than the country in which you
                 register constitutes your acceptance of and agreement to all of the terms and
-                conditions in the Terms of Service, the Privacy Policy, and the BIDORBOO Happiness
-                Pledge for that country. See complete list of terms by country here.
+                conditions in the Terms of Service, the Privacy Policy for that country. See
+                complete list of terms by country here.
               </p>
               <br></br>
               <p>
@@ -720,15 +719,15 @@ export default class TermsOfService extends React.Component {
                 grant BIDORBOO a license to use. Proprietary Material is protected in all forms,
                 media and technologies now known or hereinafter developed. BIDORBOO owns all
                 Proprietary Material, as well as the coordination, selection, arrangement and
-                enhancement of such Proprietary Materials as a Collective Work under the United
-                States Copyright Act, as amended. The Proprietary Material is protected by the
-                domestic and international laws governing copyright, patents, and other proprietary
-                rights. Users may not copy, download, use, redesign, reconfigure, or retransmit
-                anything from the BIDORBOO Platform without BIDORBOO’s express prior written consent
-                and, if applicable, the holder of the rights to the User Generated Content. Any use
-                of such Proprietary Material, other than as permitted therein, is expressly
-                prohibited without the prior permission of BIDORBOO and, if applicable, the holder
-                of the rights to the User Generated Content.
+                enhancement of such Proprietary Materials as a Collective Work under the Canada
+                Copyright Act, as amended. The Proprietary Material is protected by the domestic and
+                international laws governing copyright, patents, and other proprietary rights. Users
+                may not copy, download, use, redesign, reconfigure, or retransmit anything from the
+                BIDORBOO Platform without BIDORBOO’s express prior written consent and, if
+                applicable, the holder of the rights to the User Generated Content. Any use of such
+                Proprietary Material, other than as permitted therein, is expressly prohibited
+                without the prior permission of BIDORBOO and, if applicable, the holder of the
+                rights to the User Generated Content.
                 <br></br>
                 The service marks and trademarks of BIDORBOO, including without limitation BIDORBOO
                 and BIDORBOO logos, are service marks owned by BIDORBOO. Any other trademarks,
@@ -919,13 +918,10 @@ export default class TermsOfService extends React.Component {
               <br></br>
               <p>
                 19. Dispute Resolution – Arbitration & Class Action Waiver (Canada Users) USERS
-                RESIDING IN THE UNITED STATES: PLEASE READ THIS SECTION CAREFULLY — IT AFFECTS YOUR
-                LEGAL RIGHTS AND GOVERNS HOW YOU AND BIDORBOO CAN BRING CLAIMS AGAINST EACH OTHER.
-                THIS SECTION WILL, WITH LIMITED EXCEPTION, REQUIRE YOU AND BIDORBOO TO SUBMIT CLAIMS
+                RESIDING IN THE CANADA: PLEASE READ THIS SECTION CAREFULLY — IT AFFECTS YOUR LEGAL
+                RIGHTS AND GOVERNS HOW YOU AND BIDORBOO CAN BRING CLAIMS AGAINST EACH OTHER. THIS
+                SECTION WILL, WITH LIMITED EXCEPTION, REQUIRE YOU AND BIDORBOO TO SUBMIT CLAIMS
                 AGAINST EACH OTHER TO BINDING AND FINAL ARBITRATION ON AN INDIVIDUAL BASIS.
-                <br></br>
-                SECTION 19 DOES NOT APPLY TO USERS RESIDING IN CANADA, AND USERS RESIDING IN CANADA
-                AND BIDORBOO AGREE THAT SECTION 20 SHALL APPLY INSTEAD.
                 <br></br>
                 (a) Informal Negotiations
                 <br></br>
@@ -1189,69 +1185,15 @@ export default class TermsOfService extends React.Component {
               </p>
               <br></br>
               <p>
-                20. Dispute Resolution – Arbitration & Class Action Waiver (Canadian Users) USERS
-                RESIDING IN CANADA: PLEASE READ THIS SECTION CAREFULLY — IT AFFECTS YOUR LEGAL
-                RIGHTS AND GOVERNS HOW YOU AND BIDORBOO CAN BRING CLAIMS AGAINST EACH OTHER. THIS
-                SECTION WILL, WITH LIMITED EXCEPTIONS, REQUIRE YOU AND BIDORBOO TO SUBMIT CLAIMS
-                AGAINST EACH OTHER TO BINDING AND FINAL ARBITRATION ON AN INDIVIDUAL BASIS.
-                <br></br>
-                SECTION 20 DOES NOT APPLY TO USERS RESIDING IN THE UNITED STATES, AND USERS RESIDING
-                IN THE UNITED STATES AND BIDORBOO AGREE THAT SECTION 19 SHALL APPLY INSTEAD.
-                <br></br>
-                The validity, interpretation, construction, and performance of these Terms shall be
-                governed by the laws of the province or territory in which you reside.
-                <br></br>
-                Except where prohibited by law, any controversy, claim or dispute arising out of,
-                relating to, or in respect of these Terms, including their negotiation, validity,
-                existence, breach, termination, construction or application, or the rights, duties
-                or obligations of any party, or the rights, duties or obligations of any party
-                derived from or associated with these Terms (a “Dispute”), shall be referred to and
-                determined by a single arbitrator in a final and binding arbitration administered
-                under the rules of ADR Institute of Canada, Inc.’s Arbitration Rules. If the parties
-                have not agreed upon an arbitrator within 14 days, unless otherwise agreed by the
-                parties in writing, the parties shall ask the ADR Institute of Canada, Inc. to
-                appoint a single arbitrator. For greater certainty, neither Taskers nor Clients
-                shall commence or participate in a class proceeding or other aggregate action in
-                respect of any Dispute, except and to the extent that provincial consumer protection
-                legislation expressly preserves such an entitlement in the context of the particular
-                Dispute.
-                <br></br>
-                The seat of the arbitration shall be the same as the provincial or territorial law
-                governing these Terms. The arbitration shall be heard in the capital of the seat,
-                unless the parties agree otherwise. The costs and expenses of the arbitrator shall
-                be shared equally between the parties. A party to the arbitration has no right of
-                appeal from any award of the Arbitrator, whether characterized as final, interim,
-                interlocutory or partial.
-                <br></br>
-                All Disputes referred to arbitration (including the scope of the agreement to
-                arbitrate, the law relating to the enforcement of the agreement to arbitrate, any
-                relevant limitation periods, the law governing the procedure of the arbitration, the
-                law relating to available remedies, set-off claims and conflict of laws rules) shall
-                be governed by the law of the seat. Each party hereby irrevocably consents to venue
-                in the capital of the seat, and to the jurisdiction of competent courts in the
-                capital of the seat for all litigation that may be brought, however it is agreed and
-                acknowledged that the intention of the parties is to arbitrate the Dispute without
-                recourse to the courts.
-                <br></br>A party to these Terms may take such steps as are permitted or required to
-                enforce an award made by an Arbitrator. Except as required by law, and only to the
-                extent that such disclosure is reasonably necessary, or for the purposes of
-                obtaining professional advice, the existence of the arbitration and any element of
-                the arbitration, including any award, shall be confidential and shall not be
-                disclosed to any non-party to the arbitration. No document or other evidence or
-                information prepared for or produced by or on behalf of any party to the arbitration
-                shall be disclosed to any non-party to the arbitration.
-              </p>
-              <br></br>
-              <p>
                 21. Governing Law
                 <br></br>
-                USERS RESIDING IN CANADA: Except as provided in Section 20 or expressly provided
-                otherwise, this Agreement and your use of the BIDORBOO Platform will be governed by,
-                and will be construed under, the laws of the Province of Ontario, without regard to
-                choice of law principles. This choice of law provision is only intended to specify
-                the use of Ontario law to interpret this Agreement and is not intended to create any
-                substantive right to non-residents of Ontario to assert claims under Ontario law
-                whether by statute, common law, or otherwise.
+                USERS RESIDING IN CANADA: Except provided otherwise, this Agreement and your use of
+                the BIDORBOO Platform will be governed by, and will be construed under, the laws of
+                the Province of Ontario, without regard to choice of law principles. This choice of
+                law provision is only intended to specify the use of Ontario law to interpret this
+                Agreement and is not intended to create any substantive right to non-residents of
+                Ontario to assert claims under Ontario law whether by statute, common law, or
+                otherwise.
               </p>
               <br></br>
               <p>
