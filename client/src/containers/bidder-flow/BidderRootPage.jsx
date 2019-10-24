@@ -213,7 +213,7 @@ class BidderRootPage extends React.Component {
 
     return (
       <>
-        {!taskerCanBid && (
+        {isLoggedIn && !taskerCanBid && (
           <section className="hero is-warning is-small">
             <div className="hero-body">
               <div className="container">
@@ -234,7 +234,7 @@ class BidderRootPage extends React.Component {
                   <span className="icon">
                     <i className="far fa-credit-card" aria-hidden="true" />
                   </span>
-                  <span>ADD YOUR PAYOUT BANKING</span>
+                  <span>ADD YOUR PAYOUT DETAILS</span>
                 </button>
                 <div className="help has-text-dark">*Registration will take ~5 minutes</div>
               </div>
