@@ -271,9 +271,7 @@ class SetupYourProfileFormSteps extends React.Component {
   };
   render() {
     const { currentStep } = this.state;
-    const { displayName, updateProfileDetails, userDetails } = this.props;
-
-    const { hasAgreedToTOS, tosError } = this.state;
+    const { updateProfileDetails, userDetails } = this.props;
 
     const { email, phone } = userDetails;
 

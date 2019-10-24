@@ -106,6 +106,7 @@ module.exports = (app) => {
     async (req, res, next) => {
       try {
         const userId = req.user.userId;
+        const { code } = req.body.data;
 
         const user = await userDataAccess.findOneByUserId(req.user.userId);
         const { status } = await sendTextService.verifyPhoneCode(user.phone.phoneNumber, code);

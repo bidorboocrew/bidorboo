@@ -57,11 +57,7 @@ class VerifyPhoneButton extends React.Component {
               <div className="modal-card">
                 <header className="modal-card-head">
                   <div className="modal-card-title">Verify Your Phone</div>
-                  <button
-                    onClick={this.toggleEnterPinDialog}
-                    className="delete"
-                    aria-label="close"
-                  />
+                  <button onClick={this.toggleEnterPinDialog} />
                 </header>
                 <section className="modal-card-body">
                   <div className="content">
