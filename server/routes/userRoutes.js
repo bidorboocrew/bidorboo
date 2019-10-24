@@ -8,7 +8,6 @@ const requireLogin = require('../middleware/requireLogin');
 const utils = require('../utils/utilities');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
 
-
 const {
   resetPasswordReqSchema,
   verifyViaCode,
@@ -427,7 +426,10 @@ module.exports = (app) => {
           filesList[0].path,
           {
             folder: `profilePic`,
-            transformation: [{ gravity: 'face', width: 150, height: 150, crop: 'thumb' }],
+            transformation: [
+              { gravity: 'face', width: 150, height: 150, crop: 'thumb' },
+              { quality: 'auto' },
+            ],
           },
           updateUserWithNewProfileImg
         );

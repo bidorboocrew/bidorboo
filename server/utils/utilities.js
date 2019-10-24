@@ -32,6 +32,7 @@ exports.uploadFileToCloudinary = async (filePath, options, callbackFunc) => {
         resolve(true);
       });
     } catch (e) {
+      console.log('BIDORBOO_ERROR: filed to uplod to cloudinary ' + JSON.stringify(e));
       reject(e);
     } finally {
       // delete temporary intermediate file stored in TEMP_FILE_STORAGE
@@ -43,8 +44,9 @@ exports.uploadFileToCloudinary = async (filePath, options, callbackFunc) => {
         callbackFunc && callbackFunc(null, null);
       } catch (e) {
         console.log(
-          `BIDORBOOLOGGING: file at  (${filePath}) was not deleted successfully due to (${e})`
+          'BIDORBOO_ERROR: file at  (${filePath}) was not deleted successfully ' + JSON.stringify(e)
         );
+
         reject(e);
       }
     }

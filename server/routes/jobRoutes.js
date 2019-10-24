@@ -213,6 +213,7 @@ module.exports = (app) => {
               file.path,
               {
                 folder: `${mongoUser_id}/ReqestsImages`,
+                transformation: [{ quality: 'auto' }],
               },
               callbackFunc
             )
