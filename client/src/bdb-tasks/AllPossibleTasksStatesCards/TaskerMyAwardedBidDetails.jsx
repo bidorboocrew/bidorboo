@@ -412,7 +412,7 @@ class TaskerConfirmsCompletion extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <br></br>
+        <br></br> <br></br>
         <a onClick={this.toggleModal} className="button is-success">
           I've Completed This Task
         </a>
