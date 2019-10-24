@@ -8,13 +8,8 @@ const keys = require('./config/keys');
 // initialize bugsnag
 const bugsnag = require('@bugsnag/js');
 const bugsnagExpress = require('@bugsnag/plugin-express');
-let bugsnagClient;
-let bugsnagMiddleware;
-
-bugsnagClient = bugsnag(keys.bugSnagApiKey);
-bugsnagMiddleware = bugsnagClient.getPlugin('express');
-
-bugsnag(keys.bugSnagApiKey);
+let bugsnagClient = bugsnag(keys.bugSnagApiKey);
+let bugsnagMiddleware = bugsnagClient.getPlugin('express');
 bugsnagClient.use(bugsnagExpress);
 
 // initialize and start mongodb
