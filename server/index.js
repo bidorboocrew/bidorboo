@@ -8,8 +8,7 @@ const keys = require('./config/keys');
 // initialize bugsnag
 const bugsnag = require('@bugsnag/js');
 const bugsnagExpress = require('@bugsnag/plugin-express');
-let bugsnagClient = bugsnag(keys.bugSnagApiKey);
-let bugsnagMiddleware = bugsnagClient.getPlugin('express');
+const bugsnagClient = bugsnag(keys.bugSnagApiKey);
 bugsnagClient.use(bugsnagExpress);
 
 // initialize and start mongodb
@@ -17,6 +16,8 @@ require('./services/mongoDB')(process);
 require('./services/passport');
 
 const app = express();
+const bugsnagMiddleware = bugsnagClient.getPlugin('express');
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
 
