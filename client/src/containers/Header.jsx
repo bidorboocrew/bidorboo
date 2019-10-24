@@ -246,7 +246,7 @@ class Header extends React.Component {
           <div className=" navbar-item">
             <a
               style={{ borderRadius: 2, fontWeight: 400 }}
-              className="button is-success"
+              className="button is-success is-small"
               onClick={(e) => {
                 this.toggleLoginDialog();
               }}
