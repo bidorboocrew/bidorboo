@@ -438,8 +438,10 @@ exports.jobDataAccess = {
                       // application fee is refunded at a rate proportional to the refund amount
                       //  so
                       const ratioOfRefund = refund.amount / amount;
+                      const amountRefundedFromApplicationFee = ratioOfRefund * applicationFeeAmount;
                       const actualKeptBidOrBooApplicationFees =
-                        ratioOfRefund * applicationFeeAmount;
+                        applicationFeeAmount - amountRefundedFromApplicationFee;
+
                       taskerPayout = amount - refund.amount - actualKeptBidOrBooApplicationFees;
                     } else if (refund && refund.status !== 'succeeded') {
                       console.log(
