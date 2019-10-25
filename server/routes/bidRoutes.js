@@ -1,6 +1,8 @@
 const { bidDataAccess } = require('../data-access/bidDataAccess');
 const requireUserHasNotAlreadyBidOnJob = require('../middleware/requireUserHasNotAlreadyBidOnJob');
 const requireUserCanBid = require('../middleware/requireUserCanBid');
+const requirePassYouCantBidOnYouOwnRequest = require('../middleware/requirePassYouCantBidOnYouOwnRequest');
+
 const requireJobIsNotAwarded = require('../middleware/requireJobIsNotAwarded');
 const ROUTES = require('../backend-route-constants');
 
@@ -102,6 +104,7 @@ module.exports = (app) => {
   app.post(
     ROUTES.API.BID.POST.bid,
     requireLogin,
+    requirePassYouCantBidOnYouOwnRequest,
     requireUserCanBid,
     requireJobIsNotAwarded,
     requireUserHasNotAlreadyBidOnJob,

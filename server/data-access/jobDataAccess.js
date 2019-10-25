@@ -1289,7 +1289,7 @@ exports.jobDataAccess = {
     return new Promise(async (resolve, reject) => {
       try {
         let searchQuery = {
-          // userId: { $not: { $in: [userId] } },
+          userId: { $not: { $in: [userId] } },
           'email.isVerified': { $eq: true },
           'notifications.newPostedTasks': { $eq: true },
           lastSearch: { $exists: true },
