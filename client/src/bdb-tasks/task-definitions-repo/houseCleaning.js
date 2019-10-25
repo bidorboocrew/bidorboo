@@ -9,9 +9,9 @@ export default {
   ICON: 'fas fa-home',
   IMG: houseCleaning_img,
   DESCRIPTION: `Does your place need a cleaning ? Let our Taskers clean your space.`,
-  SUGGESTION_TEXT: `(1/2)Do you have pets in the house?
+  SUGGESTION_TEXT: `Q1)Do you have pets in the house?
 [Answer here:   ]
-(2/2)Will the tasker be required to move heavy items (couch-beds-fridge) ?
+Q2)Will the tasker be required to move heavy items (couch-beds-fridge) ?
 [Answer here:   ]
 `,
   defaultExtrasValues: {

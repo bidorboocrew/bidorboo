@@ -11,12 +11,12 @@ export default {
   ICON: 'fas fa-car',
   IMG: carDetailing_img,
   DESCRIPTION: `Does your car need thourough cleaning ? let our Taskers pamper your car`,
-  SUGGESTION_TEXT: `*What Year Make and model is your car?
-
-*Any particular stains or dirt that you want to make the tasker aware of ?
-
-*Is there any pet stains or hair on the seats ?
-
+  SUGGESTION_TEXT: `Q1)What Year Make and model is your car?
+[Answer here:   ]
+Q2)Is there any pet stains or hair on the seats ?
+[Answer here:   ]
+Q3)Any particular stains or dirt that you want to mention?
+[Answer here:   ]
 `,
   TASK_EXPECTATIONS: `BIDORBOO Tasker will bring the cleaning products and equipments required to clean your car thouroughally`,
   defaultExtrasValues: {

@@ -11,9 +11,8 @@ export default {
   ICON: '',
   IMG: dogWalking_img,
   DESCRIPTION: `Do you need someone to care for your Pet while you are away or on a night out? Leave your pet in the gentle care of our pet loving Taskers.`,
-  SUGGESTION_TEXT: `*What kind of pet? (Dog, Cat, Fish, Lizard ...others) ?
-
-*Does your pet have any special needs (medicines, allergies, physical issues ...etc)?
+  SUGGESTION_TEXT: `Q1)What kind/breed of pet ?
+[Answer here:   ]
 `,
   defaultExtrasValues: {
     duration: '',
