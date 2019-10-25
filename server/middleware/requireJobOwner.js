@@ -2,24 +2,26 @@ const { jobDataAccess } = require('../data-access/jobDataAccess');
 
 module.exports = async (req, res, next) => {
   try {
-    //in the future redirect to login page
-    const { jobId } = req.body.data;
-    if (!jobId) {
-      return res.status(403).send({
-        errorMsg: 'missing paramerters jobId ',
-      });
-    }
+    if (req.user && req.user.userId) {
+      //in the future redirect to login page
+      const { jobId } = req.body.data;
+      if (!jobId) {
+        return res.status(403).send({
+          errorMsg: 'missing paramerters jobId . can not confirm that you are the Job Owner.',
+        });
+      }
 
-    const userId = req.user._id.toString();
-    const jobOwner = await jobDataAccess.isJobOwner(userId, jobId);
-    if (jobOwner && jobOwner._id) {
-      return res.status(403).send({ errorMsg: "You can't bid on your own request." });
+      const userId = req.user._id.toString();
+      const jobOwner = await jobDataAccess.isJobOwner(userId, jobId);
+      if (jobOwner && jobOwner._id) {
+        next();
+      } else {
+        return res.status(403).send({ errorMsg: 'only the Job Owner can perform this operation.' });
+      }
     } else {
-      next();
+      return res.status(403).send({ errorMsg: 'only the Job Owner can perform this operation.' });
     }
   } catch (e) {
-    return res
-      .status(400)
-      .send({ errorMsg: 'failed to validate request owner details', details: `${e}` });
+    return res.status(400).send({ errorMsg: 'failed to validate is jobOwner', details: `${e}` });
   }
 };
