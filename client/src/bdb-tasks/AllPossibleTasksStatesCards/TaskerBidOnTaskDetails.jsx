@@ -10,6 +10,7 @@ import {
   SummaryStartDateAndTime,
   CenteredUserImageAndRating,
   LocationLabelAndValue,
+  DestinationAddressValue,
   CardTitleAndActionsInfo,
   TaskSpecificExtras,
   JobCardTitle,
@@ -126,6 +127,11 @@ export default class TaskerBidOnTaskDetails extends React.Component {
                 </div>
                 <LocationLabelAndValue location={coordinates} />
 
+                {extras && extras.destinationText && (
+                  <DestinationAddressValue
+                    destionationAddress={extras.destinationText}
+                  ></DestinationAddressValue>
+                )}
                 <TaskSpecificExtras templateId={ID} extras={extras} />
                 <div className="group">
                   <label className="label hasSelectedValue">Detailed Description</label>

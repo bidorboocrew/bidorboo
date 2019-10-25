@@ -16,9 +16,11 @@ import {
   TaskCost,
   TaskSpecificExtras,
   ArchiveTask,
+  DestinationAddressValue,
   JobCardTitle,
   SummaryStartDateAndTime,
-  TaskIsFulfilled,TaskImagesCarousel
+  TaskIsFulfilled,
+  TaskImagesCarousel,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -124,6 +126,11 @@ class RequesterDoneDetails extends RequestBaseContainer {
                 <div className="has-text-left">
                   <TaskCost cost={bidValue} />
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
+                  {extras && extras.destinationText && (
+                    <DestinationAddressValue
+                      destionationAddress={extras.destinationText}
+                    ></DestinationAddressValue>
+                  )}
                   <TaskSpecificExtras templateId={ID} extras={extras} />
                   <div className="group">
                     <label className="label hasSelectedValue">Detailed Description</label>

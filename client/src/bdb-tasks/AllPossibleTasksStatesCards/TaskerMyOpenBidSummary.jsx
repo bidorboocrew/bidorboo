@@ -86,7 +86,6 @@ class TaskerMyOpenBidSummary extends React.Component {
               </React.Fragment>
             )}
 
-            {/* <LocationLabelAndValue location={coordinates} useShortAddress /> */}
           </div>
         </div>
         {renderFooter({ bid, isPastDue, isAwardedToSomeoneElse })}

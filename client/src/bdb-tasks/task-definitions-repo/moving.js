@@ -60,7 +60,7 @@ Q2)Any items that require extreme caution or care ?
       .ensure()
       .trim()
       .oneOf(
-        ['No, no car needed', 'Yes, Any car is good', 'Yes, must have an SUV'],
+        ['No car is needed', 'A car is required', 'Must have an SUV'],
         "*Please select tasker's car requirement from the drop down",
       )
       .required('*Please select the number of bathroom that require cleaning'),
@@ -68,7 +68,7 @@ Q2)Any items that require extreme caution or care ?
       .ensure()
       .trim()
       .oneOf(
-        ['Yes (trolly provided)', 'No (trolly not provided)'],
+        ['Trolly will be provided by requester', 'No trolly'],
         '*Please select an option from the drop down',
       )
       .required('*Please specify if trolly will be provided'),
@@ -77,9 +77,9 @@ Q2)Any items that require extreme caution or care ?
       .trim()
       .oneOf(
         [
-          'Yes (requester will provide tools)',
-          'No (Tasker is required to bring tools)',
-          'Optional (Tasker should bring tools to speed things up)',
+          'Requester will provide tools',
+          'Tasker is required to bring tools',
+          '(optional) Tasker may bring some tools',
         ],
         '*Please select an option from the drop down',
       )
@@ -264,7 +264,7 @@ Q2)Any items that require extreme caution or care ?
                 className={`group ${isTouched && errors.requiresTaskerWithCar ? 'isError' : ''}`}
               >
                 <label className={requiresTaskerWithCarClass}>
-                  {"Do you require tasker's car for the move?"}
+                  {'Do you require tasker to have a car?'}
                 </label>
                 <div>
                   <div className={`select ${requiresTaskerWithCarClass} `}>
@@ -275,9 +275,9 @@ Q2)Any items that require extreme caution or care ?
                       onBlur={handleBlur}
                     >
                       <option value="noSelection">-Select One-</option>
-                      <option value="No, no car needed">No, no car needed</option>
-                      <option value="Yes, Any car is good">Yes, Any car is good</option>
-                      <option value="Yes, must have an SUV">Yes, must have an SUV</option>
+                      <option value="No car is needed">No car is needed</option>
+                      <option value="A car is required">A car is required</option>
+                      <option value="Must have an SUV">Must have an SUV</option>
                     </select>
                     {isTouched && errors.requiresTaskerWithCar && (
                       <div className="help is-danger">{errors.requiresTaskerWithCar}</div>
@@ -291,9 +291,7 @@ Q2)Any items that require extreme caution or care ?
         renderSelection: (requiresTaskerWithCar) => {
           return (
             <div key={'extras-requiresTaskerWithCar'} className="group">
-              <label className="label hasSelectedValue">
-                Do you require tasker's car for the move
-              </label>
+              <label className="label hasSelectedValue">Is tasker required to have a car?</label>
               <div className="control">{requiresTaskerWithCar}</div>
             </div>
           );
@@ -322,14 +320,14 @@ Q2)Any items that require extreme caution or care ?
                       onBlur={handleBlur}
                     >
                       <option value="noSelection">-Select One-</option>
-                      <option value="Yes (requester will provide tools)">
+                      <option value="Requester will provide tools">
                         Yes (requester will provide tools)
                       </option>
-                      <option value="No (Tasker is required to bring tools)">
+                      <option value="Tasker is required to bring tools">
                         No (Tasker is required to bring tools)
                       </option>
-                      <option value="Optional (Tasker should bring tools to speed things up)">
-                        Optional (Tasker should bring tools to speed things up)
+                      <option value="(optional) Tasker may bring some tools">
+                        Optional (Tasker may bring some tools)
                       </option>
                     </select>
                     {isTouched && errors.toolsForDisassembly && (
@@ -345,7 +343,7 @@ Q2)Any items that require extreme caution or care ?
           return (
             <div key={'extras-toolsForDisassembly'} className="group">
               <label className="label hasSelectedValue">
-                Will requester provide tools for furniture assembly/disassembly?
+                Who will provide tools for furniture assembly/disassembly?
               </label>
               <div className="control">{toolsForDisassembly}</div>
             </div>
@@ -375,8 +373,10 @@ Q2)Any items that require extreme caution or care ?
                       onBlur={handleBlur}
                     >
                       <option value="noSelection">-Select One-</option>
-                      <option value="Yes (trolly provided)">Yes (trolly provided)</option>
-                      <option value="No (trolly not provided)">No (trolly not provided)</option>
+                      <option value="Trolly will be provided by requester">
+                        Yes (trolly is provided)
+                      </option>
+                      <option value="No trolly">No</option>
                     </select>
                     {isTouched && errors.trollyProvided && (
                       <div className="help is-danger">{errors.trollyProvided}</div>
@@ -391,7 +391,7 @@ Q2)Any items that require extreme caution or care ?
           return (
             <div key={'extras-trollyProvided'} className="group">
               <label className="label hasSelectedValue">
-                Will requester provide trolly for the move
+                Will requester provide trolly for the move?
               </label>
               <div className="control">{trollyProvided}</div>
             </div>

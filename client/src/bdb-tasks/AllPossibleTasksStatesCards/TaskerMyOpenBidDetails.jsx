@@ -13,6 +13,7 @@ import {
   CenteredUserImageAndRating,
   AvgBidDisplayLabelAndValue,
   LocationLabelAndValue,
+  DestinationAddressValue,
   TaskSpecificExtras,
   SummaryStartDateAndTime,
   BSawaitingOnRequester,
@@ -244,7 +245,11 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                   </div>
                   <TaskSpecificExtras templateId={ID} extras={extras} />
                   <LocationLabelAndValue location={location.coordinates} />
-
+                  {extras && extras.destinationText && (
+                    <DestinationAddressValue
+                      destionationAddress={extras.destinationText}
+                    ></DestinationAddressValue>
+                  )}
                   <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
 
                   <div className="group">

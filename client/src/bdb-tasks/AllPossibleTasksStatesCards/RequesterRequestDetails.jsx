@@ -10,6 +10,7 @@ import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 import {
   DisplayLabelValue,
+  DestinationAddressValue,
   CountDownComponent,
   TaskSpecificExtras,
   SummaryStartDateAndTime,
@@ -221,7 +222,11 @@ class RequesterRequestDetails extends React.Component {
               <Collapse isOpened={showMore}>
                 <div className="has-text-left">
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
-
+                  {extras && extras.destinationText && (
+                    <DestinationAddressValue
+                      destionationAddress={extras.destinationText}
+                    ></DestinationAddressValue>
+                  )}
                   <TaskSpecificExtras templateId={ID} extras={extras} />
                   <div className="group">
                     <label className="label hasSelectedValue">Detailed Description</label>

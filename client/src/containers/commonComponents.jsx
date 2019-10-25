@@ -396,6 +396,18 @@ export const StartDateAndTime = ({ date, renderHelpComponent }) => {
   );
 };
 
+export class DestinationAddressValue extends React.Component {
+  render() {
+    return (
+      <div className="group">
+        <label className="label hasSelectedValue">Destination Near</label>
+        <div className="control">{this.props.destionationAddress}</div>
+        <p className="help">*This is an approximate location</p>
+      </div>
+    );
+  }
+}
+
 export class LocationLabelAndValue extends React.Component {
   constructor(props) {
     super(props);
@@ -466,7 +478,7 @@ export class LocationLabelAndValue extends React.Component {
                   });
                 }
               } catch (e) {
-                console.error('error '+e);
+                console.error('error ' + e);
               }
             }
           }
