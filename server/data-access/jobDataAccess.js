@@ -21,6 +21,7 @@ const templateIdToDisplayName = {
   bdbHouseCleaning: 'House Cleaning',
   bdbCarDetailing: 'Car Detailing',
   bdbPetSittingWalking: 'Pet Sitting/Walking',
+  bdbMoving: 'Moving/Lifting Helpers',
 };
 exports.jobDataAccess = {
   BidOrBooAdmin: {

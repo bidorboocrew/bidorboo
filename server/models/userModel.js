@@ -151,8 +151,8 @@ const UserSchema = new Schema(
       tasksTypeFilter: [
         {
           type: String,
-          enum: ['bdbHouseCleaning', 'bdbCarDetailing', 'bdbPetSittingWalking'],
-          default: ['bdbHouseCleaning', 'bdbCarDetailing', 'bdbPetSittingWalking'],
+          enum: ['bdbHouseCleaning', 'bdbCarDetailing', 'bdbPetSittingWalking', 'bdbMoving'],
+          default: ['bdbHouseCleaning', 'bdbCarDetailing', 'bdbPetSittingWalking', 'bdbMoving'],
         },
       ],
     },

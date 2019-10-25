@@ -107,7 +107,7 @@ exports.agreeToTosReq = {
 //         .items(
 //           Joi.string()
 //             .trim()
-//             .valid(['bdbHouseCleaning', 'bdbCarDetailing', 'bdbPetSittingWalking'])
+//             .valid(['bdbHouseCleaning', 'bdbCarDetailing', 'bdbPetSittingWalking','bdbMoving'])
 //         )
 //         .error(() => {
 //           return {

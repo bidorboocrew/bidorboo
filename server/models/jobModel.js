@@ -114,7 +114,7 @@ const JobSchema = new Schema(
       type: String,
       trim: true,
       required: true,
-      enum: ['bdbCarDetailing', 'bdbHouseCleaning', 'bdbPetSittingWalking'],
+      enum: ['bdbCarDetailing', 'bdbHouseCleaning', 'bdbPetSittingWalking', 'bdbMoving'],
     },
     reported: { type: Number },
     payoutDetails: {

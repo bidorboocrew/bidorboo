@@ -20,6 +20,7 @@ export default {
     requiresWalking: 'noSelection',
     dietaryRestrictions: '',
   },
+  requiresDestinationField: false,
   extraValidationSchema: {
     isRequesterHosting: Yup.string()
       .ensure()

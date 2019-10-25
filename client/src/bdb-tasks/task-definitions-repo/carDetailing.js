@@ -24,6 +24,7 @@ Q3)Any particular stains or dirt that you want to mention?
     interiorType: NO_SELECTION,
     trunkCleaning: NO_SELECTION,
   },
+  requiresDestinationField: false,
   extraValidationSchema: {
     carSize: Yup.string()
       .ensure()

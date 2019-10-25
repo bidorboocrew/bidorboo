@@ -79,7 +79,8 @@ exports.detroyExistingImg = async (public_id) => {
 // });
 
 exports.jobTemplateIdToDefinitionObjectMapper = {
-  [`${jobTemplatesDefinitions.HOUSE_CLEANING_DEF.ID}`]: jobTemplatesDefinitions.HOUSE_CLEANING_DEF,
-  [`${jobTemplatesDefinitions.CAR_DETAILING_DEF.ID}`]: jobTemplatesDefinitions.CAR_DETAILING_DEF,
-  [`${jobTemplatesDefinitions.PET_CARE_DEF.ID}`]: jobTemplatesDefinitions.PET_CARE_DEF,
+  [`${jobTemplatesDefinitions.bdbHouseCleaning.ID}`]: jobTemplatesDefinitions.bdbHouseCleaning,
+  [`${jobTemplatesDefinitions.bdbCarDetailing.ID}`]: jobTemplatesDefinitions.bdbCarDetailing,
+  [`${jobTemplatesDefinitions.bdbPetSittingWalking.ID}`]: jobTemplatesDefinitions.bdbPetSittingWalking,
+  [`${jobTemplatesDefinitions.bdbMoving.ID}`]: jobTemplatesDefinitions.bdbMoving,
 };

@@ -330,7 +330,12 @@ module.exports = (app) => {
         searchRadius,
         location,
         addressText,
-        tasksTypeFilter = ['bdbHouseCleaning', 'bdbCarDetailing', 'bdbPetSittingWalking'],
+        tasksTypeFilter = [
+          'bdbHouseCleaning',
+          'bdbCarDetailing',
+          'bdbPetSittingWalking',
+          'bdbMoving',
+        ],
       } = searchDetails;
       if (
         !searchRadius ||
