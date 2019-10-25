@@ -134,7 +134,7 @@ export default {
           return (
             <React.Fragment key={'extras-carSize'}>
               <div className={`group ${isTouched && errors.carSize ? 'isError' : ''}`}>
-                <label className={carSizeSelectClass}>{'Approximate Duration'}</label>
+                <label className={carSizeSelectClass}>{'Car size'}</label>
                 <div>
                   <div className={`select ${carSizeSelectClass} `}>
                     <select
@@ -176,7 +176,7 @@ export default {
           }
           return (
             <div key={'extras-carSize'} className="group">
-              <label className="label hasSelectedValue">Car Size</label>
+              <label className="label hasSelectedValue">Car size</label>
               <div className="control">{selectedValue}</div>
             </div>
           );
