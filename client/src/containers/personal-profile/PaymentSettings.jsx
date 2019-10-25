@@ -281,19 +281,25 @@ const EstablishedAccountView = (props) => {
               <div className="tile is-parent">
                 <article className="tile is-child box">
                   <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
-                    {`0$`}
+                    {myStripeAccountDetails.balanceDetails.potentialFuturePayouts &&
+                    myStripeAccountDetails.balanceDetails.potentialFuturePayouts > 0
+                      ? `${myStripeAccountDetails.balanceDetails.potentialFuturePayouts}$`
+                      : `0$`}
                   </p>
-                  <p className="is-size-6">Future Payouts</p>
-                  <p className="help">*on the way to your bank</p>
+                  <p className="is-size-6">Potential Earnings</p>
+                  <p className="help">*To be paid upon tasks completion</p>
                 </article>
               </div>
               <div className="tile is-parent">
                 <article className="tile is-child box">
                   <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
-                    {`0$`}
+                    {myStripeAccountDetails.balanceDetails.pastEarnings &&
+                    myStripeAccountDetails.balanceDetails.pastEarnings > 0
+                      ? `${myStripeAccountDetails.balanceDetails.pastEarnings}$`
+                      : `0$`}
                   </p>
                   <p className="is-size-6">Past Earnings</p>
-                  <p className="help">*already paid out</p>
+                  <p className="help">*Total of all past payouts</p>
                 </article>
               </div>
             </div>
