@@ -10,7 +10,7 @@ export default {
   TITLE: 'Car Detailing',
   ICON: 'fas fa-car',
   IMG: carDetailing_img,
-  DESCRIPTION: `Does your car need thourough cleaning ? let our Taskers pamper your car`,
+  DESCRIPTION: `Your car deserves some love. let our Taskers pamper your car and give it a scrub`,
   SUGGESTION_TEXT: `Q1)What Year Make and model is your car?
 [Answer here:   ]
 Q2)Is there any pet stains or hair on the seats ?
@@ -91,7 +91,7 @@ Q3)Any particular stains or dirt that you want to mention?
                 </h1>
                 {withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
-                    Does your car need thourough cleaning ? let our Taskers pamper your car.
+                    Your car deserves some love. let our Taskers pamper your car and give it a scrub.
                   </p>
                 )}
 

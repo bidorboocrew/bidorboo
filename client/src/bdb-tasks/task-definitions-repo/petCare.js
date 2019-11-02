@@ -7,10 +7,11 @@ import { TextAreaInput, TextInput } from '../../components/forms/FormsHelpers';
 
 export default {
   ID: 'bdbPetSittingWalking',
-  TITLE: 'Pet Sitting/Walking',
+  TITLE: 'Pet Sitting',
   ICON: '',
   IMG: dogWalking_img,
-  DESCRIPTION: `Do you need someone to care for your Pet while you are away or on a night out? Leave your pet in the gentle care of our pet loving Taskers.`,
+  DESCRIPTION: `Do you need someone to care for your pet while you are vacationing or just on a night out?
+  Leave your pet in the gentle care of our pet loving Taskers.`,
   SUGGESTION_TEXT: `Q1)What kind/breed of pet ?
 [Answer here:   ]
 `,
@@ -86,12 +87,12 @@ export default {
             <div className="level-item">
               <div style={{ maxWidth: 320, paddingLeft: '1.5rem' }}>
                 <h1 className="title" style={{ fontWeight: 300, marginBottom: '0.5rem' }}>
-                  Pet Sitting/Walking
+                  Pet Sitting
                 </h1>
                 {withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
-                    Do you need someone to care for your Pet while you are away or on a night out?
-                    Leave your pet in the gentle care of our pet loving Taskers.
+                    Do you need someone to care for your pet while you are vacationing or just on a
+                    night out? Leave your pet in the gentle care of our pet loving Taskers.
                   </p>
                 )}
                 {!withDetails && (

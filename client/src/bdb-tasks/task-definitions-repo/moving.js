@@ -5,7 +5,7 @@ import moving_img from '../../assets/images/moving_img.png';
 
 export default {
   ID: 'bdbMoving',
-  TITLE: 'Moving/Lifting Helpers',
+  TITLE: 'Moving & Lifting',
   ICON: 'fas fa-home',
   IMG: moving_img,
   DESCRIPTION: `Do you need help moving or lifting heavy furniture ? Get our strong taskers to help you out.`,
@@ -125,11 +125,11 @@ Q2)Any items that require extreme caution or care ?
             <div className="level-item">
               <div style={{ maxWidth: 320, paddingLeft: '1.5rem' }}>
                 <h1 className="title" style={{ fontWeight: 300, marginBottom: '0.5rem' }}>
-                  Moving/heavy lifting
+                  Moving & Lifting
                 </h1>
                 {withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
-                    Do you need help moving or lifting heavy furniture ? Get our strong taskers to
+                    Do you need help moving or lifting heavy items? Get our hulk Taskers to
                     help you out.
                   </p>
                 )}

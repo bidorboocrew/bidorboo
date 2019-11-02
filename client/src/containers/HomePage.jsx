@@ -76,7 +76,7 @@ export default class HomePage extends React.Component {
                 <span id="BIDORBOO-welcome-step">BIDORBOO</span>
               </h1>
               <h2 style={{ fontSize: 12 }} className="has-text-white">
-                Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy.
+                Get your chores done for the right price. Earn money doing what you enjoy.
               </h2>
             </div>
           </div>
@@ -192,16 +192,16 @@ const ProvideAService = () => {
 const HowItWorksRequestService = () => {
   return (
     <div>
-      <h1 className="title">Request A Service</h1>
+      <h1 className="title">Request a service</h1>
       <ul>
         <li>
-          <p className="is-size-5">Fill A Request</p>
+          <p className="is-size-5">Fill a request</p>
         </li>
         <li>
-          <p className="is-size-5">Taskers Will Bid</p>
+          <p className="is-size-5">Receive bids</p>
         </li>
         <li>
-          <p className="is-size-5">Choose a Tasker</p>
+          <p className="is-size-5">Choose a tasker</p>
         </li>
       </ul>
     </div>
@@ -211,16 +211,16 @@ const HowItWorksRequestService = () => {
 const HowItWorksProvideService = () => {
   return (
     <div>
-      <h1 className="title">Earn Money</h1>
+      <h1 className="title">Bid on requests</h1>
       <ul>
         <li>
-          <p className="is-size-5">Browse Tasks</p>
+          <p className="is-size-5">Browse tasks</p>
         </li>
         <li>
-          <p className="is-size-5">Place Your Bids</p>
+          <p className="is-size-5">Place your bid</p>
         </li>
         <li>
-          <p className="is-size-5">{`Do it & Get Paid.`}</p>
+          <p className="is-size-5">{`Do it & get paid`}</p>
         </li>
       </ul>
     </div>
