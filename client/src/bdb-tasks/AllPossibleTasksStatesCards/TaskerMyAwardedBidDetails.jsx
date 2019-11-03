@@ -285,18 +285,14 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
           renderActionButton={() => (
             <>
               {bidderConfirmed && !proposerConfirmed && (
-                <a
-                  disabled
-                  onClick={() => null}
-                  className={`button firstButtonInCard nofixedwidth is-success`}
-                >
+                <a disabled onClick={() => null} className={`button is-success`}>
                   <span>Wait For Requester To Review</span>
                 </a>
               )}
               {proposerConfirmed && (
                 <a
                   onClick={() => alert('not implemented but redirect me to review page')}
-                  className={`button firstButtonInCard nofixedwidth is-success`}
+                  className={`button  is-success`}
                 >
                   <span className="icon">
                     <i className="fas fa-user-check" />
@@ -305,14 +301,16 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                 </a>
               )}
               {!proposerConfirmed && !bidderConfirmed && (
-                <div className="firstButtonInCard nofixedwidth">
-                  <TaskerConfirmsCompletion {...this.props} />
-                </div>
+                <TaskerConfirmsCompletion {...this.props} />
               )}
             </>
           )}
           renderAddToCalendar={() => {
-            return !isPastDue && <AddAwardedJobToCalendarForTasker job={job} extraClassName={'is-small'} />;
+            return (
+              !isPastDue && (
+                <AddAwardedJobToCalendarForTasker job={job} extraClassName={'is-small'} />
+              )
+            );
           }}
         />
       </React.Fragment>
@@ -405,17 +403,17 @@ class TaskerConfirmsCompletion extends React.Component {
                     onClick={this.submitConfirmation}
                     className="button is-success"
                   >
-                    Confirm Completion
+                    Confirm Task Completion
                   </button>
                 </footer>
               </div>
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <br></br> <br></br>
         <a onClick={this.toggleModal} className="button is-success">
-          Confirm completion
+          Confirm Task Completion
         </a>
+        <br></br> <br></br>
       </React.Fragment>
     );
   }
@@ -612,18 +610,17 @@ class RequesterDetails extends React.Component {
       >
         <div style={{ paddingTop: 0 }} className="card-content">
           <div className="content has-text-left">
-            <div style={{ background: 'transparent' }} className="tabs is-centered">
+            <div style={{ background: 'transparent' }} className="tabs is-left">
               <ul style={{ marginLeft: 0 }}>
                 <li className="is-active">
                   <a>
-                    <span className="icon is-small">
-                      <i className="fas fa-user-tie" aria-hidden="true" />
-                    </span>
-                    <span>Task Requester</span>
+                    <span>Contact The Requester</span>
                   </a>
                 </li>
               </ul>
             </div>
+            <p>Get in touch to finalize exact details like location to meet, date and time, etc</p>
+
             <CenteredUserImageAndRating
               userDetails={otherUserProfileInfo}
               large
@@ -663,16 +660,25 @@ class RequesterDetails extends React.Component {
                     </a>
                   </div>
                 </div>
-                <div className="help">
-                  *Get in touch to finalize exact details like location to meet, date, time... etc
-                </div>
               </div>
             </div>
             {renderAddToCalendar && renderAddToCalendar()}
             <br />
           </div>
+          <div style={{ background: 'transparent' }} className="tabs is-left">
+            <ul style={{ marginLeft: 0 }}>
+              <li className="is-active">
+                <a>
+                  <span className="icon is-small">
+                    <i className="fa fa-clock" aria-hidden="true" />
+                  </span>
+                  <span>After You Finish The Task</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          {renderActionButton && renderActionButton()}
         </div>
-        {renderActionButton && renderActionButton()}
       </div>
     );
   }
