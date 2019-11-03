@@ -165,7 +165,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                     <span className="icon">
                       <i className="far fa-trash-alt" />
                     </span>
-                    <span>Cancel Agreement</span>
+                    <span>Cancel Appointment</span>
                   </button>
                 </footer>
               </div>

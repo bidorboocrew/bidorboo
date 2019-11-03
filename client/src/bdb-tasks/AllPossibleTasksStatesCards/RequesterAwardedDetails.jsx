@@ -131,7 +131,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
               <div onClick={this.toggleDeleteConfirmationDialog} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <div className="modal-card-title">Cancel Agreement</div>
+                  <div className="modal-card-title">Cancel Appointment</div>
                   <button
                     onClick={this.toggleDeleteConfirmationDialog}
                     className="delete"
@@ -188,7 +188,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                     <span className="icon">
                       <i className="far fa-trash-alt" />
                     </span>
-                    <span>Cancel Agreement</span>
+                    <span>Cancel Appointment</span>
                   </button>
                 </footer>
               </div>

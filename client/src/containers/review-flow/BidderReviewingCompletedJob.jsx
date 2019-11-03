@@ -185,7 +185,7 @@ export class BidderReviewingCompletedJob extends React.Component {
             }}
             value={this.state.personalComment}
             onChange={this.personalCommentOnChange}
-            placeholder="The Requester was accurate in describing thier job and very friendly...etc"
+            placeholder="The Requester was accurate in describing their job and very friendly...etc"
           />
           <div className="help">* note this will be visible to all users</div>
         </div>

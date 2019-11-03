@@ -123,10 +123,10 @@ Q2)Any items that require extreme caution or care ?
                     height: 125,
                     width: 125,
                     objectFit: 'cover',
-                    '-webkit-filter': 'grayscale(100%)',
-                    '-moz-filter': 'grayscale(100%)',
-                    '-o-filter': 'grayscale(100%)',
-                    '-ms-filter': 'grayscale(100%)',
+                    WebkitFilter: 'grayscale(100%)',
+                    MozFilter: 'grayscale(100%)',
+                    OFilter: 'grayscale(100%)',
+                    msFilter: 'grayscale(100%)',
                     filter: 'grayscale(100%)',
                   }}
                 />
@@ -149,7 +149,7 @@ Q2)Any items that require extreme caution or care ?
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
                     BidOrBoo Tasker will help you move or pack if required, but you must be
                     reasonable and have enough people to carry heavier items safely. Moving is never
-                    easy and we want to inform you that While our taskers will do thier best and
+                    easy and we want to inform you that While our taskers will do their best and
                     care for all your valuables while moving HOWEVER It is YOUR responsibility to
                     wrap things well and to inform taskers of any fragile pieces.
                   </p>
@@ -413,7 +413,7 @@ Q2)Any items that require extreme caution or care ?
   },
   TASK_EXPECTATIONS: ` BidOrBoo Tasker will help you move or pack if required, but you must be
   reasonable and have enough people to carry heavier items safely. Moving is never
-  easy and we want to inform you that While our taskers will do thier best and
+  easy and we want to inform you that While our taskers will do their best and
   care for all your valuables while moving HOWEVER It is YOUR responsibility to
   wrap things well and to inform taskers of any fragile pieces.`,
 };

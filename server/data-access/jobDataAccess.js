@@ -1894,7 +1894,13 @@ exports.jobDataAccess = {
             requesterPushNotSubscription,
             taskerPushNotSubscription,
             processedPayment,
+            ownerRating,
+            taskerRating,
           } = await getAllContactDetails(jobId);
+
+          const newTotalOfAllRatings = ownerRating.totalOfAllRatings + 1.25;
+          const newTotalOfAllTimesBeenRated = ownerRating.numberOfTimesBeenRated + 1;
+          const newGlobalRating = Math.max(newTotalOfAllRatings / newTotalOfAllTimesBeenRated, 0);
 
           const paymentIntent = await stripeServiceUtil.getPaymentIntents(
             processedPayment.paymentIntentId
@@ -1948,15 +1954,13 @@ exports.jobDataAccess = {
                 {
                   $set: {
                     'rating.latestComment':
-                      'BidOrBoo Auto Review: Cancelled Thier Request After Making an Agreement with A Tasker',
+                      'BidOrBoo Auto Review: Cancelled Their Request After Making an Agreement with A Tasker',
                   },
                   $push: {
                     'rating.canceledJobs': jobId,
-                  },
-                  $inc: {
-                    'rating.globalRating': -0.25,
-                    'rating.numberOfTimesBeenRated': 1,
-                    'rating.totalOfAllRating': 3.75,
+                    'rating.globalRating': newGlobalRating,
+                    'rating.numberOfTimesBeenRated': newTotalOfAllTimesBeenRated,
+                    'rating.totalOfAllRatings': newTotalOfAllRatings,
                   },
                 },
                 {

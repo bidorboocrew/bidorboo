@@ -82,10 +82,10 @@ Q3)Any particular stains or dirt that you want to mention?
                     height: 125,
                     width: 125,
                     objectFit: 'cover',
-                    '-webkit-filter': 'grayscale(100%)',
-                    '-moz-filter': 'grayscale(100%)',
-                    '-o-filter': 'grayscale(100%)',
-                    '-ms-filter': 'grayscale(100%)',
+                    WebkitFilter: 'grayscale(100%)',
+                    MozFilter: 'grayscale(100%)',
+                    OFilter: 'grayscale(100%)',
+                    msFilter: 'grayscale(100%)',
                     filter: 'grayscale(100%)',
                   }}
                 />

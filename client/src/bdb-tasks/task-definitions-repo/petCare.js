@@ -219,7 +219,7 @@ export default {
               break;
             case 'decideLater':
               selectedValue =
-                'The Owner and Tasker should be willing to have the service take place in thier homes and will decide later after the task is awarded';
+                'The Owner and Tasker should be willing to have the service take place in their homes and will decide later after the task is awarded';
               break;
           }
           return (

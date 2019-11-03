@@ -78,7 +78,6 @@ exports.bidDataAccess = {
 
           const requestedJobId = bidDetails._jobRef._id;
           const taskerId = bidDetails._bidderRef;
-
           const {
             requesterDisplayName,
             taskerDisplayName,
@@ -97,9 +96,16 @@ exports.bidDataAccess = {
             allowedToPushNotifyTasker,
             requesterPushNotSubscription,
             taskerPushNotSubscription,
+            ownerRating,
+            taskerRating,
           } = await exports.bidDataAccess._getAwardedJobOwnerBidderAndRelevantNotificationDetails(
             requestedJobId
           );
+
+          const newTotalOfAllRatings = taskerRating.totalOfAllRatings + 1.25;
+          const newTotalOfAllTimesBeenRated = taskerRating.numberOfTimesBeenRated + 1;
+          const newGlobalRating = Math.max(newTotalOfAllRatings / newTotalOfAllTimesBeenRated, 0);
+
           // xxx critical
           const refundCharge = await stripeServiceUtil.fullRefundTransaction({
             ...paymentDetails,
@@ -153,11 +159,9 @@ exports.bidDataAccess = {
                   },
                   $push: {
                     'rating.canceledBids': bidId,
-                  },
-                  $inc: {
-                    'rating.globalRating': -0.25,
-                    'rating.numberOfTimesBeenRated': 1,
-                    'rating.totalOfAllRating': 3.75,
+                    'rating.globalRating': newGlobalRating,
+                    'rating.numberOfTimesBeenRated': newTotalOfAllTimesBeenRated,
+                    'rating.totalOfAllRatings': newTotalOfAllRatings,
                   },
                 },
                 { new: true }
