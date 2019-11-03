@@ -129,7 +129,7 @@ exports.loggedoutEmailVerificationReq = {
         .error(() => {
           return {
             message:
-              '"email address" must be a valid email and (5-100) charachters long for example bidorboocrew@bidorboocrew.com',
+              '"email address" must be a valid email and (5-100) characters long for example bidorboocrew@bidorboocrew.com',
           };
         })
         .required(),
@@ -147,7 +147,7 @@ exports.resetPasswordReqSchema = {
         .error(() => {
           return {
             message:
-              '"email address" must be a valid email and (5-100) charachters long for example bidorboocrew@bidorboocrew.com',
+              '"email address" must be a valid email and (5-100) characters long for example bidorboocrew@bidorboocrew.com',
           };
         })
         .required(),
@@ -226,7 +226,7 @@ exports.userDetailsReqSchema = {
         .max(MAX_NAME_LENGTH)
         .error(() => {
           return {
-            message: '"display name" must be alphanumeric and (5-30) charachters long',
+            message: '"display name" must be alphanumeric and (5-30) characters long',
           };
         }),
       personalParagraph: Joi.string()
@@ -235,7 +235,7 @@ exports.userDetailsReqSchema = {
         .max(MAX_PARAGRAPH_LENGTH)
         .error(() => {
           return {
-            message: '"personal paragraph" must be valid alphanumeric and (5-500) charachters long',
+            message: '"personal paragraph" must be valid alphanumeric and (5-500) characters long',
           };
         }),
       phone: Joi.object({
@@ -260,7 +260,7 @@ exports.userDetailsReqSchema = {
           .error(() => {
             return {
               message:
-                '"email address" must be a valid email and (5-100) charachters long for example bidorboocrew@bidorboocrew.com',
+                '"email address" must be a valid email and (5-100) characters long for example bidorboocrew@bidorboocrew.com',
             };
           }),
       }),

@@ -62,7 +62,7 @@ const ratingSchema = {
         MIN_COMMENT_LENGTH +
         ' and ' +
         MAX_COMMENT_LENGTH +
-        ' charachters long',
+        ' characters long',
     },
   },
 };

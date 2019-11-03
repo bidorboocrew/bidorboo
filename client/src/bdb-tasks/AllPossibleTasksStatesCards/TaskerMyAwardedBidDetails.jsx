@@ -517,7 +517,7 @@ class TaskerDisputes extends React.Component {
                         checked={selectedDispute === 'Misconduct'}
                       />
                       <span className="has-text-dark" style={{ paddingLeft: 4 }}>
-                        Misconduct such as; bullying, threatning or sexual harrasment
+                        Misconduct such as; bullying, threatening or sexual harassment
                       </span>
                     </label>
                   </div>
@@ -646,7 +646,7 @@ class RequesterDetails extends React.Component {
                   </div>
                   <div>
                     <a
-                      href={`sms://${phoneNumber}?body=I%20am%20your%20tasker%20from%20BIDORBOO%20and%20am%20reaching%20out%20to%20agree%20on%20meeting%20time%20and%20detailsS`}
+                      href={`sms://${phoneNumber}?body=I%20am%20your%20tasker%20from%20BidOrBoo%20and%20am%20reaching%20out%20to%20agree%20on%20meeting%20time%20and%20detailsS`}
                     >
                       <span className="icon">
                         <i className="fas fa-sms" />

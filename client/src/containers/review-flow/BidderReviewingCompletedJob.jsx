@@ -74,7 +74,7 @@ export class BidderReviewingCompletedJob extends React.Component {
       cleanPerosnalComment.length > 100
     ) {
       alert(
-        'please add a personal comment with at least 10 charachters and no more than 100 chars',
+        'please add a personal comment with at least 10 characters and no more than 100 chars',
       );
     } else {
       // SUBMIT REVIEW

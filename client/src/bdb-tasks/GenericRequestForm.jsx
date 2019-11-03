@@ -626,7 +626,7 @@ const EnhancedForms = withFormik({
       detailedDescription: Yup.string()
         .ensure()
         .trim()
-        .min(20, 'your description must be more than 20 charachters')
+        .min(20, 'your description must be more than 20 characters')
         .required('*Please provide a detailed description'),
       ...TASKS_DEFINITIONS[props.requestTemplateId].extraValidationSchema,
     });

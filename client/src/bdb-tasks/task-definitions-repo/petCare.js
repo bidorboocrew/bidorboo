@@ -46,7 +46,7 @@ export default {
     dietaryRestrictions: Yup.string()
       .ensure()
       .trim()
-      .max(200, 'can not be more than 200 charachters'),
+      .max(200, 'can not be more than 200 characters'),
   },
 
   renderThankYouForPostingMoment: function(setShowModal) {
