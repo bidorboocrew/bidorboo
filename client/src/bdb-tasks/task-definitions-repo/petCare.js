@@ -97,7 +97,7 @@ export default {
                 )}
                 {!withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
-                    BIDORBOO Tasker will watch over, feed, walk and entertain your pet in accordance
+                    BidOrBoo Tasker will watch over, feed, walk and entertain your pet in accordance
                     to your request and guidelines.
                   </p>
                 )}
@@ -321,7 +321,7 @@ export default {
       },
     };
   },
-  TASK_EXPECTATIONS: `BIDORBOO Tasker will watch over, feed, walk and entertain your pet in accordance to your request and guidelines.`,
+  TASK_EXPECTATIONS: `BidOrBoo Tasker will watch over, feed, walk and entertain your pet in accordance to your request and guidelines.`,
 };
 const renderThankyouMoment = ({
   dogWalking_img,

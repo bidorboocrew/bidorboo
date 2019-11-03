@@ -535,7 +535,7 @@ export const AddAwardedJobToCalendar = ({ job, extraClassName = '' }) => {
   const emailContact = email && email.emailAddress ? `${email.emailAddress}` : '';
   const phoneContactNumber = phone && phone.phoneNumber ? ` or ${phone.phoneNumber}` : '';
 
-  const title = `BIDORBOO: ${TASKS_DEFINITIONS[templateId] &&
+  const title = `BidOrBoo: ${TASKS_DEFINITIONS[templateId] &&
     TASKS_DEFINITIONS[templateId].TITLE} request`;
   const description = `You are going to help ${displayName} fulfil a ${title} request. To get in touch contact them at ${emailContact} ${phoneContactNumber}`;
 
@@ -823,7 +823,7 @@ export const PastdueExpired = () => {
         </div>
       </div>
       {/* <div>
-        <div className="help">*BIDORBOO will auto delete this task</div>
+        <div className="help">*BidOrBoo will auto delete this task</div>
       </div> */}
     </div>
   );

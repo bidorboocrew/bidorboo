@@ -108,7 +108,7 @@ class Header extends React.Component {
           return { activeNavBarMenuId: HREF_TO_TABID.MY_PROFILE };
         }
       }
-      if (nextProp.history.location.pathname.includes('BIDORBOO')) {
+      if (nextProp.history.location.pathname.includes('BidOrBoo')) {
         if (prevState.activeNavBarMenuId !== 'HREF_TO_TABID.HOME') {
           return { activeNavBarMenuId: 'HREF_TO_TABID.HOME ' };
         }
@@ -157,7 +157,7 @@ class Header extends React.Component {
     const isActingAsBidder = userAppView === 'BIDDER';
 
     let onlyShowReqAndBidButtons =
-      window.location.href.includes('BIDORBOO') ||
+      window.location.href.includes('BidOrBoo') ||
       window.location.href.includes('my-profile') ||
       window.location.href.includes('my-archive');
 
@@ -173,7 +173,7 @@ class Header extends React.Component {
         <div style={{ flexGrow: 1, cursor: 'pointer' }} className="navbar-brand">
           <a
             style={{ paddingRight: 4, cursor: 'pointer' }}
-            id="BIDORBOO-logo-step"
+            id="BidOrBoo-logo-step"
             onClick={() => {
               this.closeMenuThenExecute(() => {
                 switchRoute(ROUTES.CLIENT.HOME);
@@ -183,7 +183,7 @@ class Header extends React.Component {
           >
             <img
               src={logoImg}
-              alt="BIDORBOO"
+              alt="BidOrBoo"
               width="34"
               height="auto"
               style={{ maxHeight: 'unset' }}
@@ -205,7 +205,7 @@ class Header extends React.Component {
                 style={{ fontSize: 24, cursor: 'pointer' }}
                 className="is-hidden-touch"
               >
-                BIDORBOO
+                BidOrBoo
               </div>
             </div>
           </a>
@@ -286,7 +286,7 @@ class Header extends React.Component {
           <div className="navbar-brand">
             <a
               style={{ paddingRight: 4 }}
-              id="BIDORBOO-logo-step"
+              id="BidOrBoo-logo-step"
               onClick={() => {
                 this.closeMenuThenExecute(() => {
                   switchRoute(ROUTES.CLIENT.HOME);
@@ -298,7 +298,7 @@ class Header extends React.Component {
             >
               <img
                 src={logoImg}
-                alt="BIDORBOO"
+                alt="BidOrBoo"
                 width="34"
                 height="auto"
                 style={{ maxHeight: 'unset' }}
@@ -315,7 +315,7 @@ class Header extends React.Component {
               <div className={`${isActingAsBidder ? 'has-text-white' : 'has-text-dark'}`}>
                 {/* {ROUTES.getRouteTitle()} */}
                 <div style={{ fontSize: 24 }} className="is-hidden-touch">
-                  BIDORBOO
+                  BidOrBoo
                 </div>
               </div>
             </div>

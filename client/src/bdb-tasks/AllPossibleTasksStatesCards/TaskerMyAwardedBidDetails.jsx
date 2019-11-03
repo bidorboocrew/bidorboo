@@ -134,7 +134,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                       <ul>
                         <li>Your global rating will be negatively impacted</li>
                         <li>This cancellation will show up on your profile</li>
-                        <li>If many cancellations happen in a row you will be ban from BIDORBOO</li>
+                        <li>If many cancellations happen in a row you will be ban from BidOrBoo</li>
                       </ul>
                     </div>
                   </div>
@@ -550,7 +550,7 @@ class TaskerDisputes extends React.Component {
                     />
                   </div>
                   <div className="help">
-                    * BIDORBOO Support will confirm all these details and will get in touch with the
+                    * BidOrBoo Support will confirm all these details and will get in touch with the
                     Tasker to resolve this issue
                   </div>
                 </section>
@@ -636,7 +636,7 @@ class RequesterDetails extends React.Component {
                 <div style={{ fontWeight: 500, fontSize: 18 }}>
                   <div>
                     <a
-                      href={`mailto:${emailAddress}?subject=BIDORBOO - I am your tasker and reaching out to agree on meeting time and details`}
+                      href={`mailto:${emailAddress}?subject=BidOrBoo - I am your tasker and reaching out to agree on meeting time and details`}
                     >
                       <span className="icon">
                         <i className="far fa-envelope" />

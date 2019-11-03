@@ -104,7 +104,7 @@ Q2)Will the tasker be required to move heavy items (couch-beds-fridge) ?
                 )}
                 {!withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
-                    BIDORBOO Tasker will bring All purpose cleaning products and equipments required
+                    BidOrBoo Tasker will bring All purpose cleaning products and equipments required
                     to clean your house thouroughally.
                   </p>
                 )}
@@ -373,7 +373,7 @@ Q2)Will the tasker be required to move heavy items (couch-beds-fridge) ?
       },
     };
   },
-  TASK_EXPECTATIONS: `BIDORBOO Tasker will bring All purpose cleaning products and equipments required to clean your house thouroughally.`,
+  TASK_EXPECTATIONS: `BidOrBoo Tasker will bring All purpose cleaning products and equipments required to clean your house thouroughally.`,
 };
 const renderThankyouMoment = ({
   houseCleaning_img,

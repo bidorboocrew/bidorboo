@@ -11,55 +11,55 @@ exports.TxtMsgingService = {
     urlLink,
     callback = () => {}
   ) => {
-    const msgContent = `BIDORBOO: ${requestTitle} awaiting your confirmation! ${
+    const msgContent = `BidOrBoo: ${requestTitle} awaiting your confirmation! ${
       urlLink ? urlLink : 'https://www.bidorboo.com'
     } for details`;
     return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
   sendJobIsCancelledText: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
-    const msgContent = `BIDORBOO: ${requestTitle} was cancelled! ${
+    const msgContent = `BidOrBoo: ${requestTitle} was cancelled! ${
       urlLink ? urlLink : 'https://www.bidorboo.com'
     } for details`;
     return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
   sendYouAreAwardedJob: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
-    const msgContent = `BIDORBOO: ${requestTitle} is awarded to you! ${
+    const msgContent = `BidOrBoo: ${requestTitle} is awarded to you! ${
       urlLink ? urlLink : 'https://www.bidorboo.com'
     } for details`;
     return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
   sendJobIsHappeningSoonText: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
-    const msgContent = `BIDORBOO: ${requestTitle} is happening soon! ${
+    const msgContent = `BidOrBoo: ${requestTitle} is happening soon! ${
       urlLink ? urlLink : 'https://www.bidorboo.com'
     } for details`;
     return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
   sendPhoneVerificationText: (mobileNumber, phoneVerificationCode, callback = () => {}) => {
-    const msgContent = `BIDORBOO: ${phoneVerificationCode} is your phone verification code.`;
+    const msgContent = `BidOrBoo: ${phoneVerificationCode} is your phone verification code.`;
     return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
 
   sendJobIsCompletedText: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
-    const msgContent = `BIDORBOO: ${requestTitle} is Completed! go to ${
+    const msgContent = `BidOrBoo: ${requestTitle} is Completed! go to ${
       urlLink ? urlLink : 'https://www.bidorboo.com'
     } to Rate it.`;
     return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
   tellRequesterToConfirmJob: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
-    const msgContent = `BIDORBOO: Please Confirm that ${requestTitle} is Completed! go to ${
+    const msgContent = `BidOrBoo: Please Confirm that ${requestTitle} is Completed! go to ${
       urlLink ? urlLink : 'https://www.bidorboo.com'
     } to confirm and Rate your Tasker.`;
     return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
   tellRequesterThatWeMarkedJobDone: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
-    const msgContent = `BIDORBOO Marked ${requestTitle} as Complete because you did not act in 3 days. go to ${
+    const msgContent = `BidOrBoo Marked ${requestTitle} as Complete because you did not act in 3 days. go to ${
       urlLink ? urlLink : 'https://www.bidorboo.com'
     } to Rate your Tasker.`;
     return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
 
   sendJobIsAwardedText: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
-    const msgContent = `BIDORBOO: Your Bid Won and ${requestTitle} is Assigned to you! go to ${
+    const msgContent = `BidOrBoo: Your Bid Won and ${requestTitle} is Assigned to you! go to ${
       urlLink ? urlLink : 'https://www.bidorboo.com'
     } to View it.`;
     return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);

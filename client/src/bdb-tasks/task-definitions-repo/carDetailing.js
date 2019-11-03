@@ -18,7 +18,7 @@ Q2)Is there any pet stains or hair on the seats ?
 Q3)Any particular stains or dirt that you want to mention?
 [Answer here:   ]
 `,
-  TASK_EXPECTATIONS: `BIDORBOO Tasker will bring the cleaning products and equipments required to clean your car thouroughally`,
+  TASK_EXPECTATIONS: `BidOrBoo Tasker will bring the cleaning products and equipments required to clean your car thouroughally`,
   defaultExtrasValues: {
     carSize: NO_SELECTION,
     interiorType: NO_SELECTION,
@@ -76,7 +76,7 @@ Q3)Any particular stains or dirt that you want to mention?
                 {/* <i className="fas fa-car-alt" style={{ fontSize: 68, color: '#ee2a36' }} /> */}
                 <img
                   src={carDetailing_img}
-                  alt="BIDORBOO task img"
+                  alt="BidOrBoo task img"
                   style={{ height: 125, width: 125, objectFit: 'cover' }}
                 />
               </div>
@@ -97,7 +97,7 @@ Q3)Any particular stains or dirt that you want to mention?
 
                 {!withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
-                    BIDORBOO Tasker will bring the cleaning products and equipments required to
+                    BidOrBoo Tasker will bring the cleaning products and equipments required to
                     clean your car thouroughally
                   </p>
                 )}
@@ -306,7 +306,7 @@ const renderThankyouMoment = ({
       <div>
         <img
           src={carDetailing_img}
-          alt="BIDORBOO task img"
+          alt="BidOrBoo task img"
           style={{ height: 125, width: 125, objectFit: 'cover' }}
         />
       </div>

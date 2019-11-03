@@ -70,7 +70,7 @@ export default class ShareButtons extends React.Component {
                     </button>
 
                     <div style={{ display: 'inline-block', margin: 8 }}>
-                      <EmailShareButton className="socialShare" url={shareUrl} subject={'BIDORBOO'}>
+                      <EmailShareButton className="socialShare" url={shareUrl} subject={'BidOrBoo'}>
                         <EmailIcon size={48} round />
                       </EmailShareButton>
                     </div>
@@ -78,7 +78,7 @@ export default class ShareButtons extends React.Component {
                       <FacebookShareButton
                         className="socialShare"
                         url={shareUrl}
-                        quote={'BIDORBOO'}
+                        quote={'BidOrBoo'}
                       >
                         <FacebookIcon size={48} round />
                       </FacebookShareButton>
@@ -87,7 +87,7 @@ export default class ShareButtons extends React.Component {
                       <WhatsappShareButton
                         className="socialShare"
                         url={shareUrl}
-                        title={'BIDORBOO'}
+                        title={'BidOrBoo'}
                         separator=":: "
                       >
                         <WhatsappIcon size={48} round />

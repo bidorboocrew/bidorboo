@@ -138,7 +138,7 @@ export class ResetLocalPassword extends React.Component {
                   <div className="title has-text-grey">
                     <img
                       src={logoImg}
-                      alt="BIDORBOO"
+                      alt="BidOrBoo"
                       width="24"
                       height="24"
                       style={{ maxHeight: 'unset' }}
@@ -168,7 +168,7 @@ export class ResetLocalPassword extends React.Component {
                   <div>
                     <div className={`group`}>
                       <label className="label">
-                        Enter your email address that's associated with your BIDORBOO account
+                        Enter your email address that's associated with your BidOrBoo account
                       </label>
                       <input
                         value={emailAddress}

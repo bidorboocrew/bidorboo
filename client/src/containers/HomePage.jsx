@@ -73,7 +73,7 @@ export default class HomePage extends React.Component {
                 }}
                 className="title is-1"
               >
-                <span id="BIDORBOO-welcome-step">BIDORBOO</span>
+                <span id="BidOrBoo-welcome-step">BidOrBoo</span>
               </h1>
               <h2 style={{ fontSize: 12 }} className="has-text-white">
                 Get your chores done for the right price. Earn money doing what you enjoy.

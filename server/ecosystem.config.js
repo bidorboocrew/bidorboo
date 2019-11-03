@@ -4,7 +4,7 @@
 module.exports = {
   apps: [
     {
-      name: 'BIDORBOO',
+      name: 'BidOrBoo',
       script: './index.js',
       watch: false,
       instances: 6,

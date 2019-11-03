@@ -7,34 +7,34 @@ export default class TermsOfService extends React.Component {
         <div className="hero-body has-text-centered">
           <div className="container">
             <h1 style={{ marginBottom: 0 }} className="title">
-              BIDORBOO INC TERMS OF SERVICE & PRIVACY (UNDER REVIEW BY LEGAL)
+              BidOrBoo INC TERMS OF SERVICE & PRIVACY (UNDER REVIEW BY LEGAL)
             </h1>
             <div style={{ textAlign: 'left' }}>
               <div className="group">
-                <label className="label">BIDORBOO INC Terms of Service</label>
+                <label className="label">BidOrBoo INC Terms of Service</label>
                 <div className="help">Last updated: Nov 1, 2019</div>
               </div>
               <p>
                 These Terms of Service constitute a legally binding agreement between you and
-                BIDORBOO, Inc. (“Company” or “BIDORBOO”) governing your use of the BIDORBOO Platform
-                (as defined below), Company’s website (https://www.BIDORBOO.com or the “Site”) and
-                mobile applications (the “Apps”). The BIDORBOO Platform and related services
+                BidOrBoo, Inc. (“Company” or “BidOrBoo”) governing your use of the BidOrBoo Platform
+                (as defined below), Company’s website (https://www.BidOrBoo.com or the “Site”) and
+                mobile applications (the “Apps”). The BidOrBoo Platform and related services
                 provided by Company, the Site, and Apps, including without limitation communications
                 and information (whether in writing, orally, or otherwise howsoever) provided by
                 Company to potential and actual Taskers and Clients (both as defined at Section 1)
                 in relation to the services, together are hereinafter collectively referred to as
-                the “BIDORBOO Platform.”
+                the “BidOrBoo Platform.”
               </p>
               <br></br>
               <p>
-                Any personal data you submit to the BIDORBOO Platform or which we collect about you
+                Any personal data you submit to the BidOrBoo Platform or which we collect about you
                 is governed by our Privacy Policy (“Privacy Policy”). A copy of our Privacy Policy
-                is available here. You acknowledge that by using the BIDORBOO Platform you have
+                is available here. You acknowledge that by using the BidOrBoo Platform you have
                 reviewed the Privacy Policy.
               </p>
               <br></br>
               <p>
-                Your use of the BIDORBOO Platform constitutes your acceptance of and agreement to
+                Your use of the BidOrBoo Platform constitutes your acceptance of and agreement to
                 all of the terms and conditions in these Terms of Service, the Privacy Policy, and
                 any future amendments and additions to this Agreement (as defined below) as we may
                 publish from time to time. The Privacy Policy and the Happiness Pledge are
@@ -43,7 +43,7 @@ export default class TermsOfService extends React.Component {
               </p>
               <br></br>
               <p>
-                PLEASE NOTE: THIS AGREEMENT GOVERNS HOW DISPUTES BETWEEN YOU AND BIDORBOO CAN BE
+                PLEASE NOTE: THIS AGREEMENT GOVERNS HOW DISPUTES BETWEEN YOU AND BidOrBoo CAN BE
                 RESOLVED. IT CONTAINS A BINDING AND FINAL ARBITRATION PROVISION AND CLASS ACTION
                 WAIVER (SECTION 19 OR 20, AS APPLICABLE). PLEASE READ CAREFULLY AS IT AFFECTS YOUR
                 LEGAL RIGHTS, INCLUDING, IF APPLICABLE, YOUR RIGHT TO OPT OUT OF ARBITRATION.
@@ -57,10 +57,10 @@ export default class TermsOfService extends React.Component {
               </p>
               <br></br>
               IF YOU DO NOT AGREE TO BE BOUND BY THIS AGREEMENT, YOU MAY NOT USE OR ACCESS THE
-              BIDORBOO PLATFORM.
+              BidOrBoo PLATFORM.
               <br></br>
               <p>
-                Your use of the BIDORBOO Platform in a country other than the country in which you
+                Your use of the BidOrBoo Platform in a country other than the country in which you
                 register constitutes your acceptance of and agreement to all of the terms and
                 conditions in the Terms of Service, the Privacy Policy for that country. See
                 complete list of terms by country here.
@@ -69,34 +69,34 @@ export default class TermsOfService extends React.Component {
               <p>
                 You must be 19 years old (for Canada based users) or at least the legally required
                 age in the jurisdiction in which you reside, and otherwise capable of entering into
-                binding contracts, in order to use or access the BIDORBOO Platform. If you are under
+                binding contracts, in order to use or access the BidOrBoo Platform. If you are under
                 19 years old (for Canada based users) or the age of majority in your jurisdiction,
-                then you may not use or access the BIDORBOO Platform. Children under 13 years old
-                are prohibited from accessing the BIDORBOO Platform or otherwise providing any
-                personal information to BIDORBOO.
+                then you may not use or access the BidOrBoo Platform. Children under 13 years old
+                are prohibited from accessing the BidOrBoo Platform or otherwise providing any
+                personal information to BidOrBoo.
               </p>
               <br></br>A few highlights of these Terms of Service include:
               <br></br>A few highlights of these Terms of Service include: Your agreement that the
               <p>
-                BIDORBOO Platform is provided “as is” and without warranty (Section 17). Your
-                agreement that Company has no liability regarding the BIDORBOO Platform or the
+                BidOrBoo Platform is provided “as is” and without warranty (Section 17). Your
+                agreement that Company has no liability regarding the BidOrBoo Platform or the
                 performance of Tasks (as defined below at Section 1) (Section 17). Your
-                acknowledgment and agreement that Clients, and not BIDORBOO, scope, supervise,
+                acknowledgment and agreement that Clients, and not BidOrBoo, scope, supervise,
                 direct, control, and monitor a Tasker’s work and the Tasks (Section 1). Your
                 acknowledgement and agreement that Clients are solely responsible for determining if
                 the Tasker they hire is qualified to perform the task at hand. Your acknowledgement
                 and agreement that Taskers are independent contractors of Clients and not employees,
-                independent contractors or service providers of BIDORBOO (Sections 1 and 12) Your
+                independent contractors or service providers of BidOrBoo (Sections 1 and 12) Your
                 consent to release Company from liability based on claims between Users (Section 2),
                 in respect of Tasker claims (Section 12) and generally (Section 17). Your agreement
-                to indemnify Company from claims due to your use or inability to use the BIDORBOO
-                Platform or content submitted from your account to the BIDORBOO Platform (Section
+                to indemnify Company from claims due to your use or inability to use the BidOrBoo
+                Platform or content submitted from your account to the BidOrBoo Platform (Section
                 18). Your consent to submit any claims against Company to binding arbitration, and
                 on an individual basis only, to the extent permissible by law (Section 19).
               </p>
               <br></br>
               <p>
-                1. The BIDORBOO Platform Connects Taskers and Clients The BIDORBOO Platform is a
+                1. The BidOrBoo Platform Connects Taskers and Clients The BidOrBoo Platform is a
                 web-based communications platform which enables connections between Clients and
                 Taskers. “Clients” are individuals and/or businesses seeking to obtain short-term
                 task services (“Tasks”) from Taskers and are therefore clients of Taskers, and
@@ -116,7 +116,7 @@ export default class TermsOfService extends React.Component {
                 QUALITY OR FITNESS FOR A PARTICULAR PURPOSE, OR COMPLIANCE WITH ANY LAW, REGULATION,
                 OR CODE.
                 <br></br>
-                The BIDORBOO Platform only enables connections between Users for the fulfillment of
+                The BidOrBoo Platform only enables connections between Users for the fulfillment of
                 Tasks. Company is not responsible for the performance or communications of Users,
                 nor does it have control over the quality, timing, legality, failure to provide, or
                 any other aspect whatsoever of Tasks, Taskers, Clients, nor of the integrity,
@@ -124,33 +124,33 @@ export default class TermsOfService extends React.Component {
                 whatsoever of any Users, or of any ratings provided by Users with respect to each
                 other. Company makes no warranties or representations about the suitability,
                 reliability, timeliness, or accuracy of the Tasks requested or services provided by,
-                or the communications of or between, Users identified through the BIDORBOO Platform,
+                or the communications of or between, Users identified through the BidOrBoo Platform,
                 whether in public, private, or offline interactions or otherwise howsoever.
               </p>
               <br></br>
               <p>
                 2. User Vetting and User Representations and Warranties User Vetting In Company’s
                 sole discretion, Users may be subject to an extensive vetting process before they
-                can register for and during their use of the BIDORBOO Platform, including but not
+                can register for and during their use of the BidOrBoo Platform, including but not
                 limited to a verification of identity, using third party services as appropriate
                 (“Identity Checks”). Although Company may perform Identity Checks, Company is not
                 required to do so and cannot confirm that each User is who they claim to be. Company
                 cannot and does not assume any responsibility for the accuracy or reliability of
-                Identity Check information or any information provided through the BIDORBOO
+                Identity Check information or any information provided through the BidOrBoo
                 Platform.
                 <br></br>
                 When interacting with other Users, you should exercise caution and common sense to
                 protect your personal safety, data, and property, just as you would when interacting
-                with other persons whom you don’t know. BIDORBOO will not be liable for any false or
-                misleading statements made by Users of the BIDORBOO Platform. NEITHER BIDORBOO NOR
+                with other persons whom you don’t know. BidOrBoo will not be liable for any false or
+                misleading statements made by Users of the BidOrBoo Platform. NEITHER BidOrBoo NOR
                 ITS PARENTS, AFFILIATES OR LICENSORS, INCLUDING THEIR RESPECTIVE DIRECTORS,
                 OFFICERS, SHAREHOLDERS, AGENTS, INVESTORS, SUBSIDIARIES, ATTORNEYS, REPRESENTATIVES,
                 INSURERS, EMPLOYEES, SUCCESSORS AND ASSIGNS (HEREINAFTER REFERRED TO COLLECTIVELY AS
-                “BIDORBOO AND AFFILIATES”) IS RESPONSIBLE FOR THE CONDUCT, ACTS, OR OMISSIONS,
-                WHETHER ONLINE OR OFFLINE, OF ANY USER OF THE BIDORBOO PLATFORM AND YOU HEREBY
-                RELEASE BIDORBOO AND AFFILIATES FROM ANY AND ALL LIABILITY, CLAIMS, DEMANDS, OR
+                “BidOrBoo AND AFFILIATES”) IS RESPONSIBLE FOR THE CONDUCT, ACTS, OR OMISSIONS,
+                WHETHER ONLINE OR OFFLINE, OF ANY USER OF THE BidOrBoo PLATFORM AND YOU HEREBY
+                RELEASE BidOrBoo AND AFFILIATES FROM ANY AND ALL LIABILITY, CLAIMS, DEMANDS, OR
                 DAMAGES OF EVERY KIND AND NATURE, KNOWN AND UNKNOWN, SUSPECTED AND UNSUSPECTED,
-                DISCLOSED AND UNDISCLOSED, ARISING OUT OF OR IN ANY WAY CONNECTED WITH THE BIDORBOO
+                DISCLOSED AND UNDISCLOSED, ARISING OUT OF OR IN ANY WAY CONNECTED WITH THE BidOrBoo
                 PLATFORM.
                 <br></br>
                 User Representations and Warranties
@@ -166,35 +166,35 @@ export default class TermsOfService extends React.Component {
                 <br></br>
                 You further represent and warrant that you have read, understand, and agree to be
                 bound by these Terms of Service, the Happiness Pledge, and the Privacy Policy in
-                order to access and use the BIDORBOO Platform. You hereby warrant and represent that
+                order to access and use the BidOrBoo Platform. You hereby warrant and represent that
                 you will respect the privacy (including without limitation private, family and home
                 life), property and data protection rights of Users and that you will not record
                 (whether video or audio or otherwise) any Task or any interaction by or with any
-                User and/or Company in connection with the BIDORBOO Platform without the prior
+                User and/or Company in connection with the BidOrBoo Platform without the prior
                 written consent of Company and/or the relevant User, as applicable. You further
                 represent and warrant that you will fulfill the commitments you make to other Users,
-                including paying/receiving payment through the BIDORBOO Platform using the PSP (as
+                including paying/receiving payment through the BidOrBoo Platform using the PSP (as
                 defined below), performing the Task(s) agreed upon as between the Tasker and Client,
                 communicating clearly and promptly through the chat thread and/or responding to
                 invitations promptly, being present and/or available at the time you agree upon with
                 your Tasker or Client as the case may be, and only utilizing the third party payment
                 processing system specified or approved by us to make or receive payment for
-                services provided through the BIDORBOO Platform (the “PSP”). You also represent and
+                services provided through the BidOrBoo Platform (the “PSP”). You also represent and
                 warrant that you will act professionally and responsibly in your interactions with
                 other Users. You warrant that you will not purchase or deliver controlled substances
-                on the BIDORBOO platform. You further represent and warrant that when using or
-                accessing the BIDORBOO Platform, you will act in accordance with any applicable
+                on the BidOrBoo platform. You further represent and warrant that when using or
+                accessing the BidOrBoo Platform, you will act in accordance with any applicable
                 local, state, provincial, national, or international law or custom and in good
                 faith.
                 <br></br>
                 You hereby warrant and represent that, other than as fully and promptly disclosed to
                 Company as set forth below, you do not have any motivation, status, or interest
-                which Company may reasonably wish to know about in connection with the BIDORBOO
+                which Company may reasonably wish to know about in connection with the BidOrBoo
                 Platform, including without limitation, if you are using or will or intend to use
-                the BIDORBOO Platform for any journalistic, investigative, or unlawful purpose. You
+                the BidOrBoo Platform for any journalistic, investigative, or unlawful purpose. You
                 hereby warrant and represent that you will promptly disclose to Company in writing
                 any such motivation, status or interest, whether existing prior to registration or
-                as arises during your use of the BIDORBOO Platform.
+                as arises during your use of the BidOrBoo Platform.
                 <br></br>
                 Taskers additionally represent and warrant that you will provide timely,
                 high-quality services to your Clients, you will only offer and provide services for
@@ -207,7 +207,7 @@ export default class TermsOfService extends React.Component {
                 3. Contract between Clients and Taskers You acknowledge and agree that a legally
                 binding contract (the “Service Agreement”) is formed when you agree on the terms of
                 a Task with another User. The terms of the Service Agreement include the terms set
-                forth in this Section 3, the engagement terms proposed and accepted on the BIDORBOO
+                forth in this Section 3, the engagement terms proposed and accepted on the BidOrBoo
                 Platform, and any other contractual terms accepted by both the Tasker and their
                 Client to the extent such terms do not conflict with the terms in this Agreement,
                 including this Section 3, and do not expand Company’s obligations or restrict
@@ -217,26 +217,26 @@ export default class TermsOfService extends React.Component {
                 the Tasker (or Assistants (as defined below)), nor will it create an employment
                 relationship between the Client and the Tasker (or Assistants (as defined below)).
                 Company’s role is restricted solely to acting as a limited payment collection agent
-                for the Tasker to facilitate payment on behalf of the Tasker through the BIDORBOO
+                for the Tasker to facilitate payment on behalf of the Tasker through the BidOrBoo
                 Platform using the PSP in respect of Tasks they perform. In acting as the limited
-                payment collection agent for particular Tasks on the BIDORBOO Platform, BIDORBOO
+                payment collection agent for particular Tasks on the BidOrBoo Platform, BidOrBoo
                 disclaims any other agency or authority to act on behalf of the Tasker, and assumes
                 no liability or responsibility for any acts or omissions of the Tasker, either
-                within or outside of the BIDORBOO Platform.
+                within or outside of the BidOrBoo Platform.
                 <br></br>
                 Where approved in advance by the Client, the Tasker is not obligated to personally
                 perform the Task. Before any Task services are performed by any assistants, helpers,
                 subcontractors or other personnel engaged by the Tasker (collectively “Assistants”),
                 the Tasker shall require any such individuals to become fully registered, oriented
-                and verified Taskers on the BIDORBOO Platform. A Tasker’s failure to comply with
+                and verified Taskers on the BidOrBoo Platform. A Tasker’s failure to comply with
                 this provision by bringing an Assistant who is not a registered Tasker could lead to
-                removal from the BIDORBOO Platform. The Tasker assumes full and sole responsibility
+                removal from the BidOrBoo Platform. The Tasker assumes full and sole responsibility
                 for the acts and omissions of such Assistants, including without limitation the
                 payment of all compensation, benefits and expenses of Assistants, if any, and for
                 all required and applicable income tax withholdings as to the Tasker and all persons
                 engaged by the Tasker in the performance of the Task services.
                 <br></br>
-                While using the BIDORBOO Platform, Clients, in their sole discretion, determine
+                While using the BidOrBoo Platform, Clients, in their sole discretion, determine
                 whether they will be present or not when a Task is performed and/or completed.
                 Clients who elect not to be present when a Task is performed and/or completed agree
                 that if someone other than them (i.e. spouse, roommate, friend, etcetera) is present
@@ -245,24 +245,24 @@ export default class TermsOfService extends React.Component {
                 Agent as if such direction was given from the Client him or herself.
                 <br></br>
                 The Client shall pay their Tasker directly for completed Task services through the
-                PSP as indicated on the BIDORBOO Platform at the rates agreed to by the parties in
+                PSP as indicated on the BidOrBoo Platform at the rates agreed to by the parties in
                 the Service Agreement. Each User agrees to comply with the Service Agreement and
                 this Agreement during the engagement, performance and completion of a Task. Both
                 Users agree to notify Company of any disputes prior to negotiation of or filing of
                 any claims and to negotiate any dispute informally via Company representatives for
-                at least thirty (30) days before initiating any proceeding. BIDORBOO reserves the
+                at least thirty (30) days before initiating any proceeding. BidOrBoo reserves the
                 right to suspend or terminate any account or Task pending the resolution of any
                 dispute.
               </p>
               <br></br>
               <p>
-                4. Billing and Payment Users of the BIDORBOO Platform contract for Tasks directly
+                4. Billing and Payment Users of the BidOrBoo Platform contract for Tasks directly
                 with other Users. Company will not be a party to any contracts for Tasks or
-                services. Payment for Task services through the BIDORBOO Platform is made directly
+                services. Payment for Task services through the BidOrBoo Platform is made directly
                 from the Client to the Tasker via the PSP, and not by Company. Company is not
                 obligated to pay Tasker for Client’s failure to pay for services.
                 <br></br>
-                Users of the BIDORBOO Platform will be required to provide their payment method
+                Users of the BidOrBoo Platform will be required to provide their payment method
                 details to Company and the PSP. Taskers are responsible for invoicing their Clients
                 within 24 hours of the work being performed, even if the Task is not completed in
                 its entirety or is designated as “ongoing”. Clients will be responsible for paying
@@ -270,7 +270,7 @@ export default class TermsOfService extends React.Component {
                 of the Task agreed with and provided by a Tasker (“Task Payment”), (ii) any out of
                 pocket expenses agreed with and submitted by a Tasker in connection with the Task,
                 (iii) any tip or gratuity, if applicable, (iv) the service charge Company assesses
-                to the Client as payable for the use of the BIDORBOO Platform, variable based on the
+                to the Client as payable for the use of the BidOrBoo Platform, variable based on the
                 Task Payment amount, and (v) the platform fee (sometimes referred to as Trust &
                 Support Fee) Company assesses to the Client, which is used to offset Company’s cost
                 of providing Users with customer support, providing the Happiness Pledge set forth
@@ -285,10 +285,10 @@ export default class TermsOfService extends React.Component {
                 PSP, and go through a vetting process at the request of the PSP to set up their
                 account with the PSP (the “PSP Services Agreement”). By accepting these Terms of
                 Service, each Tasker agrees that they have downloaded or printed, and reviewed and
-                agreed to, the PSP Services Agreement. Please note that BIDORBOO is not a party to
+                agreed to, the PSP Services Agreement. Please note that BidOrBoo is not a party to
                 the PSP Services Agreement and that you, the PSP and any other parties listed in the
                 PSP Services Agreement are the parties to the PSP Services Agreement and that
-                BIDORBOO has no obligations, responsibility or liability to any Tasker or other
+                BidOrBoo has no obligations, responsibility or liability to any Tasker or other
                 party under the PSP Services Agreement.
                 <br></br>
                 To help prevent fraud and safeguard User information from the risk of unauthorized
@@ -298,21 +298,21 @@ export default class TermsOfService extends React.Component {
                 and credit card issuer requirements, this temporary charge may vary between $0.01 to
                 $5,000.00, depending on the estimated value of the Task and expenses.
                 <br></br>
-                When Client receives confirmation through the BIDORBOO Platform or via email that a
+                When Client receives confirmation through the BidOrBoo Platform or via email that a
                 Task has been completed, Client automatically authorizes the PSP to process the
                 Invoice. Users may be charged a one-hour cancellation fee through the PSP if you
                 book (or accept) a Task, but cancel it before the scheduled time for performance.
                 <br></br>
                 Company reserves the right (but not the obligation), in its sole discretion, upon
                 request from Client or Tasker, or upon notice of any potential fraud, unauthorized
-                charges or other misuse of the BIDORBOO Platform, to (i) place on hold any Task
+                charges or other misuse of the BidOrBoo Platform, to (i) place on hold any Task
                 Payment, out of pocket expenses, and/or tip or gratuity (if applicable) or (ii)
                 refund or provide credits, or arrange for the PSP to do so.
                 <br></br>
-                Task Payment and fees must be paid through the PSP as indicated on the BIDORBOO
+                Task Payment and fees must be paid through the PSP as indicated on the BidOrBoo
                 Platform.
                 <br></br>
-                Users of the BIDORBOO Platform will be liable for any taxes required to be paid on
+                Users of the BidOrBoo Platform will be liable for any taxes required to be paid on
                 the Tasks provided under the Agreement.
               </p>
               <br></br>
@@ -327,7 +327,7 @@ export default class TermsOfService extends React.Component {
                 Company gift cards (“Gift Cards”) and promotional codes (“Promo Codes”) may be
                 available and can be used to pay Task Payments and Company service charges and
                 platform fees in part or in full, but may not be used to pay for reimbursement of
-                out of pocket expenses or tips associated with a Task provided through the BIDORBOO
+                out of pocket expenses or tips associated with a Task provided through the BidOrBoo
                 Platform.
                 <br></br>
                 (a) Promo Codes Promo Codes are an offer by Company to reduce the amount a Client
@@ -345,26 +345,26 @@ export default class TermsOfService extends React.Component {
               </p>
               <br></br>
               <p>
-                6. Public Areas; Acceptable Use The BIDORBOO Platform may contain profiles, email
+                6. Public Areas; Acceptable Use The BidOrBoo Platform may contain profiles, email
                 systems, blogs, message boards, reviews, ratings, applications, job postings, chat
                 areas, news groups, forums, communities and/or other message or communication
                 facilities (“Public Areas”) that allow Users to communicate with other Users. You
                 may only use such community areas to send and receive messages and materials that
                 are relevant and proper to the applicable forum. For the safety and integrity of the
-                BIDORBOO Platform, you should not share your personal contact information with other
+                BidOrBoo Platform, you should not share your personal contact information with other
                 Users.
                 <br></br>
-                Without limitation, while using the BIDORBOO Platform, you may not:
+                Without limitation, while using the BidOrBoo Platform, you may not:
                 <br></br>
                 Defame, abuse, harass, stalk, threaten, intimidate, misrepresent, mislead or
                 otherwise violate the legal rights (such as, but not limited to, rights of privacy,
-                confidentiality, reputation, and publicity) of others, including Users and BIDORBOO
-                staff, or use information learned from the BIDORBOO Platform or during the
+                confidentiality, reputation, and publicity) of others, including Users and BidOrBoo
+                staff, or use information learned from the BidOrBoo Platform or during the
                 performance of Tasks to otherwise defame, abuse, harass, stalk, threaten,
                 intimidate, misrepresent, mislead, or otherwise violate the legal rights of any
                 other User or Company staff; Publish, post, upload, distribute or disseminate any
                 profane, defamatory, infringing, obscene or unlawful topic, name, material or
-                information on the BIDORBOO Platform; Use the BIDORBOO Platform for any unauthorized
+                information on the BidOrBoo Platform; Use the BidOrBoo Platform for any unauthorized
                 purpose, including, but not limited to posting or completing a Task in violation of
                 local, state, provincial, national, or international law; Upload files that contain
                 software or other material that violates the intellectual property rights (or rights
@@ -373,8 +373,8 @@ export default class TermsOfService extends React.Component {
                 may damage the operation of another’s computer; Post or upload any content to which
                 you have not obtained any necessary rights or permissions to use accordingly;
                 Advertise or offer to sell any goods or services for any commercial purpose through
-                the BIDORBOO Platform which are not relevant to the Task services offered through
-                the BIDORBOO Platform; Post or complete a Task requiring a User to (i) purchase or
+                the BidOrBoo Platform which are not relevant to the Task services offered through
+                the BidOrBoo Platform; Post or complete a Task requiring a User to (i) purchase or
                 obtain gift cards or money orders (ii) purchase high value items (over $300) without
                 obtaining pre-authorization from Company, (iii) provide ridesharing or other peer to
                 peer transportation services, (iv) post ratings or reviews on any third party
@@ -385,34 +385,34 @@ export default class TermsOfService extends React.Component {
                 allow any other person or entity to use your identification to post or view
                 comments; Post the same Task repeatedly (“Spamming”) – Spamming is strictly
                 prohibited; Download any file posted by another User that a User knows, or
-                reasonably should know, cannot be legally distributed through the BIDORBOO Platform;
+                reasonably should know, cannot be legally distributed through the BidOrBoo Platform;
                 Restrict or inhibit any other User from using and enjoying the Public Areas; Imply
-                or state that any statements you make are endorsed by BIDORBOO, without the prior
-                written consent of BIDORBOO; Use a robot, spider, manual, meta tag, “hidden text,”
+                or state that any statements you make are endorsed by BidOrBoo, without the prior
+                written consent of BidOrBoo; Use a robot, spider, manual, meta tag, “hidden text,”
                 agent, robot, script, and/or automatic processes or devices to data-mine,
                 data-crawl, scrape, collect, mine, republish, redistribute, transmit, sell, license,
-                download, manage or index the BIDORBOO Platform, or the electronic addresses or
+                download, manage or index the BidOrBoo Platform, or the electronic addresses or
                 personal information of others, in any manner; Frame or utilize framing techniques
-                to enclose the BIDORBOO Platform or any portion thereof; Hack or interfere with the
-                BIDORBOO Platform, its servers or any connected networks; Adapt, alter, license,
-                sublicense or translate the BIDORBOO Platform for your own personal or commercial
+                to enclose the BidOrBoo Platform or any portion thereof; Hack or interfere with the
+                BidOrBoo Platform, its servers or any connected networks; Adapt, alter, license,
+                sublicense or translate the BidOrBoo Platform for your own personal or commercial
                 use; Remove or alter, visually or otherwise, any copyrights, trademarks or
-                proprietary marks or rights owned by BIDORBOO and Affiliates; Upload content to the
-                BIDORBOO Platform that is offensive and/or harmful, including, but not limited to,
+                proprietary marks or rights owned by BidOrBoo and Affiliates; Upload content to the
+                BidOrBoo Platform that is offensive and/or harmful, including, but not limited to,
                 content that advocates, endorses, condones or promotes racism, bigotry, hatred or
                 physical harm of any kind against any individual or group of individuals; Upload
                 content that provides materials or access to materials that exploit people in an
-                abusive, violent or sexual manner; Use the BIDORBOO Platform to solicit for any
+                abusive, violent or sexual manner; Use the BidOrBoo Platform to solicit for any
                 other business, website or service, or otherwise contact Users for employment,
-                contracting or any purpose not related to use of the BIDORBOO Platform as set forth
-                herein; Use the BIDORBOO Platform to collect usernames, email addresses, or other
-                personal information of Users by electronic or other means; Use the BIDORBOO
-                Platform or the Task services in violation of this Agreement; Use the BIDORBOO
+                contracting or any purpose not related to use of the BidOrBoo Platform as set forth
+                herein; Use the BidOrBoo Platform to collect usernames, email addresses, or other
+                personal information of Users by electronic or other means; Use the BidOrBoo
+                Platform or the Task services in violation of this Agreement; Use the BidOrBoo
                 Platform in a manner that is false or misleading (directly or by omission or failure
                 to update information) or for the purpose of accessing or otherwise obtaining
                 Company’s trade secret information for public disclosure or other purposes; Attempt
                 to circumvent the payments system or service fees in any way including, but not
-                limited to, processing payments outside of the BIDORBOO Platform, providing
+                limited to, processing payments outside of the BidOrBoo Platform, providing
                 inaccurate information on invoices, or otherwise invoicing in a fraudulent manner;
                 Register under different usernames or identities after your account has been
                 suspended or terminated, or register under multiple usernames or false identities,
@@ -420,15 +420,15 @@ export default class TermsOfService extends React.Component {
                 party to engage in the restricted activities above. You understand that all
                 submissions made to Public Areas will be public and that you will be publicly
                 identified by your name or login identification when communicating in Public Areas.
-                BIDORBOO will not be responsible for the action of any Users with respect to any
+                BidOrBoo will not be responsible for the action of any Users with respect to any
                 information or materials posted in Public Areas.
               </p>
               <br></br>
               <p>
                 7. Mobile App Updates and Upgrades By installing one of the Apps, you consent to the
                 installation of the App and any updates or upgrades that are released through the
-                BIDORBOO Platform. The App (including any updates or upgrades) may (i) cause your
-                device to automatically communicate with BIDORBOO’s servers to deliver the App
+                BidOrBoo Platform. The App (including any updates or upgrades) may (i) cause your
+                device to automatically communicate with BidOrBoo’s servers to deliver the App
                 functionality and to record usage metrics, (ii) affect App-related preferences or
                 data stored your device, and (iii) collect personal information as set out in our
                 Privacy Policy. You can uninstall the App at any time.
@@ -436,32 +436,32 @@ export default class TermsOfService extends React.Component {
               <br></br>
               <p>
                 8. Termination and Suspension Company may terminate or limit your right to use the
-                BIDORBOO Platform in the event that we are investigating or believe that you have
+                BidOrBoo Platform in the event that we are investigating or believe that you have
                 breached any provision of this Agreement (a “User Breach”), by providing you with
                 written or email notice. Such termination or limitation will be effective
                 immediately upon delivery of such notice.
                 <br></br>
-                If Company terminates or limits your right to use the BIDORBOO Platform pursuant to
+                If Company terminates or limits your right to use the BidOrBoo Platform pursuant to
                 this Section 8, you are prohibited from registering and creating a new account under
                 your name, a fake or borrowed name, or the name of any third party, even if you may
                 be acting on behalf of the third party. If Company terminates or limits your right
-                to use the BIDORBOO Platform as a Client due to a User Breach, you will not be
+                to use the BidOrBoo Platform as a Client due to a User Breach, you will not be
                 entitled to any refund of unused balance in your account.
                 <br></br>
-                Even after your right to use the BIDORBOO Platform is terminated or limited, this
+                Even after your right to use the BidOrBoo Platform is terminated or limited, this
                 Agreement will remain enforceable against you. Company reserves the right to take
                 appropriate legal action, including but not limited to pursuing arbitration in
                 accordance with Section 19 of these Terms of Service.
                 <br></br>
                 Company reserves the right to modify or discontinue, temporarily or permanently, all
-                or any portion of the BIDORBOO Platform at its sole discretion. Company is not
+                or any portion of the BidOrBoo Platform at its sole discretion. Company is not
                 liable to you for any modification or discontinuance of all or any portion of the
-                BIDORBOO Platform. Company has the right to restrict anyone from completing
+                BidOrBoo Platform. Company has the right to restrict anyone from completing
                 registration as a Tasker if Company believes such person may threaten the safety and
-                integrity of the BIDORBOO Platform, or if, in Company’s discretion, such restriction
+                integrity of the BidOrBoo Platform, or if, in Company’s discretion, such restriction
                 is necessary to address any other reasonable business concern.
                 <br></br>
-                You may terminate this Agreement at any time by ceasing all use of the BIDORBOO
+                You may terminate this Agreement at any time by ceasing all use of the BidOrBoo
                 Platform. All parts of this Agreement which by their nature should survive the
                 expiration or termination of this Agreement shall continue in full force and effect
                 subsequent to and notwithstanding the expiration or termination of this Agreement.
@@ -469,12 +469,12 @@ export default class TermsOfService extends React.Component {
               <br></br>
               <p>
                 9. Account, Password, Security, and Mobile Phone Use You must register with Company
-                and create an account to use the BIDORBOO Platform (an “Account”). You are the sole
+                and create an account to use the BidOrBoo Platform (an “Account”). You are the sole
                 authorized user of your account. You are responsible for maintaining the
                 confidentiality of any log-in, password, and account number provided by you or given
-                to you by Company for accessing the BIDORBOO Platform. You are solely and fully
+                to you by Company for accessing the BidOrBoo Platform. You are solely and fully
                 responsible for all activities that occur under your password or account, even if
-                not authorized by you. If you are accessing and using the BIDORBOO Platform on
+                not authorized by you. If you are accessing and using the BidOrBoo Platform on
                 someone else’s behalf, you represent that you have the authority to bind that person
                 as the principal to all Terms provided herein. Company has no control over the use
                 of any User’s account and expressly disclaims any liability derived therefrom.
@@ -482,11 +482,11 @@ export default class TermsOfService extends React.Component {
                 or you suspect any other breach of security, you agree to contact Company
                 immediately.
                 <br></br>
-                By providing your mobile phone number and using the BIDORBOO Platform, you hereby
-                affirmatively consent to BIDORBOO’s use of your mobile phone number for calls and
+                By providing your mobile phone number and using the BidOrBoo Platform, you hereby
+                affirmatively consent to BidOrBoo’s use of your mobile phone number for calls and
                 recurring texts, (including with an autodialer and/or prerecorded voice) in order to
-                (a) perform and improve upon the BIDORBOO Platform, (b) facilitate the carrying out
-                of Tasks through the BIDORBOO Platform, (c) provide you with information and
+                (a) perform and improve upon the BidOrBoo Platform, (b) facilitate the carrying out
+                of Tasks through the BidOrBoo Platform, (c) provide you with information and
                 reminders regarding your registration, orientation, upcoming Tasks, product
                 alterations, changes and updates, service outages or alterations. These calls and
                 texts may include, among other things, reminders about uncompleted or upcoming Tasks
@@ -495,9 +495,9 @@ export default class TermsOfService extends React.Component {
                 message, data or other charges from your wireless carrier may apply. You may opt-out
                 of receiving texts messages from us by modifying your account settings on the Site
                 or Apps, texting “STOP” in response to any texts, or by emailing
-                opt-out-texts@BIDORBOO.com and specifying you want to opt-out of texts. You may
+                opt-out-texts@BidOrBoo.com and specifying you want to opt-out of texts. You may
                 opt-out of receiving calls from us by stating that you no longer wish to receive
-                calls during any call with us, or by emailing opt-out-texts@BIDORBOO.com and
+                calls during any call with us, or by emailing opt-out-texts@BidOrBoo.com and
                 specifying you want to opt-out of calls. You understand that we may send you a text
                 confirming any opt-out by you.
               </p>
@@ -505,16 +505,16 @@ export default class TermsOfService extends React.Component {
               <p>
                 10. User Generated Content “User Generated Content” is defined as any information
                 and materials you provide to Company, its corporate partners, or other Users in
-                connection with your registration for and use of the BIDORBOO Platform, including
+                connection with your registration for and use of the BidOrBoo Platform, including
                 without limitation that posted or transmitted for use in Public Areas. You are
                 solely responsible for User Generated Content, and we act merely as a passive
                 conduit for your online distribution and publication of your User Generated Content.
-                You acknowledge and agree that BIDORBOO is not involved in the creation or
+                You acknowledge and agree that BidOrBoo is not involved in the creation or
                 development of User Generated Content, disclaims any responsibility for User
                 Generated Content, and cannot be liable for claims arising out of or relating to
-                User Generated Content. Further, you acknowledge and agree that BIDORBOO has no
+                User Generated Content. Further, you acknowledge and agree that BidOrBoo has no
                 obligation to monitor, review, or remove User Generated Content, but reserves the
-                right to limit or remove User Generated Content on the BIDORBOO Platform at its sole
+                right to limit or remove User Generated Content on the BidOrBoo Platform at its sole
                 discretion.
                 <br></br>
                 You hereby represent and warrant to Company that your User Generated Content (a)
@@ -531,11 +531,11 @@ export default class TermsOfService extends React.Component {
                 computer programming routines that are intended to damage, detrimentally interfere
                 with, surreptitiously intercept or expropriate any system, data or personal
                 information; (h) will not represent you being employed or directly engaged by or
-                affiliated with BIDORBOO or purport you to act as a representative or agent of
-                BIDORBOO; and (i) will not create liability for Company or cause Company to lose (in
+                affiliated with BidOrBoo or purport you to act as a representative or agent of
+                BidOrBoo; and (i) will not create liability for Company or cause Company to lose (in
                 whole or in part) the services of its ISPs or other partners or suppliers.
                 <br></br>
-                The BIDORBOO Platform hosts User Generated Content relating to reviews and ratings
+                The BidOrBoo Platform hosts User Generated Content relating to reviews and ratings
                 of specific Taskers (“Feedback”). Such Feedback is such User’s opinion and not the
                 opinion of Company, has not been verified or approved by Company and each Client
                 should undertake their own research to be satisfied that a specific Tasker is the
@@ -549,11 +549,11 @@ export default class TermsOfService extends React.Component {
                 royalty-free, sublicensable (through multiple tiers) right to exercise all
                 copyrights, publicity rights, and any other rights you have in your User Generated
                 Content, in any media now known or not currently known in order to perform and
-                improve upon the BIDORBOO Platform.
+                improve upon the BidOrBoo Platform.
                 <br></br>
                 Each Tasker who provides to Company any videotape, film, recording, photograph,
                 voice, or all related instrumental, musical, or other sound effects (collectively,
-                “Media”), in exchange for the right to use the BIDORBOO Platform, hereby waives any
+                “Media”), in exchange for the right to use the BidOrBoo Platform, hereby waives any
                 and all moral rights in connection with such Media and irrevocably grants to Company
                 the non-exclusive, fully-paid, royalty-free, transferable, sublicensable, worldwide,
                 unrestricted, and perpetual right to:
@@ -566,83 +566,83 @@ export default class TermsOfService extends React.Component {
                 still camera photograph and/or motion picture film or video) (collectively the
                 “Physical Likeness”); Reproduce in all media any recordings of such Tasker’s voice,
                 and all related instrumental, musical, or other sound effects (collectively, the
-                “Voice”), made in connection with the BIDORBOO Platform; Use, and permit to be used,
+                “Voice”), made in connection with the BidOrBoo Platform; Use, and permit to be used,
                 such Tasker’s Physical Likeness and Voice in the advertising, marketing, and/or
-                publicizing of the BIDORBOO Platform in any media; and Use, and permit to be used,
-                such Tasker’s name and identity in connection with the BIDORBOO Platform. Each
+                publicizing of the BidOrBoo Platform in any media; and Use, and permit to be used,
+                such Tasker’s name and identity in connection with the BidOrBoo Platform. Each
                 Tasker warrants and represents that they have the lawful authority to grant the
                 rights set out above.
                 <br></br>
-                Each Tasker hereby waives all rights and releases BIDORBOO and Affiliates from, and
+                Each Tasker hereby waives all rights and releases BidOrBoo and Affiliates from, and
                 shall neither sue nor bring any proceeding against any such parties for, any claim
                 or cause of action, whether now known or unknown, for defamation, invasion of right
                 to privacy, publicity or personality or any similar matter, or based upon or
                 relating to the use and exploitation of such Tasker’s identity, likeness or voice in
-                connection with the BIDORBOO Platform.
+                connection with the BidOrBoo Platform.
                 <br></br>
-                Each Tasker acknowledges that BIDORBOO shall not owe any financial or other
+                Each Tasker acknowledges that BidOrBoo shall not owe any financial or other
                 remuneration for using the recordings provided hereunder by such Tasker, either for
                 initial or subsequent transmission or playback, and further acknowledges that
-                BIDORBOO is not responsible for any expense or liability incurred as a result of
+                BidOrBoo is not responsible for any expense or liability incurred as a result of
                 such Tasker’s recordings or participation in any recordings, including any loss of
                 such recording data.
               </p>
               <br></br>
               <p>
-                11. Links to Third-Party Websites The BIDORBOO Platform may contain links (such as
+                11. Links to Third-Party Websites The BidOrBoo Platform may contain links (such as
                 hyperlinks) to third-party websites. Such links do not constitute endorsement by
                 Company or association with those websites, their content or their operators. Such
                 links (including without limitation external websites that are framed by the
-                BIDORBOO Platform as well as any advertisements displayed in connection therewith)
+                BidOrBoo Platform as well as any advertisements displayed in connection therewith)
                 are provided as an information service, for reference and convenience only. Company
                 does not control any such websites, and is not responsible for their (i)
                 availability or accuracy, or (ii) content, advertising, products, or services. It is
                 your responsibility to evaluate the content and usefulness of the information
-                obtained from other websites. You acknowledge and agree that BIDORBOO is not
+                obtained from other websites. You acknowledge and agree that BidOrBoo is not
                 involved in the creation or development of third-party websites and disclaims any
                 responsibility for third-party websites, and cannot be liable for claims arising out
                 of or relating to third-party websites. Further, you acknowledge and agree that
-                BIDORBOO has no obligation to monitor, review, or remove links to third-party
+                BidOrBoo has no obligation to monitor, review, or remove links to third-party
                 websites, but reserves the right to limit or remove links to third-party websites on
-                the BIDORBOO Platform at its sole discretion.
+                the BidOrBoo Platform at its sole discretion.
                 <br></br>
                 The use of any website controlled, owned or operated by third parties is governed by
                 the terms and conditions of use and privacy policies for those websites. You access
-                such third-party websites at your own risk. BIDORBOO expressly disclaims any
+                such third-party websites at your own risk. BidOrBoo expressly disclaims any
                 liability arising in connection with your use and/or viewing of any websites or
-                other material associated with links that may appear on the BIDORBOO Platform. You
-                hereby agree to hold BIDORBOO harmless from any liability that may result from the
-                use of links that may appear on the BIDORBOO Platform.
+                other material associated with links that may appear on the BidOrBoo Platform. You
+                hereby agree to hold BidOrBoo harmless from any liability that may result from the
+                use of links that may appear on the BidOrBoo Platform.
                 <br></br>
-                As part of the functionality of the BIDORBOO Platform, you may link your account
+                As part of the functionality of the BidOrBoo Platform, you may link your account
                 with online accounts you may have with third party service providers (such as
                 Facebook) (each such account, a “Third-Party Account”) by either: (i) providing your
-                Third-Party Account login information through the BIDORBOO Platform; or (ii)
-                allowing BIDORBOO to access your Third-Party Account, as is permitted under the
+                Third-Party Account login information through the BidOrBoo Platform; or (ii)
+                allowing BidOrBoo to access your Third-Party Account, as is permitted under the
                 applicable terms and conditions that govern your use of each Third-Party Account.
                 You represent that you are entitled to disclose your Third-Party Account login
-                information to BIDORBOO and/or grant BIDORBOO access to your Third-Party Account
+                information to BidOrBoo and/or grant BidOrBoo access to your Third-Party Account
                 (including, but not limited to, for use for the purposes described herein), without
                 breach by you of any of the terms and conditions that govern your use of the
-                applicable Third-Party Account and without obligating BIDORBOO to pay any fees or
-                making BIDORBOO subject to any usage limitations imposed by such third-party service
-                providers. By granting BIDORBOO access to any Third-Party Accounts, you understand
-                that (i) BIDORBOO may access, make available and store (if applicable) any content
+                applicable Third-Party Account and without obligating BidOrBoo to pay any fees or
+                making BidOrBoo subject to any usage limitations imposed by such third-party service
+                providers. By granting BidOrBoo access to any Third-Party Accounts, you understand
+                that (i) BidOrBoo may access, make available and store (if applicable) any content
                 that you have provided to and stored in your Third-Party Account (the “SNS Content”)
-                so that it is available on and through the BIDORBOO Platform via your account,
-                including without limitation any friend lists, and (ii) BIDORBOO may submit and
+                so that it is available on and through the BidOrBoo Platform via your account,
+                including without limitation any friend lists, and (ii) BidOrBoo may submit and
                 receive additional information to your Third-Party Account to the extent you are
                 notified of this when you link your account with the Third-Party Account. Unless
                 otherwise specified in these Terms of Service, all SNS Content, if any, shall be
                 considered to be User Generated Content. Depending on the Third-Party Accounts you
                 choose, and subject to the privacy settings that you have set in such Third-Party
                 Accounts, personally identifiable information that you post to your Third-Party
-                Accounts may be available on and through your account on the BIDORBOO Platform.
+                Accounts may be available on and through your account on the BidOrBoo Platform.
                 Please note that if a Third-Party Account or associated service becomes unavailable
-                or BIDORBOO’s access to such Third-Party Account is terminated by the third-party
+                or BidOrBoo’s access to such Third-Party Account is terminated by the third-party
                 service provider, then SNS Content may no longer be available on and through the
-                BIDORBOO Platform. You will have the ability to disable the connection between your
-                account on the BIDORBOO Platform and your Third-Party Accounts at any time, as set
+                BidOrBoo Platform. You will have the ability to disable the connection between your
+                account on the BidOrBoo Platform and your Third-Party Accounts at any time, as set
                 forth below. PLEASE NOTE THAT YOUR RELATIONSHIP WITH THE THIRD-PARTY SERVICE
                 PROVIDERS ASSOCIATED WITH YOUR THIRD-PARTY ACCOUNTS IS GOVERNED SOLELY BY YOUR
                 AGREEMENT(S) WITH SUCH THIRD PARTY SERVICE PROVIDERS. Company makes no effort to
@@ -651,34 +651,34 @@ export default class TermsOfService extends React.Component {
               </p>
               <br></br>
               <p>
-                12. Worker Classification and Withholdings AS SET FORTH IN SECTION 1, BIDORBOO DOES
+                12. Worker Classification and Withholdings AS SET FORTH IN SECTION 1, BidOrBoo DOES
                 NOT PERFORM TASKS AND DOES NOT EMPLOY INDIVIDUALS TO PERFORM TASKS. EACH USER
                 ASSUMES ALL LIABILITY FOR PROPER CLASSIFICATION OF SUCH USER’S WORKERS BASED ON
-                APPLICABLE LEGAL GUIDELINES. IF A CLIENT, YOU INDEMNIFY AND HOLD BIDORBOO AND
-                AFFILIATES HARMLESS, AND IF A TASKER, YOU FULLY AND FINALLY RELEASE BIDORBOO AND
+                APPLICABLE LEGAL GUIDELINES. IF A CLIENT, YOU INDEMNIFY AND HOLD BidOrBoo AND
+                AFFILIATES HARMLESS, AND IF A TASKER, YOU FULLY AND FINALLY RELEASE BidOrBoo AND
                 AFFILIATES, FROM ALL LIABILITIES, CLAIMS, CAUSES OF ACTION, DEMANDS, DAMAGES,
                 LOSSES, FINES, PENALTIES OR OTHER COSTS OR EXPENSES THAT TASKERS OR ASSISTANTS MAY
                 INCUR OR BECOME ENTITLED TO, WHETHER UNDER CONTRACT, COMMON LAW, CIVIL LAW, STATUTE
-                OR OTHERWISE, IN RESPECT OF TASKS OR SERVICE AGREEMENTS OR THE USE OF THE BIDORBOO
+                OR OTHERWISE, IN RESPECT OF TASKS OR SERVICE AGREEMENTS OR THE USE OF THE BidOrBoo
                 PLATFORM, INCLUDING WITH RESPECT TO MISCLASSIFICATION OF TASKERS AND ASSISTANTS AND
                 THE TERMINATION OR CESSATION OF ANY TASKS, SERVICE AGREEMENTS, THIS AGREEMENT OR THE
-                USE OF THE BIDORBOO PLATFORM.
+                USE OF THE BidOrBoo PLATFORM.
                 <br></br>
                 Users do not have authority to enter into written or oral — whether implied or
                 express — contracts on behalf of Company. Each User acknowledges and agrees that
-                BIDORBOO does not, in any way, supervise, scope, direct, control or monitor a
+                BidOrBoo does not, in any way, supervise, scope, direct, control or monitor a
                 Tasker’s work or Tasks performed in any manner. Company does not set a Tasker’s work
-                hours or location of work. BIDORBOO will not provide any equipment, tools, labor or
-                materials needed for a particular Task. BIDORBOO does not provide any supervision to
+                hours or location of work. BidOrBoo will not provide any equipment, tools, labor or
+                materials needed for a particular Task. BidOrBoo does not provide any supervision to
                 Users.
                 <br></br>
-                The BIDORBOO Platform is not an employment agency service or business and BIDORBOO
-                is not an employer of any User. As such, BIDORBOO is not responsible for and will
+                The BidOrBoo Platform is not an employment agency service or business and BidOrBoo
+                is not an employer of any User. As such, BidOrBoo is not responsible for and will
                 not be liable for workers’ compensation or any tax payments or withholding,
                 including but not limited to applicable sales taxes, unemployment or employment
                 insurance, Canada Pension Plan, social security, disability insurance or any other
                 applicable federal, provincial or state withholdings in connection with a User’s use
-                of the BIDORBOO Platform. Taskers acknowledge and confirm that they are responsible
+                of the BidOrBoo Platform. Taskers acknowledge and confirm that they are responsible
                 for exercising their own business judgment in entering into Service Agreements and
                 performing Tasks and that, depending on how they exercise such business judgment,
                 there is a chance for individual profit or loss.
@@ -687,17 +687,17 @@ export default class TermsOfService extends React.Component {
               </p>
               <br></br>
               <p>
-                13. BIDORBOO Happiness Pledge The BIDORBOO Happiness Pledge is part of this
+                13. BidOrBoo Happiness Pledge The BidOrBoo Happiness Pledge is part of this
                 Agreement and incorporated by reference. Taskers determine what categories they are
-                qualified to task in, and scope the Task directly with their Client. BIDORBOO does
+                qualified to task in, and scope the Task directly with their Client. BidOrBoo does
                 not oversee, monitor or direct how a Tasker performs a Task, does not monitor Tasks
                 or chat threads between Users, and does not otherwise oversee or assume
                 responsibility for the actions of Users. Clients are advised to confirm with their
                 Tasker that their Tasker is qualified to perform the Task prior to the Task taking
-                place. BIDORBOO is not liable for the acts or omissions of Users, nor does BIDORBOO
-                provide insurance against any losses sustained by Users. That said, BIDORBOO wants
-                Users to be happy about their experience using the BIDORBOO Platform and the
-                Happiness Pledge is in place to encourage continued use of the BIDORBOO Platform.
+                place. BidOrBoo is not liable for the acts or omissions of Users, nor does BidOrBoo
+                provide insurance against any losses sustained by Users. That said, BidOrBoo wants
+                Users to be happy about their experience using the BidOrBoo Platform and the
+                Happiness Pledge is in place to encourage continued use of the BidOrBoo Platform.
                 <br></br>
                 Payments made under the Happiness Pledge are entirely discretionary, however, and
                 subject to certain conditions, limitations and exclusions, as described in the
@@ -705,8 +705,8 @@ export default class TermsOfService extends React.Component {
                 in the Terms of Service or the Privacy Policy, including any of the limitations on
                 liability set forth in Sections 12 and 17 of these Terms of Service. In the unlikely
                 event of a conflict with the Happiness Pledge, these Terms of Service prevail over
-                any contrary interpretation of the Happiness Pledge. The BIDORBOO Happiness Pledge
-                is not intended to be any sort of insurance and BIDORBOO is not an insurer, as such
+                any contrary interpretation of the Happiness Pledge. The BidOrBoo Happiness Pledge
+                is not intended to be any sort of insurance and BidOrBoo is not an insurer, as such
                 terms are understood for regulatory purposes.
               </p>
               <br></br>
@@ -714,39 +714,39 @@ export default class TermsOfService extends React.Component {
                 14. Intellectual Property Rights All text, graphics, editorial content, data,
                 formatting, graphs, designs, HTML, look and feel, photographs, music, sounds,
                 images, software, videos, designs, trademarks, logos, typefaces and other content
-                (collectively “Proprietary Material”) that Users see or read through the BIDORBOO
-                Platform is owned by BIDORBOO, excluding User Generated Content, which Users hereby
-                grant BIDORBOO a license to use. Proprietary Material is protected in all forms,
-                media and technologies now known or hereinafter developed. BIDORBOO owns all
+                (collectively “Proprietary Material”) that Users see or read through the BidOrBoo
+                Platform is owned by BidOrBoo, excluding User Generated Content, which Users hereby
+                grant BidOrBoo a license to use. Proprietary Material is protected in all forms,
+                media and technologies now known or hereinafter developed. BidOrBoo owns all
                 Proprietary Material, as well as the coordination, selection, arrangement and
                 enhancement of such Proprietary Materials as a Collective Work under the Canada
                 Copyright Act, as amended. The Proprietary Material is protected by the domestic and
                 international laws governing copyright, patents, and other proprietary rights. Users
                 may not copy, download, use, redesign, reconfigure, or retransmit anything from the
-                BIDORBOO Platform without BIDORBOO’s express prior written consent and, if
+                BidOrBoo Platform without BidOrBoo’s express prior written consent and, if
                 applicable, the holder of the rights to the User Generated Content. Any use of such
                 Proprietary Material, other than as permitted therein, is expressly prohibited
-                without the prior permission of BIDORBOO and, if applicable, the holder of the
+                without the prior permission of BidOrBoo and, if applicable, the holder of the
                 rights to the User Generated Content.
                 <br></br>
-                The service marks and trademarks of BIDORBOO, including without limitation BIDORBOO
-                and BIDORBOO logos, are service marks owned by BIDORBOO. Any other trademarks,
-                service marks, logos and/or trade names appearing via the BIDORBOO Platform are the
+                The service marks and trademarks of BidOrBoo, including without limitation BidOrBoo
+                and BidOrBoo logos, are service marks owned by BidOrBoo. Any other trademarks,
+                service marks, logos and/or trade names appearing via the BidOrBoo Platform are the
                 property of their respective owners. You may not copy or use any of these marks,
                 logos or trade names without the express prior written consent of the owner.
               </p>
               <br></br>
               <p>
-                15. Copyright Complaints and Copyright Agent BIDORBOO respects the intellectual
+                15. Copyright Complaints and Copyright Agent BidOrBoo respects the intellectual
                 property of others, and expects Users to do the same. If you believe, in good faith,
-                that any materials provided on or in connection with the BIDORBOO Platform infringe
+                that any materials provided on or in connection with the BidOrBoo Platform infringe
                 upon your copyright or other intellectual property right, please send the following
-                information to BIDORBOO’s Copyright Agent at: BIDORBOO, Inc., by direct chat from
+                information to BidOrBoo’s Copyright Agent at: BidOrBoo, Inc., by direct chat from
                 the Footer of our website (the Chat button) or by email bidorboocrew@bidorboo.com:
                 <br></br>A description of the copyrighted work that you claim has been infringed,
-                including the URL (Internet address) or other specific location on the BIDORBOO
+                including the URL (Internet address) or other specific location on the BidOrBoo
                 Platform where the material you claim is infringed is located. Include enough
-                information to allow BIDORBOO to locate the material, and explain why you think an
+                information to allow BidOrBoo to locate the material, and explain why you think an
                 infringement has taken place; A description of the location where the original or an
                 authorized copy of the copyrighted work exists -- for example, the URL (Internet
                 address) where it is posted or the name of the book in which it has been published;
@@ -758,74 +758,74 @@ export default class TermsOfService extends React.Component {
                 signature of the owner of the copyright or the person authorized to act on behalf of
                 the owner of the copyright interest. 16. Confidential Information You acknowledge
                 that Confidential Information (as defined below) is a valuable, special and unique
-                asset of BIDORBOO and agree that you will not disclose, transfer, use (or seek to
+                asset of BidOrBoo and agree that you will not disclose, transfer, use (or seek to
                 induce others to disclose, transfer or use) any Confidential Information for any
-                purpose other than using the BIDORBOO Platform in accordance with these Terms of
+                purpose other than using the BidOrBoo Platform in accordance with these Terms of
                 Service. If relevant, you may disclose the Confidential Information to your
                 authorized employees and agents provided that they are also bound to maintain the
-                confidentiality of Confidential Information. You shall promptly notify BIDORBOO in
+                confidentiality of Confidential Information. You shall promptly notify BidOrBoo in
                 writing of any circumstances that may constitute unauthorized disclosure, transfer,
                 or use of Confidential Information. You shall use best efforts to protect
                 Confidential Information from unauthorized disclosure, transfer or use. You shall
                 return all originals and any copies of any and all materials containing Confidential
-                Information to BIDORBOO upon termination of this Agreement for any reason
+                Information to BidOrBoo upon termination of this Agreement for any reason
                 whatsoever.
                 <br></br>
-                The term “Confidential Information” shall mean any and all of BIDORBOO’s trade
+                The term “Confidential Information” shall mean any and all of BidOrBoo’s trade
                 secrets, confidential and proprietary information, and all other information and
-                data of BIDORBOO that is not generally known to the public or other third parties
+                data of BidOrBoo that is not generally known to the public or other third parties
                 who could derive value, economic or otherwise, from its use or disclosure.
                 Confidential Information shall be deemed to include technical data, know-how,
                 research, product plans, products, services, customers, markets, software,
                 developments, inventions, processes, formulas, technology, designs, drawings,
                 engineering, hardware configuration information, marketing, finances, strategic and
-                other proprietary and confidential information relating to BIDORBOO or BIDORBOO’s
-                business, operations or properties, including information about BIDORBOO’s staff,
+                other proprietary and confidential information relating to BidOrBoo or BidOrBoo’s
+                business, operations or properties, including information about BidOrBoo’s staff,
                 Users or partners, or other business information disclosed directly or indirectly in
                 writing, orally or by drawings or observation.
               </p>
               <br></br>
               <p>
-                17. Disclaimer of Warranties (a) Use Of The BIDORBOO Platform Is Entirely At Your
+                17. Disclaimer of Warranties (a) Use Of The BidOrBoo Platform Is Entirely At Your
                 Own Risk
                 <br></br>
-                THE BIDORBOO PLATFORM IS PROVIDED ON AN “AS IS” BASIS WITHOUT WARRANTIES OR
+                THE BidOrBoo PLATFORM IS PROVIDED ON AN “AS IS” BASIS WITHOUT WARRANTIES OR
                 CONDITIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,
                 WARRANTIES OR CONDITIONS OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND
-                NON-INFRINGEMENT. BIDORBOO MAKES NO WARRANTIES OR REPRESENTATIONS ABOUT THE ACCURACY
-                OR COMPLETENESS OF THE CONTENT PROVIDED THROUGH THE BIDORBOO PLATFORM OR THE CONTENT
-                OF ANY SITES LINKED TO THE BIDORBOO PLATFORM AND ASSUMES NO LIABILITY OR
+                NON-INFRINGEMENT. BidOrBoo MAKES NO WARRANTIES OR REPRESENTATIONS ABOUT THE ACCURACY
+                OR COMPLETENESS OF THE CONTENT PROVIDED THROUGH THE BidOrBoo PLATFORM OR THE CONTENT
+                OF ANY SITES LINKED TO THE BidOrBoo PLATFORM AND ASSUMES NO LIABILITY OR
                 RESPONSIBILITY IN CONTRACT, WARRANTY OR IN TORT FOR ANY (I) ERRORS, MISTAKES, OR
                 INACCURACIES OF CONTENT, (II) PERSONAL INJURY OR PROPERTY DAMAGE, OF ANY NATURE
-                WHATSOEVER, RESULTING FROM YOUR ACCESS TO AND USE OF THE BIDORBOO PLATFORM, (III)
+                WHATSOEVER, RESULTING FROM YOUR ACCESS TO AND USE OF THE BidOrBoo PLATFORM, (III)
                 ANY ACCESS TO OR USE OF OUR SECURE SERVERS AND/OR ANY AND ALL PERSONAL INFORMATION
                 AND/OR FINANCIAL INFORMATION STORED THEREIN; AND (IV) EVENTS BEYOND OUR REASONABLE
                 CONTROL.
                 <br></br>
-                BIDORBOO does not warrant, endorse, guarantee or assume responsibility for any
-                service advertised or offered by a third party through the BIDORBOO Platform or any
-                hyperlinked website or featured in any banner or other advertising, and BIDORBOO
+                BidOrBoo does not warrant, endorse, guarantee or assume responsibility for any
+                service advertised or offered by a third party through the BidOrBoo Platform or any
+                hyperlinked website or featured in any banner or other advertising, and BidOrBoo
                 will not be a party to or in any way be responsible for monitoring any transaction
                 between you and third-party providers of products or services. As with the purchase
                 of a product or service through any medium or in any environment, you should use
                 your best judgment and exercise caution where appropriate. Without limiting the
-                foregoing, BIDORBOO and Affiliates do not warrant that access to the BIDORBOO
-                Platform will be uninterrupted or that the BIDORBOO Platform will be error-free; nor
+                foregoing, BidOrBoo and Affiliates do not warrant that access to the BidOrBoo
+                Platform will be uninterrupted or that the BidOrBoo Platform will be error-free; nor
                 do they make any warranty as to the results that may be obtained from the use of the
-                BIDORBOO Platform, or as to the timeliness, accuracy, reliability, completeness or
+                BidOrBoo Platform, or as to the timeliness, accuracy, reliability, completeness or
                 content of any Task, service, information or materials provided through or in
-                connection with the use of the BIDORBOO Platform. BIDORBOO and Affiliates are not
-                responsible for the conduct, whether online or offline, of any User. BIDORBOO and
-                Affiliates do not warrant that the BIDORBOO Platform is free from computer viruses,
+                connection with the use of the BidOrBoo Platform. BidOrBoo and Affiliates are not
+                responsible for the conduct, whether online or offline, of any User. BidOrBoo and
+                Affiliates do not warrant that the BidOrBoo Platform is free from computer viruses,
                 system failures, worms, trojan horses, or other harmful components or malfunctions,
-                including during hyperlink to or from third-party websites. BIDORBOO and Affiliates
+                including during hyperlink to or from third-party websites. BidOrBoo and Affiliates
                 cannot and do not guarantee that any personal information supplied by you will not
                 be misappropriated, intercepted, deleted, destroyed or used by others.
                 <br></br>
-                Notwithstanding any feature a Client may use to expedite BIDORBOO selection, each
+                Notwithstanding any feature a Client may use to expedite BidOrBoo selection, each
                 Client is responsible for determining the Task and selecting their Tasker and
-                BIDORBOO does not warrant any goods or services purchased by a Client and does not
-                recommend any particular Tasker. BIDORBOO does not provide any warranties or
+                BidOrBoo does not warrant any goods or services purchased by a Client and does not
+                recommend any particular Tasker. BidOrBoo does not provide any warranties or
                 guarantees regarding any Tasker’s professional accreditation, registration or
                 license.
                 <br></br>
@@ -837,39 +837,39 @@ export default class TermsOfService extends React.Component {
                 rights), with respect to or in connection with any agreement or provision contained
                 herein or contemplated hereby.
                 <br></br>
-                (b) No Liability You acknowledge and agree that BIDORBOO is only willing to provide
-                the BIDORBOO Platform if you agree to certain limitations of our liability to you
-                and third parties. Therefore, you agree not to hold BIDORBOO and Affiliates, or
+                (b) No Liability You acknowledge and agree that BidOrBoo is only willing to provide
+                the BidOrBoo Platform if you agree to certain limitations of our liability to you
+                and third parties. Therefore, you agree not to hold BidOrBoo and Affiliates, or
                 their corporate partners, liable for any claims, demands, damages, expenses, losses,
                 governmental obligations, suits, and/or controversies of every kind and nature,
                 known and unknown, suspected and unsuspected, disclosed and undisclosed, direct,
                 indirect, incidental, actual, consequential, economic, special, or exemplary,
                 including attorneys fees and costs (collectively, “Liabilities”) that have arisen or
                 may arise, relating to your or any other party’s use of or inability to use the
-                BIDORBOO Platform, including without limitation any Liabilities arising in
+                BidOrBoo Platform, including without limitation any Liabilities arising in
                 connection with the conduct, act or omission of any User (including without
                 limitation stalking, harassment that is sexual or otherwise, acts of physical
                 violence, and destruction of personal property), any dispute with any User, any
-                instruction, advice, act, or service provided by BIDORBOO and Affiliates and any
+                instruction, advice, act, or service provided by BidOrBoo and Affiliates and any
                 destruction of your User Generated Content.
                 <br></br>
-                UNDER NO CIRCUMSTANCES WILL BIDORBOO AND AFFILIATES OR THEIR CORPORATE PARTNERS BE
+                UNDER NO CIRCUMSTANCES WILL BidOrBoo AND AFFILIATES OR THEIR CORPORATE PARTNERS BE
                 LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, ACTUAL, CONSEQUENTIAL, ECONOMIC,
                 SPECIAL OR EXEMPLARY DAMAGES (INCLUDING BUT NOT LIMITED TO LOST PROFITS, LOSS OF
                 DATA, LOSS OF GOODWILL, SERVICE INTERRUPTION, COMPUTER DAMAGE, SYSTEM FAILURE,
                 FAILURE TO STORE ANY INFORMATION OR OTHER CONTENT MAINTAINED OR TRANSMITTED BY
-                BIDORBOO, OR THE COST OF SUBSTITUTE PRODUCTS OR SERVICES) ARISING IN CONNECTION WITH
-                YOUR USE OF OR INABILITY TO USE THE BIDORBOO PLATFORM OR THE TASK SERVICES, EVEN IF
+                BidOrBoo, OR THE COST OF SUBSTITUTE PRODUCTS OR SERVICES) ARISING IN CONNECTION WITH
+                YOUR USE OF OR INABILITY TO USE THE BidOrBoo PLATFORM OR THE TASK SERVICES, EVEN IF
                 ADVISED OF THE POSSIBILITY OF THE SAME. SOME JURISDICTIONS DO NOT ALLOW THE
                 EXCLUSION OR LIMITATION OF INCIDENTAL OR CONSEQUENTIAL DAMAGES, SO THE ABOVE
                 LIMITATIONS MAY NOT APPLY TO YOU IN THEIR ENTIRETY.
                 <br></br>
-                BIDORBOO AND AFFILIATES EXPRESSLY DISCLAIM ANY LIABILITY THAT MAY ARISE BETWEEN
-                USERS OF ITS BIDORBOO PLATFORM. BIDORBOO AND AFFILIATES ALSO DO NOT ACCEPT ANY
+                BidOrBoo AND AFFILIATES EXPRESSLY DISCLAIM ANY LIABILITY THAT MAY ARISE BETWEEN
+                USERS OF ITS BidOrBoo PLATFORM. BidOrBoo AND AFFILIATES ALSO DO NOT ACCEPT ANY
                 LIABILITY WITH RESPECT TO THE QUALITY OR FITNESS OF ANY WORK PERFORMED VIA THE
-                BIDORBOO PLATFORM.
+                BidOrBoo PLATFORM.
                 <br></br>
-                IF, NOTWITHSTANDING THE FOREGOING EXCLUSIONS, IT IS DETERMINED THAT BIDORBOO AND
+                IF, NOTWITHSTANDING THE FOREGOING EXCLUSIONS, IT IS DETERMINED THAT BidOrBoo AND
                 AFFILIATES OR THEIR CORPORATE PARTNERS ARE LIABLE FOR DAMAGES, IN NO EVENT WILL THE
                 AGGREGATE LIABILITY, WHETHER ARISING IN CONTRACT, TORT, STRICT LIABILITY OR
                 OTHERWISE, EXCEED THE TOTAL FEES PAID BY YOU TO COMPANY DURING THE SIX (6) MONTHS
@@ -879,10 +879,10 @@ export default class TermsOfService extends React.Component {
                 liability for consequential or incidental damages, so certain aspects of the
                 limitations above may not apply to you.
                 <br></br>
-                (c) Release THE BIDORBOO PLATFORM IS ONLY A VENUE FOR CONNECTING USERS. BECAUSE
-                BIDORBOO IS NOT A PARTY TO OR OTHERWISE INVOLVED IN THE ACTUAL CONTRACT BETWEEN
+                (c) Release THE BidOrBoo PLATFORM IS ONLY A VENUE FOR CONNECTING USERS. BECAUSE
+                BidOrBoo IS NOT A PARTY TO OR OTHERWISE INVOLVED IN THE ACTUAL CONTRACT BETWEEN
                 USERS OR IN THE COMPLETION OF THE TASK, IN THE EVENT THAT YOU HAVE A DISPUTE WITH
-                ONE OR MORE USERS, YOU HEREBY RELEASE BIDORBOO AND AFFILIATES AND THEIR CORPORATE
+                ONE OR MORE USERS, YOU HEREBY RELEASE BidOrBoo AND AFFILIATES AND THEIR CORPORATE
                 PARTNERS FROM ANY AND ALL CLAIMS, DEMANDS, DAMAGES (INCLUDING DIRECT, INDIRECT,
                 INCIDENTAL, ACTUAL, CONSEQUENTIAL, ECONOMIC, SPECIAL, OR EXEMPLARY), EXPENSES,
                 LOSSES, GOVERNMENTAL OBLIGATIONS, SUITS AND/OR CONTROVERSIES OF EVERY KIND AND
@@ -899,43 +899,43 @@ export default class TermsOfService extends React.Component {
               <br></br>
               <p>
                 18. Indemnification You hereby agree to indemnify, defend, and hold harmless
-                BIDORBOO and Affiliates, and their attorneys, insurers, independent contractors,
+                BidOrBoo and Affiliates, and their attorneys, insurers, independent contractors,
                 providers, successors and assigns (the “Indemnified Parties”) from and against any
                 and all Liabilities incurred in connection with (i) your use or inability to use the
-                BIDORBOO Platform or perform Tasks, or (ii) your breach or violation of this
+                BidOrBoo Platform or perform Tasks, or (ii) your breach or violation of this
                 Agreement; (iii) your violation of any law, or the rights of any User or third party
-                and (iv) any content submitted by you or using your account to the BIDORBOO
+                and (iv) any content submitted by you or using your account to the BidOrBoo
                 Platform, including, but not limited to the extent such content may infringe on the
                 intellectual rights of a third party or otherwise be illegal or unlawful. You also
                 agree to indemnify the Indemnified Parties for any Liabilities resulting from your
                 use of software robots, spiders, crawlers, or similar data gathering and extraction
                 tools, or any other action you take that imposes an unreasonable burden or loan on
-                our infrastructure. BIDORBOO reserves the right, in its own sole discretion, to
+                our infrastructure. BidOrBoo reserves the right, in its own sole discretion, to
                 assume the exclusive defense and control at its own expense of any matter otherwise
                 subject to your indemnification. You will not, in any event, settle any claim or
-                matter without the prior written consent of BIDORBOO.
+                matter without the prior written consent of BidOrBoo.
               </p>
               <br></br>
               <p>
                 19. Dispute Resolution – Arbitration & Class Action Waiver (Canada Users) USERS
                 RESIDING IN THE CANADA: PLEASE READ THIS SECTION CAREFULLY — IT AFFECTS YOUR LEGAL
-                RIGHTS AND GOVERNS HOW YOU AND BIDORBOO CAN BRING CLAIMS AGAINST EACH OTHER. THIS
-                SECTION WILL, WITH LIMITED EXCEPTION, REQUIRE YOU AND BIDORBOO TO SUBMIT CLAIMS
+                RIGHTS AND GOVERNS HOW YOU AND BidOrBoo CAN BRING CLAIMS AGAINST EACH OTHER. THIS
+                SECTION WILL, WITH LIMITED EXCEPTION, REQUIRE YOU AND BidOrBoo TO SUBMIT CLAIMS
                 AGAINST EACH OTHER TO BINDING AND FINAL ARBITRATION ON AN INDIVIDUAL BASIS.
                 <br></br>
                 (a) Informal Negotiations
                 <br></br>
                 To expedite resolution and reduce the cost of any dispute, controversy or claim
-                between you and BIDORBOO (each a “Claim” and collectively “Claims”), you and
-                BIDORBOO agree to first attempt to negotiate any Claim (except those Claims
+                between you and BidOrBoo (each a “Claim” and collectively “Claims”), you and
+                BidOrBoo agree to first attempt to negotiate any Claim (except those Claims
                 expressly excluded below) informally for at least thirty (30) days before initiating
                 any arbitration. This pre-arbitration negotiation shall be initiated by providing
                 written notice to the other party—including a brief written statement describing the
                 name, address, and contact information of the notifying party, the facts giving rise
                 to the Claim, and the relief requested. You must send such written notice to
-                BIDORBOO, Inc., 425 Second Street, 5th Floor, San Francisco California, 94107
+                BidOrBoo, Inc., 425 Second Street, 5th Floor, San Francisco California, 94107
                 Attention: Legal. If necessary to preserve a Claim under any applicable statute of
-                limitations, you or BIDORBOO may initiate arbitration while engaging in the informal
+                limitations, you or BidOrBoo may initiate arbitration while engaging in the informal
                 negotiations.
                 <br></br>
                 During this pre-arbitration negotiation, all offers, promises, conduct and
@@ -944,7 +944,7 @@ export default class TermsOfService extends React.Component {
                 inadmissible for any purpose, including as evidence of liability, in arbitration or
                 other proceeding involving the parties.
                 <br></br>
-                After a good faith effort to negotiate, if you or BIDORBOO believe a Claim cannot be
+                After a good faith effort to negotiate, if you or BidOrBoo believe a Claim cannot be
                 resolved informally, the party intending to pursue arbitration agrees to notify the
                 other party via email prior to initiating the arbitration. In order to initiate
                 arbitration, a claim must be filed with the American Arbitration Association (“AAA”)
@@ -955,7 +955,7 @@ export default class TermsOfService extends React.Component {
                 (b) Agreement to Binding Arbitration
                 <br></br>
                 IN EXCHANGE FOR THE BENEFITS OF THE SPEEDY, ECONOMICAL, AND IMPARTIAL DISPUTE
-                RESOLUTION PROCEDURE OF ARBITRATION, YOU AND BIDORBOO MUTUALLY AGREE TO WAIVE YOUR
+                RESOLUTION PROCEDURE OF ARBITRATION, YOU AND BidOrBoo MUTUALLY AGREE TO WAIVE YOUR
                 RESPECTIVE RIGHTS TO RESOLUTION OF ALL CLAIMS BETWEEN YOU (EXCEPT THOSE EXPRESSLY
                 EXCLUDED BELOW) IN A COURT OF LAW BY A JUDGE OR JURY AND AGREE TO RESOLVE ANY
                 DISPUTES BY BINDING ARBITRATION ON AN INDIVIDUAL BASIS AS SET FORTH HEREIN.
@@ -967,8 +967,8 @@ export default class TermsOfService extends React.Component {
                 Claims covered by this Arbitration Agreement include, but are not limited to, any
                 dispute, claim or controversy whether based on past, present or future events
                 arising out of or relating to: this Agreement and prior versions (including the
-                breach, termination, enforcement, interpretation or validity thereof); the BIDORBOO
-                Platform, services, or Tasks; your relationship with BIDORBOO; the threatened or
+                breach, termination, enforcement, interpretation or validity thereof); the BidOrBoo
+                Platform, services, or Tasks; your relationship with BidOrBoo; the threatened or
                 actual suspension, deactivation or termination of your Account or this Agreement;
                 payments made by you or any payments made or allegedly owed to you; any city,
                 county, state or federal wage-hour law; compensation, breaks and rests periods,
@@ -989,11 +989,11 @@ export default class TermsOfService extends React.Component {
                 <br></br>
                 If there is a dispute about the arbitrability of any Claim (including questions
                 about the scope, applicability, interpretation, validity, and enforceability of this
-                arbitration agreement), you and BIDORBOO agree that this threshold dispute shall be
+                arbitration agreement), you and BidOrBoo agree that this threshold dispute shall be
                 delegated to the arbitrator (not a court) and that the arbitrator shall have initial
                 authority to resolve such threshold disputes, except as expressly provided below.
                 <br></br>
-                YOU ACKNOWLEDGE AND UNDERSTAND THAT YOU AND BIDORBOO ARE WAIVING THE RIGHT TO SUE IN
+                YOU ACKNOWLEDGE AND UNDERSTAND THAT YOU AND BidOrBoo ARE WAIVING THE RIGHT TO SUE IN
                 COURT OR HAVE A JURY TRIAL FOR ALL CLAIMS, UNLESS EXPRESSLY EXCLUDED IN THIS
                 ARBITRATION AGREEMENT. THIS ARBITRATION AGREEMENT IS INTENDED TO REQUIRE ARBITRATION
                 OF EVERY CLAIM OR DISPUTE THAT CAN LAWFULLY BE ARBITRATED, EXCEPT THOSE CLAIMS AND
@@ -1002,12 +1002,12 @@ export default class TermsOfService extends React.Component {
                 <br></br>
                 (c) Agreement Prohibiting Class Actions and Non-Individualized Relief
                 <br></br>
-                Except as otherwise required under applicable law, you and BIDORBOO agree that any
-                arbitration will be limited to the Claim between BIDORBOO and you individually. YOU
-                ACKNOWLEDGE AND AGREE THAT YOU AND BIDORBOO ARE EACH WAIVING THE RIGHT TO
+                Except as otherwise required under applicable law, you and BidOrBoo agree that any
+                arbitration will be limited to the Claim between BidOrBoo and you individually. YOU
+                ACKNOWLEDGE AND AGREE THAT YOU AND BidOrBoo ARE EACH WAIVING THE RIGHT TO
                 PARTICIPATE AS A PLAINTIFF OR CLASS MEMBER IN ANY PURPORTED CLASS ACTION LAWSUIT,
                 CLASS-WIDE ARBITRATION, OR ANY OTHER REPRESENTATIVE PROCEEDING (“Class Action
-                Waiver”). Further, unless both you and BIDORBOO otherwise agree, the arbitrator may
+                Waiver”). Further, unless both you and BidOrBoo otherwise agree, the arbitrator may
                 not consolidate more than one person’s claims, and may not otherwise preside over
                 any form of any class or representative proceeding. The arbitrator shall have no
                 authority to consider or resolve any Claim or issue any relief on any basis other
@@ -1031,7 +1031,7 @@ export default class TermsOfService extends React.Component {
                 (d) Representative PAGA Waiver
                 <br></br>
                 Notwithstanding any other provision of this Agreement, the Arbitration Agreement or
-                the AAA Rules, to the fullest extent allowed by law: (1) you and BIDORBOO agree not
+                the AAA Rules, to the fullest extent allowed by law: (1) you and BidOrBoo agree not
                 to bring a representative action on behalf of others under the California Private
                 Attorneys General Act of 2004 (“PAGA”), California Labor Code § 2698 et seq., in any
                 court or in arbitration, and (2) for any claim brought on a private attorney general
@@ -1069,7 +1069,7 @@ export default class TermsOfService extends React.Component {
                 the Claims presented, the arbitrator shall have the discretion to select a different
                 set of AAA Rules, but in no event shall the arbitrator consolidate more than one
                 person’s Claims, or otherwise preside over any form of representative, collective,
-                or class proceeding. You and BIDORBOO agree that the arbitration shall be
+                or class proceeding. You and BidOrBoo agree that the arbitration shall be
                 administered before a single arbitrator mutually agreed upon by the parties, and if
                 the parties cannot agree within thirty (30) days after names of potential
                 arbitrators have been proposed, then by a single arbitrator who is chosen by the
@@ -1175,7 +1175,7 @@ export default class TermsOfService extends React.Component {
                 <br></br>
                 If you are a Tasker, you may opt out of the Arbitration Agreement by notifying
                 Company in writing within thirty (30) days of your agreement to these Terms of
-                Service. To opt out, you must send a written notification to Company at BIDORBOO,
+                Service. To opt out, you must send a written notification to Company at BidOrBoo,
                 Inc., 425 Second Street, 5th Floor, San Francisco California, 94107 Attention:
                 Legal, that includes (a) your account username, (b) your name, (c) your address, (d)
                 your telephone number, (e) your email address, and (f) a clear statement indicating
@@ -1188,7 +1188,7 @@ export default class TermsOfService extends React.Component {
                 21. Governing Law
                 <br></br>
                 USERS RESIDING IN CANADA: Except provided otherwise, this Agreement and your use of
-                the BIDORBOO Platform will be governed by, and will be construed under, the laws of
+                the BidOrBoo Platform will be governed by, and will be construed under, the laws of
                 the Province of Ontario, without regard to choice of law principles. This choice of
                 law provision is only intended to specify the use of Ontario law to interpret this
                 Agreement and is not intended to create any substantive right to non-residents of
@@ -1232,7 +1232,7 @@ export default class TermsOfService extends React.Component {
                 questions about how local laws apply to your Tasks and services on the platform, you
                 can and should first seek separate legal guidance.
                 <br></br>
-                Because BIDORBOO does not oversee, monitor or supervise the posting, scoping or
+                Because BidOrBoo does not oversee, monitor or supervise the posting, scoping or
                 performance of Tasks, Clients must determine for themselves whether a Tasker is
                 qualified to perform the specific Task at hand. Clients may wish to consult their
                 state/provincial/territorial or local requirements to determine whether certain
@@ -1240,20 +1240,20 @@ export default class TermsOfService extends React.Component {
               </p>
               <br></br>
               <p>
-                25. Changes to this Agreement and the BIDORBOO Platform Company reserves the right,
+                25. Changes to this Agreement and the BidOrBoo Platform Company reserves the right,
                 at its sole and absolute discretion, to change, modify, add to, supplement, suspend,
                 discontinue, or delete any of the terms and conditions of this Agreement (including
                 the Terms of Service, Privacy Policy, and Happiness Pledge) and review, improve,
-                modify or discontinue, temporarily or permanently, the BIDORBOO Platform or any
-                content or information through the BIDORBOO Platform at any time, effective with or
+                modify or discontinue, temporarily or permanently, the BidOrBoo Platform or any
+                content or information through the BidOrBoo Platform at any time, effective with or
                 without prior notice and without any liability to Company. Company will endeavor to
                 notify you of material changes by email, but will not be liable for any failure to
                 do so. If any future changes to this Agreement are unacceptable to you or cause you
                 to no longer be in compliance with this Agreement, you must terminate, and
-                immediately stop using, the BIDORBOO Platform. Your continued use of the BIDORBOO
+                immediately stop using, the BidOrBoo Platform. Your continued use of the BidOrBoo
                 Platform following any revision to this Agreement constitutes your complete and
                 irrevocable acceptance of any and all such changes. Company may also impose limits
-                on certain features or restrict your access to part or all of the BIDORBOO Platform
+                on certain features or restrict your access to part or all of the BidOrBoo Platform
                 without notice or liability.
               </p>
               <br></br>
@@ -1277,7 +1277,7 @@ export default class TermsOfService extends React.Component {
               </p>
               <br></br>
               <p>
-                If you have any questions about these Terms of Service or about the BIDORBOO
+                If you have any questions about these Terms of Service or about the BidOrBoo
                 Platform, please contact us by direct chat from the Footer of our website (the Chat
                 button) or by email bidorboocrew@bidorboo.com
               </p>
@@ -1285,7 +1285,7 @@ export default class TermsOfService extends React.Component {
               <p className="has-text-weight-semibold">
                 I HEREBY ACKNOWLEDGE THAT I HAVE READ AND UNDERSTAND THE FOREGOING TERMS OF SERVICE,
                 AS WELL AS THE PRIVACY POLICY AND HAPPINESS PLEDGE, AND AGREE THAT MY USE OF THE
-                BIDORBOO PLATFORM IS AN ACKNOWLEDGMENT OF MY AGREEMENT TO BE BOUND BY THE TERMS AND
+                BidOrBoo PLATFORM IS AN ACKNOWLEDGMENT OF MY AGREEMENT TO BE BOUND BY THE TERMS AND
                 CONDITIONS OF THIS AGREEMENT.
               </p>
             </div>

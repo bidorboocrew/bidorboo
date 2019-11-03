@@ -383,7 +383,7 @@ class RequesterConfirmsCompletion extends React.Component {
                 </header>
                 <section className="modal-card-body">
                   <p>
-                    BIDORBOO crew is happy to know that our tasker fulfilled your request, and we
+                    BidOrBoo crew is happy to know that our tasker fulfilled your request, and we
                     hope that it was done to your satisfaction.
                   </p>
                   <br />
@@ -608,7 +608,7 @@ class AssignedTaskerDetails extends React.Component {
                 <div style={{ fontWeight: 500, fontSize: 16 }}>
                   <div>
                     <a
-                      href={`mailto:${emailAddress}?subject=BIDORBOO - I requested your service and reaching out to agree on meeting time and details`}
+                      href={`mailto:${emailAddress}?subject=BidOrBoo - I requested your service and reaching out to agree on meeting time and details`}
                     >
                       <span className="icon">
                         <i className="far fa-envelope" />

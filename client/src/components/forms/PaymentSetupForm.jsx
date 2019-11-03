@@ -680,7 +680,7 @@ const PaymentSetupForm = (props) => {
                     <input style={{ marginRight: 4 }} type="checkbox" />
                     {`  I have read and agree to`}
                     <a target="_blank" rel="noopener noreferrer" href={`${ROUTES.CLIENT.TOS}`}>
-                      {` BIDORBOO Service Agreement `}
+                      {` BidOrBoo Service Agreement `}
                     </a>
                     and the
                     <a

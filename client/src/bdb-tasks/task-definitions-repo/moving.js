@@ -135,7 +135,7 @@ Q2)Any items that require extreme caution or care ?
                 )}
                 {!withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
-                    BIDORBOO Tasker will help you move or pack if required, but you must be
+                    BidOrBoo Tasker will help you move or pack if required, but you must be
                     reasonable and have enough people to carry heavier items safely. Moving is never
                     easy and we want to inform you that While our taskers will do thier best and
                     care for all your valuables while moving HOWEVER It is YOUR responsibility to
@@ -400,7 +400,7 @@ Q2)Any items that require extreme caution or care ?
       },
     };
   },
-  TASK_EXPECTATIONS: ` BIDORBOO Tasker will help you move or pack if required, but you must be
+  TASK_EXPECTATIONS: ` BidOrBoo Tasker will help you move or pack if required, but you must be
   reasonable and have enough people to carry heavier items safely. Moving is never
   easy and we want to inform you that While our taskers will do thier best and
   care for all your valuables while moving HOWEVER It is YOUR responsibility to

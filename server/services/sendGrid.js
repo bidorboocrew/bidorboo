@@ -14,8 +14,8 @@ exports.EmailService = {
       to,
       toDisplayName,
       from: 'bidorboocrew@bidorboo.com',
-      subject: `BIDORBOO: Verification Code ${emailVerificationCode}`,
-      text: `Your BIDORBOO Email Verification Code is ${emailVerificationCode}`,
+      subject: `BidOrBoo: Verification Code ${emailVerificationCode}`,
+      text: `Your BidOrBoo Email Verification Code is ${emailVerificationCode}`,
       html: populateHtmlTemplate({
         toDisplayName,
         contentHtml: `
@@ -66,7 +66,7 @@ exports.EmailService = {
     const msg = {
       to,
       from: 'bidorboocrew@bidorboo.com',
-      subject: `BIDORBOO: ${requestTitle} is Happening Soon !`,
+      subject: `BidOrBoo: ${requestTitle} is Happening Soon !`,
       text: `
         This is an automated reminder for your upcoming scheduled ${requestTitle}.
         To get in touch with your task owner feel free to contact them on:
@@ -81,7 +81,7 @@ exports.EmailService = {
         <p>This is an automated reminder for your upcoming scheduled ${requestTitle} task.</p>
         <p>To get in touch with your task owner feel free to contact them on:</p>
         <div>
-        <strong>email address:</strong> <a href="mailto:${ownerEmailAddress}?subject=BIDORBOO - Iam your tasker for ${requestTitle}">${ownerEmailAddress}</a>
+        <strong>email address:</strong> <a href="mailto:${ownerEmailAddress}?subject=BidOrBoo - Iam your tasker for ${requestTitle}">${ownerEmailAddress}</a>
         </div>
         <div>
         <strong>phone number:</srtong> <a href="tel:${ownerPhoneNumber}">${ownerPhoneNumber}</a>
@@ -144,7 +144,7 @@ exports.EmailService = {
     const msg = {
       to,
       from: 'bidorboocrew@bidorboo.com',
-      subject: `BIDORBOO: ${requestTitle} is Happening Soon !`,
+      subject: `BidOrBoo: ${requestTitle} is Happening Soon !`,
       text: `This is an automated reminder for your upcoming scheduled ${requestTitle}.
     To get in touch with your assigned Tasker feel free to contact them on:
     email address : ${bidderEmailAddress}
@@ -157,7 +157,7 @@ exports.EmailService = {
         contentHtml: `<p>This is an automated reminder for your upcoming scheduled ${requestTitle} task.</p>
         <p>To get in touch with your assigned Tasker owner feel free to contact them on:</p>
         <div>
-        <strong>email address:</strong> <a href="mailto:${bidderEmailAddress}?subject=BIDORBOO - Iam expecting you soon for ${requestTitle}">${bidderEmailAddress}</a>
+        <strong>email address:</strong> <a href="mailto:${bidderEmailAddress}?subject=BidOrBoo - Iam expecting you soon for ${requestTitle}">${bidderEmailAddress}</a>
         </div>
         <div>
         <strong>phone number:</srtong> <a href="tel:${bidderPhoneNumber}">${bidderPhoneNumber}</a>
@@ -175,7 +175,7 @@ exports.EmailService = {
     const msg = {
       to,
       from: 'bidorboocrew@bidorboo.com',
-      subject: `BIDORBOO: ${requestTitle} has been cancelled by the Requester !`,
+      subject: `BidOrBoo: ${requestTitle} has been cancelled by the Requester !`,
       text: `We are sorry to inform you that this Request has been cancelled by the requester.
       click to View details and understand the full impact  ${linkForBidder}
      `,
@@ -204,7 +204,7 @@ exports.EmailService = {
     const msg = {
       to,
       from: 'bidorboocrew@bidorboo.com',
-      subject: `BIDORBOO: You have cancelled ${requestTitle}!`,
+      subject: `BidOrBoo: You have cancelled ${requestTitle}!`,
       text: `We are sorry to hear that things did not work out.
       We will inform the tasker about this to ensure that they will NOT show up.
 
@@ -235,7 +235,7 @@ exports.EmailService = {
     const msg = {
       to,
       from: 'bidorboocrew@bidorboo.com',
-      subject: `BIDORBOO: Tasker have cancelled ${requestTitle}!`,
+      subject: `BidOrBoo: Tasker have cancelled ${requestTitle}!`,
       text: `It Happens! We are sorry to inform you that things did not work out!
 
       The tasker cancelled their agreement and thus will NOT show up to do this task.
@@ -263,7 +263,7 @@ exports.EmailService = {
     const msg = {
       to,
       from: 'bidorboocrew@bidorboo.com',
-      subject: `BIDORBOO: you have cancelled your ${requestTitle} agreement !`,
+      subject: `BidOrBoo: you have cancelled your ${requestTitle} agreement !`,
       text: `
       You have cancelled your agreement and thus will NOT show up to do this task.
 
@@ -295,7 +295,7 @@ exports.EmailService = {
     const msg = {
       to,
       from: 'bidorboocrew@bidorboo.com',
-      subject: `BIDORBOO: Confirm Tasker has completed ${requestTitle}!`,
+      subject: `BidOrBoo: Confirm Tasker has completed ${requestTitle}!`,
       text: `BidOrBooCrew is happy to hear that the tasker has finished their work, and we hope that they done so to your satisfaction.
 
       We are waiting on you to confirm that our Tasker have completed your request ${linkForOwner}`,
@@ -325,7 +325,7 @@ exports.EmailService = {
     const msg = {
       to,
       from: 'bidorboocrew@bidorboo.com',
-      subject: `BIDORBOO: waiting on requester's confirmation for the completion of ${requestTitle}!`,
+      subject: `BidOrBoo: waiting on requester's confirmation for the completion of ${requestTitle}!`,
       text: `
       Thank you for completing your Task!
       We are reaching out to the Requester to get the final confirmation that you completed your work.
@@ -355,7 +355,7 @@ exports.EmailService = {
     const msg = {
       to,
       from: 'bidorboocrew@bidorboo.com',
-      subject: `BIDORBOO: ${requestTitle} is Completed!`,
+      subject: `BidOrBoo: ${requestTitle} is Completed!`,
       text: `BidOrBooCrew is SUPER HAPPY to hear that the request was fulfilled.
 
       Now it is your turn to RATE your Tasker and tell them how well they did
@@ -384,7 +384,7 @@ exports.EmailService = {
     const msg = {
       to,
       from: 'bidorboocrew@bidorboo.com',
-      subject: `BIDORBOO: ${requestTitle} is Completed!`,
+      subject: `BidOrBoo: ${requestTitle} is Completed!`,
       text: `BidOrBooCrew is SUPER HAPPY to hear that you've completed your task
       Your payout is on the way and you should recieve it within 5-10 business days
 
@@ -420,7 +420,7 @@ exports.EmailService = {
     const msg = {
       to,
       from: 'bidorboocrew@bidorboo.com',
-      subject: `BIDORBOO: ${requestTitle} Payment successful!`,
+      subject: `BidOrBoo: ${requestTitle} Payment successful!`,
       text: `
       Thank you for your paymen! We've notified the Tasker
       The assigned Tasker will be ready to do a great job and fulfil your service.
@@ -446,7 +446,7 @@ exports.EmailService = {
     const msg = {
       to,
       from: 'bidorboocrew@bidorboo.com',
-      subject: `BIDORBOO: Your Bid Won !`,
+      subject: `BidOrBoo: Your Bid Won !`,
       text: `
       Your ${requestTitle} Bid Won and the request is Assigned to you!
       Please show up prepaired with all the tools required to fulfil this request to the best of your ability
@@ -479,7 +479,7 @@ exports.EmailService = {
     const msg = {
       to,
       from: 'bidorboocrew@bidorboo.com',
-      subject: `BIDORBOO: We recieved your dispute regarding ${requestTitle}!`,
+      subject: `BidOrBoo: We recieved your dispute regarding ${requestTitle}!`,
       text: `
       We are sorry for your inconvienience and want you to know that we will investigat and resolve this asap!
       we will keep you posted with any updates soon. here is the task link for reference
@@ -523,7 +523,7 @@ exports.EmailService = {
     const msg = {
       to,
       from: 'bidorboocrew@bidorboo.com',
-      subject: `BIDORBOO Marked ${requestTitle} as Complete`,
+      subject: `BidOrBoo Marked ${requestTitle} as Complete`,
       text: `BidOrBooCrew is SUPER HAPPY to hear that your ${requestTitle} request was fulfilled.
       Since you did not confirm the completion in the past 3 days we went ahead and marked this job as completed.
       Please rate your Tasker
@@ -549,7 +549,7 @@ exports.EmailService = {
     const msg = {
       to,
       from: 'bidorboocrew@bidorboo.com',
-      subject: `BIDORBOO: Confirm ${requestTitle} completion!`,
+      subject: `BidOrBoo: Confirm ${requestTitle} completion!`,
       text: `BidOrBooCrew is SUPER HAPPY to hear that your ${requestTitle} request was fulfilled.
 
       Please confirm the completion of this request and rate your Tasker
@@ -625,13 +625,13 @@ exports.EmailService = {
     <p>requestLinkForRequester = ${requestLinkForRequester},</p>
     <p>requestLinkForTasker = ${requestLinkForTasker},</p>
     <div>
-    <a href="mailto:${requesterEmailAddress}?subject=BIDORBOO DISPUTE"><strong>requesterEmailAddress:</strong> ${requesterEmailAddress}</a>
+    <a href="mailto:${requesterEmailAddress}?subject=BidOrBoo DISPUTE"><strong>requesterEmailAddress:</strong> ${requesterEmailAddress}</a>
     </div>
     <div>
     <a href="tel:${requesterPhoneNumber}"><strong>requesterPhoneNumber</srtong>: ${requesterPhoneNumber},</a>
     </div>
     <div>
-    <a href="mailto:${taskerEmailAddress}?subject=BIDORBOO DISPUTE"><strong>taskerEmailAddress:</strong> ${taskerEmailAddress}</a>
+    <a href="mailto:${taskerEmailAddress}?subject=BidOrBoo DISPUTE"><strong>taskerEmailAddress:</strong> ${taskerEmailAddress}</a>
     </div>
     <p>jobId = ${jobId},</p>
     <p>reason = ${reason},</p>

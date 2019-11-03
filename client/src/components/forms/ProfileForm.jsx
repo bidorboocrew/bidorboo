@@ -153,7 +153,7 @@ const ProfileForm = (props) => {
   //       enableHighAccuracy: true,
   //     };
   //     const errorHandling = (err) => {
-  //       console.error('BIDORBOO Could Not Auto Detect Address ' + err);
+  //       console.error('BidOrBoo Could Not Auto Detect Address ' + err);
   //     };
   //     const successfulRetrieval = () => {};
 

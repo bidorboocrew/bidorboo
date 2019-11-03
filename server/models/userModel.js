@@ -246,7 +246,7 @@ const UserSchema = new Schema(
     tos_acceptance: {
       Agreed: {
         type: Boolean,
-        required: [true, 'You Must Agree to BIDORBOO Terms of use to proceed'],
+        required: [true, 'You Must Agree to BidOrBoo Terms of use to proceed'],
         default: false,
       },
       date: { type: Date },

@@ -171,7 +171,7 @@ class Step4 extends React.Component {
 
     return (
       <div style={{ position: 'relative' }}>
-        <div className="title has-text-centered">BIDORBOO Terms Of Use</div>
+        <div className="title has-text-centered">BidOrBoo Terms Of Use</div>
         <div className="slide-in-right field" style={{ height: '10rem' }}>
           <div className="group">
             <div className="control">
@@ -184,7 +184,7 @@ class Step4 extends React.Component {
                 />
                 {` I confirm that I have read and agreed to`}
                 <a target="_blank" rel="noopener noreferrer" href={`${ROUTES.CLIENT.TOS}`}>
-                  {` BIDORBOO Service Agreement `}
+                  {` BidOrBoo Service Agreement `}
                 </a>
                 and
                 <a

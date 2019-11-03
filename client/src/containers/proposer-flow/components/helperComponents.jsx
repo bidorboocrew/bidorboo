@@ -17,7 +17,7 @@ export const AddAwardedJobToCalendar = ({ job }) => {
   const emailContact = email && email.emailAddress ? `${email.emailAddress}` : '';
   const phoneContactNumber = phone && phone.phoneNumber ? ` or ${phone.phoneNumber}` : '';
 
-  const title = `BIDORBOO: ${tasksDefinitions[templateId].TITLE} request`;
+  const title = `BidOrBoo: ${tasksDefinitions[templateId].TITLE} request`;
   const description = `${
     _bidderRef.displayName
   } is going to help you take care of your request. To get in touch contact them at ${emailContact}${phoneContactNumber}`;

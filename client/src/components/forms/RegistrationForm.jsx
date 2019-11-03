@@ -76,7 +76,7 @@ class NewUserRegistrationForm extends React.Component {
     } = this.props;
     return (
       <form onSubmit={handleSubmit}>
-        <div className="subtitle">Join Our BIDORBOO Crew !</div>
+        <div className="subtitle">Join Our BidOrBoo Crew !</div>
         <input
           id="originPath"
           className="input is-invisible"
@@ -126,7 +126,7 @@ class NewUserRegistrationForm extends React.Component {
 
         <div className="has-text-centered">
           <button className="button is-success" type="submit" disabled={isSubmitting || !isValid}>
-            Join BIDORBOO
+            Join BidOrBoo
           </button>
         </div>
       </form>
