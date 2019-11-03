@@ -287,7 +287,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
               </Collapse>
               <div>
                 {!showMore && (
-                  <a onClick={this.toggleShowMore} className="button">
+                  <a onClick={this.toggleShowMore} className="button is-small">
                     <span style={{ marginRight: 4 }}>show more details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-down" />
@@ -295,7 +295,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                   </a>
                 )}
                 {showMore && (
-                  <a onClick={this.toggleShowMore} className="button">
+                  <a onClick={this.toggleShowMore} className="button is-small">
                     <span style={{ marginRight: 4 }}>show less details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-up" />
