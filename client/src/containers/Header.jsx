@@ -205,7 +205,9 @@ class Header extends React.Component {
                 style={{ fontSize: 24, cursor: 'pointer' }}
                 className="is-hidden-touch"
               >
-                BidOrBoo
+                <span style={{ color: '#ee2a36', fontWeight: 500 }}>B</span>id
+                <span style={{ color: '#ee2a36', fontWeight: 500 }}>O</span>r
+                <span style={{ color: '#ee2a36', fontWeight: 500 }}>B</span>oo
               </div>
             </div>
           </a>
@@ -312,10 +314,27 @@ class Header extends React.Component {
               }}
               className="navbar-item has-text-grey"
             >
-              <div className={`${isActingAsBidder ? 'has-text-white' : 'has-text-dark'}`}>
+              <div
+                onClick={(e) => {
+                  this.closeMenuThenExecute(() => {
+                    switchRoute(ROUTES.CLIENT.HOME);
+                  });
+                }}
+                className={`${isActingAsBidder ? 'has-text-white' : 'has-text-dark'}`}
+              >
                 {/* {ROUTES.getRouteTitle()} */}
-                <div style={{ fontSize: 24 }} className="is-hidden-touch">
-                  BidOrBoo
+                <div
+                  onClick={(e) => {
+                    this.closeMenuThenExecute(() => {
+                      switchRoute(ROUTES.CLIENT.HOME);
+                    });
+                  }}
+                  style={{ fontSize: 24 }}
+                  className="is-hidden-touch"
+                >
+                  <span style={{ color: '#ee2a36', fontWeight: 500 }}>B</span>id
+                  <span style={{ color: '#ee2a36', fontWeight: 500 }}>O</span>r
+                  <span style={{ color: '#ee2a36', fontWeight: 500 }}>B</span>oo
                 </div>
               </div>
             </div>
