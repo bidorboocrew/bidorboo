@@ -17,7 +17,7 @@ export const AddAwardedJobToCalendar = ({ job }) => {
   const phoneContactNumber = phone && phone.phoneNumber ? ` or ${phone.phoneNumber}` : '';
 
   const title = `BidOrBoo: ${tasksDefinitions[templateId].TITLE} request`;
-  const description = `You are going to help ${displayName} fulfil a ${title} request. To get in touch contact them at ${emailContact} ${phoneContactNumber}`;
+  const description = `You are going to help ${displayName} fulfill a ${title} request. To get in touch contact them at ${emailContact} ${phoneContactNumber}`;
 
   const selectedTime = `${moment(startingDateAndTime).get('hour')}`;
   let startTime = moment(startingDateAndTime).startOf('day');

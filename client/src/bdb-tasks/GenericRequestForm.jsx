@@ -660,7 +660,7 @@ const EnhancedForms = withFormik({
     }
     if (!detailedDescription) {
       errors.detailedDescription =
-        '*Please provide more details to help the tasker fulfil this request to yoru satisfaction';
+        '*Please provide more details to help the tasker fulfill this request to yoru satisfaction';
     }
     if (!startingDateAndTime) {
       errors.startingDateAndTime = '*Please specify a date for when you need this service';
