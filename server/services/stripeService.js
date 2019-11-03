@@ -128,11 +128,12 @@ exports.util = {
     requesterId,
     requesterEmail,
     taskerAccId,
+    bidderDisplayName,
     requesterCustomerId,
     taskImages,
   }) => {
     const title = `${taskName} Request Booking`;
-    const description = `*amount will be held till the Tasker completes this service`;
+    const description = `*amount will be held till the tasker (${bidderDisplayName}) completes this service`;
 
     // const BIDORBOO_SERVICECHARGE = 0.06;
 

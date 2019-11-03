@@ -64,7 +64,7 @@ class AcceptBidPaymentHandling extends React.Component {
         onClick={() => submitPayment({ jobId: bid._jobRef, bidId: bid._id })}
         className="button is-success"
       >
-        <span>Proceed To Checkout</span>
+        <span>Book Now</span>
         <span className="icon">
           <i className="fas fa-chevron-right" />
         </span>

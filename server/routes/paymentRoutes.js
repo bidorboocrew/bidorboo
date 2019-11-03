@@ -93,7 +93,7 @@ module.exports = (app) => {
           } else {
             return res.status(400).send({
               errorMsg:
-                'The bidder does not have a stripe accoutn with us. Sorry we can not process yoru payment for this bidder',
+                'The bidder does not have a stripe account with us. Sorry we can not process your payment for this bidder',
             });
           }
         }
@@ -111,6 +111,7 @@ module.exports = (app) => {
               bidId,
               note: `Requester Paid for ${theJob.displayTitle || theJob.templateId}`,
             },
+            bidderDisplayName: bidderDisplayName || bidderEmail,
             taskId: jobId,
             taskName: theJob.displayTitle || theJob.templateId,
             requesterEmail,
