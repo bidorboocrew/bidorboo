@@ -38,7 +38,7 @@ const renderTask = ({ task, isLoggedIn, showLoginDialog }) => {
       {isComingSoon && (
         <a
           style={{ fontSize: 14, width: 132, borderRadius: 25 }}
-          className="button is-success is-light firstButtonInCard"
+          className="button is-success is-inverted firstButtonInCard"
           disabled
         >
           COMING SOON
