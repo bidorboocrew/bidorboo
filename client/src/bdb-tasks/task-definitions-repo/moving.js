@@ -8,6 +8,7 @@ export default {
   TITLE: 'Moving & Lifting',
   ICON: 'fas fa-home',
   IMG: moving_img,
+  isComingSoon: true,
   DESCRIPTION: `Do you need help moving or lifting heavy furniture ? Get our strong taskers to help you out.`,
   SUGGESTION_TEXT: `Q1)Any special heavy items ?
 [Answer here:   ]
@@ -120,7 +121,6 @@ Q2)Any items that require extreme caution or care ?
               </div>
             </div>
           </div>
-
           <div className="level-right">
             <div className="level-item">
               <div style={{ maxWidth: 320, paddingLeft: '1.5rem' }}>
@@ -129,8 +129,8 @@ Q2)Any items that require extreme caution or care ?
                 </h1>
                 {withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
-                    Do you need help moving or lifting heavy items? Get our hulk Taskers to
-                    help you out.
+                    Do you need help moving or lifting heavy items? Get our hulk Taskers to help you
+                    out.
                   </p>
                 )}
                 {!withDetails && (
@@ -149,7 +149,6 @@ Q2)Any items that require extreme caution or care ?
       </div>
     );
   },
-
   enableImageUploadField: false,
   extras: function() {
     return {

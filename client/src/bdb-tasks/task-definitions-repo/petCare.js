@@ -10,6 +10,7 @@ export default {
   TITLE: 'Pet Sitting',
   ICON: '',
   IMG: dogWalking_img,
+  isComingSoon: false,
   DESCRIPTION: `Do you need someone to care for your pet while you are vacationing or just on a night out?
   Leave your pet in the gentle care of our pet loving Taskers.`,
   SUGGESTION_TEXT: `Q1)What kind/breed of pet ?

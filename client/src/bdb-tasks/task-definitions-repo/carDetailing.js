@@ -10,6 +10,7 @@ export default {
   TITLE: 'Car Detailing',
   ICON: 'fas fa-car',
   IMG: carDetailing_img,
+  isComingSoon: true,
   DESCRIPTION: `Your car deserves some love. let our Taskers pamper your car and give it a scrub`,
   SUGGESTION_TEXT: `Q1)What Year Make and model is your car?
 [Answer here:   ]

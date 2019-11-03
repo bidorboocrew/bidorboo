@@ -8,6 +8,7 @@ export default {
   TITLE: 'House Cleaning',
   ICON: 'fas fa-home',
   IMG: houseCleaning_img,
+  isComingSoon: false,
   DESCRIPTION: `Does your home need cleaning? Book one of our clean freak Taskers to take care of it!`,
   SUGGESTION_TEXT: `Q1)Do you have pets in the house?
 [Answer here:   ]
