@@ -117,7 +117,19 @@ Q2)Any items that require extreme caution or care ?
           <div className="level-left">
             <div className="level-item">
               <div className="watermark">
-                <img src={moving_img} style={{ height: 125, width: 125, objectFit: 'cover' }} />
+                <img
+                  src={moving_img}
+                  style={{
+                    height: 125,
+                    width: 125,
+                    objectFit: 'cover',
+                    '-webkit-filter': 'grayscale(100%)',
+                    '-moz-filter': 'grayscale(100%)',
+                    '-o-filter': 'grayscale(100%)',
+                    '-ms-filter': 'grayscale(100%)',
+                    filter: 'grayscale(100%)',
+                  }}
+                />
               </div>
             </div>
           </div>

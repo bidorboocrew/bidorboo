@@ -78,7 +78,16 @@ Q3)Any particular stains or dirt that you want to mention?
                 <img
                   src={carDetailing_img}
                   alt="BidOrBoo task img"
-                  style={{ height: 125, width: 125, objectFit: 'cover' }}
+                  style={{
+                    height: 125,
+                    width: 125,
+                    objectFit: 'cover',
+                    '-webkit-filter': 'grayscale(100%)',
+                    '-moz-filter': 'grayscale(100%)',
+                    '-o-filter': 'grayscale(100%)',
+                    '-ms-filter': 'grayscale(100%)',
+                    filter: 'grayscale(100%)',
+                  }}
                 />
               </div>
             </div>
@@ -92,7 +101,8 @@ Q3)Any particular stains or dirt that you want to mention?
                 </h1>
                 {withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
-                    Your car deserves some love. let our Taskers pamper your car and give it a scrub.
+                    Your car deserves some love. let our Taskers pamper your car and give it a
+                    scrub.
                   </p>
                 )}
 
