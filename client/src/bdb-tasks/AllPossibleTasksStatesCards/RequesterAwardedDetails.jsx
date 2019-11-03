@@ -19,7 +19,7 @@ import {
   CountDownComponent,
   DisplayLabelValue,
   TaskCost,
-  AddAwardedJobToCalendar,
+  AddAwardedJobToCalendarForRequester,
   TaskSpecificExtras,
   JobCardTitle,
   SummaryStartDateAndTime,
@@ -312,12 +312,14 @@ class RequesterAwardedDetails extends RequestBaseContainer {
           emailAddress={emailAddress}
           phoneNumber={phoneNumber}
           renderAddToCalendar={() => {
-            return !isPastDue && <AddAwardedJobToCalendar job={job} extraClassName={'is-small'} />;
+            return !isPastDue && <AddAwardedJobToCalendarForRequester job={job} extraClassName={'is-small'} />;
           }}
           renderActionButton={() => (
-            <div className="firstButtonInCard nofixedwidth">
+            <>
               <RequesterConfirmsCompletion {...this.props} bidderConfirmed={bidderConfirmed} />
-            </div>
+              <br></br>
+              <br></br>
+            </>
           )}
         />
       </React.Fragment>
@@ -403,7 +405,7 @@ class RequesterConfirmsCompletion extends React.Component {
                     onClick={this.submitConfirmation}
                     className="button is-success"
                   >
-                    Confirm Completion
+                    Confirm Task Task Completion
                   </button>
                   <button onClick={this.toggleModal} className="button is-outline">
                     Close
@@ -420,7 +422,7 @@ class RequesterConfirmsCompletion extends React.Component {
           //   isPastDue || bidderConfirmed ? 'heartbeatInstant' : ''
           // }`}
         >
-          Confirm Completion
+          Confirm Task Completion
         </a>
       </React.Fragment>
     );
@@ -582,19 +584,18 @@ class AssignedTaskerDetails extends React.Component {
         className="card cardWithButton nofixedwidth"
       >
         <div style={{ paddingTop: 0 }} className="card-content">
-          <div className="content ">
-            <div style={{ background: 'transparent' }} className="tabs is-centered">
+          <div className="content">
+            <div style={{ background: 'transparent' }} className="tabs is-left">
               <ul style={{ marginLeft: 0 }}>
                 <li className="is-active">
                   <a>
-                    <span className="icon is-small">
-                      <i className="fas fa-user-tie" aria-hidden="true" />
-                    </span>
-                    <span>Assigned Tasker</span>
+                    <span>Contact The Assigned Tasker</span>
                   </a>
                 </li>
               </ul>
             </div>
+
+            <p>Get in touch to finalize exact details like location to meet, date and time, etc</p>
 
             <CenteredUserImageAndRating
               userDetails={otherUserProfileInfo}
@@ -604,7 +605,6 @@ class AssignedTaskerDetails extends React.Component {
 
             <div style={{ marginBottom: '2rem' }}>
               <div className="group">
-                <label className="label hasSelectedValue">Tasker Contact Info</label>
                 <div style={{ fontWeight: 500, fontSize: 16 }}>
                   <div>
                     <a
@@ -635,16 +635,25 @@ class AssignedTaskerDetails extends React.Component {
                     </a>
                   </div>
                 </div>
-                <div className="help">
-                  *Get in touch to finalize exact details like location to meet, date, time... etc
-                </div>
               </div>
               {renderAddToCalendar && renderAddToCalendar()}
               <br />
             </div>
+            <div style={{ background: 'transparent' }} className="tabs is-left">
+              <ul style={{ marginLeft: 0 }}>
+                <li className="is-active">
+                  <a>
+                    <span className="icon is-small">
+                      <i className="fa fa-clock" aria-hidden="true" />
+                    </span>
+                    <span>After The Task Is fulfilled</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            {renderActionButton && renderActionButton()}
           </div>
         </div>
-        {renderActionButton && renderActionButton()}
       </div>
     );
   }

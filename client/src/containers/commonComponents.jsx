@@ -523,7 +523,7 @@ export const DisplayShortAddress = ({ addressText, renderHelpComponent = () => n
   return null;
 };
 
-export const AddAwardedJobToCalendar = ({ job, extraClassName = '' }) => {
+export const AddAwardedJobToCalendarForTasker = ({ job, extraClassName = '' }) => {
   if (!job) {
     return null;
   }
@@ -535,9 +535,68 @@ export const AddAwardedJobToCalendar = ({ job, extraClassName = '' }) => {
   const emailContact = email && email.emailAddress ? `${email.emailAddress}` : '';
   const phoneContactNumber = phone && phone.phoneNumber ? ` or ${phone.phoneNumber}` : '';
 
-  const title = `BidOrBoo: ${TASKS_DEFINITIONS[templateId] &&
-    TASKS_DEFINITIONS[templateId].TITLE} request`;
-  const description = `You are going to help ${displayName} fulfil a ${title} request. To get in touch contact them at ${emailContact} ${phoneContactNumber}`;
+  const title = `${TASKS_DEFINITIONS[templateId] && TASKS_DEFINITIONS[templateId].TITLE}`;
+  const description = `BidOrBoo appointment: You are going to help ${displayName} fulfil a ${title} request. To get in touch contact them at ${emailContact} ${phoneContactNumber}`;
+
+  const selectedTime = `${moment(startingDateAndTime).get('hour')}`;
+  let startTime = moment(startingDateAndTime).startOf('day');
+  let endTime = moment(startingDateAndTime).endOf('day');
+
+  switch (`${selectedTime}`) {
+    case '10':
+      startTime = moment(startingDateAndTime).startOf('day');
+      endTime = moment(startingDateAndTime).endOf('day');
+      break;
+    case '8':
+      startTime = moment(startingDateAndTime);
+      endTime = moment(startingDateAndTime).add(4, 'h');
+      break;
+    case '12':
+      startTime = moment(startingDateAndTime);
+      endTime = moment(startingDateAndTime).add(5, 'h');
+      break;
+    case '17':
+      startTime = moment(startingDateAndTime);
+      endTime = moment(startingDateAndTime).endOf('day');
+      break;
+    default:
+      startTime = moment(startingDateAndTime).startOf('day');
+      endTime = moment(startingDateAndTime).endOf('day');
+      break;
+  }
+  let event = {
+    title,
+    description,
+    location: addressText,
+    startTime: `${startTime}`,
+    endTime: `${endTime}`,
+  };
+  return (
+    <AddToCalendar
+      listItems={[{ apple: 'iCal' }, { google: 'Google' }, { outlook: 'Outlook' }]}
+      displayItemIcons={false}
+      event={event}
+      buttonLabel={'Add to Calendar'}
+      buttonClassClosed={`button is-info ${extraClassName}`}
+    />
+  );
+};
+
+export const AddAwardedJobToCalendarForRequester = ({ job, extraClassName = '' }) => {
+  if (!job) {
+    return null;
+  }
+
+  const { startingDateAndTime, addressText, templateId, _awardedBidRef } = job;
+  const { _bidderRef } = _awardedBidRef;
+
+  const { email, phone, displayName } = _bidderRef;
+
+  const emailContact = email && email.emailAddress ? `${email.emailAddress}` : '';
+  const phoneContactNumber = phone && phone.phoneNumber ? ` or ${phone.phoneNumber}` : '';
+
+  const title = `${TASKS_DEFINITIONS[templateId] && TASKS_DEFINITIONS[templateId].TITLE}`;
+  const description = `BidOrBoo appointment: You requested a ${title} and assigned ${displayName} as the tasker. To get in touch contact them at ${emailContact} ${phoneContactNumber}`;
 
   const selectedTime = `${moment(startingDateAndTime).get('hour')}`;
   let startTime = moment(startingDateAndTime).startOf('day');

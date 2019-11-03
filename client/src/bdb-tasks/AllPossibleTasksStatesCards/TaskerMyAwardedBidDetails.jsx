@@ -13,7 +13,7 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import {
   CountDownComponent,
-  AddAwardedJobToCalendar,
+  AddAwardedJobToCalendarForTasker,
   TaskSpecificExtras,
   SummaryStartDateAndTime,
   BSTaskerAwarded,
@@ -312,7 +312,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
             </>
           )}
           renderAddToCalendar={() => {
-            return !isPastDue && <AddAwardedJobToCalendar job={job} extraClassName={'is-small'} />;
+            return !isPastDue && <AddAwardedJobToCalendarForTasker job={job} extraClassName={'is-small'} />;
           }}
         />
       </React.Fragment>
