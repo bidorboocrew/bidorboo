@@ -1954,13 +1954,13 @@ exports.jobDataAccess = {
                 {
                   $set: {
                     'rating.latestComment':
-                      'BidOrBoo Auto Review: Cancelled Their Request After Making an Agreement with A Tasker',
-                  },
-                  $push: {
-                    'rating.canceledJobs': jobId,
+                      'BidOrBoo Auto Review: Cancelled their request after booking with the tasker',
                     'rating.globalRating': newGlobalRating,
                     'rating.numberOfTimesBeenRated': newTotalOfAllTimesBeenRated,
                     'rating.totalOfAllRatings': newTotalOfAllRatings,
+                  },
+                  $push: {
+                    'rating.canceledJobs': jobId,
                   },
                 },
                 {

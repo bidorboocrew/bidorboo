@@ -155,13 +155,13 @@ exports.bidDataAccess = {
                 {
                   $set: {
                     'rating.latestComment':
-                      'BidOrBoo Auto Review: Cancelled Thier Request After Making an Agreement with A Tasker',
-                  },
-                  $push: {
-                    'rating.canceledBids': bidId,
+                      'BidOrBoo Auto Review: Cancelled Their Request After booking was confirmed with the requester',
                     'rating.globalRating': newGlobalRating,
                     'rating.numberOfTimesBeenRated': newTotalOfAllTimesBeenRated,
                     'rating.totalOfAllRatings': newTotalOfAllRatings,
+                  },
+                  $push: {
+                    'rating.canceledBids': bidId,
                   },
                 },
                 { new: true }
