@@ -106,7 +106,7 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
               }}
               className={`button is-dark`}
             >
-              Archived
+              Past Tasks
             </a>
           </div>
         )}
