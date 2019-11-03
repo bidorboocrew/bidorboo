@@ -48,6 +48,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
       isHappeningToday,
       isPastDue,
       _ownerRef,
+      _id: jobId,
       jobCompletion = {
         proposerConfirmed: false,
         bidderConfirmed: false,
@@ -55,7 +56,10 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
         proposerDisputed: false,
       },
       taskImages = [],
+      _reviewRef,
     } = job;
+    const { requiresBidderReview } = _reviewRef;
+
     if (
       !startingDateAndTime ||
       !addressText ||
@@ -284,25 +288,30 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
           otherUserProfileInfo={_ownerRef}
           renderActionButton={() => (
             <>
-              {bidderConfirmed && !proposerConfirmed && (
-                <a disabled onClick={() => null} className={`button is-success`}>
-                  <span>Wait For Requester To Review</span>
-                </a>
-              )}
-              {proposerConfirmed && (
+              {bidderConfirmed && requiresBidderReview && (
                 <a
-                  onClick={() => alert('not implemented but redirect me to review page')}
+                  onClick={() => {
+                    switchRoute(ROUTES.CLIENT.REVIEW.getBidderJobReview({ jobId }));
+                  }}
                   className={`button  is-success`}
                 >
                   <span className="icon">
                     <i className="fas fa-user-check" />
                   </span>
-                  <span>Review The Requester</span>
+                  <span>Review Requester & Task</span>
                 </a>
+              )}
+              {bidderConfirmed && !requiresBidderReview && (
+                <>
+                  <p>Waiting on requester to confirm that you've completed this task</p>
+                  <div className="help">We are working on getting this done asap</div>
+                </>
               )}
               {!proposerConfirmed && !bidderConfirmed && (
                 <TaskerConfirmsCompletion {...this.props} />
               )}
+              <br></br>
+              <br></br>
             </>
           )}
           renderAddToCalendar={() => {
@@ -387,7 +396,7 @@ class TaskerConfirmsCompletion extends React.Component {
                     </div>
                     <div className="help">
                       * Your payment will be released to your bank and should be available within
-                      3-5 bizbiz day
+                      3-5 business days
                     </div>
                     <div className="help">
                       * The Requester and yourself will be prompted to Rate your experience
@@ -413,7 +422,6 @@ class TaskerConfirmsCompletion extends React.Component {
         <a onClick={this.toggleModal} className="button is-success">
           Confirm Task Completion
         </a>
-        <br></br> <br></br>
       </React.Fragment>
     );
   }
@@ -614,6 +622,9 @@ class RequesterDetails extends React.Component {
               <ul style={{ marginLeft: 0 }}>
                 <li className="is-active">
                   <a>
+                    <span className="icon">
+                      <i className="far fa-handshake"></i>
+                    </span>
                     <span>Contact The Requester</span>
                   </a>
                 </li>

@@ -164,7 +164,7 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
                     }}
                     className={`button firstButtonInCard is-primary`}
                   >
-                    Review Requester
+                    <span>Review Requester & Task</span>
                   </a>
                 )}
                 {!requiresBidderReview && (

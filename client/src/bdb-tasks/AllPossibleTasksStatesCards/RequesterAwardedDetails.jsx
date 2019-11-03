@@ -312,7 +312,11 @@ class RequesterAwardedDetails extends RequestBaseContainer {
           emailAddress={emailAddress}
           phoneNumber={phoneNumber}
           renderAddToCalendar={() => {
-            return !isPastDue && <AddAwardedJobToCalendarForRequester job={job} extraClassName={'is-small'} />;
+            return (
+              !isPastDue && (
+                <AddAwardedJobToCalendarForRequester job={job} extraClassName={'is-small'} />
+              )
+            );
           }}
           renderActionButton={() => (
             <>
@@ -589,6 +593,9 @@ class AssignedTaskerDetails extends React.Component {
               <ul style={{ marginLeft: 0 }}>
                 <li className="is-active">
                   <a>
+                    <span className="icon">
+                      <i className="far fa-handshake"></i>
+                    </span>
                     <span>Contact The Assigned Tasker</span>
                   </a>
                 </li>
