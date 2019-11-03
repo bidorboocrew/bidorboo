@@ -159,7 +159,7 @@ exports.util = {
           amount: totalCharge,
           currency: 'cad',
           quantity: 1,
-          images: taskImages ? taskImages : [''],
+          images: taskImages ? taskImages : [],
         },
       ],
       payment_intent_data: {
