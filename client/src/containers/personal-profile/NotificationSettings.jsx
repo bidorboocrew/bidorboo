@@ -103,11 +103,12 @@ class NotificationSettings extends React.Component {
         <div className="card-content">
           <div className="content">
             <div className="group">
-              <label className="label">You will be notified about key events</label>
+              <label className="label has-text-dark">You will be notified about key events</label>
               <ul>
-                <li>Requests or Tasks key updates</li>
-                <li>Cancellation happened at any point</li>
-                <li>Payments and recietes</li>
+                <li>Tasks status changes</li>
+                <li>Cancellation or disputes at any point</li>
+                <li>Payment receipts and payouts</li>
+                <li>Automated reminders about upcoming tasks</li>
               </ul>
             </div>
             <div className="group">
@@ -149,7 +150,7 @@ class NotificationSettings extends React.Component {
                 Enable Text Msg Notifications
               </label>
             </div>
-            <div className="group">
+            {/* <div className="group">
               <input
                 id="notifyMeAboutNewTasksEnabled"
                 type="checkbox"
@@ -168,7 +169,7 @@ class NotificationSettings extends React.Component {
                   {` Jobs search page`}
                 </a>
               </div>
-            </div>
+            </div> */}
             <button
               className="button firstButtonInCard is-success"
               onClick={this.submit}
