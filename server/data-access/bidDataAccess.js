@@ -473,7 +473,6 @@ exports.bidDataAccess = {
                 state: 1,
                 detailedDescription: 1,
                 jobTitle: 1,
-
                 jobCompletion: 1,
                 location: 1,
                 stats: 1,

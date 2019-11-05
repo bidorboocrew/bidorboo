@@ -68,7 +68,6 @@ exports.JobFull = {
   viewedBy: 1,
   booedBy: 1,
   detailedDescription: 1,
-  jobTitle: 1,
   stats: 1,
   location: 1,
   addressText: 1,

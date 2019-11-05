@@ -1161,6 +1161,7 @@ exports.jobDataAccess = {
             extras: 1,
             state: 1,
             location: 1,
+            jobTitle: 1,
           },
           {
             sort: { startingDateAndTime: 1 },
@@ -1197,6 +1198,7 @@ exports.jobDataAccess = {
             extras: 1,
             state: 1,
             location: 1,
+            jobTitle: 1,
             taskImages: 1,
           },
           {
@@ -1253,6 +1255,7 @@ exports.jobDataAccess = {
           extras: 1,
           state: 1,
           location: 1,
+          jobTitle: 1,
           _bidsListRef: 1,
           viewedBy: 1,
           hideFrom: 1,
