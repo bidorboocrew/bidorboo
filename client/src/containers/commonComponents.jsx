@@ -823,8 +823,9 @@ export const AwaitingOnTasker = () => {
           style={{
             display: 'inline-block',
             flexGrow: 0,
-            fontSize: 16,
+            fontSize: 18,
             width: 28,
+            height: 28,
             marginRight: 8,
           }}
         >
@@ -859,10 +860,11 @@ export const PastdueExpired = () => {
       >
         <div
           style={{
-            fontSize: 16,
+            fontSize: 18,
             borderRadius: '100%',
             border: '1px solid #ef2834',
             width: 28,
+            height: 28,
             background: '#ef2834',
             color: '#ef2834',
             marginRight: 8,
@@ -900,9 +902,10 @@ export const TaskersAvailable = ({ numberOfAvailableTaskers }) => {
       >
         <div
           style={{
-            fontSize: 16,
+            fontSize: 18,
             borderRadius: '100%',
             width: 28,
+            height: 28,
             background: '#6b88e0',
             color: 'white',
             marginRight: 8,
@@ -944,8 +947,9 @@ export const AssignedTasker = ({ displayName }) => {
       >
         <div
           style={{
-            fontSize: 16,
+            fontSize: 18,
             width: 28,
+            height: 28,
             marginRight: 8,
             alignItems: 'center',
             display: 'inline-block',
@@ -1033,10 +1037,11 @@ export const CancelledBy = ({ name, refundAmount }) => {
           style={{
             display: 'inline-block',
             flexGrow: 0,
-            fontSize: 16,
+            fontSize: 18,
             borderRadius: '100%',
             border: '1px solid #ef2834',
             width: 28,
+            height: 28,
             background: '#ef2834',
             marginRight: 8,
           }}
@@ -1075,10 +1080,11 @@ export const DisputedBy = ({ name }) => {
           style={{
             display: 'inline-block',
             flexGrow: 0,
-            fontSize: 16,
+            fontSize: 18,
             borderRadius: '100%',
             border: '1px dashed #ef2834',
             width: 28,
+            height: 28,
             marginRight: 8,
           }}
         >
@@ -1136,9 +1142,10 @@ export const TaskIsFulfilled = () => {
           style={{
             display: 'inline-block',
             flexGrow: 0,
-            fontSize: 16,
+            fontSize: 18,
             borderRadius: '100%',
             width: 28,
+            height: 28,
             background: '#00d1b2',
             marginRight: 8,
           }}
@@ -1177,10 +1184,11 @@ export const ArchiveTask = ({ displayName = '' }) => {
           style={{
             display: 'inline-block',
             flexGrow: 0,
-            fontSize: 16,
+            fontSize: 18,
             borderRadius: '100%',
             border: '1px solid #353535',
             width: 28,
+            height: 28,
             background: '#353535',
             marginRight: 8,
             color: '#353535',
@@ -1291,8 +1299,9 @@ export const BSawaitingOnRequester = () => {
           style={{
             display: 'inline-block',
             flexGrow: 0,
-            fontSize: 16,
+            fontSize: 18,
             width: 28,
+            height: 28,
             marginRight: 8,
           }}
         >
@@ -1326,10 +1335,11 @@ export const BSPastDueExpired = () => {
       >
         <div
           style={{
-            fontSize: 16,
+            fontSize: 18,
             borderRadius: '100%',
             border: '1px solid #ef2834',
             width: 28,
+            height: 28,
             background: '#ef2834',
             color: '#ef2834',
             marginRight: 8,
@@ -1364,10 +1374,11 @@ export const BSAwardedToSomeoneElse = () => {
       >
         <div
           style={{
-            fontSize: 16,
+            fontSize: 18,
             borderRadius: '100%',
             border: '1px solid #35335',
             width: 28,
+            height: 28,
             marginRight: 8,
             display: 'inline-block',
           }}
@@ -1403,8 +1414,9 @@ export const BSTaskerAwarded = ({ isPastDue }) => {
       >
         <div
           style={{
-            fontSize: 16,
+            fontSize: 18,
             width: 28,
+            height: 28,
             marginRight: 8,
             alignItems: 'center',
             display: 'inline-block',
@@ -1444,8 +1456,9 @@ export const BSWaitingOnRequesterToConfirm = ({ isPastDue }) => {
       >
         <div
           style={{
-            fontSize: 16,
+            fontSize: 18,
             width: 28,
+            height: 28,
             marginRight: 8,
             alignItems: 'center',
             display: 'inline-block',
@@ -1483,10 +1496,11 @@ export const BSTaskIsDone = () => {
       >
         <div
           style={{
-            fontSize: 16,
+            fontSize: 18,
             borderRadius: '100%',
             border: '1px solid #4285f4',
             width: 28,
+            height: 28,
             background: '#4285f4',
             color: '#4285f4',
             marginRight: 8,

@@ -272,8 +272,8 @@ class GenericRequestForm extends React.Component {
               <TextInput
                 id="jobTitle"
                 type="text"
-                label="Title"
-                placeholder={'Type in a job title or nickname...'}
+                label="Task Title"
+                placeholder={'Enter a title...'}
                 error={touched.jobTitle && errors.jobTitle}
                 value={values.jobTitle || ''}
                 onChange={handleChange}
