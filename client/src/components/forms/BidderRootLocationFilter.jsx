@@ -337,29 +337,31 @@ class TaskTypeFilter extends React.Component {
   createTaskFilterButtonTags = () => {
     const { currentFilters } = this.props;
 
-    const filterButtons = Object.keys(TASKS_DEFINITIONS).map((key) => {
-      // let controlClass = `tag is-rounded ${taskTypesIds[key] ? 'is-link' : ''}`;
-      let controlClass = `tag is-rounded ${currentFilters.indexOf(key) > -1 && 'is-link'}`;
-      return (
-        <span
-          style={{ cursor: 'pointer', minWidth: 165 }}
-          key={`key-${key}`}
-          onClick={() => {
-            const { updateTaskTypesFilter } = this.props;
-            let currentActiveFilters = [...currentFilters];
-            if (currentActiveFilters.indexOf(key) > -1) {
-              currentActiveFilters.splice(currentActiveFilters.indexOf(key), 1);
-            } else {
-              currentActiveFilters.push(key);
-            }
-            updateTaskTypesFilter(currentActiveFilters);
-          }}
-          className={controlClass}
-        >
-          {TASKS_DEFINITIONS[key].TITLE}
-        </span>
-      );
-    });
+    const filterButtons = Object.keys(TASKS_DEFINITIONS)
+      .filter((key) => !TASKS_DEFINITIONS[key].isComingSoon)
+      .map((key) => {
+        // let controlClass = `tag is-rounded ${taskTypesIds[key] ? 'is-link' : ''}`;
+        let controlClass = `tag is-rounded ${currentFilters.indexOf(key) > -1 && 'is-link'}`;
+        return (
+          <span
+            style={{ cursor: 'pointer', minWidth: 165 }}
+            key={`key-${key}`}
+            onClick={() => {
+              const { updateTaskTypesFilter } = this.props;
+              let currentActiveFilters = [...currentFilters];
+              if (currentActiveFilters.indexOf(key) > -1) {
+                currentActiveFilters.splice(currentActiveFilters.indexOf(key), 1);
+              } else {
+                currentActiveFilters.push(key);
+              }
+              updateTaskTypesFilter(currentActiveFilters);
+            }}
+            className={controlClass}
+          >
+            {TASKS_DEFINITIONS[key].TITLE}
+          </span>
+        );
+      });
     return filterButtons;
   };
 
