@@ -7,6 +7,7 @@ import {
   SummaryStartDateAndTime,
   JobCardTitle,
   TaskImagesCarousel,
+  UserGivenTitle,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -29,6 +30,7 @@ export default class RequesterDisputedDetails extends React.Component {
       detailedDescription,
       processedPayment,
       taskImages = [],
+      jobTitle,
     } = job;
     if (
       !startingDateAndTime ||
@@ -75,6 +77,8 @@ export default class RequesterDisputedDetails extends React.Component {
         <div className="card-content">
           <div className="content">
             <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <UserGivenTitle userGivenTitle={jobTitle} />
+
             <TaskImagesCarousel taskImages={taskImages} isLarge />
             <SummaryStartDateAndTime
               date={startingDateAndTime}

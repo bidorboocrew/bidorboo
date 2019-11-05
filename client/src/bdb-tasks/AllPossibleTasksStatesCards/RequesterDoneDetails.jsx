@@ -21,6 +21,7 @@ import {
   SummaryStartDateAndTime,
   TaskIsFulfilled,
   TaskImagesCarousel,
+  UserGivenTitle,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -57,6 +58,7 @@ class RequesterDoneDetails extends RequestBaseContainer {
         proposerDisputed: false,
       },
       taskImages = [],
+      jobTitle,
     } = job;
     if (
       !jobId ||
@@ -110,6 +112,7 @@ class RequesterDoneDetails extends RequestBaseContainer {
           <div className="card-content">
             <div className="content has-text-centered">
               <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <UserGivenTitle userGivenTitle={jobTitle} />
 
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime

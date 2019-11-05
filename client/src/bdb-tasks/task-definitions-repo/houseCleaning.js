@@ -17,6 +17,10 @@ Q2)Will the tasker be required to move heavy items (couch-beds-fridge) ?
 `,
   defaultExtrasValues: {
     effort: 'noSelection',
+    bathroomCount: 'noSelection',
+    bedroomCount: 'noSelection',
+    basementCleaning: 'noSelection',
+    equipmentProvider: 'noSelection',
   },
   requiresDestinationField: false,
   extraValidationSchema: {

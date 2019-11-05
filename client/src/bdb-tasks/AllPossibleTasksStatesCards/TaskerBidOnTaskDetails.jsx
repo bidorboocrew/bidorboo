@@ -15,6 +15,7 @@ import {
   TaskSpecificExtras,
   JobCardTitle,
   TaskImagesCarousel,
+  UserGivenTitle,
 } from '../../containers/commonComponents';
 import PostYourBid from '../../components/forms/PostYourBid';
 
@@ -39,6 +40,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
       location,
       extras,
       templateId,
+      jobTitle,
       taskImages = [],
     } = job;
     if (
@@ -108,6 +110,8 @@ export default class TaskerBidOnTaskDetails extends React.Component {
           <div className="card-content">
             <div className="content">
               <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <UserGivenTitle userGivenTitle={jobTitle} />
+
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}

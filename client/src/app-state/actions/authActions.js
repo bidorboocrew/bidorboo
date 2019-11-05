@@ -97,8 +97,8 @@ export const getCurrentUserNotifications = () => (dispatch) =>
       }),
   });
 
-export const getCurrentUser = () => (dispatch) =>
-  dispatch({
+export const getCurrentUser = () => (dispatch) => {
+  return dispatch({
     type: A.AUTH_ACTIONS.LOGIN_FLOW_INITIATED,
     payload: axios
       .get(ROUTES.API.USER.GET.currentUser)
@@ -139,7 +139,6 @@ export const getCurrentUser = () => (dispatch) =>
             resp.data.membershipStatus === 'NEW_MEMBER' &&
             window.location.pathname !== ROUTES.CLIENT.TOS
           ) {
-
             switchRoute(ROUTES.CLIENT.ONBOARDING, { redirectUrl: window.location.pathname });
           }
         }
@@ -148,6 +147,7 @@ export const getCurrentUser = () => (dispatch) =>
         throwErrorNotification(dispatch, error);
       }),
   });
+};
 
 export const onLogout = () => (dispatch) =>
   dispatch({
@@ -229,7 +229,6 @@ export const registerNewUser = (userData) => (dispatch) =>
             resp.data.membershipStatus === 'NEW_MEMBER' &&
             window.location.pathname !== ROUTES.CLIENT.TOS
           ) {
-
             switchRoute(ROUTES.CLIENT.ONBOARDING, { redirectUrl: window.location.pathname });
           }
         }

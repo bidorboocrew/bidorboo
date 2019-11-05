@@ -930,6 +930,7 @@ exports.jobDataAccess = {
             state: 1,
             viewedBy: 1,
             detailedDescription: 1,
+            jobTitle: 1,
             location: 1,
             startingDateAndTime: 1,
             durationOfJob: 1,

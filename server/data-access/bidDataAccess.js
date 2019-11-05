@@ -431,6 +431,7 @@ exports.bidDataAccess = {
           title: 1,
           state: 1,
           detailedDescription: 1,
+          jobTitle: 1,
           jobCompletion: 1,
           location: 1,
           stats: 1,
@@ -471,6 +472,8 @@ exports.bidDataAccess = {
                 title: 1,
                 state: 1,
                 detailedDescription: 1,
+                jobTitle: 1,
+
                 jobCompletion: 1,
                 location: 1,
                 stats: 1,
@@ -552,6 +555,7 @@ exports.bidDataAccess = {
                     _ownerRef: 1,
                     state: 1,
                     detailedDescription: 1,
+                    jobTitle: 1,
                     location: 1,
                     stats: 1,
                     startingDateAndTime: 1,
@@ -617,6 +621,7 @@ exports.bidDataAccess = {
                     title: 1,
                     state: 1,
                     detailedDescription: 1,
+                    jobTitle: 1,
                     jobCompletion: 1,
                     location: 1,
                     stats: 1,
@@ -766,6 +771,7 @@ exports.bidDataAccess = {
                 _ownerRef: 1,
                 state: 1,
                 detailedDescription: 1,
+                jobTitle: 1,
                 location: 1,
                 stats: 1,
                 startingDateAndTime: 1,
@@ -883,7 +889,7 @@ exports.bidDataAccess = {
 
           const jobTemplate =
             utils.jobTemplateIdToDefinitionObjectMapper[`${jobDetails.templateId}`];
-          const jobTitle = jobTemplate.TITLE || '';
+          const jobTitle = jobDetails.jobTitle || jobTemplate.TITLE || '';
           sendGridEmailing.sendNewBidRecievedEmail({
             to: ownerEmailAddress,
             toDisplayName: ownerDetails.displayName,

@@ -15,7 +15,12 @@ import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
 import moment from 'moment';
 import * as Yup from 'yup';
-import { TextAreaInput, GeoAddressInput, DateInput } from '../components/forms/FormsHelpers';
+import {
+  TextAreaInput,
+  GeoAddressInput,
+  DateInput,
+  TextInput,
+} from '../components/forms/FormsHelpers';
 // import { StepsForRequest } from '../containers/commonComponents';
 
 import * as ROUTES from '../constants/frontend-route-consts';
@@ -225,12 +230,14 @@ class GenericRequestForm extends React.Component {
                 type="hidden"
                 value={values.taskImg1 || ''}
               />
+              <br></br>
               <input
                 id="taskImg2"
                 className="input is-invisible"
                 type="hidden"
                 value={values.taskImg1 || ''}
               />
+              <br></br>
               <input
                 id="taskImg3"
                 className="input is-invisible"
@@ -262,6 +269,16 @@ class GenericRequestForm extends React.Component {
                 </div>
               )}
 
+              <TextInput
+                id="jobTitle"
+                type="text"
+                label="Title"
+                placeholder={'Type in a job title or nickname...'}
+                error={touched.jobTitle && errors.jobTitle}
+                value={values.jobTitle || ''}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              ></TextInput>
               <input
                 id="addressText"
                 className="input is-invisible"
@@ -317,7 +334,6 @@ class GenericRequestForm extends React.Component {
               />
               {requiresDestinationField && (
                 <>
-                  {' '}
                   <input
                     id="destinationText"
                     className="input is-invisible"
@@ -611,6 +627,12 @@ const EnhancedForms = withFormik({
         .trim()
         .oneOf(['bdbCarDetailing', 'bdbHouseCleaning', 'bdbPetSittingWalking', 'bdbMoving'])
         .required('Template Id missing or not recognized, This field is required'),
+      jobTitle: Yup.string()
+        .ensure()
+        .trim()
+        .min(5, 'your description must be more than 5 characters')
+        .max(20, 'job title must be less than 20 characters')
+        .required('Template Id missing or not recognized, This field is required'),
       startingDateAndTime: Yup.date()
         .min(moment(), '*Tasks Can not be scheduled in the past')
         .max(moment().add(30, 'd'), '*Tasks can only be scheduled a month in advance')
@@ -627,6 +649,7 @@ const EnhancedForms = withFormik({
         .ensure()
         .trim()
         .min(20, 'your description must be more than 20 characters')
+        .max(500, 'job title must be less than 500 characters')
         .required('*Please provide a detailed description'),
       ...TASKS_DEFINITIONS[props.requestTemplateId].extraValidationSchema,
     });
@@ -645,6 +668,7 @@ const EnhancedForms = withFormik({
       destinationText,
       templateId,
       timeOfDay,
+      jobTitle,
     } = values;
 
     // do some validation before submitting
@@ -673,6 +697,10 @@ const EnhancedForms = withFormik({
       errors.timeOfDay = '*Please select a value from the drop down';
     }
 
+    if (!jobTitle) {
+      errors.jobTitle = '*Please type in a title or nickname for this task';
+    }
+
     if (extrasValidations) {
       errors = { ...errors, ...extrasValidations(values) };
     }
@@ -684,6 +712,7 @@ const EnhancedForms = withFormik({
       templateId: props.requestTemplateId,
       startingDateAndTime: '',
       detailedDescription: '',
+      jobTitle: '',
       addressText: '',
       destinationText: '',
       timeOfDay: 'noSelection',
@@ -705,6 +734,7 @@ const EnhancedForms = withFormik({
       taskImg1,
       taskImg2,
       taskImg3,
+      jobTitle,
       ...extras // everything else
     } = values;
 
@@ -765,16 +795,17 @@ const EnhancedForms = withFormik({
     }
 
     let mappedFieldsToJobSchema = {
-      detailedDescription: detailedDescription,
-      location: {
-        type: 'Point',
-        coordinates: [parseFloat(lng), parseFloat(lat)],
-      },
+      detailedDescription,
+      jobTitle,
       startingDateAndTime,
       addressText,
       templateId,
       extras: {
         ...extras,
+      },
+      location: {
+        type: 'Point',
+        coordinates: [parseFloat(lng), parseFloat(lat)],
       },
     };
 

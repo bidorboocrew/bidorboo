@@ -40,8 +40,8 @@ export default {
     duration: Yup.string()
       .ensure()
       .trim()
-      .min(3, 'must be minimum 3 chars, examples : 3hours, 1 day , 3 months')
-      .max(30, 'can not be more than 30 characthers , examples : 3hours, 1 day , 3 months')
+      .min(3, 'must be minimum 3 chars, examples : 3 hours, 1 day , 3 months')
+      .max(30, 'can not be more than 30 characters , examples : 3 hours, 1 day , 3 months')
       .required('*Please select the duration of the service required'),
     dietaryRestrictions: Yup.string()
       .ensure()
@@ -290,9 +290,9 @@ export default {
               <TextAreaInput
                 id="dietaryRestrictions"
                 type="text"
-                label="Any dietary/medical/special needs?"
-                helpText="Type in, None or leave this empty if your pet doesn't need any"
-                placeholder={'enter any dietry restrictions or medical needs your pet'}
+                label="Disclose any dietary restrictions, medical or special needs"
+                helpText={`Type "None" or leave this empty if your pet doesn't need any`}
+                placeholder={'enter any dietary restrictions or medical needs for your pet...'}
                 error={touched.dietaryRestrictions && errors.dietaryRestrictions}
                 value={values.dietaryRestrictions || ''}
                 onChange={handleChange}

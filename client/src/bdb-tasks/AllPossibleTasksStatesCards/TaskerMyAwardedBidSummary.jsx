@@ -15,6 +15,7 @@ import {
   JobCardTitle,
   BSWaitingOnRequesterToConfirm,
   TaskImagesCarousel,
+  UserGivenTitle,
 } from '../../containers/commonComponents';
 import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
@@ -41,6 +42,7 @@ class TaskerMyAwardedBidSummary extends React.Component {
         proposerDisputed: false,
       },
       taskImages = [],
+      jobTitle,
     } = job;
     if (
       !startingDateAndTime ||
@@ -76,6 +78,8 @@ class TaskerMyAwardedBidSummary extends React.Component {
           <div className="card-content">
             <div className="content">
               <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <UserGivenTitle userGivenTitle={jobTitle} />
+
               <TaskImagesCarousel taskImages={taskImages} />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}

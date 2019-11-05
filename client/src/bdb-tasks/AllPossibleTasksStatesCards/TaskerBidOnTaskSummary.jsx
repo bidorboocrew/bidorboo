@@ -12,6 +12,7 @@ import {
   CountDownComponent,
   TaskImagesCarousel,
   CenteredUserImageAndRating,
+  UserGivenTitle,
 } from '../../containers/commonComponents';
 
 import { getUserExistingBid, didUserAlreadyView } from '../../containers/commonUtils';
@@ -57,6 +58,7 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
       state,
       extras,
       taskImages = [],
+      jobTitle,
     } = job;
     if (!startingDateAndTime || !templateId || !_ownerRef || !state || !extras) {
       return <div>TaskerBidOnTaskSummary is missing properties</div>;
@@ -79,6 +81,8 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
           <div style={{ ...specialStyle }} className="card-content">
             <div className="content">
               <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <UserGivenTitle userGivenTitle={jobTitle} />
+
               {!isOnMapView && <TaskImagesCarousel taskImages={taskImages} />}
               <div className="group">
                 <label className="label hasSelectedValue">Requester</label>

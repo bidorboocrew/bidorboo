@@ -15,6 +15,7 @@ import {
   JobCardTitle,
   TaskersAvailable,
   TaskImagesCarousel,
+  UserGivenTitle,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -35,6 +36,7 @@ class RequesterRequestSummary extends React.Component {
       isHappeningToday,
       isPastDue,
       taskImages = [],
+      jobTitle,
     } = job;
     if (
       !jobId ||
@@ -60,6 +62,8 @@ class RequesterRequestSummary extends React.Component {
           <div className="card-content">
             <div className="content">
               <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <UserGivenTitle userGivenTitle={jobTitle} />
+
               <TaskImagesCarousel taskImages={taskImages} />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}

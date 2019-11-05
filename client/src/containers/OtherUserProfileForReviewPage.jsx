@@ -40,7 +40,7 @@ class OtherUserProfileForReviewPage extends React.Component {
     if (!this.userIdUnderReview) {
       return null;
     }
-    debugger;
+
     if (isLoadingAnotherUserProfile || !otherUserProfileInfo._id) {
       return (
         <div className="container is-widescreen">

@@ -973,15 +973,22 @@ export const AssignedTasker = ({ displayName }) => {
   );
 };
 
+export const UserGivenTitle = ({ userGivenTitle }) => {
+  return (
+    <div style={{ fontWeight: 300, fontSize: 16, color: '#363636', marginBottom: '1.25rem' }}>
+      {`Title: ${userGivenTitle}`}
+    </div>
+  );
+};
+
 export const JobCardTitle = ({ img, icon, title, meatballMenu }) => {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', width: '100%', marginBottom: '1.25rem' }}>
+    <div style={{ display: 'flex', alignItems: 'center', width: '100%', marginBottom: 0 }}>
       <div
         style={{
           cursor: 'pointer',
           display: 'flex',
           alignItems: 'center',
-
           overflow: 'hidden',
           margin: 'auto',
         }}

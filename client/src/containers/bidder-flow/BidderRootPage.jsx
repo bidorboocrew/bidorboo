@@ -243,7 +243,7 @@ class BidderRootPage extends React.Component {
         )}
 
         <div>
-          <section className="hero is-small is-light">
+          <section className="hero is-small is-white">
             <div className="hero-body">
               <div className="container">
                 <h1 style={{ marginBottom: '0.5rem', paddingLeft: 10 }} className="subtitle">

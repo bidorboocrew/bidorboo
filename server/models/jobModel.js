@@ -7,8 +7,11 @@ const { detroyExistingImg } = require('../utils/utilities');
 
 const { Schema } = mongoose;
 
-const MAX_TITLE_LENGTH = 15;
+const MAX_TITLE_LENGTH = 20;
 const MIN_TITLE_LENGTH = 5;
+
+const MAX_DESCRIPTION_LENGTH = 500;
+const MIN_DESCRIPTION_LENGTH = 20;
 
 const MAX_ADDRESS_LENGTH = 300;
 const MIN_ADDRESS_LENGTH = 5;
@@ -78,8 +81,33 @@ const JobSchema = new Schema(
     // when a tasker cancels on this job hide it from them to avoid future bids by the asshole who canceled
     hideFrom: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }], //array of people who saw this/booed no longer wish to see it ..etc
     viewedBy: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }],
-    detailedDescription: { type: String, trim: true, required: true },
+    detailedDescription: {
+      type: String,
+      trim: true,
+      maxlength: [
+        MAX_DESCRIPTION_LENGTH,
+        'description text can not be longer than ' + MAX_DESCRIPTION_LENGTH + ' characters',
+      ],
+      minlength: [
+        MIN_DESCRIPTION_LENGTH,
+        'description text can not be less than ' + MIN_DESCRIPTION_LENGTH + ' characters',
+      ],
+      required: [true, 'description is required'],
+    },
     location: { type: mongoose.Schema.Types.Point, index: '2dsphere', required: true },
+    jobTitle: {
+      type: String,
+      trim: true,
+      maxlength: [
+        MAX_TITLE_LENGTH,
+        'title text can not be longer than ' + MAX_TITLE_LENGTH + ' characters',
+      ],
+      minlength: [
+        MIN_TITLE_LENGTH,
+        'title text can not be less than ' + MIN_TITLE_LENGTH + ' characters',
+      ],
+      required: [true, 'job title is required'],
+    },
     addressText: {
       type: String,
       trim: true,
@@ -89,7 +117,7 @@ const JobSchema = new Schema(
       ],
       minlength: [
         MIN_ADDRESS_LENGTH,
-        'Address text can not be longer than ' + MIN_ADDRESS_LENGTH + ' characters',
+        'Address text can not be less than ' + MIN_ADDRESS_LENGTH + ' characters',
       ],
       required: [true, 'title is required'],
     },
