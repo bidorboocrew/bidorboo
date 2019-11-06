@@ -15,10 +15,12 @@ export default class PostYourBid extends React.Component {
   };
 
   openShowBidDialog = () => {
-    const { isLoggedIn, showLoginDialog } = this.props;
-    debugger
+    const { isLoggedIn, showLoginDialog, taskerCanBid } = this.props;
+    debugger;
     if (!isLoggedIn) {
       showLoginDialog(true);
+    } else if (!taskerCanBid) {
+      alert('complete the tasker onBoarding before you can bid');
     } else {
       this.setState({ showBidDialog: true });
     }

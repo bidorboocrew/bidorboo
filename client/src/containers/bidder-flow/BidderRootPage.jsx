@@ -212,19 +212,15 @@ class BidderRootPage extends React.Component {
     return (
       <>
         {isLoggedIn && !taskerCanBid && (
-          <section className="hero is-warning is-small">
+          <section className="hero is-success is-small is-bold">
             <div className="hero-body">
               <div className="container">
                 <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
                   Want to provide your services and earn money?
                 </h1>
                 <button
-                  className="button is-small is-danger"
+                  className="button is-small is-dark"
                   onClick={() => {
-                    if (!isLoggedIn) {
-                      showLoginDialog(true);
-                      return;
-                    }
                     switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings);
                   }}
                 >
@@ -233,7 +229,7 @@ class BidderRootPage extends React.Component {
                   </span>
                   <span>COMPLETE TASKER ONBOARDING</span>
                 </button>
-                <div className="help has-text-dark">*Registration will take ~5 minutes</div>
+                <div className="help has-text-light">*Registration will take ~5 minutes</div>
               </div>
             </div>
           </section>
