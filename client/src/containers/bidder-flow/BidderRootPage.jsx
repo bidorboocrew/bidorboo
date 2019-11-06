@@ -232,9 +232,9 @@ class BidderRootPage extends React.Component {
                   }}
                 >
                   <span className="icon">
-                    <i className="far fa-credit-card" aria-hidden="true" />
+                    <i class="fas fa-user-tie"></i>
                   </span>
-                  <span>ADD YOUR PAYOUT DETAILS</span>
+                  <span>COMPLETE TASKER ONBOARDING</span>
                 </button>
                 <div className="help has-text-dark">*Registration will take ~5 minutes</div>
               </div>
