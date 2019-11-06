@@ -28,6 +28,8 @@ import {
 export default class TaskerBidOnTaskDetails extends React.Component {
   render() {
     const { job, otherArgs } = this.props;
+    const { showLoginDialog, isLoggedIn } = otherArgs;
+    debugger;
     if (!job) {
       return switchRoute(ROUTES.CLIENT.BIDDER.root);
     }
@@ -170,6 +172,8 @@ export default class TaskerBidOnTaskDetails extends React.Component {
               )}
               {!userAlreadyBid && (
                 <PostYourBid
+                  showLoginDialog={showLoginDialog}
+                  isLoggedIn={isLoggedIn}
                   avgBid={avgBid}
                   onSubmit={(values) => {
                     submitBid({

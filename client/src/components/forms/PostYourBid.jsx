@@ -15,7 +15,13 @@ export default class PostYourBid extends React.Component {
   };
 
   openShowBidDialog = () => {
-    this.setState({ showBidDialog: true });
+    const { isLoggedIn, showLoginDialog } = this.props;
+    debugger
+    if (!isLoggedIn) {
+      showLoginDialog(true);
+    } else {
+      this.setState({ showBidDialog: true });
+    }
   };
 
   render() {
@@ -32,7 +38,7 @@ export default class PostYourBid extends React.Component {
           <span className="icon">
             <i className="fas fa-hand-paper" />
           </span>
-          <span>Bid on This Task</span>
+          <span>Enter Your Bid</span>
         </button>
         {showBidDialog && <BidModal {...this.props} handleClose={this.closeShowBidDialog} />}
       </div>

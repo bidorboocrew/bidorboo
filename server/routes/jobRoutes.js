@@ -38,7 +38,7 @@ module.exports = (app) => {
     }
   });
 
-  app.get(ROUTES.API.JOB.GET.jobToBidDetailsById, requireLogin, async (req, res) => {
+  app.get(ROUTES.API.JOB.GET.jobToBidDetailsById, async (req, res) => {
     try {
       if (req.query && req.query.jobId) {
         const { jobId } = req.query;

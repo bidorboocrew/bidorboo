@@ -3,13 +3,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import MapWithAMarkerClusterer from './MapWithAMarkerClusterer';
-import { selectJobToBidOn } from '../../../app-state/actions/bidsActions';
 import { showLoginDialog } from '../../../app-state/actions/uiActions';
 
 class MapSection extends React.Component {
   render() {
     const {
-      selectJobToBidOn,
       mapCenterPoint,
       isLoggedIn,
       showLoginDialog,
@@ -20,7 +18,6 @@ class MapSection extends React.Component {
 
     return jobsList ? (
       <MapWithAMarkerClusterer
-        selectJobToBidOn={selectJobToBidOn}
         mapCenterPoint={mapCenterPoint}
         isLoggedIn={isLoggedIn}
         showLoginDialog={showLoginDialog}
@@ -41,7 +38,6 @@ const mapStateToProps = ({ userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    selectJobToBidOn: bindActionCreators(selectJobToBidOn, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };

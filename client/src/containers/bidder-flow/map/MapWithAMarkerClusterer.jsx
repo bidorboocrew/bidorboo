@@ -66,11 +66,9 @@ class Cluster extends React.Component {
   }
 
   showInfoBox = (job) => {
-
     this.setState(
       () => ({ showInfoBoxForJobId: job._id }),
       () => {
-
         if (
           job &&
           job.location &&
@@ -78,8 +76,6 @@ class Cluster extends React.Component {
           job.location.coordinates.length === 2 &&
           job.zoomOnInfo
         ) {
-
-
           job.zoomOnInfo(
             {
               lng: job.location.coordinates[0],
@@ -99,7 +95,7 @@ class Cluster extends React.Component {
   };
 
   render() {
-    const { jobsList, selectJobToBidOn, userDetails, isLoggedIn, showLoginDialog } = this.props;
+    const { jobsList, userDetails, isLoggedIn, showLoginDialog } = this.props;
     const { showInfoBoxForJobId } = this.state;
 
     if (jobsList && jobsList.length > 0) {
@@ -108,7 +104,6 @@ class Cluster extends React.Component {
           showInfoBox={this.showInfoBox}
           closeInfoBox={this.closeInfoBox}
           showInfoBoxForJobId={showInfoBoxForJobId}
-          selectJobToBidOn={selectJobToBidOn}
           key={job._id}
           job={job}
           userDetails={userDetails}

@@ -27,15 +27,8 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
   render() {
     const { job, otherArgs = {} } = this.props;
     const { showRegisterAsTaskerModal } = this.state;
-    const { showMapView, isLoggedIn, userDetails, showLoginDialog, updateViewedBy } = otherArgs;
-    if (
-      !job ||
-      !job._id ||
-      !otherArgs ||
-      isLoggedIn === 'undefined' ||
-      !userDetails ||
-      !showLoginDialog
-    ) {
+    const { showMapView, isLoggedIn, userDetails, updateViewedBy } = otherArgs;
+    if (!job || !job._id || !otherArgs || isLoggedIn === 'undefined' || !userDetails) {
       return <div>TaskerBidOnTaskSummary is missing properties</div>;
     }
 
@@ -157,20 +150,7 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                       <a
                         style={{ flexGrow: 1 }}
                         onClick={(e) => {
-                          if (!isLoggedIn) {
-                            showLoginDialog(true);
-                            return;
-                          }
-                          // else if (!userDetails.canBid) {
-                          //   // xxxxxxxxxxx re enable this very important
-                          //   // this.toggleRegisterAsTasker();
-                          // }
-
-                          // else if (userDetails.canBid) {
-                          else {
-                            updateViewedBy(job);
-                            switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
-                          }
+                          switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
                         }}
                         className="button is-success firstButtonInCard"
                       >
@@ -234,19 +214,10 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                       <a
                         style={{ marginTop: 10 }}
                         onClick={(e) => {
-                          if (!isLoggedIn) {
-                            showLoginDialog(true);
-                            return;
-                          }
-                          //  else if (!userDetails.canBid) {
-                          //   xxxxxxxxxxxxxxxxxxxx reenable
-                          //   this.toggleRegisterAsTasker();
-                          // }
-                          // else if (userDetails.canBid) {
-                          else {
+                          if (isLoggedIn) {
                             updateViewedBy(job);
-                            switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
                           }
+                          switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
                         }}
                         className="button is-success is-small"
                       >

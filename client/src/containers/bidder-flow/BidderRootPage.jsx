@@ -10,8 +10,6 @@ import { getCurrentUser } from '../../app-state/actions/authActions';
 
 import { searchJobsToBidOn } from '../../app-state/actions/jobActions';
 
-import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
-
 import BidderRootFilterWrapper from '../../components/forms/BidderRootFilterWrapper';
 import BidderRootLocationFilter from '../../components/forms/BidderRootLocationFilter';
 
@@ -387,8 +385,6 @@ const mapStateToProps = ({ jobsReducer, userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    selectJobToBidOn: bindActionCreators(selectJobToBidOn, dispatch),
-
     searchJobsToBidOn: bindActionCreators(searchJobsToBidOn, dispatch),
     getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),

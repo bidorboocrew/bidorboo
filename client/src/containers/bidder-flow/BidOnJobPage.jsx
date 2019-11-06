@@ -9,7 +9,7 @@ import { RenderBackButton } from '../commonComponents';
 import { getJobToBidOnDetails } from '../../app-state/actions/bidsActions';
 
 import { Spinner } from '../../components/Spinner';
-
+import { showLoginDialog } from '../../app-state/actions/uiActions';
 import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightCard';
 
 class BidOnJobPage extends React.Component {
@@ -21,8 +21,8 @@ class BidOnJobPage extends React.Component {
     }
   }
   render() {
-    const { submitBid, isLoggedIn, jobDetails, currentUserDetails } = this.props;
-    let dontShowThisPage = !jobDetails || !jobDetails._id || !jobDetails._ownerRef || !isLoggedIn;
+    const { submitBid, jobDetails, currentUserDetails, isLoggedIn, showLoginDialog } = this.props;
+    let dontShowThisPage = !jobDetails || !jobDetails._id || !jobDetails._ownerRef;
     if (dontShowThisPage) {
       return (
         <section className="section">
@@ -44,6 +44,8 @@ class BidOnJobPage extends React.Component {
                 pointOfView: POINT_OF_VIEW.TASKER,
                 submitBid,
                 userDetails: currentUserDetails,
+                showLoginDialog,
+                isLoggedIn,
               })}
             </div>
           </div>
@@ -64,6 +66,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     submitBid: bindActionCreators(submitBid, dispatch),
     getJobToBidOnDetails: bindActionCreators(getJobToBidOnDetails, dispatch),
+    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };
 
