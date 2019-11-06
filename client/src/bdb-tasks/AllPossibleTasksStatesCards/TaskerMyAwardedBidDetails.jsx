@@ -22,6 +22,7 @@ import {
   BSWaitingOnRequesterToConfirm,
   CenteredUserImageAndRating,
   TaskImagesCarousel,
+  UserGivenTitle,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -56,6 +57,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
         proposerDisputed: false,
       },
       taskImages = [],
+      jobTitle,
       _reviewRef,
     } = job;
     const { requiresBidderReview } = _reviewRef;
@@ -228,6 +230,8 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                   </div>
                 )}
               />
+              <UserGivenTitle userGivenTitle={jobTitle} />
+
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}

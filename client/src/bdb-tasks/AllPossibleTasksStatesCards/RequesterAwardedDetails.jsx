@@ -26,6 +26,7 @@ import {
   CenteredUserImageAndRating,
   AssignedTasker,
   TaskImagesCarousel,
+  UserGivenTitle,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -70,6 +71,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
         proposerDisputed: false,
       },
       taskImages = [],
+      jobTitle,
     } = job;
     if (
       !_id ||
@@ -255,6 +257,8 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                   </div>
                 )}
               />
+              <UserGivenTitle userGivenTitle={jobTitle} />
+
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}

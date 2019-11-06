@@ -19,6 +19,7 @@ import {
   JobCardTitle,
   TaskersAvailable,
   TaskImagesCarousel,
+  UserGivenTitle,
 } from '../../containers/commonComponents';
 
 import { switchRoute } from '../../utils';
@@ -84,6 +85,7 @@ class RequesterRequestDetails extends React.Component {
       isHappeningToday,
       isPastDue,
       taskImages = [],
+      jobTitle,
     } = job;
     if (
       !jobId ||
@@ -202,6 +204,8 @@ class RequesterRequestDetails extends React.Component {
                   </div>
                 )}
               />
+              <UserGivenTitle userGivenTitle={jobTitle} />
+
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
