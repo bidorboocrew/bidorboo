@@ -341,10 +341,10 @@ class TaskTypeFilter extends React.Component {
       .filter((key) => !TASKS_DEFINITIONS[key].isComingSoon)
       .map((key) => {
         // let controlClass = `tag is-rounded ${taskTypesIds[key] ? 'is-link' : ''}`;
-        let controlClass = `tag is-rounded ${currentFilters.indexOf(key) > -1 && 'is-success'}`;
+        let controlClass = `tag is-rounded ${currentFilters.indexOf(key) > -1 && 'is-info'}`;
         return (
           <span
-            style={{ borderRadius: 0, cursor: 'pointer', minWidth: 165 }}
+            style={{cursor: 'pointer', minWidth: 165 }}
             key={`key-${key}`}
             onClick={() => {
               const { updateTaskTypesFilter } = this.props;
