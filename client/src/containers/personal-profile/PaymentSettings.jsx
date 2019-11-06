@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
@@ -11,19 +11,8 @@ import { Spinner } from '../../components/Spinner';
 import PaymentSetupForm from '../../components/forms/PaymentSetupForm';
 
 import { getCurrentUser } from '../../app-state/actions/authActions';
-
+import * as ROUTES from '../../constants/frontend-route-consts';
 class PaymentSettings extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showAddPaymentDetails: true,
-    };
-  }
-
-  toggleAddPaymentDetails = () => {
-    this.setState({ showAddPaymentDetails: !this.state.showAddPaymentDetails });
-  };
-
   componentDidMount() {
     this.props.getMyStripeAccountDetails();
   }
@@ -57,13 +46,7 @@ class PaymentSettings extends React.Component {
     return (
       <div className="columns is-centered">
         <div className="column is-narrow">
-          {firstTimeSetup && (
-            <InitialAccountSetupView
-              {...this.props}
-              {...this.state}
-              toggleAddPaymentDetails={this.toggleAddPaymentDetails}
-            />
-          )}
+          {firstTimeSetup && <InitialAccountSetupView {...this.props} {...this.state} />}
           {/* {xxxxxxxxxxxxxx xxx you need to allow updates} */}
           {/* {pendingVerification && (
             <React.Fragment>
@@ -120,52 +103,98 @@ const HeaderTitle = (props) => {
 };
 
 const InitialAccountSetupView = (props) => {
-  const {
-    toggleAddPaymentDetails,
-    showAddPaymentDetails,
-    userDetails,
-    myStripeAccountDetails,
-  } = props;
+  const { showAddPaymentDetails, userDetails, myStripeAccountDetails } = props;
 
+  const [isNinteenPlus, setNinteenPlus] = useState(false);
+  const [isCanadian, setCanadian] = useState(false);
+  const [isValidBankAcc, setValidBankAcc] = useState(false);
+  const [hasAgreedToTOS, setHasAgreedToTos] = useState(false);
+
+  const userMeetsTaskerRequirements =
+    isNinteenPlus && isValidBankAcc && isCanadian && hasAgreedToTOS;
   return (
     <React.Fragment>
       <div>
         <div className="group">
           <div style={{ minHeight: 'unset', height: 'unset' }} className="card">
             <div style={{ minHeight: 'unset', height: 'unset' }} className="card-content">
-              <HeaderTitle title="My Payments Details" />
+              <HeaderTitle title="Tasker Onboarding" />
 
               <div className="content">
                 <br />
+
+                <div className="group">
+                  <div className="label has-text-weight-semibold">
+                    To become a tasker you must comply with these rules
+                  </div>
+                </div>
+                <div style={{ marginBottom: 5 }}>
+                  <label class="checkbox">
+                    <input
+                      value={isNinteenPlus}
+                      onChange={(e) => setNinteenPlus(!isNinteenPlus)}
+                      type="checkbox"
+                    />
+                    {` I am 19 years or older.`}
+                  </label>
+                </div>
+                <div style={{ marginBottom: 5 }}>
+                  <label class="checkbox">
+                    <input
+                      value={isCanadian}
+                      onChange={(e) => setCanadian(!isCanadian)}
+                      type="checkbox"
+                    />
+                    {` I hold a Canadian citizenship or passport.`}
+                  </label>
+                </div>
+                <div style={{ marginBottom: 5 }}>
+                  <label class="checkbox">
+                    <input
+                      value={isValidBankAcc}
+                      onChange={(e) => setValidBankAcc(!isValidBankAcc)}
+                      type="checkbox"
+                    />
+                    {` I have a Canadian Chequing Account.`}
+                  </label>
+                </div>
+                <div style={{ marginBottom: 5 }}>
+                  <label class="checkbox">
+                    <input
+                      onChange={() => setHasAgreedToTos(!hasAgreedToTOS)}
+                      type="checkbox"
+                      value={hasAgreedToTOS}
+                    />
+                    {` I confirm that I have read and agreed to`}
+                    <a target="_blank" rel="noopener noreferrer" href={`${ROUTES.CLIENT.TOS}`}>
+                      {` BidOrBoo Service Agreement `}
+                    </a>
+                    and
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href="https://stripe.com/connect-account/legal"
+                    >
+                      {` Stripe Connected Account Agreement`}
+                    </a>
+                  </label>
+                </div>
+                <br></br>
                 <div className="group">
                   <input
                     id="showPayoutSetupForm"
                     type="checkbox"
                     name="showPayoutSetupForm"
                     className="switch is-rounded is-success"
-                    checked={showAddPaymentDetails}
-                    onChange={toggleAddPaymentDetails}
+                    checked={userMeetsTaskerRequirements}
+                    onChange={() => null}
                   />
                   <label htmlFor="showPayoutSetupForm">
                     <strong>Setup Payout Banking Details</strong>
                   </label>
-                  <div className="help">
-                    * You must be <strong>19 years or older</strong> to provide services
-                  </div>
-                  <div className="help">
-                    * All Your data is secured via
-                    <a href="https://stripe.com/ca" target="_blank">
-                      {` Stripe payment gateway.`}
-                    </a>
-                    {` A world class secure payment processing platform.`} <br />
-                  </div>
-                  <div className="help">
-                    * Once verified, this will be the primary deposit account after you complete a
-                    tasks
-                  </div>
                 </div>
 
-                {!showAddPaymentDetails && (
+                {/* {!(userMeetsTaskerRequirements) && (
                   <React.Fragment>
                     {myStripeAccountDetails &&
                       myStripeAccountDetails.balanceDetails &&
@@ -178,16 +207,14 @@ const InitialAccountSetupView = (props) => {
                         </div>
                       )}
                   </React.Fragment>
-                )}
+                )} */}
               </div>
             </div>
           </div>
         </div>
       </div>
       <br />
-      {showAddPaymentDetails && (
-        <PaymentSetupForm userDetails={userDetails} onCancel={toggleAddPaymentDetails} />
-      )}
+      {userMeetsTaskerRequirements && <PaymentSetupForm userDetails={userDetails} />}
     </React.Fragment>
   );
 };
