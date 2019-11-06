@@ -227,12 +227,11 @@ class BidderRootPage extends React.Component {
                       showLoginDialog(true);
                       return;
                     }
-
                     switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings);
                   }}
                 >
                   <span className="icon">
-                    <i class="fas fa-user-tie"></i>
+                    <i className="fas fa-user-tie"></i>
                   </span>
                   <span>COMPLETE TASKER ONBOARDING</span>
                 </button>

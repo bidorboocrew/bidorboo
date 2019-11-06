@@ -129,7 +129,7 @@ const InitialAccountSetupView = (props) => {
                   </div>
                 </div>
                 <div style={{ marginBottom: 5 }}>
-                  <label class="checkbox">
+                  <label className="checkbox">
                     <input
                       value={isNinteenPlus}
                       onChange={(e) => setNinteenPlus(!isNinteenPlus)}
@@ -139,7 +139,7 @@ const InitialAccountSetupView = (props) => {
                   </label>
                 </div>
                 <div style={{ marginBottom: 5 }}>
-                  <label class="checkbox">
+                  <label className="checkbox">
                     <input
                       value={isCanadian}
                       onChange={(e) => setCanadian(!isCanadian)}
@@ -149,7 +149,7 @@ const InitialAccountSetupView = (props) => {
                   </label>
                 </div>
                 <div style={{ marginBottom: 5 }}>
-                  <label class="checkbox">
+                  <label className="checkbox">
                     <input
                       value={isValidBankAcc}
                       onChange={(e) => setValidBankAcc(!isValidBankAcc)}
@@ -159,7 +159,7 @@ const InitialAccountSetupView = (props) => {
                   </label>
                 </div>
                 <div style={{ marginBottom: 5 }}>
-                  <label class="checkbox">
+                  <label className="checkbox">
                     <input
                       onChange={() => setHasAgreedToTos(!hasAgreedToTOS)}
                       type="checkbox"
@@ -189,8 +189,11 @@ const InitialAccountSetupView = (props) => {
                     checked={userMeetsTaskerRequirements}
                     onChange={() => null}
                   />
-                  <label htmlFor="showPayoutSetupForm">
-                    <strong>Setup Payout Banking Details</strong>
+                  <label
+                    htmlFor="showPayoutSetupForm"
+                    className="has-text-dark has-text-weight-semibold"
+                  >
+                    Setup Payout Banking Details
                   </label>
                 </div>
 

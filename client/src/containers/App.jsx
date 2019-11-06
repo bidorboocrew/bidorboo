@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
@@ -14,36 +14,70 @@ import canadaFlag from '../assets/images/Canada-flag-round.png';
 import { registerServiceWorker } from '../registerServiceWorker';
 import AddToMobileHomeScreenBanner from './AddToMobileHomeScreenBanner';
 import '../assets/index.scss';
+import { Spinner } from '../components/Spinner.jsx';
 
 import {
   Header,
-  ShareButtons,
+  // ShareButtons,
   HomePage,
-  MyProfile,
-  PaymentSettings,
-  VerificationPage,
-  ProposerRootPage,
-  CreateAJobPage,
-  MyRequestsPage,
-  FirstTimeUser,
-  ResetLocalPassword,
-  ReviewMyAwardedJobAndWinningBidPage,
-  ReviewRequestAndBidsPage,
-  BidderRootPage,
-  BidOnJobPage,
-  ReviewBidAndRequestPage,
-  ReviewAwardedBidPage,
-  MyBidsPage,
-  ProposerReviewingCompletedJob,
-  BidderReviewingCompletedJob,
-  OtherUserProfileForReviewPage,
+  // MyProfile,
+  // PaymentSettings,
+  // VerificationPage,
+  // ProposerRootPage,
+  // CreateAJobPage,
+  // MyRequestsPage,
+  // FirstTimeUser,
+  // ResetLocalPassword,
+  // ReviewMyAwardedJobAndWinningBidPage,
+  // ReviewRequestAndBidsPage,
+  // BidderRootPage,
+  // BidOnJobPage,
+  // ReviewBidAndRequestPage,
+  // ReviewAwardedBidPage,
+  // MyBidsPage,
+  // ProposerReviewingCompletedJob,
+  // BidderReviewingCompletedJob,
+  // OtherUserProfileForReviewPage,
   // PastProvidedServices,
   // PastRequestedServices,
-  TermsOfService,
+  // TermsOfService,
 } from './index';
 
 import ShowSpecialMomentModal from './ShowSpecialMomentModal';
-import FreshdeskChat from './FreshdeskChat';
+// import FreshdeskChat from './FreshdeskChat';
+//eslint-disable import/first
+
+const FreshdeskChat = lazy(() => import('./FreshdeskChat.jsx'));
+
+const FirstTimeUser = lazy(() => import('./onboarding-flow/FirstTimeUser.jsx'));
+const MyProfile = lazy(() => import('./personal-profile/MyProfile.jsx'));
+const PaymentSettings = lazy(() => import('./personal-profile/PaymentSettings.jsx'));
+const VerificationPage = lazy(() => import('./VerificationPage.jsx'));
+
+const ProposerRootPage = lazy(() => import('./proposer-flow/ProposerRootPage.jsx'));
+const CreateAJobPage = lazy(() => import('./proposer-flow/CreateAJobPage.jsx'));
+
+const MyRequestsPage = lazy(() => import('./proposer-flow/MyRequestsPage.jsx'));
+const ResetLocalPassword = lazy(() => import('./onboarding-flow/ResetLocalPassword.jsx'));
+
+const TermsOfService = lazy(() => import('./onboarding-flow/TermsOfService.jsx'));
+const OtherUserProfileForReviewPage = lazy(() => import('./OtherUserProfileForReviewPage.jsx'));
+const BidderReviewingCompletedJob = lazy(() =>
+  import('./review-flow/BidderReviewingCompletedJob.jsx'),
+);
+const ProposerReviewingCompletedJob = lazy(() =>
+  import('./review-flow/ProposerReviewingCompletedJob.jsx'),
+);
+const MyBidsPage = lazy(() => import('./bidder-flow/MyBidsPage.jsx'));
+const ReviewAwardedBidPage = lazy(() => import('./bidder-flow/ReviewAwardedBidPage.jsx'));
+const ReviewBidAndRequestPage = lazy(() => import('./bidder-flow/ReviewOpenBidAndRequestPage.jsx'));
+const BidOnJobPage = lazy(() => import('./bidder-flow/BidOnJobPage.jsx'));
+const BidderRootPage = lazy(() => import('./bidder-flow/BidderRootPage.jsx'));
+const ReviewRequestAndBidsPage = lazy(() => import('./proposer-flow/ReviewRequestAndBidsPage.jsx'));
+const ReviewMyAwardedJobAndWinningBidPage = lazy(() =>
+  import('./proposer-flow/ReviewMyAwardedJobAndWinningBidPage.jsx'),
+);
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -132,80 +166,86 @@ class App extends React.Component {
         />
         <Header id="bidorboo-header" />
         <div id="RoutesWrapper" className="has-navbar-fixed-top">
-          <Switch>
-            {/* public paths */}
-            <Route exact path={ROUTES.CLIENT.HOME} component={HomePage} />
-            <Route exact path={ROUTES.CLIENT.PROPOSER.root} component={ProposerRootPage} />
-            <Route exact path={`${ROUTES.CLIENT.PROPOSER.createjob}`} component={CreateAJobPage} />
-            <Route exact path={ROUTES.CLIENT.BIDDER.root} component={BidderRootPage} />
-            <Route exact path={ROUTES.CLIENT.BIDDER.bidOnJobPage} component={BidOnJobPage} />
-            <Route
-              exact
-              path={`${ROUTES.CLIENT.USER_ROFILE_FOR_REVIEW}`}
-              component={OtherUserProfileForReviewPage}
-            />
-            {/* loggedInPaths paths */}
+          <Suspense fallback={<Spinner renderLabel="loading..."></Spinner>}>
+            <Switch>
+              {/* public paths */}
+              <Route exact path={ROUTES.CLIENT.HOME} component={HomePage} />
+              <Route exact path={ROUTES.CLIENT.PROPOSER.root} component={ProposerRootPage} />
+              <Route
+                exact
+                path={`${ROUTES.CLIENT.PROPOSER.createjob}`}
+                component={CreateAJobPage}
+              />
+              <Route exact path={ROUTES.CLIENT.BIDDER.root} component={BidderRootPage} />
+              <Route exact path={ROUTES.CLIENT.BIDDER.bidOnJobPage} component={BidOnJobPage} />
+              <Route
+                exact
+                path={`${ROUTES.CLIENT.USER_ROFILE_FOR_REVIEW}`}
+                component={OtherUserProfileForReviewPage}
+              />
+              {/* loggedInPaths paths */}
 
-            <Route exact path={`${ROUTES.CLIENT.ONBOARDING}`} component={FirstTimeUser} />
-            <Route exact path={`${ROUTES.CLIENT.RESETPASSWORD}`} component={ResetLocalPassword} />
+              <Route exact path={`${ROUTES.CLIENT.ONBOARDING}`} component={FirstTimeUser} />
+              <Route exact path={`${ROUTES.CLIENT.RESETPASSWORD}`} component={ResetLocalPassword} />
 
-            <Route
-              exact
-              path={`${ROUTES.CLIENT.PROPOSER.myRequestsPage}`}
-              component={MyRequestsPage}
-            />
+              <Route
+                exact
+                path={`${ROUTES.CLIENT.PROPOSER.myRequestsPage}`}
+                component={MyRequestsPage}
+              />
 
-            <Route
-              exact
-              path={`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}`}
-              component={ReviewRequestAndBidsPage}
-            />
-            <Route
-              exact
-              path={`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}`}
-              component={ReviewMyAwardedJobAndWinningBidPage}
-            />
-            <Route exact path={ROUTES.CLIENT.BIDDER.mybids} component={MyBidsPage} />
-            <Route
-              exact
-              path={`${ROUTES.CLIENT.BIDDER.reviewMyOpenBidAndTheRequestDetails}`}
-              component={ReviewBidAndRequestPage}
-            />
-            <Route
-              exact
-              path={`${ROUTES.CLIENT.BIDDER.awardedBidDetailsPage}`}
-              component={ReviewAwardedBidPage}
-            />
-            <Route exact path={ROUTES.CLIENT.MY_PROFILE.basicSettings} component={MyProfile} />
-            <Route
-              exact
-              path={ROUTES.CLIENT.MY_PROFILE.paymentSettings}
-              component={PaymentSettings}
-            />
-            <Route exact path={`${ROUTES.CLIENT.VERIFICATION}`} component={VerificationPage} />
-            <Route
-              exact
-              path={`${ROUTES.CLIENT.REVIEW.proposerJobReview}`}
-              component={ProposerReviewingCompletedJob}
-            />
-            <Route
-              exact
-              path={`${ROUTES.CLIENT.REVIEW.bidderJobReview}`}
-              component={BidderReviewingCompletedJob}
-            />
-            {/* <Route
+              <Route
+                exact
+                path={`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}`}
+                component={ReviewRequestAndBidsPage}
+              />
+              <Route
+                exact
+                path={`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}`}
+                component={ReviewMyAwardedJobAndWinningBidPage}
+              />
+              <Route exact path={ROUTES.CLIENT.BIDDER.mybids} component={MyBidsPage} />
+              <Route
+                exact
+                path={`${ROUTES.CLIENT.BIDDER.reviewMyOpenBidAndTheRequestDetails}`}
+                component={ReviewBidAndRequestPage}
+              />
+              <Route
+                exact
+                path={`${ROUTES.CLIENT.BIDDER.awardedBidDetailsPage}`}
+                component={ReviewAwardedBidPage}
+              />
+              <Route exact path={ROUTES.CLIENT.MY_PROFILE.basicSettings} component={MyProfile} />
+              <Route
+                exact
+                path={ROUTES.CLIENT.MY_PROFILE.paymentSettings}
+                component={PaymentSettings}
+              />
+              <Route exact path={`${ROUTES.CLIENT.VERIFICATION}`} component={VerificationPage} />
+              <Route
+                exact
+                path={`${ROUTES.CLIENT.REVIEW.proposerJobReview}`}
+                component={ProposerReviewingCompletedJob}
+              />
+              <Route
+                exact
+                path={`${ROUTES.CLIENT.REVIEW.bidderJobReview}`}
+                component={BidderReviewingCompletedJob}
+              />
+              {/* <Route
               exact
               path={`${ROUTES.CLIENT.MY_PROFILE.pastProvidedServices}`}
               component={PastProvidedServices}
             /> */}
-            {/* <Route
+              {/* <Route
               exact
               path={`${ROUTES.CLIENT.MY_PROFILE.pastRequestedServices}`}
               component={PastRequestedServices}
             /> */}
-            <Route exact path={ROUTES.CLIENT.TOS} component={TermsOfService} />
-            <Redirect path="*" to={ROUTES.CLIENT.HOME} />
-          </Switch>
+              <Route exact path={ROUTES.CLIENT.TOS} component={TermsOfService} />
+              <Redirect path="*" to={ROUTES.CLIENT.HOME} />
+            </Switch>
+          </Suspense>
         </div>
         {!(window.location.pathname.indexOf('/on-boarding') > -1) && (
           <footer id="mainFooter" className="footer">
@@ -265,7 +305,9 @@ class App extends React.Component {
                   <p className="has-text-white is-size-7">Chat With Us</p>
 
                   <div style={{ marginBottom: '0.5rem' }}>
-                    <FreshdeskChat isFooter />
+                    <Suspense fallback={<Spinner renderLabel="loading..."></Spinner>}>
+                      <FreshdeskChat isFooter />
+                    </Suspense>
                   </div>
 
                   <p className="has-text-white is-size-7">Contact Us</p>
