@@ -186,13 +186,23 @@ const InitialAccountSetupView = (props) => {
                     name="showPayoutSetupForm"
                     className="switch is-rounded is-success"
                     checked={userMeetsTaskerRequirements}
-                    onChange={() => null}
+                    onChange={() => {
+                      // if (!userMeetsTaskerRequirements) {
+                      //   setNinteenPlus(true);
+                      //   setCanadian(true);
+                      //   setHasAgreedToTos(true);
+                      // } else {
+                      //   setNinteenPlus(false);
+                      //   setCanadian(false);
+                      //   setHasAgreedToTos(false);
+                      // }
+                    }}
                   />
                   <label
                     htmlFor="showPayoutSetupForm"
                     className="has-text-dark has-text-weight-semibold"
                   >
-                    Setup Payout Banking Details
+                    Start Tasker Onboarding
                   </label>
                 </div>
 

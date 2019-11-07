@@ -11,6 +11,7 @@ import { TextInput } from './FormsHelpers';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { Spinner } from '../../components/Spinner';
+import { onLogout } from './../../app-state/actions/authActions';
 const MAX_FILE_SIZE_IN_MB = 1000000 * 10; //10MB
 const NO_SELECTION = 'NO_SELECTION';
 const EnhancedForms = withFormik({
@@ -294,20 +295,14 @@ const PaymentSetupForm = (props) => {
           className="card cardWithButton nofixedwidth"
         >
           <div style={{ minHeight: 'unset', height: 'unset' }} className="card-content">
-            <HeaderTitle title="Setup Payout Banking Details" />
+            <HeaderTitle title="Tasker Onboarding Form" />
+            <br></br>
+            <div>To become a BidOrBoo Tasker and get paid you must fill our this form</div>
             <div className="help">
-              * To speed up verification and avoid delays in payout please
-              <strong> enter all your details accurately</strong>
-            </div>
-            <div className="help">
-              * All Your data is secured via
+              * All Your data is encrypted and secured via
               <a href="https://stripe.com/ca" target="_blank">
-                {` Stripe payment gateway.`}
+                {` Stripe `}
               </a>
-              {` A world class secure payment processing platform.`} <br />
-            </div>
-            <div className="help">
-              * Once verified, this will be the primary deposit account after you complete a tasks
             </div>
             {errorsList}
             <div className="card-content">
@@ -461,90 +456,7 @@ const PaymentSetupForm = (props) => {
                   </div>
                 </div>
               </div>
-              <div style={{ borderBottom: '1px solid #353535' }} className="subtitle">
-                PAYOUT BANK DETAILS
-              </div>
 
-              {/* <div className="group">
-                <TextInput
-                  labelClassName=" "
-                  id="account_holder_full_name"
-                  type="text"
-                  label="Full Name"
-                  error={touched.account_holder_full_name && errors.account_holder_full_name}
-                  value={values.account_holder_full_name || ''}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                <div style={{ marginTop: '-0.75rem' }} className="help">
-                  * The full name associated with this bank account as it appears on the bank
-                  statement
-                </div>
-              </div> */}
-
-              <div style={{ maxWidth: 250 }}>
-                <TextInput
-                  labelClassName=" "
-                  id="bank_name"
-                  type="text"
-                  label="Bank Name"
-                  error={touched.bank_name && errors.bank_name}
-                  value={values.bank_name || ''}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                <div style={{ marginTop: '-0.75rem' }} className="help">
-                  * examples : TD, RBC ..,etc
-                </div>
-              </div>
-
-              <div style={{ maxWidth: 250 }}>
-                <TextInput
-                  labelClassName=" "
-                  id="transit_number"
-                  type="text"
-                  label="Transit Number"
-                  error={touched.transit_number && errors.transit_number}
-                  value={values.transit_number || ''}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-              </div>
-
-              <div style={{ maxWidth: 250 }}>
-                <TextInput
-                  labelClassName=" "
-                  id="institution_number"
-                  type="text"
-                  label="Institution Number"
-                  error={touched.institution_number && errors.institution_number}
-                  value={values.institution_number || ''}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-              </div>
-              <div style={{ maxWidth: 250 }}>
-                <TextInput
-                  labelClassName=" "
-                  id="account_number"
-                  type="text"
-                  label="Account Number"
-                  error={touched.account_number && errors.account_number}
-                  value={values.account_number || ''}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-              </div>
-
-              <a
-                style={{ marginTop: '-0.75rem' }}
-                href="https://res.cloudinary.com/hr6bwgs1p/image/upload/v1560997452/cheque.jpg"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="help link has-text-link"
-              >
-                * click to view a sample cheque
-              </a>
               <div className="group" />
               <div style={{ borderBottom: '1px solid #353535' }} className="subtitle">
                 ADDRESS DETAILS
@@ -624,11 +536,81 @@ const PaymentSetupForm = (props) => {
                   </div>
                 </div>
               </div>
+              <div className="group">
+                <label className={`label hasSelectedValue`}>Country</label>
+                <div className="control">Canada</div>
+                <div className="help">*BidOrBoo is only available in Canada</div>
+              </div>
 
+              <div style={{ borderBottom: '1px solid #353535' }} className="subtitle">
+                PAYOUT BANK DETAILS
+              </div>
+
+              <div style={{ maxWidth: 250 }}>
+                <TextInput
+                  labelClassName=" "
+                  id="bank_name"
+                  type="text"
+                  label="Bank Name"
+                  error={touched.bank_name && errors.bank_name}
+                  value={values.bank_name || ''}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+              </div>
+
+              <div style={{ maxWidth: 250 }}>
+                <TextInput
+                  labelClassName=" "
+                  id="transit_number"
+                  type="text"
+                  label="Transit Number"
+                  error={touched.transit_number && errors.transit_number}
+                  value={values.transit_number || ''}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+              </div>
+
+              <div style={{ maxWidth: 250 }}>
+                <TextInput
+                  labelClassName=" "
+                  id="institution_number"
+                  type="text"
+                  label="Institution Number"
+                  error={touched.institution_number && errors.institution_number}
+                  value={values.institution_number || ''}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+              </div>
+              <div style={{ maxWidth: 250 }}>
+                <TextInput
+                  labelClassName=" "
+                  id="account_number"
+                  type="text"
+                  label="Account Number"
+                  error={touched.account_number && errors.account_number}
+                  value={values.account_number || ''}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+              </div>
+
+              <a
+                style={{ marginTop: '-0.75rem' }}
+                href="https://res.cloudinary.com/hr6bwgs1p/image/upload/v1560997452/cheque.jpg"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="help link has-text-link"
+              >
+                * click to view a sample cheque
+              </a>
+              <br></br>
               <div style={{ borderBottom: '1px solid #353535' }} className="subtitle">
                 ID Verification
               </div>
-
+              <label className="label">Provide a valid non expired government issued ID</label>
               <input id="idFrontImg" className="input is-invisible" type="hidden" />
 
               <Dropzone

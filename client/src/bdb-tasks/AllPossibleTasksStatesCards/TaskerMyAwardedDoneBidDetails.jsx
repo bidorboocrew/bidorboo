@@ -178,7 +178,7 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
                     }}
                     className={`button firstButtonInCard is-dark`}
                   >
-                    Past Tasks
+                    Past Task
                   </a>
                 )}
               </>

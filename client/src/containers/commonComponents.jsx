@@ -1202,7 +1202,7 @@ export const ArchiveTask = ({ displayName = '' }) => {
             fontSize: 16,
           }}
         >
-          Past Tasks
+          Past Task
         </div>
       </div>
       {/* <div>
