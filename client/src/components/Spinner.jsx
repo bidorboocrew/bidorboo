@@ -15,7 +15,7 @@ export const Spinner = ({
     { large: size === 'large' },
   );
   return (
-    <Delay wait={800}>
+    <Delay wait={500}>
       {isLoading && (
         <React.Fragment>
           <div style={{ marginTop: '1rem' }} className="VerticalAligner">

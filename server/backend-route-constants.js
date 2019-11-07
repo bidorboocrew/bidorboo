@@ -121,8 +121,8 @@ module.exports = {
     },
   },
   CLIENT: {
-    ENTRY: 'https://www.bidorboo.com/BIDORBOO',
-    HOME: 'https://www.bidorboo.com/BIDORBOO',
+    ENTRY: 'https://www.bidorboo.com/BidOrBoo',
+    HOME: 'https://www.bidorboo.com/BidOrBoo',
     USER_ROFILE_FOR_REVIEW: 'https://www.bidorboo.com/user-profile/:userId',
     dynamicUserProfileForReview: (userId) => `https://www.bidorboo.com/user-profile/${userId}`,
     VERIFICATION: 'https://www.bidorboo.com/verification/:field/:code',

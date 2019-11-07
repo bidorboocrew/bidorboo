@@ -24,7 +24,7 @@ class ProposerRoot extends React.Component {
           <div className="hero-body has-text-centered">
             <div className="container">
               <h1 style={{ marginBottom: 0 }} className="title">
-                What services are you looking for?
+                What would you like us to do for you ?
               </h1>
             </div>
           </div>

@@ -7,10 +7,12 @@ import { TextAreaInput, TextInput } from '../../components/forms/FormsHelpers';
 
 export default {
   ID: 'bdbPetSittingWalking',
-  TITLE: 'Pet Sitting/Walking',
+  TITLE: 'Pet Sitting',
   ICON: '',
   IMG: dogWalking_img,
-  DESCRIPTION: `Do you need someone to care for your Pet while you are away or on a night out? Leave your pet in the gentle care of our pet loving Taskers.`,
+  isComingSoon: false,
+  DESCRIPTION: `Do you need someone to care for your pet while you are vacationing or just on a night out?
+  Leave your pet in the gentle care of our pet loving Taskers.`,
   SUGGESTION_TEXT: `Q1)What kind/breed of pet ?
 [Answer here:   ]
 `,
@@ -20,6 +22,7 @@ export default {
     requiresWalking: 'noSelection',
     dietaryRestrictions: '',
   },
+  requiresDestinationField: false,
   extraValidationSchema: {
     isRequesterHosting: Yup.string()
       .ensure()
@@ -37,13 +40,13 @@ export default {
     duration: Yup.string()
       .ensure()
       .trim()
-      .min(3, 'must be minimum 3 chars, examples : 3hours, 1 day , 3 months')
-      .max(30, 'can not be more than 30 characthers , examples : 3hours, 1 day , 3 months')
+      .min(3, 'must be minimum 3 chars, examples : 3 hours, 1 day , 3 months')
+      .max(30, 'can not be more than 30 characters , examples : 3 hours, 1 day , 3 months')
       .required('*Please select the duration of the service required'),
     dietaryRestrictions: Yup.string()
       .ensure()
       .trim()
-      .max(200, 'can not be more than 200 charachters'),
+      .max(200, 'can not be more than 200 characters'),
   },
 
   renderThankYouForPostingMoment: function(setShowModal) {
@@ -85,17 +88,17 @@ export default {
             <div className="level-item">
               <div style={{ maxWidth: 320, paddingLeft: '1.5rem' }}>
                 <h1 className="title" style={{ fontWeight: 300, marginBottom: '0.5rem' }}>
-                  Pet Sitting/Walking
+                  Pet Sitting
                 </h1>
                 {withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
-                    Do you need someone to care for your Pet while you are away or on a night out?
-                    Leave your pet in the gentle care of our pet loving Taskers.
+                    Do you need someone to care for your pet while you are vacationing or just on a
+                    night out? Leave your pet in the gentle care of our pet loving Taskers.
                   </p>
                 )}
                 {!withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
-                    BIDORBOO Tasker will watch over, feed, walk and entertain your pet in accordance
+                    BidOrBoo Tasker will watch over, feed, walk and entertain your pet in accordance
                     to your request and guidelines.
                   </p>
                 )}
@@ -216,7 +219,7 @@ export default {
               break;
             case 'decideLater':
               selectedValue =
-                'The Owner and Tasker should be willing to have the service take place in thier homes and will decide later after the task is awarded';
+                'The Owner and Tasker should be willing to have the service take place in their homes and will decide later after the task is awarded';
               break;
           }
           return (
@@ -287,9 +290,9 @@ export default {
               <TextAreaInput
                 id="dietaryRestrictions"
                 type="text"
-                label="Any dietary/medical/special needs?"
-                helpText="Type in, None or leave this empty if your pet doesn't need any"
-                placeholder={'enter any dietry restrictions or medical needs your pet'}
+                label="Disclose any dietary restrictions, medical or special needs"
+                helpText={`Type "None" or leave this empty if your pet doesn't need any`}
+                placeholder={'enter any dietary restrictions or medical needs for your pet...'}
                 error={touched.dietaryRestrictions && errors.dietaryRestrictions}
                 value={values.dietaryRestrictions || ''}
                 onChange={handleChange}
@@ -319,7 +322,7 @@ export default {
       },
     };
   },
-  TASK_EXPECTATIONS: `BIDORBOO Tasker will watch over, feed, walk and entertain your pet in accordance to your request and guidelines.`,
+  TASK_EXPECTATIONS: `BidOrBoo Tasker will watch over, feed, walk and entertain your pet in accordance to your request and guidelines.`,
 };
 const renderThankyouMoment = ({
   dogWalking_img,

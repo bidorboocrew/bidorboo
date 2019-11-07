@@ -22,7 +22,7 @@ export const AddressField = (value) => {
   const isValid = /^[a-z\d\-_\s\\,]+$/i.test(value.trim());
   return isValid
     ? undefined
-    : 'field can not contain special charachters. Example: Street,City,Postal Code,Country';
+    : 'field can not contain special characters. Example: Street,City,Postal Code,Country';
 };
 
 export const numericField = (value) => {

@@ -78,7 +78,6 @@ exports.bidDataAccess = {
 
           const requestedJobId = bidDetails._jobRef._id;
           const taskerId = bidDetails._bidderRef;
-
           const {
             requesterDisplayName,
             taskerDisplayName,
@@ -97,9 +96,16 @@ exports.bidDataAccess = {
             allowedToPushNotifyTasker,
             requesterPushNotSubscription,
             taskerPushNotSubscription,
+            ownerRating,
+            taskerRating,
           } = await exports.bidDataAccess._getAwardedJobOwnerBidderAndRelevantNotificationDetails(
             requestedJobId
           );
+
+          const newTotalOfAllRatings = taskerRating.totalOfAllRatings + 1.25;
+          const newTotalOfAllTimesBeenRated = taskerRating.numberOfTimesBeenRated + 1;
+          const newGlobalRating = Math.max(newTotalOfAllRatings / newTotalOfAllTimesBeenRated, 0);
+
           // xxx critical
           const refundCharge = await stripeServiceUtil.fullRefundTransaction({
             ...paymentDetails,
@@ -149,15 +155,13 @@ exports.bidDataAccess = {
                 {
                   $set: {
                     'rating.latestComment':
-                      'BIDORBOO Auto Review: Cancelled Thier Request After Making an Agreement with A Tasker',
+                      'BidOrBoo Auto Review: Cancelled Their Request After booking was confirmed with the requester',
+                    'rating.globalRating': newGlobalRating,
+                    'rating.numberOfTimesBeenRated': newTotalOfAllTimesBeenRated,
+                    'rating.totalOfAllRatings': newTotalOfAllRatings,
                   },
                   $push: {
                     'rating.canceledBids': bidId,
-                  },
-                  $inc: {
-                    'rating.globalRating': -0.25,
-                    'rating.numberOfTimesBeenRated': 1,
-                    'rating.totalOfAllRating': 3.75,
                   },
                 },
                 { new: true }
@@ -427,6 +431,7 @@ exports.bidDataAccess = {
           title: 1,
           state: 1,
           detailedDescription: 1,
+          jobTitle: 1,
           jobCompletion: 1,
           location: 1,
           stats: 1,
@@ -467,6 +472,7 @@ exports.bidDataAccess = {
                 title: 1,
                 state: 1,
                 detailedDescription: 1,
+                jobTitle: 1,
                 jobCompletion: 1,
                 location: 1,
                 stats: 1,
@@ -548,6 +554,7 @@ exports.bidDataAccess = {
                     _ownerRef: 1,
                     state: 1,
                     detailedDescription: 1,
+                    jobTitle: 1,
                     location: 1,
                     stats: 1,
                     startingDateAndTime: 1,
@@ -613,6 +620,7 @@ exports.bidDataAccess = {
                     title: 1,
                     state: 1,
                     detailedDescription: 1,
+                    jobTitle: 1,
                     jobCompletion: 1,
                     location: 1,
                     stats: 1,
@@ -762,6 +770,7 @@ exports.bidDataAccess = {
                 _ownerRef: 1,
                 state: 1,
                 detailedDescription: 1,
+                jobTitle: 1,
                 location: 1,
                 stats: 1,
                 startingDateAndTime: 1,
@@ -879,7 +888,7 @@ exports.bidDataAccess = {
 
           const jobTemplate =
             utils.jobTemplateIdToDefinitionObjectMapper[`${jobDetails.templateId}`];
-          const jobTitle = jobTemplate.TITLE || '';
+          const jobTitle = jobDetails.jobTitle || jobTemplate.TITLE || '';
           sendGridEmailing.sendNewBidRecievedEmail({
             to: ownerEmailAddress,
             toDisplayName: ownerDetails.displayName,

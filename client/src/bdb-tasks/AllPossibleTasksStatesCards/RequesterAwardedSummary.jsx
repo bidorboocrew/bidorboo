@@ -13,6 +13,7 @@ import {
   SummaryStartDateAndTime,
   AssignedTasker,
   TaskImagesCarousel,
+  UserGivenTitle,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -40,6 +41,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
         bidderDisputed: false,
         proposerDisputed: false,
       },
+      jobTitle,
       taskImages = [],
     } = job;
     if (
@@ -74,6 +76,8 @@ class RequesterAwardedSummary extends RequestBaseContainer {
           <div className="card-content">
             <div className="content">
               <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <UserGivenTitle userGivenTitle={jobTitle} />
+
               <TaskImagesCarousel taskImages={taskImages} />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
@@ -81,7 +85,6 @@ class RequesterAwardedSummary extends RequestBaseContainer {
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
-
               <AssignedTasker displayName={_awardedBidRef._bidderRef.displayName} />
             </div>
           </div>

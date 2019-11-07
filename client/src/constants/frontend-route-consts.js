@@ -108,8 +108,8 @@ export const API = {
 };
 
 export const CLIENT = {
-  ENTRY: '/BIDORBOO',
-  HOME: '/BIDORBOO',
+  ENTRY: '/BidOrBoo',
+  HOME: '/BidOrBoo',
   TOS: '/terms-of-service',
   ONBOARDING: '/on-boarding',
   RESETPASSWORD: '/reset-password',
@@ -181,6 +181,6 @@ export const getRouteTitle = () => {
   } else if (window.location.href.includes('/my-profile/payment-settings')) {
     return 'PAYMENT SETTINGS';
   } else {
-    return 'BIDORBOO';
+    return 'BidOrBoo';
   }
 };

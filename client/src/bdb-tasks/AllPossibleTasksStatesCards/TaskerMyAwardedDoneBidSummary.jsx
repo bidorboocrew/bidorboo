@@ -14,6 +14,7 @@ import {
   SummaryStartDateAndTime,
   ArchiveTask,
   TaskImagesCarousel,
+  UserGivenTitle,
 } from '../../containers/commonComponents';
 import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
@@ -38,6 +39,7 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
         requiresBidderReview: true,
       },
       taskImages = [],
+      jobTitle,
     } = job;
     if (
       !startingDateAndTime ||
@@ -69,6 +71,8 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
         <div className="card-content">
           <div className="content">
             <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <UserGivenTitle userGivenTitle={jobTitle}/>
+
             <TaskImagesCarousel taskImages={taskImages} />
             <SummaryStartDateAndTime
               date={startingDateAndTime}
@@ -106,7 +110,7 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
               }}
               className={`button is-dark`}
             >
-              Archived
+              Past Tasks
             </a>
           </div>
         )}

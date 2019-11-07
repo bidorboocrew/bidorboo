@@ -15,6 +15,7 @@ import {
   JobCardTitle,
   BSAwardedToSomeoneElse,
   TaskImagesCarousel,
+  UserGivenTitle,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -32,7 +33,7 @@ class TaskerMyOpenBidSummary extends React.Component {
       return <div>TaskerMyOpenBidSummary is missing properties</div>;
     }
 
-    const { startingDateAndTime, location, isPastDue, state, taskImages = [] } = job;
+    const { startingDateAndTime, location, isPastDue, state, taskImages = [], jobTitle } = job;
     if (!startingDateAndTime || !location || isPastDue === 'undefined') {
       return <div>TaskerMyOpenBidSummary is missing properties</div>;
     }
@@ -67,6 +68,7 @@ class TaskerMyOpenBidSummary extends React.Component {
         <div className="card-content">
           <div className="content">
             <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <UserGivenTitle userGivenTitle={jobTitle} />
 
             <TaskImagesCarousel taskImages={taskImages} />
 
@@ -85,8 +87,6 @@ class TaskerMyOpenBidSummary extends React.Component {
                 {!isPastDue && <BSawaitingOnRequester />}
               </React.Fragment>
             )}
-
-            {/* <LocationLabelAndValue location={coordinates} useShortAddress /> */}
           </div>
         </div>
         {renderFooter({ bid, isPastDue, isAwardedToSomeoneElse })}

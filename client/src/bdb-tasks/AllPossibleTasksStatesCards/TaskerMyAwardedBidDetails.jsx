@@ -13,7 +13,7 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import {
   CountDownComponent,
-  AddAwardedJobToCalendar,
+  AddAwardedJobToCalendarForTasker,
   TaskSpecificExtras,
   SummaryStartDateAndTime,
   BSTaskerAwarded,
@@ -22,6 +22,7 @@ import {
   BSWaitingOnRequesterToConfirm,
   CenteredUserImageAndRating,
   TaskImagesCarousel,
+  UserGivenTitle,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -48,6 +49,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
       isHappeningToday,
       isPastDue,
       _ownerRef,
+      _id: jobId,
       jobCompletion = {
         proposerConfirmed: false,
         bidderConfirmed: false,
@@ -55,7 +57,11 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
         proposerDisputed: false,
       },
       taskImages = [],
+      jobTitle,
+      _reviewRef,
     } = job;
+    const { requiresBidderReview } = _reviewRef;
+
     if (
       !startingDateAndTime ||
       !addressText ||
@@ -134,7 +140,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                       <ul>
                         <li>Your global rating will be negatively impacted</li>
                         <li>This cancellation will show up on your profile</li>
-                        <li>If many cancellations happen in a row you will be ban from BIDORBOO</li>
+                        <li>If many cancellations happen in a row you will be ban from BidOrBoo</li>
                       </ul>
                     </div>
                   </div>
@@ -161,7 +167,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                     <span className="icon">
                       <i className="far fa-trash-alt" />
                     </span>
-                    <span>Cancel Agreement</span>
+                    <span>Cancel Appointment</span>
                   </button>
                 </footer>
               </div>
@@ -224,6 +230,8 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                   </div>
                 )}
               />
+              <UserGivenTitle userGivenTitle={jobTitle} />
+
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
@@ -284,35 +292,38 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
           otherUserProfileInfo={_ownerRef}
           renderActionButton={() => (
             <>
-              {bidderConfirmed && !proposerConfirmed && (
+              {bidderConfirmed && requiresBidderReview && (
                 <a
-                  disabled
-                  onClick={() => null}
-                  className={`button firstButtonInCard nofixedwidth is-success`}
-                >
-                  <span>Wait For Requester To Review</span>
-                </a>
-              )}
-              {proposerConfirmed && (
-                <a
-                  onClick={() => alert('not implemented but redirect me to review page')}
-                  className={`button firstButtonInCard nofixedwidth is-success`}
+                  onClick={() => {
+                    switchRoute(ROUTES.CLIENT.REVIEW.getBidderJobReview({ jobId }));
+                  }}
+                  className={`button  is-success`}
                 >
                   <span className="icon">
                     <i className="fas fa-user-check" />
                   </span>
-                  <span>Review The Requester</span>
+                  <span>Review Requester & Task</span>
                 </a>
               )}
-              {!proposerConfirmed && !bidderConfirmed && (
-                <div className="firstButtonInCard nofixedwidth">
-                  <TaskerConfirmsCompletion {...this.props} />
-                </div>
+              {bidderConfirmed && !requiresBidderReview && (
+                <>
+                  <p>Waiting on requester to confirm that you've completed this task</p>
+                  <div className="help">We are working on getting this done asap</div>
+                </>
               )}
+              {!proposerConfirmed && !bidderConfirmed && (
+                <TaskerConfirmsCompletion {...this.props} />
+              )}
+              <br></br>
+              <br></br>
             </>
           )}
           renderAddToCalendar={() => {
-            return !isPastDue && <AddAwardedJobToCalendar job={job} extraClassName={'is-small'} />;
+            return (
+              !isPastDue && (
+                <AddAwardedJobToCalendarForTasker job={job} extraClassName={'is-small'} />
+              )
+            );
           }}
         />
       </React.Fragment>
@@ -389,7 +400,7 @@ class TaskerConfirmsCompletion extends React.Component {
                     </div>
                     <div className="help">
                       * Your payment will be released to your bank and should be available within
-                      3-5 bizbiz day
+                      3-5 business days
                     </div>
                     <div className="help">
                       * The Requester and yourself will be prompted to Rate your experience
@@ -405,16 +416,15 @@ class TaskerConfirmsCompletion extends React.Component {
                     onClick={this.submitConfirmation}
                     className="button is-success"
                   >
-                    Confirm Completion
+                    Confirm Task Completion
                   </button>
                 </footer>
               </div>
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <br></br> <br></br>
         <a onClick={this.toggleModal} className="button is-success">
-          Confirm completion
+          Confirm Task Completion
         </a>
       </React.Fragment>
     );
@@ -517,7 +527,7 @@ class TaskerDisputes extends React.Component {
                         checked={selectedDispute === 'Misconduct'}
                       />
                       <span className="has-text-dark" style={{ paddingLeft: 4 }}>
-                        Misconduct such as; bullying, threatning or sexual harrasment
+                        Misconduct such as; bullying, threatening or sexual harassment
                       </span>
                     </label>
                   </div>
@@ -550,7 +560,7 @@ class TaskerDisputes extends React.Component {
                     />
                   </div>
                   <div className="help">
-                    * BIDORBOO Support will confirm all these details and will get in touch with the
+                    * BidOrBoo Support will confirm all these details and will get in touch with the
                     Tasker to resolve this issue
                   </div>
                 </section>
@@ -616,14 +626,16 @@ class RequesterDetails extends React.Component {
               <ul style={{ marginLeft: 0 }}>
                 <li className="is-active">
                   <a>
-                    <span className="icon is-small">
-                      <i className="fas fa-user-tie" aria-hidden="true" />
+                    <span className="icon">
+                      <i className="far fa-handshake"></i>
                     </span>
-                    <span>Task Requester</span>
+                    <span>Contact The Requester</span>
                   </a>
                 </li>
               </ul>
             </div>
+            <p>Get in touch to finalize exact details like location to meet, date and time, etc</p>
+
             <CenteredUserImageAndRating
               userDetails={otherUserProfileInfo}
               large
@@ -636,7 +648,7 @@ class RequesterDetails extends React.Component {
                 <div style={{ fontWeight: 500, fontSize: 18 }}>
                   <div>
                     <a
-                      href={`mailto:${emailAddress}?subject=BIDORBOO - I am your tasker and reaching out to agree on meeting time and details`}
+                      href={`mailto:${emailAddress}?subject=BidOrBoo - I am your tasker and reaching out to agree on meeting time and details`}
                     >
                       <span className="icon">
                         <i className="far fa-envelope" />
@@ -646,7 +658,7 @@ class RequesterDetails extends React.Component {
                   </div>
                   <div>
                     <a
-                      href={`sms://${phoneNumber}?body=I%20am%20your%20tasker%20from%20BIDORBOO%20and%20am%20reaching%20out%20to%20agree%20on%20meeting%20time%20and%20detailsS`}
+                      href={`sms://${phoneNumber}?body=I%20am%20your%20tasker%20from%20BidOrBoo%20and%20am%20reaching%20out%20to%20agree%20on%20meeting%20time%20and%20detailsS`}
                     >
                       <span className="icon">
                         <i className="fas fa-sms" />
@@ -663,16 +675,25 @@ class RequesterDetails extends React.Component {
                     </a>
                   </div>
                 </div>
-                <div className="help">
-                  *Get in touch to finalize exact details like location to meet, date, time... etc
-                </div>
               </div>
             </div>
             {renderAddToCalendar && renderAddToCalendar()}
             <br />
           </div>
+          <div style={{ background: 'transparent' }} className="tabs is-centered">
+            <ul style={{ marginLeft: 0 }}>
+              <li className="is-active">
+                <a>
+                  <span className="icon is-small">
+                    <i className="fa fa-clock" aria-hidden="true" />
+                  </span>
+                  <span>After You Finish The Task</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          {renderActionButton && renderActionButton()}
         </div>
-        {renderActionButton && renderActionButton()}
       </div>
     );
   }

@@ -2,8 +2,8 @@
 // facebookClientID: '163507814292582',
 //   facebookClientSecret: '4cefe64eda81119b9b8bcbaf5cd54563',
 module.exports = {
-  googleClientID: '24863307203-a8tc9rk9uko554s0kl30add2sati6kn0.apps.googleusercontent.com',
-  googleClientSecret: 'Oh01FuNLMFSSoTcZVA1BdnxW',
+  googleClientID: '573720519449-1s0qf2ai1r1drihb7r32f3r9ihipf5bm.apps.googleusercontent.com',
+  googleClientSecret: 'm4RmKpfr9tlRwNwOKMMUlzhF',
   mongoURI_dev: 'mongodb://bidorboocrew:123bidorboocrew321@ds233218.mlab.com:33218/heroku_tr6v8hnj',
   mongoURI: `mongodb://heroku_zp12hg2j:j4bj1bfg3uqjth9jtl6mtk16af@ds131077-a0.mlab.com:31077,ds131077-a1.mlab.com:31077/heroku_zp12hg2j?replicaSet=rs-ds131077`,
   cookieKey: 'A4CABA6E3F7886CD23F9B43893D62',

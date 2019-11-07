@@ -10,10 +10,12 @@ import {
   SummaryStartDateAndTime,
   CenteredUserImageAndRating,
   LocationLabelAndValue,
+  DestinationAddressValue,
   CardTitleAndActionsInfo,
   TaskSpecificExtras,
   JobCardTitle,
   TaskImagesCarousel,
+  UserGivenTitle,
 } from '../../containers/commonComponents';
 import PostYourBid from '../../components/forms/PostYourBid';
 
@@ -26,6 +28,7 @@ import {
 export default class TaskerBidOnTaskDetails extends React.Component {
   render() {
     const { job, otherArgs } = this.props;
+    const { showLoginDialog, isLoggedIn } = otherArgs;
     if (!job) {
       return switchRoute(ROUTES.CLIENT.BIDDER.root);
     }
@@ -38,6 +41,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
       location,
       extras,
       templateId,
+      jobTitle,
       taskImages = [],
     } = job;
     if (
@@ -78,9 +82,35 @@ export default class TaskerBidOnTaskDetails extends React.Component {
     if (job && job._bidsListRef && job._bidsListRef.length > 0) {
       avgBid = findAvgBidInBidList(job._bidsListRef);
     }
+
+    const taskerCanBid = userDetails && userDetails.canBid;
+
     return (
       <>
         <section style={{ marginBottom: 6 }} className="card cardWithButton nofixedwidth">
+          {isLoggedIn && !taskerCanBid && (
+            <section className="hero is-success is-small is-bold">
+              <div className="hero-body">
+                <div className="container">
+                  <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
+                    Want to provide your services and earn money?
+                  </h1>
+                  <button
+                    className="button is-small is-dark"
+                    onClick={() => {
+                      switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings);
+                    }}
+                  >
+                    <span className="icon">
+                      <i className="fas fa-user-tie"></i>
+                    </span>
+                    <span>COMPLETE TASKER ONBOARDING</span>
+                  </button>
+                  <div className="help has-text-light">*Registration will take ~5 minutes</div>
+                </div>
+              </div>
+            </section>
+          )}
           <div className="card-content">
             <div className="content subtitle">
               Review The Task Details Then
@@ -107,6 +137,8 @@ export default class TaskerBidOnTaskDetails extends React.Component {
           <div className="card-content">
             <div className="content">
               <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <UserGivenTitle userGivenTitle={jobTitle} />
+
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
@@ -126,6 +158,11 @@ export default class TaskerBidOnTaskDetails extends React.Component {
                 </div>
                 <LocationLabelAndValue location={coordinates} />
 
+                {extras && extras.destinationText && (
+                  <DestinationAddressValue
+                    destionationAddress={extras.destinationText}
+                  ></DestinationAddressValue>
+                )}
                 <TaskSpecificExtras templateId={ID} extras={extras} />
                 <div className="group">
                   <label className="label hasSelectedValue">Detailed Description</label>
@@ -160,6 +197,9 @@ export default class TaskerBidOnTaskDetails extends React.Component {
               )}
               {!userAlreadyBid && (
                 <PostYourBid
+                  taskerCanBid={taskerCanBid}
+                  showLoginDialog={showLoginDialog}
+                  isLoggedIn={isLoggedIn}
                   avgBid={avgBid}
                   onSubmit={(values) => {
                     submitBid({

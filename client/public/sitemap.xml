@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+  <url>
+    <loc>https://www.bidorboo.com/BidOrBoo</loc>
+    <lastmod>2019-11-02T03:42:25+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://www.bidorboo.com/</loc>
+    <lastmod>2019-11-02T03:42:25+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://www.bidorboo.com/bdb-request/root</loc>
+    <lastmod>2019-11-02T03:42:25+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://www.bidorboo.com/bdb-offer/root</loc>
+    <lastmod>2019-11-02T03:42:25+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://www.bidorboo.com/terms-of-service</loc>
+    <lastmod>2019-11-02T03:42:25+00:00</lastmod>
+  </url>
+</urlset>

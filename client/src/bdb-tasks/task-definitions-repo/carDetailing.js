@@ -10,7 +10,8 @@ export default {
   TITLE: 'Car Detailing',
   ICON: 'fas fa-car',
   IMG: carDetailing_img,
-  DESCRIPTION: `Does your car need thourough cleaning ? let our Taskers pamper your car`,
+  isComingSoon: true,
+  DESCRIPTION: `Your car deserves some love. let our Taskers pamper your car and give it a scrub`,
   SUGGESTION_TEXT: `Q1)What Year Make and model is your car?
 [Answer here:   ]
 Q2)Is there any pet stains or hair on the seats ?
@@ -18,12 +19,13 @@ Q2)Is there any pet stains or hair on the seats ?
 Q3)Any particular stains or dirt that you want to mention?
 [Answer here:   ]
 `,
-  TASK_EXPECTATIONS: `BIDORBOO Tasker will bring the cleaning products and equipments required to clean your car thouroughally`,
+  TASK_EXPECTATIONS: `BidOrBoo Tasker will bring the cleaning products and equipments required to clean your car thouroughally`,
   defaultExtrasValues: {
     carSize: NO_SELECTION,
     interiorType: NO_SELECTION,
     trunkCleaning: NO_SELECTION,
   },
+  requiresDestinationField: false,
   extraValidationSchema: {
     carSize: Yup.string()
       .ensure()
@@ -75,8 +77,17 @@ Q3)Any particular stains or dirt that you want to mention?
                 {/* <i className="fas fa-car-alt" style={{ fontSize: 68, color: '#ee2a36' }} /> */}
                 <img
                   src={carDetailing_img}
-                  alt="BIDORBOO task img"
-                  style={{ height: 125, width: 125, objectFit: 'cover' }}
+                  alt="BidOrBoo task img"
+                  style={{
+                    height: 125,
+                    width: 125,
+                    objectFit: 'cover',
+                    WebkitFilter: 'grayscale(100%)',
+                    MozFilter: 'grayscale(100%)',
+                    OFilter: 'grayscale(100%)',
+                    msFilter: 'grayscale(100%)',
+                    filter: 'grayscale(100%)',
+                  }}
                 />
               </div>
             </div>
@@ -90,13 +101,14 @@ Q3)Any particular stains or dirt that you want to mention?
                 </h1>
                 {withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
-                    Does your car need thourough cleaning ? let our Taskers pamper your car.
+                    Your car deserves some love. let our Taskers pamper your car and give it a
+                    scrub.
                   </p>
                 )}
 
                 {!withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
-                    BIDORBOO Tasker will bring the cleaning products and equipments required to
+                    BidOrBoo Tasker will bring the cleaning products and equipments required to
                     clean your car thouroughally
                   </p>
                 )}
@@ -305,7 +317,7 @@ const renderThankyouMoment = ({
       <div>
         <img
           src={carDetailing_img}
-          alt="BIDORBOO task img"
+          alt="BidOrBoo task img"
           style={{ height: 125, width: 125, objectFit: 'cover' }}
         />
       </div>

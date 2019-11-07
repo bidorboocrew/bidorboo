@@ -168,7 +168,8 @@ class MyForm extends React.Component {
                   style={{
                     pointerEvents: 'none',
                     borderRadius: '100%',
-                    height: 58,
+                    height: 64,
+                    width: 64,
                   }}
                   className="button is-success is-large"
                 >
@@ -177,7 +178,6 @@ class MyForm extends React.Component {
                   </span>
                 </a>
               </div>
-              <div className="help">Upload A New Profile Pic</div>
             </React.Fragment>
           </Dropzone>
 

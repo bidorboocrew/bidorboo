@@ -14,6 +14,7 @@ import {
   CountDownComponent,
   TaskImagesCarousel,
   ArchiveTask,
+  UserGivenTitle,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -41,6 +42,7 @@ class RequesterDoneSummary extends RequestBaseContainer {
         requiresBidderReview: true,
       },
       taskImages = [],
+      jobTitle,
     } = job;
     if (
       !jobId ||
@@ -65,6 +67,7 @@ class RequesterDoneSummary extends RequestBaseContainer {
         <div className="card-content">
           <div className="content">
             <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <UserGivenTitle userGivenTitle={jobTitle} />
 
             <TaskImagesCarousel taskImages={taskImages} />
 

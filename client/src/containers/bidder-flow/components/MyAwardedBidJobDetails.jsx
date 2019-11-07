@@ -7,6 +7,7 @@ import {
   CountDownComponent,
   UserImageAndRating,
   StartDateAndTime,
+  DestinationAddressValue,
 } from '../../commonComponents';
 
 export default class MyAwardedBidJobDetails extends React.Component {
@@ -48,6 +49,11 @@ export default class MyAwardedBidJobDetails extends React.Component {
           <div className="content">
             <StartDateAndTime date={startingDateAndTime} />
             <DisplayLabelValue labelText="Address" labelValue={addressText} />
+            {extras && extras.destinationText && (
+              <DestinationAddressValue
+                destionationAddress={extras.destinationText}
+              ></DestinationAddressValue>
+            )}
             <DisplayLabelValue labelText="State" labelValue={state} />
 
             <label className="label hasSelectedValue">Detailed Description</label>

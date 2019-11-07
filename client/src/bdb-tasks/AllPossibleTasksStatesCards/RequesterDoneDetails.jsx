@@ -16,9 +16,12 @@ import {
   TaskCost,
   TaskSpecificExtras,
   ArchiveTask,
+  DestinationAddressValue,
   JobCardTitle,
   SummaryStartDateAndTime,
-  TaskIsFulfilled,TaskImagesCarousel
+  TaskIsFulfilled,
+  TaskImagesCarousel,
+  UserGivenTitle,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -55,6 +58,7 @@ class RequesterDoneDetails extends RequestBaseContainer {
         proposerDisputed: false,
       },
       taskImages = [],
+      jobTitle,
     } = job;
     if (
       !jobId ||
@@ -108,6 +112,7 @@ class RequesterDoneDetails extends RequestBaseContainer {
           <div className="card-content">
             <div className="content has-text-centered">
               <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <UserGivenTitle userGivenTitle={jobTitle} />
 
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
@@ -124,6 +129,11 @@ class RequesterDoneDetails extends RequestBaseContainer {
                 <div className="has-text-left">
                   <TaskCost cost={bidValue} />
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
+                  {extras && extras.destinationText && (
+                    <DestinationAddressValue
+                      destionationAddress={extras.destinationText}
+                    ></DestinationAddressValue>
+                  )}
                   <TaskSpecificExtras templateId={ID} extras={extras} />
                   <div className="group">
                     <label className="label hasSelectedValue">Detailed Description</label>

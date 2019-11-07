@@ -294,10 +294,20 @@ const PaymentSetupForm = (props) => {
           className="card cardWithButton nofixedwidth"
         >
           <div style={{ minHeight: 'unset', height: 'unset' }} className="card-content">
-            <HeaderTitle title="Setup My Banking Details" />
+            <HeaderTitle title="Setup Payout Banking Details" />
             <div className="help">
               * To speed up verification and avoid delays in payout please
               <strong> enter all your details accurately</strong>
+            </div>
+            <div className="help">
+              * All Your data is secured via
+              <a href="https://stripe.com/ca" target="_blank">
+                {` Stripe payment gateway.`}
+              </a>
+              {` A world class secure payment processing platform.`} <br />
+            </div>
+            <div className="help">
+              * Once verified, this will be the primary deposit account after you complete a tasks
             </div>
             {errorsList}
             <div className="card-content">
@@ -680,7 +690,7 @@ const PaymentSetupForm = (props) => {
                     <input style={{ marginRight: 4 }} type="checkbox" />
                     {`  I have read and agree to`}
                     <a target="_blank" rel="noopener noreferrer" href={`${ROUTES.CLIENT.TOS}`}>
-                      {` BIDORBOO Service Agreement `}
+                      {` BidOrBoo Service Agreement `}
                     </a>
                     and the
                     <a

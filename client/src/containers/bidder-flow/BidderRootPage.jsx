@@ -10,8 +10,6 @@ import { getCurrentUser } from '../../app-state/actions/authActions';
 
 import { searchJobsToBidOn } from '../../app-state/actions/jobActions';
 
-import { selectJobToBidOn } from '../../app-state/actions/bidsActions';
-
 import BidderRootFilterWrapper from '../../components/forms/BidderRootFilterWrapper';
 import BidderRootLocationFilter from '../../components/forms/BidderRootLocationFilter';
 
@@ -214,36 +212,31 @@ class BidderRootPage extends React.Component {
     return (
       <>
         {isLoggedIn && !taskerCanBid && (
-          <section className="hero is-warning is-small">
+          <section className="hero is-success is-small is-bold">
             <div className="hero-body">
               <div className="container">
                 <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
                   Want to provide your services and earn money?
                 </h1>
                 <button
-                  className="button is-small is-danger"
+                  className="button is-small is-dark"
                   onClick={() => {
-                    if (!isLoggedIn) {
-                      showLoginDialog(true);
-                      return;
-                    }
-
                     switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings);
                   }}
                 >
                   <span className="icon">
-                    <i className="far fa-credit-card" aria-hidden="true" />
+                    <i className="fas fa-user-tie"></i>
                   </span>
-                  <span>ADD YOUR PAYOUT DETAILS</span>
+                  <span>COMPLETE TASKER ONBOARDING</span>
                 </button>
-                <div className="help has-text-dark">*Registration will take ~5 minutes</div>
+                <div className="help has-text-light">*Registration will take ~5 minutes</div>
               </div>
             </div>
           </section>
         )}
 
         <div>
-          <section className="hero is-small is-light">
+          <section className="hero is-small is-white">
             <div className="hero-body">
               <div className="container">
                 <h1 style={{ marginBottom: '0.5rem', paddingLeft: 10 }} className="subtitle">
@@ -388,8 +381,6 @@ const mapStateToProps = ({ jobsReducer, userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    selectJobToBidOn: bindActionCreators(selectJobToBidOn, dispatch),
-
     searchJobsToBidOn: bindActionCreators(searchJobsToBidOn, dispatch),
     getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),

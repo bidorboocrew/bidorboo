@@ -15,8 +15,8 @@ const EnhancedForms = withFormik({
     displayName: Yup.string()
       .ensure()
       .trim()
-      .min(MIN_NAME_LENGTH, `must be at least ${MIN_NAME_LENGTH} charachters long.`)
-      .max(MAX_NAME_LENGTH, `can not be more than ${MAX_NAME_LENGTH} charachters long`)
+      .min(MIN_NAME_LENGTH, `must be at least ${MIN_NAME_LENGTH} characters long.`)
+      .max(MAX_NAME_LENGTH, `can not be more than ${MAX_NAME_LENGTH} characters long`)
       .test('alphanumericField', 'Name can only contain alphabits and numbers', (inputText) => {
         return alphanumericField(inputText);
       })
@@ -34,7 +34,7 @@ const EnhancedForms = withFormik({
       }),
     personalParagraph: Yup.string().max(
       MAX_PARAGRAPH_LENGTH,
-      `can not be more than ${MAX_PARAGRAPH_LENGTH} charachters long`,
+      `can not be more than ${MAX_PARAGRAPH_LENGTH} characters long`,
     ),
   }),
   mapPropsToValues: ({ userDetails }) => {
@@ -153,7 +153,7 @@ const ProfileForm = (props) => {
   //       enableHighAccuracy: true,
   //     };
   //     const errorHandling = (err) => {
-  //       console.error('BIDORBOO Could Not Auto Detect Address ' + err);
+  //       console.error('BidOrBoo Could Not Auto Detect Address ' + err);
   //     };
   //     const successfulRetrieval = () => {};
 

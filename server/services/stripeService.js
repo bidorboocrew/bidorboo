@@ -22,7 +22,7 @@ exports.util = {
     return stripe.checkout.sessions.retrieve(sessionId);
   },
   // createPaymentIntent: ({ metadata, taskName, amount, destinationAccId, taskId, requester }) => {
-  //   const description = `BIDORBOO - Charge for your ${taskName} request was recieved.`;
+  //   const description = `BidOrBoo - Charge for your ${taskName} request was recieved.`;
 
   //   const BIDORBOO_SERVICECHARGE = 0.06;
 
@@ -37,7 +37,7 @@ exports.util = {
   //     application_fee_amount: bidOrBooServiceFee,
   //     description: description,
   //     payment_method_types: ['card'],
-  //     statement_descriptor: 'BIDORBOO Charge',
+  //     statement_descriptor: 'BidOrBoo Charge',
   //     receipt_email: requester.email.emailAddress,
   //     // confirm: true,
   //     metadata: metadata,
@@ -64,7 +64,7 @@ exports.util = {
   //   taskId,
   //   requester,
   // }) => {
-  //   const description = `BIDORBOO - Charge for booking ${taskName} service`;
+  //   const description = `BidOrBoo - Charge for booking ${taskName} service`;
 
   //   const BIDORBOO_SERVICECHARGE = 0.06;
 
@@ -84,7 +84,7 @@ exports.util = {
   //     billing_address_collection: 'auto',
   //     line_items: [
   //       {
-  //         name: `BIDORBOO - ${taskName}`,
+  //         name: `BidOrBoo - ${taskName}`,
   //         amount: totalAmount,
   //         currency: 'cad',
   //         quantity: 1,
@@ -97,7 +97,7 @@ exports.util = {
   //       capture_method: 'automatic',
   //       description: description,
   //       metadata: metadata,
-  //       statement_descriptor: 'BIDORBOO Charge',
+  //       statement_descriptor: 'BidOrBoo Charge',
   //       receipt_email: requester.email.emailAddress,
   //       setup_future_usage: 'off_session',
   //       transfer_data: {
@@ -128,11 +128,12 @@ exports.util = {
     requesterId,
     requesterEmail,
     taskerAccId,
+    bidderDisplayName,
     requesterCustomerId,
     taskImages,
   }) => {
     const title = `${taskName} Request Booking`;
-    const description = `*amount will be held till the Tasker completes this service`;
+    const description = `*amount will be held till the tasker (${bidderDisplayName}) completes this service`;
 
     // const BIDORBOO_SERVICECHARGE = 0.06;
 
@@ -158,7 +159,7 @@ exports.util = {
           amount: totalCharge,
           currency: 'cad',
           quantity: 1,
-          images: taskImages ? taskImages : [''],
+          images: taskImages ? taskImages : [],
         },
       ],
       payment_intent_data: {
@@ -166,7 +167,7 @@ exports.util = {
         capture_method: 'automatic',
         description: description,
         metadata,
-        statement_descriptor: 'BIDORBOO Charge',
+        statement_descriptor: 'BidOrBoo Charge',
         receipt_email: requesterEmail,
         setup_future_usage: 'on_session',
         transfer_data: {
@@ -182,7 +183,7 @@ exports.util = {
       amount: refundAmount,
       metadata: {
         ...metadata,
-        description: 'BIDORBOO refund due to cancelled agreement by Requester',
+        description: 'BidOrBoo refund due to cancelled agreement by Requester',
       },
       reason: 'requested_by_customer',
       reverse_transfer: true,
@@ -195,7 +196,7 @@ exports.util = {
       charge: chargeId,
       metadata: {
         ...metadata,
-        description: 'BIDORBOO refund due to cancelled agreement by Tasker',
+        description: 'BidOrBoo refund due to cancelled agreement by Tasker',
       },
       reason: 'requested_by_customer',
       reverse_transfer: true,
@@ -299,11 +300,11 @@ exports.util = {
           metadata: { email, userId, displayName },
           settings: {
             payments: {
-              statement_descriptor: 'BIDORBOO Charge',
+              statement_descriptor: 'BidOrBoo Charge',
             },
             payouts: {
               schedule: { interval: 'manual' },
-              statement_descriptor: 'BIDORBOO Payout',
+              statement_descriptor: 'BidOrBoo Payout',
             },
           },
         });

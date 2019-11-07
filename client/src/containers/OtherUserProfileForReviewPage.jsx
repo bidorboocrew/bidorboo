@@ -54,8 +54,8 @@ class OtherUserProfileForReviewPage extends React.Component {
       _asBidderReviewsRef,
       _asProposerReviewsRef,
       membershipStatus,
+      personalParagraph,
     } = otherUserProfileInfo;
-
     const membershipStatusDisplay = Constants.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
 
     const {
@@ -175,8 +175,16 @@ class OtherUserProfileForReviewPage extends React.Component {
                     <label className="help">Status: {membershipStatusDisplay}</label>
 
                     <label className="help">
-                      Member Sicne: {moment.duration(moment().diff(moment(createdAt))).humanize()}
+                      Member Since: {moment.duration(moment().diff(moment(createdAt))).humanize()}
                     </label>
+                    <br></br>
+                    {personalParagraph && (
+                      <div className="group has-text-centered">
+                        <label className="label">Personal description:</label>
+                        <p className="has-text-centered control">{personalParagraph}</p>
+                        <br></br>
+                      </div>
+                    )}
                   </div>
                 )}
                 <div className="tile is-ancestor has-text-centered">

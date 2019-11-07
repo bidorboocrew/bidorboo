@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /my-profile/payment-settings
+Disallow: /my-profile/*
+Disallow: /my-bids
+Disallow: /my-open-jobs
+Sitemap: https://www.bidorboo.com/sitemap.xml

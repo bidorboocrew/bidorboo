@@ -396,6 +396,18 @@ export const StartDateAndTime = ({ date, renderHelpComponent }) => {
   );
 };
 
+export class DestinationAddressValue extends React.Component {
+  render() {
+    return (
+      <div className="group">
+        <label className="label hasSelectedValue">Destination Near</label>
+        <div className="control">{this.props.destionationAddress}</div>
+        <p className="help">*This is an approximate location</p>
+      </div>
+    );
+  }
+}
+
 export class LocationLabelAndValue extends React.Component {
   constructor(props) {
     super(props);
@@ -466,7 +478,7 @@ export class LocationLabelAndValue extends React.Component {
                   });
                 }
               } catch (e) {
-                console.error('error '+e);
+                console.error('error ' + e);
               }
             }
           }
@@ -511,7 +523,7 @@ export const DisplayShortAddress = ({ addressText, renderHelpComponent = () => n
   return null;
 };
 
-export const AddAwardedJobToCalendar = ({ job, extraClassName = '' }) => {
+export const AddAwardedJobToCalendarForTasker = ({ job, extraClassName = '' }) => {
   if (!job) {
     return null;
   }
@@ -523,9 +535,68 @@ export const AddAwardedJobToCalendar = ({ job, extraClassName = '' }) => {
   const emailContact = email && email.emailAddress ? `${email.emailAddress}` : '';
   const phoneContactNumber = phone && phone.phoneNumber ? ` or ${phone.phoneNumber}` : '';
 
-  const title = `BIDORBOO: ${TASKS_DEFINITIONS[templateId] &&
-    TASKS_DEFINITIONS[templateId].TITLE} request`;
-  const description = `You are going to help ${displayName} fulfil a ${title} request. To get in touch contact them at ${emailContact} ${phoneContactNumber}`;
+  const title = `${TASKS_DEFINITIONS[templateId] && TASKS_DEFINITIONS[templateId].TITLE}`;
+  const description = `BidOrBoo appointment: You are going to help ${displayName} fulfill a ${title} request. To get in touch contact them at ${emailContact} ${phoneContactNumber}`;
+
+  const selectedTime = `${moment(startingDateAndTime).get('hour')}`;
+  let startTime = moment(startingDateAndTime).startOf('day');
+  let endTime = moment(startingDateAndTime).endOf('day');
+
+  switch (`${selectedTime}`) {
+    case '10':
+      startTime = moment(startingDateAndTime).startOf('day');
+      endTime = moment(startingDateAndTime).endOf('day');
+      break;
+    case '8':
+      startTime = moment(startingDateAndTime);
+      endTime = moment(startingDateAndTime).add(4, 'h');
+      break;
+    case '12':
+      startTime = moment(startingDateAndTime);
+      endTime = moment(startingDateAndTime).add(5, 'h');
+      break;
+    case '17':
+      startTime = moment(startingDateAndTime);
+      endTime = moment(startingDateAndTime).endOf('day');
+      break;
+    default:
+      startTime = moment(startingDateAndTime).startOf('day');
+      endTime = moment(startingDateAndTime).endOf('day');
+      break;
+  }
+  let event = {
+    title,
+    description,
+    location: addressText,
+    startTime: `${startTime}`,
+    endTime: `${endTime}`,
+  };
+  return (
+    <AddToCalendar
+      listItems={[{ apple: 'iCal' }, { google: 'Google' }, { outlook: 'Outlook' }]}
+      displayItemIcons={false}
+      event={event}
+      buttonLabel={'Add to Calendar'}
+      buttonClassClosed={`button is-info ${extraClassName}`}
+    />
+  );
+};
+
+export const AddAwardedJobToCalendarForRequester = ({ job, extraClassName = '' }) => {
+  if (!job) {
+    return null;
+  }
+
+  const { startingDateAndTime, addressText, templateId, _awardedBidRef } = job;
+  const { _bidderRef } = _awardedBidRef;
+
+  const { email, phone, displayName } = _bidderRef;
+
+  const emailContact = email && email.emailAddress ? `${email.emailAddress}` : '';
+  const phoneContactNumber = phone && phone.phoneNumber ? ` or ${phone.phoneNumber}` : '';
+
+  const title = `${TASKS_DEFINITIONS[templateId] && TASKS_DEFINITIONS[templateId].TITLE}`;
+  const description = `BidOrBoo appointment: You requested a ${title} and assigned ${displayName} as the tasker. To get in touch contact them at ${emailContact} ${phoneContactNumber}`;
 
   const selectedTime = `${moment(startingDateAndTime).get('hour')}`;
   let startTime = moment(startingDateAndTime).startOf('day');
@@ -752,8 +823,9 @@ export const AwaitingOnTasker = () => {
           style={{
             display: 'inline-block',
             flexGrow: 0,
-            fontSize: 16,
+            fontSize: 18,
             width: 28,
+            height: 28,
             marginRight: 8,
           }}
         >
@@ -788,10 +860,11 @@ export const PastdueExpired = () => {
       >
         <div
           style={{
-            fontSize: 16,
+            fontSize: 18,
             borderRadius: '100%',
             border: '1px solid #ef2834',
             width: 28,
+            height: 28,
             background: '#ef2834',
             color: '#ef2834',
             marginRight: 8,
@@ -811,7 +884,7 @@ export const PastdueExpired = () => {
         </div>
       </div>
       {/* <div>
-        <div className="help">*BIDORBOO will auto delete this task</div>
+        <div className="help">*BidOrBoo will auto delete this task</div>
       </div> */}
     </div>
   );
@@ -829,9 +902,10 @@ export const TaskersAvailable = ({ numberOfAvailableTaskers }) => {
       >
         <div
           style={{
-            fontSize: 16,
+            fontSize: 18,
             borderRadius: '100%',
             width: 28,
+            height: 28,
             background: '#6b88e0',
             color: 'white',
             marginRight: 8,
@@ -873,8 +947,9 @@ export const AssignedTasker = ({ displayName }) => {
       >
         <div
           style={{
-            fontSize: 16,
+            fontSize: 18,
             width: 28,
+            height: 28,
             marginRight: 8,
             alignItems: 'center',
             display: 'inline-block',
@@ -902,15 +977,22 @@ export const AssignedTasker = ({ displayName }) => {
   );
 };
 
+export const UserGivenTitle = ({ userGivenTitle }) => {
+  return (
+    <div style={{ fontWeight: 300, fontSize: 16, color: '#363636', marginBottom: '1.25rem' }}>
+      {`Title: ${userGivenTitle}`}
+    </div>
+  );
+};
+
 export const JobCardTitle = ({ img, icon, title, meatballMenu }) => {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', width: '100%', marginBottom: '1.25rem' }}>
+    <div style={{ display: 'flex', alignItems: 'center', width: '100%', marginBottom: 0 }}>
       <div
         style={{
           cursor: 'pointer',
           display: 'flex',
           alignItems: 'center',
-
           overflow: 'hidden',
           margin: 'auto',
         }}
@@ -955,10 +1037,11 @@ export const CancelledBy = ({ name, refundAmount }) => {
           style={{
             display: 'inline-block',
             flexGrow: 0,
-            fontSize: 16,
+            fontSize: 18,
             borderRadius: '100%',
             border: '1px solid #ef2834',
             width: 28,
+            height: 28,
             background: '#ef2834',
             marginRight: 8,
           }}
@@ -997,10 +1080,11 @@ export const DisputedBy = ({ name }) => {
           style={{
             display: 'inline-block',
             flexGrow: 0,
-            fontSize: 16,
+            fontSize: 18,
             borderRadius: '100%',
             border: '1px dashed #ef2834',
             width: 28,
+            height: 28,
             marginRight: 8,
           }}
         >
@@ -1058,9 +1142,10 @@ export const TaskIsFulfilled = () => {
           style={{
             display: 'inline-block',
             flexGrow: 0,
-            fontSize: 16,
+            fontSize: 18,
             borderRadius: '100%',
             width: 28,
+            height: 28,
             background: '#00d1b2',
             marginRight: 8,
           }}
@@ -1099,10 +1184,11 @@ export const ArchiveTask = ({ displayName = '' }) => {
           style={{
             display: 'inline-block',
             flexGrow: 0,
-            fontSize: 16,
+            fontSize: 18,
             borderRadius: '100%',
             border: '1px solid #353535',
             width: 28,
+            height: 28,
             background: '#353535',
             marginRight: 8,
             color: '#353535',
@@ -1116,7 +1202,7 @@ export const ArchiveTask = ({ displayName = '' }) => {
             fontSize: 16,
           }}
         >
-          Archived
+          Past Tasks
         </div>
       </div>
       {/* <div>
@@ -1213,8 +1299,9 @@ export const BSawaitingOnRequester = () => {
           style={{
             display: 'inline-block',
             flexGrow: 0,
-            fontSize: 16,
+            fontSize: 18,
             width: 28,
+            height: 28,
             marginRight: 8,
           }}
         >
@@ -1248,10 +1335,11 @@ export const BSPastDueExpired = () => {
       >
         <div
           style={{
-            fontSize: 16,
+            fontSize: 18,
             borderRadius: '100%',
             border: '1px solid #ef2834',
             width: 28,
+            height: 28,
             background: '#ef2834',
             color: '#ef2834',
             marginRight: 8,
@@ -1286,10 +1374,11 @@ export const BSAwardedToSomeoneElse = () => {
       >
         <div
           style={{
-            fontSize: 16,
+            fontSize: 18,
             borderRadius: '100%',
             border: '1px solid #35335',
             width: 28,
+            height: 28,
             marginRight: 8,
             display: 'inline-block',
           }}
@@ -1325,8 +1414,9 @@ export const BSTaskerAwarded = ({ isPastDue }) => {
       >
         <div
           style={{
-            fontSize: 16,
+            fontSize: 18,
             width: 28,
+            height: 28,
             marginRight: 8,
             alignItems: 'center',
             display: 'inline-block',
@@ -1366,8 +1456,9 @@ export const BSWaitingOnRequesterToConfirm = ({ isPastDue }) => {
       >
         <div
           style={{
-            fontSize: 16,
+            fontSize: 18,
             width: 28,
+            height: 28,
             marginRight: 8,
             alignItems: 'center',
             display: 'inline-block',
@@ -1405,10 +1496,11 @@ export const BSTaskIsDone = () => {
       >
         <div
           style={{
-            fontSize: 16,
+            fontSize: 18,
             borderRadius: '100%',
             border: '1px solid #4285f4',
             width: 28,
+            height: 28,
             background: '#4285f4',
             color: '#4285f4',
             marginRight: 8,
@@ -1500,4 +1592,30 @@ export const redirectBasedOnJobState = ({ state, _id: jobId }) => {
       switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
       break;
   }
+};
+
+export const AnytimeQuickModal = ({ title, renderContentFunc, setShowModal, showModal }) => {
+  debugger;
+
+  return (
+    <div className={`has-text-left modal ${showModal ? 'is-active' : ''}`}>
+      <div onClick={() => setShowModal(false)} className="modal-background"></div>
+      <div className="modal-card">
+        <header className="modal-card-head">
+          <div className="modal-card-title">{title}</div>
+          <button
+            onClick={() => setShowModal(false)}
+            className="delete"
+            aria-label="close"
+          ></button>
+        </header>
+        <section className="modal-card-body">{renderContentFunc && renderContentFunc()}</section>
+        <footer className="modal-card-foot">
+          <button onClick={() => setShowModal(false)} className="button">
+            Close
+          </button>
+        </footer>
+      </div>
+    </div>
+  );
 };

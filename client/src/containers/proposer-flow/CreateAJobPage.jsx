@@ -8,6 +8,9 @@ import { RenderBackButton } from '../commonComponents';
 import GenericRequestForm from '../../bdb-tasks/GenericRequestForm';
 
 const creatJobsByIdMap = {
+  ['bdbMoving']: (props) => {
+    return <GenericRequestForm requestTemplateId={'bdbMoving'} {...props} />;
+  },
   [`bdbHouseCleaning`]: (props) => {
     return <GenericRequestForm requestTemplateId={'bdbHouseCleaning'} {...props} />;
   },

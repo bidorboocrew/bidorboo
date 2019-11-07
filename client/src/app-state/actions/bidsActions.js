@@ -4,51 +4,27 @@ import axios from 'axios';
 import { switchRoute, throwErrorNotification, delayedReload } from '../../utils';
 import TASKS_DEFINITIONS from '../../bdb-tasks/tasksDefinitions';
 
-export const selectJobToBidOn = (jobDetails) => (dispatch) => {
-  dispatch({
-    type: A.JOB_ACTIONS.UPDATE_JOB_VIEWED_BY,
-    payload: axios
-      .put(ROUTES.API.JOB.PUT.updateViewedBy, {
-        data: {
-          jobId: jobDetails._id,
-        },
-      })
-      .catch((error) => {
-        throwErrorNotification(dispatch, error);
-      }),
-  });
-
-  //update store with the job details
-  dispatch({
-    type: A.BIDDER_ACTIONS.SELECT_JOB_TO_BID_ON,
-    payload: {
-      jobDetails: jobDetails,
-    },
-  });
-
-  switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(jobDetails._id), { jobDetails });
-};
-
-export const getJobToBidOnDetails = (jobId) => (dispatch) =>
+export const getJobToBidOnDetails = (jobId, isLoggedIn = false) => (dispatch) =>
   dispatch({
     type: A.JOB_ACTIONS.GET_JOB_To_BID_ON_DETAILS_BY_ID,
     payload: axios
       .get(ROUTES.API.JOB.GET.jobToBidDetailsById, { params: { jobId } })
       .then((resp) => {
         if (resp && resp.data) {
-          dispatch({
-            type: A.JOB_ACTIONS.UPDATE_JOB_VIEWED_BY,
-            payload: axios
-              .put(ROUTES.API.JOB.PUT.updateViewedBy, {
-                data: {
-                  jobId: resp.data._id,
-                },
-              })
-              .catch((error) => {
-                throwErrorNotification(dispatch, error);
-              }),
-          });
-
+          if (isLoggedIn) {
+            dispatch({
+              type: A.JOB_ACTIONS.UPDATE_JOB_VIEWED_BY,
+              payload: axios
+                .put(ROUTES.API.JOB.PUT.updateViewedBy, {
+                  data: {
+                    jobId: resp.data._id,
+                  },
+                })
+                .catch((error) => {
+                  throwErrorNotification(dispatch, error);
+                }),
+            });
+          }
           //update store with the job details
           dispatch({
             type: A.BIDDER_ACTIONS.SELECT_JOB_TO_BID_ON,
@@ -195,7 +171,9 @@ export const updateBid = ({ bidId, bidAmount, job }) => (dispatch) => {
 
           //rediret user to the current bid
 
-          delayedReload(ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(resp.data._id));
+          delayedReload(
+            ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(resp.data._id),
+          );
 
           // dispatch({
           //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,

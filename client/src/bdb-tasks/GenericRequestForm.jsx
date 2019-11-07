@@ -15,7 +15,12 @@ import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
 import moment from 'moment';
 import * as Yup from 'yup';
-import { TextAreaInput, GeoAddressInput, DateInput } from '../components/forms/FormsHelpers';
+import {
+  TextAreaInput,
+  GeoAddressInput,
+  DateInput,
+  TextInput,
+} from '../components/forms/FormsHelpers';
 // import { StepsForRequest } from '../containers/commonComponents';
 
 import * as ROUTES from '../constants/frontend-route-consts';
@@ -68,6 +73,25 @@ class GenericRequestForm extends React.Component {
       </div>
     ) : null;
   };
+
+  shouldShowAutodetectControlForDestinationField = () => {
+    return navigator.geolocation ? (
+      <div
+        onClick={this.getDestinationAddress}
+        style={{
+          cursor: 'pointer',
+          color: '#ce1bbf',
+        }}
+        className="help"
+      >
+        <span className="icon">
+          <i className="fas fa-map-marker-alt" />
+        </span>
+        <span>AUTO DETECT LOCATION</span>
+      </div>
+    ) : null;
+  };
+
   updateDateInputFieldValue = (val) => {
     const { setFieldValue } = this.props;
     const { selectedTimeButtonId } = this.state;
@@ -147,6 +171,16 @@ class GenericRequestForm extends React.Component {
     // update the form field with the current position coordinates
   };
 
+  autoSetGeoLocationForDestinationAddress = (addressText) => {
+    this.setState(
+      () => ({ forceSetAddressValue: addressText }),
+      () => {
+        this.props.setFieldValue('destinationText', addressText, true);
+      },
+    );
+    // update the form field with the current position coordinates
+  };
+
   render() {
     const {
       values,
@@ -159,9 +193,12 @@ class GenericRequestForm extends React.Component {
       handleSubmit,
       handleBlur,
     } = this.props;
-    const { ID, renderSummaryCard, enableImageUploadField } = TASKS_DEFINITIONS[
-      this.requestTemplateId
-    ];
+    const {
+      ID,
+      renderSummaryCard,
+      enableImageUploadField,
+      requiresDestinationField,
+    } = TASKS_DEFINITIONS[this.requestTemplateId];
 
     const extrasFields = this.extrasFunc();
     const taskSpecificExtraFormFields = [];
@@ -193,12 +230,14 @@ class GenericRequestForm extends React.Component {
                 type="hidden"
                 value={values.taskImg1 || ''}
               />
+              <br></br>
               <input
                 id="taskImg2"
                 className="input is-invisible"
                 type="hidden"
                 value={values.taskImg1 || ''}
               />
+              <br></br>
               <input
                 id="taskImg3"
                 className="input is-invisible"
@@ -230,6 +269,16 @@ class GenericRequestForm extends React.Component {
                 </div>
               )}
 
+              <TextInput
+                id="jobTitle"
+                type="text"
+                label="Task Title"
+                placeholder={'Enter a title...'}
+                error={touched.jobTitle && errors.jobTitle}
+                value={values.jobTitle || ''}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              ></TextInput>
               <input
                 id="addressText"
                 className="input is-invisible"
@@ -283,6 +332,45 @@ class GenericRequestForm extends React.Component {
                     });
                 }}
               />
+              {requiresDestinationField && (
+                <>
+                  <input
+                    id="destinationText"
+                    className="input is-invisible"
+                    type="hidden"
+                    value={values.destinationText || ''}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  <GeoAddressInput
+                    id="geoInputField2"
+                    type="text"
+                    helpText={'You must select an address from the drop down menu'}
+                    label="destination"
+                    placeholder="start typing an address"
+                    autoDetectComponent={this.shouldShowAutodetectControlForDestinationField}
+                    error={errors.destinationText}
+                    touched={touched.destinationText}
+                    value={values.destinationText || ''}
+                    onError={(e) => {
+                      errors.addressText = 'google api error ' + e;
+                    }}
+                    onChangeEvent={(e) => {
+                      setFieldValue('destinationText', e, true);
+                    }}
+                    onBlurEvent={(e) => {
+                      if (e && e.target) {
+                        e.target.id = 'destinationText';
+                        handleBlur(e);
+                      }
+                    }}
+                    handleSelect={(address) => {
+                      setFieldValue('destinationText', address, true);
+                      // this.autoSetGeoLocation(address);
+                    }}
+                  />
+                </>
+              )}
 
               <input
                 id="startingDateAndTime"
@@ -400,6 +488,77 @@ class GenericRequestForm extends React.Component {
       }
     }
   };
+
+  successfullGeoCodingForDestination = (results, status) => {
+    // xxx handle the various error (api over limit ...etc)
+    if (status !== this.google.maps.GeocoderStatus.OK) {
+      alert(status);
+    }
+    // This is checking to see if the Geoeode Status is OK before proceeding
+    if (status === this.google.maps.GeocoderStatus.OK) {
+      let address = results[0].formatted_address;
+      if (address && !address.toLowerCase().includes('canada')) {
+        alert('Sorry! Bid or Boo is only available in Canada');
+      } else {
+        this.autoSetGeoLocationForDestinationAddress(address);
+      }
+    }
+  };
+  getDestinationAddress = () => {
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      const getCurrentPositionOptions = {
+        maximumAge: 5 * 60 * 1000,
+        timeout: 5000,
+        enableHighAccuracy: true,
+      };
+      const errorHandling = (err) => {
+        console.error('can not auto detect address');
+        let msg = '';
+        if (err.code === 3) {
+          // Timed out
+          msg = "<p>Can't get your location (high accuracy attempt). Error = ";
+        }
+        if (err.code === 1) {
+          // Access denied by user
+          msg =
+            'PERMISSION_DENIED - You have not given BidOrBoo permission to detect your address. Please go to your browser settings and enable auto detect location for BidorBoo.com';
+        } else if (err.code === 2) {
+          // Position unavailable
+          msg = 'POSITION_UNAVAILABLE';
+        } else {
+          // Unknown error
+          msg = ', msg = ' + err.message;
+        }
+        alert(msg);
+      };
+      const successfulRetrieval = (position) => {
+        const pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+
+        if (this.google && this.geocoder) {
+          //https://developers.google.com/maps/documentation/javascript/examples/geocoding-reverse
+          this.geocoder.geocode(
+            {
+              location: { lat: parseFloat(pos.lat), lng: parseFloat(pos.lng) },
+            },
+            this.successfullGeoCodingForDestination,
+          );
+        }
+      };
+
+      //get the current location
+      navigator.geolocation.getCurrentPosition(
+        successfulRetrieval,
+        errorHandling,
+        getCurrentPositionOptions,
+      );
+    } else {
+      console.error('no html 5 geo location');
+    }
+  };
   getCurrentAddress = () => {
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
@@ -418,7 +577,7 @@ class GenericRequestForm extends React.Component {
         if (err.code === 1) {
           // Access denied by user
           msg =
-            'PERMISSION_DENIED - You have not given BIDORBOO permission to detect your address. Please go to your browser settings and enable auto detect location for BidorBoo.com';
+            'PERMISSION_DENIED - You have not given BidOrBoo permission to detect your address. Please go to your browser settings and enable auto detect location for BidorBoo.com';
         } else if (err.code === 2) {
           // Position unavailable
           msg = 'POSITION_UNAVAILABLE';
@@ -466,7 +625,13 @@ const EnhancedForms = withFormik({
       templateId: Yup.string()
         .ensure()
         .trim()
-        .oneOf(['bdbCarDetailing', 'bdbHouseCleaning', 'bdbPetSittingWalking'])
+        .oneOf(['bdbCarDetailing', 'bdbHouseCleaning', 'bdbPetSittingWalking', 'bdbMoving'])
+        .required('Template Id missing or not recognized, This field is required'),
+      jobTitle: Yup.string()
+        .ensure()
+        .trim()
+        .min(5, 'your description must be more than 5 characters')
+        .max(20, 'job title must be less than 20 characters')
         .required('Template Id missing or not recognized, This field is required'),
       startingDateAndTime: Yup.date()
         .min(moment(), '*Tasks Can not be scheduled in the past')
@@ -483,7 +648,8 @@ const EnhancedForms = withFormik({
       detailedDescription: Yup.string()
         .ensure()
         .trim()
-        .min(20, 'your description must be more than 20 charachters')
+        .min(20, 'your description must be more than 20 characters')
+        .max(500, 'job title must be less than 500 characters')
         .required('*Please provide a detailed description'),
       ...TASKS_DEFINITIONS[props.requestTemplateId].extraValidationSchema,
     });
@@ -491,6 +657,7 @@ const EnhancedForms = withFormik({
   validate: (values) => {
     let errors = {};
     const extrasValidations = TASKS_DEFINITIONS[values.templateId].extrasValidation;
+    const requiresDestinationField = TASKS_DEFINITIONS[values.templateId].requiresDestinationField;
 
     // process the values to be sent to the server
     const {
@@ -498,8 +665,10 @@ const EnhancedForms = withFormik({
       detailedDescription,
       startingDateAndTime,
       addressText,
+      destinationText,
       templateId,
       timeOfDay,
+      jobTitle,
     } = values;
 
     // do some validation before submitting
@@ -507,11 +676,15 @@ const EnhancedForms = withFormik({
       errors.location = '*Please type in an address and select location from the drop down';
     }
     if (!addressText) {
-      errors.addressText = '*Please type in an address and select location from the drop down';
+      errors.addressText = '*Please type in an address then select an address from the drop down';
+    }
+    if (requiresDestinationField && !destinationText) {
+      errors.destinationText =
+        '*Please type in an address then select an address from the drop down';
     }
     if (!detailedDescription) {
       errors.detailedDescription =
-        '*Please provide more details to help the tasker fulfil this request to yoru satisfaction';
+        '*Please provide more details to help the tasker fulfill this request to yoru satisfaction';
     }
     if (!startingDateAndTime) {
       errors.startingDateAndTime = '*Please specify a date for when you need this service';
@@ -522,6 +695,10 @@ const EnhancedForms = withFormik({
     }
     if (!timeOfDay || timeOfDay === 'noSelection') {
       errors.timeOfDay = '*Please select a value from the drop down';
+    }
+
+    if (!jobTitle) {
+      errors.jobTitle = '*Please type in a title or nickname for this task';
     }
 
     if (extrasValidations) {
@@ -535,7 +712,9 @@ const EnhancedForms = withFormik({
       templateId: props.requestTemplateId,
       startingDateAndTime: '',
       detailedDescription: '',
+      jobTitle: '',
       addressText: '',
+      destinationText: '',
       timeOfDay: 'noSelection',
       location: { lat: 0, lng: 0 },
       ...TASKS_DEFINITIONS[props.requestTemplateId].defaultExtrasValues,
@@ -555,6 +734,7 @@ const EnhancedForms = withFormik({
       taskImg1,
       taskImg2,
       taskImg3,
+      jobTitle,
       ...extras // everything else
     } = values;
 
@@ -615,16 +795,17 @@ const EnhancedForms = withFormik({
     }
 
     let mappedFieldsToJobSchema = {
-      detailedDescription: detailedDescription,
-      location: {
-        type: 'Point',
-        coordinates: [parseFloat(lng), parseFloat(lat)],
-      },
+      detailedDescription,
+      jobTitle,
       startingDateAndTime,
       addressText,
       templateId,
       extras: {
         ...extras,
+      },
+      location: {
+        type: 'Point',
+        coordinates: [parseFloat(lng), parseFloat(lat)],
       },
     };
 

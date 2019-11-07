@@ -21,6 +21,7 @@ const templateIdToDisplayName = {
   bdbHouseCleaning: 'House Cleaning',
   bdbCarDetailing: 'Car Detailing',
   bdbPetSittingWalking: 'Pet Sitting/Walking',
+  bdbMoving: 'Moving/Lifting Helpers',
 };
 exports.jobDataAccess = {
   BidOrBooAdmin: {
@@ -929,6 +930,7 @@ exports.jobDataAccess = {
             state: 1,
             viewedBy: 1,
             detailedDescription: 1,
+            jobTitle: 1,
             location: 1,
             startingDateAndTime: 1,
             durationOfJob: 1,
@@ -1159,6 +1161,7 @@ exports.jobDataAccess = {
             extras: 1,
             state: 1,
             location: 1,
+            jobTitle: 1,
           },
           {
             sort: { startingDateAndTime: 1 },
@@ -1195,6 +1198,7 @@ exports.jobDataAccess = {
             extras: 1,
             state: 1,
             location: 1,
+            jobTitle: 1,
             taskImages: 1,
           },
           {
@@ -1251,6 +1255,7 @@ exports.jobDataAccess = {
           extras: 1,
           state: 1,
           location: 1,
+          jobTitle: 1,
           _bidsListRef: 1,
           viewedBy: 1,
           hideFrom: 1,
@@ -1893,7 +1898,13 @@ exports.jobDataAccess = {
             requesterPushNotSubscription,
             taskerPushNotSubscription,
             processedPayment,
+            ownerRating,
+            taskerRating,
           } = await getAllContactDetails(jobId);
+
+          const newTotalOfAllRatings = ownerRating.totalOfAllRatings + 1.25;
+          const newTotalOfAllTimesBeenRated = ownerRating.numberOfTimesBeenRated + 1;
+          const newGlobalRating = Math.max(newTotalOfAllRatings / newTotalOfAllTimesBeenRated, 0);
 
           const paymentIntent = await stripeServiceUtil.getPaymentIntents(
             processedPayment.paymentIntentId
@@ -1947,15 +1958,13 @@ exports.jobDataAccess = {
                 {
                   $set: {
                     'rating.latestComment':
-                      'BIDORBOO Auto Review: Cancelled Thier Request After Making an Agreement with A Tasker',
+                      'BidOrBoo Auto Review: Cancelled their request after booking with the tasker',
+                    'rating.globalRating': newGlobalRating,
+                    'rating.numberOfTimesBeenRated': newTotalOfAllTimesBeenRated,
+                    'rating.totalOfAllRatings': newTotalOfAllRatings,
                   },
                   $push: {
                     'rating.canceledJobs': jobId,
-                  },
-                  $inc: {
-                    'rating.globalRating': -0.25,
-                    'rating.numberOfTimesBeenRated': 1,
-                    'rating.totalOfAllRating': 3.75,
                   },
                 },
                 {

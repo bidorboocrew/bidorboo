@@ -27,6 +27,7 @@ html body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-display: swap;
   font-family: 'Work Sans', sans-serif;
   font-weight: 300;
 }
@@ -189,7 +190,7 @@ html body {
 
   .navbar-brand {
     cursor: pointer;
-    #BIDORBOO-logo-step {
+    #BidOrBoo-logo-step {
       &:hover {
         background: none !important;
       }
@@ -198,7 +199,7 @@ html body {
       background: none !important;
     }
   }
-  // #BIDORBOO-logo-step {
+  // #BidOrBoo-logo-step {
   //   > span {
   //     color: black !important;
   //   }
@@ -269,7 +270,7 @@ html body {
   //       }
   //     }
   //   }
-  //   #BIDORBOO-logo-step {
+  //   #BidOrBoo-logo-step {
   //     > span {
   //       color: white !important;
   //     }

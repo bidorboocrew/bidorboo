@@ -24,14 +24,6 @@ const urlBase64ToUint8Array = (base64String) => {
 
 const installSW = (vapidKey, shouldRegisterNewWebPushSubscription) => {
   window.addEventListener('load', async () => {
-    // try {
-    //   const fetchServiceWorker = await fetch('sw.js');
-    //   if (fetchServiceWorker.status === 200) {
-    //     doWeHaveAnExistingSW = true;
-    //   }
-    // } catch (e) {
-    //   console.error('failed to get sw.js ' + e);
-    // }
     let registration;
     let newWorker;
     let refreshing;
@@ -51,24 +43,25 @@ const installSW = (vapidKey, shouldRegisterNewWebPushSubscription) => {
       registration = await navigator.serviceWorker.register('/sw.js', {
         scope: '/',
       });
-      // await registration.update();
       if (registration.waiting && registration.waiting.state === 'installed') {
         newWorker = registration.waiting;
         showUpdateBar();
       }
 
       navigator.serviceWorker.addEventListener('controllerchange', () => {
-        if (refreshing) return;
-        window.location.reload();
+        if (refreshing) {
+          return;
+        }
         refreshing = true;
+        window.location.reload();
       });
 
       if (!registration) {
-        console.info('could not register service worker or webpush \n');
-
+        console.info('could not register service worker or webpush');
         return;
       }
-      console.info('Service worker Registered \n');
+
+      console.info('Service worker was successfully Registered');
 
       if (shouldRegisterNewWebPushSubscription) {
         console.info('kick start registering webpush');
@@ -77,10 +70,8 @@ const installSW = (vapidKey, shouldRegisterNewWebPushSubscription) => {
           userVisibleOnly: true,
           applicationServerKey: convertedVapidKey,
         });
-        console.info('WEBPUSH  Registered \n');
+        console.info('WEBPUSH  Registered');
 
-        // if (shouldRegisterNewWebPushSubscription) {
-        // registerPushNotification
         await axios.post('/api/push/register', {
           data: {
             subscription: JSON.stringify(subscription),
@@ -96,7 +87,7 @@ const installSW = (vapidKey, shouldRegisterNewWebPushSubscription) => {
 
 export function unregister() {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorkera.ready.then((registration) => {
+    navigator.serviceWorker.ready.then((registration) => {
       registration.unregister();
     });
   }

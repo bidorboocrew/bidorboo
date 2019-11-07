@@ -59,7 +59,7 @@
 //             next();
 //           }
 //         } catch (e) {
-//           console.log(`BIDORBOO======= ${e}`);
+//           console.log(`BidOrBoo======= ${e}`);
 //           let error = { errorMsg: 'invalid schema parsing error' };
 //           const throwError = new Error(error.errorMsg);
 //           next(throwError);

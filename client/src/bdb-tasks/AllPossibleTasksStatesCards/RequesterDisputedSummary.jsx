@@ -5,6 +5,7 @@ import {
   SummaryStartDateAndTime,
   JobCardTitle,
   TaskImagesCarousel,
+  UserGivenTitle,
 } from '../../containers/commonComponents';
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -26,6 +27,7 @@ export default class RequesterDisputedSummary extends React.Component {
       state,
       _ownerRef,
       taskImages = [],
+      jobTitle,
     } = job;
     if (
       !startingDateAndTime ||
@@ -51,6 +53,7 @@ export default class RequesterDisputedSummary extends React.Component {
         <div className="card-content">
           <div className="content">
             <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <UserGivenTitle userGivenTitle={jobTitle} />
 
             <TaskImagesCarousel taskImages={taskImages} />
 

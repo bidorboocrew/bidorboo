@@ -35,10 +35,10 @@ before((done) => {
   mongoose.set('useFindAndModify', false);
 
   process.on('SIGINT', function() {
-    console.log('BIDORBOO=== safe shut down ==== bid or boo ');
+    console.log('BidOrBoo=== safe shut down ==== bid or boo ');
     mongoose.connection.close(() => {
       console.log(
-        'BIDORBOO=== Mongoose default connection is disconnected due to application termination'
+        'BidOrBoo=== Mongoose default connection is disconnected due to application termination'
       );
       process.exit(0);
       done();
@@ -49,7 +49,7 @@ before((done) => {
 after((done) => {
   mongoose.connection.close(() => {
     console.log(
-      'BIDORBOO=== Mongoose default connection is disconnected due to application termination'
+      'BidOrBoo=== Mongoose default connection is disconnected due to application termination'
     );
 
     process.exit(0);

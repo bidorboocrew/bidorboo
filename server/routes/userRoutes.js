@@ -212,7 +212,7 @@ module.exports = (app) => {
         if (!user) {
           return res.status(400).send({
             safeMsg:
-              'Sorry something went wrong, Make sure you spelled and used the right email as you used upon registration with BIDORBOO',
+              'Sorry something went wrong, Make sure you spelled and used the right email as you used upon registration with BidOrBoo',
           });
         }
 

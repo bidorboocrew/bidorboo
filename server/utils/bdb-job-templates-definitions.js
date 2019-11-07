@@ -1,17 +1,23 @@
-exports.HOUSE_CLEANING_DEF = {
+exports.bdbHouseCleaning = {
   ID: 'bdbHouseCleaning',
   TITLE: 'House Cleaning',
   CHECKLIST: '',
 };
 
-exports.CAR_DETAILING_DEF = {
+exports.bdbCarDetailing = {
   ID: 'bdbCarDetailing',
   TITLE: 'Car Detailing',
   CHECKLIST: '',
 };
 
-exports.PET_CARE_DEF = {
+exports.bdbPetSittingWalking = {
   ID: 'bdbPetSittingWalking',
   TITLE: 'Pet Sitting/Walking',
+  CHECKLIST: '',
+};
+
+exports.bdbMoving = {
+  ID: 'bdbMoving',
+  TITLE: 'Moving/Lifting Helpers',
   CHECKLIST: '',
 };

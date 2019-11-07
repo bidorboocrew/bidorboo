@@ -97,8 +97,8 @@ export const getCurrentUserNotifications = () => (dispatch) =>
       }),
   });
 
-export const getCurrentUser = () => (dispatch) =>
-  dispatch({
+export const getCurrentUser = () => (dispatch) => {
+  return dispatch({
     type: A.AUTH_ACTIONS.LOGIN_FLOW_INITIATED,
     payload: axios
       .get(ROUTES.API.USER.GET.currentUser)
@@ -113,15 +113,15 @@ export const getCurrentUser = () => (dispatch) =>
             type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
           });
           // xxxx stupid welcome notification
-          dispatch({
-            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-            payload: {
-              toastDetails: {
-                type: 'success',
-                msg: `Welcome to BIDORBOO ${resp.data.displayName || resp.data.email.emailAddress}`,
-              },
-            },
-          });
+          // dispatch({
+          //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          //   payload: {
+          //     toastDetails: {
+          //       type: 'success',
+          //       msg: `Welcome to BidOrBoo ${resp.data.displayName || resp.data.email.emailAddress}`,
+          //     },
+          //   },
+          // });
           if (resp.data.appView) {
             if (resp.data.appView === 'BIDDER') {
               dispatch({
@@ -139,7 +139,6 @@ export const getCurrentUser = () => (dispatch) =>
             resp.data.membershipStatus === 'NEW_MEMBER' &&
             window.location.pathname !== ROUTES.CLIENT.TOS
           ) {
-
             switchRoute(ROUTES.CLIENT.ONBOARDING, { redirectUrl: window.location.pathname });
           }
         }
@@ -148,6 +147,7 @@ export const getCurrentUser = () => (dispatch) =>
         throwErrorNotification(dispatch, error);
       }),
   });
+};
 
 export const onLogout = () => (dispatch) =>
   dispatch({
@@ -189,15 +189,15 @@ export const bidOrBooLogin = (userData) => (dispatch) =>
             type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
           });
           // xxx stupid welcome notification
-          dispatch({
-            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-            payload: {
-              toastDetails: {
-                type: 'success',
-                msg: `Welcome to BIDORBOO ${resp.data.displayName || resp.data.email.emailAddress}`,
-              },
-            },
-          });
+          // dispatch({
+          //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          //   payload: {
+          //     toastDetails: {
+          //       type: 'success',
+          //       msg: `Welcome to BidOrBoo ${resp.data.displayName || resp.data.email.emailAddress}`,
+          //     },
+          //   },
+          // });
         } else {
           //rediret user to sign up page
           // switchRoute(ROUTES.CLIENT.HOME);
@@ -229,7 +229,6 @@ export const registerNewUser = (userData) => (dispatch) =>
             resp.data.membershipStatus === 'NEW_MEMBER' &&
             window.location.pathname !== ROUTES.CLIENT.TOS
           ) {
-
             switchRoute(ROUTES.CLIENT.ONBOARDING, { redirectUrl: window.location.pathname });
           }
         }

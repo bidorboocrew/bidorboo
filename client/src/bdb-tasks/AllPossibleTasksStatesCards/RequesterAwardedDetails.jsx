@@ -19,13 +19,14 @@ import {
   CountDownComponent,
   DisplayLabelValue,
   TaskCost,
-  AddAwardedJobToCalendar,
+  AddAwardedJobToCalendarForRequester,
   TaskSpecificExtras,
   JobCardTitle,
   SummaryStartDateAndTime,
   CenteredUserImageAndRating,
   AssignedTasker,
   TaskImagesCarousel,
+  UserGivenTitle,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -70,6 +71,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
         proposerDisputed: false,
       },
       taskImages = [],
+      jobTitle,
     } = job;
     if (
       !_id ||
@@ -131,7 +133,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
               <div onClick={this.toggleDeleteConfirmationDialog} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <div className="modal-card-title">Cancel Agreement</div>
+                  <div className="modal-card-title">Cancel Appointment</div>
                   <button
                     onClick={this.toggleDeleteConfirmationDialog}
                     className="delete"
@@ -188,7 +190,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                     <span className="icon">
                       <i className="far fa-trash-alt" />
                     </span>
-                    <span>Cancel Agreement</span>
+                    <span>Cancel Appointment</span>
                   </button>
                 </footer>
               </div>
@@ -255,6 +257,8 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                   </div>
                 )}
               />
+              <UserGivenTitle userGivenTitle={jobTitle} />
+
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
@@ -287,7 +291,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
               </Collapse>
               <div>
                 {!showMore && (
-                  <a onClick={this.toggleShowMore} className="button">
+                  <a onClick={this.toggleShowMore} className="button is-small">
                     <span style={{ marginRight: 4 }}>show more details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-down" />
@@ -295,7 +299,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                   </a>
                 )}
                 {showMore && (
-                  <a onClick={this.toggleShowMore} className="button">
+                  <a onClick={this.toggleShowMore} className="button is-small">
                     <span style={{ marginRight: 4 }}>show less details</span>
                     <span className="icon">
                       <i className="fas fa-angle-double-up" />
@@ -312,12 +316,18 @@ class RequesterAwardedDetails extends RequestBaseContainer {
           emailAddress={emailAddress}
           phoneNumber={phoneNumber}
           renderAddToCalendar={() => {
-            return !isPastDue && <AddAwardedJobToCalendar job={job} extraClassName={'is-small'} />;
+            return (
+              !isPastDue && (
+                <AddAwardedJobToCalendarForRequester job={job} extraClassName={'is-small'} />
+              )
+            );
           }}
           renderActionButton={() => (
-            <div className="firstButtonInCard nofixedwidth">
+            <>
               <RequesterConfirmsCompletion {...this.props} bidderConfirmed={bidderConfirmed} />
-            </div>
+              <br></br>
+              <br></br>
+            </>
           )}
         />
       </React.Fragment>
@@ -383,7 +393,7 @@ class RequesterConfirmsCompletion extends React.Component {
                 </header>
                 <section className="modal-card-body">
                   <p>
-                    BIDORBOO crew is happy to know that our tasker fulfilled your request, and we
+                    BidOrBoo crew is happy to know that our tasker fulfilled your request, and we
                     hope that it was done to your satisfaction.
                   </p>
                   <br />
@@ -403,7 +413,7 @@ class RequesterConfirmsCompletion extends React.Component {
                     onClick={this.submitConfirmation}
                     className="button is-success"
                   >
-                    Confirm Completion
+                    Confirm Task Task Completion
                   </button>
                   <button onClick={this.toggleModal} className="button is-outline">
                     Close
@@ -420,7 +430,7 @@ class RequesterConfirmsCompletion extends React.Component {
           //   isPastDue || bidderConfirmed ? 'heartbeatInstant' : ''
           // }`}
         >
-          Confirm Completion
+          Confirm Task Completion
         </a>
       </React.Fragment>
     );
@@ -582,19 +592,21 @@ class AssignedTaskerDetails extends React.Component {
         className="card cardWithButton nofixedwidth"
       >
         <div style={{ paddingTop: 0 }} className="card-content">
-          <div className="content ">
+          <div className="content">
             <div style={{ background: 'transparent' }} className="tabs is-centered">
               <ul style={{ marginLeft: 0 }}>
                 <li className="is-active">
                   <a>
-                    <span className="icon is-small">
-                      <i className="fas fa-user-tie" aria-hidden="true" />
+                    <span className="icon">
+                      <i className="far fa-handshake"></i>
                     </span>
-                    <span>Assigned Tasker</span>
+                    <span>Contact The Assigned Tasker</span>
                   </a>
                 </li>
               </ul>
             </div>
+
+            <p>Get in touch to finalize exact details like location to meet, date and time, etc</p>
 
             <CenteredUserImageAndRating
               userDetails={otherUserProfileInfo}
@@ -604,11 +616,10 @@ class AssignedTaskerDetails extends React.Component {
 
             <div style={{ marginBottom: '2rem' }}>
               <div className="group">
-                <label className="label hasSelectedValue">Tasker Contact Info</label>
                 <div style={{ fontWeight: 500, fontSize: 16 }}>
                   <div>
                     <a
-                      href={`mailto:${emailAddress}?subject=BIDORBOO - I requested your service and reaching out to agree on meeting time and details`}
+                      href={`mailto:${emailAddress}?subject=BidOrBoo - I requested your service and reaching out to agree on meeting time and details`}
                     >
                       <span className="icon">
                         <i className="far fa-envelope" />
@@ -618,7 +629,7 @@ class AssignedTaskerDetails extends React.Component {
                   </div>
                   <div>
                     <a
-                      href={`sms://${phoneNumber}?body=Hello%20I%20assigned%20you%20a%20task%20from%20BIDORBOO%20and%20am%20reaching%20out%20to%20agree%20on%20meeting%20time%20and%20details`}
+                      href={`sms://${phoneNumber}?body=Hello%20I%20assigned%20you%20a%20task%20from%20BidOrBoo%20and%20am%20reaching%20out%20to%20agree%20on%20meeting%20time%20and%20details`}
                     >
                       <span className="icon">
                         <i className="fas fa-sms" />
@@ -635,16 +646,25 @@ class AssignedTaskerDetails extends React.Component {
                     </a>
                   </div>
                 </div>
-                <div className="help">
-                  *Get in touch to finalize exact details like location to meet, date, time... etc
-                </div>
               </div>
               {renderAddToCalendar && renderAddToCalendar()}
               <br />
             </div>
+            <div style={{ background: 'transparent' }} className="tabs is-centered">
+              <ul style={{ marginLeft: 0 }}>
+                <li className="is-active">
+                  <a>
+                    <span className="icon is-small">
+                      <i className="fa fa-clock" aria-hidden="true" />
+                    </span>
+                    <span>After The Task Is fulfilled</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            {renderActionButton && renderActionButton()}
           </div>
         </div>
-        {renderActionButton && renderActionButton()}
       </div>
     );
   }

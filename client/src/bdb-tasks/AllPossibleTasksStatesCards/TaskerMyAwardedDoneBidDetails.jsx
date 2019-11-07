@@ -20,6 +20,7 @@ import {
   TaskIsFulfilled,
   ArchiveTask,
   TaskImagesCarousel,
+  UserGivenTitle,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -50,6 +51,7 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
         requiresBidderReview: true,
       },
       taskImages = [],
+      jobTitle,
     } = job;
     if (
       !startingDateAndTime ||
@@ -95,6 +97,8 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
           <div style={{ borderBottom: 0 }} className="card-content">
             <div className="content">
               <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <UserGivenTitle userGivenTitle={jobTitle} />
+
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
@@ -164,7 +168,7 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
                     }}
                     className={`button firstButtonInCard is-primary`}
                   >
-                    Review Requester
+                    <span>Review Requester & Task</span>
                   </a>
                 )}
                 {!requiresBidderReview && (
@@ -174,7 +178,7 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
                     }}
                     className={`button firstButtonInCard is-dark`}
                   >
-                    Archived
+                    Past Tasks
                   </a>
                 )}
               </>

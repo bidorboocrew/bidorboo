@@ -8,7 +8,8 @@ export default {
   TITLE: 'House Cleaning',
   ICON: 'fas fa-home',
   IMG: houseCleaning_img,
-  DESCRIPTION: `Does your place need a cleaning ? Let our Taskers clean your space.`,
+  isComingSoon: false,
+  DESCRIPTION: `Does your home need cleaning? Book one of our clean freak Taskers to take care of it!`,
   SUGGESTION_TEXT: `Q1)Do you have pets in the house?
 [Answer here:   ]
 Q2)Will the tasker be required to move heavy items (couch-beds-fridge) ?
@@ -16,7 +17,12 @@ Q2)Will the tasker be required to move heavy items (couch-beds-fridge) ?
 `,
   defaultExtrasValues: {
     effort: 'noSelection',
+    bathroomCount: 'noSelection',
+    bedroomCount: 'noSelection',
+    basementCleaning: 'noSelection',
+    equipmentProvider: 'noSelection',
   },
+  requiresDestinationField: false,
   extraValidationSchema: {
     effort: Yup.string()
       .ensure()
@@ -97,12 +103,13 @@ Q2)Will the tasker be required to move heavy items (couch-beds-fridge) ?
                 </h1>
                 {withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
-                    Does your place need a cleaning ? Let our Taskers clean your space.
+                    Does your home need cleaning? Book one of our clean freak Taskers to take care
+                    of it!
                   </p>
                 )}
                 {!withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
-                    BIDORBOO Tasker will bring All purpose cleaning products and equipments required
+                    BidOrBoo Tasker will bring All purpose cleaning products and equipments required
                     to clean your house thouroughally.
                   </p>
                 )}
@@ -371,7 +378,7 @@ Q2)Will the tasker be required to move heavy items (couch-beds-fridge) ?
       },
     };
   },
-  TASK_EXPECTATIONS: `BIDORBOO Tasker will bring All purpose cleaning products and equipments required to clean your house thouroughally.`,
+  TASK_EXPECTATIONS: `BidOrBoo Tasker will bring All purpose cleaning products and equipments required to clean your house thouroughally.`,
 };
 const renderThankyouMoment = ({
   houseCleaning_img,

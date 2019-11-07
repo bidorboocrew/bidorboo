@@ -10,6 +10,7 @@ import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 import {
   DisplayLabelValue,
+  DestinationAddressValue,
   CountDownComponent,
   TaskSpecificExtras,
   SummaryStartDateAndTime,
@@ -18,6 +19,7 @@ import {
   JobCardTitle,
   TaskersAvailable,
   TaskImagesCarousel,
+  UserGivenTitle,
 } from '../../containers/commonComponents';
 
 import { switchRoute } from '../../utils';
@@ -83,6 +85,7 @@ class RequesterRequestDetails extends React.Component {
       isHappeningToday,
       isPastDue,
       taskImages = [],
+      jobTitle,
     } = job;
     if (
       !jobId ||
@@ -201,6 +204,8 @@ class RequesterRequestDetails extends React.Component {
                   </div>
                 )}
               />
+              <UserGivenTitle userGivenTitle={jobTitle} />
+
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
@@ -221,7 +226,11 @@ class RequesterRequestDetails extends React.Component {
               <Collapse isOpened={showMore}>
                 <div className="has-text-left">
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
-
+                  {extras && extras.destinationText && (
+                    <DestinationAddressValue
+                      destionationAddress={extras.destinationText}
+                    ></DestinationAddressValue>
+                  )}
                   <TaskSpecificExtras templateId={ID} extras={extras} />
                   <div className="group">
                     <label className="label hasSelectedValue">Detailed Description</label>

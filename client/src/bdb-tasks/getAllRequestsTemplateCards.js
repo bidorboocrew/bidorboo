@@ -6,13 +6,12 @@ import { switchRoute } from '../utils';
 import TASKS_DEFINITIONS from './tasksDefinitions';
 
 const renderTask = ({ task, isLoggedIn, showLoginDialog }) => {
-
-  const { ID, renderSummaryCard } = task;
+  const { ID, renderSummaryCard, isComingSoon } = task;
 
   return (
     <div
       style={{
-        background: 'white',
+        background: `${isComingSoon ? '' : 'white'}`,
         borderRadius: 0,
         height: '100%',
         position: 'relative',
@@ -21,20 +20,30 @@ const renderTask = ({ task, isLoggedIn, showLoginDialog }) => {
       }}
     >
       {renderSummaryCard && renderSummaryCard({})}
-
-      <a
-        style={{ fontSize: 14, width: 132, borderRadius: 25 }}
-        onClick={() => {
-          if (!isLoggedIn) {
-            showLoginDialog(true);
-            return;
-          }
-          switchRoute(ROUTES.CLIENT.PROPOSER.dynamicCreateJob(ID));
-        }}
-        className="button is-success firstButtonInCard"
-      >
-        REQUEST NOW
-      </a>
+      {!isComingSoon && (
+        <a
+          style={{ fontSize: 14, width: 132, borderRadius: 25 }}
+          onClick={() => {
+            if (!isLoggedIn) {
+              showLoginDialog(true);
+              return;
+            }
+            switchRoute(ROUTES.CLIENT.PROPOSER.dynamicCreateJob(ID));
+          }}
+          className="button is-success firstButtonInCard"
+        >
+          REQUEST NOW
+        </a>
+      )}
+      {isComingSoon && (
+        <a
+          style={{ fontSize: 14, width: 132, borderRadius: 25 }}
+          className="button is-success is-inverted firstButtonInCard"
+          disabled
+        >
+          COMING SOON
+        </a>
+      )}
     </div>
   );
 };

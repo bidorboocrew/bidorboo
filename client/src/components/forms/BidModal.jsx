@@ -81,7 +81,7 @@ class BidModal extends React.Component {
           </header>
           <section className="modal-card-body">
             <p>
-              Enter a <strong>$ total amount</strong> you want to recieve in exchange for fulfilling
+              Enter a <strong>$ total amount</strong> you want to receive in exchange for fulfilling
               this task
             </p>
 
@@ -112,11 +112,11 @@ class BidModal extends React.Component {
             <br />
 
             {/* <div className="group">
-              <div className="label">BIDORBOO Rules</div>
+              <div className="label">BidOrBoo Rules</div>
 
               {values.bidAmountField && values.bidAmountField > 1 && (
                 <div className="help has-text-success">
-                  * Your Net Payout After deucting BIDORBOO Service Fee:
+                  * Your Net Payout After deucting BidOrBoo Service Fee:
                   <strong>
                     {` ${values.bidAmountField - Math.ceil(values.bidAmountField * 0.04)}$ (CAD)`}
                   </strong>

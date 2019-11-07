@@ -31,12 +31,12 @@ export class FirstTimeUser extends React.Component {
                   <div className="title has-text-grey">
                     <img
                       src={logoImg}
-                      alt="BIDORBOO"
+                      alt="BidOrBoo"
                       width="24"
                       height="24"
                       style={{ maxHeight: 'unset' }}
                     />
-                    <span style={{ marginLeft: 4 }}>BIDORBOO Welcomes</span>
+                    <span style={{ marginLeft: 4 }}>BidOrBoo Welcomes</span>
                   </div>
                   <h2 className="has-text-centered title has-text-weight-semibold">
                     {displayName}

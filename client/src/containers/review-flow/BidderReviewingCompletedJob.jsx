@@ -74,7 +74,7 @@ export class BidderReviewingCompletedJob extends React.Component {
       cleanPerosnalComment.length > 100
     ) {
       alert(
-        'please add a personal comment with at least 10 charachters and no more than 100 chars',
+        'please add a personal comment with at least 10 characters and no more than 100 chars',
       );
     } else {
       // SUBMIT REVIEW
@@ -185,7 +185,7 @@ export class BidderReviewingCompletedJob extends React.Component {
             }}
             value={this.state.personalComment}
             onChange={this.personalCommentOnChange}
-            placeholder="The Requester was accurate in describing thier job and very friendly...etc"
+            placeholder="The Requester was accurate in describing their job and very friendly...etc"
           />
           <div className="help">* note this will be visible to all users</div>
         </div>

@@ -13,6 +13,7 @@ import {
   CenteredUserImageAndRating,
   AvgBidDisplayLabelAndValue,
   LocationLabelAndValue,
+  DestinationAddressValue,
   TaskSpecificExtras,
   SummaryStartDateAndTime,
   BSawaitingOnRequester,
@@ -20,6 +21,7 @@ import {
   JobCardTitle,
   BSAwardedToSomeoneElse,
   TaskImagesCarousel,
+  UserGivenTitle,
 } from '../../containers/commonComponents';
 
 import TaskerEditOrUpdateBid from '../../containers/bidder-flow/components/TaskerEditOrUpdateBid';
@@ -79,6 +81,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
       isPastDue,
       state,
       taskImages = [],
+      jobTitle,
     } = job;
     if (
       !startingDateAndTime ||
@@ -214,6 +217,8 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                   </div>
                 )}
               />
+              <UserGivenTitle userGivenTitle={jobTitle} />
+
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
@@ -244,7 +249,11 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                   </div>
                   <TaskSpecificExtras templateId={ID} extras={extras} />
                   <LocationLabelAndValue location={location.coordinates} />
-
+                  {extras && extras.destinationText && (
+                    <DestinationAddressValue
+                      destionationAddress={extras.destinationText}
+                    ></DestinationAddressValue>
+                  )}
                   <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
 
                   <div className="group">

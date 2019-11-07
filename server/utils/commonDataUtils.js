@@ -19,6 +19,7 @@ exports.getAwardedJobOwnerBidderAndRelevantNotificationDetails = async (jobId) =
           pushSubscription: 1,
           notifications: 1,
           displayName: 1,
+          rating: 1,
         },
       },
     })
@@ -31,6 +32,7 @@ exports.getAwardedJobOwnerBidderAndRelevantNotificationDetails = async (jobId) =
         phone: 1,
         pushSubscription: 1,
         notifications: 1,
+        rating: 1,
       },
     })
     .lean({ virtuals: true })
@@ -47,9 +49,12 @@ exports.getAwardedJobOwnerBidderAndRelevantNotificationDetails = async (jobId) =
 
   const requesterId = _ownerRef._id.toString();
   const taskerId = awardedBidderDetails._id.toString();
+  const taskerDisplayName = awardedBidderDetails.displayName;
+  const taskerRating = awardedBidderDetails.rating;
 
   const requesterDisplayName = ownerDetails.displayName;
-  const taskerDisplayName = awardedBidderDetails.displayName;
+  const ownerRating = ownerDetails.rating;
+
   const jobDisplayName = displayTitle || awardedJob.jobTitle || awardedJob.templateId;
 
   const requestLinkForRequester = ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId);
@@ -109,5 +114,7 @@ exports.getAwardedJobOwnerBidderAndRelevantNotificationDetails = async (jobId) =
     taskerPushNotSubscription,
     processedPayment,
     bidAmount,
+    ownerRating,
+    taskerRating,
   };
 };

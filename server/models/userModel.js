@@ -62,7 +62,7 @@ const ratingSchema = {
         MIN_COMMENT_LENGTH +
         ' and ' +
         MAX_COMMENT_LENGTH +
-        ' charachters long',
+        ' characters long',
     },
   },
 };
@@ -151,8 +151,8 @@ const UserSchema = new Schema(
       tasksTypeFilter: [
         {
           type: String,
-          enum: ['bdbHouseCleaning', 'bdbCarDetailing', 'bdbPetSittingWalking'],
-          default: ['bdbHouseCleaning', 'bdbCarDetailing', 'bdbPetSittingWalking'],
+          enum: ['bdbHouseCleaning', 'bdbCarDetailing', 'bdbPetSittingWalking', 'bdbMoving'],
+          default: ['bdbHouseCleaning', 'bdbCarDetailing', 'bdbPetSittingWalking', 'bdbMoving'],
         },
       ],
     },
@@ -246,7 +246,7 @@ const UserSchema = new Schema(
     tos_acceptance: {
       Agreed: {
         type: Boolean,
-        required: [true, 'You Must Agree to BIDORBOO Terms of use to proceed'],
+        required: [true, 'You Must Agree to BidOrBoo Terms of use to proceed'],
         default: false,
       },
       date: { type: Date },

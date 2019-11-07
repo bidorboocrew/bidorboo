@@ -7,6 +7,7 @@ import {
   CountDownComponent,
   StartDateAndTime,
   TaskSpecificExtras,
+  DestinationAddressValue,
 } from '../../containers/commonComponents';
 
 import { switchRoute } from '../../utils';
@@ -61,7 +62,11 @@ export default class RequesterRequestDetailsPreview extends React.Component {
               )}
             />
             <DisplayLabelValue labelText="Address" labelValue={addressText} />
-
+            {extras && extras.destinationText && (
+              <DestinationAddressValue
+                destionationAddress={extras.destinationText}
+              ></DestinationAddressValue>
+            )}
             <Collapse isOpened={showMore}>
               <div className="has-text-left">
                 <TaskSpecificExtras templateId={ID} extras={extras} />

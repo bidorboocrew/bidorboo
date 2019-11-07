@@ -6,7 +6,7 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
   <head>
   <meta charset="utf-8" />
   <meta
-    name="BIDORBOO"
+    name="BidOrBoo"
     content="BidorBoo, Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy."
   />
   <meta
@@ -18,11 +18,11 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
     content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
   />
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="application-name" content="BIDORBOO" />
+  <meta name="application-name" content="BidOrBoo" />
   <meta name="msapplication-TileColor" content="#603cba" />
   <meta name="theme-color" content="#ffffff" />
 
-  <title>BIDORBOO Update</title>
+  <title>BidOrBoo Update</title>
   <style>
     img {
       border: none;
@@ -212,7 +212,7 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
           <div class="content">
 
             <!-- START CENTERED WHITE CONTAINER -->
-            <span class="preheader">BIDORBOO updates!</span>
+            <span class="preheader">BidOrBoo updates!</span>
 
             <table dir="ltr" class="m_-7318686519169392378Section m_-7318686519169392378Header" width="100%" style="border:0;border-collapse:collapse;margin:0;padding:0;background-color:#ffffff">
               <tbody>
@@ -254,7 +254,7 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
                                     <tr>
                                       <td> <a class="actionButton" href="${clickLink ||
                                         'https://www.bidorboo.com'}" rel="noopener noreferrer" target="_blank">${clickDisplayName ||
-    'Open BIDORBOO'}</a> </td>
+    'Open BidOrBoo'}</a> </td>
                                     </tr>
                                   </tbody>
                                 </table>
@@ -262,7 +262,7 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
                             </tr>
                           </tbody>
                         </table>
-                        <p> BIDORBOO Wishes you the best of luck!</p>
+                        <p> BidOrBoo Wishes you the best of luck!</p>
                       </td>
                     </tr>
                   </table>
@@ -277,7 +277,7 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
               <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                 <tr>
                   <td class="content-block">
-                    <span class="apple-link">BIDORBOO Inc, Ottawa ON Canada</span>
+                    <span class="apple-link">BidOrBoo Inc, Ottawa ON Canada</span>
                     <br>You can unsubscribe anytime by changing your notification settings <a href="https://bidorboo.com/my-profile/basic-settings">Unsubscribe</a>.
                   </td>
                 </tr>
