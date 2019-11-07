@@ -29,7 +29,6 @@ export default class TaskerBidOnTaskDetails extends React.Component {
   render() {
     const { job, otherArgs } = this.props;
     const { showLoginDialog, isLoggedIn } = otherArgs;
-    debugger;
     if (!job) {
       return switchRoute(ROUTES.CLIENT.BIDDER.root);
     }

@@ -1593,3 +1593,29 @@ export const redirectBasedOnJobState = ({ state, _id: jobId }) => {
       break;
   }
 };
+
+export const AnytimeQuickModal = ({ title, renderContentFunc, setShowModal, showModal }) => {
+  debugger;
+
+  return (
+    <div className={`has-text-left modal ${showModal ? 'is-active' : ''}`}>
+      <div onClick={() => setShowModal(false)} className="modal-background"></div>
+      <div className="modal-card">
+        <header className="modal-card-head">
+          <div className="modal-card-title">{title}</div>
+          <button
+            onClick={() => setShowModal(false)}
+            className="delete"
+            aria-label="close"
+          ></button>
+        </header>
+        <section className="modal-card-body">{renderContentFunc && renderContentFunc()}</section>
+        <footer className="modal-card-foot">
+          <button onClick={() => setShowModal(false)} className="button">
+            Close
+          </button>
+        </footer>
+      </div>
+    </div>
+  );
+};

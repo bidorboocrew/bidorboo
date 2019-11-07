@@ -107,11 +107,10 @@ const InitialAccountSetupView = (props) => {
 
   const [isNinteenPlus, setNinteenPlus] = useState(false);
   const [isCanadian, setCanadian] = useState(false);
-  const [isValidBankAcc, setValidBankAcc] = useState(false);
+  // const [isValidBankAcc, setValidBankAcc] = useState(false);
   const [hasAgreedToTOS, setHasAgreedToTos] = useState(false);
 
-  const userMeetsTaskerRequirements =
-    isNinteenPlus && isValidBankAcc && isCanadian && hasAgreedToTOS;
+  const userMeetsTaskerRequirements = isNinteenPlus && isCanadian && hasAgreedToTOS;
   return (
     <React.Fragment>
       <div>
@@ -145,10 +144,10 @@ const InitialAccountSetupView = (props) => {
                       onChange={(e) => setCanadian(!isCanadian)}
                       type="checkbox"
                     />
-                    {` I hold a Canadian citizenship or passport.`}
+                    {` I am a resident of Canada.`}
                   </label>
                 </div>
-                <div style={{ marginBottom: 5 }}>
+                {/* <div style={{ marginBottom: 5 }}>
                   <label className="checkbox">
                     <input
                       value={isValidBankAcc}
@@ -157,7 +156,7 @@ const InitialAccountSetupView = (props) => {
                     />
                     {` I have a Canadian Chequing Account.`}
                   </label>
-                </div>
+                </div> */}
                 <div style={{ marginBottom: 5 }}>
                   <label className="checkbox">
                     <input

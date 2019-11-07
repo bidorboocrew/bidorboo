@@ -81,7 +81,7 @@ class BidModal extends React.Component {
           </header>
           <section className="modal-card-body">
             <p>
-              Enter a <strong>$ total amount</strong> you want to recieve in exchange for fulfilling
+              Enter a <strong>$ total amount</strong> you want to receive in exchange for fulfilling
               this task
             </p>
 
