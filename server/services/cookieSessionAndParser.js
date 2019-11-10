@@ -20,17 +20,14 @@ module.exports = (app) => {
   const expiryDate = 10 * 24 * 60 * 60 * 1000; //10 days
   app.use(
     cookieSession({
+      secureProxy: process.env.NODE_ENV === 'production',
+      secure: process.env.NODE_ENV === 'production',
+      httpOnly: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production',
+      domain: '/',
       maxAge: expiryDate, // 24 hours
       keys: [keys.cookieKey, keys.cookieKey2],
-      cookie: {
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production',
-        httpOnly: true,
-        domain: process.env.NODE_ENV === 'production' ? 'bidorboo.com' : 'localhost.com',
-        expires: new Date(Date.now() + expiryDate),
-      },
-      resave: false,
-      saveUninitialized: true,
+      expires: new Date(Date.now() + expiryDate),
     })
   );
   app.use(cookieParser());
