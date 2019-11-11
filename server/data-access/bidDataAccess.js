@@ -560,6 +560,7 @@ exports.bidDataAccess = {
                     startingDateAndTime: 1,
                     durationOfJob: 1,
                     templateId: 1,
+                    dispute: 1,
                   },
                   populate: {
                     path: '_ownerRef',
@@ -629,6 +630,7 @@ exports.bidDataAccess = {
                     durationOfJob: 1,
                     templateId: 1,
                     _reviewRef: 1,
+                    dispute: 1,
                   },
                   populate: [
                     {

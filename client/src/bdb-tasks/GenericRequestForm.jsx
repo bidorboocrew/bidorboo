@@ -223,14 +223,12 @@ class GenericRequestForm extends React.Component {
               {renderSummaryCard({ withDetails: false })}
 
               <input id="templateId" className="input is-invisible" type="hidden" value={ID} />
-
               <input
                 id="taskImg1"
                 className="input is-invisible"
                 type="hidden"
                 value={values.taskImg1 || ''}
               />
-              <br></br>
               <input
                 id="taskImg2"
                 className="input is-invisible"
@@ -278,7 +276,9 @@ class GenericRequestForm extends React.Component {
                 value={values.jobTitle || ''}
                 onChange={handleChange}
                 onBlur={handleBlur}
+                helpText={'*a unique short title will help you identify the job easily'}
               ></TextInput>
+
               <input
                 id="addressText"
                 className="input is-invisible"
@@ -429,11 +429,11 @@ class GenericRequestForm extends React.Component {
                     <span className="icon">
                       <i className="fas fa-pen" />
                     </span>
-                    <span>ANSWER TASK FAQS</span>
+                    <span>or click to answer our FAQs</span>
                   </div>
                 }
                 placeholder={
-                  'Type in any extra instructions to help the Tasker perform the task to your satisfation'
+                  'Type in any extra instructions to help the Tasker perform the task to your satisfaction'
                 }
                 error={touched.detailedDescription && errors.detailedDescription}
                 value={values.detailedDescription || ''}

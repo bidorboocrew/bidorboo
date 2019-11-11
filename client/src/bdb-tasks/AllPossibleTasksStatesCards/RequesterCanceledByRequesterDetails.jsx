@@ -54,20 +54,6 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
-    // xxxx get currency from processed payment
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    if (!bidValue || !bidCurrency) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-    const { displayName: taskerDisplayName } = _bidderRef;
-    if (!taskerDisplayName) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-
-    const { displayName: ownerDisplayName } = _ownerRef;
-    if (!ownerDisplayName) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
@@ -99,12 +85,12 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
               <label className="label has-text-danger">What you need to know:</label>
               <ul>
                 <li>
-                  We Are sorry to see this cancellation as BidOrBooCrew Takes cancellations
+                  We Are sorry to see this cancellation as BidOrBoo Crew Takes cancellations
                   seriously
                 </li>
                 <li>
                   <strong>20% was deducted</strong> from the original full payment because you
-                  cancelled your apppointment.
+                  cancelled.
                 </li>
                 <li>
                   <strong>{` $${refundAmount}`} was refunded </strong> back to you.

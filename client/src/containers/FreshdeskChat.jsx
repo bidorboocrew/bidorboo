@@ -23,7 +23,7 @@ class FreshdeskChat extends React.Component {
           },
           content: {
             headers: {
-              chat: 'BidOrBooCrew Support',
+              chat: 'BidOrBoo Crew Support',
               chat_help: 'Reach out to us if you have any questions',
               push_notification: 'Allow push notifications to get instant replies',
             },
@@ -61,7 +61,7 @@ class FreshdeskChat extends React.Component {
           },
           content: {
             headers: {
-              chat: 'BidOrBooCrew Support',
+              chat: 'BidOrBoo Crew Support',
               chat_help: 'Reach out to us if you have any questions',
               push_notification: 'Allow push notifications to get instant replies',
             },

@@ -22,8 +22,10 @@ import {
   BSAwardedToSomeoneElse,
   TaskImagesCarousel,
   UserGivenTitle,
+  BidAmount,
+  TaskerWillEarn,
 } from '../../containers/commonComponents';
-
+import { getChargeDistributionDetails } from '../../containers/commonUtils';
 import TaskerEditOrUpdateBid from '../../containers/bidder-flow/components/TaskerEditOrUpdateBid';
 
 export default class TaskerMyOpenBidDetails extends React.Component {
@@ -103,6 +105,8 @@ export default class TaskerMyOpenBidDetails extends React.Component {
     if (!bidValue || !bidCurrency) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
+
+    const { taskerTotalPayoutAmount } = getChargeDistributionDetails(bidValue);
     const { updateBid, deleteOpenBid } = otherArgs;
     if (!updateBid || !deleteOpenBid) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
@@ -237,12 +241,9 @@ export default class TaskerMyOpenBidDetails extends React.Component {
               )}
 
               <Collapse isOpened={showMore}>
-                <div className="has-text-left">
-                  <div className="group">
-                    <label className="label hasSelectedValue">My Bid</label>
-                    <div className="control">${bidValue}</div>
-                  </div>
-
+                <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
+                  <BidAmount bidAmount={bidValue}></BidAmount>
+                  <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
                   <div className="group">
                     <label className="label hasSelectedValue">Requester</label>
                     <CenteredUserImageAndRating userDetails={_ownerRef} isCentered={false} />

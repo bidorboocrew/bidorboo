@@ -23,6 +23,7 @@ import {
   TaskImagesCarousel,
   UserGivenTitle,
 } from '../../containers/commonComponents';
+import { getChargeDistributionDetails } from '../../containers/commonUtils';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import RequestBaseContainer from './RequestBaseContainer';
@@ -54,8 +55,6 @@ class RequesterDoneDetails extends RequestBaseContainer {
       jobCompletion = {
         proposerConfirmed: false,
         bidderConfirmed: false,
-        bidderDisputed: false,
-        proposerDisputed: false,
       },
       taskImages = [],
       jobTitle,
@@ -78,13 +77,15 @@ class RequesterDoneDetails extends RequestBaseContainer {
     if (!bidAmount || !_bidderRef) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
-    const { proposerConfirmed, bidderConfirmed, bidderDisputed, proposerDisputed } = jobCompletion;
+    const { proposerConfirmed, bidderConfirmed } = jobCompletion;
 
     // xxxx get currency from processed payment
     const { value: bidValue, currency: bidCurrency } = bidAmount;
     if (!bidValue || !bidCurrency) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
+    const { requesterTotalPayment: requesterPayAmount } = getChargeDistributionDetails(bidValue);
+
     const { phone, email, _id: bidderId } = _bidderRef;
     if (!phone || !email || !bidderId) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
@@ -126,8 +127,8 @@ class RequesterDoneDetails extends RequestBaseContainer {
               {requiresProposerReview && <TaskIsFulfilled />}
 
               <Collapse isOpened={showMore}>
-                <div className="has-text-left">
-                  <TaskCost cost={bidValue} />
+                <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
+                  <TaskCost cost={requesterPayAmount} />
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
                   {extras && extras.destinationText && (
                     <DestinationAddressValue

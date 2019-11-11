@@ -2,10 +2,10 @@ import React from 'react';
 
 import * as ROUTES from '../../../constants/frontend-route-consts';
 import AcceptBidPaymentHandling from './AcceptBidPaymentHandling';
-import { BIDORBOO_SERVICECHARGE_FOR_REQUESTER } from '../../../containers/commonComponents';
 import * as Constants from '../../../constants/enumConstants';
-// confirm award and pay
-const BIDORBOO_SERVICECHARGE = 0.06;
+
+import { getChargeDistributionDetails } from '../../commonUtils';
+
 export default class AcceptBidAndBidderModal extends React.Component {
   render() {
     const { bid, closeModal } = this.props;
@@ -15,18 +15,20 @@ export default class AcceptBidAndBidderModal extends React.Component {
     }
 
     const bidAmount = bid.bidAmount.value;
-    const bidOrBooServiceFee = Math.ceil(bidAmount * BIDORBOO_SERVICECHARGE_FOR_REQUESTER);
+
+    const { requesterTotalPayment } = getChargeDistributionDetails(bidAmount);
+
     const otherUserProfileInfo = bid._bidderRef;
     const { rating, membershipStatus } = otherUserProfileInfo;
 
     const membershipStatusDisplay = Constants.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
     const {
-      numberOfTimesBeenRated,
+      // numberOfTimesBeenRated,
       globalRating,
-      fulfilledBids,
-      canceledBids,
-      fulfilledJobs,
-      canceledJobs,
+      // fulfilledBids,
+      // canceledBids,
+      // fulfilledJobs,
+      // canceledJobs,
       // lastComment
     } = rating;
     return (
@@ -78,7 +80,7 @@ export default class AcceptBidAndBidderModal extends React.Component {
             <div style={{ marginBottom: 0, marginTop: 4 }}>
               <span>{`Offered to do this task for a total of `}</span>
               <span className="control is-size-4 has-text-weight-semibold has-text-success">
-                {Math.ceil(bidAmount + bidOrBooServiceFee)}$ (CAD)
+                ${Math.ceil(requesterTotalPayment)} CAD
               </span>
             </div>
 
@@ -92,14 +94,6 @@ export default class AcceptBidAndBidderModal extends React.Component {
               }}
               className="navbar-divider"
             />
-            {/* <label className="label">BidOrBoo Policy</label>
-            <div className="help">After you pay :</div>
-            <div className="help">* If the Tasker cancels. You will get a full refund.</div>
-            <div className="help">
-              <strong>
-                * If YOU cancel this request after paying, you will only recieve a 80% refund.
-              </strong>
-            </div> */}
             <div className="help">
               * By proceeding you confirm that you agree with all
               <a target="_blank" rel="noopener noreferrer" href={`${ROUTES.CLIENT.TOS}`}>

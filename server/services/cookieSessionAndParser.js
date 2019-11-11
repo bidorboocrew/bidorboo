@@ -22,13 +22,6 @@ module.exports = (app) => {
     cookieSession({
       maxAge: expiryDate, // 24 hours
       keys: [keys.cookieKey, keys.cookieKey2],
-      cookie: {
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production',
-        httpOnly: true,
-        domain: process.env.NODE_ENV === 'production' ? 'bidorboo.com' : 'localhost.com',
-        expires: new Date(Date.now() + expiryDate),
-      },
       resave: false,
       saveUninitialized: true,
     })

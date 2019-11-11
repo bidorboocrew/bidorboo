@@ -31,6 +31,7 @@ export default class RequesterDisputedDetails extends React.Component {
       processedPayment,
       taskImages = [],
       jobTitle,
+      dispute,
     } = job;
     if (
       !startingDateAndTime ||
@@ -41,7 +42,8 @@ export default class RequesterDisputedDetails extends React.Component {
       !extras ||
       !_ownerRef ||
       !detailedDescription ||
-      !processedPayment
+      !processedPayment ||
+      !dispute
     ) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
@@ -53,11 +55,6 @@ export default class RequesterDisputedDetails extends React.Component {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
-    // xxxx get currency from processed payment
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    if (!bidValue || !bidCurrency) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
     const { displayName: taskerDisplayName } = _bidderRef;
     if (!taskerDisplayName) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
@@ -72,6 +69,13 @@ export default class RequesterDisputedDetails extends React.Component {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
+    let whoDisputed = '';
+    const { taskerDispute, proposerDispute } = dispute;
+    if (taskerDispute && taskerDispute.reason) {
+      whoDisputed = 'Tasker';
+    } else {
+      whoDisputed = 'You';
+    }
     return (
       <div className="card has-text-centered disputeOnlyView cardWithButton nofixedwidth">
         <div className="card-content">
@@ -86,15 +90,11 @@ export default class RequesterDisputedDetails extends React.Component {
                 <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
               )}
             />
-            <DisputedBy name="You" />
+            <DisputedBy name={whoDisputed} />
             <div className="group has-text-left">
               <label className="label has-text-danger">What you need to know:</label>
               <ul>
-                <li>
-                  <strong>
-                    BidorBooCrew will assess the dispute asap to ensure your satisfaction
-                  </strong>
-                </li>
+                <li>BidorBooCrew will assess the dispute asap to ensure your satisfaction</li>
                 <li>
                   Our customer relation team will be in touch with tasker and requester to gather
                   facts

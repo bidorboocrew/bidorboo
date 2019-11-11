@@ -1,11 +1,16 @@
 import React from 'react';
-import {Collapse} from 'react-collapse';
+import { Collapse } from 'react-collapse';
 
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import {
   CountDownComponent,
   StartDateAndTime,
+  SummaryStartDateAndTime,
+  JobCardTitle,
+  TaskImagesCarousel,
+  UserGivenTitle,
+  DisputedBy,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -28,13 +33,25 @@ export default class TaskerMyDisputedBidDetails extends React.Component {
       return <div>TaskerMyDisputedBidDetails is missing properties</div>;
     }
 
-    const { startingDateAndTime, addressText, isPastDue, isHappeningSoon, isHappeningToday } = job;
+    const {
+      _ownerRef,
+      startingDateAndTime,
+      addressText,
+      isPastDue,
+      isHappeningSoon,
+      isHappeningToday,
+      taskImages = [],
+      jobTitle,
+
+      dispute,
+    } = job;
     if (
       !startingDateAndTime ||
       !addressText ||
       isHappeningSoon === 'undefined' ||
       isHappeningToday === 'undefined' ||
-      isPastDue === 'undefined'
+      isPastDue === 'undefined' ||
+      !dispute
     ) {
       return <div>TaskerMyDisputedBidDetails is missing properties</div>;
     }
@@ -52,56 +69,38 @@ export default class TaskerMyDisputedBidDetails extends React.Component {
       return <div>TaskerMyDisputedBidDetails is missing properties</div>;
     }
 
+    let whoDisputed = '';
+    const { displayName } = _ownerRef;
+    const { taskerDispute, proposerDispute } = dispute;
+
+    if (proposerDispute && proposerDispute.reason) {
+      whoDisputed = 'Requester';
+    } else {
+      whoDisputed = 'You';
+    }
+
     return (
-      <div className={`card disputeOnlyView`}>
+      <div className="card has-text-centered disputeOnlyView cardWithButton nofixedwidth">
         <div className="card-content">
           <div className="content">
-            <div style={{ display: 'flex' }}>
-              <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
-                <span className="icon">
-                  <i className={ICON} />
-                </span>
-                <span style={{ marginLeft: 4 }}>{TITLE}</span>
-              </div>
-            </div>
-            <div
-              style={{
-                backgroundColor: ' whitesmoke',
-                border: 'none',
-                display: 'block',
-                height: 2,
-                margin: '0.5rem 0',
-              }}
-              className="navbar-divider"
-            />
+            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <UserGivenTitle userGivenTitle={jobTitle} />
 
-            <div className="group">
-              <label className="label">Request Status</label>
-              <div className="control has-text-danger">Disputed</div>
-              <div className="help">* BidorBooCrew will resolve this asap</div>
-            </div>
+            <TaskImagesCarousel taskImages={taskImages} />
 
-            <div className="group">
-              <label className="label hasSelectedValue">My Bid</label>
-              <div className={`has-text-danger`}>${bidValue}</div>
-              <div className="help">* on hold</div>
-            </div>
-            <StartDateAndTime
-              date={startingDateAndTime}
-              renderHelpComponent={() => (
-                <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
-              )}
-            />
-          </div>
-          <div className="group has-text-left">
-            <label className="label has-text-danger">What you need to know:</label>
-            <div className="control">* BidorBooCrew will assess the dispute asap</div>
-            <div className="control">
-              * Our customer relation team will be in touch with tasker and requester to gather
-              facts
-            </div>
-            <div className="control">
-              * We will contact you asap to inform you of the next steps.
+            <SummaryStartDateAndTime date={startingDateAndTime} />
+            <DisputedBy name={whoDisputed} />
+
+            <div className="group has-text-left">
+              <label className="label has-text-danger">What you need to know:</label>
+              <ul>
+                <li>BidorBooCrew will assess the dispute asap to ensure your satisfaction</li>
+                <li>
+                  <strong>Your bid ${bidValue} will be on hold until we resolve the dispute</strong>
+                </li>
+                <li>Our customer relation team will be in touch with requester to gather facts</li>
+                <li>We will get in touch with you to update you regularly with the status</li>
+              </ul>
             </div>
           </div>
 
@@ -110,7 +109,7 @@ export default class TaskerMyDisputedBidDetails extends React.Component {
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.BIDDER.mybids);
               }}
-              className={`button`}
+              className={`button firstButtonInCard`}
               style={{ flexGrow: 1, marginRight: 10 }}
             >
               <span className="icon">

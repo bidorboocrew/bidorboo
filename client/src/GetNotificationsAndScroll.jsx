@@ -59,9 +59,10 @@ class GetNotificationsAndScroll extends React.Component {
       return;
     }
     if (location !== prevProps.location) {
-      if (!isLoggedIn) {
+      if (isLoggedIn !== prevProps.isLoggedIn && !isLoggedIn) {
         getCurrentUser();
       }
+
       if (isLoggedIn) {
         if (currentUrlPathname.indexOf('on-boarding') > -1) {
           // do not fetch notifications on these pages above
@@ -75,6 +76,7 @@ class GetNotificationsAndScroll extends React.Component {
           setServerAppBidderView();
         }
       }
+
       setTimeout(() => {
         window.scrollTo(0, 0);
       }, 0);
@@ -98,14 +100,6 @@ class GetNotificationsAndScroll extends React.Component {
       userDetails,
     } = this.props;
 
-    const currentUrlPathname = window.location.pathname;
-    if (currentUrlPathname.indexOf('termsAndPrivacy') > -1) {
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-      }, 0);
-      return;
-    }
-
     if (isLoggedIn) {
       if (userDetails.appView === 'PROPOSER') {
         setAppViewUIToProposer();
@@ -115,6 +109,10 @@ class GetNotificationsAndScroll extends React.Component {
     } else {
       getCurrentUser();
     }
+
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 0);
   }
 
   render() {

@@ -5,7 +5,7 @@ import {
   CenteredUserImageAndRating,
 } from '../../../containers/commonComponents';
 import * as Constants from '../../../constants/enumConstants';
-
+import { getChargeDistributionDetails } from '../../commonUtils';
 // confirm award and pay
 const BIDORBOO_SERVICECHARGE = 0.06;
 export default class BidsTable extends React.Component {
@@ -31,10 +31,9 @@ export default class BidsTable extends React.Component {
     }
 
     let tableRows = bidList.map((bid) => {
-      const totalCharge =
-        bid.bidAmount && bid.bidAmount.value
-          ? Math.ceil(bid.bidAmount.value * BIDORBOO_SERVICECHARGE) + bid.bidAmount.value
-          : 'not specified';
+
+      const { value: bidValue } = bid.bidAmount;
+      const { requesterTotalPayment: totalCharge } = getChargeDistributionDetails(bidValue);
 
       return (
         <div key={bid._id} className="column is-narrow isforCards slide-in-bottom-small">

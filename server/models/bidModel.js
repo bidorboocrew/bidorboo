@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
 
 const MIN_BID_AMOUNT = 10;
-const MAX_BID_AMOUNT = 5000;
+const MAX_BID_AMOUNT = 1000;
 const BidSchema = new Schema(
   {
     _bidderRef: {
@@ -64,6 +64,7 @@ BidSchema.virtual('displayStatus').get(function() {
   };
   return stateToDisplayName[this.state];
 });
+
 BidSchema.plugin(mongooseLeanVirtuals);
 
 const cleanUpOnDeleteJob = function(next) {

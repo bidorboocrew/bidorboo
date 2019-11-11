@@ -38,8 +38,6 @@ class TaskerMyAwardedBidSummary extends React.Component {
       jobCompletion = {
         proposerConfirmed: false,
         bidderConfirmed: false,
-        bidderDisputed: false,
-        proposerDisputed: false,
       },
       taskImages = [],
       jobTitle,
@@ -59,11 +57,6 @@ class TaskerMyAwardedBidSummary extends React.Component {
     }
     const { displayStatus, bidAmount, _id } = bid;
     if (!displayStatus || !bidAmount || !_id) {
-      return <div>TaskerMyAwardedBidSummary is missing properties</div>;
-    }
-    // xxx get currency from processed payment
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    if (!bidValue || !bidCurrency) {
       return <div>TaskerMyAwardedBidSummary is missing properties</div>;
     }
 

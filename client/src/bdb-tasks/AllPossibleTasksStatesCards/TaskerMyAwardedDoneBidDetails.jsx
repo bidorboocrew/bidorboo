@@ -16,13 +16,14 @@ import {
   JobCardTitle,
   SummaryStartDateAndTime,
   BidAmount,
+  TaskerWillEarn,
   CenteredUserImageAndRating,
   TaskIsFulfilled,
   ArchiveTask,
   TaskImagesCarousel,
   UserGivenTitle,
 } from '../../containers/commonComponents';
-
+import { getChargeDistributionDetails } from '../../containers/commonUtils';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import RequestBaseContainer from './RequestBaseContainer';
 
@@ -74,6 +75,9 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
     if (!bidValue || !bidCurrency) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
+
+    const { taskerTotalPayoutAmount } = getChargeDistributionDetails(bidValue);
+
     const { requiresBidderReview } = _reviewRef;
 
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
@@ -112,11 +116,9 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
               {requiresBidderReview && <TaskIsFulfilled />}
 
               <Collapse isOpened={showMore}>
-                <div className="has-text-left">
-                  <BidAmount
-                    bidAmount={bidValue}
-                    renderHelp={() => <div className="help">Your Payout is on the way</div>}
-                  />
+                <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
+                  <BidAmount bidAmount={bidValue} />
+                  <TaskerWillEarn earningAmount={taskerTotalPayoutAmount} />
                   <div className="group">
                     <label className="label hasSelectedValue">Task Address</label>
                     <div className="control">{addressText}</div>

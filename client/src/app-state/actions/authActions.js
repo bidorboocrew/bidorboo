@@ -77,7 +77,7 @@ export const verifyEmail = (code, onSuccessCallback = () => null) => (dispatch) 
       }),
   });
 };
-export const getCurrentUserNotifications = () => (dispatch) =>
+export const getCurrentUserNotifications = () => (dispatch) => {
   dispatch({
     type: A.UI_ACTIONS.GET_CURRENT_USER_NOTIFICATIONS,
     payload: axios
@@ -88,15 +88,16 @@ export const getCurrentUserNotifications = () => (dispatch) =>
             type: A.USER_MODEL_ACTIONS.SET_CURRENT_USER_DETAILS,
             payload: resp.data,
           });
-        } else {
-          switchRoute(ROUTES.CLIENT.HOME);
         }
+        // } else {
+        //   switchRoute(ROUTES.CLIENT.HOME);
+        // }
       })
       .catch((error) => {
         throwErrorNotification(dispatch, error);
       }),
   });
-
+};
 export const getCurrentUser = () => (dispatch) => {
   return dispatch({
     type: A.AUTH_ACTIONS.LOGIN_FLOW_INITIATED,

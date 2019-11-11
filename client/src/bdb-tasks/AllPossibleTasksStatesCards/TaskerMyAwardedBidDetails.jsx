@@ -23,8 +23,10 @@ import {
   CenteredUserImageAndRating,
   TaskImagesCarousel,
   UserGivenTitle,
+  TaskerWillEarn,
 } from '../../containers/commonComponents';
 
+import { getChargeDistributionDetails } from '../../containers/commonUtils';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import RequestBaseContainer from './RequestBaseContainer';
 
@@ -53,14 +55,12 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
       jobCompletion = {
         proposerConfirmed: false,
         bidderConfirmed: false,
-        bidderDisputed: false,
-        proposerDisputed: false,
       },
       taskImages = [],
       jobTitle,
       _reviewRef,
     } = job;
-    const { requiresBidderReview } = _reviewRef;
+    // const { requiresBidderReview } = _reviewRef;
 
     if (
       !startingDateAndTime ||
@@ -86,6 +86,9 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
     if (!bidValue || !bidCurrency) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
+
+    const { taskerTotalPayoutAmount } = getChargeDistributionDetails(bidValue);
+
     const { phone, email } = _ownerRef;
     if (!phone || !email) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
@@ -106,7 +109,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
 
-    const { proposerConfirmed, bidderConfirmed, bidderDisputed, proposerDisputed } = jobCompletion;
+    const { proposerConfirmed, bidderConfirmed } = jobCompletion;
 
     return (
       <React.Fragment>
@@ -245,8 +248,9 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
               {!bidderConfirmed && !proposerConfirmed && <BSTaskerAwarded isPastDue={isPastDue} />}
 
               <Collapse isOpened={showMore}>
-                <div className="has-text-left">
+                <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
                   <BidAmount bidAmount={bidValue} />
+                  <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
                   <div className="group">
                     <label className="label hasSelectedValue">Task Address</label>
                     <div className="control">{addressText}</div>
@@ -292,7 +296,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
           otherUserProfileInfo={_ownerRef}
           renderActionButton={() => (
             <>
-              {bidderConfirmed && requiresBidderReview && (
+              {_reviewRef && bidderConfirmed && _reviewRef.requiresBidderReview && (
                 <a
                   onClick={() => {
                     switchRoute(ROUTES.CLIENT.REVIEW.getBidderJobReview({ jobId }));
@@ -305,7 +309,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                   <span>Review Requester & Task</span>
                 </a>
               )}
-              {bidderConfirmed && !requiresBidderReview && (
+              {_reviewRef && bidderConfirmed && !_reviewRef.requiresBidderReview && (
                 <>
                   <p>Waiting on requester to confirm that you've completed this task</p>
                   <div className="help">We are working on getting this done asap</div>
@@ -388,7 +392,7 @@ class TaskerConfirmsCompletion extends React.Component {
                   <div className="modal-card-title">Completed This Request?</div>
                 </header>
                 <section className="modal-card-body">
-                  <p>BidOrBooCrew is proud of you!</p>
+                  <p>BidOrBoo Crew is proud of you!</p>
                   <br />
                   <p>If you are done please confirm that you finished this request.</p>
                   <br />
@@ -466,11 +470,11 @@ class TaskerDisputes extends React.Component {
               <div onClick={this.toggleModal} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <div className="modal-card-title">File A Dispute</div>
+                  <div className="modal-card-title">File a dispute</div>
                 </header>
                 <section className="modal-card-body">
                   <div>
-                    BidOrBooCrew is sorry to hear that you are not happy. We will work on resolving
+                    BidOrBoo Crew is sorry to hear that you are not happy. We will work on resolving
                     the issue asap.
                   </div>
 
@@ -563,12 +567,31 @@ class TaskerDisputes extends React.Component {
                     * BidOrBoo Support will confirm all these details and will get in touch with the
                     Tasker to resolve this issue
                   </div>
+                  <div className="help">
+                    * Alternatively you can chat with our customer support:
+                  </div>
+                  <button
+                    className="button is-success is-small"
+                    onClick={() => {
+                      if (!window.fcWidget.isOpen()) {
+                        this.toggleModal();
+                        window.fcWidget.open();
+                      }
+                    }}
+                  >
+                    <span className="icon">
+                      <i className="far fa-comment-dots" />
+                    </span>
+                    <span>Chat with support</span>
+                  </button>
                 </section>
+
                 <footer className="modal-card-foot">
                   <button onClick={this.toggleModal} className="button is-outline">
                     Close
                   </button>
                   <button
+                    style={{ marginLeft: 12 }}
                     type="submit"
                     onClick={() =>
                       this.submitDispute({
@@ -593,7 +616,7 @@ class TaskerDisputes extends React.Component {
           <span className="icon">
             <i className="far fa-frown" aria-hidden="true" />
           </span>
-          <span>File A Dispute</span>
+          <span>File a dispute</span>
         </a>
       </React.Fragment>
     );
@@ -635,49 +658,46 @@ class RequesterDetails extends React.Component {
               </ul>
             </div>
             <p>Get in touch to finalize exact details like location to meet, date and time, etc</p>
+            <div style={{ textAlign: 'center' }}>
+              <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large isCentered />
 
-            <CenteredUserImageAndRating
-              userDetails={otherUserProfileInfo}
-              large
-              isCentered={false}
-            />
-
-            <div style={{ marginBottom: '2rem' }}>
-              <div className="field">
-                <label className="has-text-grey">Contact Details</label>
-                <div style={{ fontWeight: 500, fontSize: 18 }}>
-                  <div>
-                    <a
-                      href={`mailto:${emailAddress}?subject=BidOrBoo - I am your tasker and reaching out to agree on meeting time and details`}
-                    >
-                      <span className="icon">
-                        <i className="far fa-envelope" />
-                      </span>
-                      <span>{emailAddress}</span>
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      href={`sms://${phoneNumber}?body=I%20am%20your%20tasker%20from%20BidOrBoo%20and%20am%20reaching%20out%20to%20agree%20on%20meeting%20time%20and%20detailsS`}
-                    >
-                      <span className="icon">
-                        <i className="fas fa-sms" />
-                      </span>
-                      <span>{phoneNumber}</span>
-                    </a>
-                  </div>
-                  <div>
-                    <a href={`tel:${phoneNumber}`}>
-                      <span className="icon">
-                        <i className="fas fa-mobile-alt" />
-                      </span>
-                      <span>{phoneNumber}</span>
-                    </a>
+              <div style={{ marginBottom: '2rem' }}>
+                <div className="field">
+                  <label className="has-text-grey">Contact Details</label>
+                  <div style={{ fontWeight: 500, fontSize: 18 }}>
+                    <div>
+                      <a
+                        href={`mailto:${emailAddress}?subject=BidOrBoo - I am your tasker and reaching out to agree on meeting time and details`}
+                      >
+                        <span className="icon">
+                          <i className="far fa-envelope" />
+                        </span>
+                        <span>{emailAddress}</span>
+                      </a>
+                    </div>
+                    <div>
+                      <a
+                        href={`sms://${phoneNumber}?body=I%20am%20your%20tasker%20from%20BidOrBoo%20and%20am%20reaching%20out%20to%20agree%20on%20meeting%20time%20and%20detailsS`}
+                      >
+                        <span className="icon">
+                          <i className="fas fa-sms" />
+                        </span>
+                        <span>{phoneNumber}</span>
+                      </a>
+                    </div>
+                    <div>
+                      <a href={`tel:${phoneNumber}`}>
+                        <span className="icon">
+                          <i className="fas fa-mobile-alt" />
+                        </span>
+                        <span>{phoneNumber}</span>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
+              {renderAddToCalendar && renderAddToCalendar()}
             </div>
-            {renderAddToCalendar && renderAddToCalendar()}
             <br />
           </div>
           <div style={{ background: 'transparent' }} className="tabs is-centered">
@@ -692,7 +712,7 @@ class RequesterDetails extends React.Component {
               </li>
             </ul>
           </div>
-          {renderActionButton && renderActionButton()}
+          <div style={{ textAlign: 'center' }}>{renderActionButton && renderActionButton()}</div>
         </div>
       </div>
     );

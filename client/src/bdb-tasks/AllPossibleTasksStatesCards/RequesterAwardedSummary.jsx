@@ -38,7 +38,6 @@ class RequesterAwardedSummary extends RequestBaseContainer {
       jobCompletion = {
         proposerConfirmed: false,
         bidderConfirmed: false,
-        bidderDisputed: false,
         proposerDisputed: false,
       },
       jobTitle,
