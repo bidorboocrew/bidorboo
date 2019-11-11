@@ -97,7 +97,10 @@ class RequesterAwardedDetails extends RequestBaseContainer {
     if (!bidValue || !bidCurrency) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
-    const { requesterTotalPayment: requesterPayAmount } = getChargeDistributionDetails(bidValue);
+    const {
+      requesterTotalPayment: requesterPayAmount,
+      requesterPartialRefundAmount,
+    } = getChargeDistributionDetails(bidValue);
 
     const { phone, email } = _bidderRef;
     if (!phone || !email) {
@@ -158,9 +161,9 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                     <div className="group">
                       <label className="label">What you need to know:</label>
                       <div className="control">
-                        * You will recieve a refund of
+                        * You will receive a refund of
                         <span className="has-text-danger has-text-weight-semibold">
-                          {` 80% of your original payment `}
+                          {`${requesterPartialRefundAmount} which is ~ 80% of your original payment `}
                         </span>
                       </div>
                       <div className="control">* Your global rating will be impacted</div>

@@ -94,14 +94,6 @@ export default class AcceptBidAndBidderModal extends React.Component {
               }}
               className="navbar-divider"
             />
-            {/* <label className="label">BidOrBoo Policy</label>
-            <div className="help">After you pay :</div>
-            <div className="help">* If the Tasker cancels. You will get a full refund.</div>
-            <div className="help">
-              <strong>
-                * If YOU cancel this request after paying, you will only recieve a 80% refund.
-              </strong>
-            </div> */}
             <div className="help">
               * By proceeding you confirm that you agree with all
               <a target="_blank" rel="noopener noreferrer" href={`${ROUTES.CLIENT.TOS}`}>
