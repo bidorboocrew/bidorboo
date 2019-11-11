@@ -28,7 +28,8 @@ export default class RequesterDisputedSummary extends React.Component {
       _ownerRef,
       taskImages = [],
       jobTitle,
-      jobCompletion,
+
+      dispute,
     } = job;
     if (
       !startingDateAndTime ||
@@ -37,7 +38,7 @@ export default class RequesterDisputedSummary extends React.Component {
       !displayStatus ||
       !state ||
       !_ownerRef ||
-      !jobCompletion
+      !dispute
     ) {
       return <div>RequesterDisputedSummary is missing properties</div>;
     }
@@ -50,11 +51,11 @@ export default class RequesterDisputedSummary extends React.Component {
       return <div>RequesterDisputedSummary is missing properties</div>;
     }
 
-    const whoDisputed = '';
-    const { displayName } = _bidderRef;
-    const { bidderDisputed, proposerDisputed } = jobCompletion;
-    if (bidderDisputed) {
-      whoDisputed = displayName;
+    let whoDisputed = '';
+
+    const { taskerDispute, proposerDispute } = dispute;
+    if (taskerDispute && taskerDispute.reason) {
+      whoDisputed = 'Tasker';
     } else {
       whoDisputed = 'You';
     }

@@ -85,7 +85,7 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
               <label className="label has-text-danger">What you need to know:</label>
               <ul>
                 <li>
-                  We Are sorry to see this cancellation as BidOrBooCrew Takes cancellations
+                  We Are sorry to see this cancellation as BidOrBoo Crew Takes cancellations
                   seriously
                 </li>
                 <li>

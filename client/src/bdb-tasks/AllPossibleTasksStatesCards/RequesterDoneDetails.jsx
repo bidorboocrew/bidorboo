@@ -55,8 +55,6 @@ class RequesterDoneDetails extends RequestBaseContainer {
       jobCompletion = {
         proposerConfirmed: false,
         bidderConfirmed: false,
-        bidderDisputed: false,
-        proposerDisputed: false,
       },
       taskImages = [],
       jobTitle,
@@ -79,7 +77,7 @@ class RequesterDoneDetails extends RequestBaseContainer {
     if (!bidAmount || !_bidderRef) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
-    const { proposerConfirmed, bidderConfirmed, bidderDisputed, proposerDisputed } = jobCompletion;
+    const { proposerConfirmed, bidderConfirmed } = jobCompletion;
 
     // xxxx get currency from processed payment
     const { value: bidValue, currency: bidCurrency } = bidAmount;

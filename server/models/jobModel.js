@@ -75,8 +75,6 @@ const JobSchema = new Schema(
     jobCompletion: {
       proposerConfirmed: { type: Boolean, default: false },
       bidderConfirmed: { type: Boolean, default: false },
-      bidderDisputed: { type: Boolean, default: false },
-      proposerDisputed: { type: Boolean, default: false },
     },
     // when a tasker cancels on this job hide it from them to avoid future bids by the asshole who canceled
     hideFrom: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }], //array of people who saw this/booed no longer wish to see it ..etc

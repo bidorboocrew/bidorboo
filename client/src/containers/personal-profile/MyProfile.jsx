@@ -237,7 +237,7 @@ class MyProfile extends React.Component {
                                         <span style={{ marginLeft: 2 }}>(Not Verified)</span>
                                       </span>
                                       <div className="help">
-                                        * BidOrBooCrew will get this verified in 3-5 business days
+                                        * BidOrBoo Crew will get this verified in 3-5 business days
                                       </div>
                                     </React.Fragment>
                                   )}

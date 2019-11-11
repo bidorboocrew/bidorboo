@@ -90,7 +90,7 @@ export default class RequesterCanceledByTaskerDetails extends React.Component {
               <label className="label">What you need to know:</label>
               <ul>
                 <li>
-                  We Are sorry to see this cancellation as BidOrBooCrew Takes cancellations
+                  We Are sorry to see this cancellation as BidOrBoo Crew Takes cancellations
                   seriously
                 </li>
                 <li>

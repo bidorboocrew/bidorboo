@@ -55,8 +55,6 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
       jobCompletion = {
         proposerConfirmed: false,
         bidderConfirmed: false,
-        bidderDisputed: false,
-        proposerDisputed: false,
       },
       taskImages = [],
       jobTitle,
@@ -111,7 +109,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
 
-    const { proposerConfirmed, bidderConfirmed, bidderDisputed, proposerDisputed } = jobCompletion;
+    const { proposerConfirmed, bidderConfirmed } = jobCompletion;
 
     return (
       <React.Fragment>
@@ -394,7 +392,7 @@ class TaskerConfirmsCompletion extends React.Component {
                   <div className="modal-card-title">Completed This Request?</div>
                 </header>
                 <section className="modal-card-body">
-                  <p>BidOrBooCrew is proud of you!</p>
+                  <p>BidOrBoo Crew is proud of you!</p>
                   <br />
                   <p>If you are done please confirm that you finished this request.</p>
                   <br />
@@ -476,7 +474,7 @@ class TaskerDisputes extends React.Component {
                 </header>
                 <section className="modal-card-body">
                   <div>
-                    BidOrBooCrew is sorry to hear that you are not happy. We will work on resolving
+                    BidOrBoo Crew is sorry to hear that you are not happy. We will work on resolving
                     the issue asap.
                   </div>
 

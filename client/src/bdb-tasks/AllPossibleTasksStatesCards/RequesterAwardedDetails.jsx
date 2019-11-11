@@ -68,7 +68,6 @@ class RequesterAwardedDetails extends RequestBaseContainer {
       jobCompletion = {
         proposerConfirmed: false,
         bidderConfirmed: false,
-        bidderDisputed: false,
         proposerDisputed: false,
       },
       taskImages = [],
@@ -469,7 +468,7 @@ class RequesterDisputes extends React.Component {
                   <div className="modal-card-title">File a dispute</div>
                 </header>
                 <section className="modal-card-body">
-                  <div>Don't you worry , BidOrBooCrew will work on resolving this ASAP</div>
+                  <div>Don't you worry , BidOrBoo Crew will work on resolving this ASAP</div>
 
                   <br />
                   <div className="group">
@@ -514,7 +513,7 @@ class RequesterDisputes extends React.Component {
                     </label>
                   </div>
                   <div className="group">
-                    <label className="radio">
+                    <label className="radio has-text-dark">
                       <input
                         type="radio"
                         name="Other Dispute"
@@ -529,7 +528,7 @@ class RequesterDisputes extends React.Component {
                     <textarea
                       className="textarea"
                       style={{ resize: 'none' }}
-                      placeholder="Enter more details about your disppute..."
+                      placeholder="Enter more details about your dispute..."
                       rows="3"
                       value={disputeText}
                       onChange={(e) => {

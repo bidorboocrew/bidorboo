@@ -1,13 +1,10 @@
 import React from 'react';
-import { Collapse } from 'react-collapse';
 
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import {
   UserGivenTitle,
   JobCardTitle,
-  CountDownComponent,
-  StartDateAndTime,
   TaskImagesCarousel,
   SummaryStartDateAndTime,
   DisputedBy,
@@ -32,7 +29,7 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
     if (!bid || !job) {
       return <div>TaskerMyDisputedBidSummary is missing properties</div>;
     }
-
+    debugger;
     const {
       _ownerRef,
       startingDateAndTime,
@@ -42,7 +39,7 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
       isHappeningToday,
       taskImages = [],
       jobTitle,
-      jobCompletion,
+      dispute,
     } = job;
     if (
       !startingDateAndTime ||
@@ -50,7 +47,7 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
       isHappeningSoon === 'undefined' ||
       isHappeningToday === 'undefined' ||
       isPastDue === 'undefined' ||
-      !jobCompletion
+      !dispute
     ) {
       return <div>TaskerMyDisputedBidSummary is missing properties</div>;
     }
@@ -70,9 +67,9 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
 
     let whoDisputed = '';
     const { displayName } = _ownerRef;
-    const { bidderDisputed, proposerDisputed } = jobCompletion;
-    if (proposerDisputed) {
-      whoDisputed = displayName;
+    const { proposerDispute } = dispute;
+    if (proposerDispute && proposerDispute.reason) {
+      whoDisputed = 'Requester';
     } else {
       whoDisputed = 'You';
     }

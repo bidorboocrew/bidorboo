@@ -250,10 +250,10 @@ exports.jobDataAccess = {
         await JobModel.find({
           $and: [
             { state: { $eq: 'AWARDED' } },
+            { dispute: { $exists: false } },
             { jobCompletion: { $exists: true } },
             { _awardedBidRef: { $exists: true } },
             { 'jobCompletion.proposerConfirmed': { $eq: false } },
-            { 'jobCompletion.proposerDisputed': { $eq: false } },
             { 'jobCompletion.bidderConfirmed': { $eq: true } },
           ],
         })
@@ -1692,7 +1692,7 @@ exports.jobDataAccess = {
           },
           { new: true }
         )
-          .lean({ virtuals: true })
+          .lean()
           .exec();
 
         if (!updatedJob || !updatedJob._id || updatedJob.state !== 'DISPUTED') {
@@ -1768,10 +1768,10 @@ exports.jobDataAccess = {
           },
           { new: true }
         )
-          .lean({ virtuals: true })
+          .lean()
           .exec();
 
-        if (!updatedJob || !updatedJob._id || updatedJob.state !== 'DISPUTED') {
+      if (!updatedJob || !updatedJob._id || updatedJob.state !== 'DISPUTED') {
           return reject({
             success: false,
             ErrorMsg: 'failed to update the associated job bidderDisputesJob',

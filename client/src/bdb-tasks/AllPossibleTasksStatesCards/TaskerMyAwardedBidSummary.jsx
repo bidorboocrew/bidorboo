@@ -38,8 +38,6 @@ class TaskerMyAwardedBidSummary extends React.Component {
       jobCompletion = {
         proposerConfirmed: false,
         bidderConfirmed: false,
-        bidderDisputed: false,
-        proposerDisputed: false,
       },
       taskImages = [],
       jobTitle,

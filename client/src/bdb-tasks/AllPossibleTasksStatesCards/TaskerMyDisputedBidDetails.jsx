@@ -42,7 +42,8 @@ export default class TaskerMyDisputedBidDetails extends React.Component {
       isHappeningToday,
       taskImages = [],
       jobTitle,
-      jobCompletion,
+
+      dispute,
     } = job;
     if (
       !startingDateAndTime ||
@@ -50,7 +51,7 @@ export default class TaskerMyDisputedBidDetails extends React.Component {
       isHappeningSoon === 'undefined' ||
       isHappeningToday === 'undefined' ||
       isPastDue === 'undefined' ||
-      !jobCompletion
+      !dispute
     ) {
       return <div>TaskerMyDisputedBidDetails is missing properties</div>;
     }
@@ -70,10 +71,10 @@ export default class TaskerMyDisputedBidDetails extends React.Component {
 
     let whoDisputed = '';
     const { displayName } = _ownerRef;
-    const { bidderDisputed, proposerDisputed } = jobCompletion;
+    const { taskerDispute, proposerDispute } = dispute;
 
-    if (proposerDisputed) {
-      whoDisputed = displayName;
+    if (proposerDispute && proposerDispute.reason) {
+      whoDisputed = 'Requester';
     } else {
       whoDisputed = 'You';
     }
