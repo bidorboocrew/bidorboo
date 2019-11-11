@@ -84,7 +84,7 @@ export default class TaskerMyDisputedBidDetails extends React.Component {
             <div className="group">
               <label className="label hasSelectedValue">My Bid</label>
               <div className={`has-text-danger`}>${bidValue}</div>
-              <div className="help">* on hold</div>
+              <div className="help">* on hold until our support team resolves this</div>
             </div>
             <StartDateAndTime
               date={startingDateAndTime}

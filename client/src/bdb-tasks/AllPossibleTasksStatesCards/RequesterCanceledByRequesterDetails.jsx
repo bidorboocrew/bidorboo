@@ -54,20 +54,6 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
-    // xxxx get currency from processed payment
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    if (!bidValue || !bidCurrency) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-    const { displayName: taskerDisplayName } = _bidderRef;
-    if (!taskerDisplayName) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-
-    const { displayName: ownerDisplayName } = _ownerRef;
-    if (!ownerDisplayName) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
@@ -104,7 +90,7 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
                 </li>
                 <li>
                   <strong>20% was deducted</strong> from the original full payment because you
-                  cancelled your apppointment.
+                  cancelled.
                 </li>
                 <li>
                   <strong>{` $${refundAmount}`} was refunded </strong> back to you.

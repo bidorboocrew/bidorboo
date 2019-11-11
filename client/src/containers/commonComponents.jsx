@@ -1108,11 +1108,21 @@ export const DisputedBy = ({ name }) => {
   );
 };
 
-export const TaskCost = ({ cost }) => {
+export const TaskCost = ({ cost, renderHelp }) => {
   return (
     <div className="group">
       <label className="label hasSelectedValue">You Paid</label>
       <div className="control">${cost}</div>
+      {renderHelp && renderHelp()}
+    </div>
+  );
+};
+export const TaskerWillEarn = ({ earningAmount, renderHelp }) => {
+  return (
+    <div className="group">
+      <label className="label hasSelectedValue">You will earn</label>
+      <div className="control">${earningAmount}</div>
+      {renderHelp && renderHelp()}
     </div>
   );
 };
@@ -1595,8 +1605,6 @@ export const redirectBasedOnJobState = ({ state, _id: jobId }) => {
 };
 
 export const AnytimeQuickModal = ({ title, renderContentFunc, setShowModal, showModal }) => {
-  debugger;
-
   return (
     <div className={`has-text-left modal ${showModal ? 'is-active' : ''}`}>
       <div onClick={() => setShowModal(false)} className="modal-background"></div>

@@ -23,6 +23,7 @@ import {
   TaskImagesCarousel,
   UserGivenTitle,
 } from '../../containers/commonComponents';
+import { getChargeDistributionDetails } from '../../containers/commonUtils';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import RequestBaseContainer from './RequestBaseContainer';
@@ -85,6 +86,8 @@ class RequesterDoneDetails extends RequestBaseContainer {
     if (!bidValue || !bidCurrency) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
+    const { requesterTotalPayment: requesterPayAmount } = getChargeDistributionDetails(bidValue);
+
     const { phone, email, _id: bidderId } = _bidderRef;
     if (!phone || !email || !bidderId) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
@@ -127,7 +130,7 @@ class RequesterDoneDetails extends RequestBaseContainer {
 
               <Collapse isOpened={showMore}>
                 <div className="has-text-left">
-                  <TaskCost cost={bidValue} />
+                  <TaskCost cost={requesterPayAmount} />
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
                   {extras && extras.destinationText && (
                     <DestinationAddressValue

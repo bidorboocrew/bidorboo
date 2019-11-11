@@ -23,8 +23,10 @@ import {
   CenteredUserImageAndRating,
   TaskImagesCarousel,
   UserGivenTitle,
+  TaskerWillEarn,
 } from '../../containers/commonComponents';
 
+import { getChargeDistributionDetails } from '../../containers/commonUtils';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import RequestBaseContainer from './RequestBaseContainer';
 
@@ -86,6 +88,9 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
     if (!bidValue || !bidCurrency) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
+
+    const { taskerTotalPayoutAmount } = getChargeDistributionDetails(bidValue);
+
     const { phone, email } = _ownerRef;
     if (!phone || !email) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
@@ -247,6 +252,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
               <Collapse isOpened={showMore}>
                 <div className="has-text-left">
                   <BidAmount bidAmount={bidValue} />
+                  <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
                   <div className="group">
                     <label className="label hasSelectedValue">Task Address</label>
                     <div className="control">{addressText}</div>

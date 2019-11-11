@@ -58,11 +58,6 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
     if (!displayStatus || !bidAmount || !_id) {
       return <div>TaskerMyAwardedDoneBidSummary missing properties</div>;
     }
-    // xxx get currency from processed payment
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    if (!bidValue || !bidCurrency) {
-      return <div>TaskerMyAwardedDoneBidSummary missing properties</div>;
-    }
 
     const { revealToBoth, requiresProposerReview, requiresBidderReview } = _reviewRef;
 
@@ -71,7 +66,7 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
         <div className="card-content">
           <div className="content">
             <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-            <UserGivenTitle userGivenTitle={jobTitle}/>
+            <UserGivenTitle userGivenTitle={jobTitle} />
 
             <TaskImagesCarousel taskImages={taskImages} />
             <SummaryStartDateAndTime

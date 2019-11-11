@@ -78,7 +78,6 @@ export const verifyEmail = (code, onSuccessCallback = () => null) => (dispatch) 
   });
 };
 export const getCurrentUserNotifications = () => (dispatch) => {
-  debugger;
   dispatch({
     type: A.UI_ACTIONS.GET_CURRENT_USER_NOTIFICATIONS,
     payload: axios

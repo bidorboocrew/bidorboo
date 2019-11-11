@@ -45,10 +45,6 @@ class TaskerMyOpenBidSummary extends React.Component {
     if (!bidAmount) {
       return <div>TaskerMyOpenBidSummary is missing properties</div>;
     }
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    if (!bidValue || !bidCurrency) {
-      return <div>TaskerMyOpenBidSummary is missing properties</div>;
-    }
 
     const { displayStatus } = bid;
     if (!displayStatus) {

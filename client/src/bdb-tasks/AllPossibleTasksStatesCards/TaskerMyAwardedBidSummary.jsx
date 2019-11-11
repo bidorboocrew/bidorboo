@@ -61,11 +61,6 @@ class TaskerMyAwardedBidSummary extends React.Component {
     if (!displayStatus || !bidAmount || !_id) {
       return <div>TaskerMyAwardedBidSummary is missing properties</div>;
     }
-    // xxx get currency from processed payment
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    if (!bidValue || !bidCurrency) {
-      return <div>TaskerMyAwardedBidSummary is missing properties</div>;
-    }
 
     const { proposerConfirmed, bidderConfirmed } = jobCompletion;
 

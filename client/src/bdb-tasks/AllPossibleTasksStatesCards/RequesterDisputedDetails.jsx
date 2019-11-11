@@ -53,11 +53,6 @@ export default class RequesterDisputedDetails extends React.Component {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
-    // xxxx get currency from processed payment
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    if (!bidValue || !bidCurrency) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
     const { displayName: taskerDisplayName } = _bidderRef;
     if (!taskerDisplayName) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);

@@ -49,25 +49,18 @@ export default class RequesterCanceledByTaskerDetails extends React.Component {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
-    const { bidAmount, _bidderRef } = _awardedBidRef;
-    if (!bidAmount || !_bidderRef) {
+    const { _bidderRef } = _awardedBidRef;
+    if (!_bidderRef) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
     // xxxx get currency from processed payment
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    if (!bidValue || !bidCurrency) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
+
     const { displayName: taskerDisplayName } = _bidderRef;
     if (!taskerDisplayName) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
-    const { displayName: ownerDisplayName } = _ownerRef;
-    if (!ownerDisplayName) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
@@ -92,7 +85,7 @@ export default class RequesterCanceledByTaskerDetails extends React.Component {
               )}
             />
 
-            <CancelledBy name={`Tasker ${_bidderRef.displayName}`} refundAmount={100} />
+            <CancelledBy name={`Tasker ${taskerDisplayName}`} refundAmount={100} />
             <div className="group has-text-left">
               <label className="label">What you need to know:</label>
               <ul>

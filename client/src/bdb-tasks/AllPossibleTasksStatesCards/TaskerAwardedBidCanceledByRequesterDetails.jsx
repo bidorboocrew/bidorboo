@@ -16,7 +16,7 @@ import {
   UserGivenTitle,
 } from '../../containers/commonComponents';
 import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
-
+import { getChargeDistributionDetails } from '../../containers/commonUtils';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
@@ -44,6 +44,8 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
       return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
     }
 
+    const { taskerPayoutInCaseOfPartialRefund } = getChargeDistributionDetails(bidValue);
+
     return (
       <div
         style={{ border: '1px solid #ee2a36' }}
@@ -70,7 +72,7 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
                   seriously
                 </li>
                 <li>
-                  You will <strong>be paid ~ ${Math.floor(bidValue * 0.1)}</strong> for your
+                  You will <strong>be paid ${taskerPayoutInCaseOfPartialRefund}</strong> for your
                   commitment with us.
                 </li>
                 <li>
