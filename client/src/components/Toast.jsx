@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import ReactTimeout from 'react-timeout';
 
 const toastDisplayDuration = 3000;
+const errorToastDisplayDuration = 10000;
 
 class Toast extends React.Component {
   static propTypes = {
@@ -72,10 +73,13 @@ class Toast extends React.Component {
       { 'is-danger': type === 'error' },
     );
     //force it to go off in 3 secs unelss if you are a error toast . we leave you forever
-    if (displayToast && type !== 'error' && !shouldRemoveOldToast) {
-      this.props.setTimeout(() => {
-        this.autoCloseToast();
-      }, toastDisplayDuration);
+    if (displayToast && !shouldRemoveOldToast) {
+      this.props.setTimeout(
+        () => {
+          this.autoCloseToast();
+        },
+        type !== 'error' ? toastDisplayDuration : errorToastDisplayDuration,
+      );
     }
     if (shouldRemoveOldToast) {
       this.props.setTimeout(() => {
@@ -105,16 +109,32 @@ class Toast extends React.Component {
 
           {msg && typeof msg === 'string' ? msg : JSON.stringify(msg)}
           {displayToast && type === 'error' && (
-            <button
-              style={{ marginLeft: 6 }}
-              className="button is-small is-dark"
-              onClick={() => window.location.reload()}
-            >
-              <span className="icon">
-                <i className="fas fa-redo" />
-              </span>
-              <span>Reload</span>
-            </button>
+            <>
+              <button
+                style={{ marginLeft: 6 }}
+                className="button is-small is-dark"
+                onClick={() => window.location.reload()}
+              >
+                <span className="icon">
+                  <i className="fas fa-redo" />
+                </span>
+                <span>Reload</span>
+              </button>
+              <button
+                style={{ marginLeft: 8 }}
+                className="button is-info is-small"
+                onClick={() => {
+                  if (!window.fcWidget.isOpen()) {
+                    window.fcWidget.open();
+                  }
+                }}
+              >
+                <span className="icon">
+                  <i className="far fa-comment-dots" />
+                </span>
+                <span>Support</span>
+              </button>
+            </>
           )}
           {displayToast && type === 'error' && (
             <button

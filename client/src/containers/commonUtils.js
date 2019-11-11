@@ -48,37 +48,38 @@ const STRIPE_STATIC_CUT_ON_EACH_PAYOUT = 0.25; //cent
 const BIDORBOO_REFUND_AMOUNT = 0.8;
 
 export const getChargeDistributionDetails = (totalBidAmountInDollars) => {
+
   const bidOrBooChargeOnRequester = BIDORBOO_SERVICECHARGE_FOR_REQUESTER * totalBidAmountInDollars;
   const requesterTotalPayment = Math.ceil(bidOrBooChargeOnRequester + totalBidAmountInDollars);
 
   const bidOrBooPlatformFee = Math.ceil(requesterTotalPayment * BIDORBOO_SERVICECHARGE_TOTAL);
 
   // amount stripe will take on every checkout
-  const stripeCheckoutProcessingFee =
-    requesterTotalPayment * STRIPE_PERCENT_CUT_ON_EACH_CHECKOUT +
-    STRIPE_STATIC_CUT_ON_EACH_CHECKOUT;
+  // const stripeCheckoutProcessingFee =
+  //   requesterTotalPayment * STRIPE_PERCENT_CUT_ON_EACH_CHECKOUT +
+  //   STRIPE_STATIC_CUT_ON_EACH_CHECKOUT;
 
-  const leftOverMoney = requesterTotalPayment - bidOrBooPlatformFee - stripeCheckoutProcessingFee;
+  const leftOverMoney = requesterTotalPayment - bidOrBooPlatformFee;
 
   // amount stripe will take on every payout
   const stripePayoutToTaskerProcessingFee =
-    leftOverMoney * STRIPE_PERCENT_CUT_ON_EACH_PAYOUT + STRIPE_STATIC_CUT_ON_EACH_PAYOUT;
+    (leftOverMoney * STRIPE_PERCENT_CUT_ON_EACH_PAYOUT + STRIPE_STATIC_CUT_ON_EACH_PAYOUT).toFixed(2);
 
   const taskerTotalPayoutAmount = leftOverMoney - stripePayoutToTaskerProcessingFee;
 
-  const requesterPartialRefundAmount = BIDORBOO_REFUND_AMOUNT * totalBidAmountInDollars;
+  const requesterPartialRefundAmount = BIDORBOO_REFUND_AMOUNT * requesterTotalPayment;
   const amountRefundedFromApplicationFee = BIDORBOO_REFUND_AMOUNT * bidOrBooPlatformFee;
   const actualKeptBidOrBooApplicationFees = bidOrBooPlatformFee - amountRefundedFromApplicationFee;
 
   const taskerPayoutInCaseOfPartialRefund =
     requesterTotalPayment - requesterPartialRefundAmount - actualKeptBidOrBooApplicationFees;
   return {
-    requesterTotalPayment: requesterTotalPayment,
-    bidOrBooPlatformFee: bidOrBooPlatformFee,
-    taskerTotalPayoutAmount: taskerTotalPayoutAmount,
-    stripeCheckoutProcessingFee: stripeCheckoutProcessingFee,
-    stripePayoutToTaskerProcessingFee: stripePayoutToTaskerProcessingFee,
-    taskerPayoutInCaseOfPartialRefund: taskerPayoutInCaseOfPartialRefund,
-    requesterPartialRefundAmount: requesterPartialRefundAmount,
+    requesterTotalPayment: Math.ceil(requesterTotalPayment),
+    // bidOrBooPlatformFee: bidOrBooPlatformFee,
+    taskerTotalPayoutAmount: Math.floor(taskerTotalPayoutAmount),
+    // stripeCheckoutProcessingFee: stripeCheckoutProcessingFee,
+    // stripePayoutToTaskerProcessingFee: stripePayoutToTaskerProcessingFee,
+    taskerPayoutInCaseOfPartialRefund: Math.floor(taskerPayoutInCaseOfPartialRefund),
+    requesterPartialRefundAmount: Math.floor(requesterPartialRefundAmount),
   };
 };

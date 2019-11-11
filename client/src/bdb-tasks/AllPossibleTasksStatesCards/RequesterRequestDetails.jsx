@@ -224,7 +224,7 @@ class RequesterRequestDetails extends React.Component {
                 </React.Fragment>
               )}
               <Collapse isOpened={showMore}>
-                <div className="has-text-left">
+                <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
                   {extras && extras.destinationText && (
                     <DestinationAddressValue

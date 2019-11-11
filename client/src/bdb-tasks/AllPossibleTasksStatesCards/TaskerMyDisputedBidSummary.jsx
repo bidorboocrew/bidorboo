@@ -3,7 +3,15 @@ import { Collapse } from 'react-collapse';
 
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { CountDownComponent, StartDateAndTime } from '../../containers/commonComponents';
+import {
+  UserGivenTitle,
+  JobCardTitle,
+  CountDownComponent,
+  StartDateAndTime,
+  TaskImagesCarousel,
+  SummaryStartDateAndTime,
+  DisputedBy,
+} from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
@@ -25,13 +33,24 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
       return <div>TaskerMyDisputedBidSummary is missing properties</div>;
     }
 
-    const { startingDateAndTime, addressText, isPastDue, isHappeningSoon, isHappeningToday } = job;
+    const {
+      _ownerRef,
+      startingDateAndTime,
+      addressText,
+      isPastDue,
+      isHappeningSoon,
+      isHappeningToday,
+      taskImages = [],
+      jobTitle,
+      jobCompletion,
+    } = job;
     if (
       !startingDateAndTime ||
       !addressText ||
       isHappeningSoon === 'undefined' ||
       isHappeningToday === 'undefined' ||
-      isPastDue === 'undefined'
+      isPastDue === 'undefined' ||
+      !jobCompletion
     ) {
       return <div>TaskerMyDisputedBidSummary is missing properties</div>;
     }
@@ -49,50 +68,31 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
       return <div>TaskerMyDisputedBidSummary is missing properties</div>;
     }
 
+    let whoDisputed = '';
+    const { displayName } = _ownerRef;
+    const { bidderDisputed, proposerDisputed } = jobCompletion;
+    debugger
+    if (proposerDisputed) {
+      whoDisputed = displayName;
+    } else {
+      whoDisputed = 'You';
+    }
     return (
-      <div className={`card disputeOnlyView limitWidthOfCard`}>
+      <div className={`card has-text-centered disputeOnlyView cardWithButton`}>
         <div className="card-content">
           <div className="content">
-            <div style={{ display: 'flex' }}>
-              <div style={{ flexGrow: 1 }} className="is-size-4 has-text-weight-bold">
-                <span className="icon">
-                  <i className={ICON} />
-                </span>
-                <span style={{ marginLeft: 4 }}>{TITLE}</span>
-              </div>
-            </div>
-            <div
-              style={{
-                backgroundColor: ' whitesmoke',
-                border: 'none',
-                display: 'block',
-                height: 2,
-                margin: '0.5rem 0',
-              }}
-              className="navbar-divider"
-            />
+            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <UserGivenTitle userGivenTitle={jobTitle} />
 
-            <div className="group">
-              <label className="label">Request Status</label>
-              <div className="control has-text-danger">Disputed</div>
-              <div className="help">* BidorBooCrew will resolve this asap</div>
-            </div>
+            <TaskImagesCarousel taskImages={taskImages} />
 
-            <div className="group">
-              <label className="label hasSelectedValue">My Bid</label>
-              <div className={`has-text-danger`}>${bidValue}</div>
-              <div className="help">* on hold until our support team resolves this</div>
-            </div>
-            <StartDateAndTime
-              date={startingDateAndTime}
-              renderHelpComponent={() => (
-                <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
-              )}
-            />
+            <SummaryStartDateAndTime date={startingDateAndTime} />
+
+            <DisputedBy name={whoDisputed} />
           </div>
         </div>
 
-        <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+        <div className="centeredButtonInCard">
           <a
             style={{ position: 'relative' }}
             onClick={() => {

@@ -193,7 +193,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                     <span className="icon">
                       <i className="far fa-trash-alt" />
                     </span>
-                    <span>Cancel Appointment</span>
+                    <span>Cancel this task</span>
                   </button>
                 </footer>
               </div>
@@ -242,7 +242,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                             <span className="icon">
                               <i className="far fa-frown" aria-hidden="true" />
                             </span>
-                            <span>File A Dispute</span>
+                            <span>File a dispute</span>
                           </a>
                           <hr className="dropdown-divider" />
                           <a
@@ -273,7 +273,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
               <AssignedTasker displayName={_awardedBidRef._bidderRef.displayName} />
 
               <Collapse isOpened={showMore}>
-                <div className="has-text-left">
+                <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
                   <TaskCost cost={requesterPayAmount} />
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
 
@@ -466,7 +466,7 @@ class RequesterDisputes extends React.Component {
               <div onClick={closeDisputeModal} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <div className="modal-card-title">File A Dispute</div>
+                  <div className="modal-card-title">File a dispute</div>
                 </header>
                 <section className="modal-card-body">
                   <div>Don't you worry , BidOrBooCrew will work on resolving this ASAP</div>
@@ -539,6 +539,27 @@ class RequesterDisputes extends React.Component {
                       }}
                     />
                   </div>
+                  <div className="help">
+                    * BidOrBoo Support will confirm all these details and will get in touch with the
+                    Tasker to resolve this issue
+                  </div>
+                  <div className="help">
+                    * Alternatively you can chat with our customer support:
+                  </div>
+                  <button
+                    className="button is-success is-small"
+                    onClick={() => {
+                      if (!window.fcWidget.isOpen()) {
+                        this.toggleModal();
+                        window.fcWidget.open();
+                      }
+                    }}
+                  >
+                    <span className="icon">
+                      <i className="far fa-comment-dots" />
+                    </span>
+                    <span>Chat with support</span>
+                  </button>
                 </section>
                 <footer className="modal-card-foot">
                   <button onClick={closeDisputeModal} className="button is-outline">
@@ -557,7 +578,7 @@ class RequesterDisputes extends React.Component {
                     }
                     className="button is-danger"
                   >
-                    File My Dispute
+                    Submit dispute
                   </button>
                 </footer>
               </div>
@@ -610,47 +631,44 @@ class AssignedTaskerDetails extends React.Component {
             </div>
 
             <p>Get in touch to finalize exact details like location to meet, date and time, etc</p>
+            <div style={{ textAlign: 'center' }}>
+              <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large isCentered />
 
-            <CenteredUserImageAndRating
-              userDetails={otherUserProfileInfo}
-              large
-              isCentered={false}
-            />
-
-            <div style={{ marginBottom: '2rem' }}>
-              <div className="group">
-                <div style={{ fontWeight: 500, fontSize: 16 }}>
-                  <div>
-                    <a
-                      href={`mailto:${emailAddress}?subject=BidOrBoo - I requested your service and reaching out to agree on meeting time and details`}
-                    >
-                      <span className="icon">
-                        <i className="far fa-envelope" />
-                      </span>
-                      <span>{emailAddress}</span>
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      href={`sms://${phoneNumber}?body=Hello%20I%20assigned%20you%20a%20task%20from%20BidOrBoo%20and%20am%20reaching%20out%20to%20agree%20on%20meeting%20time%20and%20details`}
-                    >
-                      <span className="icon">
-                        <i className="fas fa-sms" />
-                      </span>
-                      <span>{phoneNumber}</span>
-                    </a>
-                  </div>
-                  <div>
-                    <a href={`tel:${phoneNumber}`}>
-                      <span className="icon">
-                        <i className="fas fa-mobile-alt" />
-                      </span>
-                      <span>{phoneNumber}</span>
-                    </a>
+              <div style={{ marginBottom: '2rem' }}>
+                <div className="group">
+                  <div style={{ fontWeight: 500, fontSize: 16 }}>
+                    <div>
+                      <a
+                        href={`mailto:${emailAddress}?subject=BidOrBoo - I requested your service and reaching out to agree on meeting time and details`}
+                      >
+                        <span className="icon">
+                          <i className="far fa-envelope" />
+                        </span>
+                        <span>{emailAddress}</span>
+                      </a>
+                    </div>
+                    <div>
+                      <a
+                        href={`sms://${phoneNumber}?body=Hello%20I%20assigned%20you%20a%20task%20from%20BidOrBoo%20and%20am%20reaching%20out%20to%20agree%20on%20meeting%20time%20and%20details`}
+                      >
+                        <span className="icon">
+                          <i className="fas fa-sms" />
+                        </span>
+                        <span>{phoneNumber}</span>
+                      </a>
+                    </div>
+                    <div>
+                      <a href={`tel:${phoneNumber}`}>
+                        <span className="icon">
+                          <i className="fas fa-mobile-alt" />
+                        </span>
+                        <span>{phoneNumber}</span>
+                      </a>
+                    </div>
                   </div>
                 </div>
+                {renderAddToCalendar && renderAddToCalendar()}
               </div>
-              {renderAddToCalendar && renderAddToCalendar()}
               <br />
             </div>
             <div style={{ background: 'transparent' }} className="tabs is-centered">
@@ -665,7 +683,7 @@ class AssignedTaskerDetails extends React.Component {
                 </li>
               </ul>
             </div>
-            {renderActionButton && renderActionButton()}
+            <div style={{ textAlign: 'center' }}>{renderActionButton && renderActionButton()}</div>
           </div>
         </div>
       </div>

@@ -241,7 +241,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
               )}
 
               <Collapse isOpened={showMore}>
-                <div className="has-text-left">
+                <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
                   <BidAmount bidAmount={bidValue}></BidAmount>
                   <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
                   <div className="group">

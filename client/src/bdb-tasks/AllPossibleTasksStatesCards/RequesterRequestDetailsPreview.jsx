@@ -68,7 +68,7 @@ export default class RequesterRequestDetailsPreview extends React.Component {
               ></DestinationAddressValue>
             )}
             <Collapse isOpened={showMore}>
-              <div className="has-text-left">
+              <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
                 <TaskSpecificExtras templateId={ID} extras={extras} />
                 <div className="group">
                   <label className="label hasSelectedValue">Detailed Description</label>

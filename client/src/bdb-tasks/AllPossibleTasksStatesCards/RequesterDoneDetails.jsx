@@ -129,7 +129,7 @@ class RequesterDoneDetails extends RequestBaseContainer {
               {requiresProposerReview && <TaskIsFulfilled />}
 
               <Collapse isOpened={showMore}>
-                <div className="has-text-left">
+                <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
                   <TaskCost cost={requesterPayAmount} />
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
                   {extras && extras.destinationText && (
