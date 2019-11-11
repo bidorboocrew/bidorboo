@@ -142,6 +142,7 @@ export const TextAreaInput = ({
   return (
     <div className={`group ${error ? 'isError' : ''}`}>
       <label className={inputStateClass}>{label}</label>
+      {startWithTemplateButton && startWithTemplateButton}
       <div>
         <textarea
           style={{ resize: 'none', height: 'unset', minHeight: 150 }}
@@ -154,7 +155,6 @@ export const TextAreaInput = ({
           {...props}
         />
       </div>
-      {startWithTemplateButton && startWithTemplateButton}
       <HelpText helpText={helpText} />
       {error && <InputFeedback error={error} />}
     </div>

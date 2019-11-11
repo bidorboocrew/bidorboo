@@ -17,17 +17,24 @@ exports.getChargeDistributionDetails = (totalBidAmountInDollars) => {
   const bidOrBooPlatformFee = Math.ceil(requesterTotalPayment * BIDORBOO_SERVICECHARGE_TOTAL);
 
   // amount stripe will take on every checkout
-  const stripeCheckoutProcessingFee =
+  const stripeCheckoutProcessingFee = (
     requesterTotalPayment * STRIPE_PERCENT_CUT_ON_EACH_CHECKOUT +
-    STRIPE_STATIC_CUT_ON_EACH_CHECKOUT;
+    STRIPE_STATIC_CUT_ON_EACH_CHECKOUT
+  ).toFixed(2);
 
-  const leftOverMoney = requesterTotalPayment - bidOrBooPlatformFee - stripeCheckoutProcessingFee;
+  const leftOverMoney = (
+    requesterTotalPayment -
+    bidOrBooPlatformFee -
+    stripeCheckoutProcessingFee
+  ).toFixed(2);
 
   // amount stripe will take on every payout
-  const stripePayoutToTaskerProcessingFee =
-    leftOverMoney * STRIPE_PERCENT_CUT_ON_EACH_PAYOUT + STRIPE_STATIC_CUT_ON_EACH_PAYOUT;
+  const stripePayoutToTaskerProcessingFee = (
+    leftOverMoney * STRIPE_PERCENT_CUT_ON_EACH_PAYOUT +
+    STRIPE_STATIC_CUT_ON_EACH_PAYOUT
+  ).toFixed(2);
 
-  const taskerTotalPayoutAmount = leftOverMoney - stripePayoutToTaskerProcessingFee;
+  const taskerTotalPayoutAmount = (leftOverMoney - stripePayoutToTaskerProcessingFee).toFixed(2);
 
   return {
     requesterTotalPayment: requesterTotalPayment * 100,

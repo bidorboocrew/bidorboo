@@ -335,7 +335,7 @@ Q2)Will the tasker be required to move heavy items (couch-beds-fridge) ?
             <React.Fragment key={'extras-equipmentProvider'}>
               <div className={`group ${isTouched && errors.equipmentProvider ? 'isError' : ''}`}>
                 <label className={equipmentProviderClass}>
-                  {'Should tasker bring Vaccum/Mob?'}
+                  {'Should tasker bring Vaccum/Mop?'}
                 </label>
                 <div>
                   <div className={`select ${equipmentProviderClass}`}>
