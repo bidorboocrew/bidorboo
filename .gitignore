@@ -24,7 +24,7 @@ yarn-error.log*
 
 
 #private
-# /server/config/dev.js
+/server/config/dev.js
 
 /client/src/**/*.css
 
