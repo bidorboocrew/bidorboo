@@ -71,7 +71,6 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
     let whoDisputed = '';
     const { displayName } = _ownerRef;
     const { bidderDisputed, proposerDisputed } = jobCompletion;
-    debugger
     if (proposerDisputed) {
       whoDisputed = displayName;
     } else {

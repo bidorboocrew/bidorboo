@@ -85,11 +85,7 @@ export default class RequesterDisputedDetails extends React.Component {
             <div className="group has-text-left">
               <label className="label has-text-danger">What you need to know:</label>
               <ul>
-                <li>
-                  <strong>
-                    BidorBooCrew will assess the dispute asap to ensure your satisfaction
-                  </strong>
-                </li>
+                <li>BidorBooCrew will assess the dispute asap to ensure your satisfaction</li>
                 <li>
                   Our customer relation team will be in touch with tasker and requester to gather
                   facts
