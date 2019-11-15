@@ -35,20 +35,17 @@ exports.EmailService = {
     const msg = {
       to,
       from: 'bidorboocrew@bidorboo.com',
-      subject: `Your ${taskName} request has recieved a new bid`,
-      text: `Exciting news! Your ${taskName} request has recieved a new bid. Check the bids and award a Tasker when the price is right`,
+      subject: `Your ${taskName} request has received a new bid`,
+      text: `Exciting news! Your ${taskName} request has received a new bid. Check the bids and award a Tasker`,
       html: populateNewBidHtmlTemplate({
         toDisplayName: toDisplayName || to,
-        contentHtml: `${taskName}`,
+        contentHtml: `
+        <p>Exciting news! Your ${taskName} request has received a new bid.
+        Check the bids and award a Tasker</p>`,
         clickLink,
         clickDisplayName: 'View The Bid',
       }),
     };
-    // function(error, response) {
-    //   console.log(response.statusCode);
-    //   console.log(response.body);
-    //   console.log(response.headers);
-    // }
 
     sgMail.send(msg).catch((e) => {
       console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
@@ -66,25 +63,25 @@ exports.EmailService = {
     const msg = {
       to,
       from: 'bidorboocrew@bidorboo.com',
-      subject: `BidOrBoo: ${requestTitle} is Happening Soon !`,
+      subject: `Task reminder: you have an upcoming ${requestTitle} task!`,
       text: `
-        This is an automated reminder for your upcoming scheduled ${requestTitle}.
-        To get in touch with your task owner feel free to contact them on:
-        email address : ${ownerEmailAddress}
-        phone number : ${ownerPhoneNumber}
-        for reference here is the link to your task ${linkForBidder}
+        This is an automated reminder for your upcoming ${requestTitle} task.
+        Get in touch with your task owner if you haven't already.
+        Email address: ${ownerEmailAddress}
+        Phone number: ${ownerPhoneNumber}
+        View Request Details: ${linkForBidder}
      `,
 
       html: populateJobUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `
-        <p>This is an automated reminder for your upcoming scheduled ${requestTitle} task.</p>
-        <p>To get in touch with your task owner feel free to contact them on:</p>
+        <p>This is an automated reminder for your upcoming ${requestTitle} task.</p>
+        <p>Get in touch with your task owner if you haven't already.</p>
         <div>
-        <strong>email address:</strong> <a href="mailto:${ownerEmailAddress}?subject=BidOrBoo - Iam your tasker for ${requestTitle}">${ownerEmailAddress}</a>
+        <strong>Email address:</strong> <a href="mailto:${ownerEmailAddress}?subject=BidOrBoo - Iam your tasker for ${requestTitle}">${ownerEmailAddress}</a>
         </div>
         <div>
-        <strong>phone number:</srtong> <a href="tel:${ownerPhoneNumber}">${ownerPhoneNumber}</a>
+        <strong>Phone number:</srtong> <a href="tel:${ownerPhoneNumber}">${ownerPhoneNumber}</a>
         </div>`,
         clickLink: `${linkForBidder}`,
         clickDisplayName: 'View Request Details',
@@ -100,6 +97,7 @@ exports.EmailService = {
       console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
     });
   },
+  // ============Hanan to continue here
 
   sendNewJobInYourAreaNotification: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
     const msg = {
