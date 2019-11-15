@@ -105,7 +105,8 @@ class GeoSearch extends React.Component {
             })}
           </div>
           {autoDetectComponent && autoDetectComponent(value)}
-          {!autoDetectComponent && helpText && <p className="help">{helpText}</p>}
+          {/* {!autoDetectComponent && helpText && <p className="help">{helpText}</p>} */}
+          {helpText && <div className="help">{helpText}</div>}
           {touched && error && (
             <div style={{ fontWeight: 500 }} className="help is-danger">
               {error}

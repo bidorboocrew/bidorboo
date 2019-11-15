@@ -13,8 +13,10 @@ export default {
   isComingSoon: false,
   DESCRIPTION: `Do you need someone to care for your pet while you are vacationing or just on a night out?
   Leave your pet in the gentle care of our pet loving Taskers.`,
-  SUGGESTION_TEXT: `Q1)What kind/breed of pet ?
-[Answer here:   ]
+  SUGGESTION_TEXT: `Q1) What kind or breed of pet do you have?
+[Answer here:  ]
+Q2) Anything else you want to highlight for the Tasker?
+[Answer here:  ]
 `,
   defaultExtrasValues: {
     duration: '',
@@ -98,8 +100,7 @@ export default {
                 )}
                 {!withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
-                    BidOrBoo Tasker will watch over, feed, walk and entertain your pet in accordance
-                    to your request and guidelines.
+                    Taskers will watch over, feed, walk and care for your pet while you are away.
                   </p>
                 )}
               </div>
@@ -126,7 +127,7 @@ export default {
                 type="text"
                 label="Service duration"
                 helpText="How long do you need the Tasker to take care of your pet?"
-                placeholder={'for example: 3 hours , 3 days , 1 week , until 1/10/2021 ..,etc'}
+                placeholder={'3 hours, 4 days, 1 week, etc.'}
                 error={touched.duration && errors.duration}
                 value={values.duration || ''}
                 onChange={handleChange}
@@ -163,7 +164,7 @@ export default {
                 }`}
               >
                 <label className={isRequesterHostingClass}>
-                  Where will the pet stay during this service?
+                  Where will the pet stay?
                 </label>
                 <div>
                   <div id="isRequesterHosting" className={`select ${isRequesterHostingClass} `}>
@@ -174,20 +175,20 @@ export default {
                       onBlur={handleBlur}
                     >
                       <option value="noSelection">-Select One-</option>
-                      <option value="ownersPlace">{`At My place`}</option>
+                      <option value="ownersPlace">{`At my place`}</option>
                       <option value="taskersPlace">{`At Tasker's place`}</option>
-                      <option value="decideLater">{`Unsure - decide later`}</option>
+                      <option value="decideLater">{`Unsure, will decide later`}</option>
                     </select>
                     {isTouched && errors.isRequesterHosting && (
                       <div className="help is-danger">{errors.isRequesterHosting}</div>
                     )}
                     {values.isRequesterHosting === 'ownersPlace' && (
                       <div className="help">
-                        Tasker will come to your home and take care/check on the pet
+                        Tasker will come to your home and take care of your pet
                       </div>
                     )}
                     {values.isRequesterHosting === 'taskersPlace' && (
-                      <div className="help">Your pet will be in the caring home of our Tasker</div>
+                      <div className="help">Your pet will be in the caring home of the Tasker</div>
                     )}
                   </div>
                 </div>
@@ -243,7 +244,7 @@ export default {
           return (
             <React.Fragment key={'extras-requiresWalking'}>
               <div className={`group ${isTouched && errors.requiresWalking ? 'isError' : ''}`}>
-                <label className={requiresWalkingClass}>{'does the pet need outdoor walks?'}</label>
+                <label className={requiresWalkingClass}>{'Does the pet need outdoor walks?'}</label>
                 <div>
                   <div id="requiresWalking" className={`select ${requiresWalkingClass} `}>
                     <select
@@ -277,7 +278,7 @@ export default {
           }
           return (
             <div key={'extras-requiresWalking'} className="group">
-              <label className="label hasSelectedValue">Can the pet go outdoors?</label>
+              <label className="label hasSelectedValue">Can the pet play outdoors?</label>
               <div className="control">{selectedValue}</div>
             </div>
           );
@@ -290,9 +291,9 @@ export default {
               <TextAreaInput
                 id="dietaryRestrictions"
                 type="text"
-                label="Disclose any dietary restrictions, medical or special needs"
-                helpText={`Type "None" or leave this empty if your pet doesn't need any`}
-                placeholder={'enter any dietary restrictions or medical needs for your pet...'}
+                label="Any dietary restrictions, medical, or special needs?"
+                helpText={`*Type "None" or leave this empty if your pet doesn't need any`}
+                placeholder={'Disclose here...'}
                 error={touched.dietaryRestrictions && errors.dietaryRestrictions}
                 value={values.dietaryRestrictions || ''}
                 onChange={handleChange}

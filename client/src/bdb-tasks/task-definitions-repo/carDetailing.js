@@ -12,11 +12,11 @@ export default {
   IMG: carDetailing_img,
   isComingSoon: true,
   DESCRIPTION: `Your car deserves some love. let our Taskers pamper your car and give it a scrub`,
-  SUGGESTION_TEXT: `Q1)What Year Make and model is your car?
+  SUGGESTION_TEXT: `Q1) What Year Make and model is your car?
 [Answer here:   ]
-Q2)Is there any pet stains or hair on the seats ?
+Q2) Is there any pet stains or hair on the seats?
 [Answer here:   ]
-Q3)Any particular stains or dirt that you want to mention?
+Q3) Any particular stains or dirt that you want to mention?
 [Answer here:   ]
 `,
   TASK_EXPECTATIONS: `BidOrBoo Tasker will bring the cleaning products and equipments required to clean your car thouroughally`,

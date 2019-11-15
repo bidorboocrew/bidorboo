@@ -246,7 +246,7 @@ class GenericRequestForm extends React.Component {
               {enableImageUploadField && (
                 <div className="group">
                   <label className={`label ${hasAtLeastOneTaskImg ? 'hasSelectedValue' : ''}`}>
-                    Upload Images <span className="has-text-grey-lighter">(Optional)</span>
+                    Upload images <span className="has-text-grey-lighter">(Optional)</span>
                   </label>
 
                   <ImageUploaderButton
@@ -270,7 +270,7 @@ class GenericRequestForm extends React.Component {
               <TextInput
                 id="jobTitle"
                 type="text"
-                label="Task Title"
+                label="Task title"
                 placeholder={'Enter a title...'}
                 error={touched.jobTitle && errors.jobTitle}
                 value={values.jobTitle || ''}
@@ -299,9 +299,9 @@ class GenericRequestForm extends React.Component {
               <GeoAddressInput
                 id="geoInputField"
                 type="text"
-                helpText={'You must select an address from the drop down menu'}
-                label="Location"
-                placeholder="start typing an address"
+                helpText={'*Your exact address will be shared with the awarded Tasker only.'}
+                label="Address"
+                placeholder="Start typing an address..."
                 autoDetectComponent={this.shouldShowAutodetectControl}
                 error={errors.addressText || errors.location}
                 touched={touched.addressText || touched.location}
@@ -382,13 +382,13 @@ class GenericRequestForm extends React.Component {
               <DateInput
                 id="DateInputField"
                 type="text"
-                label="Starting date"
+                label="Task date"
                 onChangeEvent={this.updateDateInputFieldValue}
                 error={errors.startingDateAndTime}
                 touched={touched.startingDateAndTime}
               />
               <div className={`group ${touched.timeOfDay && errors.timeOfDay ? 'isError' : ''}`}>
-                <label className={timeOfDayClass}>{'Preferred starting time'}</label>
+                <label className={timeOfDayClass}>{'Preferred time'}</label>
                 <div>
                   <div className={`select ${timeOfDayClass}`}>
                     <select
@@ -416,7 +416,7 @@ class GenericRequestForm extends React.Component {
               <TextAreaInput
                 id="detailedDescription"
                 type="text"
-                label="Additional Instructions"
+                label="Additional instructions"
                 startWithTemplateButton={
                   <div
                     onClick={this.insertTemplateText}
@@ -429,11 +429,11 @@ class GenericRequestForm extends React.Component {
                     <span className="icon">
                       <i className="fas fa-pen" />
                     </span>
-                    <span>or click to answer our FAQs</span>
+                    <span>or click to answer our sample questions</span>
                   </div>
                 }
                 placeholder={
-                  'Type in any extra instructions to help the Tasker perform the task to your satisfaction'
+                  'Type in any additional or special instructions to help the Tasker perform the task to your satisfaction'
                 }
                 error={touched.detailedDescription && errors.detailedDescription}
                 value={values.detailedDescription || ''}

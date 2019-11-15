@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -202,7 +201,7 @@ class Header extends React.Component {
                     switchRoute(ROUTES.CLIENT.HOME);
                   });
                 }}
-                style={{ fontSize: 24, cursor: 'pointer' }}
+                style={{ fontSize: 24, cursor: 'pointer', marginLeft: 4 }}
                 className="is-hidden-touch"
               >
                 <span style={{ color: '#ee2a36', fontWeight: 500 }}>B</span>id
@@ -329,7 +328,7 @@ class Header extends React.Component {
                       switchRoute(ROUTES.CLIENT.HOME);
                     });
                   }}
-                  style={{ fontSize: 24 }}
+                  style={{ fontSize: 24, cursor: 'pointer', marginLeft: 4 }}
                   className="is-hidden-touch"
                 >
                   <span style={{ color: '#ee2a36', fontWeight: 500 }}>B</span>id
@@ -845,9 +844,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(Header),
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

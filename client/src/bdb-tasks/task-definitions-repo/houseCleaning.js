@@ -10,10 +10,12 @@ export default {
   IMG: houseCleaning_img,
   isComingSoon: false,
   DESCRIPTION: `Does your home need cleaning? Book one of our clean freak Taskers to take care of it!`,
-  SUGGESTION_TEXT: `Q1)Do you have pets in the house?
+  SUGGESTION_TEXT: `Q1) Do you have pets in the house?
 [Answer here:   ]
-Q2)Will the tasker be required to move heavy items (couch-beds-fridge) ?
+Q2) Will the Tasker be required to move heavy items (couch, bed, etc.)?
 [Answer here:   ]
+Q3) Anything else you want to highlight for the Tasker?
+[Answer here: ]
 `,
   defaultExtrasValues: {
     effort: 'noSelection',
@@ -109,8 +111,8 @@ Q2)Will the tasker be required to move heavy items (couch-beds-fridge) ?
                 )}
                 {!withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
-                    BidOrBoo Tasker will bring All purpose cleaning products and equipments required
-                    to clean your house thouroughally.
+                    Taskers will bring all-purpose cleaning products required
+                    to clean your house thoroughly.
                   </p>
                 )}
               </div>
@@ -140,7 +142,7 @@ Q2)Will the tasker be required to move heavy items (couch-beds-fridge) ?
           return (
             <React.Fragment key={'extras-effort'}>
               <div className={`group ${isTouched && errors.effort ? 'isError' : ''}`}>
-                <label className={effortClass}>{'Approximate cleaning duration'}</label>
+                <label className={effortClass}>{'Approximate duration'}</label>
                 <div>
                   <div id="effort" className={`select ${effortClass} `}>
                     <select
@@ -178,7 +180,7 @@ Q2)Will the tasker be required to move heavy items (couch-beds-fridge) ?
           }
           return (
             <div key={'extras-effort'} className="group">
-              <label className="label hasSelectedValue">Task Effort</label>
+              <label className="label hasSelectedValue">Approximate duration</label>
               <div className="control">{selectedValue}</div>
             </div>
           );
@@ -291,7 +293,7 @@ Q2)Will the tasker be required to move heavy items (couch-beds-fridge) ?
           return (
             <React.Fragment key={'extras-basementCleaning'}>
               <div className={`group ${isTouched && errors.basementCleaning ? 'isError' : ''}`}>
-                <label className={basementCleaningClass}>{'Is basement cleaning Required ?'}</label>
+                <label className={basementCleaningClass}>{'Is basement cleaning required?'}</label>
                 <div>
                   <div className={`select ${basementCleaningClass} `}>
                     <select
@@ -316,7 +318,7 @@ Q2)Will the tasker be required to move heavy items (couch-beds-fridge) ?
         renderSelection: (basementCleaning) => {
           return (
             <div key={'extras-basementCleaning'} className="group">
-              <label className="label hasSelectedValue">Basement Cleaning</label>
+              <label className="label hasSelectedValue">Basement cleaning</label>
               <div className="control">{basementCleaning}</div>
             </div>
           );
@@ -335,7 +337,7 @@ Q2)Will the tasker be required to move heavy items (couch-beds-fridge) ?
             <React.Fragment key={'extras-equipmentProvider'}>
               <div className={`group ${isTouched && errors.equipmentProvider ? 'isError' : ''}`}>
                 <label className={equipmentProviderClass}>
-                  {'Should tasker bring Vaccum/Mop?'}
+                  {'Should Tasker bring cleaning equipment (vacuum, mop, etc.)?'}
                 </label>
                 <div>
                   <div className={`select ${equipmentProviderClass}`}>
@@ -346,8 +348,8 @@ Q2)Will the tasker be required to move heavy items (couch-beds-fridge) ?
                       onBlur={handleBlur}
                     >
                       <option value="noSelection">-Select One-</option>
-                      <option value="taskerProvides">Yes (Tasker brings vaccum/mop)</option>
-                      <option value="requesterProvides">No (I will provide them)</option>
+                      <option value="taskerProvides">Yes (Tasker brings equipment)</option>
+                      <option value="requesterProvides">No (I will provide equipment)</option>
                     </select>
                     {isTouched && errors.equipmentProvider && (
                       <div className="help is-danger">{errors.equipmentProvider}</div>
@@ -362,15 +364,15 @@ Q2)Will the tasker be required to move heavy items (couch-beds-fridge) ?
           let valueOfField = '';
           switch (equipmentProvider) {
             case 'taskerProvides':
-              valueOfField = 'Tasker must bring Vaccum/Mop';
+              valueOfField = 'Tasker must bring cleaning equipment (vacuum, mop, etc.)';
               break;
             case 'requesterProvides':
-              valueOfField = 'The requester will provide Vaccum/Mop';
+              valueOfField = 'The requester will provide equipment (vacuum, mop, etc.)';
               break;
           }
           return (
             <div key={'extras-equipmentProvider'} className="group">
-              <label className="label hasSelectedValue">Who will provide vaccum/mop?</label>
+              <label className="label hasSelectedValue">Who will provide cleaning equipments?</label>
               <div className="control">{valueOfField}</div>
             </div>
           );
