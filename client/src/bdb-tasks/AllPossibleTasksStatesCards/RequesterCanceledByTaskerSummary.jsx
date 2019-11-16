@@ -1,4 +1,8 @@
 import React from 'react';
+
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 import {
   CountDownComponent,
   SummaryStartDateAndTime,
@@ -9,14 +13,13 @@ import {
 } from '../../containers/commonComponents';
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
+import { updateJobState } from '../../app-state/actions/jobActions';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
-import { REQUEST_STATES } from '../index';
-
-export default class RequesterCanceledByTaskerSummary extends React.Component {
+class RequesterCanceledByTaskerSummary extends React.Component {
   render() {
-    const { job } = this.props;
+    const { job, updateJobState, notificationFeed } = this.props;
 
     if (!job) {
       return <div>RequesterCanceledByTaskerSummary is missing properties</div>;
@@ -51,6 +54,16 @@ export default class RequesterCanceledByTaskerSummary extends React.Component {
       return <div>RequesterCanceledByTaskerSummary is missing properties</div>;
     }
 
+    let newUnseenState = false;
+    if (notificationFeed && notificationFeed.jobIdsWithNewBids) {
+      for (let i = 0; i < notificationFeed.jobIdsWithNewBids.length; i++) {
+        if (notificationFeed.jobIdsWithNewBids[i]._id === job._id) {
+          newUnseenState = true;
+          break;
+        }
+      }
+    }
+
     return (
       <div
         style={{ border: '1px solid #ee2a36' }}
@@ -76,11 +89,23 @@ export default class RequesterCanceledByTaskerSummary extends React.Component {
         <React.Fragment>
           <div className="centeredButtonInCard">
             <a
-              onClick={() => {
+              style={{ position: 'relative' }}
+              onClick={(e) => {
+                e.preventDefault();
+                newUnseenState && updateJobState(job._id, 'AWARDED_JOB_CANCELED_BY_BIDDER_SEEN');
+
                 switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
               }}
               className="button is-danger"
             >
+              {newUnseenState && (
+                <div
+                  style={{ position: 'absolute', top: -5, right: 0, fontSize: 10 }}
+                  className="has-text-danger"
+                >
+                  <i className="fas fa-circle" />
+                </div>
+              )}
               VIEW DETAILS
             </a>
           </div>
@@ -89,3 +114,16 @@ export default class RequesterCanceledByTaskerSummary extends React.Component {
     );
   }
 }
+
+const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
+  return {
+    notificationFeed: uiReducer.notificationFeed,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateJobState: bindActionCreators(updateJobState, dispatch),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(RequesterCanceledByTaskerSummary);

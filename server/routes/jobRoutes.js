@@ -149,7 +149,24 @@ module.exports = (app) => {
       }
     }
   );
+  app.put(ROUTES.API.JOB.PUT.updateJobState, requireLogin, async (req, res, done) => {
+    try {
+      // create new job for this user
+      const data = req.body.data;
+      const { jobId, newState } = data;
 
+      if (jobId && newState) {
+        await jobDataAccess.updateState(jobId, newState);
+        return res.send({ jobId, success: true });
+      } else {
+        return res.status(400).send({
+          errorMsg: 'Bad Request param jobId was Not Specified',
+        });
+      }
+    } catch (e) {
+      return res.status(400).send({ errorMsg: 'Failed To update Job State', details: `${e}` });
+    }
+  });
   app.post(ROUTES.API.JOB.POST.searchJobs, requireBidorBooHost, async (req, res, done) => {
     try {
       const { searchParams } = req.body.data;

@@ -94,6 +94,7 @@ module.exports = {
         bidderConfirmsJobCompleted: '/api/job/bidderConfirmsJobCompleted',
         proposerDisputeJob: '/api/job/proposerDisputeJob',
         bidderDisputeJob: '/api/job/bidderDisputeJob',
+        updateJobState: '/api/job/updateJobState',
       },
       DELETE: {
         myJobById: '/api/job',

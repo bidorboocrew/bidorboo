@@ -326,10 +326,13 @@ exports.findUserAndAllNewNotifications = async (mongoUserId) => {
         .lean({ virtuals: true })
         .exec();
 
-      let z_notify_jobsWithNewBids =
+      let z_notify_jobsWithNewUnseenState =
         user._postedJobsRef &&
         user._postedJobsRef.filter((job) => {
-          return job.state === 'OPEN' && job._bidsListRef && job._bidsListRef.length > 0;
+          const jobWithNewUnseenBid =
+            job.state === 'OPEN' && job._bidsListRef && job._bidsListRef.length > 0;
+          const jobWithNewStates = job.state === 'AWARDED_JOB_CANCELED_BY_BIDDER';
+          return jobWithNewUnseenBid || jobWithNewStates;
         });
 
       let z_notify_myBidsWithNewStatus =
@@ -415,7 +418,7 @@ exports.findUserAndAllNewNotifications = async (mongoUserId) => {
       user._postedJobsRef = [];
       resolve({
         ...user,
-        z_notify_jobsWithNewBids,
+        z_notify_jobsWithNewUnseenState,
         z_notify_myBidsWithNewStatus,
         // z_track_reviewsToBeFilled,
         // z_track_workToDo,

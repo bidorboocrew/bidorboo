@@ -2,8 +2,24 @@ import * as A from '../actionTypes';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
 import { switchRoute, throwErrorNotification } from '../../utils';
+
 import TASKS_DEFINITIONS from '../../bdb-tasks/tasksDefinitions';
 
+export const updateJobState = (jobId, newState) => (dispatch) => {
+  return dispatch({
+    type: A.JOB_ACTIONS.UPDATE_STATE,
+    payload: axios
+      .put(ROUTES.API.JOB.PUT.updateJobState, {
+        data: {
+          jobId,
+          newState,
+        },
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+};
 export const updateBooedBy = (jobDetails) => (dispatch) =>
   dispatch({
     type: A.JOB_ACTIONS.UPDATE_JOB_BOOED_BY,
