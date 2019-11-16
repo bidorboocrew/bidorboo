@@ -13,8 +13,6 @@ import {
 import { RenderBackButton } from '../commonComponents';
 import { Spinner } from '../../components/Spinner';
 
-// import TaskerPendingBidInfo from './components/TaskerEditOrUpdateBid';
-// import tasksDefinitions from '../../bdb-tasks/tasksDefinitions';
 import { getMeTheRightBidCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightCard';
 
 class ReviewAwardedBidPage extends React.Component {
@@ -106,7 +104,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ReviewAwardedBidPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ReviewAwardedBidPage);
