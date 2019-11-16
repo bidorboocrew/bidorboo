@@ -29,7 +29,6 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
     if (!bid || !job) {
       return <div>TaskerMyDisputedBidSummary is missing properties</div>;
     }
-    debugger;
     const {
       _ownerRef,
       startingDateAndTime,

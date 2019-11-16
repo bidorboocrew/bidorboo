@@ -2,39 +2,13 @@ import React, { useState } from 'react';
 
 import moment from 'moment';
 import AddToCalendar from 'react-add-to-calendar';
-
+import { REQUEST_STATES, BID_STATES } from '../bdb-tasks/index';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute, goBackToPreviousRoute } from '../utils';
 
 import TASKS_DEFINITIONS from '../bdb-tasks/tasksDefinitions';
-export const REQUEST_STATES = {
-  OPEN: 'OPEN',
-  AWARDED: 'AWARDED',
-  DISPUTED: 'DISPUTED',
-  AWARDED_JOB_CANCELED_BY_BIDDER: 'AWARDED_JOB_CANCELED_BY_BIDDER',
-  AWARDED_JOB_CANCELED_BY_REQUESTER: 'AWARDED_JOB_CANCELED_BY_REQUESTER',
-  CANCELED_OPEN: 'CANCELED_OPEN',
-  DONE: 'DONE',
-  PAIDOUT: 'PAIDOUT',
-  PAYMENT_RELEASED: 'PAYMENT_RELEASED',
-  PAYMENT_TO_BANK_FAILED: 'PAYMENT_TO_BANK_FAILED',
-  ARCHIVE: 'ARCHIVE',
-};
-
-export const BID_STATES = {
-  OPEN: 'OPEN',
-  AWARDED: 'AWARDED',
-  AWARDED_SEEN: 'AWARDED_SEEN',
-  AWARDED_BID_CANCELED_BY_TASKER: 'AWARDED_BID_CANCELED_BY_TASKER',
-  DISPUTED: 'DISPUTED',
-  AWARDED_BID_CANCELED_BY_REQUESTER: 'AWARDED_BID_CANCELED_BY_REQUESTER',
-  DONE: 'DONE',
-  PAYMENT_RELEASED: 'PAYMENT_RELEASED',
-  PAYMENT_TO_BANK_FAILED: 'PAYMENT_TO_BANK_FAILED',
-  ARCHIVE: 'ARCHIVE',
-};
 
 export const POINT_OF_VIEW = {
   REQUESTER: 'REQUESTER',

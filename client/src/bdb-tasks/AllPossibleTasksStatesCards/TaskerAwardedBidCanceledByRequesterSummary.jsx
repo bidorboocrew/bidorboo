@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { proposerConfirmsJobCompletion } from '../../app-state/actions/jobActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
+import { updateBidState } from '../../app-state/actions/bidsActions';
 
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -21,7 +22,7 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
   render() {
-    const { bid, job } = this.props;
+    const { bid, job, notificationFeed, updateBidState } = this.props;
     if (!bid || !job) {
       return <div>TaskerAwardedBidCanceledByTaskerSummary is missing properties</div>;
     }
@@ -41,6 +42,16 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
     const { value: bidValue, currency: bidCurrency } = bidAmount;
     if (!bidValue || !bidCurrency) {
       return <div>TaskerAwardedBidCanceledByTaskerSummary is missing properties</div>;
+    }
+
+    let newUnseenState = false;
+    if (notificationFeed && notificationFeed.myBidsWithNewStatus) {
+      for (let i = 0; i < notificationFeed.myBidsWithNewStatus.length; i++) {
+        if (notificationFeed.myBidsWithNewStatus[i]._id === bid._id) {
+          newUnseenState = true;
+          break;
+        }
+      }
     }
 
     return (
@@ -67,13 +78,24 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
           <div className="centeredButtonInCard">
             <a
               style={{ position: 'relative' }}
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
+                newUnseenState && updateBidState(bid._id, 'AWARDED_BID_CANCELED_BY_REQUESTER_SEEN');
+
                 switchRoute(
                   ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
                 );
               }}
-              className="button is-danger "
+              className="button is-danger"
             >
+              {newUnseenState && (
+                <div
+                  style={{ position: 'absolute', top: -5, right: 0, fontSize: 10 }}
+                  className="has-text-danger"
+                >
+                  <i className="fas fa-circle" />
+                </div>
+              )}
               VIEW DETAILS
             </a>
           </div>
@@ -97,6 +119,7 @@ const mapDispatchToProps = (dispatch) => {
     proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
     cancelAwardedBid: bindActionCreators(cancelAwardedBid, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
+    updateBidState: bindActionCreators(updateBidState, dispatch),
   };
 };
 

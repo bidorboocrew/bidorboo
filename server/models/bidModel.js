@@ -22,10 +22,12 @@ const BidSchema = new Schema(
         'DISPUTED', // disputed task
         'AWARDED_BID_CANCELED_BY_TASKER',
         'AWARDED_BID_CANCELED_BY_REQUESTER',
+        'AWARDED_BID_CANCELED_BY_REQUESTER_SEEN',
         'DONE', // when Requester confirms job is done
         'PAYMENT_RELEASED',
         'PAYMENT_TO_BANK_FAILED',
         'ARCHIVE', //For historical record
+        'DISPUTE_RESOLVED',
       ],
       default: 'OPEN',
     },
@@ -57,10 +59,12 @@ BidSchema.virtual('displayStatus').get(function() {
     DISPUTED: 'Dispute', // disputed task
     AWARDED_BID_CANCELED_BY_TASKER: 'Tasker Cancelled the Agreement',
     AWARDED_BID_CANCELED_BY_REQUESTER: 'Requester Cancelled the Agreement',
+    AWARDED_BID_CANCELED_BY_REQUESTER_SEEN: 'Requester Cancelled the Agreement',
     DONE: 'Task is Completed', // when Requester confirms job is done
     PAYMENT_RELEASED: 'Payment released to bank',
     PAYMENT_TO_BANK_FAILED: 'Payout to bank failed',
     ARCHIVE: 'Archived', //For historical record
+    DISPUTE_RESOLVED: 'Resolved Dispute',
   };
   return stateToDisplayName[this.state];
 });

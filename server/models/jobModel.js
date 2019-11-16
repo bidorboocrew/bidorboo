@@ -53,12 +53,14 @@ const JobSchema = new Schema(
         'AWARDED', //
         'DISPUTED', // disputed job
         'AWARDED_JOB_CANCELED_BY_BIDDER',
+        'AWARDED_JOB_CANCELED_BY_BIDDER_SEEN',
         'AWARDED_JOB_CANCELED_BY_REQUESTER',
         'CANCELED_OPEN', // Requester cancels a job before awarding
         'DONE', //when Tasker confirms we set it to Payout , later a cron job will pay the account
         'PAYMENT_RELEASED',
         'PAYMENT_TO_BANK_FAILED',
         'ARCHIVE', //For historical record
+        'DISPUTE_RESOLVED',
       ],
     },
     dispute: {
@@ -69,6 +71,10 @@ const JobSchema = new Schema(
       proposerDispute: {
         reason: { type: String },
         details: { type: String },
+      },
+      bidOrBooCrewResolution: {
+        requesterResolution: { type: String },
+        taskerResolution: { type: String },
       },
     },
     // why do we have this
@@ -239,12 +245,14 @@ JobSchema.virtual('displayStatus').get(function() {
     AWARDED: 'Tasker is Assigned',
     DISPUTED: 'Dispute',
     AWARDED_JOB_CANCELED_BY_BIDDER: 'Tasker Cancelled the Agreement',
+    AWARDED_JOB_CANCELED_BY_BIDDER_SEEN: 'Tasker Cancelled the Agreement',
     AWARDED_JOB_CANCELED_BY_REQUESTER: 'Requester Cancelled the Agreement',
     CANCELED_OPEN: 'Canceled Request',
     DONE: 'Completed',
     PAYMENT_RELEASED: 'Payment sent to Tasker',
     PAYMENT_TO_BANK_FAILED: "Couldn't release funds to your bank",
-    ARCHIVE: 'Archived',
+    ARCHIVE: 'Past Job',
+    DISPUTE_RESOLVED: 'Resolved Dispute',
   };
   return stateToDisplayName[this.state];
 });
