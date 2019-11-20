@@ -243,9 +243,9 @@ module.exports = (app) => {
       // sendTextService.verifyPhone()
 
       // sendTextService.verifyPhoneCode();
-      console.log('---------------------------');
-      console.log(req.ipInfo);
-      console.log('---------------------------');
+      // console.log('---------------------------');
+      // console.log(req.ipInfo);
+      // console.log('---------------------------');
       let existingUser = null;
       if (req.user) {
         existingUser = await userDataAccess.findUserAndAllNewNotifications(req.user._id);
