@@ -1,6 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const path = require('path');
+const expressip = require('express-ip');
 
 const keys = require('./config/keys');
 // const { errors } = require('celebrate');
@@ -20,6 +21,8 @@ const bugsnagMiddleware = bugsnagClient.getPlugin('express');
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
+
+app.use(expressip().getIpInfoMiddleware);
 
 app.use(bugsnagMiddleware.requestHandler);
 

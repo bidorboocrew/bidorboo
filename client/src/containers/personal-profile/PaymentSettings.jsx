@@ -9,6 +9,7 @@ import { getMyStripeAccountDetails } from '../../app-state/actions/paymentAction
 import { Spinner } from '../../components/Spinner';
 
 import PaymentSetupForm from '../../components/forms/PaymentSetupForm';
+import TaskerSetupForm from '../../components/forms/TaskerSetupForm';
 
 import { getCurrentUser } from '../../app-state/actions/authActions';
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -81,10 +82,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(PaymentSettings);
+export default connect(mapStateToProps, mapDispatchToProps)(PaymentSettings);
 
 const HeaderTitle = (props) => {
   const { title, specialMarginVal } = props;
@@ -226,7 +224,15 @@ const InitialAccountSetupView = (props) => {
         </div>
       </div>
       <br />
-      {userMeetsTaskerRequirements && <PaymentSetupForm userDetails={userDetails} />}
+      {userMeetsTaskerRequirements && (
+        <>
+          <TaskerSetupForm userDetails={userDetails}></TaskerSetupForm>
+          <br></br>
+          <br></br>
+
+          <PaymentSetupForm userDetails={userDetails} />
+        </>
+      )}
     </React.Fragment>
   );
 };

@@ -85,33 +85,6 @@ const Step2 = ({
   );
 };
 
-const Step3 = ({ userDetails, showTosStep, showSetupPhoneStep }) => {
-  return (
-    <div>
-      <div className="subtitle">PHONE VERIFICATION</div>
-      <div className="slide-in-right field">
-        <div className="group">
-          <label className="label hasSelectedValue">{`We've sent the Code to: `}</label>
-          <div>{`${userDetails.phone.phoneNumber}`}</div>
-        </div>
-        <VerifyPhoneField {...{ userDetails, showTosStep, showSetupPhoneStep }} />
-      </div>
-      <button onClick={showTosStep} className="button is-white firstButtonInCard">
-        <span>SKIP</span>
-        <span className="icon">
-          <i className="fas fa-chevron-right" />
-        </span>
-      </button>
-      <button onClick={showSetupPhoneStep} className="button is-pulled-left">
-        <span className="icon">
-          <i className="fas fa-chevron-left" />
-        </span>
-        <span>Back</span>
-      </button>
-    </div>
-  );
-};
-
 class Step4 extends React.Component {
   constructor(props) {
     super(props);
@@ -394,7 +367,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SetupYourProfileFormSteps);
+export default connect(mapStateToProps, mapDispatchToProps)(SetupYourProfileFormSteps);

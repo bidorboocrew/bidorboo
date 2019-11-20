@@ -63,7 +63,7 @@ module.exports = (app) => {
         }
       } catch (e) {
         e.safeMsg =
-          "unexpected error occured.We couldn't update your password, Use the chat button in the footer to chat with our client support team";
+          "unexpected error occurred.We couldn't update your password, Use the chat button in the footer to chat with our client support team";
         return next(e);
       }
     }
@@ -151,7 +151,7 @@ module.exports = (app) => {
             return res.send(verificationRequest);
           } else {
             return res.status(400).send({
-              errorMsg: 'unexpected error occured sendVerificationEmail',
+              errorMsg: 'unexpected error occurred sendVerificationEmail',
             });
           }
         } else {
@@ -184,7 +184,7 @@ module.exports = (app) => {
             res.send({ success });
           } else {
             return res.status(400).send({
-              errorMsg: 'unexpected error occured while sending Verification Msg',
+              errorMsg: 'unexpected error occurred while sending Verification Msg',
             });
           }
         } else {
@@ -226,12 +226,12 @@ module.exports = (app) => {
         } else {
           return res.status(400).send({
             safeMsg:
-              'unexpected error occured while sending Verification Email, Use the chat button in the footer to chat with our client support team',
+              'unexpected error occurred while sending Verification Email, Use the chat button in the footer to chat with our client support team',
           });
         }
       } catch (e) {
         e.safeMsg =
-          'unexpected error occured while sending Verification Email, Use the chat button in the footer to chat with our client support team';
+          'unexpected error occurred while sending Verification Email, Use the chat button in the footer to chat with our client support team';
         return next(e);
       }
     }
@@ -243,6 +243,9 @@ module.exports = (app) => {
       // sendTextService.verifyPhone()
 
       // sendTextService.verifyPhoneCode();
+      console.log('---------------------------');
+      console.log(req.ipInfo);
+      console.log('---------------------------');
       let existingUser = null;
       if (req.user) {
         existingUser = await userDataAccess.findUserAndAllNewNotifications(req.user._id);
