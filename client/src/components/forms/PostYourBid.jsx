@@ -2,10 +2,8 @@ import React from 'react';
 
 import BidModal from './BidModal';
 
-import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute } from '../../utils';
 import { AnytimeQuickModal } from '../../containers/commonComponents.jsx';
-
+import TaskerVerificationBanner from '../../containers/bidder-flow/TaskerVerificationBanner.jsx';
 export default class PostYourBid extends React.Component {
   constructor(props) {
     super(props);
@@ -45,23 +43,7 @@ export default class PostYourBid extends React.Component {
             showModal={showTaskerOnBoardingDialog}
             setShowModal={this.toggleShowQuickModal}
             title={'Tasker Onboarding'}
-            renderContentFunc={() => (
-              <div className="container">
-                <p>Before you bid you must complete our tasker onboarding.</p>
-                <button
-                  className="button is-small is-dark"
-                  onClick={() => {
-                    switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings);
-                  }}
-                >
-                  <span className="icon">
-                    <i className="fas fa-user-tie"></i>
-                  </span>
-                  <span>Start Onboarding</span>
-                </button>
-                <div className="help">*Registration will take ~1 minutes</div>
-              </div>
-            )}
+            renderContentFunc={() => <TaskerVerificationBanner></TaskerVerificationBanner>}
           />
         )}
         <div className="centeredButtonInCard">

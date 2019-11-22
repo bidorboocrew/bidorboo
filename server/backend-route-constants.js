@@ -38,6 +38,7 @@ module.exports = {
         // payment: '/api/payment',
         accountLinkForSetupAndVerification: '/api/accountLinkForSetupAndVerification',
         myStripeAccountDetails: '/api/myStripeAccountDetails',
+        accountLinkForUpdatingVerification: '/api/accountLinkForUpdatingVerification',
       },
       PUT: {
         setupPaymentDetails: '/api/user/setupPaymentDetails',

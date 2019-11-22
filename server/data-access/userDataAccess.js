@@ -25,7 +25,7 @@ exports.updateStripeAccountRequirementsDetails = ({
   return User.findOneAndUpdate(
     {
       userId,
-      'stripeConnect.accId': { $eq: accId },
+      // 'stripeConnect.accId': { $eq: accId },
       'stripeConnect.processedWebhookEventIds': { $ne: eventId },
     },
     {
@@ -43,9 +43,6 @@ exports.updateStripeAccountRequirementsDetails = ({
         },
       },
       $push: { 'stripeConnect.processedWebhookEventIds': eventId },
-    },
-    {
-      new: true,
     }
   )
     .lean(true)

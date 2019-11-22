@@ -45,6 +45,7 @@ export const API = {
     },
     GET: {
       accountLinkForSetupAndVerification: '/api/accountLinkForSetupAndVerification',
+      accountLinkForUpdatingVerification: '/api/accountLinkForUpdatingVerification',
       payment: '/api/payment',
       myStripeAccountDetails: '/api/myStripeAccountDetails',
     },

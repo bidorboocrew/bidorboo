@@ -155,7 +155,7 @@ module.exports = (app) => {
         const reqData = req.body.data;
         const { connectedAccountDetails, last4BankAcc } = reqData;
         const { stripeConnectAccId } = res.locals.bidOrBoo;
-        const connectedAccount = await stripeServiceUtil.updateStripeConnectedAccountDetails(
+        await stripeServiceUtil.updateStripeConnectedAccountDetails(
           stripeConnectAccId,
           connectedAccountDetails
         );
@@ -177,19 +177,48 @@ module.exports = (app) => {
     requireUserHasAStripeAccountOrInitalizeOne,
     async (req, res) => {
       try {
-        const userId = req.user.userId;
+        if (!req.query || !req.query.redirectUrl) {
+          return res.status(403).send({
+            errorMsg: 'invalid url params',
+          });
+        }
 
         const { stripeConnectAccId } = res.locals.bidOrBoo;
-        const { url } = await stripeServiceUtil.getCustomAccountLink(stripeConnectAccId);
+        const { url } = await stripeServiceUtil.getCustomAccountLink({
+          stripeConnectAccId,
+          redirectUrl: req.query.redirectUrl,
+          isNewCustomer: true,
+          collectMinimum: true,
+        });
 
-        // const connectedAccount = await stripeServiceUtil.updateStripeConnectedAccountDetails(
-        //   stripeConnectAccId,
-        //   connectedAccountDetails
-        // );
-        // const updatedUser = await userDataAccess.updateUserProfileDetails(userId, {
-        //   'stripeConnect.last4BankAcc': last4BankAcc,
-        //   // membershipStatus: 'VERIFIED_MEMBER',
-        // });
+        return res.send({ success: true, accountLinkUrl: url });
+      } catch (e) {
+        return res.status(400).send({ errorMsg: e });
+      }
+    }
+  );
+
+  app.get(
+    ROUTES.API.PAYMENT.GET.accountLinkForUpdatingVerification,
+    requireBidorBooHost,
+    requireLogin,
+    requireUserHasAStripeAccountOrInitalizeOne,
+    async (req, res) => {
+      try {
+        if (!req.query || !req.query.redirectUrl) {
+          return res.status(403).send({
+            errorMsg: 'invalid url params',
+          });
+        }
+
+        const { stripeConnectAccId } = res.locals.bidOrBoo;
+        const { url } = await stripeServiceUtil.getCustomAccountLink({
+          stripeConnectAccId,
+          redirectUrl: req.query.redirectUrl,
+          isNewCustomer: false,
+          collectMinimum: false,
+        });
+
         return res.send({ success: true, accountLinkUrl: url });
       } catch (e) {
         return res.status(400).send({ errorMsg: e });

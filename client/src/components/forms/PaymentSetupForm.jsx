@@ -22,6 +22,10 @@ const EnhancedForms = withFormik({
     //   .test('phone_number', 'invalid format. an example would be 9053334444', (inputText) => {
     //     return phoneNumber(inputText);
     //   }),
+    full_name: Yup.string()
+      .ensure()
+      .trim()
+      .required('*Your FULL Name as it appears on bank statement is required'),
     bank_name: Yup.string()
       .ensure()
       .trim()
@@ -38,79 +42,9 @@ const EnhancedForms = withFormik({
       .ensure()
       .trim()
       .required('*Account Number is required'),
-    dob_day: Yup.number().required('*Day of Birth is required'),
-    dob_month: Yup.number().required('*Month Of Birth  is required'),
-    dob_year: Yup.number().required('*Year Of Birth is required'),
-    first_name: Yup.string()
-      .ensure()
-      .trim()
-      .required('*First Name is required'),
-    last_name: Yup.string()
-      .ensure()
-      .trim()
-      .required('*Last Name is required'),
-    address_street: Yup.string()
-      .ensure()
-      .trim()
-      .required('*Address Street is required'),
-    address_city: Yup.string()
-      .ensure()
-      .trim()
-      .required('*Address City is required'),
-    address_province: Yup.string()
-      .ensure()
-      .trim()
-      .required('*Address Province is required'),
-    address_postalcode: Yup.string()
-      .ensure()
-      .trim()
-      .required('*Postal Code is required'),
   }),
-  mapPropsToValues: ({ userDetails }) => {
-    const { phone, email } = userDetails;
-
-    return {
-      // phone_number: phone.phoneNumber,
-      email: email.emailAddress,
-    };
-  },
   handleSubmit: async (values, { setSubmitting, props }) => {
-    const {
-      idFrontImg,
-      idBackImg,
-      dob_day,
-      dob_month,
-      dob_year,
-      first_name,
-      initial_name,
-      last_name,
-      address_street,
-      address_city,
-      address_province,
-      address_postalcode,
-      // phone_number,
-      account_holder_full_name,
-      account_number,
-      institution_number,
-      transit_number,
-    } = values;
-    //xxx working example
-    // const {
-    //   token: tokenizedBankAccount,
-    //   error: tokenizedBankAccountError,
-    // } = await window.BidorBoo.stripe.createToken('bank_account', {
-    //   country: 'CA',
-    //   currency: 'cad',
-    //   routing_number: '11000-000',
-    //   account_number: '000123456789',
-    //   account_holder_name: `${props.userDetails.displayName}`,
-    //   account_holder_type: 'individual',
-    // });
-    // if (tokenizedBankAccountError) {
-    //   alert(tokenizedBankAccountError);
-    //   setSubmitting(false);
-    //   return;
-    // }
+    const { full_name, account_number, institution_number, transit_number } = values;
 
     const { token: tokenizedBankAccount, error: tokenizedBankAccountError } = await window
       .Stripe(`${process.env.REACT_APP_STRIPE_KEY}`)
@@ -120,56 +54,12 @@ const EnhancedForms = withFormik({
         account_holder_type: 'individual',
         routing_number: `${transit_number}-${institution_number}`,
         account_number,
-        account_holder_name: first_name + ' ' + initial_name + ' ' + last_name,
+        account_holder_name: full_name,
       });
     if (tokenizedBankAccountError) {
       alert(JSON.stringify(tokenizedBankAccountError));
       setSubmitting(false);
       return;
-    }
-    let frontSideResp;
-    let backSideResp;
-
-    if (idFrontImg) {
-      const file = idFrontImg;
-      let fileData = new FormData();
-      fileData.append('file', file, file.name);
-      fileData.append('purpose', 'identity_document');
-      const config = {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${process.env.REACT_APP_STRIPE_KEY}`,
-        },
-      };
-
-      try {
-        frontSideResp = await axios.post(`https://files.stripe.com/v1/files`, fileData, config);
-      } catch (e) {
-        alert('Error processing id img' + JSON.stringify(e));
-        setSubmitting(false);
-      }
-    }
-
-    if (idBackImg) {
-      const { idBackImg } = values;
-
-      const file = idBackImg;
-
-      let fileData = new FormData();
-      fileData.append('file', file, file.name);
-      fileData.append('purpose', 'identity_document');
-      const config = {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${process.env.REACT_APP_STRIPE_KEY}`,
-        },
-      };
-      try {
-        backSideResp = await axios.post(`https://files.stripe.com/v1/files`, fileData, config);
-      } catch (e) {
-        alert('Error processing id img' + JSON.stringify(e));
-        setSubmitting(false);
-      }
     }
 
     try {
@@ -178,29 +68,6 @@ const EnhancedForms = withFormik({
         tos_acceptance: {
           date: Math.round(new Date().getTime() / 1000),
           ip: tokenizedBankAccount.client_ip,
-        },
-        // business_type: 'individual',
-        individual: {
-          first_name,
-          last_name,
-          // phone: phone_number,
-          verification: {
-            document: {
-              front: frontSideResp.data.id,
-              back: backSideResp.data.id,
-            },
-          },
-          address: {
-            city: address_city,
-            line1: address_street,
-            postal_code: address_postalcode,
-            state: address_province,
-          },
-          dob: {
-            day: dob_day,
-            month: dob_month,
-            year: dob_year,
-          },
         },
       };
       await axios.put(`${ROUTES.API.PAYMENT.PUT.setupPaymentDetails}`, {
@@ -240,7 +107,6 @@ const PaymentSetupForm = (props) => {
     handleBlur,
     handleSubmit,
     isValid,
-    setFieldValue,
     isSubmitting,
   } = props;
 
@@ -255,11 +121,6 @@ const PaymentSetupForm = (props) => {
         )
       );
     });
-  }
-  let provinceSelect = '';
-  let isTouched = touched && touched.address_province;
-  if (isTouched) {
-    provinceSelect = values.address_province === NO_SELECTION ? 'is-danger' : 'hasSelectedValue';
   }
 
   return (
@@ -313,10 +174,20 @@ const PaymentSetupForm = (props) => {
               <div style={{ borderBottom: '1px solid #353535' }} className="subtitle">
                 PAYOUT BANK DETAILS
               </div>
-
               <div style={{ maxWidth: 250 }}>
                 <TextInput
-                  labelClassName=" "
+                  id="full_name"
+                  type="text"
+                  helpText="*Must match the name on your bank statement"
+                  label="Your Full Name"
+                  error={touched.full_name && errors.full_name}
+                  value={values.full_name || ''}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+              </div>
+              <div style={{ maxWidth: 250 }}>
+                <TextInput
                   id="bank_name"
                   type="text"
                   label="Bank Name"
@@ -329,7 +200,6 @@ const PaymentSetupForm = (props) => {
 
               <div style={{ maxWidth: 250 }}>
                 <TextInput
-                  labelClassName=" "
                   id="transit_number"
                   type="text"
                   label="Transit Number"
@@ -342,7 +212,6 @@ const PaymentSetupForm = (props) => {
 
               <div style={{ maxWidth: 250 }}>
                 <TextInput
-                  labelClassName=" "
                   id="institution_number"
                   type="text"
                   label="Institution Number"
@@ -354,7 +223,6 @@ const PaymentSetupForm = (props) => {
               </div>
               <div style={{ maxWidth: 250 }}>
                 <TextInput
-                  labelClassName=" "
                   id="account_number"
                   type="text"
                   label="Account Number"
@@ -387,10 +255,7 @@ const PaymentSetupForm = (props) => {
               >
                 Add Payout Bank
               </button>
-              {/* <div className="help">
-                * Provide your info as it appears on your legal document such as your: Passport,
-                government-issued ID, or driver's license
-              </div> */}
+
               {errorsList}
             </div>
           </div>
