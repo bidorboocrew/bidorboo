@@ -19,7 +19,10 @@ module.exports = async (req, res, next) => {
           user_id: currentUser._id.toString(),
           userId: currentUser.userId,
           displayName: currentUser.displayName,
-          email: currentUser.email.emailAddress,
+          email:
+            currentUser.email && currentUser.email.isVerified ? currentUser.email.emailAddress : '',
+          phone:
+            currentUser.phone && currentUser.phone.isVerified ? currentUser.phone.phoneNumber : '',
         });
         if (newStripeConnectAcc.id) {
           const updateUser = await userDataAccess.findByUserIdAndUpdate(currentUser.userId, {

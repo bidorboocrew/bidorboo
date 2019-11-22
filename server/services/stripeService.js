@@ -288,7 +288,7 @@ exports.util = {
     });
   },
 
-  initializeConnectedAccount: async ({ userId, displayName, email }) => {
+  initializeConnectedAccount: async ({ userId, displayName, email, phone }) => {
     return new Promise(async (resolve, reject) => {
       try {
         const account = await stripe.accounts.create({
@@ -296,6 +296,7 @@ exports.util = {
           type: 'custom', //HARD CODED
           default_currency: 'CAD', //HARD CODED
           email: email || '',
+          phone: phone || '',
           business_type: 'individual',
           metadata: { email, userId, displayName },
           settings: {

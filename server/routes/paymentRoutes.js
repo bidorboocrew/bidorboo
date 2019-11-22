@@ -159,10 +159,11 @@ module.exports = (app) => {
           stripeConnectAccId,
           connectedAccountDetails
         );
-        const updatedUser = await userDataAccess.updateUserProfileDetails(userId, {
-          'stripeConnect.last4BankAcc': last4BankAcc,
-          // membershipStatus: 'VERIFIED_MEMBER',
-        });
+        if (last4BankAcc) {
+          const updatedUser = await userDataAccess.updateUserProfileDetails(userId, {
+            'stripeConnect.last4BankAcc': last4BankAcc,
+          });
+        }
         return res.send({ success: true, updatedUser: updatedUser });
       } catch (e) {
         return res.status(400).send({ errorMsg: e });

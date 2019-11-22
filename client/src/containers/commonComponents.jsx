@@ -695,7 +695,7 @@ export const VerifiedVia = ({ userDetails, isCentered = true, showAll = false })
 
       {govId && govId.isVerified && (
         <div className="verificationBadge isActive">
-          <span title="Verified goverment ID" className="icon">
+          <span title="Verified government ID" className="icon">
             <i className="fas fa-id-card has-text-success" />
           </span>
         </div>
@@ -735,7 +735,7 @@ export const VerifiedVia = ({ userDetails, isCentered = true, showAll = false })
           {!govId ||
             (!govId.isVerified && (
               <div className="verificationBadge notActive">
-                <span title="Verified goverment ID" className="icon">
+                <span title="Verified government ID" className="icon">
                   <i className="fas fa-id-card has-text-grey" />
                 </span>
               </div>
@@ -1245,7 +1245,7 @@ export const BidsTableVerifiedVia = ({ userDetails }) => {
 
       {govId && govId.isVerified && (
         <div className="verificationBadge isActive small">
-          <span title="Verified goverment ID" className="icon">
+          <span title="Verified government ID" className="icon">
             <i className="fas fa-id-card has-text-success" />
           </span>
         </div>
