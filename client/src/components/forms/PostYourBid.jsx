@@ -59,7 +59,7 @@ export default class PostYourBid extends React.Component {
                   </span>
                   <span>Start Onboarding</span>
                 </button>
-                <div className="help">*Registration will take ~5 minutes</div>
+                <div className="help">*Registration will take ~1 minutes</div>
               </div>
             )}
           />

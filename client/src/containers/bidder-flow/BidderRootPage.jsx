@@ -16,7 +16,7 @@ import BidderRootLocationFilter from '../../components/forms/BidderRootLocationF
 import { Spinner } from '../../components/Spinner';
 
 import MapSection from './map/MapSection';
-
+import TaskerVerificationBanner from './TaskerVerificationBanner.jsx';
 import AllJobsView from './components/AllJobsView';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 import SubscribeToSearchResultsToggle from './SubscribeToSearchResultsToggle';
@@ -211,29 +211,7 @@ class BidderRootPage extends React.Component {
 
     return (
       <>
-        {isLoggedIn && !taskerCanBid && (
-          <section className="hero is-success is-small is-bold">
-            <div className="hero-body">
-              <div className="container">
-                <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
-                  Want to provide your services and earn money?
-                </h1>
-                <button
-                  className="button is-small is-dark"
-                  onClick={() => {
-                    switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings);
-                  }}
-                >
-                  <span className="icon">
-                    <i className="fas fa-user-tie"></i>
-                  </span>
-                  <span>COMPLETE TASKER ONBOARDING</span>
-                </button>
-                <div className="help has-text-light">*Registration will take ~5 minutes</div>
-              </div>
-            </div>
-          </section>
-        )}
+        <TaskerVerificationBanner></TaskerVerificationBanner>
 
         <div>
           <section className="hero is-small is-white">
@@ -387,7 +365,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(BidderRootPage);
+export default connect(mapStateToProps, mapDispatchToProps)(BidderRootPage);

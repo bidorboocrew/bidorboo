@@ -314,7 +314,26 @@ exports.util = {
       }
     });
   },
+  getCustomAccountLink: async (
+    stripeConnectAccId,
+    isForVerification = true,
+    collectMinimum = true
+  ) => {
+    try {
+      // xxxxx important update
+      const accountLink = await stripe.accountLinks.create({
+        account: stripeConnectAccId,
+        failure_url: `${websiteUrl}/my-profile/payment-settings`,
+        success_url: `${websiteUrl}/my-profile/payment-settings`,
+        type: isForVerification ? 'custom_account_verification' : 'custom_account_update',
+        collect: collectMinimum ? 'currently_due' : 'eventually_due',
+      });
 
+      return accountLink;
+    } catch (error) {
+      throw error;
+    }
+  },
   updateStripeConnectedAccountDetails: async (stripeConnectAccId, connectedAccountDetails) => {
     try {
       // xxxxx important update

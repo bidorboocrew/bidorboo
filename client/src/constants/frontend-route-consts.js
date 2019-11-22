@@ -44,6 +44,7 @@ export const API = {
       connectedAccountsWebhook: '/api/stripewebhook/connectedAccounts',
     },
     GET: {
+      accountLinkForSetupAndVerification: '/api/accountLinkForSetupAndVerification',
       payment: '/api/payment',
       myStripeAccountDetails: '/api/myStripeAccountDetails',
     },

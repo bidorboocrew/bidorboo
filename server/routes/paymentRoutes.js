@@ -171,6 +171,33 @@ module.exports = (app) => {
   );
 
   app.get(
+    ROUTES.API.PAYMENT.GET.accountLinkForSetupAndVerification,
+    requireBidorBooHost,
+    requireLogin,
+    requireUserHasAStripeAccountOrInitalizeOne,
+    async (req, res) => {
+      try {
+        const userId = req.user.userId;
+
+        const { stripeConnectAccId } = res.locals.bidOrBoo;
+        const { url } = await stripeServiceUtil.getCustomAccountLink(stripeConnectAccId);
+
+        // const connectedAccount = await stripeServiceUtil.updateStripeConnectedAccountDetails(
+        //   stripeConnectAccId,
+        //   connectedAccountDetails
+        // );
+        // const updatedUser = await userDataAccess.updateUserProfileDetails(userId, {
+        //   'stripeConnect.last4BankAcc': last4BankAcc,
+        //   // membershipStatus: 'VERIFIED_MEMBER',
+        // });
+        return res.send({ success: true, accountLinkUrl: url });
+      } catch (e) {
+        return res.status(400).send({ errorMsg: e });
+      }
+    }
+  );
+
+  app.get(
     ROUTES.API.PAYMENT.GET.myStripeAccountDetails,
     requireBidorBooHost,
     requireLogin,

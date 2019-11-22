@@ -36,6 +36,7 @@ module.exports = {
       GET: {
         // requestCharge: '/api/requestCharge',
         // payment: '/api/payment',
+        accountLinkForSetupAndVerification: '/api/accountLinkForSetupAndVerification',
         myStripeAccountDetails: '/api/myStripeAccountDetails',
       },
       PUT: {

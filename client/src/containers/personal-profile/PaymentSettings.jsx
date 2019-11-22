@@ -9,7 +9,6 @@ import { getMyStripeAccountDetails } from '../../app-state/actions/paymentAction
 import { Spinner } from '../../components/Spinner';
 
 import PaymentSetupForm from '../../components/forms/PaymentSetupForm';
-import TaskerSetupForm from '../../components/forms/TaskerSetupForm';
 
 import { getCurrentUser } from '../../app-state/actions/authActions';
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -224,15 +223,7 @@ const InitialAccountSetupView = (props) => {
         </div>
       </div>
       <br />
-      {userMeetsTaskerRequirements && (
-        <>
-          <TaskerSetupForm userDetails={userDetails}></TaskerSetupForm>
-          <br></br>
-          <br></br>
-
-          <PaymentSetupForm userDetails={userDetails} />
-        </>
-      )}
+      {userMeetsTaskerRequirements && <PaymentSetupForm userDetails={userDetails} />}
     </React.Fragment>
   );
 };

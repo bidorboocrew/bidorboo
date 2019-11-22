@@ -263,11 +263,11 @@ module.exports = (app) => {
 
   app.get(ROUTES.API.USER.GET.getMyPastRequestedServices, requireLogin, async (req, res, next) => {
     try {
-      pasrRequestedServices = await userDataAccess.getMyPastRequestedServices(
+      pastRequestedServices = await userDataAccess.getMyPastRequestedServices(
         req.user._id.toString()
       );
-      if (pasrRequestedServices && pasrRequestedServices._asProposerReviewsRef) {
-        return res.send(pasrRequestedServices._asProposerReviewsRef);
+      if (pastRequestedServices && pastRequestedServices._asProposerReviewsRef) {
+        return res.send(pastRequestedServices._asProposerReviewsRef);
       }
       return res.send({});
     } catch (e) {
