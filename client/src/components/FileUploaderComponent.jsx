@@ -1,7 +1,6 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
 import { withFormik } from 'formik';
-import autoBind from 'react-autobind';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 const MAX_FILE_SIZE_IN_MB = 1000000 * 10; //10MB
@@ -20,18 +19,8 @@ class MyForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = { showThumbNail: false, thumb: null, showCropper: false };
-    this.dropzoneRef = React.createRef();
-    autoBind(
-      this,
-      'onDrophandler',
-      'toggleCroppingOn',
-      'saveCrop',
-      'dismissCrop',
-      'onUpdateCropping',
-      'dataURItoBlob',
-    );
-
     this.reader = new FileReader();
+    this.dropzoneRef = React.createRef();
   }
 
   componentWillUnmount() {
@@ -47,22 +36,49 @@ class MyForm extends React.Component {
     this.reader = null;
   }
 
-  onDrophandler(files) {
-    // do nothing if no files
+  onDrophandler = (files) => {
     if (!files || !(files.length > 0)) {
       return;
     }
 
-    this.reader.onloadend = () => {
-      this.setState({ thumb: this.reader.result, showCropper: true });
+    // https://zocada.com/compress-resize-images-javascript-browser/
+    this.reader.onloadend = (event) => {
+      const img = new Image();
+      img.src = event.target.result;
+      img.onload = () => {
+        const width = 600;
+        const scaleFactor = width / img.width;
+        const height = img.height * scaleFactor;
+
+        let elem = document.createElement('canvas');
+        elem.width = width;
+        elem.height = height;
+        const ctx = elem.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, img.height * scaleFactor);
+
+        const imgAsDataUrl = ctx.canvas.toDataURL(img);
+        this.setState(() => ({ thumb: imgAsDataUrl, showCropper: true }));
+      };
     };
+
+    this.reader.onerror = (error) => console.error('reader1' + error);
     this.reader.readAsDataURL(files[0]);
 
-    // on drop we add to the existing files
-    this.setState({ showThumbNail: true, acceptedFile: files[0] }, () => {
-      this.props.setFieldValue('fileField', this.state.acceptedFile, false);
-    });
-  }
+    // // do nothing if no files
+    // if (!files || !(files.length > 0)) {
+    //   return;
+    // }
+
+    // this.reader.onloadend = () => {
+    //   this.setState({ thumb: this.reader.result, showCropper: true });
+    // };
+    // this.reader.readAsDataURL(files[0]);
+
+    // // on drop we add to the existing files
+    // this.setState({ showThumbNail: true, acceptedFile: files[0] }, () => {
+    //   this.props.setFieldValue('fileField', this.state.acceptedFile, false);
+    // });
+  };
 
   removeFileAndOpenFileSelector = () => {
     // // remove image
@@ -71,11 +87,11 @@ class MyForm extends React.Component {
     // });
   };
 
-  toggleCroppingOn() {
+  toggleCroppingOn = () => {
     this.setState({ showCropper: true });
-  }
+  };
 
-  dataURItoBlob(dataURI) {
+  dataURItoBlob = (dataURI) => {
     try {
       // convert base64 to raw binary data held in a string
       // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
@@ -94,20 +110,14 @@ class MyForm extends React.Component {
         ia[i] = byteString.charCodeAt(i);
       }
 
-      //Old Code
-      //write the ArrayBuffer to a blob, and you're done
-      //var bb = new BlobBuilder();
-      //bb.append(ab);
-      //return bb.getBlob(mimeString);
-
       //New Code
       return new Blob([ab], { type: mimeString });
     } catch (e) {
-      console.error('could not crop the image will upload the original img instead blob creation');
+      console.error('error parsing img ' + e);
     }
-  }
+  };
 
-  saveCrop(values) {
+  saveCrop = (values) => {
     try {
       const croppedImg = this.refs.cropper.getCroppedCanvas().toDataURL();
       const updatedFile = this.dataURItoBlob(croppedImg);
@@ -116,13 +126,13 @@ class MyForm extends React.Component {
     } catch (e) {
       console.error('could not crop the image will upload the original img instead');
     }
-  }
+  };
 
-  dismissCrop() {
+  dismissCrop = () => {
     this.setState({ showCropper: false, croppedFile: {} });
-  }
+  };
 
-  onUpdateCropping(file) {
+  onUpdateCropping = (file) => {
     try {
       if (file) {
         this.setState({ croppedFile: file });
@@ -130,9 +140,7 @@ class MyForm extends React.Component {
     } catch (e) {
       console.error('failed to crop' + e);
     }
-
-    // this.setState({ croppedFile: file });
-  }
+  };
 
   render() {
     const { handleSubmit, values, closeDialog } = this.props;
@@ -148,18 +156,22 @@ class MyForm extends React.Component {
             value={values.files || ''}
           />
           <Dropzone
+            accept={'image/*'}
             style={!showThumbNail ? {} : { height: 0 }}
             className={!showThumbNail ? '' : 'is-invisible'}
             ref={this.dropzoneRef}
             multiple={false}
             maxSize={MAX_FILE_SIZE_IN_MB}
-            accept={'image/*'}
             id="filesToUpload"
             name="filesToUpload"
             onDrop={this.onDrophandler}
-            onDropRejected={(e) => {
-              alert('this file is not accepted must be an img file less than 10MB');
-            }}
+            onDropRejected={(file, event) =>
+              alert(
+                'File not accepted, must be an image file less than 10MB ' +
+                  `${event && event}` +
+                  `${file && file}`,
+              )
+            }
           >
             <React.Fragment>
               <div className="section VerticalAligner bdb-img-upload-placeholder">
@@ -168,8 +180,7 @@ class MyForm extends React.Component {
                   style={{
                     pointerEvents: 'none',
                     borderRadius: '100%',
-                    height: 64,
-                    width: 64,
+                    height: 70,
                   }}
                   className="button is-success is-large"
                 >
@@ -192,14 +203,15 @@ class MyForm extends React.Component {
             <Cropper
               ref="cropper"
               src={thumb}
-              // style={{ height: '18.75rem', width: '100%' }}
               checkOrientation={true}
-              guides={false} // crop={this._crop}
+              guides={false}
               className="bdb-img-upload-placeholder"
               modal={true}
               background={false}
-              minContainerHeight={180}
-              minCanvasHeight={180}
+              rotatable
+              autoCrop
+              autoCropArea={1}
+              style={{ height: '16rem', width: '100%', background: '#eeeeee' }}
             />
           )}
         </div>

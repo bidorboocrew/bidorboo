@@ -35,7 +35,6 @@ export default class UploaderComponent extends React.Component {
   onDrophandler = (files) => {
     // do nothing if no files
     if (!files || !(files.length > 0)) {
-      alert('you can only use one img file at a time');
       return;
     }
 
@@ -86,7 +85,7 @@ export default class UploaderComponent extends React.Component {
       // write the ArrayBuffer to a blob, and you're done
       return new Blob([ab], { type: mimeString });
     } catch (e) {
-      console.error('error parsing file ' + e);
+      console.error('error parsing img ' + e);
     }
   };
 
@@ -118,9 +117,6 @@ export default class UploaderComponent extends React.Component {
             <div className="columns is-vcentered">
               <div className="column">
                 <Dropzone
-                  onDropRejected={(e) => {
-                    alert('this file is not accepted must be an img file less than 10MB');
-                  }}
                   accept="image/*"
                   style={!showCropper ? {} : { height: 0 }}
                   className={!showCropper ? '' : 'is-invisible'}
@@ -144,7 +140,7 @@ export default class UploaderComponent extends React.Component {
                         style={{
                           pointerEvents: 'none',
                           borderRadius: '100%',
-                          height: 58,
+                          height: 70,
                         }}
                         className="button is-success is-large"
                       >

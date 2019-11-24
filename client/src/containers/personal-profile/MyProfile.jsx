@@ -317,10 +317,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(MyProfile);
+export default connect(mapStateToProps, mapDispatchToProps)(MyProfile);
 
 const HeaderTitle = (props) => {
   const { title } = props;
