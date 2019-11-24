@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { getMyStripeAccountDetails } from '../../app-state/actions/paymentActions';
 
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -14,6 +15,9 @@ class TaskerVerificationBanner extends React.Component {
     super(props);
 
     this.state = { showUploadImgModal: false };
+  }
+  componentDidMount() {
+    this.props.getMyStripeAccountDetails();
   }
 
   startupTaskerProfile = async () => {
@@ -56,14 +60,24 @@ class TaskerVerificationBanner extends React.Component {
     this.setState({ showUploadImgModal: !this.state.showUploadImgModal });
   };
   render() {
-    const { isLoggedIn, userDetails } = this.props;
+    const { isLoggedIn, userDetails, myStripeAccountDetails } = this.props;
     const { showUploadImgModal } = this.state;
 
     if (!isLoggedIn) {
       return null;
     }
 
-    if (userDetails && !userDetails.stripeConnect) {
+    const istherePaymentDetails = myStripeAccountDetails && myStripeAccountDetails.balanceDetails;
+    const areTherePendingPayments =
+      istherePaymentDetails &&
+      myStripeAccountDetails.balanceDetails.potentialFuturePayouts &&
+      myStripeAccountDetails.balanceDetails.potentialFuturePayouts > 0;
+
+    const doesUserHaveAnEstablishedAccId =
+      userDetails.stripeConnect && userDetails.stripeConnect.accId;
+    const userWithNoStripeConnectAcc = userDetails && !doesUserHaveAnEstablishedAccId;
+
+    if (userWithNoStripeConnectAcc) {
       return (
         <section className="hero is-success is-small is-bold slide-in-top">
           <div className="hero-body">
@@ -83,6 +97,7 @@ class TaskerVerificationBanner extends React.Component {
         </section>
       );
     }
+
     const { accRequirements = {}, last4BankAcc } = userDetails.stripeConnect;
     const {
       currently_due = [],
@@ -92,8 +107,7 @@ class TaskerVerificationBanner extends React.Component {
     } = accRequirements;
 
     const isThereAnUrgentRequirement = past_due.length > 0;
-    const areThereMoreRequirement =
-      currently_due.length > 0 || eventually_due.length > 0 || past_due.length > 0;
+    const areThereMoreRequirement = currently_due.length > 0 || past_due.length > 0;
     const isUserBlocked = !!disabled_reason;
 
     if (isUserBlocked) {
@@ -116,31 +130,9 @@ class TaskerVerificationBanner extends React.Component {
       );
     }
 
-    if (userDetails && !last4BankAcc) {
-      return (
-        <section className="hero is-success is-small is-bold slide-in-top">
-          <div className="hero-body">
-            <div className="container">
-              <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
-                To receive payouts you must add your bank info
-              </h1>
-              <button className="button is-small is-dark" onClick={this.redirectToPaymentSetting}>
-                <span className="icon">
-                  <i className="far fa-credit-card" aria-hidden="true" />
-                </span>
-                <span>GO TO PAYMENT SETTINGS</span>
-              </button>
-              <div className="help has-text-light">*Registration will take ~1 minutes</div>
-            </div>
-          </div>
-        </section>
-      );
-    }
-
-    if (userDetails && last4BankAcc && areThereMoreRequirement) {
+    if (userDetails && areThereMoreRequirement) {
       if (
         currently_due.includes('individual.verification.document') ||
-        eventually_due.includes('individual.verification.document') ||
         past_due.includes('individual.verification.document')
       ) {
         return (
@@ -218,6 +210,28 @@ class TaskerVerificationBanner extends React.Component {
       }
     }
 
+    // only show this if there is payouts pending
+    if (userDetails && areTherePendingPayments && !last4BankAcc) {
+      return (
+        <section className="hero is-success is-small is-bold slide-in-top">
+          <div className="hero-body">
+            <div className="container">
+              <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
+                To receive payouts you must add your bank info
+              </h1>
+              <button className="button is-small is-dark" onClick={this.redirectToPaymentSetting}>
+                <span className="icon">
+                  <i className="far fa-credit-card" aria-hidden="true" />
+                </span>
+                <span>GO TO PAYMENT SETTINGS</span>
+              </button>
+              <div className="help has-text-light">*Registration will take ~1 minutes</div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
     return null;
   }
 }
@@ -226,11 +240,12 @@ const mapStateToProps = ({ bidsReducer, uiReducer, userReducer }) => {
   return {
     isLoggedIn: userReducer.isLoggedIn,
     userDetails: userReducer.userDetails,
+    myStripeAccountDetails: userReducer.myStripeAccountDetails,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return { getMyStripeAccountDetails: bindActionCreators(getMyStripeAccountDetails, dispatch) };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskerVerificationBanner);

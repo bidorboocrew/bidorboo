@@ -296,9 +296,8 @@ exports.util = {
           type: 'custom', //HARD CODED
           default_currency: 'CAD', //HARD CODED
           email: email || '',
-          phone: phone || '',
           business_type: 'individual',
-          metadata: { email, userId, displayName },
+          metadata: { email, userId, displayName, phone },
           settings: {
             payments: {
               statement_descriptor: 'BidOrBoo Charge',

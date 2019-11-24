@@ -22,15 +22,16 @@ export default class PostYourBid extends React.Component {
     if (!isLoggedIn) {
       showLoginDialog(true);
     } else if (!taskerCanBid) {
-      this.toggleShowQuickModal(true);
+      this.toggleShowTaskerOnBoardingDialog(true);
 
       // alert('complete the tasker onBoarding before you can bid');
     } else {
       this.setState({ showBidDialog: true });
     }
+    // this.setState({ showBidDialog: true });
   };
 
-  toggleShowQuickModal = (val) => {
+  toggleShowTaskerOnBoardingDialog = (val) => {
     this.setState({ showTaskerOnBoardingDialog: val });
   };
   render() {
@@ -41,7 +42,7 @@ export default class PostYourBid extends React.Component {
         {showTaskerOnBoardingDialog && (
           <AnytimeQuickModal
             showModal={showTaskerOnBoardingDialog}
-            setShowModal={this.toggleShowQuickModal}
+            setShowModal={this.toggleShowTaskerOnBoardingDialog}
             title={'Tasker Onboarding'}
             renderContentFunc={() => <TaskerVerificationBanner></TaskerVerificationBanner>}
           />
