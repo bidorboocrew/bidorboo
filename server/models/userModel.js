@@ -93,7 +93,7 @@ const UserSchema = new Schema(
       },
       text: {
         type: Boolean,
-        default: false,
+        default: true,
       },
       newPostedTasks: { type: Boolean, default: false },
     },
