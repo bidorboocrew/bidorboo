@@ -113,82 +113,80 @@ export default class UploaderComponent extends React.Component {
       <div className="modal is-active">
         <div onClick={closeDialog} className="modal-background" />
         <div className="modal-card">
+          <header className="modal-card-head">
+            <div className="modal-card-title">Upload a Picture</div>
+            <button onClick={closeDialog} className="delete" aria-label="close" />
+          </header>
           <section className="modal-card-body">
-            <div className="columns is-vcentered">
-              <div className="column">
-                {!showCropper && (
-                  <Dropzone
-                    accept={'image/*'}
-                    style={{}}
-                    ref={this.dropzoneRef}
-                    multiple={false}
-                    maxSize={MAX_FILE_SIZE_IN_MB}
-                    id="filesToUpload"
-                    name="filesToUpload"
-                    onDrop={this.onDrophandler}
-                    onDropRejected={(file, event) =>
-                      alert(
-                        'File not accepted, must be an image file less than 10MB ' +
-                          `${event && event}` +
-                          `${file && file}`,
-                      )
-                    }
-                  >
-                    <React.Fragment>
-                      <div className="section VerticalAligner bdb-img-upload-placeholder">
-                        <a
-                          type="submit"
-                          style={{
-                            pointerEvents: 'none',
-                            borderRadius: '100%',
-                            height: 70,
-                          }}
-                          className="button is-success is-large"
-                        >
-                          <span>
-                            <i className="fa fa-camera" aria-hidden="true" />
-                          </span>
-                        </a>
-                      </div>
-                    </React.Fragment>
-                  </Dropzone>
-                )}
+            {!showCropper && (
+              <Dropzone
+                accept={'image/*'}
+                style={{}}
+                ref={this.dropzoneRef}
+                multiple={false}
+                maxSize={MAX_FILE_SIZE_IN_MB}
+                id="filesToUpload"
+                name="filesToUpload"
+                onDrop={this.onDrophandler}
+                onDropRejected={(file, event) =>
+                  alert(
+                    'File not accepted, must be an image file less than 10MB ' +
+                      `${event && event}` +
+                      `${file && file}`,
+                  )
+                }
+              >
+                <React.Fragment>
+                  <div className="section VerticalAligner bdb-img-upload-placeholder">
+                    <a
+                      type="submit"
+                      style={{
+                        pointerEvents: 'none',
+                        borderRadius: '100%',
+                        height: 70,
+                      }}
+                      className="button is-success is-large"
+                    >
+                      <span>
+                        <i className="fa fa-camera" aria-hidden="true" />
+                      </span>
+                    </a>
+                  </div>
+                </React.Fragment>
+              </Dropzone>
+            )}
 
-                {showCropper && (
-                  <Cropper
-                    ref="cropper"
-                    src={thumb}
-                    checkOrientation={true}
-                    guides={false}
-                    className="bdb-img-upload-placeholder"
-                    modal={true}
-                    background={false}
-                    rotatable
-                    autoCrop
-                    autoCropArea={1}
-                    style={{ height: '16rem', width: '100%', background: '#eeeeee' }}
-                  />
-                )}
-              </div>
-            </div>
+            {showCropper && (
+              <Cropper
+                ref="cropper"
+                src={thumb}
+                checkOrientation={true}
+                guides={false}
+                className="bdb-img-upload-placeholder"
+                modal={true}
+                background={false}
+                rotatable
+                autoCrop
+                autoCropArea={1}
+                style={{ height: '16rem', width: '100%', background: '#eeeeee' }}
+              />
+            )}
           </section>
 
           <footer className="modal-card-foot ">
-            <React.Fragment>
-              <button onClick={closeDialog} className="button">
-                Cancel
-              </button>
+            <button onClick={closeDialog} className="button">
+              Cancel
+            </button>
 
-              <button disabled={!thumb} onClick={this.saveCrop} className="button is-info">
-                <span className="icon">
-                  <i className="fas fa-crop-alt" />
-                </span>
-                <span>Crop</span>
-              </button>
-              <button disabled={!thumb} onClick={this.done} className="button is-success">
-                <span>Done</span>
-              </button>
-            </React.Fragment>
+            <button disabled={!thumb} onClick={this.saveCrop} className="button is-info">
+              <span className="icon">
+                <i className="fas fa-crop-alt" />
+              </span>
+              <span>Crop</span>
+            </button>
+            <button disabled={!thumb} onClick={this.done} className="button is-success">
+              <span>Done</span>
+            </button>
           </footer>
         </div>
       </div>,
