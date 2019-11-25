@@ -20,10 +20,17 @@ class MyForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = { thumb: null, showCropper: false };
-    this.reader = new FileReader();
     this.dropzoneRef = React.createRef();
   }
 
+  componentDidMount() {
+    if (!this.props.thumb) {
+      this.dropzoneRef &&
+        this.dropzoneRef.current &&
+        this.dropzoneRef.current.open &&
+        this.dropzoneRef.current.open();
+    }
+  }
   componentWillUnmount() {
     const { acceptedFile, croppedFile } = this.state;
     // clean up memory
@@ -33,8 +40,6 @@ class MyForm extends React.Component {
     if (croppedFile) {
       window.URL.revokeObjectURL(croppedFile);
     }
-
-    this.reader = null;
   }
 
   onDrophandler = (files) => {

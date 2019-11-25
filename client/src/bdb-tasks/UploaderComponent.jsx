@@ -2,26 +2,15 @@ import React, { createRef } from 'react';
 import Dropzone from 'react-dropzone';
 import Cropper from 'react-cropper';
 import ReactDOM from 'react-dom';
+import loadImage from 'blueimp-load-image';
 
 const MAX_FILE_SIZE_IN_MB = 1000000 * 10; //10MB
 
 export default class UploaderComponent extends React.Component {
   constructor(props) {
     super(props);
-    const { thumb } = props;
-    this.state = { showCropper: thumb ? true : false, thumb: thumb ? thumb : null };
-    this.reader = new FileReader();
-    this.dropzoneRef = createRef();
-  }
-
-  componentWillUnmount() {
-    const { thumb } = this.state;
-    // clean up memory
-    if (thumb && thumb.preview) {
-      window.URL.revokeObjectURL(thumb.preview);
-    }
-
-    this.reader = null;
+    this.state = { thumb: null, showCropper: false };
+    this.dropzoneRef = React.createRef();
   }
 
   componentDidMount() {
@@ -32,34 +21,43 @@ export default class UploaderComponent extends React.Component {
         this.dropzoneRef.current.open();
     }
   }
+  componentWillUnmount() {
+    const { acceptedFile, croppedFile } = this.state;
+    // clean up memory
+    if (acceptedFile) {
+      window.URL.revokeObjectURL(acceptedFile.preview);
+    }
+    if (croppedFile) {
+      window.URL.revokeObjectURL(croppedFile);
+    }
+  }
+
   onDrophandler = (files) => {
-    // do nothing if no files
     if (!files || !(files.length > 0)) {
       return;
     }
 
-    // https://zocada.com/compress-resize-images-javascript-browser/
-    this.reader.onloadend = (event) => {
-      const img = new Image();
-      img.src = event.target.result;
-      img.onload = () => {
-        const width = 600;
-        const scaleFactor = width / img.width;
-        const height = img.height * scaleFactor;
+    loadImage(
+      files[0],
+      (loadedImg) => {
+        // let elem = document.querySelector('.form-group.has-text-centered');
+        // elem.appendChild(loadedImg);
 
-        let elem = document.createElement('canvas');
-        elem.width = width;
-        elem.height = height;
-        const ctx = elem.getContext('2d');
-        ctx.drawImage(img, 0, 0, width, img.height * scaleFactor);
+        const ctx = loadedImg.getContext('2d');
 
-        const imgAsDataUrl = ctx.canvas.toDataURL(img);
+        const imgAsDataUrl = ctx.canvas.toDataURL(loadedImg);
         this.setState(() => ({ thumb: imgAsDataUrl, showCropper: true }));
-      };
-    };
-
-    this.reader.onerror = (error) => console.error('reader1' + error);
-    this.reader.readAsDataURL(files[0]);
+      },
+      {
+        orientation: true,
+        contain: true,
+        maxWidth: 300,
+        maxHeight: 250,
+        minWidth: 100,
+        minHeight: 50,
+        canvas: true,
+      },
+    );
   };
 
   toggleCroppingOn = () => {
@@ -89,13 +87,14 @@ export default class UploaderComponent extends React.Component {
     }
   };
 
-  clearImage = () => {
-    this.setState({ showCropper: false, thumb: null, showThumbNail: false });
+  saveCrop = (e) => {
+    e.preventDefault();
+    const imgAsDataUrl = this.refs.cropper.getCroppedCanvas().toDataURL();
+    this.setState(() => ({ thumb: imgAsDataUrl }));
   };
 
-  saveCrop = () => {
-    const croppedImg = this.refs.cropper.getCroppedCanvas().toDataURL();
-    this.setState({ thumb: croppedImg });
+  clearImage = () => {
+    this.setState({ showCropper: false, thumb: null, showThumbNail: false });
   };
 
   done = () => {
@@ -116,41 +115,43 @@ export default class UploaderComponent extends React.Component {
           <section className="modal-card-body">
             <div className="columns is-vcentered">
               <div className="column">
-                <Dropzone
-                  accept="image/*"
-                  style={!showCropper ? {} : { height: 0 }}
-                  className={!showCropper ? '' : 'is-invisible'}
-                  ref={this.dropzoneRef}
-                  multiple={false}
-                  maxSize={MAX_FILE_SIZE_IN_MB}
-                  id="filesToUpload"
-                  name="filesToUpload"
-                  onDropAccepted={this.onDrophandler}
-                  onDropRejected={(file, event) =>
-                    alert(
-                      'File not accepted, must be an image file less than 10MB ' +
-                        `${event && event}` +
-                        `${file && file}`,
-                    )
-                  }
-                >
-                  <React.Fragment>
-                    <div className="section VerticalAligner bdb-img-upload-placeholder">
-                      <button
-                        style={{
-                          pointerEvents: 'none',
-                          borderRadius: '100%',
-                          height: 70,
-                        }}
-                        className="button is-success is-large"
-                      >
-                        <span>
-                          <i className="fa fa-camera" aria-hidden="true" />
-                        </span>
-                      </button>
-                    </div>
-                  </React.Fragment>
-                </Dropzone>
+                {!showCropper && (
+                  <Dropzone
+                    accept={'image/*'}
+                    style={{}}
+                    ref={this.dropzoneRef}
+                    multiple={false}
+                    maxSize={MAX_FILE_SIZE_IN_MB}
+                    id="filesToUpload"
+                    name="filesToUpload"
+                    onDrop={this.onDrophandler}
+                    onDropRejected={(file, event) =>
+                      alert(
+                        'File not accepted, must be an image file less than 10MB ' +
+                          `${event && event}` +
+                          `${file && file}`,
+                      )
+                    }
+                  >
+                    <React.Fragment>
+                      <div className="section VerticalAligner bdb-img-upload-placeholder">
+                        <a
+                          type="submit"
+                          style={{
+                            pointerEvents: 'none',
+                            borderRadius: '100%',
+                            height: 70,
+                          }}
+                          className="button is-success is-large"
+                        >
+                          <span>
+                            <i className="fa fa-camera" aria-hidden="true" />
+                          </span>
+                        </a>
+                      </div>
+                    </React.Fragment>
+                  </Dropzone>
+                )}
 
                 {showCropper && (
                   <Cropper
@@ -176,12 +177,7 @@ export default class UploaderComponent extends React.Component {
               <button onClick={closeDialog} className="button">
                 Cancel
               </button>
-              {/* <button onClick={this.clearImage} className="button is-danger is-outlined">
-                <span className="icon">
-                  <i className="far fa-trash-alt" />
-                </span>
-                <span>Clear</span>
-              </button> */}
+
               <button disabled={!thumb} onClick={this.saveCrop} className="button is-info">
                 <span className="icon">
                   <i className="fas fa-crop-alt" />
@@ -197,33 +193,5 @@ export default class UploaderComponent extends React.Component {
       </div>,
       document.querySelector('#bidorboo-root-modals'),
     );
-  }
-}
-// {showThumbNail && !showCropper && (
-//   <ThumbsCollection
-//     clickHandler={this.removeFileAndOpenFileSelector}
-//     acceptedFile={thumb}
-//   />
-//
-
-class Thumb extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: false,
-    };
-  }
-
-  render() {
-    const { file, clickHandler } = this.props;
-    const { loading } = this.state;
-    if (!file) {
-      return null;
-    }
-    if (loading) {
-      return <p>loading...</p>;
-    }
-
-    return <img onClick={clickHandler} className="bdb-img-profile-pic" src={file} />;
   }
 }
