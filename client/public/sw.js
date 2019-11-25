@@ -4,7 +4,7 @@
 // xxxxx fery important
 // https://github.com/deanhume/pwa-update-available
 // https://developers.google.com/web/fundamentals/primers/service-workers/
-var CACHE_NAME = 'bob-app-cache-v1.0.0';
+var CACHE_NAME = 'bob-app-cache-v1.1.0';
 var THREE_MONTHS_IN_SECONDS = 7776000;
 // var googleMapsReq = new Request(
 //   'https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=places,geometry',
