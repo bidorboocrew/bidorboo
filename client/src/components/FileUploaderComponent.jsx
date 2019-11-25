@@ -2,6 +2,7 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 import { withFormik } from 'formik';
 import Cropper from 'react-cropper';
+// https://github.com/blueimp/JavaScript-Load-Image#api
 import loadImage from 'blueimp-load-image';
 import 'cropperjs/dist/cropper.css';
 const MAX_FILE_SIZE_IN_MB = 1000000 * 10; //10MB

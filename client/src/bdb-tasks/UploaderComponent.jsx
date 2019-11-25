@@ -2,6 +2,7 @@ import React, { createRef } from 'react';
 import Dropzone from 'react-dropzone';
 import Cropper from 'react-cropper';
 import ReactDOM from 'react-dom';
+// https://github.com/blueimp/JavaScript-Load-Image#api
 import loadImage from 'blueimp-load-image';
 
 const MAX_FILE_SIZE_IN_MB = 1000000 * 10; //10MB

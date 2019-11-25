@@ -430,10 +430,7 @@ module.exports = (app) => {
           filesList[0].path,
           {
             folder: `profilePic`,
-            transformation: [
-              { gravity: 'face', width: 150, height: 150, crop: 'thumb' },
-              { quality: 'auto' },
-            ],
+            transformation: [{ gravity: 'face', width: 150, height: 150, crop: 'thumb' }],
           },
           updateUserWithNewProfileImg
         );
