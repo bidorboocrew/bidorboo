@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import Dropzone from 'react-dropzone';
 import { withFormik } from 'formik';
 import Cropper from 'react-cropper';
@@ -21,7 +21,7 @@ class MyForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = { thumb: null, showCropper: false };
-    this.dropzoneRef = React.createRef();
+    this.dropzoneRef = createRef();
   }
 
   componentDidMount() {

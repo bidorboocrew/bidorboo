@@ -4,6 +4,7 @@ import Cropper from 'react-cropper';
 import ReactDOM from 'react-dom';
 // https://github.com/blueimp/JavaScript-Load-Image#api
 import loadImage from 'blueimp-load-image';
+import 'cropperjs/dist/cropper.css';
 
 const MAX_FILE_SIZE_IN_MB = 1000000 * 10; //10MB
 
@@ -11,7 +12,7 @@ export default class UploaderComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = { thumb: null, showCropper: false };
-    this.dropzoneRef = React.createRef();
+    this.dropzoneRef = createRef();
   }
 
   componentDidMount() {
