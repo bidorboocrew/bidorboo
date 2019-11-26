@@ -11,7 +11,7 @@ import PaymentSetupForm from '../../components/forms/PaymentSetupForm';
 
 import { getCurrentUser } from '../../app-state/actions/authActions';
 import * as ROUTES from '../../constants/frontend-route-consts';
-import TaskerVerificationBanner from './../bidder-flow/TaskerVerificationBanner';
+
 class PaymentSettings extends React.Component {
   componentDidMount() {
     this.props.getMyStripeAccountDetails();
@@ -247,12 +247,12 @@ const EstablishedAccountView = (props) => {
   //   }
   // }
   return (
-    <section style={{ backgroundColor: 'white', padding: '0.25rem' }}>
-      <HeaderTitle title="Account Details" />
+    <section style={{ backgroundColor: 'white', padding: '0.5rem' }}>
+      <HeaderTitle title="Payment Settings" />
       <br />
 
-      <nav className="panel">
-        <div className="panel-heading">
+      <nav style={{ border: 'none', boxShadow: 'none' }} className="panel">
+        <div style={{ borderRadius: 0 }} className="panel-heading">
           <div className="control">
             <label className="radio">
               <input type="radio" name="foobar" checked readOnly />
@@ -264,15 +264,6 @@ const EstablishedAccountView = (props) => {
         {(() => {
           const verificationStatus = stripeConnect.isVerified ? (
             <React.Fragment>
-              <div className="panel-heading is-size-6 has-text-weight-semibold">
-                <span className="has-text-success">
-                  <span className="icon">
-                    <i className="fas fa-check is-success" />
-                  </span>
-                  <span>Verified Account</span>
-                </span>
-              </div>
-
               <div style={{ padding: '0.5rem' }}>
                 <div className="has-text-success">
                   <span className="icon">
@@ -280,7 +271,7 @@ const EstablishedAccountView = (props) => {
                   </span>
                   <span>Congratulations your bank account is Verified.</span>
                 </div>
-                <div>Payouts will be sent to this bank acc upon completing Tasks.</div>
+                <div>Payouts will be sent to this bank account after you complete each Task.</div>
                 <div className="help">
                   *To change your primary payout bank account click the chat button at the bottom of
                   the page
@@ -289,28 +280,33 @@ const EstablishedAccountView = (props) => {
             </React.Fragment>
           ) : (
             <React.Fragment>
-              <div className="panel-heading is-size-6 has-text-weight-semibold">
+              <div style={{ padding: '0.5rem' }}>
                 <span className="has-text-link">
                   <span className="icon">
                     <i className="far fa-clock" />
                   </span>
                   <span>Pending Verification</span>
                 </span>
-              </div>
-              <div style={{ padding: '0.5rem' }}>
-                <p>
-                  <strong>Don't Worry !</strong>
-                  <br />
-                  The verifiation Process usually takes 5-10 days, however you are still able to bid
-                  and perform tasks. All your payments will be paid immediately once we verify your
-                  account.
-                </p>
+                <div>
+                  The verification process may takes 5-10 days, however you are still able to bid
+                  and perform tasks.
+                </div>
+                <div> All your payments will be paid immediately once we verify your account.</div>
+                <div className="help">
+                  *To change your primary payout bank account click the chat button at the bottom of
+                  the page
+                </div>
               </div>
             </React.Fragment>
           );
           return verificationStatus;
         })()}
-        <div className="panel-heading is-size-6 has-text-weight-semibold">Your Earnings</div>
+        <div
+          style={{ borderRadius: 0 }}
+          className="panel-heading is-size-6 has-text-weight-semibold"
+        >
+          Earnings Summary
+        </div>
         <div style={{ padding: '0.5rem' }}>
           {istherePaymentDetails && (
             <div className="tile is-ancestor has-text-centered">
@@ -322,8 +318,8 @@ const EstablishedAccountView = (props) => {
                       ? `${myStripeAccountDetails.balanceDetails.potentialFuturePayouts}$`
                       : `0$`}
                   </p>
-                  <p className="is-size-6">Potential Earnings</p>
-                  <p className="help">*To be paid upon tasks completion</p>
+                  <p className="is-size-6 has-text-weight-semibold">Future Earnings</p>
+                  <p className="help">*Will be paid as you complete each task</p>
                 </article>
               </div>
               <div className="tile is-parent">
@@ -334,7 +330,7 @@ const EstablishedAccountView = (props) => {
                       ? `${myStripeAccountDetails.balanceDetails.pastEarnings}$`
                       : `0$`}
                   </p>
-                  <p className="is-size-6">Past Earnings</p>
+                  <p className="is-size-6 has-text-weight-semibold">Past Earnings</p>
                   <p className="help">*Total of all past payouts</p>
                 </article>
               </div>
