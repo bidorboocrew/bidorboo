@@ -190,14 +190,15 @@ class OtherUserProfileForReviewPage extends React.Component {
                 <div className="tile is-ancestor has-text-centered">
                   <div className="tile is-parent">
                     <article className="tile is-child box">
+                      <p className="is-size-7">Ratings received</p>
                       <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
                         {numberOfTimesBeenRated}
                       </p>
-                      <p className="is-size-6">ratings recieved</p>
                     </article>
                   </div>
                   <div className="tile is-parent">
                     <article className="tile is-child box">
+                      <p className="is-size-7">Completed Tasks</p>
                       <p
                         style={{ marginBottom: 4 }}
                         className={`title has-text-weight-bold ${
@@ -206,11 +207,11 @@ class OtherUserProfileForReviewPage extends React.Component {
                       >
                         {fulfilledBids.length}
                       </p>
-                      <p className="is-size-6">Completed Tasks</p>
                     </article>
                   </div>
                   <div className="tile is-parent">
                     <article className="tile is-child box">
+                      <p className="is-size-7">Cancelled Tasks</p>
                       <p
                         style={{ marginBottom: 4 }}
                         className={`title has-text-weight-bold ${
@@ -219,11 +220,11 @@ class OtherUserProfileForReviewPage extends React.Component {
                       >
                         {canceledBids.length}
                       </p>
-                      <p className="is-size-6">Cancelations of Agreements</p>
                     </article>
                   </div>
                   <div className="tile is-parent">
                     <article className="tile is-child box">
+                      <p className="is-size-7">Fulfilled Requests</p>
                       <p
                         style={{ marginBottom: 4 }}
                         className={`title has-text-weight-bold ${
@@ -232,11 +233,12 @@ class OtherUserProfileForReviewPage extends React.Component {
                       >
                         {fulfilledJobs.length}
                       </p>
-                      <p className="is-size-6">Requests Posted and fullfilled</p>
                     </article>
                   </div>
                   <div className="tile is-parent">
                     <article className="tile is-child box">
+                      <p className="is-size-7">Cancelled Requests</p>
+
                       <p
                         style={{ marginBottom: 4 }}
                         className={`title has-text-weight-bold${
@@ -245,14 +247,13 @@ class OtherUserProfileForReviewPage extends React.Component {
                       >
                         {canceledJobs.length}
                       </p>
-                      <p className="is-size-6">Requests Cancelled after agreement</p>
                     </article>
                   </div>
                 </div>
                 {asABidderReviews && (
                   <React.Fragment>
                     <br />
-                    <label className="label">Reviews recieved as a Tasker :</label>
+                    <label className="label">Reviews received as a Tasker :</label>
                     {asABidderReviews}
                   </React.Fragment>
                 )}
@@ -260,7 +261,7 @@ class OtherUserProfileForReviewPage extends React.Component {
                 {asAProposerReviewsRef && (
                   <React.Fragment>
                     <br />
-                    <label className="label">Reviews recieved as a Requester :</label>
+                    <label className="label">Reviews received as a Requester :</label>
                     {asAProposerReviewsRef}
                   </React.Fragment>
                 )}
@@ -285,10 +286,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(OtherUserProfileForReviewPage);
+export default connect(mapStateToProps, mapDispatchToProps)(OtherUserProfileForReviewPage);
 
 const ReviewComments = ({ commenterDisplayName, commenterProfilePicUrl, comment }) => {
   return (

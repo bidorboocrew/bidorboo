@@ -82,60 +82,58 @@ class MyProfile extends React.Component {
           updateProfileImage,
         )}
 
-        <div>
-          <div className="columns is-centered">
-            <div className="column is-narrow has-text-centered">
-              {userImageAndStats(
-                this.toggleShowUploadProfileImageDialog,
-                profileImage,
-                membershipStatusDisplay,
-                rating,
-                displayName,
-                userDetails,
-              )}
-            </div>
-            <div className="column">
-              <div className="card cardWithButton nofixedwidth">
-                <header className="card-header">
-                  <p className="card-header-title">
-                    {!isEditProfile ? (
-                      <React.Fragment>
-                        <span className="icon">
-                          <i className="far fa-user" />
-                        </span>
-                        <span>My Details</span>
-                      </React.Fragment>
-                    ) : (
-                      <React.Fragment>
-                        <span className="icon">
-                          <i className="far fa-edit" />
-                        </span>
-                        <span>Edit My Details</span>
-                      </React.Fragment>
-                    )}
-                  </p>
-                </header>
-                <div className="card-content">
-                  <div className="content">
-                    {!isEditProfile && (
-                      <button
-                        onClick={() => {
-                          this.toggleEditProfile();
-                        }}
-                        className="button firstButtonInCard is-success"
-                        aria-label="more options"
-                      >
-                        <span className="icon">
-                          <i className="far fa-edit" />
-                        </span>
-                        <span>Edit Details</span>
-                      </button>
-                    )}
-                    {!isEditProfile && (
-                      <div>
-                        <DisplayLabelValue labelText="User Name" labelValue={displayName} />
+        <div className="columns is-centered is-mobile">
+          <div className="column limitLargeMaxWidth slide-in-right">
+            {userImageAndStats(
+              this.toggleShowUploadProfileImageDialog,
+              profileImage,
+              membershipStatusDisplay,
+              rating,
+              displayName,
+              userDetails,
+            )}
 
-                        {/* <div className="group">
+            <div className="card cardWithButton nofixedwidth">
+              <header className="card-header">
+                <p className="card-header-title">
+                  {!isEditProfile ? (
+                    <React.Fragment>
+                      <span className="icon">
+                        <i className="far fa-user" />
+                      </span>
+                      <span>My Details</span>
+                    </React.Fragment>
+                  ) : (
+                    <React.Fragment>
+                      <span className="icon">
+                        <i className="far fa-edit" />
+                      </span>
+                      <span>Edit My Details</span>
+                    </React.Fragment>
+                  )}
+                </p>
+              </header>
+              <div className="card-content">
+                <div className="content">
+                  {!isEditProfile && (
+                    <button
+                      onClick={() => {
+                        this.toggleEditProfile();
+                      }}
+                      className="button firstButtonInCard is-success"
+                      aria-label="more options"
+                    >
+                      <span className="icon">
+                        <i className="far fa-edit" />
+                      </span>
+                      <span>Edit Details</span>
+                    </button>
+                  )}
+                  {!isEditProfile && (
+                    <div>
+                      <DisplayLabelValue labelText="User Name" labelValue={displayName} />
+
+                      {/* <div className="group">
                           <label className="label">Auto Detect Location</label>
                           <div className="control">
                             {autoDetectlocation && (
@@ -154,149 +152,112 @@ class MyProfile extends React.Component {
                           </div>
                         </div> */}
 
-                        <DisplayLabelValue
-                          renderExtraStuff={() => (
-                            <React.Fragment>
-                              {shouldShowEmailVerification && (
-                                <VerifyEmailButton getCurrentUser={getCurrentUser} />
-                              )}
-                            </React.Fragment>
-                          )}
-                          labelText="Email"
-                          labelValue={
-                            <div>
-                              <span>{email.emailAddress}</span>
-                              {email.isVerified && (
-                                <span style={{ marginLeft: 6 }} className="has-text-success">
-                                  <span className="icon">
-                                    <i className="fas fa-check is-success" />
-                                  </span>
-                                  <span>(Verified)</span>
+                      <DisplayLabelValue
+                        renderExtraStuff={() => (
+                          <React.Fragment>
+                            {shouldShowEmailVerification && (
+                              <VerifyEmailButton getCurrentUser={getCurrentUser} />
+                            )}
+                          </React.Fragment>
+                        )}
+                        labelText="Email"
+                        labelValue={
+                          <div>
+                            <span>{email.emailAddress}</span>
+                            {email.isVerified && (
+                              <span style={{ marginLeft: 6 }} className="has-text-success">
+                                <span className="icon">
+                                  <i className="fas fa-check is-success" />
                                 </span>
-                              )}
-                              {!email.isVerified && (
-                                <span
-                                  className="has-text-danger"
-                                  style={{ marginLeft: 2, marginRight: 4 }}
-                                >
-                                  (Not Verified)
-                                </span>
-                              )}
-                            </div>
-                          }
-                        />
-
-                        <DisplayLabelValue
-                          renderExtraStuff={() => (
-                            <React.Fragment>
-                              {shouldShowPhoneVerification && <VerifyPhoneButton />}
-                            </React.Fragment>
-                          )}
-                          labelText="Phone Number"
-                          labelValue={
-                            <div>
-                              <span>{phoneNumber}</span>
-                              {phone.isVerified && (
-                                <span style={{ marginLeft: 6 }} className="has-text-success">
-                                  <span className="icon">
-                                    <i className="fas fa-check is-success" />
-                                  </span>
-                                  <span>(Verified)</span>
-                                </span>
-                              )}
-                              {!phone.isVerified && (
-                                <span
-                                  style={{ marginLeft: 2, marginRight: 4 }}
-                                  className="has-text-danger"
-                                >
-                                  (Not Verified)
-                                </span>
-                              )}
-                            </div>
-                          }
-                        />
-
-                        {/* <DisplayLabelValue
-                          labelText="ID verification (Optional)"
-                          labelValue={
-                            <div>
-                              <span>{didUserProvidePicId ? 'Uploaded' : 'Not Provided'}</span>
-                              {didUserProvidePicId && (
-                                <React.Fragment>
-                                  {isPictureIdVerified && (
-                                    <span style={{ marginLeft: 6 }} className="has-text-success">
-                                      <span className="icon">
-                                        <i className="fas fa-check is-success" />
-                                      </span>
-                                      <span>(Verified)</span>
-                                    </span>
-                                  )}
-                                  {!isPictureIdVerified && (
-                                    <React.Fragment>
-                                      <span style={{ marginLeft: 6 }} className="has-text-grey">
-                                        <span style={{ marginLeft: 2 }}>(Not Verified)</span>
-                                      </span>
-                                      <div className="help">
-                                        * BidOrBoo Crew will get this verified in 3-5 business days
-                                      </div>
-                                    </React.Fragment>
-                                  )}
-                                </React.Fragment>
-                              )}
-                            </div>
-                          }
-                        /> */}
-
-                        <HeaderTitle title="About Me" />
-                        <TextareaAutosize
-                          value={personalParagraph}
-                          className="textarea is-marginless is-paddingless control"
-                          style={{
-                            resize: 'none',
-                            border: 'none',
-                          }}
-                          readOnly
-                        />
-                        <br />
-                        <br />
-                      </div>
-                    )}
-                    {isEditProfile && (
-                      <ProfileForm
-                        userDetails={userDetails}
-                        onCancel={this.toggleEditProfile}
-                        onSubmit={this.closeFormAndSubmit}
+                                <span>(Verified)</span>
+                              </span>
+                            )}
+                            {!email.isVerified && (
+                              <span
+                                className="has-text-danger"
+                                style={{ marginLeft: 2, marginRight: 4 }}
+                              >
+                                (Not Verified)
+                              </span>
+                            )}
+                          </div>
+                        }
                       />
-                    )}
-                  </div>
+
+                      <DisplayLabelValue
+                        renderExtraStuff={() => (
+                          <React.Fragment>
+                            {shouldShowPhoneVerification && <VerifyPhoneButton />}
+                          </React.Fragment>
+                        )}
+                        labelText="Phone Number"
+                        labelValue={
+                          <div>
+                            <span>{phoneNumber}</span>
+                            {phone.isVerified && (
+                              <span style={{ marginLeft: 6 }} className="has-text-success">
+                                <span className="icon">
+                                  <i className="fas fa-check is-success" />
+                                </span>
+                                <span>(Verified)</span>
+                              </span>
+                            )}
+                            {!phone.isVerified && (
+                              <span
+                                style={{ marginLeft: 2, marginRight: 4 }}
+                                className="has-text-danger"
+                              >
+                                (Not Verified)
+                              </span>
+                            )}
+                          </div>
+                        }
+                      />
+                      <HeaderTitle title="About Me" />
+                      <TextareaAutosize
+                        value={personalParagraph}
+                        className="textarea is-marginless is-paddingless control"
+                        style={{
+                          resize: 'none',
+                          border: 'none',
+                        }}
+                        readOnly
+                      />
+                      <br />
+                      <br />
+                    </div>
+                  )}
+                  {isEditProfile && (
+                    <ProfileForm
+                      userDetails={userDetails}
+                      onCancel={this.toggleEditProfile}
+                      onSubmit={this.closeFormAndSubmit}
+                    />
+                  )}
                 </div>
               </div>
             </div>
-
-            <div className="column">
-              <NotificationSettings />
+            <br />
+            <br />
+            <NotificationSettings />
+            <br></br>
+            <div style={{ background: 'transparent' }} className="tabs is-centered">
+              <ul style={{ marginLeft: 0 }}>
+                <li className="is-active">
+                  <a>
+                    <span className="icon is-small">
+                      <i className="fas fa-wave-square" aria-hidden="true" />
+                    </span>
+                    <span>YOUR BidOrBoo PULSE</span>
+                  </a>
+                </li>
+              </ul>
             </div>
+            <OtherUserProfileForReviewPage
+              isMyPersonalProfile
+              match={{ params: { userId: userDetails._id } }}
+            ></OtherUserProfileForReviewPage>
           </div>
-        </div>
-        <div>
-          <br></br>
-          <br></br>
-          <div style={{ background: 'transparent' }} className="tabs is-centered">
-            <ul style={{ marginLeft: 0 }}>
-              <li className="is-active">
-                <a>
-                  <span className="icon is-small">
-                    <i className="fas fa-wave-square" aria-hidden="true" />
-                  </span>
-                  <span>YOUR BidOrBoo PULSE</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-          <OtherUserProfileForReviewPage
-            isMyPersonalProfile
-            match={{ params: { userId: userDetails._id } }}
-          ></OtherUserProfileForReviewPage>
         </div>
       </React.Fragment>
     );
@@ -401,7 +362,7 @@ const userImageAndStats = (
                   ({membershipStatusDisplay})
                 </div>
                 {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
-                  <div className="has-text-grey" style={{ lineHeight: '52px' }}>
+                  <div className="has-text-grey" style={{ lineHeight: '32px' }}>
                     - No Ratings Yet -
                   </div>
                 ) : (
@@ -418,7 +379,7 @@ const userImageAndStats = (
                 )}
               </div>
             </div>
-            <VerifiedVia userDetails={userDetails} showAll />
+            <VerifiedVia width={300} userDetails={userDetails} showAll />
           </div>
         </div>
       </div>

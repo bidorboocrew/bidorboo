@@ -642,7 +642,7 @@ export const TaskSpecificExtras = ({ extras, templateId }) => {
   return renderedTaskSpecificFields;
 };
 
-export const VerifiedVia = ({ userDetails, isCentered = true, showAll = false }) => {
+export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showAll = false }) => {
   const {
     stripeConnect = { isVerified: false },
     phone = { isVerified: false },
@@ -659,7 +659,7 @@ export const VerifiedVia = ({ userDetails, isCentered = true, showAll = false })
 
   return (
     <div
-      style={{ width: 150, margin: isCentered ? 'auto' : '' }}
+      style={{ width, margin: isCentered ? 'auto' : '' }}
       className={`${isCentered ? 'has-text-centered' : ''}`}
     >
       <label className="label">verifications</label>
