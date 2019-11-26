@@ -5,7 +5,6 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getMyStripeAccountDetails } from '../../app-state/actions/paymentActions';
-
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import TaskerSetupForm from '../../components/forms/TaskerSetupForm';
@@ -110,26 +109,6 @@ class TaskerVerificationBanner extends React.Component {
     const areThereMoreRequirement = currently_due.length > 0 || past_due.length > 0;
     const isUserBlocked = !!disabled_reason;
 
-    if (isUserBlocked) {
-      return (
-        <section className="hero is-danger is-small is-bold slide-in-top">
-          <div className="hero-body">
-            <div className="container">
-              <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
-                We were not able to verify your info
-              </h1>
-              <button className="button is-small is-dark" onClick={this.chatWithSupportNow}>
-                <span className="icon">
-                  <i className="far fa-comment-dots" />
-                </span>
-                <span>CHAT WITH SUPPORT</span>
-              </button>
-            </div>
-          </div>
-        </section>
-      );
-    }
-
     if (userDetails && areThereMoreRequirement) {
       if (
         currently_due.includes('individual.verification.document') ||
@@ -232,6 +211,25 @@ class TaskerVerificationBanner extends React.Component {
       );
     }
 
+    if (isUserBlocked) {
+      return (
+        <section className="hero is-danger is-small is-bold slide-in-top">
+          <div className="hero-body">
+            <div className="container">
+              <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
+                We were not able to verify your info
+              </h1>
+              <button className="button is-small is-dark" onClick={this.chatWithSupportNow}>
+                <span className="icon">
+                  <i className="far fa-comment-dots" />
+                </span>
+                <span>CHAT WITH SUPPORT</span>
+              </button>
+            </div>
+          </div>
+        </section>
+      );
+    }
     return null;
   }
 }

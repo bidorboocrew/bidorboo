@@ -7,11 +7,11 @@ import { bindActionCreators } from 'redux';
 import { updateProfileDetails, updateProfileImage } from '../../app-state/actions/userModelActions';
 import { getMyStripeAccountDetails } from '../../app-state/actions/paymentActions';
 import { Spinner } from '../../components/Spinner';
-
 import PaymentSetupForm from '../../components/forms/PaymentSetupForm';
 
 import { getCurrentUser } from '../../app-state/actions/authActions';
 import * as ROUTES from '../../constants/frontend-route-consts';
+import TaskerVerificationBanner from './../bidder-flow/TaskerVerificationBanner';
 class PaymentSettings extends React.Component {
   componentDidMount() {
     this.props.getMyStripeAccountDetails();
@@ -42,17 +42,17 @@ class PaymentSettings extends React.Component {
       stripeConnect.accId &&
       stripeConnect.isVerified &&
       stripeConnect.payoutsEnabled;
-
+    debugger;
     return (
-      <div className="columns is-centered">
-        <div className="column is-narrow">
+      <div className="columns is-centered is-mobile">
+        <div className="column limitLargeMaxWidth slide-in-right">
           {firstTimeSetup && <InitialAccountSetupView {...this.props} {...this.state} />}
           {/* {xxxxxxxxxxxxxx xxx you need to allow updates} */}
-          {/* {pendingVerification && (
+          {pendingVerification && (
             <React.Fragment>
               <EstablishedAccountView {...this.props} />
             </React.Fragment>
-          )} */}
+          )}
           {verifiedAccount && (
             <React.Fragment>
               <EstablishedAccountView {...this.props} />
