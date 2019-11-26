@@ -214,10 +214,13 @@ class BidderRootPage extends React.Component {
         <TaskerVerificationBanner></TaskerVerificationBanner>
 
         <div>
-          <section className="hero is-small is-white">
+          <section className="hero is-small is-dark">
             <div className="hero-body">
               <div className="container">
-                <h1 style={{ marginBottom: '0.5rem', paddingLeft: 10 }} className="subtitle">
+                <h1
+                  style={{ marginBottom: '0.5rem', paddingLeft: 10 }}
+                  className="subtitle has-text-weight-semibold"
+                >
                   Search For Jobs Near
                 </h1>
 

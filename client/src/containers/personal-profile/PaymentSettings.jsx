@@ -42,7 +42,6 @@ class PaymentSettings extends React.Component {
       stripeConnect.accId &&
       stripeConnect.isVerified &&
       stripeConnect.payoutsEnabled;
-    debugger;
     return (
       <div className="columns is-centered is-mobile">
         <div className="column limitLargeMaxWidth slide-in-right">
@@ -247,97 +246,102 @@ const EstablishedAccountView = (props) => {
   //   }
   // }
   return (
-    <section style={{ backgroundColor: 'white', padding: '0.5rem' }}>
-      <HeaderTitle title="Payment Settings" />
-      <br />
+    <>
+      <section style={{ backgroundColor: 'white', padding: '0.5rem' }}>
+        <HeaderTitle title="Payment Settings" />
+        <br />
 
-      <nav style={{ border: 'none', boxShadow: 'none' }} className="panel">
-        <div style={{ borderRadius: 0 }} className="panel-heading">
-          <div className="control">
-            <label className="radio">
-              <input type="radio" name="foobar" checked readOnly />
-              {` Bank Account number ******`}
-              <strong>{stripeConnect.last4BankAcc}</strong>
-            </label>
-          </div>
-        </div>
-        {(() => {
-          const verificationStatus = stripeConnect.isVerified ? (
-            <React.Fragment>
-              <div style={{ padding: '0.5rem' }}>
-                <div className="has-text-success">
-                  <span className="icon">
-                    <i className="fas fa-check is-success" />
-                  </span>
-                  <span>Congratulations your bank account is Verified.</span>
-                </div>
-                <div>Payouts will be sent to this bank account after you complete each Task.</div>
-                <div className="help">
-                  *To change your primary payout bank account click the chat button at the bottom of
-                  the page
-                </div>
-              </div>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <div style={{ padding: '0.5rem' }}>
-                <span className="has-text-link">
-                  <span className="icon">
-                    <i className="far fa-clock" />
-                  </span>
-                  <span>Pending Verification</span>
-                </span>
-                <div>
-                  The verification process may takes 5-10 days, however you are still able to bid
-                  and perform tasks.
-                </div>
-                <div> All your payments will be paid immediately once we verify your account.</div>
-                <div className="help">
-                  *To change your primary payout bank account click the chat button at the bottom of
-                  the page
-                </div>
-              </div>
-            </React.Fragment>
-          );
-          return verificationStatus;
-        })()}
-        <div
-          style={{ borderRadius: 0 }}
-          className="panel-heading is-size-6 has-text-weight-semibold"
-        >
-          Earnings Summary
-        </div>
-        <div style={{ padding: '0.5rem' }}>
-          {istherePaymentDetails && (
-            <div className="tile is-ancestor has-text-centered">
-              <div className="tile is-parent">
-                <article className="tile is-child box">
-                  <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
-                    {myStripeAccountDetails.balanceDetails.potentialFuturePayouts &&
-                    myStripeAccountDetails.balanceDetails.potentialFuturePayouts > 0
-                      ? `${myStripeAccountDetails.balanceDetails.potentialFuturePayouts}$`
-                      : `0$`}
-                  </p>
-                  <p className="is-size-6 has-text-weight-semibold">Future Earnings</p>
-                  <p className="help">*Will be paid as you complete each task</p>
-                </article>
-              </div>
-              <div className="tile is-parent">
-                <article className="tile is-child box">
-                  <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
-                    {myStripeAccountDetails.balanceDetails.pastEarnings &&
-                    myStripeAccountDetails.balanceDetails.pastEarnings > 0
-                      ? `${myStripeAccountDetails.balanceDetails.pastEarnings}$`
-                      : `0$`}
-                  </p>
-                  <p className="is-size-6 has-text-weight-semibold">Past Earnings</p>
-                  <p className="help">*Total of all past payouts</p>
-                </article>
-              </div>
+        <nav style={{ border: 'none', boxShadow: 'none' }} className="panel">
+          <div style={{ borderRadius: 0 }} className="panel-heading">
+            <div className="control">
+              <label className="radio">
+                <input type="radio" name="foobar" checked readOnly />
+                {` Bank Account number ******`}
+                <strong>{stripeConnect.last4BankAcc}</strong>
+              </label>
             </div>
-          )}
-        </div>
-      </nav>
-    </section>
+          </div>
+          {(() => {
+            const verificationStatus = stripeConnect.isVerified ? (
+              <React.Fragment>
+                <div style={{ padding: '0.5rem' }}>
+                  <div className="has-text-success">
+                    <span className="icon">
+                      <i className="fas fa-check is-success" />
+                    </span>
+                    <span>Congratulations your bank account is Verified.</span>
+                  </div>
+                  <div>Payouts will be sent to this bank account after you complete each Task.</div>
+                  <div className="help">
+                    *To change your primary payout bank account click the chat button at the bottom
+                    of the page
+                  </div>
+                </div>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <div style={{ padding: '0.5rem' }}>
+                  <span className="has-text-link">
+                    <span className="icon">
+                      <i className="far fa-clock" />
+                    </span>
+                    <span>Pending Verification</span>
+                  </span>
+                  <div>
+                    The verification process may takes 5-10 days, however you are still able to bid
+                    and perform tasks.
+                  </div>
+                  <div>
+                    {' '}
+                    All your payments will be paid immediately once we verify your account.
+                  </div>
+                  <div className="help">
+                    *To change your primary payout bank account click the chat button at the bottom
+                    of the page
+                  </div>
+                </div>
+              </React.Fragment>
+            );
+            return verificationStatus;
+          })()}
+          <div
+            style={{ borderRadius: 0 }}
+            className="panel-heading is-size-6 has-text-weight-semibold"
+          >
+            Earnings Summary
+          </div>
+          <div style={{ padding: '0.5rem' }}>
+            {istherePaymentDetails && (
+              <div className="tile is-ancestor has-text-centered">
+                <div className="tile is-parent">
+                  <article className="tile is-child box">
+                    <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
+                      {myStripeAccountDetails.balanceDetails.potentialFuturePayouts &&
+                      myStripeAccountDetails.balanceDetails.potentialFuturePayouts > 0
+                        ? `${myStripeAccountDetails.balanceDetails.potentialFuturePayouts}$`
+                        : `0$`}
+                    </p>
+                    <p className="is-size-6 has-text-weight-semibold">Future Earnings</p>
+                    <p className="help">*Will be paid as you complete each task</p>
+                  </article>
+                </div>
+                <div className="tile is-parent">
+                  <article className="tile is-child box">
+                    <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
+                      {myStripeAccountDetails.balanceDetails.pastEarnings &&
+                      myStripeAccountDetails.balanceDetails.pastEarnings > 0
+                        ? `${myStripeAccountDetails.balanceDetails.pastEarnings}$`
+                        : `0$`}
+                    </p>
+                    <p className="is-size-6 has-text-weight-semibold">Past Earnings</p>
+                    <p className="help">*Total of all past payouts</p>
+                  </article>
+                </div>
+              </div>
+            )}
+          </div>
+        </nav>
+      </section>
+    </>
   );
 };
