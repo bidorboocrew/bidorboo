@@ -78,10 +78,10 @@ self.addEventListener('install', function(event) {
       //   // console.info('putting fontawesome in cache');
       //   cache.put(fontAwesomeReq, response);
       // });
-      fetch(googleFontsReq).then((response) => {
-        // console.info('putting google fonts in cache');
-        cache.put(googleFontsReq, response);
-      });
+      // fetch(googleFontsReq).then((response) => {
+      //   // console.info('putting google fonts in cache');
+      //   cache.put(googleFontsReq, response);
+    // });
 
       return cache.addAll(urlsToCache);
     }),
