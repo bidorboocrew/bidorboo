@@ -35,30 +35,54 @@ class PaymentSettings extends React.Component {
     let { stripeConnect } = userDetails;
 
     const firstTimeSetup = !stripeConnect || !stripeConnect.accId || !stripeConnect.last4BankAcc;
-    const pendingVerification = stripeConnect && stripeConnect.accId && !stripeConnect.isVerified;
+    const showEarningsOnly = stripeConnect && stripeConnect.accId && !stripeConnect.last4BankAcc;
+
+    const pendingVerification =
+      stripeConnect &&
+      stripeConnect.accId &&
+      stripeConnect.last4BankAcc &&
+      !stripeConnect.isVerified;
 
     const verifiedAccount =
       stripeConnect &&
       stripeConnect.accId &&
       stripeConnect.isVerified &&
+      stripeConnect.last4BankAcc &&
       stripeConnect.payoutsEnabled;
+
     return (
-      <div className="columns is-centered is-mobile">
-        <div className="column limitLargeMaxWidth slide-in-right">
-          {firstTimeSetup && <InitialAccountSetupView {...this.props} {...this.state} />}
-          {/* {xxxxxxxxxxxxxx xxx you need to allow updates} */}
-          {pendingVerification && (
-            <React.Fragment>
-              <EstablishedAccountView {...this.props} />
-            </React.Fragment>
-          )}
-          {verifiedAccount && (
-            <React.Fragment>
-              <EstablishedAccountView {...this.props} />
-            </React.Fragment>
-          )}
+      <>
+        <section className="hero is-white">
+          <div className="hero-body has-text-centered">
+            <div className="container">
+              <h1 style={{ marginBottom: 0 }} className="title">
+                Payouts Settings
+              </h1>
+            </div>
+          </div>
+        </section>
+        <div className="columns is-centered is-mobile">
+          <div className="column limitLargeMaxWidth slide-in-right">
+            {firstTimeSetup && <InitialAccountSetupView {...this.props} {...this.state} />}
+            {/* {xxxxxxxxxxxxxx xxx you need to allow updates} */}
+            {showEarningsOnly && (
+              <React.Fragment>
+                <ShowEarningsOnly {...this.props} />
+              </React.Fragment>
+            )}
+            {pendingVerification && (
+              <React.Fragment>
+                <EstablishedAccountView {...this.props} />
+              </React.Fragment>
+            )}
+            {verifiedAccount && (
+              <React.Fragment>
+                <EstablishedAccountView {...this.props} />
+              </React.Fragment>
+            )}
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 }
@@ -113,14 +137,14 @@ const InitialAccountSetupView = (props) => {
         <div className="group">
           <div style={{ minHeight: 'unset', height: 'unset' }} className="card">
             <div style={{ minHeight: 'unset', height: 'unset' }} className="card-content">
-              <HeaderTitle title="Tasker Onboarding" />
+              <HeaderTitle title="Payout Requirements" />
 
               <div className="content">
                 <br />
 
                 <div className="group">
                   <div className="label has-text-weight-semibold">
-                    To become a tasker you must comply with these rules
+                    To receive payouts you confirm the following:
                   </div>
                 </div>
                 <div style={{ marginBottom: 5 }}>
@@ -143,16 +167,7 @@ const InitialAccountSetupView = (props) => {
                     {` I am a resident of Canada.`}
                   </label>
                 </div>
-                {/* <div style={{ marginBottom: 5 }}>
-                  <label className="checkbox">
-                    <input
-                      value={isValidBankAcc}
-                      onChange={(e) => setValidBankAcc(!isValidBankAcc)}
-                      type="checkbox"
-                    />
-                    {` I have a Canadian Chequing Account.`}
-                  </label>
-                </div> */}
+
                 <div style={{ marginBottom: 5 }}>
                   <label className="checkbox">
                     <input
@@ -182,17 +197,7 @@ const InitialAccountSetupView = (props) => {
                     name="showPayoutSetupForm"
                     className="switch is-rounded is-success"
                     checked={userMeetsTaskerRequirements}
-                    onChange={() => {
-                      // if (!userMeetsTaskerRequirements) {
-                      //   setNinteenPlus(true);
-                      //   setCanadian(true);
-                      //   setHasAgreedToTos(true);
-                      // } else {
-                      //   setNinteenPlus(false);
-                      //   setCanadian(false);
-                      //   setHasAgreedToTos(false);
-                      // }
-                    }}
+                    onChange={() => {}}
                   />
                   <label
                     htmlFor="showPayoutSetupForm"
@@ -200,22 +205,16 @@ const InitialAccountSetupView = (props) => {
                   >
                     Start Tasker Onboarding
                   </label>
+                  <div className="help">
+                    * After completing the tasks, payments will be sent to this bank
+                  </div>
+                  <div className="help">
+                    * Your data is kept private, encrypted and secured via
+                    <a href="https://stripe.com/ca" target="_blank">
+                      {` Stripe `}
+                    </a>
+                  </div>
                 </div>
-
-                {/* {!(userMeetsTaskerRequirements) && (
-                  <React.Fragment>
-                    {myStripeAccountDetails &&
-                      myStripeAccountDetails.balanceDetails &&
-                      myStripeAccountDetails.balanceDetails.potentialFuturePayouts > 0 && (
-                        <div style={{ wordBreak: 'break-all' }}>
-                          <label className="label">
-                            These pending payments awaits your banking details registration
-                          </label>
-                          {`${JSON.stringify(myStripeAccountDetails.balanceDetails)}`}
-                        </div>
-                      )}
-                  </React.Fragment>
-                )} */}
               </div>
             </div>
           </div>
@@ -226,31 +225,16 @@ const InitialAccountSetupView = (props) => {
     </React.Fragment>
   );
 };
+
 const EstablishedAccountView = (props) => {
   const { userDetails, myStripeAccountDetails } = props;
 
   let { stripeConnect } = userDetails;
   let istherePaymentDetails = myStripeAccountDetails && myStripeAccountDetails.balanceDetails;
 
-  // const isAccountDisabled = !!accRequirements.disabled_reason;
-  // const disabledReasonMsg =
-  //   accRequirements.disabled_reason +
-  //   ' \nPlease use the chat button at the bottom of the page to chat with our customer support.';
-  // const deadlineToSubmitDocs = accRequirements.current_deadline;
-
-  // const { external_account, individual } = currently_due;
-  // const isLast4OfSinNeeded = false;
-  // if (individual) {
-  //   if (individual.ssn_last_4) {
-  //     isLast4OfSinNeeded = true;
-  //   }
-  // }
   return (
     <>
       <section style={{ backgroundColor: 'white', padding: '0.5rem' }}>
-        <HeaderTitle title="Payment Settings" />
-        <br />
-
         <nav style={{ border: 'none', boxShadow: 'none' }} className="panel">
           <div style={{ borderRadius: 0 }} className="panel-heading">
             <div className="control">
@@ -321,7 +305,7 @@ const EstablishedAccountView = (props) => {
                         ? `${myStripeAccountDetails.balanceDetails.potentialFuturePayouts}$`
                         : `0$`}
                     </p>
-                    <p className="is-size-6 has-text-weight-semibold">Future Earnings</p>
+                    <p className="is-size-6 has-text-weight-semibold">Expected Earnings</p>
                     <p className="help">*Will be paid as you complete each task</p>
                   </article>
                 </div>
@@ -343,5 +327,55 @@ const EstablishedAccountView = (props) => {
         </nav>
       </section>
     </>
+  );
+};
+
+const ShowEarningsOnly = (props) => {
+  const { userDetails, myStripeAccountDetails } = props;
+
+  let { stripeConnect } = userDetails;
+  let istherePaymentDetails = myStripeAccountDetails && myStripeAccountDetails.balanceDetails;
+
+  return (
+    <section style={{ backgroundColor: 'white', padding: '0.5rem' }}>
+      <nav style={{ border: 'none', boxShadow: 'none' }} className="panel">
+        <div
+          style={{ borderRadius: 0 }}
+          className="panel-heading is-size-6 has-text-weight-semibold"
+        >
+          Earnings Summary
+        </div>
+        <div style={{ padding: '0.5rem' }}>
+          {istherePaymentDetails && (
+            <div className="tile is-ancestor has-text-centered">
+              <div className="tile is-parent">
+                <article className="tile is-child box">
+                  <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
+                    {myStripeAccountDetails.balanceDetails.potentialFuturePayouts &&
+                    myStripeAccountDetails.balanceDetails.potentialFuturePayouts > 0
+                      ? `${myStripeAccountDetails.balanceDetails.potentialFuturePayouts}$`
+                      : `0$`}
+                  </p>
+                  <p className="is-size-6 has-text-weight-semibold">Expected Earnings</p>
+                  <p className="help">*Will be paid as you complete each task</p>
+                </article>
+              </div>
+              <div className="tile is-parent">
+                <article className="tile is-child box">
+                  <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
+                    {myStripeAccountDetails.balanceDetails.pastEarnings &&
+                    myStripeAccountDetails.balanceDetails.pastEarnings > 0
+                      ? `${myStripeAccountDetails.balanceDetails.pastEarnings}$`
+                      : `0$`}
+                  </p>
+                  <p className="is-size-6 has-text-weight-semibold">Past Earnings</p>
+                  <p className="help">*Total of all past payouts</p>
+                </article>
+              </div>
+            </div>
+          )}
+        </div>
+      </nav>
+    </section>
   );
 };

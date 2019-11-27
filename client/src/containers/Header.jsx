@@ -321,7 +321,6 @@ class Header extends React.Component {
                 }}
                 className={`${isActingAsBidder ? 'has-text-white' : 'has-text-dark'}`}
               >
-                {/* {ROUTES.getRouteTitle()} */}
                 <div
                   onClick={(e) => {
                     this.closeMenuThenExecute(() => {
@@ -798,7 +797,7 @@ class Header extends React.Component {
                         <span className="icon">
                           <i className="far fa-credit-card" aria-hidden="true" />
                         </span>
-                        <span>Payment Settings</span>
+                        <span>Payout Settings</span>
                       </a>
                       <hr className="navbar-divider" />
                       <a

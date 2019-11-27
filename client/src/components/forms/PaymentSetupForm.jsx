@@ -156,29 +156,15 @@ const PaymentSetupForm = (props) => {
           className="card cardWithButton nofixedwidth"
         >
           <div style={{ minHeight: 'unset', height: 'unset' }} className="card-content">
-            <HeaderTitle title="Payout bank details" />
+            <HeaderTitle title="Add Payout Bank" />
 
-            <div>Add your preferred payout bank</div>
-            <div className="help">
-              * After completing the tasks, payments will be sent to this bank
-            </div>
-            <div className="help">
-              * Your data is kept private, encrypted and secured via
-              <a href="https://stripe.com/ca" target="_blank">
-                {` Stripe `}
-              </a>
-            </div>
-            <br></br>
             {errorsList}
             <div>
-              <div style={{ borderBottom: '1px solid #353535' }} className="subtitle">
-                PAYOUT BANK DETAILS
-              </div>
-              <div style={{ maxWidth: 250 }}>
+              <div style={{ maxWidth: 280 }}>
                 <TextInput
                   id="full_name"
                   type="text"
-                  helpText="*Must match the name on your bank statement"
+                  helpText="*Tyoe your name as it appears on your bank statement"
                   label="Your Full Name"
                   error={touched.full_name && errors.full_name}
                   value={values.full_name || ''}
@@ -186,7 +172,7 @@ const PaymentSetupForm = (props) => {
                   onBlur={handleBlur}
                 />
               </div>
-              <div style={{ maxWidth: 250 }}>
+              <div style={{ maxWidth: 280 }}>
                 <TextInput
                   id="bank_name"
                   type="text"
@@ -198,7 +184,7 @@ const PaymentSetupForm = (props) => {
                 />
               </div>
 
-              <div style={{ maxWidth: 250 }}>
+              <div style={{ maxWidth: 280 }}>
                 <TextInput
                   id="transit_number"
                   type="text"
@@ -210,7 +196,7 @@ const PaymentSetupForm = (props) => {
                 />
               </div>
 
-              <div style={{ maxWidth: 250 }}>
+              <div style={{ maxWidth: 280 }}>
                 <TextInput
                   id="institution_number"
                   type="text"
@@ -221,7 +207,7 @@ const PaymentSetupForm = (props) => {
                   onBlur={handleBlur}
                 />
               </div>
-              <div style={{ maxWidth: 250 }}>
+              <div style={{ maxWidth: 280 }}>
                 <TextInput
                   id="account_number"
                   type="text"
@@ -261,6 +247,8 @@ const PaymentSetupForm = (props) => {
           </div>
         </div>
       </form>
+      <br />
+      <br />
     </React.Fragment>
   );
 };
@@ -279,7 +267,6 @@ const HeaderTitle = (props) => {
       }}
     >
       {title} <br></br>
-      <span className="has-text-grey is-size-6">(do this anytime)</span>
     </h2>
   );
 };

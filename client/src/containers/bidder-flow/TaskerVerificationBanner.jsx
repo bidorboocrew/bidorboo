@@ -159,6 +159,33 @@ class TaskerVerificationBanner extends React.Component {
             </section>
           </>
         );
+      } else if (
+        currently_due.includes('external_account') ||
+        past_due.includes('external_account')
+      ) {
+        if (userDetails && areTherePendingPayments && !last4BankAcc) {
+          return (
+            <section className="hero is-success is-small is-bold slide-in-top">
+              <div className="hero-body">
+                <div className="container">
+                  <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
+                    To receive payouts you must add your bank info
+                  </h1>
+                  <button
+                    className="button is-small is-dark"
+                    onClick={this.redirectToPaymentSetting}
+                  >
+                    <span className="icon">
+                      <i className="far fa-credit-card" aria-hidden="true" />
+                    </span>
+                    <span>GO TO PAYOUT SETTINGS</span>
+                  </button>
+                  <div className="help has-text-light">*Registration will take ~1 minutes</div>
+                </div>
+              </div>
+            </section>
+          );
+        }
       } else {
         return (
           <section className="hero is-success is-small is-bold slide-in-top">
@@ -166,7 +193,7 @@ class TaskerVerificationBanner extends React.Component {
               <div className="container">
                 {isThereAnUrgentRequirement ? (
                   <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
-                    You Must Complete your profile to receive payouts
+                    Complete your profile to receive payouts
                   </h1>
                 ) : (
                   <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
@@ -202,7 +229,7 @@ class TaskerVerificationBanner extends React.Component {
                 <span className="icon">
                   <i className="far fa-credit-card" aria-hidden="true" />
                 </span>
-                <span>GO TO PAYMENT SETTINGS</span>
+                <span>GO TO PAYOUT SETTINGS</span>
               </button>
               <div className="help has-text-light">*Registration will take ~1 minutes</div>
             </div>
