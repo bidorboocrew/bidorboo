@@ -23,7 +23,15 @@ class OtherUserProfileForReviewPage extends React.Component {
     } else {
       switchRoute(ROUTES.CLIENT.HOME);
     }
+
+    this.state = {
+      reviewsSelectedButton: 'fromRequesters',
+    };
   }
+
+  setReviewsSelectedButton = (val) => {
+    this.setState({ reviewsSelectedButton: val });
+  };
   componentDidMount() {
     if (this.userIdUnderReview) {
       this.props.getOtherUserProfileInfo(this.userIdUnderReview);
@@ -190,14 +198,6 @@ class OtherUserProfileForReviewPage extends React.Component {
                 <div className="tile is-ancestor has-text-centered">
                   <div className="tile is-parent">
                     <article className="tile is-child box">
-                      <p className="is-size-7">Ratings received</p>
-                      <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
-                        {numberOfTimesBeenRated}
-                      </p>
-                    </article>
-                  </div>
-                  <div className="tile is-parent">
-                    <article className="tile is-child box">
                       <p className="is-size-7">Completed Tasks</p>
                       <p
                         style={{ marginBottom: 4 }}
@@ -250,20 +250,59 @@ class OtherUserProfileForReviewPage extends React.Component {
                     </article>
                   </div>
                 </div>
-                {asABidderReviews && (
-                  <React.Fragment>
-                    <br />
-                    <label className="label">Reviews received as a Tasker :</label>
-                    {asABidderReviews}
-                  </React.Fragment>
+
+                <div style={{ background: 'transparent' }} className="tabs is-centered">
+                  <ul style={{ marginLeft: 0 }}>
+                    <li className="is-active">
+                      <a>
+                        <span>{`${
+                          numberOfTimesBeenRated === 1
+                            ? `1 Review`
+                            : `${numberOfTimesBeenRated} Reviews`
+                        } `}</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+
+                {(asABidderReviews || asAProposerReviewsRef) && (
+                  <div className="field has-addons">
+                    <p className="control">
+                      <button
+                        onClick={() => this.setReviewsSelectedButton('fromRequesters')}
+                        style={{ borderRadius: 0, boxShadow: 'none' }}
+                        className={`button ${
+                          this.state.reviewsSelectedButton === 'fromRequesters'
+                            ? 'is-success is-selected'
+                            : ''
+                        } `}
+                      >
+                        <span>From Requesters</span>
+                      </button>
+                    </p>
+
+                    <p className="control">
+                      <button
+                        onClick={() => this.setReviewsSelectedButton('fromTaskers')}
+                        style={{ borderRadius: 0, boxShadow: 'none' }}
+                        className={`button ${
+                          this.state.reviewsSelectedButton === 'fromTaskers'
+                            ? 'is-success is-selected'
+                            : ''
+                        } `}
+                      >
+                        <span>From Taskers</span>
+                      </button>
+                    </p>
+                  </div>
                 )}
 
-                {asAProposerReviewsRef && (
-                  <React.Fragment>
-                    <br />
-                    <label className="label">Reviews received as a Requester :</label>
-                    {asAProposerReviewsRef}
-                  </React.Fragment>
+                {asABidderReviews && this.state.reviewsSelectedButton === 'fromRequesters' && (
+                  <React.Fragment>{asABidderReviews}</React.Fragment>
+                )}
+
+                {asAProposerReviewsRef && this.state.reviewsSelectedButton === 'fromTaskers' && (
+                  <React.Fragment>{asAProposerReviewsRef}</React.Fragment>
                 )}
               </div>
             </div>

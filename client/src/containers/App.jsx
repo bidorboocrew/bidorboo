@@ -96,6 +96,7 @@ class App extends React.Component {
 
   componentDidUpdate() {
     if (this.props.userDetails.notifications && this.props.userDetails.notifications.push) {
+      console.log('App componentDidUpdate registerServiceWorker');
       registerServiceWorker(
         `${process.env.REACT_APP_VAPID_KEY}`,
         this.props.userDetails._id !== 'loggedOutUser_uuid',
@@ -337,9 +338,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(App),
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

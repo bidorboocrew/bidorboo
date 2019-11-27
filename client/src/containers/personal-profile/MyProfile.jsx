@@ -248,7 +248,7 @@ class MyProfile extends React.Component {
                     <span className="icon is-small">
                       <i className="fas fa-wave-square" aria-hidden="true" />
                     </span>
-                    <span>YOUR BidOrBoo PULSE</span>
+                    <span>BidOrBoo Pulse</span>
                   </a>
                 </li>
               </ul>

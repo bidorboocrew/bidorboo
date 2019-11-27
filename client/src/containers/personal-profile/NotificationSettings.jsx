@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { updateNotificationSettings } from '../../app-state/actions/userModelActions';
 import * as ROUTES from '../../constants/frontend-route-consts';
-
+// XXXXX https://developers.google.com/web/fundamentals/codelabs/push-notifications follow this
 class NotificationSettings extends React.Component {
   constructor(props) {
     super(props);

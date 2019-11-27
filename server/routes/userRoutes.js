@@ -7,7 +7,7 @@ const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 const utils = require('../utils/utilities');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
-
+const { jobDataAccess } = require('../data-access/jobDataAccess');
 const {
   resetPasswordReqSchema,
   verifyViaCode,
@@ -239,6 +239,8 @@ module.exports = (app) => {
 
   app.get(ROUTES.API.USER.GET.currentUser, async (req, res, next) => {
     try {
+      // await jobDataAccess.BidOrBooAdmin.nagRequesterToConfirmJob();
+
       // await jobDataAccess.BidOrBooAdmin.SendPayoutsToBanks();
       // sendTextService.verifyPhone()
 
