@@ -54,8 +54,8 @@ module.exports = (app) => {
           body: ' Welcome to BidOrBoo , You Can Control Notification settings in your profile',
           icon:
             'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1545981752/BidOrBoo/android-chrome-192x192.png',
-          urlToLaunch: 'https://www.bidorboo.com/my-profile/basic-settings',
-          tag: 'bidorboo-basic-settings',
+          urlToLaunch: 'https://www.bidorboo.com/my-profile/notification-settings',
+          tag: 'bidorboo-notification-settings',
         });
         await webpush.sendNotification(JSON.parse(subscription), payload);
       }

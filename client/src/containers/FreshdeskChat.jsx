@@ -18,13 +18,13 @@ class FreshdeskChat extends React.Component {
             appLogo:
               'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1562257900/android-chrome-512x512.png',
             backgroundColor: '#ef2834',
-            foregroundColor: '#353535',
+            foregroundColor: '#fff',
             hideChatButton: true,
           },
           content: {
             headers: {
-              chat: 'BidOrBoo Crew Support',
-              chat_help: 'Reach out to us if you have any questions',
+              chat: 'BidOrBoo Support',
+              chat_help: 'How can we help you?',
               push_notification: 'Allow push notifications to get instant replies',
             },
           },
@@ -144,9 +144,4 @@ const mapStateToProps = ({ userReducer }) => {
   };
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    null,
-  )(FreshdeskChat),
-);
+export default withRouter(connect(mapStateToProps, null)(FreshdeskChat));

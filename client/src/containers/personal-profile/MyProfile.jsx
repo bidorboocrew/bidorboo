@@ -11,7 +11,6 @@ import ProfileForm from '../../components/forms/ProfileForm';
 import FileUploaderComponent from '../../components/FileUploaderComponent';
 
 import { getCurrentUser } from '../../app-state/actions/authActions';
-import NotificationSettings from './NotificationSettings';
 
 import VerifyEmailButton from './VerifyEmailButton';
 import VerifyPhoneButton from './VerifyPhoneButton';
@@ -237,9 +236,7 @@ class MyProfile extends React.Component {
                 </div>
               </div>
             </div>
-            <br />
-            <br />
-            <NotificationSettings />
+
             <br></br>
             <div style={{ background: 'transparent' }} className="tabs is-centered">
               <ul style={{ marginLeft: 0 }}>

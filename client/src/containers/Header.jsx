@@ -23,6 +23,7 @@ const HREF_TO_TABID = {
   PAYMENT_SETTINGS: 'PAYMENT_SETTINGS',
   MY_PROFILE: 'MY_PROFILE',
   ARCHIVE: 'ARCHIVE',
+  NOTIFICATIONS: 'NOTIFICATIONS',
 };
 class Header extends React.Component {
   static propTypes = {
@@ -108,8 +109,13 @@ class Header extends React.Component {
         }
       }
       if (nextProp.history.location.pathname.includes('BidOrBoo')) {
-        if (prevState.activeNavBarMenuId !== 'HREF_TO_TABID.HOME') {
-          return { activeNavBarMenuId: 'HREF_TO_TABID.HOME ' };
+        if (prevState.activeNavBarMenuId !== HREF_TO_TABID.HOME) {
+          return { activeNavBarMenuId: HREF_TO_TABID.HOME };
+        }
+      }
+      if (nextProp.history.location.pathname.includes('notification-settings')) {
+        if (prevState.activeNavBarMenuId !== HREF_TO_TABID.NOTIFICATIONS) {
+          return { activeNavBarMenuId: HREF_TO_TABID.NOTIFICATIONS };
         }
       }
     }
@@ -781,7 +787,24 @@ class Header extends React.Component {
                         <span className="icon">
                           <i className="far fa-user" aria-hidden="true" />
                         </span>
-                        <span>{`Profile & Settings`}</span>
+                        <span>{`Profile`}</span>
+                      </a>
+                      <hr className="navbar-divider" />
+                      <a
+                        // id="myprofile-step"
+                        onClick={() => {
+                          this.closeMenuThenExecute(() => {
+                            switchRoute(ROUTES.CLIENT.MY_PROFILE.myNotifications);
+                          });
+                        }}
+                        className={`navbar-item ${
+                          activeNavBarMenuId === HREF_TO_TABID.NOTIFICATIONS ? 'is-active' : ''
+                        }`}
+                      >
+                        <span className="icon">
+                          <i className="fas fa-bell"></i>
+                        </span>
+                        <span>{`Notifications`}</span>
                       </a>
                       <hr className="navbar-divider" />
                       <a
@@ -798,6 +821,22 @@ class Header extends React.Component {
                           <i className="far fa-credit-card" aria-hidden="true" />
                         </span>
                         <span>Payout Settings</span>
+                      </a>
+                      <hr className="navbar-divider" />
+                      <a
+                        onClick={(e) =>
+                          this.closeMenuThenExecute(() => {
+                            if (!window.fcWidget.isOpen()) {
+                              window.fcWidget.open();
+                            }
+                          })
+                        }
+                        className="navbar-item"
+                      >
+                        <span className="icon">
+                          <i className="far fa-comment-dots" />
+                        </span>
+                        <span>Support</span>
                       </a>
                       <hr className="navbar-divider" />
                       <a

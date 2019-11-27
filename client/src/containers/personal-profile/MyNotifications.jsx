@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { updateNotificationSettings } from '../../app-state/actions/userModelActions';
 import * as ROUTES from '../../constants/frontend-route-consts';
 // XXXXX https://developers.google.com/web/fundamentals/codelabs/push-notifications follow this
-class NotificationSettings extends React.Component {
+class MyNotifications extends React.Component {
   constructor(props) {
     super(props);
     const {
@@ -103,67 +103,80 @@ class NotificationSettings extends React.Component {
 
   render() {
     return (
-      <div className="card cardWithButton nofixedwidth">
-        <header className="card-header">
-          <p className="card-header-title">
-            <span className="icon">
-              <i className="fas fa-bell" />
-            </span>
-            <span>Notification Settings</span>
-          </p>
-        </header>
-        <div className="card-content">
-          <div className="content">
-            <div className="group">
-              <label className="label has-text-dark">You will be notified about key events</label>
-              <ul>
-                <li>Task or Request status changes</li>
-                <li>Payment receipts and payouts</li>
-                <li>Automated reminders about upcoming</li>
-              </ul>
+      <>
+        {' '}
+        <section className="hero is-white">
+          <div className="hero-body has-text-centered">
+            <div className="container">
+              <h1 style={{ marginBottom: 0 }} className="title">
+                Notification Settings
+              </h1>
             </div>
-            <div className="group">
-              <input
-                id="pushNotification"
-                type="checkbox"
-                name="pushNotification"
-                className="switch is-rounded is-success"
-                onChange={this.toggleEnablePushNotifications}
-                checked={this.state.enablePushNotifications}
-              />
-              <label className="has-text-dark" htmlFor="pushNotification">
-                Enable Push Notifications
-              </label>
-            </div>
-            <div className="group">
-              <input
-                id="emailNotification"
-                type="checkbox"
-                name="emailNotification"
-                className="switch is-rounded is-success"
-                onChange={this.toggleEnableEmailNotification}
-                checked={this.state.enableEmailNotification}
-              />
-              <label className="has-text-dark" htmlFor="emailNotification">
-                Enable Email Notifications
-              </label>
-            </div>
-            <div className="group">
-              <input
-                id="txtNotification"
-                type="checkbox"
-                name="txtNotification"
-                className="switch is-rounded is-success"
-                onChange={this.toggleEnableTxtNotifications}
-                checked={this.state.enableTxtNotifications}
-              />
-              <label className="has-text-dark" htmlFor="txtNotification">
-                Enable Text Msg Notifications
-              </label>
+          </div>
+        </section>
+        <div className="columns is-centered is-mobile">
+          <div className="column limitLargeMaxWidth slide-in-right">
+            <div className="card cardWithButton nofixedwidth">
+              <div className="card-content">
+                <div className="content">
+                  <div className="group">
+                    <label style={{ fontSize: '1rem' }} className="label has-text-dark">
+                      You will be notified about key events like:
+                    </label>
+                    <ul style={{ marginLeft: '1.5rem' }}>
+                      <li>Task or Request status changes</li>
+                      <li>Payment receipts and payouts</li>
+                      <li>Automated reminders about upcoming</li>
+                    </ul>
+                  </div>
+                  <br></br>
+                  <hr className="navbar-divider" />
+                  <br></br>
+                  <div className="group">
+                    <input
+                      id="pushNotification"
+                      type="checkbox"
+                      name="pushNotification"
+                      className="switch is-rounded is-success"
+                      onChange={this.toggleEnablePushNotifications}
+                      checked={this.state.enablePushNotifications}
+                    />
+                    <label className="has-text-dark" htmlFor="pushNotification">
+                      Enable Push Notifications
+                    </label>
+                  </div>
+                  <div className="group">
+                    <input
+                      id="emailNotification"
+                      type="checkbox"
+                      name="emailNotification"
+                      className="switch is-rounded is-success"
+                      onChange={this.toggleEnableEmailNotification}
+                      checked={this.state.enableEmailNotification}
+                    />
+                    <label className="has-text-dark" htmlFor="emailNotification">
+                      Enable Email Notifications
+                    </label>
+                  </div>
+                  <div className="group">
+                    <input
+                      id="txtNotification"
+                      type="checkbox"
+                      name="txtNotification"
+                      className="switch is-rounded is-success"
+                      onChange={this.toggleEnableTxtNotifications}
+                      checked={this.state.enableTxtNotifications}
+                    />
+                    <label className="has-text-dark" htmlFor="txtNotification">
+                      Enable Text Msg Notifications
+                    </label>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }
@@ -187,4 +200,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NotificationSettings);
+export default connect(mapStateToProps, mapDispatchToProps)(MyNotifications);

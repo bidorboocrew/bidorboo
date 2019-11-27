@@ -165,6 +165,7 @@ module.exports = {
         `https://www.bidorboo.com/bdb-offer/review/${bidderId}/bid/${bidId}/proposer/${proposerId}/job/${jobId}`,
     },
     MY_PROFILE: {
+      myNotifications: '/my-profile/notification-settings',
       basicSettings: 'https://www.bidorboo.com/my-profile/basic-settings',
       paymentSettings: 'https://www.bidorboo.com/my-profile/payment-settings',
       pastRequestedServices: 'https://www.bidorboo.com/my-profile/past-requested-services',

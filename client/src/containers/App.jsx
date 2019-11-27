@@ -50,6 +50,8 @@ import ShowSpecialMomentModal from './ShowSpecialMomentModal';
 const FreshdeskChat = lazy(() => import('./FreshdeskChat.jsx'));
 
 const FirstTimeUser = lazy(() => import('./onboarding-flow/FirstTimeUser.jsx'));
+
+const MyNotifications = lazy(() => import('./personal-profile/MyNotifications.jsx'));
 const MyProfile = lazy(() => import('./personal-profile/MyProfile.jsx'));
 const PaymentSettings = lazy(() => import('./personal-profile/PaymentSettings.jsx'));
 const VerificationPage = lazy(() => import('./VerificationPage.jsx'));
@@ -217,6 +219,11 @@ class App extends React.Component {
                 component={ReviewAwardedBidPage}
               />
               <Route exact path={ROUTES.CLIENT.MY_PROFILE.basicSettings} component={MyProfile} />
+              <Route
+                exact
+                path={ROUTES.CLIENT.MY_PROFILE.myNotification}
+                component={MyNotifications}
+              />
               <Route
                 exact
                 path={ROUTES.CLIENT.MY_PROFILE.paymentSettings}

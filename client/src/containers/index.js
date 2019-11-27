@@ -3,7 +3,7 @@ export { default as HomePage } from './HomePage';
 
 export { default as MyProfile } from './personal-profile/MyProfile';
 export { default as PaymentSettings } from './personal-profile/PaymentSettings';
-export { default as NotificationSettings } from './personal-profile/NotificationSettings';
+export { default as NotificationSettings } from './personal-profile/MyNotifications';
 
 export { default as VerificationPage } from './VerificationPage';
 

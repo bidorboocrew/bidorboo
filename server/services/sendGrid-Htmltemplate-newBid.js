@@ -280,7 +280,7 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
                 <tr>
                   <td class="content-block">
                     <span class="apple-link">BidOrBoo Inc, Ottawa ON Canada</span>
-                    <br>You can unsubscribe anytime by changing your notification settings <a href="https://bidorboo.com/my-profile/basic-settings">Unsubscribe</a>.
+                    <br>You can unsubscribe anytime by changing your notification settings <a href="https://bidorboo.com/my-profile/notification-settings">Unsubscribe</a>.
                   </td>
                 </tr>
               </table>
