@@ -221,7 +221,7 @@ class App extends React.Component {
               <Route exact path={ROUTES.CLIENT.MY_PROFILE.basicSettings} component={MyProfile} />
               <Route
                 exact
-                path={ROUTES.CLIENT.MY_PROFILE.myNotification}
+                path={ROUTES.CLIENT.MY_PROFILE.myNotifications}
                 component={MyNotifications}
               />
               <Route

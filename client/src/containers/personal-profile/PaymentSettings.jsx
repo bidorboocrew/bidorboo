@@ -52,11 +52,11 @@ class PaymentSettings extends React.Component {
 
     return (
       <>
-        <section className="hero is-white">
+        <section className="hero is-success is-bold">
           <div className="hero-body has-text-centered">
             <div className="container">
               <h1 style={{ marginBottom: 0 }} className="title">
-                Payouts Settings
+                Payout Settings
               </h1>
             </div>
           </div>

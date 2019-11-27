@@ -104,7 +104,6 @@ class MyNotifications extends React.Component {
   render() {
     return (
       <>
-        {' '}
         <section className="hero is-white">
           <div className="hero-body has-text-centered">
             <div className="container">
