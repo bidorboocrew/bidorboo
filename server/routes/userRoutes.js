@@ -7,7 +7,7 @@ const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 const utils = require('../utils/utilities');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
-
+const { jobDataAccess } = require('../data-access/jobDataAccess');
 const {
   resetPasswordReqSchema,
   verifyViaCode,
@@ -63,7 +63,7 @@ module.exports = (app) => {
         }
       } catch (e) {
         e.safeMsg =
-          "unexpected error occured.We couldn't update your password, Use the chat button in the footer to chat with our client support team";
+          "unexpected error occurred.We couldn't update your password, Use the chat button in the footer to chat with our client support team";
         return next(e);
       }
     }
@@ -151,7 +151,7 @@ module.exports = (app) => {
             return res.send(verificationRequest);
           } else {
             return res.status(400).send({
-              errorMsg: 'unexpected error occured sendVerificationEmail',
+              errorMsg: 'unexpected error occurred sendVerificationEmail',
             });
           }
         } else {
@@ -184,7 +184,7 @@ module.exports = (app) => {
             res.send({ success });
           } else {
             return res.status(400).send({
-              errorMsg: 'unexpected error occured while sending Verification Msg',
+              errorMsg: 'unexpected error occurred while sending Verification Msg',
             });
           }
         } else {
@@ -226,12 +226,12 @@ module.exports = (app) => {
         } else {
           return res.status(400).send({
             safeMsg:
-              'unexpected error occured while sending Verification Email, Use the chat button in the footer to chat with our client support team',
+              'unexpected error occurred while sending Verification Email, Use the chat button in the footer to chat with our client support team',
           });
         }
       } catch (e) {
         e.safeMsg =
-          'unexpected error occured while sending Verification Email, Use the chat button in the footer to chat with our client support team';
+          'unexpected error occurred while sending Verification Email, Use the chat button in the footer to chat with our client support team';
         return next(e);
       }
     }
@@ -239,10 +239,15 @@ module.exports = (app) => {
 
   app.get(ROUTES.API.USER.GET.currentUser, async (req, res, next) => {
     try {
+      // await jobDataAccess.BidOrBooAdmin.nagRequesterToConfirmJob();
+
       // await jobDataAccess.BidOrBooAdmin.SendPayoutsToBanks();
       // sendTextService.verifyPhone()
 
       // sendTextService.verifyPhoneCode();
+      // console.log('---------------------------');
+      // console.log(req.ipInfo);
+      // console.log('---------------------------');
       let existingUser = null;
       if (req.user) {
         existingUser = await userDataAccess.findUserAndAllNewNotifications(req.user._id);
@@ -260,11 +265,11 @@ module.exports = (app) => {
 
   app.get(ROUTES.API.USER.GET.getMyPastRequestedServices, requireLogin, async (req, res, next) => {
     try {
-      pasrRequestedServices = await userDataAccess.getMyPastRequestedServices(
+      pastRequestedServices = await userDataAccess.getMyPastRequestedServices(
         req.user._id.toString()
       );
-      if (pasrRequestedServices && pasrRequestedServices._asProposerReviewsRef) {
-        return res.send(pasrRequestedServices._asProposerReviewsRef);
+      if (pastRequestedServices && pastRequestedServices._asProposerReviewsRef) {
+        return res.send(pastRequestedServices._asProposerReviewsRef);
       }
       return res.send({});
     } catch (e) {
@@ -427,10 +432,7 @@ module.exports = (app) => {
           filesList[0].path,
           {
             folder: `profilePic`,
-            transformation: [
-              { gravity: 'face', width: 150, height: 150, crop: 'thumb' },
-              { quality: 'auto' },
-            ],
+            transformation: [{ gravity: 'face', width: 150, height: 150, crop: 'thumb' }],
           },
           updateUserWithNewProfileImg
         );

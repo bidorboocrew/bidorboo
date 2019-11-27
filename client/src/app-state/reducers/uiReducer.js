@@ -34,10 +34,9 @@ const showSpecialMoment = (state = initialState, { payload }) => {
   };
 };
 const updateNotificationFeed = (state = initialState, { payload }) => {
-
   if (payload) {
     // const
-    const jobIdsWithNewBids = payload.z_notify_jobsWithNewBids || [];
+    const jobIdsWithNewBids = payload.z_notify_jobsWithNewUnseenState || [];
     const myBidsWithNewStatus = payload.z_notify_myBidsWithNewStatus || [];
     const reviewsToBeFilled = payload.z_track_reviewsToBeFilled || [];
     const workTodo = payload.z_track_workToDo || [];

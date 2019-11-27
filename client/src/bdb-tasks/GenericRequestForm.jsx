@@ -832,7 +832,7 @@ const ImageUploaderButton = ({ updateTaskThumbnails, fieldId }) => {
   const [showUploader, setshowUploader] = useState(false);
 
   return (
-    <div style={{ marginBottom: '1.5rem' }}>
+    <div style={{ marginBottom: '2.25rem' }}>
       {showUploader && (
         <UploaderComponent
           thumb={thumb}
@@ -875,7 +875,12 @@ const ImageUploaderButton = ({ updateTaskThumbnails, fieldId }) => {
             height: 20,
           }}
         >
-          <button type="button" onClick={() => setshowUploader(true)} className="button is-success">
+          <button
+            style={{ height: 48 }}
+            type="button"
+            onClick={() => setshowUploader(true)}
+            className="button is-success"
+          >
             <span>
               <i className="fa fa-camera" aria-hidden="true" />
             </span>
@@ -893,6 +898,7 @@ const ImageUploaderButton = ({ updateTaskThumbnails, fieldId }) => {
           >
             <button
               type="button"
+              style={{ height: 48 }}
               onClick={() => {
                 setThumb(null);
                 updateTaskThumbnails({ fieldId, fieldValue: '' });

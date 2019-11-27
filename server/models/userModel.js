@@ -93,7 +93,7 @@ const UserSchema = new Schema(
       },
       text: {
         type: Boolean,
-        default: false,
+        default: true,
       },
       newPostedTasks: { type: Boolean, default: false },
     },
@@ -271,10 +271,10 @@ const UserSchema = new Schema(
     stripeConnect: {
       accId: { type: String },
       // when payoutsEnabled && chargesEnabled
-      isVerified: { type: Boolean, default: false },
+      isVerified: { type: Boolean },
       last4BankAcc: { type: String },
-      payoutsEnabled: { type: Boolean, default: false },
-      chargesEnabled: { type: Boolean, default: false },
+      payoutsEnabled: { type: Boolean },
+      chargesEnabled: { type: Boolean },
       processedWebhookEventIds: [{ type: String }],
       accRequirements: {
         disabled_reason: { type: String },

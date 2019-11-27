@@ -80,7 +80,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(VerificationPage);
+export default connect(mapStateToProps, mapDispatchToProps)(VerificationPage);

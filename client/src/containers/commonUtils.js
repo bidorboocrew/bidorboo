@@ -48,7 +48,6 @@ const STRIPE_STATIC_CUT_ON_EACH_PAYOUT = 0.25; //cent
 const BIDORBOO_REFUND_AMOUNT = 0.8;
 
 export const getChargeDistributionDetails = (totalBidAmountInDollars) => {
-
   const bidOrBooChargeOnRequester = BIDORBOO_SERVICECHARGE_FOR_REQUESTER * totalBidAmountInDollars;
   const requesterTotalPayment = Math.ceil(bidOrBooChargeOnRequester + totalBidAmountInDollars);
 
@@ -62,8 +61,10 @@ export const getChargeDistributionDetails = (totalBidAmountInDollars) => {
   const leftOverMoney = requesterTotalPayment - bidOrBooPlatformFee;
 
   // amount stripe will take on every payout
-  const stripePayoutToTaskerProcessingFee =
-    (leftOverMoney * STRIPE_PERCENT_CUT_ON_EACH_PAYOUT + STRIPE_STATIC_CUT_ON_EACH_PAYOUT).toFixed(2);
+  const stripePayoutToTaskerProcessingFee = (
+    leftOverMoney * STRIPE_PERCENT_CUT_ON_EACH_PAYOUT +
+    STRIPE_STATIC_CUT_ON_EACH_PAYOUT
+  ).toFixed(2);
 
   const taskerTotalPayoutAmount = leftOverMoney - stripePayoutToTaskerProcessingFee;
 

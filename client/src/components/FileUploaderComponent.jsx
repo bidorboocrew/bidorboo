@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import Dropzone from 'react-dropzone';
 import { withFormik } from 'formik';
-import autoBind from 'react-autobind';
 import Cropper from 'react-cropper';
+// https://github.com/blueimp/JavaScript-Load-Image#api
+import loadImage from 'blueimp-load-image';
 import 'cropperjs/dist/cropper.css';
 const MAX_FILE_SIZE_IN_MB = 1000000 * 10; //10MB
 
@@ -19,21 +20,18 @@ const formikEnhancer = withFormik({
 class MyForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { showThumbNail: false, thumb: null, showCropper: false };
-    this.dropzoneRef = React.createRef();
-    autoBind(
-      this,
-      'onDrophandler',
-      'toggleCroppingOn',
-      'saveCrop',
-      'dismissCrop',
-      'onUpdateCropping',
-      'dataURItoBlob',
-    );
-
-    this.reader = new FileReader();
+    this.state = { thumb: null, showCropper: false };
+    this.dropzoneRef = createRef();
   }
 
+  componentDidMount() {
+    if (!this.props.thumb) {
+      this.dropzoneRef &&
+        this.dropzoneRef.current &&
+        this.dropzoneRef.current.open &&
+        this.dropzoneRef.current.open();
+    }
+  }
   componentWillUnmount() {
     const { acceptedFile, croppedFile } = this.state;
     // clean up memory
@@ -43,39 +41,41 @@ class MyForm extends React.Component {
     if (croppedFile) {
       window.URL.revokeObjectURL(croppedFile);
     }
-
-    this.reader = null;
   }
 
-  onDrophandler(files) {
-    // do nothing if no files
+  onDrophandler = (files) => {
     if (!files || !(files.length > 0)) {
       return;
     }
 
-    this.reader.onloadend = () => {
-      this.setState({ thumb: this.reader.result, showCropper: true });
-    };
-    this.reader.readAsDataURL(files[0]);
+    loadImage(
+      files[0],
+      (loadedImg) => {
+        // let elem = document.querySelector('.form-group.has-text-centered');
+        // elem.appendChild(loadedImg);
 
-    // on drop we add to the existing files
-    this.setState({ showThumbNail: true, acceptedFile: files[0] }, () => {
-      this.props.setFieldValue('fileField', this.state.acceptedFile, false);
-    });
-  }
+        const ctx = loadedImg.getContext('2d');
 
-  removeFileAndOpenFileSelector = () => {
-    // // remove image
-    // this.setState({ showThumbNail: false, acceptedFile: {} }, () => {
-    //   this.dropzoneRef && this.dropzoneRef.current.open && this.dropzoneRef.current.open();
-    // });
+        const imgAsDataUrl = ctx.canvas.toDataURL(loadedImg);
+        this.setState(() => ({ thumb: imgAsDataUrl, showCropper: true }));
+      },
+      {
+        orientation: true,
+        contain: true,
+        maxWidth: 200,
+        maxHeight: 400,
+        minWidth: 100,
+        minHeight: 50,
+        canvas: true,
+      },
+    );
   };
 
-  toggleCroppingOn() {
+  toggleCroppingOn = () => {
     this.setState({ showCropper: true });
-  }
+  };
 
-  dataURItoBlob(dataURI) {
+  dataURItoBlob = (dataURI) => {
     try {
       // convert base64 to raw binary data held in a string
       // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
@@ -94,35 +94,39 @@ class MyForm extends React.Component {
         ia[i] = byteString.charCodeAt(i);
       }
 
-      //Old Code
-      //write the ArrayBuffer to a blob, and you're done
-      //var bb = new BlobBuilder();
-      //bb.append(ab);
-      //return bb.getBlob(mimeString);
-
       //New Code
       return new Blob([ab], { type: mimeString });
     } catch (e) {
-      console.error('could not crop the image will upload the original img instead blob creation');
+      console.error('error parsing img ' + e);
     }
-  }
+  };
 
-  saveCrop(values) {
+  saveCrop = (e) => {
+    e.preventDefault();
+    const imgAsDataUrl = this.refs.cropper.getCroppedCanvas().toDataURL();
+    this.setState(() => ({ thumb: imgAsDataUrl }));
+  };
+
+  uploadImg = (values) => {
     try {
-      const croppedImg = this.refs.cropper.getCroppedCanvas().toDataURL();
+      const croppedImg = this.state.thumb;
       const updatedFile = this.dataURItoBlob(croppedImg);
       this.props.setFieldValue('fileField', updatedFile, false);
       this.props.handleSubmit(values, this.props);
     } catch (e) {
       console.error('could not crop the image will upload the original img instead');
     }
-  }
+  };
 
-  dismissCrop() {
-    this.setState({ showCropper: false, croppedFile: {} });
-  }
+  dismissCrop = (e) => {
+    e.preventDefault();
+    this.setState(
+      () => ({ showCropper: false, croppedFile: {} }),
+      () => this.props.closeDialog(),
+    );
+  };
 
-  onUpdateCropping(file) {
+  onUpdateCropping = (file) => {
     try {
       if (file) {
         this.setState({ croppedFile: file });
@@ -130,9 +134,7 @@ class MyForm extends React.Component {
     } catch (e) {
       console.error('failed to crop' + e);
     }
-
-    // this.setState({ croppedFile: file });
-  }
+  };
 
   render() {
     const { handleSubmit, values, closeDialog } = this.props;
@@ -147,108 +149,80 @@ class MyForm extends React.Component {
             type="hidden"
             value={values.files || ''}
           />
-          <Dropzone
-            style={!showThumbNail ? {} : { height: 0 }}
-            className={!showThumbNail ? '' : 'is-invisible'}
-            ref={this.dropzoneRef}
-            multiple={false}
-            maxSize={MAX_FILE_SIZE_IN_MB}
-            accept={'image/*'}
-            id="filesToUpload"
-            name="filesToUpload"
-            onDrop={this.onDrophandler}
-            onDropRejected={(e) => {
-              alert('this file is not accepted must be an img file less than 10MB');
-            }}
-          >
-            <React.Fragment>
-              <div className="section VerticalAligner bdb-img-upload-placeholder">
-                <a
-                  type="submit"
-                  style={{
-                    pointerEvents: 'none',
-                    borderRadius: '100%',
-                    height: 64,
-                    width: 64,
-                  }}
-                  className="button is-success is-large"
-                >
-                  <span>
-                    <i className="fa fa-camera" aria-hidden="true" />
-                  </span>
-                </a>
-              </div>
-            </React.Fragment>
-          </Dropzone>
-
-          {showThumbNail && !showCropper && (
-            <ThumbsCollection
-              clickHandler={this.removeFileAndOpenFileSelector}
-              acceptedFile={thumb}
-              onUpdateCropping={this.onUpdateCropping}
-            />
+          {!showCropper && (
+            <Dropzone
+              accept={'image/*'}
+              style={{}}
+              ref={this.dropzoneRef}
+              multiple={false}
+              maxSize={MAX_FILE_SIZE_IN_MB}
+              id="filesToUpload"
+              name="filesToUpload"
+              onDrop={this.onDrophandler}
+              onDropRejected={(file, event) =>
+                alert(
+                  'File not accepted, must be an image file less than 10MB ' +
+                    `${event && event}` +
+                    `${file && file}`,
+                )
+              }
+            >
+              <React.Fragment>
+                <div className="section VerticalAligner bdb-img-upload-placeholder">
+                  <a
+                    type="submit"
+                    style={{
+                      pointerEvents: 'none',
+                      borderRadius: '100%',
+                      height: 70,
+                    }}
+                    className="button is-success is-large"
+                  >
+                    <span>
+                      <i className="fa fa-camera" aria-hidden="true" />
+                    </span>
+                  </a>
+                </div>
+              </React.Fragment>
+            </Dropzone>
           )}
+
           {showCropper && (
             <Cropper
               ref="cropper"
               src={thumb}
-              // style={{ height: '18.75rem', width: '100%' }}
               checkOrientation={true}
-              guides={false} // crop={this._crop}
+              guides={false}
               className="bdb-img-upload-placeholder"
               modal={true}
               background={false}
-              minContainerHeight={180}
-              minCanvasHeight={180}
+              rotatable
+              autoCrop
+              autoCropArea={1}
+              style={{ height: '16rem', width: '100%', background: '#eeeeee' }}
             />
           )}
         </div>
 
         <footer style={{ paddingBottom: 0, background: 'white' }} className="modal-card-foot ">
-          {showCropper && (
-            <React.Fragment>
-              <button onClick={this.dismissCrop} className="button">
-                dismisss
-              </button>
-              <button
-                onClick={(values) => {
-                  this.saveCrop(values);
-                }}
-                type="submit"
-                className="button is-success"
-              >
-                {`Save & Upload`}
-              </button>
-            </React.Fragment>
-          )}
-          {!showCropper && (
-            <React.Fragment>
-              <button onClick={closeDialog} className="button">
-                Cancel
-              </button>
-              {showThumbNail && (
-                <button onClick={this.toggleCroppingOn} className="button is-info">
-                  <span className="icon">
-                    <i className="fas fa-crop-alt" />
-                  </span>
-                  <span>Crop</span>
-                </button>
-              )}
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleSubmit(values, { ...this.props });
-                }}
-                type="submit"
-                className="button is-success"
-              >
-                <span className="icon">
-                  <i className="fas fa-cloud-upload-alt" />
-                </span>
-                <span>Upload</span>
-              </button>
-            </React.Fragment>
-          )}
+          <button onClick={this.dismissCrop} className="button">
+            Cancel
+          </button>
+          <button onClick={this.saveCrop} className="button is-info">
+            <span className="icon">
+              <i className="fas fa-crop-alt" />
+            </span>
+            <span>Crop</span>
+          </button>
+          <button
+            onClick={(values) => {
+              this.uploadImg(values);
+            }}
+            type="submit"
+            className="button is-success"
+          >
+            {`Upload`}
+          </button>
         </footer>
       </form>
     );
@@ -256,32 +230,3 @@ class MyForm extends React.Component {
 }
 
 export default formikEnhancer(MyForm);
-
-export const ThumbsCollection = ({ acceptedFile, clickHandler }) => {
-  let AllThumbnails = acceptedFile ? (
-    <Thumb clickHandler={clickHandler} file={acceptedFile} />
-  ) : null;
-  return AllThumbnails;
-};
-
-class Thumb extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: false,
-    };
-  }
-
-  render() {
-    const { file, clickHandler } = this.props;
-    const { loading } = this.state;
-    if (!file) {
-      return null;
-    }
-    if (loading) {
-      return <p>loading...</p>;
-    }
-
-    return <img onClick={clickHandler} className="bdb-img-profile-pic" src={file} />;
-  }
-}

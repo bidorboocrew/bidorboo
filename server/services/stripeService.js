@@ -288,7 +288,7 @@ exports.util = {
     });
   },
 
-  initializeConnectedAccount: async ({ userId, displayName, email }) => {
+  initializeConnectedAccount: async ({ userId, displayName, email, phone }) => {
     return new Promise(async (resolve, reject) => {
       try {
         const account = await stripe.accounts.create({
@@ -297,7 +297,7 @@ exports.util = {
           default_currency: 'CAD', //HARD CODED
           email: email || '',
           business_type: 'individual',
-          metadata: { email, userId, displayName },
+          metadata: { email, userId, displayName, phone },
           settings: {
             payments: {
               statement_descriptor: 'BidOrBoo Charge',
@@ -314,7 +314,27 @@ exports.util = {
       }
     });
   },
+  getCustomAccountLink: async ({
+    stripeConnectAccId,
+    redirectUrl,
+    isNewCustomer = true,
+    collectMinimum = true,
+  }) => {
+    try {
+      // xxxxx important update
+      const accountLink = await stripe.accountLinks.create({
+        account: stripeConnectAccId,
+        failure_url: `${redirectUrl}/?success=false`,
+        success_url: `${redirectUrl}/?success=true`,
+        type: isNewCustomer ? 'custom_account_verification' : 'custom_account_update',
+        collect: collectMinimum ? 'currently_due' : 'eventually_due',
+      });
 
+      return accountLink;
+    } catch (error) {
+      throw error;
+    }
+  },
   updateStripeConnectedAccountDetails: async (stripeConnectAccId, connectedAccountDetails) => {
     try {
       // xxxxx important update

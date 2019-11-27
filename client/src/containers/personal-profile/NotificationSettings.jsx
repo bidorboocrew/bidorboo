@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { updateNotificationSettings } from '../../app-state/actions/userModelActions';
 import * as ROUTES from '../../constants/frontend-route-consts';
-
+// XXXXX https://developers.google.com/web/fundamentals/codelabs/push-notifications follow this
 class NotificationSettings extends React.Component {
   constructor(props) {
     super(props);
@@ -44,30 +44,42 @@ class NotificationSettings extends React.Component {
     }
   }
   toggleEnablePushNotifications = () => {
-    this.setState({
-      areThereChanges: true,
-      enablePushNotifications: !this.state.enablePushNotifications,
-    });
+    this.setState(
+      () => ({
+        areThereChanges: true,
+        enablePushNotifications: !this.state.enablePushNotifications,
+      }),
+      () => this.submit(),
+    );
   };
 
   toggleEnableEmailNotification = () => {
-    this.setState({
-      areThereChanges: true,
-      enableEmailNotification: !this.state.enableEmailNotification,
-    });
+    this.setState(
+      () => ({
+        areThereChanges: true,
+        enableEmailNotification: !this.state.enableEmailNotification,
+      }),
+      () => this.submit(),
+    );
   };
 
   toggleEnableTxtNotifications = () => {
-    this.setState({
-      areThereChanges: true,
-      enableTxtNotifications: !this.state.enableTxtNotifications,
-    });
+    this.setState(
+      () => ({
+        areThereChanges: true,
+        enableTxtNotifications: !this.state.enableTxtNotifications,
+      }),
+      () => this.submit(),
+    );
   };
   toggleEnableNotifyMeAboutNewTasksEnabled = () => {
-    this.setState({
-      areThereChanges: true,
-      enableNotifyMeAboutNewTasksEnabled: !this.state.enableNotifyMeAboutNewTasksEnabled,
-    });
+    this.setState(
+      () => ({
+        areThereChanges: true,
+        enableNotifyMeAboutNewTasksEnabled: !this.state.enableNotifyMeAboutNewTasksEnabled,
+      }),
+      () => this.submit(),
+    );
   };
   submit = () => {
     // call server to update this setting
@@ -105,10 +117,9 @@ class NotificationSettings extends React.Component {
             <div className="group">
               <label className="label has-text-dark">You will be notified about key events</label>
               <ul>
-                <li>Tasks status changes</li>
-                <li>Cancellation or disputes at any point</li>
+                <li>Task or Request status changes</li>
                 <li>Payment receipts and payouts</li>
-                <li>Automated reminders about upcoming tasks</li>
+                <li>Automated reminders about upcoming</li>
               </ul>
             </div>
             <div className="group">
@@ -150,33 +161,6 @@ class NotificationSettings extends React.Component {
                 Enable Text Msg Notifications
               </label>
             </div>
-            {/* <div className="group">
-              <input
-                id="notifyMeAboutNewTasksEnabled"
-                type="checkbox"
-                name="notifyMeAboutNewTasksEnabled"
-                className="switch is-rounded is-success"
-                onChange={this.toggleEnableNotifyMeAboutNewTasksEnabled}
-                checked={this.state.enableNotifyMeAboutNewTasksEnabled}
-              />
-              <label className="has-text-dark" htmlFor="notifyMeAboutNewTasksEnabled">
-                New Posted Tasks
-              </label>
-              <div className="help">
-                {`* Get custom notifications about newly posted tasks based on your
-                  search criteria under the `}
-                <a rel="noopener noreferrer" href={ROUTES.CLIENT.BIDDER.root}>
-                  {` Jobs search page`}
-                </a>
-              </div>
-            </div> */}
-            <button
-              className="button firstButtonInCard is-success"
-              onClick={this.submit}
-              disabled={!this.state.areThereChanges}
-            >
-              Update Settings
-            </button>
           </div>
         </div>
       </div>
@@ -203,7 +187,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(NotificationSettings);
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationSettings);

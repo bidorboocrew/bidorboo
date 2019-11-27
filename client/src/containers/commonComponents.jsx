@@ -2,39 +2,13 @@ import React, { useState } from 'react';
 
 import moment from 'moment';
 import AddToCalendar from 'react-add-to-calendar';
-
+import { REQUEST_STATES, BID_STATES } from '../bdb-tasks/index';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute, goBackToPreviousRoute } from '../utils';
 
 import TASKS_DEFINITIONS from '../bdb-tasks/tasksDefinitions';
-export const REQUEST_STATES = {
-  OPEN: 'OPEN',
-  AWARDED: 'AWARDED',
-  DISPUTED: 'DISPUTED',
-  AWARDED_JOB_CANCELED_BY_BIDDER: 'AWARDED_JOB_CANCELED_BY_BIDDER',
-  AWARDED_JOB_CANCELED_BY_REQUESTER: 'AWARDED_JOB_CANCELED_BY_REQUESTER',
-  CANCELED_OPEN: 'CANCELED_OPEN',
-  DONE: 'DONE',
-  PAIDOUT: 'PAIDOUT',
-  PAYMENT_RELEASED: 'PAYMENT_RELEASED',
-  PAYMENT_TO_BANK_FAILED: 'PAYMENT_TO_BANK_FAILED',
-  ARCHIVE: 'ARCHIVE',
-};
-
-export const BID_STATES = {
-  OPEN: 'OPEN',
-  AWARDED: 'AWARDED',
-  AWARDED_SEEN: 'AWARDED_SEEN',
-  AWARDED_BID_CANCELED_BY_TASKER: 'AWARDED_BID_CANCELED_BY_TASKER',
-  DISPUTED: 'DISPUTED',
-  AWARDED_BID_CANCELED_BY_REQUESTER: 'AWARDED_BID_CANCELED_BY_REQUESTER',
-  DONE: 'DONE',
-  PAYMENT_RELEASED: 'PAYMENT_RELEASED',
-  PAYMENT_TO_BANK_FAILED: 'PAYMENT_TO_BANK_FAILED',
-  ARCHIVE: 'ARCHIVE',
-};
 
 export const POINT_OF_VIEW = {
   REQUESTER: 'REQUESTER',
@@ -668,7 +642,7 @@ export const TaskSpecificExtras = ({ extras, templateId }) => {
   return renderedTaskSpecificFields;
 };
 
-export const VerifiedVia = ({ userDetails, isCentered = true, showAll = false }) => {
+export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showAll = false }) => {
   const {
     stripeConnect = { isVerified: false },
     phone = { isVerified: false },
@@ -685,7 +659,7 @@ export const VerifiedVia = ({ userDetails, isCentered = true, showAll = false })
 
   return (
     <div
-      style={{ width: 150, margin: isCentered ? 'auto' : '' }}
+      style={{ width, margin: isCentered ? 'auto' : '' }}
       className={`${isCentered ? 'has-text-centered' : ''}`}
     >
       <label className="label">verifications</label>
@@ -721,7 +695,7 @@ export const VerifiedVia = ({ userDetails, isCentered = true, showAll = false })
 
       {govId && govId.isVerified && (
         <div className="verificationBadge isActive">
-          <span title="Verified goverment ID" className="icon">
+          <span title="Verified government ID" className="icon">
             <i className="fas fa-id-card has-text-success" />
           </span>
         </div>
@@ -761,7 +735,7 @@ export const VerifiedVia = ({ userDetails, isCentered = true, showAll = false })
           {!govId ||
             (!govId.isVerified && (
               <div className="verificationBadge notActive">
-                <span title="Verified goverment ID" className="icon">
+                <span title="Verified government ID" className="icon">
                   <i className="fas fa-id-card has-text-grey" />
                 </span>
               </div>
@@ -1271,7 +1245,7 @@ export const BidsTableVerifiedVia = ({ userDetails }) => {
 
       {govId && govId.isVerified && (
         <div className="verificationBadge isActive small">
-          <span title="Verified goverment ID" className="icon">
+          <span title="Verified government ID" className="icon">
             <i className="fas fa-id-card has-text-success" />
           </span>
         </div>

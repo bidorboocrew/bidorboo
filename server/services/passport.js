@@ -69,7 +69,7 @@ passport.use(
 
       const user = await userDataAccess.createNewUser(userDetails);
 
-      return done(null, { ...user, stripeConnect: {} });
+      return done(null, user);
     } catch (e) {
       return done(e, null);
     }
@@ -118,7 +118,7 @@ passport.use(
 
       const user = await userDataAccess.createNewUser(userDetails);
 
-      return done(null, { ...user, stripeConnect: {} });
+      return done(null, user);
     } catch (e) {
       return done(e, null);
     }

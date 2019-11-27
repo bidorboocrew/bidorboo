@@ -44,6 +44,8 @@ export const API = {
       connectedAccountsWebhook: '/api/stripewebhook/connectedAccounts',
     },
     GET: {
+      accountLinkForSetupAndVerification: '/api/accountLinkForSetupAndVerification',
+      accountLinkForUpdatingVerification: '/api/accountLinkForUpdatingVerification',
       payment: '/api/payment',
       myStripeAccountDetails: '/api/myStripeAccountDetails',
     },
@@ -80,6 +82,7 @@ export const API = {
       bidderConfirmsJobCompleted: '/api/job/bidderConfirmsJobCompleted',
       proposerDisputeJob: '/api/job/proposerDisputeJob',
       bidderDisputeJob: '/api/job/bidderDisputeJob',
+      updateJobState: '/api/job/updateJobState',
     },
     DELETE: {
       myJobById: '/api/job',

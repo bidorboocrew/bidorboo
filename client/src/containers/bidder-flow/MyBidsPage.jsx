@@ -7,11 +7,11 @@ import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
 import { Spinner } from '../../components/Spinner';
-
+import TaskerVerificationBanner from './TaskerVerificationBanner.jsx';
 import { allMyPostedBids } from '../../app-state/actions/bidsActions';
 import { updateBidState, deleteOpenBid, updateBid } from '../../app-state/actions/bidsActions';
 
-import { getMeTheRightBidCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightCard';
+import { getMeTheRightBidCard } from '../../bdb-tasks/getMeTheRightCard';
 
 class MyBidsPage extends React.Component {
   componentDidMount() {
@@ -55,6 +55,8 @@ class MyBidsPage extends React.Component {
 
     return (
       <div>
+        <TaskerVerificationBanner></TaskerVerificationBanner>
+
         <section className="hero is-dark">
           <div className="hero-body  has-text-centered">
             <div className="container">
@@ -95,10 +97,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(MyBidsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(MyBidsPage);
 
 const EmptyStateComponent = () => {
   return (

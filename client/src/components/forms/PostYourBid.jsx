@@ -2,10 +2,8 @@ import React from 'react';
 
 import BidModal from './BidModal';
 
-import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute } from '../../utils';
 import { AnytimeQuickModal } from '../../containers/commonComponents.jsx';
-
+import TaskerVerificationBanner from '../../containers/bidder-flow/TaskerVerificationBanner.jsx';
 export default class PostYourBid extends React.Component {
   constructor(props) {
     super(props);
@@ -23,16 +21,19 @@ export default class PostYourBid extends React.Component {
 
     if (!isLoggedIn) {
       showLoginDialog(true);
-    } else if (!taskerCanBid) {
-      this.toggleShowQuickModal(true);
+    }
+    //  else if (!taskerCanBid) {
+    //   this.toggleShowTaskerOnBoardingDialog(true);
 
-      // alert('complete the tasker onBoarding before you can bid');
-    } else {
+    //   // alert('complete the tasker onBoarding before you can bid');
+    // }
+    else {
       this.setState({ showBidDialog: true });
     }
+    // this.setState({ showBidDialog: true });
   };
 
-  toggleShowQuickModal = (val) => {
+  toggleShowTaskerOnBoardingDialog = (val) => {
     this.setState({ showTaskerOnBoardingDialog: val });
   };
   render() {
@@ -40,30 +41,14 @@ export default class PostYourBid extends React.Component {
 
     return (
       <>
-        {showTaskerOnBoardingDialog && (
+        {/* {showTaskerOnBoardingDialog && (
           <AnytimeQuickModal
             showModal={showTaskerOnBoardingDialog}
-            setShowModal={this.toggleShowQuickModal}
+            setShowModal={this.toggleShowTaskerOnBoardingDialog}
             title={'Tasker Onboarding'}
-            renderContentFunc={() => (
-              <div className="container">
-                <p>Before you bid you must complete our tasker onboarding.</p>
-                <button
-                  className="button is-small is-dark"
-                  onClick={() => {
-                    switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings);
-                  }}
-                >
-                  <span className="icon">
-                    <i className="fas fa-user-tie"></i>
-                  </span>
-                  <span>Start Onboarding</span>
-                </button>
-                <div className="help">*Registration will take ~5 minutes</div>
-              </div>
-            )}
+            renderContentFunc={() => <TaskerVerificationBanner></TaskerVerificationBanner>}
           />
-        )}
+        )} */}
         <div className="centeredButtonInCard">
           <button
             onClick={this.openShowBidDialog}

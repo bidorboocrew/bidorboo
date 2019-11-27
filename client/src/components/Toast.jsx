@@ -124,7 +124,7 @@ class Toast extends React.Component {
                 style={{ marginLeft: 8 }}
                 className="button is-info is-small"
                 onClick={() => {
-                  if (!window.fcWidget.isOpen()) {
+                  if (window.fcWidget && !window.fcWidget.isOpen()) {
                     window.fcWidget.open();
                   }
                 }}

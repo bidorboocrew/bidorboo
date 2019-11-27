@@ -67,23 +67,18 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
             <div className="group has-text-left">
               <label className="label has-text-danger">What you need to know:</label>
               <ul>
+                <li>BidOrBoo Takes cancellations seriously</li>
                 <li>
-                  We Are sorry to see this cancellation as BidOrBoo Crew Takes cancellations
-                  seriously
-                </li>
-                <li>
-                  You will <strong>be paid ${taskerPayoutInCaseOfPartialRefund}</strong> for your
+                  You will <strong>get paid ${taskerPayoutInCaseOfPartialRefund}</strong> for your
                   commitment with us.
                 </li>
                 <li>
-                  <strong>Do NOT</strong> show up or go to do this task as you will not be paid for
-                  it.
+                  Please, <strong>DO NOT</strong>contact the requester or show up to do the task.
                 </li>
                 <li>
-                  The Requester global rating will be Negatively affected because they cancelled
-                  after awarding you.
+                  The Requester global rating will be negatively affected because they cancelled.
                 </li>
-                <li>If The requester cancels often we will ban them from BidOrBoo</li>
+                <li>If The requester cancels often they will be banned from BidOrBoo</li>
               </ul>
             </div>
           </div>

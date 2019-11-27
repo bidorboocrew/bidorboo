@@ -23,7 +23,15 @@ class OtherUserProfileForReviewPage extends React.Component {
     } else {
       switchRoute(ROUTES.CLIENT.HOME);
     }
+
+    this.state = {
+      reviewsSelectedButton: 'fromRequesters',
+    };
   }
+
+  setReviewsSelectedButton = (val) => {
+    this.setState({ reviewsSelectedButton: val });
+  };
   componentDidMount() {
     if (this.userIdUnderReview) {
       this.props.getOtherUserProfileInfo(this.userIdUnderReview);
@@ -190,14 +198,7 @@ class OtherUserProfileForReviewPage extends React.Component {
                 <div className="tile is-ancestor has-text-centered">
                   <div className="tile is-parent">
                     <article className="tile is-child box">
-                      <p style={{ marginBottom: 4 }} className="title has-text-weight-bold">
-                        {numberOfTimesBeenRated}
-                      </p>
-                      <p className="is-size-6">ratings recieved</p>
-                    </article>
-                  </div>
-                  <div className="tile is-parent">
-                    <article className="tile is-child box">
+                      <p className="is-size-7">Completed Tasks</p>
                       <p
                         style={{ marginBottom: 4 }}
                         className={`title has-text-weight-bold ${
@@ -206,11 +207,11 @@ class OtherUserProfileForReviewPage extends React.Component {
                       >
                         {fulfilledBids.length}
                       </p>
-                      <p className="is-size-6">Completed Tasks</p>
                     </article>
                   </div>
                   <div className="tile is-parent">
                     <article className="tile is-child box">
+                      <p className="is-size-7">Cancelled Tasks</p>
                       <p
                         style={{ marginBottom: 4 }}
                         className={`title has-text-weight-bold ${
@@ -219,11 +220,11 @@ class OtherUserProfileForReviewPage extends React.Component {
                       >
                         {canceledBids.length}
                       </p>
-                      <p className="is-size-6">Cancelations of Agreements</p>
                     </article>
                   </div>
                   <div className="tile is-parent">
                     <article className="tile is-child box">
+                      <p className="is-size-7">Fulfilled Requests</p>
                       <p
                         style={{ marginBottom: 4 }}
                         className={`title has-text-weight-bold ${
@@ -232,11 +233,12 @@ class OtherUserProfileForReviewPage extends React.Component {
                       >
                         {fulfilledJobs.length}
                       </p>
-                      <p className="is-size-6">Requests Posted and fullfilled</p>
                     </article>
                   </div>
                   <div className="tile is-parent">
                     <article className="tile is-child box">
+                      <p className="is-size-7">Cancelled Requests</p>
+
                       <p
                         style={{ marginBottom: 4 }}
                         className={`title has-text-weight-bold${
@@ -245,24 +247,62 @@ class OtherUserProfileForReviewPage extends React.Component {
                       >
                         {canceledJobs.length}
                       </p>
-                      <p className="is-size-6">Requests Cancelled after agreement</p>
                     </article>
                   </div>
                 </div>
-                {asABidderReviews && (
-                  <React.Fragment>
-                    <br />
-                    <label className="label">Reviews recieved as a Tasker :</label>
-                    {asABidderReviews}
-                  </React.Fragment>
+
+                <div style={{ background: 'transparent' }} className="tabs is-centered">
+                  <ul style={{ marginLeft: 0 }}>
+                    <li className="is-active">
+                      <a>
+                        <span>{`${
+                          numberOfTimesBeenRated === 1
+                            ? `1 Review`
+                            : `${numberOfTimesBeenRated} Reviews`
+                        } `}</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+
+                {(asABidderReviews || asAProposerReviewsRef) && (
+                  <div className="field has-addons">
+                    <p className="control">
+                      <button
+                        onClick={() => this.setReviewsSelectedButton('fromRequesters')}
+                        style={{ borderRadius: 0, boxShadow: 'none' }}
+                        className={`button ${
+                          this.state.reviewsSelectedButton === 'fromRequesters'
+                            ? 'is-success is-selected'
+                            : ''
+                        } `}
+                      >
+                        <span>From Requesters</span>
+                      </button>
+                    </p>
+
+                    <p className="control">
+                      <button
+                        onClick={() => this.setReviewsSelectedButton('fromTaskers')}
+                        style={{ borderRadius: 0, boxShadow: 'none' }}
+                        className={`button ${
+                          this.state.reviewsSelectedButton === 'fromTaskers'
+                            ? 'is-success is-selected'
+                            : ''
+                        } `}
+                      >
+                        <span>From Taskers</span>
+                      </button>
+                    </p>
+                  </div>
                 )}
 
-                {asAProposerReviewsRef && (
-                  <React.Fragment>
-                    <br />
-                    <label className="label">Reviews recieved as a Requester :</label>
-                    {asAProposerReviewsRef}
-                  </React.Fragment>
+                {asABidderReviews && this.state.reviewsSelectedButton === 'fromRequesters' && (
+                  <React.Fragment>{asABidderReviews}</React.Fragment>
+                )}
+
+                {asAProposerReviewsRef && this.state.reviewsSelectedButton === 'fromTaskers' && (
+                  <React.Fragment>{asAProposerReviewsRef}</React.Fragment>
                 )}
               </div>
             </div>
@@ -285,10 +325,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(OtherUserProfileForReviewPage);
+export default connect(mapStateToProps, mapDispatchToProps)(OtherUserProfileForReviewPage);
 
 const ReviewComments = ({ commenterDisplayName, commenterProfilePicUrl, comment }) => {
   return (
