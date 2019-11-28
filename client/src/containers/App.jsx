@@ -11,37 +11,11 @@ import { switchRoute } from '../utils';
 import { getCurrentUser } from '../app-state/actions/authActions';
 import logoImg from '../assets/images/android-chrome-192x192.png';
 import canadaFlag from '../assets/images/Canada-flag-round.png';
-import { registerServiceWorker } from '../registerServiceWorker';
 import AddToMobileHomeScreenBanner from './AddToMobileHomeScreenBanner';
 import '../assets/index.scss';
 import { Spinner } from '../components/Spinner.jsx';
 
-import {
-  Header,
-  // ShareButtons,
-  HomePage,
-  // MyProfile,
-  // PaymentSettings,
-  // VerificationPage,
-  // ProposerRootPage,
-  // CreateAJobPage,
-  // MyRequestsPage,
-  // FirstTimeUser,
-  // ResetLocalPassword,
-  // ReviewMyAwardedJobAndWinningBidPage,
-  // ReviewRequestAndBidsPage,
-  // BidderRootPage,
-  // BidOnJobPage,
-  // ReviewBidAndRequestPage,
-  // ReviewAwardedBidPage,
-  // MyBidsPage,
-  // ProposerReviewingCompletedJob,
-  // BidderReviewingCompletedJob,
-  // OtherUserProfileForReviewPage,
-  // PastProvidedServices,
-  // PastRequestedServices,
-  // TermsOfService,
-} from './index';
+import { Header, HomePage } from './index';
 
 import ShowSpecialMomentModal from './ShowSpecialMomentModal';
 // import FreshdeskChat from './FreshdeskChat';
@@ -54,7 +28,6 @@ const FirstTimeUser = lazy(() => import('./onboarding-flow/FirstTimeUser.jsx'));
 const MyNotifications = lazy(() => import('./personal-profile/MyNotifications.jsx'));
 const MyProfile = lazy(() => import('./personal-profile/MyProfile.jsx'));
 const PaymentSettings = lazy(() => import('./personal-profile/PaymentSettings.jsx'));
-const VerificationPage = lazy(() => import('./VerificationPage.jsx'));
 
 const ProposerRootPage = lazy(() => import('./proposer-flow/ProposerRootPage.jsx'));
 const CreateAJobPage = lazy(() => import('./proposer-flow/CreateAJobPage.jsx'));
@@ -94,16 +67,6 @@ class App extends React.Component {
   static getDerivedStateFromError(error) {
     // Update state so the next render will show the fallback UI.
     return { hasError: true };
-  }
-
-  componentDidUpdate() {
-    if (this.props.userDetails.notifications && this.props.userDetails.notifications.push) {
-      console.log('App componentDidUpdate registerServiceWorker');
-      registerServiceWorker(
-        `${process.env.REACT_APP_VAPID_KEY}`,
-        this.props.userDetails._id !== 'loggedOutUser_uuid',
-      );
-    }
   }
 
   render() {
@@ -229,7 +192,6 @@ class App extends React.Component {
                 path={ROUTES.CLIENT.MY_PROFILE.paymentSettings}
                 component={PaymentSettings}
               />
-              <Route exact path={`${ROUTES.CLIENT.VERIFICATION}`} component={VerificationPage} />
               <Route
                 exact
                 path={`${ROUTES.CLIENT.REVIEW.proposerJobReview}`}

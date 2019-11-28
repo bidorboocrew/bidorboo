@@ -3,7 +3,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { updateNotificationSettings } from '../../app-state/actions/userModelActions';
-import * as ROUTES from '../../constants/frontend-route-consts';
+import { registerServiceWorker } from '../../registerServiceWorker';
+import {
+  registerPushNotification,
+  unregisterPushNotification,
+} from '../../registerPushNotification';
 // XXXXX https://developers.google.com/web/fundamentals/codelabs/push-notifications follow this
 class MyNotifications extends React.Component {
   constructor(props) {
@@ -43,14 +47,26 @@ class MyNotifications extends React.Component {
       });
     }
   }
-  toggleEnablePushNotifications = () => {
-    this.setState(
-      () => ({
-        areThereChanges: true,
-        enablePushNotifications: !this.state.enablePushNotifications,
-      }),
-      () => this.submit(),
-    );
+  toggleEnablePushNotifications = async () => {
+    const newPushNotificationState = !this.state.enablePushNotifications;
+    try {
+      const { registration } = await registerServiceWorker();
+      if (newPushNotificationState && registration) {
+        await registerPushNotification(`${process.env.REACT_APP_VAPID_KEY}`, registration);
+      } else if (!newPushNotificationState && registration) {
+        await unregisterPushNotification(registration);
+      }
+    } catch (e) {
+      console.log('error occured while updating push notification state');
+    } finally {
+      this.setState(
+        () => ({
+          areThereChanges: true,
+          enablePushNotifications: !this.state.enablePushNotifications,
+        }),
+        () => this.submit(),
+      );
+    }
   };
 
   toggleEnableEmailNotification = () => {

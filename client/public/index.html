@@ -10,7 +10,7 @@
     />
     <meta
       name="Description"
-      content="A crowd sourcing platform where you can get your chores done for the right price. Earn money doing what you enjoy."
+      content="Get your chores done for the right price. Earn money doing what you enjoy."
     />
     <meta
       name="viewport"
@@ -20,11 +20,16 @@
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
     <!-- @todo xxx app icons generated from https://realfavicongenerator.net/ -->
     <!-- the best https://realfavicongenerator.net/ -->
-    <link rel="icon" type="image/png" sizes="192x192" href="%PUBLIC_URL%/android-chrome-192x192.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="%PUBLIC_URL%/android-chrome-192x192.png"
+    />
     <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/favicon-16x16.png" />
-    <link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5" />
+    <link rel="mask-icon" href="%PUBLIC_URL%/safari-pinned-tab.svg" color="#5bbad5" />
     <meta name="msapplication-TileColor" content="#2b5797" />
     <meta name="theme-color" content="#ffffff" />
     <!--
@@ -32,9 +37,6 @@
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />
-    -->
 
     <style>
       #snackbar {
@@ -78,8 +80,6 @@
         }
       }
     </style>
-    <script src="https://wchat.freshchat.com/js/widget.js" async defer></script>
-    <script src="https://js.stripe.com/v3/"></script>
 
     <title>BidOrBoo</title>
   </head>
@@ -120,9 +120,13 @@
     <script
       type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAB-PljnegpS-LM-JMzcSZ7PGFkd3Kqj9U&?v=3.exp&libraries=places,geometry"
+      async
+      defer
     ></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-142687351-1"></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-142687351-1" async defer></script>
+    <script src="https://wchat.freshchat.com/js/widget.js" async defer></script>
+    <script src="https://js.stripe.com/v3/" async defer></script>
   </body>
 </html>

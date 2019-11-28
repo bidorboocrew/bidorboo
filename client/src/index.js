@@ -17,7 +17,7 @@ import appHistory from './react-router-history';
 import GetNotificationsAndScroll from './GetNotificationsAndScroll';
 import { registerServiceWorker } from './registerServiceWorker';
 
-window.BidorBoo = window.BidorBoo || { SWRegistering: 0 };
+window.BidorBoo = window.BidorBoo || {};
 
 const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_SECRET}`);
 bugsnagClient.use(bugsnagReact, React);
@@ -35,4 +35,6 @@ ReactDOM.render(
   document.getElementById('BidOrBoo-app'),
 );
 
-registerServiceWorker(`${process.env.REACT_APP_VAPID_KEY}`, false);
+registerServiceWorker()
+  .then(() => null)
+  .catch((e) => console.error(e));

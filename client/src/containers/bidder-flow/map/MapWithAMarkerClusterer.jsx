@@ -38,13 +38,8 @@ class TheMap extends React.Component {
         options={{
           disableDefaultUI: true,
           streetViewControl: false,
-          // restriction: {
-          //   latLngBounds: CANADA_BOUNDS,
-          //   strictBounds: false,
-          // },
         }}
-        defaultZoom={mapZoomLevel}
-        zoom={mapZoomLevel}
+        zoom={10}
         center={mapCenterPoint}
       >
         <Cluster {...this.props} />

@@ -128,7 +128,6 @@ module.exports = {
     HOME: 'https://www.bidorboo.com/BidOrBoo',
     USER_ROFILE_FOR_REVIEW: 'https://www.bidorboo.com/user-profile/:userId',
     dynamicUserProfileForReview: (userId) => `https://www.bidorboo.com/user-profile/${userId}`,
-    VERIFICATION: 'https://www.bidorboo.com/verification/:field/:code',
     dynamicVerification: (field, code) => `https://www.bidorboo.com/verification/${field}/${code}`,
     MYAGENDA: 'https://www.bidorboo.com/my-agenda',
     PROPOSER: {

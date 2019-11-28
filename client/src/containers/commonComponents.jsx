@@ -404,7 +404,6 @@ export class LocationLabelAndValue extends React.Component {
       return null;
     }
 
-    window.BidorBoo = window.BidorBoo || {};
     let geocoder;
     if (!window.BidorBoo.geocoder) {
       geocoder = new window.google.maps.Geocoder();

@@ -118,7 +118,6 @@ export const CLIENT = {
   RESETPASSWORD: '/reset-password',
   USER_ROFILE_FOR_REVIEW: '/user-profile/:userId',
   dynamicUserProfileForReview: (userId) => `/user-profile/${userId}`,
-  VERIFICATION: '/verification/:field/:code',
   dynamicVerification: (field, code) => `/verification/${field}/${code}`,
   PROPOSER: {
     root: '/bdb-request/root',

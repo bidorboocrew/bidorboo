@@ -5,7 +5,6 @@ export { default as MyProfile } from './personal-profile/MyProfile';
 export { default as PaymentSettings } from './personal-profile/PaymentSettings';
 export { default as NotificationSettings } from './personal-profile/MyNotifications';
 
-export { default as VerificationPage } from './VerificationPage';
 
 // proposer flow
 export { default as ProposerRootPage } from './proposer-flow/ProposerRootPage';
