@@ -20,7 +20,6 @@ class MyNotifications extends React.Component {
     } = this.props;
 
     this.state = {
-      areThereChanges: false,
       enablePushNotifications: isPushNotificationsEnabled,
       enableEmailNotification: isEmailNotificationsEnabled,
       enableTxtNotifications: isTextNotificationsEnabled,
@@ -48,6 +47,7 @@ class MyNotifications extends React.Component {
     }
   }
   toggleEnablePushNotifications = async () => {
+    debugger;
     const newPushNotificationState = !this.state.enablePushNotifications;
     try {
       const { registration } = await registerServiceWorker();
@@ -61,8 +61,7 @@ class MyNotifications extends React.Component {
     } finally {
       this.setState(
         () => ({
-          areThereChanges: true,
-          enablePushNotifications: !this.state.enablePushNotifications,
+          enablePushNotifications: newPushNotificationState,
         }),
         () => this.submit(),
       );
@@ -72,7 +71,6 @@ class MyNotifications extends React.Component {
   toggleEnableEmailNotification = () => {
     this.setState(
       () => ({
-        areThereChanges: true,
         enableEmailNotification: !this.state.enableEmailNotification,
       }),
       () => this.submit(),
@@ -82,7 +80,6 @@ class MyNotifications extends React.Component {
   toggleEnableTxtNotifications = () => {
     this.setState(
       () => ({
-        areThereChanges: true,
         enableTxtNotifications: !this.state.enableTxtNotifications,
       }),
       () => this.submit(),
@@ -91,7 +88,6 @@ class MyNotifications extends React.Component {
   toggleEnableNotifyMeAboutNewTasksEnabled = () => {
     this.setState(
       () => ({
-        areThereChanges: true,
         enableNotifyMeAboutNewTasksEnabled: !this.state.enableNotifyMeAboutNewTasksEnabled,
       }),
       () => this.submit(),
@@ -114,7 +110,6 @@ class MyNotifications extends React.Component {
       text: !!enableTxtNotifications,
       newPostedTasks: !!enableNotifyMeAboutNewTasksEnabled,
     });
-    this.setState({ areThereChanges: false });
   };
 
   render() {
