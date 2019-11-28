@@ -47,7 +47,6 @@ class MyNotifications extends React.Component {
     }
   }
   toggleEnablePushNotifications = async () => {
-    debugger;
     const newPushNotificationState = !this.state.enablePushNotifications;
     try {
       const { registration } = await registerServiceWorker();

@@ -43,7 +43,7 @@ export const registerServiceWorker = async () => {
           }
 
           console.info('Service worker was successfully Registered');
-          debugger;
+
           return resolve({ registration });
         } catch (e) {
           console.error('failed registering service worker' + e);
