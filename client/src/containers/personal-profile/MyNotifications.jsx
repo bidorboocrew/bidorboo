@@ -57,14 +57,13 @@ class MyNotifications extends React.Component {
       }
     } catch (e) {
       console.log('error occured while updating push notification state');
-    } finally {
-      this.setState(
-        () => ({
-          enablePushNotifications: newPushNotificationState,
-        }),
-        () => this.submit(),
-      );
     }
+    this.setState(
+      () => ({
+        enablePushNotifications: newPushNotificationState,
+      }),
+      () => this.submit(),
+    );
   };
 
   toggleEnableEmailNotification = () => {

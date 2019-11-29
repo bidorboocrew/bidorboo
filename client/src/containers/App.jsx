@@ -3,6 +3,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { Redirect } from 'react-router';
+
+// https://github.com/osano/cookieconsent/tree/dev/src
+// import CookieConsent from 'cookieconsent';
+
 import Toast from '../components/Toast';
 import LoadingBar from 'react-redux-loading-bar';
 import * as ROUTES from '../constants/frontend-route-consts';
@@ -18,8 +22,6 @@ import { Spinner } from '../components/Spinner.jsx';
 import { Header, HomePage } from './index';
 
 import ShowSpecialMomentModal from './ShowSpecialMomentModal';
-// import FreshdeskChat from './FreshdeskChat';
-//eslint-disable import/first
 
 const FreshdeskChat = lazy(() => import('./FreshdeskChat.jsx'));
 
@@ -59,6 +61,33 @@ class App extends React.Component {
     this.state = { hasError: false };
   }
 
+  // componentDidMount() {
+  //   // https://github.com/osano/cookieconsent/tree/dev/src
+  //   window.cookieconsent.initialise({
+  //     container: document.getElementById('bidorboo-root-cookieconsent'),
+  //     palette: {
+  //       popup: { background: '#1aa3ff' },
+  //       button: { background: '#e0e0e0' },
+  //     },
+  //     revokable: true,
+  //     onStatusChange: function(status) {
+  //       console.log(this.hasConsented() ? 'enable cookies' : 'disable cookies');
+  //     },
+  //     theme: 'edgeless',
+  //     content: {
+  //       header: 'Cookies used on the website!',
+  //       message: 'This website uses cookies to improve your experience.',
+  //       dismiss: 'Got it!',
+  //       allow: 'Allow cookies',
+  //       deny: 'Decline',
+  //       link: 'Learn more',
+  //       href: 'https://www.cookiesandyou.com',
+  //       close: '&#x274c;',
+  //       policy: 'Cookie Policy',
+  //       target: '_blank',
+  //     },
+  //   });
+  // }
   componentDidCatch(error, info) {
     console.error('bdb error details ' + error);
     console.error('failure info ' + info);
@@ -74,7 +103,8 @@ class App extends React.Component {
       // You can render any custom fallback UI
       return (
         <div id="bidorboo-root-view">
-          <Header id="bidorboo-header" />x{' '}
+          <div id="bidorboo-root-cookieconsent" />
+          <Header id="bidorboo-header" />
           <section className="hero is-fullheight">
             <div className="hero-body">
               <div className="container">

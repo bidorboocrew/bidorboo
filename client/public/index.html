@@ -2,15 +2,33 @@
 <!-- needed this to override the stupid library default to scroll bumla -->
 <html style="overflow-y: auto !important" lang="en">
   <head>
+    <!-- Google Tag Manager -->
+    <script>
+      (function(w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-PXTM2SP');
+    </script>
+    <!-- End Google Tag Manager -->
     <meta charset="utf-8" />
-    <link rel="shortcut icon" href="%PUBLIC_URL%/logo.svg" />
+
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon-32x32.png" />
+    <title>BidOrBoo</title>
+
     <meta
       name="BidOrBoo"
       content="Get your chores done for the right price. Earn money doing what you enjoy."
     />
     <meta
       name="Description"
-      content="Get your chores done for the right price. Earn money doing what you enjoy."
+      content="Get your chores done for the right price. Earn money doing what you enjoy.
+      Request a service using one of our templates such as pet sitting, furniture assembly, moving homes, heavy lifting, car detailing and more. Taskers looking to earn money by doing side gigs will be bidding on these requests to give you the best quality service for a price that makes sense."
     />
     <meta
       name="viewport"
@@ -79,11 +97,19 @@
         }
       }
     </style>
-
-    <title>BidOrBoo</title>
   </head>
 
   <body id="BID_OR_BOO_APP_BODY">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-PXTM2SP"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"
+      ></iframe
+    ></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <div id="snackbar">
       A new version of this app is available. Click
       <a id="reload"

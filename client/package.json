@@ -23,6 +23,7 @@
     "bulma": "^0.8.0",
     "bulma-switch": "^2.0.0",
     "classnames": "^2.2.6",
+    "cookieconsent": "^3.1.1",
     "core-js": "^3.2.1",
     "formik": "^1.5.8",
     "haversine-offset": "^1.0.0",
