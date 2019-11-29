@@ -252,7 +252,7 @@ class App extends React.Component {
             <nav className="level">
               <div className="level-item has-text-centered">
                 <div>
-                  <p className="has-text-white is-size-7">Availablility</p>
+                  <p className="has-text-white is-size-7">Availability</p>
                   <div className="is-size-7">
                     <img width={21} height={21} alt="Canada" src={canadaFlag} />
                   </div>
@@ -310,8 +310,15 @@ class App extends React.Component {
                     </Suspense>
                   </div>
 
-                  <p className="has-text-white is-size-7">Contact Us</p>
-                  <div className="has-text-white is-size-7">bidorboocrew@bidorboo.com</div>
+                  <p className="has-text-white is-size-7">email us</p>
+                  <div>
+                    <a className="has-text-link is-size-7" href={`mailto:bidorboocrew@bidorboo.com`}>
+                      <span className="icon">
+                        <i className="far fa-envelope" />
+                      </span>
+                      <span>bidorboocrew@bidorboo.com</span>
+                    </a>
+                  </div>
                 </div>
               </div>
             </nav>
