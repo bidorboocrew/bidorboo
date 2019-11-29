@@ -4,7 +4,7 @@ const keys = require('../config/keys');
 const webpush = require('web-push');
 
 webpush.setVapidDetails(
-  'mailto:bidorboocrew@bidorboo.com',
+  'mailto:bidorboo@bidorboo.com',
   keys.vapidPublicApiKey,
   keys.vapidPrivateApiKey
 );

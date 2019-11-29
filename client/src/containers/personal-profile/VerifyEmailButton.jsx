@@ -36,7 +36,7 @@ class VerifyEmailButton extends React.Component {
       } catch (e) {
         // some alert
         alert(
-          'Unable to verify your email, please click the chat button on the right bottom corner of your creend or contact us bidorboocrew@bidorboo.com to resolve this',
+          'Unable to verify your email, please click the chat button on the right bottom corner of your creend or contact us bidorboo@bidorboo.com to resolve this',
         );
         this.setState({ isResendingVCode: false, inputCodeContent: '' });
       }
@@ -94,7 +94,7 @@ class VerifyEmailButton extends React.Component {
                         </div>
                         <div className="help">
                           * Check your email inbox/junk folders for emails from
-                          bidorboocrew@bidorboo.com
+                          bidorboo@bidorboo.com
                         </div>
                         <br></br>
 

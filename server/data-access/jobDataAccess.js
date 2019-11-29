@@ -1863,7 +1863,7 @@ exports.jobDataAccess = {
         const job = await JobModel.findOne({ _id: jobId, _ownerRef: mongoUser_id }).exec();
 
         if (!job || !job._id || !job._ownerRef._id || !job.state) {
-          return reject('Error while canceling job. contact us at bidorboocrew@bidorboo.com');
+          return reject('Error while canceling job. contact us at bidorboo@bidorboo.com');
         }
 
         // if we are cancelling an open job
@@ -2054,7 +2054,7 @@ exports.jobDataAccess = {
           } else {
             reject({
               refund: refundCharge,
-              errorMsg: 'refund status failed. bidorboocrew will get in touch',
+              errorMsg: 'refund status failed. bidorboo will get in touch',
             });
           }
         }

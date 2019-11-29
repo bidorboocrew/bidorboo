@@ -29,7 +29,7 @@ export const verifyPhone = (code, onSuccessCallback = () => null) => (dispatch) 
         } else {
           throwErrorNotification(
             dispatch,
-            'Sorry! We Could Not Verify your phone. click on resend pin and verify later. or contact us at bidorboocrew@bidorboo.com',
+            'Sorry! We Could Not Verify your phone. click on resend pin and verify later. or contact us at bidorboo@bidorboo.com',
           );
         }
       })
@@ -66,7 +66,7 @@ export const verifyEmail = (code, onSuccessCallback = () => null) => (dispatch) 
         } else {
           throwErrorNotification(
             dispatch,
-            'Sorry! We Could Not Verify your email. click on resend pin and verify later. or contact us at bidorboocrew@bidorboo.com',
+            'Sorry! We Could Not Verify your email. click on resend pin and verify later. or contact us at bidorboo@bidorboo.com',
           );
         }
       })
