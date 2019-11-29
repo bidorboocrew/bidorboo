@@ -1863,7 +1863,7 @@ exports.jobDataAccess = {
         const job = await JobModel.findOne({ _id: jobId, _ownerRef: mongoUser_id }).exec();
 
         if (!job || !job._id || !job._ownerRef._id || !job.state) {
-          return reject('Error while canceling job. contact us at bidorboo@bidorboo.com');
+          return reject('Error while canceling job. contact us at bidorboo@bidorboo.ca');
         }
 
         // if we are cancelling an open job

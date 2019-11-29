@@ -4,7 +4,7 @@ const keys = require('../config/keys');
 const webpush = require('web-push');
 
 webpush.setVapidDetails(
-  'mailto:bidorboo@bidorboo.com',
+  'mailto:bidorboo@bidorboo.ca',
   keys.vapidPublicApiKey,
   keys.vapidPrivateApiKey
 );
@@ -23,7 +23,7 @@ exports.WebPushNotifications = {
           title: `BidOrBoo: ${requestTitle} awaiting your confirmation!`,
           body: `Tasker is done ! Click for more details`,
           icon: icon,
-          urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+          urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
           tag: urlToLaunch,
         });
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
@@ -50,7 +50,7 @@ exports.WebPushNotifications = {
           title: `BidOrBoo: ${requestTitle} Was Cancelled!`,
           body: `It is cancelled! Click for more details`,
           icon: icon,
-          urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+          urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
           tag: urlToLaunch,
         });
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
@@ -73,7 +73,7 @@ exports.WebPushNotifications = {
         const payload = JSON.stringify({
           title: `NEW ${requestTitle} request in your area!`,
           body: `Act fast, be the first to bid`,
-          urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+          urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
           tag: urlToLaunch,
         });
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
@@ -100,7 +100,7 @@ exports.WebPushNotifications = {
           title: `BidOrBoo: ${requestTitle} is Completed!`,
           body: `It is DONE! Click to Rate it`,
           icon: icon,
-          urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+          urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
           tag: urlToLaunch,
         });
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
@@ -127,7 +127,7 @@ exports.WebPushNotifications = {
           title: `BidOrBoo Marked ${requestTitle} as Complete because you did not act in 3 days.`,
           body: `Click to rate the tasker`,
           icon: icon,
-          urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+          urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
           tag: urlToLaunch,
         });
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
@@ -154,7 +154,7 @@ exports.WebPushNotifications = {
           title: `BidOrBoo: Confirm that ${requestTitle} is Completed!`,
           body: `Click to confirm completion and Rate the tasker`,
           icon: icon,
-          urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+          urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
           tag: urlToLaunch,
           requireInteraction: true,
         });
@@ -182,7 +182,7 @@ exports.WebPushNotifications = {
           title: `BidOrBoo: ${requestTitle} is Happening Soon!`,
           body: `It is happening soon! Click for more details`,
           icon: icon,
-          urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+          urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
           tag: urlToLaunch,
         });
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
@@ -209,7 +209,7 @@ exports.WebPushNotifications = {
           title: `Good News ${taskerDisplayName} !`,
           body: `You have been awarded a job. click for details`,
           icon: icon,
-          urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+          urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
           tag: urlToLaunch,
         });
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
@@ -233,7 +233,7 @@ exports.WebPushNotifications = {
           title,
           body,
           icon: icon,
-          urlToLaunch: urlToLaunch || 'https://www.bidorboo.com',
+          urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
           tag: urlToLaunch,
         });
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
