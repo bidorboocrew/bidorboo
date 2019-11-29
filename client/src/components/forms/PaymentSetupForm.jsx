@@ -79,7 +79,7 @@ const EnhancedForms = withFormik({
       // xxxx update without reload
       window.location.reload();
     } catch (e) {
-      let msg = 'failed To Create Account please email us at bidorboocrew@bidorboo.com';
+      let msg = 'failed To Create Account please email us at bidorboo@bidorboo.com';
       if (
         e &&
         e.response &&
