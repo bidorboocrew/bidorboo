@@ -312,11 +312,11 @@ class App extends React.Component {
 
                   <p className="has-text-white is-size-7">email us</p>
                   <div>
-                    <a className="has-text-link is-size-7" href={`mailto:bidorboo@bidorboo.com`}>
+                    <a className="has-text-link is-size-7" href={`mailto:bidorboo@bidorboo.ca`}>
                       <span className="icon">
                         <i className="far fa-envelope" />
                       </span>
-                      <span>bidorboo@bidorboo.com</span>
+                      <span>bidorboo@bidorboo.ca</span>
                     </a>
                   </div>
                 </div>

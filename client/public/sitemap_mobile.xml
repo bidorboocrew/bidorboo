@@ -8,19 +8,19 @@
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
   <url>
-    <loc>https://www.bidorboo.com/</loc>
+    <loc>https://www.bidorboo.ca/</loc>
     <mobile:mobile/>
   </url>
   <url>
-    <loc>https://www.bidorboo.com/BidOrBoo</loc>
+    <loc>https://www.bidorboo.ca/BidOrBoo</loc>
     <mobile:mobile/>
   </url>
   <url>
-    <loc>https://www.bidorboo.com/bdb-request/root</loc>
+    <loc>https://www.bidorboo.ca/bdb-request/root</loc>
     <mobile:mobile/>
   </url>
   <url>
-    <loc>https://www.bidorboo.com/bdb-offer/root</loc>
+    <loc>https://www.bidorboo.ca/bdb-offer/root</loc>
     <mobile:mobile/>
   </url>
 </urlset>

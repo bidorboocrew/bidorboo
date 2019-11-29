@@ -5,4 +5,4 @@ Disallow: /my-open-jobs*
 Disallow: /review-my-bid-details*
 Disallow: /my-request*
 Disallow: /awarded-bid-details*
-Sitemap: https://www.bidorboo.com/sitemap.xml
+Sitemap: https://www.bidorboo.ca/sitemap.xml

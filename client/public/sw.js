@@ -167,7 +167,7 @@ self.addEventListener('push', (event) => {
     badge: 'android-chrome-192x192-mono.png',
     image: 'android-chrome-192x192.png',
     // image: 'mstile-310x310.png',
-    data: data.urlToLaunch || 'https://www.bidorboo.com',
+    data: data.urlToLaunch || 'https://www.bidorboo.ca',
     actions: [{ action: 'viewUpdate', title: 'View Update' }],
   };
   if (data.tag) {

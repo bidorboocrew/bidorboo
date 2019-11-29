@@ -7,25 +7,25 @@
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
   <url>
-    <loc>https://www.bidorboo.com/</loc>
+    <loc>https://www.bidorboo.ca/</loc>
     <lastmod>2019-11-28T14:47:08+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0000</priority>
   </url>
   <url>
-    <loc>https://www.bidorboo.com/BidOrBoo</loc>
+    <loc>https://www.bidorboo.ca/BidOrBoo</loc>
     <lastmod>2019-11-28T14:47:08+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9500</priority>
   </url>
   <url>
-    <loc>https://www.bidorboo.com/bdb-request/root</loc>
+    <loc>https://www.bidorboo.ca/bdb-request/root</loc>
     <lastmod>2019-11-28T14:47:08+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0000</priority>
   </url>
   <url>
-    <loc>https://www.bidorboo.com/bdb-offer/root</loc>
+    <loc>https://www.bidorboo.ca/bdb-offer/root</loc>
     <lastmod>2019-11-28T14:47:08+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0000</priority>
