@@ -7,8 +7,6 @@ import JobInfoBox from './JobInfoBox';
 
 const MapWithAMarkerClusterer = compose(
   withProps({
-    // googleMapURL:
-    //   'https://maps.googleapis.com/maps/api/js?key=AIzaSyD0th06BSi2RQMJH8_kCsSdBfMRW4MbrjU&?v=3.exp&libraries=places,geometry',
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: (
       <div
