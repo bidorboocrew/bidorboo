@@ -112,7 +112,7 @@ export const API = {
 
 export const CLIENT = {
   ENTRY: '/BidOrBoo',
-  HOME: '/BidOrBoo',
+  HOME: '/',
   TOS: '/terms-of-service',
   ONBOARDING: '/on-boarding',
   RESETPASSWORD: '/reset-password',
