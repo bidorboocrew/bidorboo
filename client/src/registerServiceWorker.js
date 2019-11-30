@@ -38,7 +38,7 @@ export const registerServiceWorker = async () => {
           });
 
           if (!registration) {
-            console.error('could not register service worker');
+            console.info('could not register service worker');
             return reject({ success: false });
           }
 
@@ -46,7 +46,7 @@ export const registerServiceWorker = async () => {
 
           return resolve({ registration });
         } catch (e) {
-          console.error('failed registering service worker' + e);
+          console.info('failed registering service worker' + e);
           return reject({ success: false });
         }
       });

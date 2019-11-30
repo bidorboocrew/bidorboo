@@ -6,7 +6,7 @@ import axios from 'axios';
  */
 
 //  https://web-push-book.gauntface.com/
-export const registerPushNotification = async (vapidKey, registration) => {
+export const registerPushNotification = (vapidKey, registration) => {
   return new Promise(async (resolve, reject) => {
     if (process.env.NODE_ENV === 'development') {
       return reject({ success: false });
@@ -34,7 +34,7 @@ export const registerPushNotification = async (vapidKey, registration) => {
           return reject({ success: false });
         }
       } catch (e) {
-        console.error(`couldn't register push notifications`);
+        console.info(`couldn't register push notifications`);
         return reject({ success: false });
       }
     }
@@ -54,7 +54,8 @@ const urlBase64ToUint8Array = (base64String) => {
   return outputArray;
 };
 
-export const unregisterPushNotification = async (registration) => {
+export const unregisterPushNotification = (registration) => {
+  debugger;
   return new Promise(async (resolve, reject) => {
     if (process.env.NODE_ENV === 'development') {
       return reject({ success: false });
@@ -78,7 +79,7 @@ export const unregisterPushNotification = async (registration) => {
         console.info('push notifications deactivated');
         return resolve({ success: true });
       } catch (e) {
-        console.error(`couldn't unregister push notifications`);
+        console.info(`couldn't unregister push notifications`);
         return reject({ success: false });
       }
     }

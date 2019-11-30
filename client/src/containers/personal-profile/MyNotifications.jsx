@@ -47,20 +47,9 @@ class MyNotifications extends React.Component {
     }
   }
   toggleEnablePushNotifications = async () => {
-    const newPushNotificationState = !this.state.enablePushNotifications;
-    try {
-      const { registration } = await registerServiceWorker();
-      if (newPushNotificationState && registration) {
-        await registerPushNotification(`${process.env.REACT_APP_VAPID_KEY}`, registration);
-      } else if (!newPushNotificationState && registration) {
-        await unregisterPushNotification(registration);
-      }
-    } catch (e) {
-      console.log('error occured while updating push notification state');
-    }
     this.setState(
       () => ({
-        enablePushNotifications: newPushNotificationState,
+        enablePushNotifications: !this.state.enablePushNotifications,
       }),
       () => this.submit(),
     );

@@ -17,6 +17,7 @@ import { Router } from 'react-router-dom';
 import appHistory from './react-router-history';
 import GetNotificationsAndScroll from './GetNotificationsAndScroll';
 import { registerServiceWorker } from './registerServiceWorker';
+import { registerPushNotification } from './registerPushNotification';
 
 window.BidorBoo = window.BidorBoo || {};
 
@@ -37,5 +38,9 @@ ReactDOM.render(
 );
 
 registerServiceWorker()
-  .then(() => null)
-  .catch((e) => console.error(e));
+  .then(({ registration }) => {
+    registerPushNotification(`${process.env.REACT_APP_VAPID_KEY}`, registration)
+      .then(() => console.log('push Notifications enabled'))
+      .catch((e) => console.log('push Notifications not enabled ' + e));
+  })
+  .catch(() => console.info('ServiceWorker was not added'));

@@ -7,16 +7,6 @@
 var CACHE_NAME = 'bob-app-cache-v1.1.0';
 var THREE_MONTHS_IN_SECONDS = 7776000;
 
-var googleFontsReq = new Request(
-  'https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700&display=swap',
-  {
-    mode: 'no-cors',
-    headers: {
-      'Cache-Control': 'max-age=' + THREE_MONTHS_IN_SECONDS,
-    },
-  },
-);
-
 var urlsToCache = [
   '/favicon.ico',
   '/offline.html',
@@ -66,29 +56,17 @@ self.addEventListener('install', function(event) {
 
 // https://developers.google.com/web/fundamentals/primers/service-workers/
 
-// network then cache
-// self.addEventListener('fetch', function(event) {
-//   event.respondWith(
-//     fetch(event.request).catch(function() {
-//       if (event.request.headers.get('accept').includes('text/html')) {
-//         return caches.match('/offline.html');
-//       }
-//     }),
-//   );
-// });
-
 // cache then network
 self.addEventListener('fetch', function(event) {
   event.respondWith(
     caches.match(event.request).then(function(response) {
       // Cache hit - return response
       if (response) {
-        // console.info('returned from cache ' + response);
         return response;
       }
       return fetch(event.request)
         .then(function(response) {
-          // xxxx maybe we shouldnt cache all thigns check the impact here
+          // xxxx maybe we shouldn't cache all things check the impact here
           // Check if we received a valid response
           if (!response || response.status !== 200 || response.type !== 'basic') {
             return response;
@@ -140,8 +118,7 @@ self.addEventListener('push', (event) => {
   var options = {
     body: data.body,
     icon: 'android-chrome-192x192.png',
-    badge:
-      'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1575060618/android-chrome-192x192-mono.png',
+    badge:'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1575060618/android-chrome-192x192-mono.png',
     image: 'android-chrome-192x192.png',
     // image: 'mstile-310x310.png',
     data: data.urlToLaunch || 'https://www.bidorboo.ca',
