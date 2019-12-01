@@ -118,7 +118,7 @@ self.addEventListener('push', (event) => {
   var options = {
     body: data.body,
     icon: 'android-chrome-192x192.png',
-    badge:'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1575060618/android-chrome-192x192-mono.png',
+    badge: 'android-chrome-192x192-mono.png',
     image: 'android-chrome-192x192.png',
     // image: 'mstile-310x310.png',
     data: data.urlToLaunch || 'https://www.bidorboo.ca',

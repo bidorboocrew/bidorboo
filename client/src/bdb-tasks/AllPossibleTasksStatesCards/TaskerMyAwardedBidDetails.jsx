@@ -132,13 +132,13 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                     <br />
                     <div>
                       We understand that life "happens" but to keep things fair for you and the
-                      tasker we encourage you to reach out and try to reschedule this task to avoid
+                      Tasker we encourage you to reach out and try to reschedule this task to avoid
                       cancellation
                     </div>
                     <br />
                     <div className="group">
                       <label className="label has-text-danger">
-                        Before you proceed you msut know:
+                        Before you proceed you must know:
                       </label>
                       <ul>
                         <li>Your global rating will be negatively impacted</li>

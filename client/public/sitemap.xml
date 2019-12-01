@@ -9,11 +9,17 @@
   <url>
     <loc>https://www.bidorboo.ca/</loc>
     <lastmod>2019-12-01T14:47:08+00:00</lastmod>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/hr6bwgs1p/image/upload/v1565728175/android-chrome-512x512.png</image:loc>
+    </image:image>
     <changefreq>daily</changefreq>
     <priority>1.0000</priority>
   </url>
   <url>
     <loc>https://www.bidorboo.ca/BidOrBoo</loc>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/hr6bwgs1p/image/upload/v1565728175/android-chrome-512x512.png</image:loc>
+    </image:image>
     <lastmod>2019-12-01T14:47:08+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9500</priority>
