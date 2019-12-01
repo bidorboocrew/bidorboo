@@ -23,4 +23,12 @@
     <loc>https://www.bidorboo.ca/bdb-offer/root</loc>
     <mobile:mobile/>
   </url>
+  <url>
+    <loc>https://www.bidorboo.ca/login-and-registration</loc>
+    <mobile:mobile/>
+  </url>
+  <url>
+    <loc>https://www.bidorboo.ca/terms-of-service</loc>
+    <mobile:mobile/>
+  </url>
 </urlset>

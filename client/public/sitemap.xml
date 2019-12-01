@@ -8,25 +8,37 @@
 
   <url>
     <loc>https://www.bidorboo.ca/</loc>
-    <lastmod>2019-11-28T14:47:08+00:00</lastmod>
+    <lastmod>2019-12-01T14:47:08+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0000</priority>
   </url>
   <url>
     <loc>https://www.bidorboo.ca/BidOrBoo</loc>
-    <lastmod>2019-11-28T14:47:08+00:00</lastmod>
+    <lastmod>2019-12-01T14:47:08+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9500</priority>
   </url>
   <url>
     <loc>https://www.bidorboo.ca/bdb-request/root</loc>
-    <lastmod>2019-11-28T14:47:08+00:00</lastmod>
+    <lastmod>2019-12-01T14:47:08+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0000</priority>
   </url>
   <url>
     <loc>https://www.bidorboo.ca/bdb-offer/root</loc>
-    <lastmod>2019-11-28T14:47:08+00:00</lastmod>
+    <lastmod>2019-12-01T14:47:08+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0000</priority>
+  </url>
+  <url>
+    <loc>https://www.bidorboo.ca/login-and-registration</loc>
+    <lastmod>2019-12-01T14:47:08+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0000</priority>
+  </url>
+  <url>
+    <loc>https://www.bidorboo.ca/terms-of-service</loc>
+    <lastmod>2019-12-01T14:47:08+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0000</priority>
   </url>
