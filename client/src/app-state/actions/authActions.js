@@ -35,7 +35,7 @@ export const verifyPhone = (code, onSuccessCallback = () => null) => (dispatch) 
       })
       .catch((error) => {
         //rediret user to my profile
-        switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
+        // switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
         throwErrorNotification(dispatch, error);
       }),
   });
@@ -72,7 +72,7 @@ export const verifyEmail = (code, onSuccessCallback = () => null) => (dispatch) 
       })
       .catch((error) => {
         //rediret user to my profile
-        switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
+        // switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
         throwErrorNotification(dispatch, error);
       }),
   });
