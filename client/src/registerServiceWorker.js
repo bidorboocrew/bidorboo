@@ -9,24 +9,28 @@ export const registerServiceWorker = async () => {
         let newWorker;
         let refreshing;
         try {
-          function showUpdateBar() {
-            // https://github.com/deanhume/pwa-update-available
-            let snackbar = document.getElementById('snackbar');
-            snackbar.className = 'show';
-          }
-          // The click event on the pop up notification
-          document.getElementById('reload').addEventListener('click', () => {
-            if (newWorker && newWorker.postMessage) {
-              newWorker.postMessage({ action: 'skipWaiting' });
-            }
-          });
-
           registration = await navigator.serviceWorker.register('/sw.js', {
             scope: '/',
           });
+
+          // function showUpdateBar() {
+          // https://github.com/deanhume/pwa-update-available
+          // let snackbar = document.getElementById('snackbar');
+          // snackbar.className = 'show';
+          // }
+          // The click event on the pop up notification
+          // document.getElementById('reload').addEventListener('click', () => {
+          //   if (newWorker && newWorker.postMessage) {
+          //     newWorker.postMessage({ action: 'skipWaiting' });
+          //   }
+          // });
+
           if (registration.waiting && registration.waiting.state === 'installed') {
             newWorker = registration.waiting;
-            showUpdateBar();
+            // showUpdateBar();
+            if (newWorker && newWorker.postMessage) {
+              newWorker.postMessage({ action: 'skipWaiting' });
+            }
           }
 
           navigator.serviceWorker.addEventListener('controllerchange', () => {
