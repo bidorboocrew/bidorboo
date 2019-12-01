@@ -105,7 +105,7 @@ class App extends React.Component {
           <section className="hero is-fullheight">
             <div className="hero-body">
               <div className="container">
-                <h1 className="title has-text-danger">OOOOPS ! We've Encountered An Error</h1>
+                <h1 className="title has-text-info">Boo for us! we've encountered an error</h1>
                 <br />
                 <h1 className="sub-title">
                   Apologies for the inconvenience, We will track the issue and fix it asap.

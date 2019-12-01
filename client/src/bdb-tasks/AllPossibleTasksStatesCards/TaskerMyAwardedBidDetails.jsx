@@ -128,7 +128,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                 </header>
                 <section className="modal-card-body">
                   <div className="content">
-                    <div>Cancelling on the requester is considered a Booo</div>
+                    <div>Cancelling on the requester is considered a Boo</div>
                     <br />
                     <div>
                       We understand that life "happens" but to keep things fair for you and the
