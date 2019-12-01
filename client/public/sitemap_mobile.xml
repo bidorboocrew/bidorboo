@@ -1,34 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:xhtml="http://www.w3.org/1999/xhtml"
-  xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xsi:schemaLocation="
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:xhtml="http://www.w3.org/1999/xhtml"
+      xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0"
+      xsi:schemaLocation="
             http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
   <url>
-    <loc>https://www.bidorboo.ca/</loc>
-    <mobile:mobile/>
+       <loc>https://www.bidorboo.ca/</loc>
+       <mobile:mobile/>
   </url>
   <url>
-    <loc>https://www.bidorboo.ca/BidOrBoo</loc>
-    <mobile:mobile/>
+       <loc>https://www.bidorboo.ca/BidOrBoo</loc>
+       <mobile:mobile/>
   </url>
   <url>
-    <loc>https://www.bidorboo.ca/bdb-request/root</loc>
-    <mobile:mobile/>
+       <loc>https://www.bidorboo.ca/bdb-request/root</loc>
+       <mobile:mobile/>
   </url>
   <url>
-    <loc>https://www.bidorboo.ca/bdb-offer/root</loc>
-    <mobile:mobile/>
+       <loc>https://www.bidorboo.ca/bdb-offer/root</loc>
+       <mobile:mobile/>
   </url>
   <url>
-    <loc>https://www.bidorboo.ca/login-and-registration</loc>
-    <mobile:mobile/>
+       <loc>https://www.bidorboo.ca/login-and-registration</loc>
+       <mobile:mobile/>
   </url>
   <url>
-    <loc>https://www.bidorboo.ca/terms-of-service</loc>
-    <mobile:mobile/>
+       <loc>https://www.bidorboo.ca/terms-of-service</loc>
+       <mobile:mobile/>
   </url>
 </urlset>
