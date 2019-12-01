@@ -1,6 +1,7 @@
 import React from 'react';
 
 import * as ROUTES from '../constants/frontend-route-consts';
+import ProposerRoot from './proposer-flow/ProposerRootPage';
 import { switchRoute } from '../utils';
 import HOW_IT_WORKS from '../assets/images/HOW_IT_WORKS.png';
 import MainBanner from '../assets/images/MainBanner.png';
@@ -81,7 +82,6 @@ export default class HomePage extends React.Component {
             </div>
           </div>
         </section>
-
         <div className="columns is-mobile is-multiline is-centered">
           <div style={{ maxWidth: '21rem', marginBottom: '1.5rem' }} className="column">
             <RequestAService
@@ -98,7 +98,6 @@ export default class HomePage extends React.Component {
             />
           </div>
         </div>
-
         <div
           style={{
             width: '50%',
@@ -112,6 +111,16 @@ export default class HomePage extends React.Component {
             <VideoExplanation />
           </div>
         </div>
+        <div
+          style={{
+            width: '50%',
+            margin: '3rem auto',
+            display: 'block',
+            borderBottom: '1px solid #ee2a36',
+          }}
+        />
+
+        <ProposerRoot isForHomepage></ProposerRoot>
       </div>
     );
   }

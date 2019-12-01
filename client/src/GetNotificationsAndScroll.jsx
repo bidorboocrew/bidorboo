@@ -13,12 +13,22 @@ import {
 import * as ROUTES from './constants/frontend-route-consts';
 import { switchRoute } from './utils';
 import { Spinner } from './components/Spinner';
-
+// import LoginOrRegisterPage from './containers/onboarding-flow/LoginOrRegisterPage.jsx';
 import { Header } from './containers/index';
 // const EVERY_30_SECS = 900000; //MS
 // const EVERY_15_MINUTES = 900000; //MS
 // const UPDATE_NOTIFICATION_INTERVAL =
 //   process.env.NODE_ENV === 'production' ? EVERY_15_MINUTES : EVERY_30_SECS;
+
+const loggedOutRoutes = [
+  ROUTES.CLIENT.HOME,
+  ROUTES.CLIENT.TOS,
+  ROUTES.CLIENT.RESETPASSWORD,
+  ROUTES.CLIENT.USER_ROFILE_FOR_REVIEW,
+  ROUTES.CLIENT.PROPOSER.root,
+  ROUTES.CLIENT.BIDDER.root,
+  ROUTES.CLIENT.BIDDER.bidOnJobPage,
+];
 
 class GetNotificationsAndScroll extends React.Component {
   constructor(props) {
@@ -37,6 +47,12 @@ class GetNotificationsAndScroll extends React.Component {
     // Update state so the next render will show the fallback UI.
     return { hasError: true };
   }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (nextProps.location.pathname !== this.props.location.pathname) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   componentDidUpdate(prevProps) {
     const {
@@ -58,7 +74,7 @@ class GetNotificationsAndScroll extends React.Component {
       }, 0);
       return;
     }
-    if (location !== prevProps.location) {
+    if (location.pathname !== prevProps.location.pathname) {
       if (isLoggedIn !== prevProps.isLoggedIn && !isLoggedIn) {
         getCurrentUser();
       }
@@ -116,7 +132,7 @@ class GetNotificationsAndScroll extends React.Component {
   }
 
   render() {
-    const { authIsInProgress } = this.props;
+    const { authIsInProgress, isLoggedIn } = this.props;
     if (this.state.hasError) {
       // You can render any custom fallback UI
       return (
@@ -125,7 +141,7 @@ class GetNotificationsAndScroll extends React.Component {
           <section className="hero is-fullheight">
             <div className="hero-body">
               <div className="container">
-                <h1 className="title has-text-danger">OOOOPS ! We've Encountered An Error</h1>
+                <h1 className="title has-text-info">Boo for us! we've encountered an error</h1>
                 <br />
                 <h1 className="sub-title">
                   Apologies for the inconvenience, We will track the issue and fix it asap.
@@ -148,11 +164,31 @@ class GetNotificationsAndScroll extends React.Component {
       );
     }
 
-    return authIsInProgress ? (
-      <Spinner renderLabel="securing your connection" />
-    ) : (
-      this.props.children
-    );
+    if (authIsInProgress) {
+      return <Spinner renderLabel="securing your connection" />;
+    }
+    if (!isLoggedIn) {
+      if (loggedOutRoutes.indexOf(this.props.location.pathname) > -1) {
+        return this.props.children;
+      } else {
+        if (this.props.location.pathname !== ROUTES.CLIENT.LOGIN_OR_REGISTER) {
+          return switchRoute(ROUTES.CLIENT.LOGIN_OR_REGISTER, {
+            isLoggedIn,
+            redirectedFromUrl: this.props.location.pathname,
+          });
+        }
+
+        return this.props.children;
+        // return (
+        //   <LoginOrRegisterPage
+        //     isLoggedIn={isLoggedIn}
+        //     redirectedFromUrl={this.props.location.pathname}
+        //   />
+        // );
+      }
+    } else {
+      return this.props.children;
+    }
   }
 }
 const mapStateToProps = ({ userReducer, uiReducer }) => {
@@ -173,9 +209,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(GetNotificationsAndScroll),
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GetNotificationsAndScroll));

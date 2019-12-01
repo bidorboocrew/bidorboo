@@ -86,7 +86,7 @@ const EnhancedForms = withFormik({
       });
     } catch (e) {
       props && props.closeModal && props.closeModal();
-      let msg = 'failed To Create Account please email us at bidorboocrew@bidorboo.com';
+      let msg = 'failed To Create Account please email us at bidorboo@bidorboo.ca';
       if (
         e &&
         e.response &&

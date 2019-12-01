@@ -1,14 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import * as ROUTES from '../../../constants/frontend-route-consts';
-import AcceptBidPaymentHandling from './AcceptBidPaymentHandling';
+import { submitPayment } from '../../../app-state/actions/paymentActions';
 import * as Constants from '../../../constants/enumConstants';
 
 import { getChargeDistributionDetails } from '../../commonUtils';
 
-export default class AcceptBidAndBidderModal extends React.Component {
+class AcceptBidAndBidderModal extends React.Component {
   render() {
-    const { bid, closeModal } = this.props;
+    const { bid, closeModal, submitPayment } = this.props;
 
     if (!bid || !bid._id || !bid._bidderRef || !bid._jobRef) {
       return null;
@@ -22,15 +24,7 @@ export default class AcceptBidAndBidderModal extends React.Component {
     const { rating, membershipStatus } = otherUserProfileInfo;
 
     const membershipStatusDisplay = Constants.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
-    const {
-      // numberOfTimesBeenRated,
-      globalRating,
-      // fulfilledBids,
-      // canceledBids,
-      // fulfilledJobs,
-      // canceledJobs,
-      // lastComment
-    } = rating;
+    const { globalRating } = rating;
     return (
       <div className="modal is-active">
         <div onClick={closeModal} className="modal-background" />
@@ -77,11 +71,13 @@ export default class AcceptBidAndBidderModal extends React.Component {
               )}
               <label className="help">Status: {membershipStatusDisplay}</label>
             </div>
-            <div style={{ marginBottom: 0, marginTop: 4 }}>
-              <span>{`Offered to do this task for a total of `}</span>
-              <span className="control is-size-4 has-text-weight-semibold has-text-success">
-                ${Math.ceil(requesterTotalPayment)} CAD
-              </span>
+            <div className="has-text-centered">
+              <div style={{ marginBottom: 0, marginTop: 4 }}>
+                Offered to do this task for a total price of
+              </div>
+              <div className="control is-size-4 has-text-weight-semibold has-text-success">
+                {`${Math.ceil(requesterTotalPayment)} $CAD`}
+              </div>
             </div>
 
             <div
@@ -113,15 +109,28 @@ export default class AcceptBidAndBidderModal extends React.Component {
             <button style={{ marginLeft: 4 }} onClick={closeModal} className="button">
               <span>Close</span>
             </button>
-            <AcceptBidPaymentHandling
-              bid={bid}
-              onCompleteHandler={() => {
-                closeModal();
+            <button
+              onClick={() => {
+                submitPayment({ jobId: bid._jobRef, bidId: bid._id });
               }}
-            />
+              className="button is-success"
+            >
+              <span>Book The Tasker Now</span>
+              <span className="icon">
+                <i className="fas fa-chevron-right" />
+              </span>
+            </button>
           </footer>
         </div>
       </div>
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    submitPayment: bindActionCreators(submitPayment, dispatch),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(AcceptBidAndBidderModal);

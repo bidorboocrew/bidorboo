@@ -129,7 +129,7 @@ exports.loggedoutEmailVerificationReq = {
         .error(() => {
           return {
             message:
-              '"email address" must be a valid email and (5-100) characters long for example bidorboocrew@bidorboocrew.com',
+              '"email address" must be a valid email and (5-100) characters long for example bidorboo@bidorboo.ca',
           };
         })
         .required(),
@@ -147,7 +147,7 @@ exports.resetPasswordReqSchema = {
         .error(() => {
           return {
             message:
-              '"email address" must be a valid email and (5-100) characters long for example bidorboocrew@bidorboocrew.com',
+              '"email address" must be a valid email and (5-100) characters long for example bidorboo@bidorboo.ca',
           };
         })
         .required(),
@@ -260,7 +260,7 @@ exports.userDetailsReqSchema = {
           .error(() => {
             return {
               message:
-                '"email address" must be a valid email and (5-100) characters long for example bidorboocrew@bidorboocrew.com',
+                '"email address" must be a valid email and (5-100) characters long for example bidorboo@bidorboo.ca',
             };
           }),
       }),

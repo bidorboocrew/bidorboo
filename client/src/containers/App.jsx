@@ -3,6 +3,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { Redirect } from 'react-router';
+
+// https://github.com/osano/cookieconsent/tree/dev/src
+// import CookieConsent from 'cookieconsent';
+
 import Toast from '../components/Toast';
 import LoadingBar from 'react-redux-loading-bar';
 import * as ROUTES from '../constants/frontend-route-consts';
@@ -11,56 +15,24 @@ import { switchRoute } from '../utils';
 import { getCurrentUser } from '../app-state/actions/authActions';
 import logoImg from '../assets/images/android-chrome-192x192.png';
 import canadaFlag from '../assets/images/Canada-flag-round.png';
-import { registerServiceWorker } from '../registerServiceWorker';
 import AddToMobileHomeScreenBanner from './AddToMobileHomeScreenBanner';
 import '../assets/index.scss';
 import { Spinner } from '../components/Spinner.jsx';
 
-import {
-  Header,
-  // ShareButtons,
-  HomePage,
-  // MyProfile,
-  // PaymentSettings,
-  // VerificationPage,
-  // ProposerRootPage,
-  // CreateAJobPage,
-  // MyRequestsPage,
-  // FirstTimeUser,
-  // ResetLocalPassword,
-  // ReviewMyAwardedJobAndWinningBidPage,
-  // ReviewRequestAndBidsPage,
-  // BidderRootPage,
-  // BidOnJobPage,
-  // ReviewBidAndRequestPage,
-  // ReviewAwardedBidPage,
-  // MyBidsPage,
-  // ProposerReviewingCompletedJob,
-  // BidderReviewingCompletedJob,
-  // OtherUserProfileForReviewPage,
-  // PastProvidedServices,
-  // PastRequestedServices,
-  // TermsOfService,
-} from './index';
+import { Header, HomePage, ResetLocalPassword, FirstTimeUser, LoginOrRegisterPage } from './index';
 
 import ShowSpecialMomentModal from './ShowSpecialMomentModal';
-// import FreshdeskChat from './FreshdeskChat';
-//eslint-disable import/first
 
 const FreshdeskChat = lazy(() => import('./FreshdeskChat.jsx'));
-
-const FirstTimeUser = lazy(() => import('./onboarding-flow/FirstTimeUser.jsx'));
 
 const MyNotifications = lazy(() => import('./personal-profile/MyNotifications.jsx'));
 const MyProfile = lazy(() => import('./personal-profile/MyProfile.jsx'));
 const PaymentSettings = lazy(() => import('./personal-profile/PaymentSettings.jsx'));
-const VerificationPage = lazy(() => import('./VerificationPage.jsx'));
 
 const ProposerRootPage = lazy(() => import('./proposer-flow/ProposerRootPage.jsx'));
 const CreateAJobPage = lazy(() => import('./proposer-flow/CreateAJobPage.jsx'));
 
 const MyRequestsPage = lazy(() => import('./proposer-flow/MyRequestsPage.jsx'));
-const ResetLocalPassword = lazy(() => import('./onboarding-flow/ResetLocalPassword.jsx'));
 
 const TermsOfService = lazy(() => import('./onboarding-flow/TermsOfService.jsx'));
 const OtherUserProfileForReviewPage = lazy(() => import('./OtherUserProfileForReviewPage.jsx'));
@@ -86,6 +58,33 @@ class App extends React.Component {
     this.state = { hasError: false };
   }
 
+  // componentDidMount() {
+  //   // https://github.com/osano/cookieconsent/tree/dev/src
+  //   window.cookieconsent.initialise({
+  //     container: document.getElementById('bidorboo-root-cookieconsent'),
+  //     palette: {
+  //       popup: { background: '#1aa3ff' },
+  //       button: { background: '#e0e0e0' },
+  //     },
+  //     revokable: true,
+  //     onStatusChange: function(status) {
+  //       console.log(this.hasConsented() ? 'enable cookies' : 'disable cookies');
+  //     },
+  //     theme: 'edgeless',
+  //     content: {
+  //       header: 'Cookies used on the website!',
+  //       message: 'This website uses cookies to improve your experience.',
+  //       dismiss: 'Got it!',
+  //       allow: 'Allow cookies',
+  //       deny: 'Decline',
+  //       link: 'Learn more',
+  //       href: 'https://www.cookiesandyou.com',
+  //       close: '&#x274c;',
+  //       policy: 'Cookie Policy',
+  //       target: '_blank',
+  //     },
+  //   });
+  // }
   componentDidCatch(error, info) {
     console.error('bdb error details ' + error);
     console.error('failure info ' + info);
@@ -96,26 +95,17 @@ class App extends React.Component {
     return { hasError: true };
   }
 
-  componentDidUpdate() {
-    if (this.props.userDetails.notifications && this.props.userDetails.notifications.push) {
-      console.log('App componentDidUpdate registerServiceWorker');
-      registerServiceWorker(
-        `${process.env.REACT_APP_VAPID_KEY}`,
-        this.props.userDetails._id !== 'loggedOutUser_uuid',
-      );
-    }
-  }
-
   render() {
     if (this.state.hasError) {
       // You can render any custom fallback UI
       return (
         <div id="bidorboo-root-view">
-          <Header id="bidorboo-header" />x{' '}
+          <div id="bidorboo-root-cookieconsent" />
+          <Header id="bidorboo-header" />
           <section className="hero is-fullheight">
             <div className="hero-body">
               <div className="container">
-                <h1 className="title has-text-danger">OOOOPS ! We've Encountered An Error</h1>
+                <h1 className="title has-text-info">Boo for us! we've encountered an error</h1>
                 <br />
                 <h1 className="sub-title">
                   Apologies for the inconvenience, We will track the issue and fix it asap.
@@ -171,7 +161,6 @@ class App extends React.Component {
         <div id="RoutesWrapper" className="has-navbar-fixed-top">
           <Suspense fallback={<Spinner renderLabel="loading..."></Spinner>}>
             <Switch>
-              {/* public paths */}
               <Route exact path={ROUTES.CLIENT.HOME} component={HomePage} />
               <Route exact path={ROUTES.CLIENT.PROPOSER.root} component={ProposerRootPage} />
               <Route
@@ -186,10 +175,10 @@ class App extends React.Component {
                 path={`${ROUTES.CLIENT.USER_ROFILE_FOR_REVIEW}`}
                 component={OtherUserProfileForReviewPage}
               />
-              {/* loggedInPaths paths */}
 
               <Route exact path={`${ROUTES.CLIENT.ONBOARDING}`} component={FirstTimeUser} />
               <Route exact path={`${ROUTES.CLIENT.RESETPASSWORD}`} component={ResetLocalPassword} />
+              <Route exact path={'/login-and-registration'} component={LoginOrRegisterPage} />
 
               <Route
                 exact
@@ -229,7 +218,6 @@ class App extends React.Component {
                 path={ROUTES.CLIENT.MY_PROFILE.paymentSettings}
                 component={PaymentSettings}
               />
-              <Route exact path={`${ROUTES.CLIENT.VERIFICATION}`} component={VerificationPage} />
               <Route
                 exact
                 path={`${ROUTES.CLIENT.REVIEW.proposerJobReview}`}
@@ -260,7 +248,7 @@ class App extends React.Component {
             <nav className="level">
               <div className="level-item has-text-centered">
                 <div>
-                  <p className="has-text-white is-size-7">Availablility</p>
+                  <p className="has-text-white is-size-7">Availability</p>
                   <div className="is-size-7">
                     <img width={21} height={21} alt="Canada" src={canadaFlag} />
                   </div>
@@ -318,8 +306,15 @@ class App extends React.Component {
                     </Suspense>
                   </div>
 
-                  <p className="has-text-white is-size-7">Contact Us</p>
-                  <div className="has-text-white is-size-7">bidorboocrew@bidorboo.com</div>
+                  <p className="has-text-white is-size-7">email us</p>
+                  <div>
+                    <a className="has-text-link is-size-7" href={`mailto:bidorboo@bidorboo.ca`}>
+                      <span className="icon">
+                        <i className="far fa-envelope" />
+                      </span>
+                      <span>bidorboo@bidorboo.ca</span>
+                    </a>
+                  </div>
                 </div>
               </div>
             </nav>

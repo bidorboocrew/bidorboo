@@ -3,7 +3,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { updateNotificationSettings } from '../../app-state/actions/userModelActions';
-import * as ROUTES from '../../constants/frontend-route-consts';
+import { registerServiceWorker } from '../../registerServiceWorker';
+import {
+  registerPushNotification,
+  unregisterPushNotification,
+} from '../../registerPushNotification';
 // XXXXX https://developers.google.com/web/fundamentals/codelabs/push-notifications follow this
 class MyNotifications extends React.Component {
   constructor(props) {
@@ -16,7 +20,6 @@ class MyNotifications extends React.Component {
     } = this.props;
 
     this.state = {
-      areThereChanges: false,
       enablePushNotifications: isPushNotificationsEnabled,
       enableEmailNotification: isEmailNotificationsEnabled,
       enableTxtNotifications: isTextNotificationsEnabled,
@@ -43,10 +46,9 @@ class MyNotifications extends React.Component {
       });
     }
   }
-  toggleEnablePushNotifications = () => {
+  toggleEnablePushNotifications = async () => {
     this.setState(
       () => ({
-        areThereChanges: true,
         enablePushNotifications: !this.state.enablePushNotifications,
       }),
       () => this.submit(),
@@ -56,7 +58,6 @@ class MyNotifications extends React.Component {
   toggleEnableEmailNotification = () => {
     this.setState(
       () => ({
-        areThereChanges: true,
         enableEmailNotification: !this.state.enableEmailNotification,
       }),
       () => this.submit(),
@@ -66,7 +67,6 @@ class MyNotifications extends React.Component {
   toggleEnableTxtNotifications = () => {
     this.setState(
       () => ({
-        areThereChanges: true,
         enableTxtNotifications: !this.state.enableTxtNotifications,
       }),
       () => this.submit(),
@@ -75,7 +75,6 @@ class MyNotifications extends React.Component {
   toggleEnableNotifyMeAboutNewTasksEnabled = () => {
     this.setState(
       () => ({
-        areThereChanges: true,
         enableNotifyMeAboutNewTasksEnabled: !this.state.enableNotifyMeAboutNewTasksEnabled,
       }),
       () => this.submit(),
@@ -98,7 +97,6 @@ class MyNotifications extends React.Component {
       text: !!enableTxtNotifications,
       newPostedTasks: !!enableNotifyMeAboutNewTasksEnabled,
     });
-    this.setState({ areThereChanges: false });
   };
 
   render() {

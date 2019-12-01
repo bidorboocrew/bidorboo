@@ -4,7 +4,7 @@
 // @import './_variables.scss';
 @import './_animatecss.scss';
 @import './_addToCalendar.scss';
-@import './_cropperjs.scss';
+// @import './_cropperjs.scss';
 
 // @import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
@@ -199,102 +199,6 @@ html body {
       background: none !important;
     }
   }
-  // #BidOrBoo-logo-step {
-  //   > span {
-  //     color: black !important;
-  //   }
-  // }
-  // // special dark bidder navbar
-  // &.bidderAppBar {
-  //   div.navbar-brand {
-  //     div.navbar-item {
-  //       ~ a {
-  //         color: white !important;
-  //       }
-  //     }
-  //   }
-  //   background: #363636;
-  //   #navbarmenu > div.navbar-end > a.navbar-item.is-active {
-  //     color: #363636;
-  //   }
-  //   #navbarmenu.navbar-menu.is-active {
-  //     > div.navbar-end {
-  //       > a.navbar-item {
-  //         color: #363636 !important;
-  //       }
-  //       #myprofile-step.navbar-item.dropdown.is-right > nav > div.navbar-item.has-dropdown {
-  //         > a.navbar-link {
-  //           color: #363636;
-  //         }
-  //         > div.navbar-dropdown.is-boxed {
-  //           a {
-  //             &:hover {
-  //               background: hsl(0, 0%, 96%);
-  //               > span {
-  //                 color: #363636 !important;
-  //               }
-  //             }
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-
-  //   #mobile-nav-burger {
-  //     color: white !important;
-  //     &:hover {
-  //       background: hsl(0, 0%, 96%);
-  //       > span {
-  //         color: black !important;
-  //       }
-  //     }
-  //   }
-  //   #myprofile-step {
-  //     > nav > div {
-  //       a.navbar-link {
-  //         &:hover {
-  //           background: hsl(0, 0%, 96%);
-  //           color: #363636;
-  //           &::after {
-  //             border-color: black !important;
-  //             margin-top: -0.375em;
-  //             right: 1.125em;
-  //           }
-  //         }
-  //         color: white;
-  //         &::after {
-  //           border-color: hsl(0, 0%, 96%) !important;
-  //           margin-top: -0.375em;
-  //           right: 1.125em;
-  //         }
-  //       }
-  //     }
-  //   }
-  //   #BidOrBoo-logo-step {
-  //     > span {
-  //       color: white !important;
-  //     }
-  //   }
-
-  //   div.navbar-start,
-  //   div.navbar-end {
-  //     color: white;
-  //     > a.navbar-item {
-  //       color: white;
-  //       &:hover {
-  //         background: hsl(0, 0%, 96%);
-  //         color: black !important;
-  //       }
-  //       &.is-active {
-  //         &:hover {
-  //           background: hsl(0, 0%, 96%);
-  //           color: black !important;
-  //         }
-  //         color: white !important;
-  //       }
-  //     }
-  //   }
-  // }
 }
 
 #BID_OR_BOO_APP_BODY {
@@ -344,6 +248,14 @@ a.navbar-item.is-active {
 }
 .button.is-text {
   box-shadow: none;
+}
+
+ul {
+  margin-right: 2em !important;
+  &.loginOrSignup{
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
 }
 
 $family-primary: 'Work Sans', sans-serif;
@@ -1091,4 +1003,24 @@ img.watermarker {
 
 div.react-datepicker__input-container {
   width: 100%;
+}
+.bdb-flex-container {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  align-items: center;
+
+  flex-wrap: wrap;
+  min-width: 200px;
+  .flex-item {
+    display: flex;
+    align-items: center;
+  }
+  .flex-item img {
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-right: 6px;
+  }
 }

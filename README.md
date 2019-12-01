@@ -20,7 +20,7 @@ OR
 git clone this repo
 
 ```
-git clone git@github.com:bidorboocrew/bidorboo.git
+git clone git@github.com:bidorboo/bidorboo.git
 ```
 
 In the root directory run the follwing

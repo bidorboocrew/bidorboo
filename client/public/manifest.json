@@ -2,12 +2,12 @@
   "manifest_version": 2,
   "short_name": "BidOrBoo",
   "name": "BidOrBoo",
-  "homepage_url": "https://bidorboo.com",
-  "version": "1.1.0",
+  "homepage_url": "https://www.bidorboo.ca",
+  "version": "2.0.0",
   "prefer_related_applications": false,
-  "description": "The best platform to request help with your everyday chores, or do tasks to earn money",
+  "description": "Get your chores done for the right price. Earn money doing what you enjoy",
   "lang": "en-US",
-  "start_url": "/",
+  "start_url": "/?utm_source=webapp",
   "display": "standalone",
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
@@ -28,31 +28,6 @@
       "type": "image/png"
     },
     {
-      "src": "/apple-touch-icon-60x60.png",
-      "sizes": "60x60",
-      "type": "image/png"
-    },
-    {
-      "src": "/apple-touch-icon-76x76.png",
-      "sizes": "76x76",
-      "type": "image/png"
-    },
-    {
-      "src": "/apple-touch-icon-120x120.png",
-      "sizes": "120x120",
-      "type": "image/png"
-    },
-    {
-      "src": "/apple-touch-icon-152x152.png",
-      "sizes": "152x152",
-      "type": "image/png"
-    },
-    {
-      "src": "/apple-touch-icon-180x180.png",
-      "sizes": "180x180",
-      "type": "image/png"
-    },
-    {
       "src": "/apple-touch-icon.png",
       "sizes": "512x512",
       "type": "image/png"
@@ -65,26 +40,6 @@
     {
       "src": "/favicon-16x16.png",
       "sizes": "16x16",
-      "type": "image/png"
-    },
-    {
-      "src": "/mstile-70x70.png",
-      "sizes": "70x70",
-      "type": "image/png"
-    },
-    {
-      "src": "/mstile-144x144.png",
-      "sizes": "144x144",
-      "type": "image/png"
-    },
-    {
-      "src": "/mstile-150x150.png",
-      "sizes": "150x150",
-      "type": "image/png"
-    },
-    {
-      "src": "/mstile-310x150.png",
-      "sizes": "310x150",
       "type": "image/png"
     },
     {

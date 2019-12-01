@@ -11,7 +11,7 @@ const stripe = require('stripe')(keys.stripeSecretKey);
 
 let websiteUrl = 'http://localhost:3000';
 if (process.env.NODE_ENV === 'production') {
-  websiteUrl = 'https://www.bidorboo.com';
+  websiteUrl = 'https://www.bidorboo.ca';
 }
 
 exports.util = {

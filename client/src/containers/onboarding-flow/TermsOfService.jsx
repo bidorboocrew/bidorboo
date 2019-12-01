@@ -742,7 +742,7 @@ export default class TermsOfService extends React.Component {
                 that any materials provided on or in connection with the BidOrBoo Platform infringe
                 upon your copyright or other intellectual property right, please send the following
                 information to BidOrBoo’s Copyright Agent at: BidOrBoo, Inc., by direct chat from
-                the Footer of our website (the Chat button) or by email bidorboocrew@bidorboo.com:
+                the Footer of our website (the Chat button) or by email bidorboo@bidorboo.ca:
                 <br></br>A description of the copyrighted work that you claim has been infringed,
                 including the URL (Internet address) or other specific location on the BidOrBoo
                 Platform where the material you claim is infringed is located. Include enough
@@ -1279,7 +1279,7 @@ export default class TermsOfService extends React.Component {
               <p>
                 If you have any questions about these Terms of Service or about the BidOrBoo
                 Platform, please contact us by direct chat from the Footer of our website (the Chat
-                button) or by email bidorboocrew@bidorboo.com
+                button) or by email bidorboo@bidorboo.ca
               </p>
               <br></br>
               <p className="has-text-weight-semibold">

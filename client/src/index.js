@@ -4,6 +4,7 @@ import 'regenerator-runtime/runtime';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import bugsnag from '@bugsnag/js';
 import bugsnagReact from '@bugsnag/plugin-react';
 
@@ -16,8 +17,9 @@ import { Router } from 'react-router-dom';
 import appHistory from './react-router-history';
 import GetNotificationsAndScroll from './GetNotificationsAndScroll';
 import { registerServiceWorker } from './registerServiceWorker';
+import { registerPushNotification } from './registerPushNotification';
 
-window.BidorBoo = window.BidorBoo || { SWRegistering: 0 };
+window.BidorBoo = window.BidorBoo || {};
 
 const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_SECRET}`);
 bugsnagClient.use(bugsnagReact, React);
@@ -35,4 +37,10 @@ ReactDOM.render(
   document.getElementById('BidOrBoo-app'),
 );
 
-registerServiceWorker(`${process.env.REACT_APP_VAPID_KEY}`, false);
+registerServiceWorker()
+  .then(({ registration }) => {
+    registerPushNotification(`${process.env.REACT_APP_VAPID_KEY}`, registration)
+      .then(() => console.log('push Notifications enabled'))
+      .catch((e) => console.log('push Notifications not enabled ' + e));
+  })
+  .catch(() => console.info('ServiceWorker was not added'));

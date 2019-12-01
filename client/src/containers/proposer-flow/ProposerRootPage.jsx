@@ -18,13 +18,14 @@ class ProposerRoot extends React.Component {
   }
 
   render() {
+    const { isForHomepage = false } = this.props;
     return (
       <React.Fragment>
-        <section className="hero is-white">
+        <section className={`hero ${isForHomepage ? 'is-success is-bold' : 'is-white'}`}>
           <div className="hero-body has-text-centered">
             <div className="container">
               <h1 style={{ marginBottom: 0 }} className="title">
-                What would you like us to do for you ?
+                What service are you looking for?
               </h1>
             </div>
           </div>
@@ -47,7 +48,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ProposerRoot);
+export default connect(mapStateToProps, mapDispatchToProps)(ProposerRoot);

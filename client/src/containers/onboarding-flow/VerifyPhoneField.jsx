@@ -25,7 +25,7 @@ class VerifyPhoneField extends React.Component {
       } catch (e) {
         // some alert
         alert(
-          'we are unable to send the verification text, please contact bidorboocrew@bidorboo.com',
+          'we are unable to send the verification text, please contact bidorboo@bidorboo.ca',
         );
         this.setState({ isResendingVCode: false, inputCodeContent: '' });
       }

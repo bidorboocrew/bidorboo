@@ -13,7 +13,7 @@ exports.EmailService = {
     const msg = {
       to,
       toDisplayName,
-      from: 'bidorboocrew@bidorboo.com',
+      from: 'bidorboo@bidorboo.ca',
       subject: `BidOrBoo: Verification Code ${emailVerificationCode}`,
       text: `Your BidOrBoo Email Verification Code is ${emailVerificationCode}`,
       html: populateHtmlTemplate({
@@ -34,7 +34,7 @@ exports.EmailService = {
   sendNewBidRecievedEmail: ({ to, toDisplayName, taskName, clickLink }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@bidorboo.com',
+      from: 'bidorboo@bidorboo.ca',
       subject: `Your ${taskName} request has received a new bid`,
       text: `Exciting news! Your ${taskName} request has received a new bid. Check the bids and award a Tasker`,
       html: populateNewBidHtmlTemplate({
@@ -62,7 +62,7 @@ exports.EmailService = {
   }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@bidorboo.com',
+      from: 'bidorboo@bidorboo.ca',
       subject: `Task reminder: you have an upcoming ${requestTitle} task!`,
       text: `
         This is an automated reminder for your upcoming ${requestTitle} task.
@@ -102,7 +102,7 @@ exports.EmailService = {
   sendNewJobInYourAreaNotification: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@bidorboo.com',
+      from: 'bidorboo@bidorboo.ca',
       subject: `new ${requestTitle} request was posted in your area`,
       text: `
       ${requestTitle} request was posted in your area.
@@ -141,7 +141,7 @@ exports.EmailService = {
   }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@bidorboo.com',
+      from: 'bidorboo@bidorboo.ca',
       subject: `BidOrBoo: ${requestTitle} is Happening Soon !`,
       text: `This is an automated reminder for your upcoming scheduled ${requestTitle}.
     To get in touch with your assigned Tasker feel free to contact them on:
@@ -172,7 +172,7 @@ exports.EmailService = {
   tellTaskerThatRequesterCancelledJob: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@bidorboo.com',
+      from: 'bidorboo@bidorboo.ca',
       subject: `BidOrBoo: ${requestTitle} has been cancelled by the Requester !`,
       text: `We are sorry to inform you that this Request has been cancelled by the requester.
       click to View details and understand the full impact  ${linkForBidder}
@@ -201,7 +201,7 @@ exports.EmailService = {
   }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@bidorboo.com',
+      from: 'bidorboo@bidorboo.ca',
       subject: `BidOrBoo: You have cancelled ${requestTitle}!`,
       text: `We are sorry to hear that things did not work out.
       We will inform the tasker about this to ensure that they will NOT show up.
@@ -232,7 +232,7 @@ exports.EmailService = {
   }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@bidorboo.com',
+      from: 'bidorboo@bidorboo.ca',
       subject: `BidOrBoo: Tasker have cancelled ${requestTitle}!`,
       text: `It Happens! We are sorry to inform you that things did not work out!
 
@@ -260,7 +260,7 @@ exports.EmailService = {
   tellTaskerThatTheyCancelledJob: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@bidorboo.com',
+      from: 'bidorboo@bidorboo.ca',
       subject: `BidOrBoo: you have cancelled your ${requestTitle} agreement !`,
       text: `
       You have cancelled your agreement and thus will NOT show up to do this task.
@@ -292,7 +292,7 @@ exports.EmailService = {
   tellRequesterToConfirmCompletion: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@bidorboo.com',
+      from: 'bidorboo@bidorboo.ca',
       subject: `BidOrBoo: Confirm Tasker has completed ${requestTitle}!`,
       text: `BidOrBooCrew is happy to hear that the tasker has finished their work, and we hope that they done so to your satisfaction.
 
@@ -322,7 +322,7 @@ exports.EmailService = {
   }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@bidorboo.com',
+      from: 'bidorboo@bidorboo.ca',
       subject: `BidOrBoo: waiting on requester's confirmation for the completion of ${requestTitle}!`,
       text: `
       Thank you for completing your Task!
@@ -352,7 +352,7 @@ exports.EmailService = {
   tellRequesterJobIsCompleteBeginRating: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@bidorboo.com',
+      from: 'bidorboo@bidorboo.ca',
       subject: `BidOrBoo: ${requestTitle} is Completed!`,
       text: `BidOrBooCrew is SUPER HAPPY to hear that the request was fulfilled.
 
@@ -381,7 +381,7 @@ exports.EmailService = {
   tellTaskerJobIsCompleteBeginRating: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@bidorboo.com',
+      from: 'bidorboo@bidorboo.ca',
       subject: `BidOrBoo: ${requestTitle} is Completed!`,
       text: `BidOrBooCrew is SUPER HAPPY to hear that you've completed your task
       Your payout is on the way and you should recieve it within 5-10 business days
@@ -417,7 +417,7 @@ exports.EmailService = {
   }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@bidorboo.com',
+      from: 'bidorboo@bidorboo.ca',
       subject: `BidOrBoo: ${requestTitle} Payment successful!`,
       text: `
       Thank you for your paymen! We've notified the Tasker
@@ -443,7 +443,7 @@ exports.EmailService = {
   tellTaskerThatTheyWereAwarded: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@bidorboo.com',
+      from: 'bidorboo@bidorboo.ca',
       subject: `BidOrBoo: Your Bid Won !`,
       text: `
       Your ${requestTitle} Bid Won and the request is Assigned to you!
@@ -476,7 +476,7 @@ exports.EmailService = {
   tellDisputeOwnerThatWeWillInvestigate: ({ to, requestTitle, toDisplayName, linkForBidder }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@bidorboo.com',
+      from: 'bidorboo@bidorboo.ca',
       subject: `BidOrBoo: We recieved your dispute regarding ${requestTitle}!`,
       text: `
       We are sorry for your inconvienience and want you to know that we will investigat and resolve this asap!
@@ -501,8 +501,8 @@ exports.EmailService = {
   },
   informBobCrewAboutFailedPayment: ({ jobId, paymentDetails }) => {
     const msg = {
-      to: 'bidorboocrew@bidorboo.com',
-      from: 'bidorboocrew@bidorboo.com',
+      to: 'bidorboo@bidorboo.ca',
+      from: 'bidorboo@bidorboo.ca',
       subject: `FAILED PAYOUT CASE: ${jobId}`,
       text: ` Payment to bank was not successful follow up with user
     ${JSON.stringify(paymentDetails)}`,
@@ -520,7 +520,7 @@ exports.EmailService = {
   tellRequesterThatWeMarkedJobDone: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@bidorboo.com',
+      from: 'bidorboo@bidorboo.ca',
       subject: `BidOrBoo Marked ${requestTitle} as Complete`,
       text: `BidOrBooCrew is SUPER HAPPY to hear that your ${requestTitle} request was fulfilled.
       Since you did not confirm the completion in the past 3 days we went ahead and marked this job as completed.
@@ -546,7 +546,7 @@ exports.EmailService = {
   tellRequesterToConfirmJob: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
     const msg = {
       to,
-      from: 'bidorboocrew@bidorboo.com',
+      from: 'bidorboo@bidorboo.ca',
       subject: `BidOrBoo: Confirm ${requestTitle} completion!`,
       text: `BidOrBooCrew is SUPER HAPPY to hear that your ${requestTitle} request was fulfilled.
 
@@ -587,8 +587,8 @@ exports.EmailService = {
     userIdWhoFiledDispute,
   }) => {
     const msg = {
-      to: 'bidorboocrew@bidorboo.com',
-      from: 'bidorboocrew@bidorboo.com',
+      to: 'bidorboo@bidorboo.ca',
+      from: 'bidorboo@bidorboo.ca',
       subject: `DISPUTE CASE: ${reason} submitted by ${whoSubmitted}`,
       text: `
      Investigate this dispute filed by user ${userIdWhoFiledDispute} about job ${jobId}.

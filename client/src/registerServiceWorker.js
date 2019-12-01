@@ -1,86 +1,59 @@
-import axios from 'axios';
+export const registerServiceWorker = async () => {
+  return new Promise((resolve, reject) => {
+    if (process.env.NODE_ENV === 'development') {
+      return reject({ success: false });
+    }
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', async () => {
+        let registration;
+        let newWorker;
+        let refreshing;
+        try {
+          registration = await navigator.serviceWorker.register('/sw.js', {
+            scope: '/',
+          });
 
-export const registerServiceWorker = async (vapidKey, shouldRegisterNewWebPushSubscription) => {
-  if (process.env.NODE_ENV === 'development') {
-    return;
-  }
-  if ('serviceWorker' in navigator && 'PushManager' in window) {
-    console.info('starting to setup the PWA');
-    installSW(vapidKey, shouldRegisterNewWebPushSubscription);
-  }
-};
+          // function showUpdateBar() {
+          // https://github.com/deanhume/pwa-update-available
+          // let snackbar = document.getElementById('snackbar');
+          // snackbar.className = 'show';
+          // }
+          // The click event on the pop up notification
+          // document.getElementById('reload').addEventListener('click', () => {
+          //   if (newWorker && newWorker.postMessage) {
+          //     newWorker.postMessage({ action: 'skipWaiting' });
+          //   }
+          // });
 
-const urlBase64ToUint8Array = (base64String) => {
-  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
-  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
-  const rawData = window.atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
+          if (registration.waiting && registration.waiting.state === 'installed') {
+            newWorker = registration.waiting;
+            // showUpdateBar();
+            if (newWorker && newWorker.postMessage) {
+              newWorker.postMessage({ action: 'skipWaiting' });
+            }
+          }
 
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i);
-  }
-  return outputArray;
-};
+          navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if (refreshing) {
+              return;
+            }
+            refreshing = true;
+            window.location.reload();
+          });
 
-const installSW = (vapidKey, shouldRegisterNewWebPushSubscription) => {
-  window.addEventListener('load', async () => {
-    let registration;
-    let newWorker;
-    let refreshing;
-    try {
-      function showUpdateBar() {
-        // https://github.com/deanhume/pwa-update-available
-        let snackbar = document.getElementById('snackbar');
-        snackbar.className = 'show';
-      }
-      // The click event on the pop up notification
-      document.getElementById('reload').addEventListener('click', () => {
-        if (newWorker && newWorker.postMessage) {
-          newWorker.postMessage({ action: 'skipWaiting' });
+          if (!registration) {
+            console.info('could not register service worker');
+            return reject({ success: false });
+          }
+
+          console.info('Service worker was successfully Registered');
+
+          return resolve({ registration });
+        } catch (e) {
+          console.info('failed registering service worker' + e);
+          return reject({ success: false });
         }
       });
-
-      registration = await navigator.serviceWorker.register('/sw.js', {
-        scope: '/',
-      });
-      if (registration.waiting && registration.waiting.state === 'installed') {
-        newWorker = registration.waiting;
-        showUpdateBar();
-      }
-
-      navigator.serviceWorker.addEventListener('controllerchange', () => {
-        if (refreshing) {
-          return;
-        }
-        refreshing = true;
-        window.location.reload();
-      });
-
-      if (!registration) {
-        console.info('could not register service worker or webpush');
-        return;
-      }
-
-      console.info('Service worker was successfully Registered');
-
-      if (shouldRegisterNewWebPushSubscription) {
-        console.info('kick start registering webpush');
-        const convertedVapidKey = urlBase64ToUint8Array(vapidKey);
-        const subscription = await registration.pushManager.subscribe({
-          userVisibleOnly: true,
-          applicationServerKey: convertedVapidKey,
-        });
-        console.info('WEBPUSH  Registered');
-
-        await axios.post('/api/push/register', {
-          data: {
-            subscription: JSON.stringify(subscription),
-          },
-        });
-        return;
-      }
-    } catch (e) {
-      console.info('failed registering webpush ' + e);
     }
   });
 };

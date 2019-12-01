@@ -1,162 +1,40 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+// import { connect } from 'react-redux';
+// import { bindActionCreators } from 'redux';
 import * as ROUTES from './constants/frontend-route-consts';
-import LocalLoginForm from './components/forms/LocalLoginForm';
-import RegistrationForm from './components/forms/RegistrationForm';
+// import LocalLoginForm from './components/forms/LocalLoginForm';
+// import RegistrationForm from './components/forms/RegistrationForm';
 
-import { registerNewUser, bidOrBooLogin } from './app-state/actions/authActions';
-
-export class LoginOrRegisterModal extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      showRegistrationForm: false,
-    };
-  }
-
-  setShowRegistrationForm = () => {
-    this.setState({ showRegistrationForm: true });
-  };
-  setShowLoginForm = () => {
-    this.setState({ showRegistrationForm: false });
-  };
-
+// import { registerNewUser, bidOrBooLogin } from './app-state/actions/authActions';
+import { CoolBidOrBooTitle } from './containers/commonComponents.jsx';
+import { switchRoute } from './utils';
+export default class LoginOrRegisterModal extends React.Component {
   render() {
-    const { isActive, handleCancel, isLoggedIn, registerNewUser, bidOrBooLogin } = this.props;
-    const { showRegistrationForm } = this.state;
+    const { isActive, handleCancel } = this.props;
 
-    const currentPage = `${window.location.pathname || '/'}`;
-    const googleAuthPath = `${ROUTES.API.AUTH.GOOGLE}/?originPath=${currentPage}`;
-    const facebookAuthPath = `${ROUTES.API.AUTH.FACEBOOK}/?originPath=${currentPage}`;
+    const redirectedFromUrl = `${window.location.pathname || '/'}`;
 
-    return isActive && !isLoggedIn ? (
+    return isActive ? (
       <div className="modal is-active">
         <div onClick={handleCancel} className="modal-background" />
-        <div className="modal-content">
-          <div style={{ background: 'white', padding: '0 1rem 1rem' }}>
-            <div className="tabs is-left">
-              <ul>
-                <li className={`${showRegistrationForm ? '' : 'is-active'}`}>
-                  <a onClick={this.setShowLoginForm}>
-                    <span>Login Now</span>
-                  </a>
-                </li>
-                <li className={`${showRegistrationForm ? 'is-active' : ''}`}>
-                  <a onClick={this.setShowRegistrationForm}>
-                    <span>New User ? Sign Up</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-            {!showRegistrationForm && (
-              <React.Fragment>
-                <div className="has-text-centered">
-                  <div className="tabs is-small is-centered">
-                    <ul>
-                      <li>
-                        <a>login via social media</a>
-                      </li>
-                    </ul>
-                  </div>
-                  <a
-                    rel="noopener noreferrer"
-                    className="button is-danger is-inline-flex"
-                    href={googleAuthPath}
-                    style={{ margin: 8, width: 160 }}
-                  >
-                    <span className="icon">
-                      <i className="fab fa-google" />
-                    </span>
-                    <span>Using Google</span>
-                  </a>
+        <div className="modal-content has-text-centered">
+          <div style={{ background: 'white', padding: '1rem' }}>
+            <CoolBidOrBooTitle></CoolBidOrBooTitle>
 
-                  <a
-                    rel="noopener noreferrer"
-                    href={facebookAuthPath}
-                    className="button is-link is-inline-flex"
-                    style={{ margin: 8, width: 160 }}
-                  >
-                    <span className="icon">
-                      <i className="fab fa-facebook-square" />
-                    </span>
-                    <span>Using Facebook</span>
-                  </a>
-                </div>
-                <div style={{ marginTop: 12 }} className="has-text-centered">
-                  <div className="tabs is-small is-centered">
-                    <ul>
-                      <li>
-                        <a>already a ? login here</a>
-                      </li>
-                    </ul>
-                  </div>
-                  <LocalLoginForm
-                    originPath={currentPage}
-                    handleCancel={handleCancel}
-                    onSubmit={(vals) => {
-                      bidOrBooLogin(vals);
-                      handleCancel();
-                    }}
-                  />
-                </div>
-              </React.Fragment>
-            )}
-            {showRegistrationForm && (
-              <>
-                <div className="has-text-centered">
-                  <div className="tabs is-small is-centered">
-                    <ul>
-                      <li>
-                        <a>Join via social media</a>
-                      </li>
-                    </ul>
-                  </div>
-                  <a
-                    rel="noopener noreferrer"
-                    className="button is-danger is-inline-flex"
-                    href={googleAuthPath}
-                    style={{ margin: 8, width: 160 }}
-                  >
-                    <span className="icon">
-                      <i className="fab fa-google" />
-                    </span>
-                    <span>Using Google</span>
-                  </a>
-
-                  <a
-                    rel="noopener noreferrer"
-                    href={facebookAuthPath}
-                    className="button is-link is-inline-flex"
-                    style={{ margin: 8, width: 160 }}
-                  >
-                    <span className="icon">
-                      <i className="fab fa-facebook-square" />
-                    </span>
-                    <span>Using Facebook</span>
-                  </a>
-                </div>
-                <div style={{ marginTop: 12 }} className="has-text-centered">
-                  <div className="tabs is-small is-centered">
-                    <ul>
-                      <li>
-                        <a>Register With us</a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="has-text-left">
-                    <RegistrationForm
-                      originPath={currentPage}
-                      onSubmit={(vals) => {
-                        registerNewUser(vals);
-                        handleCancel();
-                      }}
-                    />
-                  </div>
-                </div>
-              </>
-            )}
+            <p className="subtitle">Login or Register as a new user to proceed</p>
+            <button
+              onClick={() => {
+                handleCancel();
+                return switchRoute(ROUTES.CLIENT.LOGIN_OR_REGISTER, {
+                  isLoggedIn: false,
+                  redirectedFromUrl,
+                });
+              }}
+              className="button is-success"
+            >
+              Go to Login page
+            </button>
+            <div className="help">You will be redirected back to this page after you login</div>
           </div>
         </div>
         <button onClick={handleCancel} className="modal-close is-large" aria-label="close" />
@@ -165,19 +43,16 @@ export class LoginOrRegisterModal extends React.Component {
   }
 }
 
-const mapStateToProps = ({ userReducer, uiReducer }) => {
-  return {
-    isLoggedIn: userReducer.isLoggedIn,
-  };
-};
-const mapDispatchToProps = (dispatch) => {
-  return {
-    bidOrBooLogin: bindActionCreators(bidOrBooLogin, dispatch),
-    registerNewUser: bindActionCreators(registerNewUser, dispatch),
-  };
-};
+// const mapStateToProps = ({ userReducer, uiReducer }) => {
+//   return {
+//     isLoggedIn: userReducer.isLoggedIn,
+//   };
+// };
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     bidOrBooLogin: bindActionCreators(bidOrBooLogin, dispatch),
+//     registerNewUser: bindActionCreators(registerNewUser, dispatch),
+//   };
+// };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(LoginOrRegisterModal);
+// export default connect(mapStateToProps, mapDispatchToProps)(LoginOrRegisterModal);

@@ -224,7 +224,7 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
               </a>
             </td>
             <td class="m_-7318686519169392378Header-icon m_-7318686519169392378Target" style="background-color:#ee2a36;border:0;border-collapse:collapse;margin:0;padding:0;font-size:0;line-height:0px;background-size:100% 100%" align="center" height="156" valign="bottom" width="96">
-              <a href="https://www.bidorboo.com/" style="outline:0;text-decoration:none" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://www.bidorboo.com/&amp;source=gmail&amp;ust=1569546059074000&amp;usg=AFQjCNGRPXG-YlxD4iHtz5pzS15YrDsjCw">
+              <a href="https://www.bidorboo.ca/" style="outline:0;text-decoration:none" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://www.bidorboo.ca/&amp;source=gmail&amp;ust=1569546059074000&amp;usg=AFQjCNGRPXG-YlxD4iHtz5pzS15YrDsjCw">
                 <img alt="" height="156" width="96" src="https://ci5.googleusercontent.com/proxy/CWAZxB20BZL5WyY3c9lYMGFHyUgJ0fpEofRTtY5rT2iH0hiEEgbe5yY83CJNRUlxEEit1yFtYcvgcT9h3CgTjR2EqvvwSV9hqMtqcFf-guCd0sitz8dfk8rZ5ZaqtpSOrurDGtyzf4OQPFDmTdPZSkQ5=s0-d-e1-ft#https://stripe-images.s3.amazonaws.com/emails/acct_1EkxmxHRQ5neEvOS/2/twelve_degree_icon@2x.png" style="display:block;border:0;line-height:100%;width:100%" class="CToWUd">
               </a>
             </td>
@@ -255,7 +255,7 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
                                   <tbody>
                                     <tr>
                                       <td> <a class="actionButton" href="${clickLink ||
-                                        'https://www.bidorboo.com'}" rel="noopener noreferrer" target="_blank">${clickDisplayName ||
+                                        'https://www.bidorboo.ca'}" rel="noopener noreferrer" target="_blank">${clickDisplayName ||
     'Launch BidOrBoo'}</a> </td>
                                     </tr>
                                   </tbody>
@@ -280,7 +280,7 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
                 <tr>
                   <td class="content-block">
                     <span class="apple-link">BidOrBoo Inc, Ottawa ON Canada</span>
-                    <br>You can unsubscribe anytime by changing your notification settings <a href="https://bidorboo.com/my-profile/notification-settings">Unsubscribe</a>.
+                    <br>You can unsubscribe anytime by changing your notification settings <a href="https://bidorboo.ca/my-profile/notification-settings">Unsubscribe</a>.
                   </td>
                 </tr>
               </table>

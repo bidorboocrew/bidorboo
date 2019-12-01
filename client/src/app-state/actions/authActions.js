@@ -29,13 +29,13 @@ export const verifyPhone = (code, onSuccessCallback = () => null) => (dispatch) 
         } else {
           throwErrorNotification(
             dispatch,
-            'Sorry! We Could Not Verify your phone. click on resend pin and verify later. or contact us at bidorboocrew@bidorboo.com',
+            'Sorry! We Could Not Verify your phone. click on resend pin and verify later. or contact us at bidorboo@bidorboo.ca',
           );
         }
       })
       .catch((error) => {
         //rediret user to my profile
-        switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
+        // switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
         throwErrorNotification(dispatch, error);
       }),
   });
@@ -66,13 +66,13 @@ export const verifyEmail = (code, onSuccessCallback = () => null) => (dispatch) 
         } else {
           throwErrorNotification(
             dispatch,
-            'Sorry! We Could Not Verify your email. click on resend pin and verify later. or contact us at bidorboocrew@bidorboo.com',
+            'Sorry! We Could Not Verify your email. click on resend pin and verify later. or contact us at bidorboo@bidorboo.ca',
           );
         }
       })
       .catch((error) => {
         //rediret user to my profile
-        switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
+        // switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
         throwErrorNotification(dispatch, error);
       }),
   });

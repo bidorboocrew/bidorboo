@@ -124,8 +124,10 @@ class Step4 extends React.Component {
               agreedToTOS: this.state.hasAgreedToTOS,
             },
             () => {
-              if (shouldRedirect) {
-                switchRoute(location.state.redirectUrl);
+              if (shouldRedirect && location.state.redirectUrl !== ROUTES.CLIENT.ONBOARDING) {
+                return switchRoute(location.state.redirectUrl);
+              } else {
+                return switchRoute(ROUTES.CLIENT.HOME);
               }
             },
           );
@@ -146,7 +148,7 @@ class Step4 extends React.Component {
       <div style={{ position: 'relative' }}>
         <div className="title has-text-centered">BidOrBoo Terms Of Use</div>
         <div className="slide-in-right field" style={{ height: '10rem' }}>
-          <div className="group">
+          <div style={{ padding: '0.5rem' }} className="group">
             <div className="control">
               <label style={{ lineHeight: 1.5 }} className="checkbox">
                 <input

@@ -34,7 +34,7 @@ class VerifyEmailField extends React.Component {
       } catch (e) {
         // some alert
         alert(
-          'Unable to verify your email, please click the chat button in the footer, or contact us bidorboocrew@bidorboo.com to resolve this',
+          'Unable to verify your email, please click the chat button in the footer, or contact us bidorboo@bidorboo.ca to resolve this',
         );
         this.setState({ isResendingVCode: false, inputCodeContent: '' });
       }
@@ -93,7 +93,7 @@ class VerifyEmailField extends React.Component {
           </button>
         </div>
         <div className="help">
-          *Check inbox/junk folders for an email from bidorboocrew@bidorboo.com
+          *Check inbox/junk folders for an email from bidorboo@bidorboo.ca
         </div>
         <br />
       </div>
