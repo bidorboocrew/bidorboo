@@ -114,6 +114,7 @@ export const CLIENT = {
   ENTRY: '/BidOrBoo',
   HOME: '/',
   TOS: '/terms-of-service',
+  LOGIN_OR_REGISTER: '/login-and-registration',
   ONBOARDING: '/on-boarding',
   RESETPASSWORD: '/reset-password',
   USER_ROFILE_FOR_REVIEW: '/user-profile/:userId',

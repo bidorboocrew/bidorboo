@@ -81,8 +81,13 @@ class LocalLoginForm extends React.Component {
         />
 
         <div className="has-text-left">
-          <button className="button is-success" type="submit" disabled={isSubmitting || !isValid}>
-            Login Now !
+          <button
+            style={{ borderRadius: 0 }}
+            className="button is-success"
+            type="submit"
+            disabled={isSubmitting || !isValid}
+          >
+            Login
           </button>
         </div>
         <div className="has-text-left">
@@ -91,13 +96,14 @@ class LocalLoginForm extends React.Component {
             className="button is-text is-small"
             onClick={() => {
               switchRoute(ROUTES.CLIENT.RESETPASSWORD);
-              handleCancel();
             }}
             disabled={isSubmitting}
           >
             reset your credentials ?
           </button>
         </div>
+        <br></br>
+        <br></br>
       </form>
     );
   }

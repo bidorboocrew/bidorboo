@@ -13,7 +13,7 @@ import {
 import * as ROUTES from './constants/frontend-route-consts';
 import { switchRoute } from './utils';
 import { Spinner } from './components/Spinner';
-
+// import LoginOrRegisterPage from './containers/onboarding-flow/LoginOrRegisterPage.jsx';
 import { Header } from './containers/index';
 // const EVERY_30_SECS = 900000; //MS
 // const EVERY_15_MINUTES = 900000; //MS
@@ -47,6 +47,12 @@ class GetNotificationsAndScroll extends React.Component {
     // Update state so the next render will show the fallback UI.
     return { hasError: true };
   }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (nextProps.location.pathname !== this.props.location.pathname) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   componentDidUpdate(prevProps) {
     const {
@@ -68,7 +74,7 @@ class GetNotificationsAndScroll extends React.Component {
       }, 0);
       return;
     }
-    if (location !== prevProps.location) {
+    if (location.pathname !== prevProps.location.pathname) {
       if (isLoggedIn !== prevProps.isLoggedIn && !isLoggedIn) {
         getCurrentUser();
       }
@@ -165,7 +171,20 @@ class GetNotificationsAndScroll extends React.Component {
       if (loggedOutRoutes.indexOf(this.props.location.pathname) > -1) {
         return this.props.children;
       } else {
-        return <div>Unauthorized , login first</div>;
+        if (this.props.location.pathname !== ROUTES.CLIENT.LOGIN_OR_REGISTER) {
+          return switchRoute(ROUTES.CLIENT.LOGIN_OR_REGISTER, {
+            isLoggedIn,
+            redirectedFromUrl: this.props.location.pathname,
+          });
+        }
+
+        return this.props.children;
+        // return (
+        //   <LoginOrRegisterPage
+        //     isLoggedIn={isLoggedIn}
+        //     redirectedFromUrl={this.props.location.pathname}
+        //   />
+        // );
       }
     } else {
       return this.props.children;

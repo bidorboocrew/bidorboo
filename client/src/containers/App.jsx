@@ -19,13 +19,11 @@ import AddToMobileHomeScreenBanner from './AddToMobileHomeScreenBanner';
 import '../assets/index.scss';
 import { Spinner } from '../components/Spinner.jsx';
 
-import { Header, HomePage } from './index';
+import { Header, HomePage, ResetLocalPassword, FirstTimeUser, LoginOrRegisterPage } from './index';
 
 import ShowSpecialMomentModal from './ShowSpecialMomentModal';
 
 const FreshdeskChat = lazy(() => import('./FreshdeskChat.jsx'));
-
-const FirstTimeUser = lazy(() => import('./onboarding-flow/FirstTimeUser.jsx'));
 
 const MyNotifications = lazy(() => import('./personal-profile/MyNotifications.jsx'));
 const MyProfile = lazy(() => import('./personal-profile/MyProfile.jsx'));
@@ -35,7 +33,6 @@ const ProposerRootPage = lazy(() => import('./proposer-flow/ProposerRootPage.jsx
 const CreateAJobPage = lazy(() => import('./proposer-flow/CreateAJobPage.jsx'));
 
 const MyRequestsPage = lazy(() => import('./proposer-flow/MyRequestsPage.jsx'));
-const ResetLocalPassword = lazy(() => import('./onboarding-flow/ResetLocalPassword.jsx'));
 
 const TermsOfService = lazy(() => import('./onboarding-flow/TermsOfService.jsx'));
 const OtherUserProfileForReviewPage = lazy(() => import('./OtherUserProfileForReviewPage.jsx'));
@@ -164,7 +161,6 @@ class App extends React.Component {
         <div id="RoutesWrapper" className="has-navbar-fixed-top">
           <Suspense fallback={<Spinner renderLabel="loading..."></Spinner>}>
             <Switch>
-              {/* public paths */}
               <Route exact path={ROUTES.CLIENT.HOME} component={HomePage} />
               <Route exact path={ROUTES.CLIENT.PROPOSER.root} component={ProposerRootPage} />
               <Route
@@ -179,10 +175,10 @@ class App extends React.Component {
                 path={`${ROUTES.CLIENT.USER_ROFILE_FOR_REVIEW}`}
                 component={OtherUserProfileForReviewPage}
               />
-              {/* loggedInPaths paths */}
 
               <Route exact path={`${ROUTES.CLIENT.ONBOARDING}`} component={FirstTimeUser} />
               <Route exact path={`${ROUTES.CLIENT.RESETPASSWORD}`} component={ResetLocalPassword} />
+              <Route exact path={'/login-and-registration'} component={LoginOrRegisterPage} />
 
               <Route
                 exact

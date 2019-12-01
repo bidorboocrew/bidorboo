@@ -76,13 +76,6 @@ class NewUserRegistrationForm extends React.Component {
     } = this.props;
     return (
       <form onSubmit={handleSubmit}>
-        <div className="subtitle">Join Our BidOrBoo Crew !</div>
-        <input
-          id="originPath"
-          className="input is-invisible"
-          type="hidden"
-          value={values.originPath || '/'}
-        />
         <TextInput
           id="displayName"
           type="text"
@@ -124,11 +117,16 @@ class NewUserRegistrationForm extends React.Component {
           onBlur={handleBlur}
         />
 
-        <div className="has-text-centered">
-          <button className="button is-success" type="submit" disabled={isSubmitting || !isValid}>
-            Join BidOrBoo
-          </button>
-        </div>
+        <button
+          style={{ borderRadius: 0 }}
+          className="button is-success"
+          type="submit"
+          disabled={isSubmitting || !isValid}
+        >
+          Join BidOrBoo
+        </button>
+        <br></br>
+        <br></br>
       </form>
     );
   }

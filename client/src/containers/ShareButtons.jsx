@@ -33,7 +33,7 @@ export default class ShareButtons extends React.Component {
   };
   copyToClipboard = () => {
     const el = document.createElement('textarea');
-    el.value = window.location.href;
+    el.value = this.getSharingLink();
     document.body.appendChild(el);
     el.select();
     document.execCommand('copy');
@@ -41,9 +41,18 @@ export default class ShareButtons extends React.Component {
     alert('link copied to clipboard');
     this.toggleShareModal();
   };
+
+  getSharingLink = () => {
+    const { shareUrl } = this.props;
+
+    const pathname = shareUrl ? shareUrl : window.location.pathname;
+
+    return `https://www.bidorboo.ca${pathname}`;
+  };
   render() {
     const { showShareModal } = this.state;
-    const shareUrl = window.location.href;
+
+    const urlForSharing = this.getSharingLink();
 
     return (
       <>
@@ -53,7 +62,7 @@ export default class ShareButtons extends React.Component {
             <div className="modal is-active has-text-centered">
               <div onClick={this.toggleShareModal} className="modal-background"></div>
               <div className="modal-content">
-                <div className="modal-card">
+                <div className="">
                   <div className="modal-card-body">
                     <p className="control has-text-centered has-text-weight-semibold">
                       Share this page Via
@@ -70,14 +79,18 @@ export default class ShareButtons extends React.Component {
                     </button>
 
                     <div style={{ display: 'inline-block', margin: 8 }}>
-                      <EmailShareButton className="socialShare" url={shareUrl} subject={'BidOrBoo'}>
+                      <EmailShareButton
+                        className="socialShare"
+                        url={urlForSharing}
+                        subject={'BidOrBoo'}
+                      >
                         <EmailIcon size={48} round />
                       </EmailShareButton>
                     </div>
                     <div style={{ display: 'inline-block', margin: 8 }}>
                       <FacebookShareButton
                         className="socialShare"
-                        url={shareUrl}
+                        url={urlForSharing}
                         quote={'BidOrBoo'}
                       >
                         <FacebookIcon size={48} round />
@@ -86,7 +99,7 @@ export default class ShareButtons extends React.Component {
                     <div style={{ display: 'inline-block', margin: 8 }}>
                       <WhatsappShareButton
                         className="socialShare"
-                        url={shareUrl}
+                        url={urlForSharing}
                         title={'BidOrBoo'}
                         separator=":: "
                       >
@@ -105,19 +118,20 @@ export default class ShareButtons extends React.Component {
             this.rootModal,
           )}
         <button
-          style={{
-            position: 'fixed',
-            bottom: '2rem',
-            zIndex: 999,
-            left: 10,
-            cursor: 'pointer',
-          }}
+          // style={{
+          //   position: 'fixed',
+          //   bottom: '2rem',
+          //   zIndex: 999,
+          //   left: 10,
+          //   cursor: 'pointer',
+          // }}
           onClick={this.toggleShareModal}
-          className="button is-info is-outlined is-light"
+          className="button is-success"
         >
           <span className="icon">
             <i className="fas fa-share-alt"></i>
           </span>
+          <span>Share</span>
         </button>
       </>
     );

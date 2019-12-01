@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import logoImg from '../assets/images/android-chrome-192x192.png';
 
 import moment from 'moment';
 import AddToCalendar from 'react-add-to-calendar';
@@ -1600,3 +1601,28 @@ export const AnytimeQuickModal = ({ title, renderContentFunc, setShowModal, show
     </div>
   );
 };
+
+export const CoolBidOrBooTitle = () => (
+  <section className="hero is-small has-text-centered">
+    <div className="hero-body">
+      <div className="HorizontalAligner-center">
+        <div className="bdb-flex-container">
+          <div className="flex-item">
+            <img
+              src={logoImg}
+              alt="BidOrBoo"
+              width="48"
+              height="48"
+              style={{ maxHeight: 'unset' }}
+            />
+            <div className="title" style={{ marginLeft: 4, margin: 0 }}>
+              <span style={{ color: '#ee2a36', fontWeight: 500 }}>B</span>id
+              <span style={{ color: '#ee2a36', fontWeight: 500 }}>O</span>r
+              <span style={{ color: '#ee2a36', fontWeight: 500 }}>B</span>oo
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+);

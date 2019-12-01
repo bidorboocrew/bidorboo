@@ -11,7 +11,6 @@ import { showLoginDialog } from '../app-state/actions/uiActions';
 
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
-import { NotificationsModal } from './index';
 import logoImg from '../assets/images/android-chrome-192x192.png';
 
 const HREF_TO_TABID = {
@@ -131,6 +130,7 @@ class Header extends React.Component {
       shouldShowLoginDialog,
       notificationFeed,
       userAppView,
+      location,
     } = this.props;
 
     const { profileImage } = userDetails;
@@ -158,7 +158,7 @@ class Header extends React.Component {
 
     const showNotificationButton =
       isAnythingHappeningToday || jobRecievedNewBids || bidsGotAwardedToMe;
-
+    const isOnLoginPage = location.pathname === ROUTES.CLIENT.LOGIN_OR_REGISTER;
     const isActingAsBidder = userAppView === 'BIDDER';
 
     let onlyShowReqAndBidButtons =
@@ -250,17 +250,23 @@ class Header extends React.Component {
               <span>BID</span>
             </a>
           </div>
-          <div className=" navbar-item">
-            <a
-              style={{ borderRadius: 2, fontWeight: 400 }}
-              className="button is-success is-small"
-              onClick={(e) => {
-                this.toggleLoginDialog();
-              }}
-            >
-              LOGIN
-            </a>
-          </div>
+          {!isOnLoginPage && (
+            <div className=" navbar-item">
+              <a
+                style={{ borderRadius: 2, fontWeight: 400 }}
+                className="button is-success is-small"
+                onClick={(e) => {
+                  e.preventDefault();
+                  switchRoute(ROUTES.CLIENT.LOGIN_OR_REGISTER, {
+                    isLoggedIn: false,
+                    redirectedFromUrl: window.location.pathname,
+                  });
+                }}
+              >
+                LOGIN
+              </a>
+            </div>
+          )}
         </div>
       </nav>
     );

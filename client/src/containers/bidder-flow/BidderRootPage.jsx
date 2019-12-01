@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Collapse } from 'react-collapse';
-
+import ShareButtons from '../ShareButtons.jsx';
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
@@ -333,10 +333,16 @@ class BidderRootPage extends React.Component {
                           <div className="is-size-6">
                             No Tasks available around this area at this time.
                           </div>
-                          <br />
+
                           <div className="help">
                             Try Changing Your Search Criteria or search a different area
                           </div>
+                          <br />
+
+                          <div className="is-size-6 has-text-weight-semibold">
+                            Help us spread BidOrBoo in your area
+                          </div>
+                          <ShareButtons shareUrl={'/'}></ShareButtons>
                         </div>
                       </div>
                     </div>

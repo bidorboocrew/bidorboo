@@ -250,6 +250,14 @@ a.navbar-item.is-active {
   box-shadow: none;
 }
 
+ul {
+  margin-right: 2em !important;
+  &.loginOrSignup{
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
 $family-primary: 'Work Sans', sans-serif;
 $family-sans-serif: 'Work Sans', sans-serif;
 $body-background-color: #eeeeee;
@@ -995,4 +1003,24 @@ img.watermarker {
 
 div.react-datepicker__input-container {
   width: 100%;
+}
+.bdb-flex-container {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  align-items: center;
+
+  flex-wrap: wrap;
+  min-width: 200px;
+  .flex-item {
+    display: flex;
+    align-items: center;
+  }
+  .flex-item img {
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-right: 6px;
+  }
 }
