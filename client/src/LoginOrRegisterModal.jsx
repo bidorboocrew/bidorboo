@@ -23,12 +23,13 @@ export default class LoginOrRegisterModal extends React.Component {
 
             <p className="subtitle">Login or Register as a new user to proceed</p>
             <button
-              onClick={() =>
-                switchRoute(ROUTES.CLIENT.LOGIN_OR_REGISTER, {
+              onClick={() => {
+                handleCancel();
+                return switchRoute(ROUTES.CLIENT.LOGIN_OR_REGISTER, {
                   isLoggedIn: false,
                   redirectedFromUrl,
-                })
-              }
+                });
+              }}
               className="button is-success"
             >
               Go to Login page
