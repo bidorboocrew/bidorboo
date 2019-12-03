@@ -39,15 +39,16 @@ export const getJobToBidOnDetails = (jobId, isLoggedIn = false) => (dispatch) =>
       }),
   });
 
-export const submitBid = ({ bidAmount, job }) => (dispatch) => {
+export const submitBid = ({ bidAmount, job, recaptchaField }) => (dispatch) => {
   //update store with the job details
 
   const { _id: jobId, templateId } = job;
-
+debugger
   dispatch({
     type: A.BIDDER_ACTIONS.POST_A_BID,
     payload: axios
       .post(ROUTES.API.BID.POST.bid, {
+        recaptchaField: recaptchaField,
         data: {
           jobId,
           bidAmount: bidAmount,

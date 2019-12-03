@@ -182,6 +182,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
                   avgBid={avgBid}
                   onSubmit={(values) => {
                     submitBid({
+                      recaptchaField: values.recaptchaField,
                       job,
                       bidAmount: values.bidAmountField,
                     });
