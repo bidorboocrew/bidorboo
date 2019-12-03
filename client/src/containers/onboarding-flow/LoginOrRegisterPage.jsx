@@ -26,6 +26,13 @@ export class LoginOrRegisterPage extends React.Component {
     this.setState({ showRegistrationForm: false });
   };
 
+  componentDidUpdate(prevProps){
+    debugger
+    if(this.props.isLoggedIn){
+      return switchRoute(ROUTES.CLIENT.HOME);
+    }
+
+  }
   render() {
     const { registerNewUser, bidOrBooLogin } = this.props;
     const { showRegistrationForm, redirectedFromUrl, isLoggedIn } = this.state;
@@ -35,6 +42,7 @@ export class LoginOrRegisterPage extends React.Component {
 
     if (isLoggedIn) {
       // your logged in, why are you here?
+
       return switchRoute(ROUTES.CLIENT.HOME);
     }
 
@@ -185,7 +193,12 @@ export class LoginOrRegisterPage extends React.Component {
     );
   }
 }
+const mapStateToProps = ({ userReducer, uiReducer }) => {
+  return {
+    isLoggedIn: userReducer.isLoggedIn,
 
+  };
+};
 const mapDispatchToProps = (dispatch) => {
   return {
     bidOrBooLogin: bindActionCreators(bidOrBooLogin, dispatch),
@@ -193,4 +206,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(LoginOrRegisterPage);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginOrRegisterPage);

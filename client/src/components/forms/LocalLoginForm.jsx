@@ -19,10 +19,15 @@ const EnhancedForms = withFormik({
       .trim()
       .email('please enter a valid email address')
       .required('email is required.'),
+    recaptchaField: Yup.string()
+    .ensure()
+    .trim()
+    .required('require pass recaptcha.'),
   }),
   mapPropsToValues: (props) => {
     return {
       originPath: props.originPath,
+      recaptchaField: process.env.NODE_ENV === 'production'? '':'development_test'
     };
   },
   handleSubmit: (values, { setSubmitting, props }) => {
@@ -34,10 +39,7 @@ const EnhancedForms = withFormik({
     });
     setSubmitting(false);
   },
-  recaptchaField: Yup.string()
-    .ensure()
-    .trim()
-    .required('require pass recaptcha.'),
+
   displayName: 'LocalLoginForm',
 });
 
@@ -49,7 +51,7 @@ class LocalLoginForm extends React.Component {
     if (process.env.NODE_ENV === 'production') {
       this.recaptcha.execute();
     } else {
-      this.props.setFieldValue('recaptchaField', 'test');
+      this.props.setFieldValue('recaptchaField', 'test',true);
     }
   }
 
@@ -65,7 +67,7 @@ class LocalLoginForm extends React.Component {
       // handleReset,
       isValid,
       isSubmitting,
-      handleCancel,
+      handleCancel,recaptchaField
     } = this.props;
 
     return (
@@ -120,7 +122,8 @@ class LocalLoginForm extends React.Component {
         </div>
         <br></br>
 
-        <input id="recaptchaField" className="input is-invisible" type="hidden" value={''} />
+        <input id="recaptchaField" className="input is-invisible" type="hidden"
+        value={recaptchaField} />
         {process.env.NODE_ENV === 'production' && (
           <>
             <Recaptcha

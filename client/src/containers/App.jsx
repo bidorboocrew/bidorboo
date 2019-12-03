@@ -288,7 +288,7 @@ class App extends React.Component {
               </a>
             </div>
             <div className="help has-text-light">
-              <a className="is-size-7" onClick={() => switchRoute(ROUTES.CLIENT.TOS)}>
+              <a className="is-size-7 has-text-link" onClick={() => switchRoute(ROUTES.CLIENT.TOS)}>
                 {`BidOrBoo Service Terms | Privacy`}
               </a>
               {' and '}
@@ -296,15 +296,21 @@ class App extends React.Component {
                 target="_blank"
                 rel="noopener noreferrer"
                 href="https://stripe.com/connect-account/legal"
-                className="is-size-7"
+                className="is-size-7 has-text-link"
               >
                 {`Stripe Terms of use`}
               </a>
             </div>
             <div className="help has-text-light">
               {`This site is protected by reCAPTCHA and the Google `}
-              <a href="https://policies.google.com/privacy">Privacy Policy</a> {`and `}
-              <a href="https://policies.google.com/terms">Terms of Service</a> {` apply.`}
+              <a className="is-size-7 has-text-link" href="https://policies.google.com/privacy">
+                Privacy Policy
+              </a>
+              {` and `}
+              <a className="is-size-7 has-text-link" href="https://policies.google.com/terms">
+                Terms of Service
+              </a>
+              {` apply.`}
             </div>
           </footer>
         )}

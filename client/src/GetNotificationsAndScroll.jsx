@@ -179,12 +179,6 @@ class GetNotificationsAndScroll extends React.Component {
         }
 
         return this.props.children;
-        // return (
-        //   <LoginOrRegisterPage
-        //     isLoggedIn={isLoggedIn}
-        //     redirectedFromUrl={this.props.location.pathname}
-        //   />
-        // );
       }
     } else {
       return this.props.children;
