@@ -55,7 +55,6 @@ const urlBase64ToUint8Array = (base64String) => {
 };
 
 export const unregisterPushNotification = (registration) => {
-  debugger;
   return new Promise(async (resolve, reject) => {
     if (process.env.NODE_ENV === 'development') {
       return reject({ success: false });

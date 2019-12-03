@@ -15,7 +15,7 @@ export const switchRoute = (routeAndParams, stateContent = null) => {
       return null;
     }
   }, 0);
-  debugger;
+
   return null;
 };
 

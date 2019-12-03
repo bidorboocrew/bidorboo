@@ -252,36 +252,6 @@ class App extends React.Component {
                   <div className="is-size-7">
                     <img width={21} height={21} alt="Canada" src={canadaFlag} />
                   </div>
-                  <div>
-                    <a
-                      style={{
-                        color: '#4285f4',
-                        textDecoration: 'underline',
-                        padding: '0.25rem',
-                        margin: '0.5rem',
-                      }}
-                      className="is-size-7"
-                      onClick={() => switchRoute(ROUTES.CLIENT.TOS)}
-                    >
-                      {`BidOrBoo Terms`}
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      style={{
-                        color: '#4285f4',
-                        padding: '0.25rem',
-                        margin: '0.5rem',
-                        textDecoration: 'underline',
-                      }}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href="https://stripe.com/connect-account/legal"
-                      className="is-size-7"
-                    >
-                      {`Stripe Terms`}
-                    </a>
-                  </div>
                 </div>
               </div>
               <div className="level-item has-text-centered">
@@ -305,19 +275,37 @@ class App extends React.Component {
                       <FreshdeskChat isFooter />
                     </Suspense>
                   </div>
-
-                  <p className="has-text-white is-size-7">email us</p>
-                  <div>
-                    <a className="has-text-link is-size-7" href={`mailto:bidorboo@bidorboo.ca`}>
-                      <span className="icon">
-                        <i className="far fa-envelope" />
-                      </span>
-                      <span>bidorboo@bidorboo.ca</span>
-                    </a>
-                  </div>
                 </div>
               </div>
             </nav>
+            <div className="help has-text-light">
+              {`To get in touch via email:`}
+              <a className="has-text-link is-size-7" href={`mailto:bidorboo@bidorboo.ca`}>
+                <span className="icon">
+                  <i className="far fa-envelope" />
+                </span>
+                <span>bidorboo@bidorboo.ca</span>
+              </a>
+            </div>
+            <div className="help has-text-light">
+              <a className="is-size-7" onClick={() => switchRoute(ROUTES.CLIENT.TOS)}>
+                {`BidOrBoo Service Terms | Privacy`}
+              </a>
+              {' and '}
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://stripe.com/connect-account/legal"
+                className="is-size-7"
+              >
+                {`Stripe Terms of use`}
+              </a>
+            </div>
+            <div className="help has-text-light">
+              {`This site is protected by reCAPTCHA and the Google `}
+              <a href="https://policies.google.com/privacy">Privacy Policy</a> {`and `}
+              <a href="https://policies.google.com/terms">Terms of Service</a> {` apply.`}
+            </div>
           </footer>
         )}
       </div>

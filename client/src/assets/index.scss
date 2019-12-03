@@ -252,7 +252,7 @@ a.navbar-item.is-active {
 
 ul {
   margin-right: 2em !important;
-  &.loginOrSignup{
+  &.loginOrSignup {
     margin-left: 0 !important;
     margin-right: 0 !important;
   }
@@ -1023,4 +1023,9 @@ div.react-datepicker__input-container {
     flex-shrink: 0;
     margin-right: 6px;
   }
+}
+.grecaptcha-badge {
+  display: none !important;
+  height: 0;
+  width: 0;
 }
