@@ -39,6 +39,7 @@ class BidModal extends React.Component {
       isValid,
       isSubmitting,
       avgBid,
+      recaptchaField,
     } = this.props;
 
     const autoBidOptions =
@@ -123,7 +124,7 @@ class BidModal extends React.Component {
               id="recaptchaField"
               className="input is-invisible"
               type="hidden"
-              value={values.recaptchaField || ''}
+              value={values.recaptchaField || recaptchaField}
             />
             {process.env.NODE_ENV === 'production' && (
               <>

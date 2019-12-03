@@ -62,6 +62,7 @@ const EnhancedForms = withFormik({
       email: values.email,
       password: values.password,
       originPath: values.originPath,
+      recaptchaField: values.recaptchaField,
       displayName: displayName,
     });
     setSubmitting(false);
@@ -90,6 +91,7 @@ class NewUserRegistrationForm extends React.Component {
       setFieldValue,
       isValid,
       isSubmitting,
+      recaptchaField,
     } = this.props;
     return (
       <form onSubmit={handleSubmit}>
@@ -133,7 +135,6 @@ class NewUserRegistrationForm extends React.Component {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-
         <button
           style={{ borderRadius: 0 }}
           className="button is-success"
@@ -142,12 +143,12 @@ class NewUserRegistrationForm extends React.Component {
         >
           Join BidOrBoo
         </button>
-        <br></br>
+        <br></br> <br></br>
         <input
           id="recaptchaField"
           className="input is-invisible"
           type="hidden"
-          value={values.recaptchaField || ''}
+          value={values.recaptchaField || recaptchaField}
         />
         {process.env.NODE_ENV === 'production' && (
           <>

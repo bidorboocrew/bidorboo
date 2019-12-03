@@ -67,6 +67,7 @@ class LocalLoginForm extends React.Component {
       // handleReset,
       isValid,
       isSubmitting,
+      recaptchaField,
     } = this.props;
 
     return (
@@ -125,7 +126,7 @@ class LocalLoginForm extends React.Component {
           id="recaptchaField"
           className="input is-invisible"
           type="hidden"
-          value={values.recaptchaField || ''}
+          value={values.recaptchaField || recaptchaField}
         />
         {process.env.NODE_ENV === 'production' && (
           <>
