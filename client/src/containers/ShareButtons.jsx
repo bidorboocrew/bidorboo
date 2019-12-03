@@ -126,7 +126,7 @@ export default class ShareButtons extends React.Component {
           //   cursor: 'pointer',
           // }}
           onClick={this.toggleShareModal}
-          className="button is-success"
+          className="button is-danger"
         >
           <span className="icon">
             <i className="fas fa-share-alt"></i>
