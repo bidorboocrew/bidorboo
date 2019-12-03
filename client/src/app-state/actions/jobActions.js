@@ -322,11 +322,12 @@ export const markBidAsSeen = (jobId, bidId) => (dispatch) => {
   });
 };
 
-export const postNewJob = (jobDetails) => (dispatch) => {
+export const postNewJob = ({ jobDetails, recaptchaField }) => (dispatch) => {
   return dispatch({
     type: A.JOB_ACTIONS.ADD_NEW_JOB,
     payload: axios
       .post(ROUTES.API.JOB.POST.newJob, {
+        recaptchaField,
         data: {
           jobDetails,
         },

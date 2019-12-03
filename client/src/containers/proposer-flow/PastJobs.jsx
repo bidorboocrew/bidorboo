@@ -14,7 +14,7 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import { Spinner } from '../../components/Spinner';
 import tasksDefinitions from '../../bdb-tasks/tasksDefinitions';
-
+z
 class PastJobs extends React.Component {
   componentDidUpdate(prevProps) {
     // it was not logged in and now it is
@@ -69,10 +69,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(PastJobs);
+export default connect(mapStateToProps, mapDispatchToProps)(PastJobs);
 
 const EmptyHistory = () => {
   return (

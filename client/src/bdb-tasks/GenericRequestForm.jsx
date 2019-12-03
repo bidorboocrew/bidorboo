@@ -12,6 +12,7 @@ import axios from 'axios';
 import { withFormik } from 'formik';
 import haversineOffset from 'haversine-offset';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+import Recaptcha from 'react-google-invisible-recaptcha';
 
 import moment from 'moment';
 import * as Yup from 'yup';
@@ -52,6 +53,16 @@ class GenericRequestForm extends React.Component {
       TASKS_DEFINITIONS[this.requestTemplateId].extrasValidation.bind(this);
   }
 
+  onResolved = () => {
+    this.props.setFieldValue('recaptchaField', this.recaptcha.getResponse());
+  };
+  componentDidMount() {
+    if (process.env.NODE_ENV === 'production') {
+      this.recaptcha.execute();
+    } else {
+      this.props.setFieldValue('recaptchaField', 'test', true);
+    }
+  }
   updateTaskThumbnails = (fieldIdAndValue) => {
     this.props.setFieldValue(fieldIdAndValue.fieldId, fieldIdAndValue.fieldValue, false);
   };
@@ -192,6 +203,7 @@ class GenericRequestForm extends React.Component {
       handleChange,
       handleSubmit,
       handleBlur,
+      recaptchaField,
     } = this.props;
     const {
       ID,
@@ -441,6 +453,31 @@ class GenericRequestForm extends React.Component {
                 onBlur={handleBlur}
               />
               <br></br>
+              <input
+                id="recaptchaField"
+                className="input is-invisible"
+                type="hidden"
+                value={values.recaptchaField || recaptchaField}
+              />
+              {process.env.NODE_ENV === 'production' && (
+                <>
+                  <Recaptcha
+                    ref={(ref) => (this.recaptcha = ref)}
+                    sitekey={`${process.env.REACT_APP_RECAPTCHA_SITE_KEY}`}
+                    onLoaded={() => console.log('loaded')}
+                    onResolved={this.onResolved}
+                    onExpired={() => this.recaptcha.reset()}
+                    badge={'inline'}
+                  />
+                  {/* https://developers.google.com/recaptcha/docs/faq#id-like-to-hide-the-recaptcha-v3-badge-what-is-allowed */}
+                  <div className="help">
+                    {`This site is protected by reCAPTCHA and the Google `}
+                    <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+                    <a href="https://policies.google.com/terms">Terms of Service</a> apply.
+                  </div>
+                </>
+              )}
+              <br></br>
               {dirty && errors && Object.keys(errors).length > 0 && (
                 <div className="help is-dark">
                   * some fields are missing or contain errors. Scroll up if needed.
@@ -465,6 +502,7 @@ class GenericRequestForm extends React.Component {
                 </span>
                 <span>Post It</span>
               </button>
+
             </form>
           </div>
         </div>
@@ -651,6 +689,10 @@ const EnhancedForms = withFormik({
         .min(20, 'your description must be more than 20 characters')
         .max(500, 'job title must be less than 500 characters')
         .required('*Please provide a detailed description'),
+      recaptchaField: Yup.string()
+        .ensure()
+        .trim()
+        .required('require pass recaptcha.'),
       ...TASKS_DEFINITIONS[props.requestTemplateId].extraValidationSchema,
     });
   },
@@ -717,6 +759,7 @@ const EnhancedForms = withFormik({
       destinationText: '',
       timeOfDay: 'noSelection',
       location: { lat: 0, lng: 0 },
+      recaptchaField: process.env.NODE_ENV === 'production' ? '' : 'development_test',
       ...TASKS_DEFINITIONS[props.requestTemplateId].defaultExtrasValues,
     };
   },
@@ -735,6 +778,7 @@ const EnhancedForms = withFormik({
       taskImg2,
       taskImg3,
       jobTitle,
+      recaptchaField,
       ...extras // everything else
     } = values;
 
@@ -816,7 +860,7 @@ const EnhancedForms = withFormik({
       };
     }
 
-    await postNewJob(mappedFieldsToJobSchema);
+    await postNewJob({ jobDetails: mappedFieldsToJobSchema, recaptchaField });
 
     setSubmitting(false);
   },

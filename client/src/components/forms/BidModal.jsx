@@ -16,7 +16,7 @@ class BidModal extends React.Component {
     if (process.env.NODE_ENV === 'production') {
       this.recaptcha.execute();
     } else {
-      this.props.setFieldValue('recaptchaField', 'test', true);
+      this.props.setFieldValue('recaptchaField', 'development_test', true);
     }
   }
 
@@ -26,6 +26,10 @@ class BidModal extends React.Component {
     resetForm();
     console.log('unmounting');
   }
+
+  onResolved = () => {
+    this.props.setFieldValue('recaptchaField', this.recaptcha.getResponse());
+  };
 
   render() {
     const {
@@ -201,7 +205,6 @@ const EnhancedForms = withFormik({
     };
   },
   handleSubmit: (values, { setSubmitting, props }) => {
-    debugger
     props.onSubmit({ ...values });
     setSubmitting(false);
   },

@@ -71,6 +71,9 @@ const EnhancedForms = withFormik({
 });
 
 class NewUserRegistrationForm extends React.Component {
+  onResolved = () => {
+    this.props.setFieldValue('recaptchaField', this.recaptcha.getResponse());
+  };
   componentDidMount() {
     if (process.env.NODE_ENV === 'production') {
       this.recaptcha.execute();
