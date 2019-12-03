@@ -119,8 +119,7 @@ export default class HomePage extends React.Component {
             borderBottom: '1px solid #ee2a36',
           }}
         />
-
-        <ProposerRoot isForHomepage></ProposerRoot>
+        <ProposerRoot />
       </div>
     );
   }

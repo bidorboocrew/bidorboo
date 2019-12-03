@@ -21,26 +21,39 @@ import { registerPushNotification } from './registerPushNotification';
 
 window.BidorBoo = window.BidorBoo || {};
 
-const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_SECRET}`);
-bugsnagClient.use(bugsnagReact, React);
-const ErrorBoundary = bugsnagClient.getPlugin('react');
+if (process.env.NODE_ENV === 'production') {
+  const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_SECRET}`);
+  bugsnagClient.use(bugsnagReact, React);
+  const ErrorBoundary = bugsnagClient.getPlugin('react');
+  ReactDOM.render(
+    <ErrorBoundary>
+      <Provider store={store}>
+        <Router history={appHistory}>
+          <GetNotificationsAndScroll>
+            <App />
+          </GetNotificationsAndScroll>
+        </Router>
+      </Provider>
+    </ErrorBoundary>,
+    document.getElementById('BidOrBoo-app'),
+  );
+
+  registerServiceWorker()
+    .then(({ registration }) => {
+      registerPushNotification(`${process.env.REACT_APP_VAPID_KEY}`, registration)
+        .then(() => console.log('push Notifications enabled'))
+        .catch((e) => console.log('push Notifications not enabled ' + e));
+    })
+    .catch(() => console.info('ServiceWorker was not added'));
+} else {
 ReactDOM.render(
-  <ErrorBoundary>
     <Provider store={store}>
       <Router history={appHistory}>
         <GetNotificationsAndScroll>
           <App />
         </GetNotificationsAndScroll>
       </Router>
-    </Provider>
-  </ErrorBoundary>,
-  document.getElementById('BidOrBoo-app'),
-);
-
-registerServiceWorker()
-  .then(({ registration }) => {
-    registerPushNotification(`${process.env.REACT_APP_VAPID_KEY}`, registration)
-      .then(() => console.log('push Notifications enabled'))
-      .catch((e) => console.log('push Notifications not enabled ' + e));
-  })
-  .catch(() => console.info('ServiceWorker was not added'));
+    </Provider>,
+    document.getElementById('BidOrBoo-app'),
+  );
+}

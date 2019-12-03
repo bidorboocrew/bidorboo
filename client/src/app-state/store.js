@@ -12,9 +12,11 @@ const getMiddleware = () => {
   return applyMiddleware(promise, loadingBarMiddleware(), thunk);
 };
 
-let reduxStore = createStore(combinedReducers, composeWithDevTools(getMiddleware()));
+let reduxStore;
 if (process.env.NODE_ENV === 'production') {
   reduxStore = createStore(combinedReducers, getMiddleware());
+} else {
+  reduxStore = createStore(combinedReducers, composeWithDevTools(getMiddleware()));
 }
 
 export const store = reduxStore;

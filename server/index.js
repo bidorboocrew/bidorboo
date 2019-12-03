@@ -2,6 +2,8 @@ const express = require('express');
 const passport = require('passport');
 const path = require('path');
 const expressip = require('express-ip');
+const responseTime = require('response-time');
+const errorhandler = require('errorhandler');
 
 const keys = require('./config/keys');
 // const { errors } = require('celebrate');
@@ -10,22 +12,26 @@ const keys = require('./config/keys');
 const bugsnag = require('@bugsnag/js');
 const bugsnagExpress = require('@bugsnag/plugin-express');
 const bugsnagClient = bugsnag(keys.bugSnagApiKey);
-bugsnagClient.use(bugsnagExpress);
-
+let bugsnagMiddleware;
+if (process.env.NODE_ENV === 'production') {
+  bugsnagClient.use(bugsnagExpress);
+  bugsnagMiddleware = bugsnagClient.getPlugin('express');
+}
 // initialize and start mongodb
 require('./services/mongoDB')(process);
 require('./services/passport');
 
 const app = express();
-const bugsnagMiddleware = bugsnagClient.getPlugin('express');
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
+app.use(responseTime());
 
 app.use(expressip().getIpInfoMiddleware);
 
-app.use(bugsnagMiddleware.requestHandler);
-
+if (process.env.NODE_ENV === 'production') {
+  app.use(bugsnagMiddleware.requestHandler);
+}
 // initialize bugsnag
 // require('./services/bugSnag')(app);
 // initialize security and compression
@@ -46,8 +52,9 @@ app.use(passport.session());
 // instantiate app routes
 require('./services/populateAppRoutes')(app);
 require('./services/CronRepeatingJobs')(app);
-// app.use(errors());
-
+if (process.env.NODE_ENV === 'production') {
+  app.use(errors());
+}
 // error handling
 app.use((err, req, res, next) => {
   console.log('BIDORBOOLOGS ======== error handler BEGIN==========');
@@ -70,9 +77,13 @@ app.use((err, req, res, next) => {
 
   res.status(err.statusCode).send(err.safeMsg); // All HTTP requests must have a response, so let's send back an error with its status code and message
 });
-
-app.use(bugsnagMiddleware.errorHandler);
-
+if (process.env.NODE_ENV === 'development') {
+  // only use in development
+  app.use(errorhandler());
+}
+if (process.env.NODE_ENV === 'production') {
+  app.use(bugsnagMiddleware.errorHandler);
+}
 // serve the static js file
 if (process.env.NODE_ENV === 'production') {
   console.log('IAM NODE process.env.NODE_APP_INSTANCE ' + process.env.NODE_APP_INSTANCE);

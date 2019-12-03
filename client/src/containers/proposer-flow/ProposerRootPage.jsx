@@ -18,10 +18,9 @@ class ProposerRoot extends React.Component {
   }
 
   render() {
-    const { isForHomepage = false } = this.props;
     return (
       <React.Fragment>
-        <section className={`hero ${isForHomepage ? 'is-success is-bold' : 'is-white'}`}>
+        <section className="hero is-success is-bold">
           <div className="hero-body has-text-centered">
             <div className="container">
               <h1 style={{ marginBottom: 0 }} className="title">
