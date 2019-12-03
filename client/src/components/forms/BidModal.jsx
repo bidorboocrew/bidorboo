@@ -4,12 +4,21 @@ import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { TextInput } from './FormsHelpers';
 import { enforceNumericField } from './FormsValidators';
+import Recaptcha from 'react-google-invisible-recaptcha';
 
 class BidModal extends React.Component {
   onAutoBid = (val) => {
     const { setFieldValue } = this.props;
     setFieldValue('bidAmountField', val, true);
   };
+
+  componentDidMount() {
+    if (process.env.NODE_ENV === 'production') {
+      this.recaptcha.execute();
+    } else {
+      this.props.setFieldValue('recaptchaField', 'test', true);
+    }
+  }
 
   componentWillUnmount() {
     const { resetForm, setFieldValue } = this.props;
@@ -110,6 +119,25 @@ class BidModal extends React.Component {
               {autoBidOptions}
             </div>
             <br />
+            <input
+              id="recaptchaField"
+              className="input is-invisible"
+              type="hidden"
+              value={values.recaptchaField || ''}
+            />
+            {process.env.NODE_ENV === 'production' && (
+              <>
+                <Recaptcha
+                  ref={(ref) => (this.recaptcha = ref)}
+                  sitekey={`${process.env.REACT_APP_RECAPTCHA_SITE_KEY}`}
+                  onLoaded={() => console.log('loaded')}
+                  onResolved={this.onResolved}
+                  onExpired={() => this.recaptcha.reset()}
+                  badge={'inline'}
+                />
+                {/* https://developers.google.com/recaptcha/docs/faq#id-like-to-hide-the-recaptcha-v3-badge-what-is-allowed */}
+              </>
+            )}
 
             {/* <div className="group">
               <div className="label">BidOrBoo Rules</div>
@@ -161,8 +189,16 @@ const EnhancedForms = withFormik({
       .positive('Can only have positive integers')
       .max(9999, 'The maximum amout is 9999')
       .required('amount is required.'),
+    recaptchaField: Yup.string()
+      .ensure()
+      .trim()
+      .required('require pass recaptcha.'),
   }),
-
+  mapPropsToValues: (props) => {
+    return {
+      recaptchaField: process.env.NODE_ENV === 'production' ? '' : 'development_test',
+    };
+  },
   handleSubmit: (values, { setSubmitting, props }) => {
     props.onSubmit({ ...values });
     setSubmitting(false);

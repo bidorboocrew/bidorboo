@@ -2,15 +2,16 @@ import React from 'react';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { TextInput } from './FormsHelpers';
+import Recaptcha from 'react-google-invisible-recaptcha';
 
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
-    displayName: Yup.string()
-      .ensure()
-      .trim()
-      .min(3, 'your name must be at least 3 chars')
-      .max(35, 'your password can not be longer than 35 chars')
-      .required('name is required.'),
+    // displayName: Yup.string()
+    //   .ensure()
+    //   .trim()
+    //   .min(3, 'your name must be at least 3 chars')
+    //   .max(35, 'your password can not be longer than 35 chars')
+    //   .required('name is required.'),
     password: Yup.string()
       .ensure()
       .trim()
@@ -28,6 +29,10 @@ const EnhancedForms = withFormik({
       .trim()
       .email('please enter a valid email address')
       .required('email is required.'),
+    recaptchaField: Yup.string()
+      .ensure()
+      .trim()
+      .required('require pass recaptcha.'),
   }),
 
   validate: (values) => {
@@ -45,14 +50,19 @@ const EnhancedForms = withFormik({
   mapPropsToValues: (props) => {
     return {
       originPath: props.originPath,
+      recaptchaField: process.env.NODE_ENV === 'production' ? '' : 'development_test',
     };
   },
   handleSubmit: (values, { setSubmitting, props }) => {
+    let displayName = `New User(${Math.floor(Math.random() * Math.floor(100))})`;
+    if (values && values.email && values.email.indexOf('@') > -1) {
+      displayName = values.email.split('@')[0];
+    }
     props.onSubmit({
       email: values.email,
       password: values.password,
       originPath: values.originPath,
-      displayName: values.displayName,
+      displayName: displayName,
     });
     setSubmitting(false);
   },
@@ -60,6 +70,13 @@ const EnhancedForms = withFormik({
 });
 
 class NewUserRegistrationForm extends React.Component {
+  componentDidMount() {
+    if (process.env.NODE_ENV === 'production') {
+      this.recaptcha.execute();
+    } else {
+      this.props.setFieldValue('recaptchaField', 'test', true);
+    }
+  }
   render() {
     const {
       values,
@@ -76,7 +93,7 @@ class NewUserRegistrationForm extends React.Component {
     } = this.props;
     return (
       <form onSubmit={handleSubmit}>
-        <TextInput
+        {/* <TextInput
           id="displayName"
           type="text"
           label="Name"
@@ -85,7 +102,7 @@ class NewUserRegistrationForm extends React.Component {
           value={values.displayName || ''}
           onChange={handleChange}
           onBlur={handleBlur}
-        />
+        /> */}
         <TextInput
           id="email"
           type="text"
@@ -126,7 +143,30 @@ class NewUserRegistrationForm extends React.Component {
           Join BidOrBoo
         </button>
         <br></br>
-        <br></br>
+        <input
+          id="recaptchaField"
+          className="input is-invisible"
+          type="hidden"
+          value={values.recaptchaField || ''}
+        />
+        {process.env.NODE_ENV === 'production' && (
+          <>
+            <Recaptcha
+              ref={(ref) => (this.recaptcha = ref)}
+              sitekey={`${process.env.REACT_APP_RECAPTCHA_SITE_KEY}`}
+              onLoaded={() => console.log('loaded')}
+              onResolved={this.onResolved}
+              onExpired={() => this.recaptcha.reset()}
+              badge={'inline'}
+            />
+            {/* https://developers.google.com/recaptcha/docs/faq#id-like-to-hide-the-recaptcha-v3-badge-what-is-allowed */}
+            <div className="help">
+              {`This site is protected by reCAPTCHA and the Google `}
+              <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+              <a href="https://policies.google.com/terms">Terms of Service</a> apply.
+            </div>
+          </>
+        )}
       </form>
     );
   }

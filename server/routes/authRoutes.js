@@ -59,6 +59,7 @@ module.exports = (app) => {
 
   app.post(
     ROUTES.API.AUTH.REGISTER_NEW_USER,
+    requirePassesRecaptcha,
     async (req, res, next) => {
       return passport.authenticate('local-register', (err, user, info) => {
         if (err) {
