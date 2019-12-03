@@ -52,9 +52,7 @@ app.use(passport.session());
 // instantiate app routes
 require('./services/populateAppRoutes')(app);
 require('./services/CronRepeatingJobs')(app);
-if (process.env.NODE_ENV === 'production') {
-  app.use(errors());
-}
+
 // error handling
 app.use((err, req, res, next) => {
   console.log('BIDORBOOLOGS ======== error handler BEGIN==========');
