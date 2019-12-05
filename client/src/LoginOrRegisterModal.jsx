@@ -13,7 +13,6 @@ export default class LoginOrRegisterModal extends React.Component {
     const { isActive, handleCancel } = this.props;
 
     const redirectedFromUrl = `${window.location.pathname || '/'}`;
-
     return isActive ? (
       <div className="modal is-active">
         <div onClick={handleCancel} className="modal-background" />

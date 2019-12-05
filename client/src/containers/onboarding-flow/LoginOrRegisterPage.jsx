@@ -14,8 +14,8 @@ export class LoginOrRegisterPage extends React.Component {
 
     this.state = {
       showRegistrationForm: false,
-      isLoggedIn: props.isLoggedIn || false,
-      redirectedFromUrl: props.redirectedFromUrl || '/',
+      isLoggedIn: (props.location.state && props.location.state.isLoggedIn) || false,
+      redirectedFromUrl: (props.location.state && props.location.state.redirectedFromUrl) || '/',
     };
   }
 
@@ -26,23 +26,27 @@ export class LoginOrRegisterPage extends React.Component {
     this.setState({ showRegistrationForm: false });
   };
 
-  componentDidUpdate(prevProps){
-    debugger
-    if(this.props.isLoggedIn){
+  componentDidUpdate() {
+    if (this.props.isLoggedIn) {
       return switchRoute(ROUTES.CLIENT.HOME);
     }
-
   }
+
+  componentDidMount() {
+    if (this.props.isLoggedIn) {
+      return switchRoute(ROUTES.CLIENT.HOME);
+    }
+  }
+
   render() {
-    const { registerNewUser, bidOrBooLogin } = this.props;
+    const { registerNewUser, bidOrBooLogin, isLoggedIn: storeIsLoggedIn } = this.props;
     const { showRegistrationForm, redirectedFromUrl, isLoggedIn } = this.state;
 
     const googleAuthPath = `${ROUTES.API.AUTH.GOOGLE}/?originPath=${redirectedFromUrl}`;
     const facebookAuthPath = `${ROUTES.API.AUTH.FACEBOOK}/?originPath=${redirectedFromUrl}`;
 
-    if (isLoggedIn) {
+    if (isLoggedIn || storeIsLoggedIn) {
       // your logged in, why are you here?
-
       return switchRoute(ROUTES.CLIENT.HOME);
     }
 
@@ -196,7 +200,6 @@ export class LoginOrRegisterPage extends React.Component {
 const mapStateToProps = ({ userReducer, uiReducer }) => {
   return {
     isLoggedIn: userReducer.isLoggedIn,
-
   };
 };
 const mapDispatchToProps = (dispatch) => {

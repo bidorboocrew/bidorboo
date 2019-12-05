@@ -26,7 +26,7 @@ const EnhancedForms = withFormik({
   }),
   mapPropsToValues: (props) => {
     return {
-      originPath: props.originPath,
+      originPath: props.redirectedFromUrl || '/',
       recaptchaField: process.env.NODE_ENV === 'production' ? '' : 'development_test',
     };
   },

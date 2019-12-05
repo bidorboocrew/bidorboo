@@ -43,7 +43,6 @@ export const submitBid = ({ bidAmount, job, recaptchaField }) => (dispatch) => {
   //update store with the job details
 
   const { _id: jobId, templateId } = job;
-debugger
   dispatch({
     type: A.BIDDER_ACTIONS.POST_A_BID,
     payload: axios
