@@ -180,28 +180,17 @@ export const bidOrBooLogin = (userData) => (dispatch) =>
         ...userData,
       })
       .then((resp) => {
-        if (resp.data && resp.data.userId) {
+        if (resp.data && resp.data.user && resp.data.user.userId) {
           dispatch({
             type: A.USER_MODEL_ACTIONS.SET_CURRENT_USER_DETAILS,
-            payload: resp.data,
+            payload: resp.data.user,
           });
           //update everyone that user is now logged in
           dispatch({
             type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
           });
-          // xxx stupid welcome notification
-          // dispatch({
-          //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-          //   payload: {
-          //     toastDetails: {
-          //       type: 'success',
-          //       msg: `Welcome to BidOrBoo ${resp.data.displayName || resp.data.email.emailAddress}`,
-          //     },
-          //   },
-          // });
-        } else {
-          //rediret user to sign up page
-          // switchRoute(ROUTES.CLIENT.HOME);
+          debugger;
+          switchRoute(resp.data.redirectUrl);
         }
       })
       .catch((error) => {
@@ -217,10 +206,10 @@ export const registerNewUser = (userData) => (dispatch) =>
         ...userData,
       })
       .then((resp) => {
-        if (resp.data && resp.data.userId) {
+        if (resp.data && resp.data.user && resp.data.user.userId) {
           dispatch({
             type: A.USER_MODEL_ACTIONS.SET_CURRENT_USER_DETAILS,
-            payload: resp.data,
+            payload: resp.data.user,
           });
           //update everyone that user is now logged in
           dispatch({
@@ -230,7 +219,7 @@ export const registerNewUser = (userData) => (dispatch) =>
             resp.data.membershipStatus === 'NEW_MEMBER' &&
             window.location.pathname !== ROUTES.CLIENT.TOS
           ) {
-            switchRoute(ROUTES.CLIENT.ONBOARDING, { redirectUrl: window.location.pathname });
+            switchRoute(ROUTES.CLIENT.ONBOARDING, { redirectUrl: resp.data.redirectUrl });
           }
         }
       })

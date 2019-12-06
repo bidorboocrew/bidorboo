@@ -26,17 +26,17 @@ export class LoginOrRegisterPage extends React.Component {
     this.setState({ showRegistrationForm: false });
   };
 
-  componentDidUpdate() {
-    if (this.props.isLoggedIn) {
-      return switchRoute(ROUTES.CLIENT.HOME);
-    }
-  }
+  // componentDidUpdate() {
+  //   if (this.props.isLoggedIn) {
+  //     return switchRoute(ROUTES.CLIENT.HOME);
+  //   }
+  // }
 
-  componentDidMount() {
-    if (this.props.isLoggedIn) {
-      return switchRoute(ROUTES.CLIENT.HOME);
-    }
-  }
+  // componentDidMount() {
+  //   if (this.props.isLoggedIn) {
+  //     return switchRoute(ROUTES.CLIENT.HOME);
+  //   }
+  // }
 
   render() {
     const { registerNewUser, bidOrBooLogin, isLoggedIn: storeIsLoggedIn } = this.props;
@@ -47,7 +47,29 @@ export class LoginOrRegisterPage extends React.Component {
 
     if (isLoggedIn || storeIsLoggedIn) {
       // your logged in, why are you here?
-      return switchRoute(ROUTES.CLIENT.HOME);
+
+      return (
+        <section className="hero is-fullheight">
+          <div className="hero-body">
+            <div className="container">
+              <div className="subtitle has-text-info has-font-weight-bold">
+                You are logged in already!
+              </div>
+
+              <a
+                onClick={(e) => {
+                  switchRoute(ROUTES.CLIENT.HOME);
+                  // xxxx update without reload
+                  window.location.reload();
+                }}
+                className="button is-success is-medium"
+              >
+                Go to Home Page
+              </a>
+            </div>
+          </div>
+        </section>
+      );
     }
 
     return (
@@ -128,7 +150,7 @@ export class LoginOrRegisterPage extends React.Component {
                         </div>
                         <div style={{ marginLeft: 24 }}>
                           <LocalLoginForm
-                            originPath={redirectedFromUrl}
+                            redirectedFromUrl={redirectedFromUrl}
                             onSubmit={(vals) => {
                               bidOrBooLogin(vals);
                             }}
@@ -181,7 +203,7 @@ export class LoginOrRegisterPage extends React.Component {
                         </div>
                         <div style={{ marginLeft: 24 }} className="has-text-left">
                           <RegistrationForm
-                            originPath={redirectedFromUrl}
+                            redirectedFromUrl={redirectedFromUrl}
                             onSubmit={registerNewUser}
                           />
                         </div>

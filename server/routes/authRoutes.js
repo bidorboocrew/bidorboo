@@ -1,6 +1,9 @@
 const passport = require('passport');
 const ROUTES = require('../backend-route-constants');
 const requirePassesRecaptcha = require('../middleware/requirePassesRecaptcha');
+
+const CLIENT_URL_BASE =
+  process.env.NODE_ENV === 'production' ? 'https://www.bidorboo.ca/' : 'localhost:3000/';
 module.exports = (app) => {
   //google routes
   app.get(ROUTES.API.AUTH.GOOGLE, (req, res, next) => {
@@ -85,7 +88,9 @@ module.exports = (app) => {
       })(req, res, next);
     },
     (req, res) => {
-      return res.send(req.user);
+      const redirectUrl = req.body.originPath ? req.body.originPath : '/';
+
+      return res.send({ user: req.user, redirectUrl });
     }
   );
 
@@ -117,7 +122,9 @@ module.exports = (app) => {
       })(req, res, next);
     },
     async (req, res, done) => {
-      return res.send(req.user);
+      const redirectUrl = req.body.originPath ? req.body.originPath : '/';
+
+      return res.send({ user: req.user, redirectUrl });
     }
   );
 };

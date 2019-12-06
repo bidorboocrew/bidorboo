@@ -41,17 +41,3 @@ export default class LoginOrRegisterModal extends React.Component {
     ) : null;
   }
 }
-
-// const mapStateToProps = ({ userReducer, uiReducer }) => {
-//   return {
-//     isLoggedIn: userReducer.isLoggedIn,
-//   };
-// };
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     bidOrBooLogin: bindActionCreators(bidOrBooLogin, dispatch),
-//     registerNewUser: bindActionCreators(registerNewUser, dispatch),
-//   };
-// };
-
-// export default connect(mapStateToProps, mapDispatchToProps)(LoginOrRegisterModal);

@@ -52,6 +52,7 @@ class Header extends React.Component {
   componentDidMount() {
     this.modalRootNode = document.querySelector('#bidorboo-root-modals');
   }
+
   closeMenuThenExecute = (func) => {
     this.setState(
       { isHamburgerOpen: false, isProfileMenuActive: false, isNotificationMenuActive: false },
@@ -172,7 +173,7 @@ class Header extends React.Component {
         className={`navbar is-fixed-top ${isActingAsBidder ? 'bidderAppBar' : ''}  `}
       >
         <LoginOrRegisterModal
-          isActive={shouldShowLoginDialog}
+          isActive={shouldShowLoginDialog && !isOnLoginPage}
           handleCancel={this.toggleLoginDialog}
         />
         <div style={{ flexGrow: 1, cursor: 'pointer' }} className="navbar-brand">
