@@ -15,8 +15,10 @@ import {
   SummaryStartDateAndTime,
   TaskImagesCarousel,
   UserGivenTitle,
+  TaskerWillEarn,
 } from '../../containers/commonComponents';
 import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
+import { getChargeDistributionDetails } from '../../containers/commonUtils';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
@@ -53,6 +55,7 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
         }
       }
     }
+    const { taskerPayoutInCaseOfPartialRefund } = getChargeDistributionDetails(bidValue);
 
     return (
       <React.Fragment>
@@ -72,6 +75,8 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
+              <TaskerWillEarn earningAmount={taskerPayoutInCaseOfPartialRefund}></TaskerWillEarn>
+
               <CancelledBy name="Requester" />
             </div>
           </div>

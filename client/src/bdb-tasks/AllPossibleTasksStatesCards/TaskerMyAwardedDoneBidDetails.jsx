@@ -110,6 +110,7 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
+              <TaskerWillEarn earningAmount={taskerTotalPayoutAmount} />
 
               {!requiresBidderReview && <ArchiveTask />}
 
@@ -118,7 +119,6 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
                   <BidAmount bidAmount={bidValue} />
-                  <TaskerWillEarn earningAmount={taskerTotalPayoutAmount} />
                   <div className="group">
                     <label className="label hasSelectedValue">Task Address</label>
                     <div className="control">{addressText}</div>
@@ -209,10 +209,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(TaskerMyAwardedDoneBidDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(TaskerMyAwardedDoneBidDetails);
 
 class RequesterDetails extends React.Component {
   render() {

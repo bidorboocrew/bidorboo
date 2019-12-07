@@ -61,7 +61,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
       _reviewRef,
     } = job;
     // const { requiresBidderReview } = _reviewRef;
-
+    debugger;
     if (
       !startingDateAndTime ||
       !addressText ||
@@ -242,6 +242,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
+              <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
 
               {bidderConfirmed && !proposerConfirmed && <BSWaitingOnRequesterToConfirm />}
 
@@ -250,7 +251,6 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
                   <BidAmount bidAmount={bidValue} />
-                  <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
                   <div className="group">
                     <label className="label hasSelectedValue">Task Address</label>
                     <div className="control">{addressText}</div>
@@ -292,44 +292,36 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
           </div>
         </div>
 
-        <RequesterDetails
-          otherUserProfileInfo={_ownerRef}
-          renderActionButton={() => (
-            <>
-              {_reviewRef && bidderConfirmed && _reviewRef.requiresBidderReview && (
-                <a
-                  onClick={() => {
-                    switchRoute(ROUTES.CLIENT.REVIEW.getBidderJobReview({ jobId }));
-                  }}
-                  className={`button  is-success`}
-                >
-                  <span className="icon">
-                    <i className="fas fa-user-check" />
-                  </span>
-                  <span>Review Requester & Task</span>
-                </a>
-              )}
-              {_reviewRef && bidderConfirmed && !_reviewRef.requiresBidderReview && (
-                <>
-                  <p>Waiting on requester to confirm that you've completed this task</p>
-                  <div className="help">We are working on getting this done asap</div>
-                </>
-              )}
-              {!proposerConfirmed && !bidderConfirmed && (
-                <TaskerConfirmsCompletion {...this.props} />
-              )}
-              <br></br>
-              <br></br>
-            </>
-          )}
-          renderAddToCalendar={() => {
-            return (
-              !isPastDue && (
-                <AddAwardedJobToCalendarForTasker job={job} extraClassName={'is-small'} />
-              )
-            );
-          }}
-        />
+        {!proposerConfirmed && !bidderConfirmed && (
+          <ContactTheRequester
+            otherUserProfileInfo={_ownerRef}
+            renderActionButton={() => <TaskerConfirmsCompletion {...this.props} />}
+          />
+        )}
+        {bidderConfirmed && (!_reviewRef || _reviewRef.requiresBidderReview) && (
+          <ReviewTheRequester
+            otherUserProfileInfo={_ownerRef}
+            renderActionButton={() => (
+              <a
+                onClick={() => {
+                  switchRoute(ROUTES.CLIENT.REVIEW.getBidderJobReview({ jobId }));
+                }}
+                className={`button  is-success`}
+              >
+                <span className="icon">
+                  <i className="fas fa-user-check" />
+                </span>
+                <span>Review The Requester</span>
+              </a>
+            )}
+          />
+        )}
+        {bidderConfirmed && _reviewRef && !_reviewRef.requiresBidderReview && (
+          <ReviewTheRequester
+            otherUserProfileInfo={_ownerRef}
+            renderActionButton={() => <p>You have submitted your review.</p>}
+          />
+        )}
       </React.Fragment>
     );
   }
@@ -353,10 +345,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(TaskerMyAwardedBidDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(TaskerMyAwardedBidDetails);
 
 class TaskerConfirmsCompletion extends React.Component {
   constructor(props) {
@@ -623,7 +612,7 @@ class TaskerDisputes extends React.Component {
   }
 }
 
-class RequesterDetails extends React.Component {
+class ContactTheRequester extends React.Component {
   render() {
     const { otherUserProfileInfo, renderAddToCalendar, renderActionButton } = this.props;
 
@@ -657,7 +646,9 @@ class RequesterDetails extends React.Component {
                 </li>
               </ul>
             </div>
-            <p>Get in touch to finalize exact details like location to meet, date and time, etc</p>
+            <p className="has-text-centered">
+              Get in touch to finalize exact details like location to meet, date and time, etc
+            </p>
             <div style={{ textAlign: 'center' }}>
               <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large isCentered />
 
@@ -713,6 +704,58 @@ class RequesterDetails extends React.Component {
             </ul>
           </div>
           <div style={{ textAlign: 'center' }}>{renderActionButton && renderActionButton()}</div>
+        </div>
+      </div>
+    );
+  }
+}
+
+class ReviewTheRequester extends React.Component {
+  render() {
+    const { otherUserProfileInfo, renderAddToCalendar, renderActionButton } = this.props;
+
+    if (!otherUserProfileInfo) {
+      return null;
+    }
+
+    const emailAddress = otherUserProfileInfo.email && otherUserProfileInfo.email.emailAddress;
+    const phoneNumber = otherUserProfileInfo.phone && otherUserProfileInfo.phone.phoneNumber;
+    return (
+      <div
+        style={{
+          boxShadow: 'none',
+          borderLeft: '1px solid rgba(10,10,10,0.2)',
+          borderBottom: '1px solid rgba(10,10,10,0.2)',
+          borderRight: '1px solid rgba(10,10,10,0.2)',
+        }}
+        className="card cardWithButton nofixedwidth"
+      >
+        <div style={{ paddingTop: 0 }} className="card-content">
+          <div className="content has-text-left">
+            <div style={{ background: 'transparent' }} className="tabs is-centered">
+              <ul style={{ marginLeft: 0 }}>
+                <li className="is-active">
+                  <a>
+                    <span className="icon">
+                      <i className="far fa-handshake"></i>
+                    </span>
+                    <span>Review The Requester</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <p className="has-text-centered">
+              We've reached out to the requester to confirm task completion.
+            </p>
+            <div style={{ textAlign: 'center' }}>
+              <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large isCentered />
+
+              <div style={{ textAlign: 'center' }}>
+                {renderActionButton && renderActionButton()}
+              </div>
+            </div>
+            <br />
+          </div>
         </div>
       </div>
     );

@@ -214,7 +214,7 @@ class BidderRootPage extends React.Component {
         <TaskerVerificationBanner></TaskerVerificationBanner>
 
         <div>
-          <section className="hero is-small is-dark">
+          <section className="hero is-small is-dark is-bold">
             <div className="hero-body">
               <div className="container">
                 <h1

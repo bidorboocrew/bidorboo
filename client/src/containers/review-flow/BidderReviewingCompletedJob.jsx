@@ -73,9 +73,7 @@ export class BidderReviewingCompletedJob extends React.Component {
       cleanPerosnalComment.length < 10 ||
       cleanPerosnalComment.length > 100
     ) {
-      alert(
-        'please add a personal comment with at least 10 characters and no more than 100 chars',
-      );
+      alert('please add a personal comment with at least 10 characters and no more than 100 chars');
     } else {
       // SUBMIT REVIEW
       axios
@@ -187,7 +185,7 @@ export class BidderReviewingCompletedJob extends React.Component {
             onChange={this.personalCommentOnChange}
             placeholder="The Requester was accurate in describing their job and very friendly...etc"
           />
-          <div className="help">* note this will be visible to all users</div>
+          <div className="help">*Please use polite respectful language.</div>
         </div>
       );
     };
@@ -221,11 +219,8 @@ export class BidderReviewingCompletedJob extends React.Component {
             remind me later
           </button>
           <div className="help">
-            Your review will be revealed Only After <strong>Both of you have completed</strong>
-            rating eachother.
-          </div>
-          <div className="help">
-            Reviews will be available in your History Tab under your profile
+            Your review will not be displayed until both of you have completed submitting your
+            reviews
           </div>
         </div>
       </div>
@@ -233,7 +228,4 @@ export class BidderReviewingCompletedJob extends React.Component {
   }
 }
 
-export default connect(
-  null,
-  null,
-)(BidderReviewingCompletedJob);
+export default connect(null, null)(BidderReviewingCompletedJob);

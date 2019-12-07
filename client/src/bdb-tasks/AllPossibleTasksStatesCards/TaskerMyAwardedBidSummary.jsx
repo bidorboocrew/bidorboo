@@ -13,10 +13,13 @@ import {
   SummaryStartDateAndTime,
   BSTaskerAwarded,
   JobCardTitle,
-  BSWaitingOnRequesterToConfirm,
   TaskImagesCarousel,
   UserGivenTitle,
+  TaskerWillEarn,
+  BSWaitingOnRequesterToConfirm,
 } from '../../containers/commonComponents';
+import { getChargeDistributionDetails } from '../../containers/commonUtils';
+
 import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -61,6 +64,8 @@ class TaskerMyAwardedBidSummary extends React.Component {
     }
 
     const { proposerConfirmed, bidderConfirmed } = jobCompletion;
+    const { value: bidValue, currency: bidCurrency } = bidAmount;
+    const { taskerTotalPayoutAmount } = getChargeDistributionDetails(bidValue);
 
     return (
       <React.Fragment>
@@ -80,6 +85,7 @@ class TaskerMyAwardedBidSummary extends React.Component {
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
+              <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
 
               {bidderConfirmed && !proposerConfirmed && <BSWaitingOnRequesterToConfirm />}
 
@@ -111,10 +117,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(TaskerMyAwardedBidSummary);
+export default connect(mapStateToProps, mapDispatchToProps)(TaskerMyAwardedBidSummary);
 
 const renderFooter = ({ bid, notificationFeed, updateBidState }) => {
   let newUnseenState = false;

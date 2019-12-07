@@ -15,8 +15,10 @@ import {
   ArchiveTask,
   TaskImagesCarousel,
   UserGivenTitle,
+  TaskerWillEarn,
 } from '../../containers/commonComponents';
 import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
+import { getChargeDistributionDetails } from '../../containers/commonUtils';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
@@ -60,6 +62,8 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
     }
 
     const { revealToBoth, requiresProposerReview, requiresBidderReview } = _reviewRef;
+    const { value: bidValue, currency: bidCurrency } = bidAmount;
+    const { taskerTotalPayoutAmount } = getChargeDistributionDetails(bidValue);
 
     return (
       <div className={`card has-text-centered cardWithButton`}>
@@ -75,6 +79,7 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
                 <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
               )}
             />
+            <TaskerWillEarn earningAmount={taskerTotalPayoutAmount} />
 
             {!requiresBidderReview && <ArchiveTask />}
 
@@ -131,7 +136,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(TaskerMyAwardedDoneBidSummary);
+export default connect(mapStateToProps, mapDispatchToProps)(TaskerMyAwardedDoneBidSummary);

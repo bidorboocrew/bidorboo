@@ -57,7 +57,7 @@ class MyBidsPage extends React.Component {
       <div>
         <TaskerVerificationBanner></TaskerVerificationBanner>
 
-        <section className="hero is-dark">
+        <section className="hero is-dark is-bold">
           <div className="hero-body  has-text-centered">
             <div className="container">
               <h1 style={{ marginBottom: 0 }} className="has-text-white title">

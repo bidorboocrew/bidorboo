@@ -14,6 +14,7 @@ import {
   CancelledBy,
   TaskImagesCarousel,
   UserGivenTitle,
+  TaskerWillEarn,
 } from '../../containers/commonComponents';
 import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 import { getChargeDistributionDetails } from '../../containers/commonUtils';
@@ -63,6 +64,8 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
                 <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
               )}
             />
+            <TaskerWillEarn earningAmount={taskerPayoutInCaseOfPartialRefund}></TaskerWillEarn>
+
             <CancelledBy name="Requester" />
             <div className="group has-text-left">
               <label className="label has-text-danger">What you need to know:</label>

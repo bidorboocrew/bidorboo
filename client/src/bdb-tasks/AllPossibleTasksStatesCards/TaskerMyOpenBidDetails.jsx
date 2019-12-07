@@ -230,6 +230,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
+              <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
 
               {isAwardedToSomeoneElse && <BSAwardedToSomeoneElse />}
 
@@ -243,7 +244,6 @@ export default class TaskerMyOpenBidDetails extends React.Component {
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
                   <BidAmount bidAmount={bidValue}></BidAmount>
-                  <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
                   <div className="group">
                     <label className="label hasSelectedValue">Requester</label>
                     <CenteredUserImageAndRating userDetails={_ownerRef} isCentered={false} />

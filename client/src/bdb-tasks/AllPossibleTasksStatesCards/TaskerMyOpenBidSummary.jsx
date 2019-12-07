@@ -16,7 +16,9 @@ import {
   BSAwardedToSomeoneElse,
   TaskImagesCarousel,
   UserGivenTitle,
+  TaskerWillEarn,
 } from '../../containers/commonComponents';
+import { getChargeDistributionDetails } from '../../containers/commonUtils';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import { REQUEST_STATES } from '../index';
@@ -58,6 +60,8 @@ class TaskerMyOpenBidSummary extends React.Component {
 
     const isAwardedToSomeoneElse =
       state === REQUEST_STATES.AWARDED && bid._id !== job._awardedBidRef;
+    const { value: bidValue, currency: bidCurrency } = bidAmount;
+    const { taskerTotalPayoutAmount } = getChargeDistributionDetails(bidValue);
 
     return (
       <div className={`card has-text-centered cardWithButton`}>
@@ -74,6 +78,7 @@ class TaskerMyOpenBidSummary extends React.Component {
                 <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
               )}
             />
+            <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
 
             {isAwardedToSomeoneElse && <BSAwardedToSomeoneElse />}
 
@@ -108,10 +113,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(TaskerMyOpenBidSummary);
+export default connect(mapStateToProps, mapDispatchToProps)(TaskerMyOpenBidSummary);
 
 const renderFooter = ({ bid, isPastDue, isAwardedToSomeoneElse }) => {
   if (isAwardedToSomeoneElse) {

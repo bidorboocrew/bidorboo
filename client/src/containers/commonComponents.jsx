@@ -1094,7 +1094,7 @@ export const TaskCost = ({ cost, renderHelp }) => {
 export const TaskerWillEarn = ({ earningAmount, renderHelp }) => {
   return (
     <div className="group">
-      <label className="label hasSelectedValue">You will earn</label>
+      <label className="label hasSelectedValue">Expected Earnings</label>
       <div className="control">${earningAmount}</div>
       {renderHelp && renderHelp()}
     </div>

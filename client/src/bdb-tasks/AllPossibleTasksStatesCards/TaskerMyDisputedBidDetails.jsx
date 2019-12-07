@@ -11,7 +11,9 @@ import {
   TaskImagesCarousel,
   UserGivenTitle,
   DisputedBy,
+  TaskerWillEarn,
 } from '../../containers/commonComponents';
+import { getChargeDistributionDetails } from '../../containers/commonUtils';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
@@ -78,6 +80,7 @@ export default class TaskerMyDisputedBidDetails extends React.Component {
     } else {
       whoDisputed = 'You';
     }
+    const { taskerTotalPayoutAmount } = getChargeDistributionDetails(bidValue);
 
     return (
       <div className="card has-text-centered disputeOnlyView cardWithButton nofixedwidth">
@@ -89,6 +92,8 @@ export default class TaskerMyDisputedBidDetails extends React.Component {
             <TaskImagesCarousel taskImages={taskImages} />
 
             <SummaryStartDateAndTime date={startingDateAndTime} />
+            <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
+
             <DisputedBy name={whoDisputed} />
 
             <div className="group has-text-left">
