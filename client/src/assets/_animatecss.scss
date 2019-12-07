@@ -233,13 +233,11 @@ ol.progtrckr li span {
     -webkit-transform: translateX(70px);
     transform: translateX(70px);
     opacity: 0;
-    overflow: hidden;
   }
   100% {
     -webkit-transform: translateX(0);
     transform: translateX(0);
     opacity: 1;
-    overflow: auto;
   }
 }
 @keyframes slide-in-right {
@@ -247,13 +245,11 @@ ol.progtrckr li span {
     -webkit-transform: translateX(70px);
     transform: translateX(70px);
     opacity: 0;
-    overflow: hidden;
   }
   100% {
     -webkit-transform: translateX(0);
     transform: translateX(0);
     opacity: 1;
-    overflow: auto;
   }
 }
 
