@@ -16,8 +16,6 @@ export const POINT_OF_VIEW = {
   TASKER: 'TASKER',
 };
 
-export const BIDORBOO_SERVICECHARGE_FOR_REQUESTER = 0.06;
-
 export const getDaysSinceCreated = (createdAt) => {
   let daysSinceCreated = '';
   try {

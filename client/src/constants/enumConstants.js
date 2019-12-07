@@ -21,4 +21,3 @@ export const USER_MEMBERSHIP_TO_DISPLAY = {
   PLATINUM_MEMBER: 'Platinum User',
 };
 
-export const BIDORBOO_SERVICECHARGE_FOR_REQUESTER = 0.06;
