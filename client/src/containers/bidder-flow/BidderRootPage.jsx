@@ -27,9 +27,9 @@ class BidderRootPage extends React.Component {
     super(props);
 
     this.state = {
-      showMapView: false,
+      showMapView: true,
       isThereAnActiveSearch: false,
-      mapZoomLevel: 6,
+      mapZoomLevel: 10,
       mapCenterPoint: {
         lng: -75.801867,
         lat: 45.296898,
@@ -175,7 +175,7 @@ class BidderRootPage extends React.Component {
   zoomAndCenterAroundMarker = (latLngNewCenter, callback) => {
     this.setState(
       () => {
-        return { mapCenterPoint: { ...latLngNewCenter }, mapZoomLevel: 4 };
+        return { mapCenterPoint: { ...latLngNewCenter }, mapZoomLevel: 10 };
       },
       () => {
         callback && callback();

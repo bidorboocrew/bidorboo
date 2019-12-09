@@ -105,7 +105,7 @@ class App extends React.Component {
           <section className="hero is-fullheight">
             <div className="hero-body">
               <div className="container">
-                <h1 className="title has-text-info">Boo for us! we've encountered an error</h1>
+                <h1 className="title has-text-info">Sorry! We've encountered an error</h1>
                 <br />
                 <h1 className="sub-title">
                   Apologies for the inconvenience, We will track the issue and fix it asap.
@@ -115,7 +115,6 @@ class App extends React.Component {
                   onClick={(e) => {
                     switchRoute(ROUTES.CLIENT.HOME);
                     // xxxx update without reload
-                    window.location.reload();
                   }}
                   className="button is-success is-medium"
                 >
@@ -278,40 +277,45 @@ class App extends React.Component {
                 </div>
               </div>
             </nav>
-            <div className="help has-text-light">
-              {`To get in touch via email:`}
-              <a className="has-text-link is-size-7" href={`mailto:bidorboo@bidorboo.ca`}>
-                <span className="icon">
-                  <i className="far fa-envelope" />
-                </span>
-                <span>bidorboo@bidorboo.ca</span>
-              </a>
-            </div>
-            <div className="help has-text-light">
-              <a className="is-size-7 has-text-link" onClick={() => switchRoute(ROUTES.CLIENT.TOS)}>
-                {`BidOrBoo Service Terms | Privacy`}
-              </a>
-              {' and '}
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://stripe.com/connect-account/legal"
-                className="is-size-7 has-text-link"
-              >
-                {`Stripe Terms of use`}
-              </a>
-            </div>
-            <div className="help has-text-light">
-              {`This site is protected by reCAPTCHA and the Google `}
-              <a className="is-size-7 has-text-link" href="https://policies.google.com/privacy">
-                Privacy Policy
-              </a>
-              {` and `}
-              <a className="is-size-7 has-text-link" href="https://policies.google.com/terms">
-                Terms of Service
-              </a>
-              {` apply.`}
-            </div>
+            <nav className="container">
+              <div className="help has-text-light">
+                {`To get in touch via email:`}
+                <a className="has-text-link is-size-7" href={`mailto:bidorboo@bidorboo.ca`}>
+                  <span className="icon">
+                    <i className="far fa-envelope" />
+                  </span>
+                  <span>bidorboo@bidorboo.ca</span>
+                </a>
+              </div>
+              <div className="help has-text-light">
+                <a
+                  className="is-size-7 has-text-link"
+                  onClick={() => switchRoute(ROUTES.CLIENT.TOS)}
+                >
+                  {`BidOrBoo Service Terms | Privacy`}
+                </a>
+                {' and '}
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://stripe.com/connect-account/legal"
+                  className="is-size-7 has-text-link"
+                >
+                  {`Stripe Terms of use`}
+                </a>
+              </div>
+              <div className="help has-text-light">
+                {`This site is protected by reCAPTCHA and the Google `}
+                <a className="is-size-7 has-text-link" href="https://policies.google.com/privacy">
+                  Privacy Policy
+                </a>
+                {` and `}
+                <a className="is-size-7 has-text-link" href="https://policies.google.com/terms">
+                  Terms of Service
+                </a>
+                {` apply.`}
+              </div>
+            </nav>
           </footer>
         )}
       </div>

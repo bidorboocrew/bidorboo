@@ -189,7 +189,6 @@ export const bidOrBooLogin = (userData) => (dispatch) =>
           dispatch({
             type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
           });
-          debugger;
           switchRoute(resp.data.redirectUrl);
         }
       })

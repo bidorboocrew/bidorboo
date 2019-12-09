@@ -60,7 +60,6 @@ export class LoginOrRegisterPage extends React.Component {
                 onClick={(e) => {
                   switchRoute(ROUTES.CLIENT.HOME);
                   // xxxx update without reload
-                  window.location.reload();
                 }}
                 className="button is-success is-medium"
               >

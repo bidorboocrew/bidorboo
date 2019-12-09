@@ -61,7 +61,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
       _reviewRef,
     } = job;
     // const { requiresBidderReview } = _reviewRef;
-    debugger;
+
     if (
       !startingDateAndTime ||
       !addressText ||

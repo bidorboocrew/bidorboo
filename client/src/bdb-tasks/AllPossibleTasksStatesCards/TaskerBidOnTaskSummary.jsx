@@ -136,12 +136,11 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                               markerRef.current.props.onClick();
                             }
                           }}
-                          className="button is-info secondButtonInCard "
+                          className="button is-light is-info secondButtonInCard "
                         >
                           <span className="icon">
                             <i className="fas fa-map-marked-alt" />
                           </span>
-                          <span>Locate</span>
                         </a>
                       )}
                     </div>
@@ -172,12 +171,11 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                               markerRef.current.props.onClick();
                             }
                           }}
-                          className="button is-info secondButtonInCard "
+                          className="button is-light is-info secondButtonInCard "
                         >
                           <span className="icon">
                             <i className="fas fa-map-marked-alt" />
                           </span>
-                          <span>Locate</span>
                         </a>
                       )}
                     </div>

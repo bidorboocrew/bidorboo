@@ -74,6 +74,7 @@ export const TextInput = ({
   touched,
   setFocusImmediately,
   placeholder,
+  suggestButton,
   ...props
 }) => {
   let inputClassName = className || 'input';
@@ -95,6 +96,7 @@ export const TextInput = ({
   return (
     <div className={`group ${touched && id && touched[id] && error ? 'isError' : ''}`}>
       <label className={labelClass}>{label}</label>
+
       <div>
         <input
           autoFocus={setFocusImmediately}
@@ -108,6 +110,7 @@ export const TextInput = ({
         />
       </div>
       <HelpText helpText={helpText} />
+      {suggestButton && suggestButton}
       {error && <InputFeedback error={error} />}
     </div>
   );

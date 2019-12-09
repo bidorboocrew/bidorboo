@@ -37,7 +37,8 @@ class TheMap extends React.Component {
           disableDefaultUI: true,
           streetViewControl: false,
         }}
-        zoom={10}
+        defaultZoom={mapZoomLevel}
+        zoom={mapZoomLevel}
         center={mapCenterPoint}
       >
         <Cluster {...this.props} />
@@ -93,6 +94,7 @@ class Cluster extends React.Component {
 
     if (jobsList && jobsList.length > 0) {
       const jobsMarkersOnTheMap = jobsList.map((job) => (
+
         <JobMarker
           showInfoBox={this.showInfoBox}
           closeInfoBox={this.closeInfoBox}
@@ -104,16 +106,16 @@ class Cluster extends React.Component {
           showLoginDialog={showLoginDialog}
         />
       ));
-      return (
-        <MarkerClusterer
-          defaultMinimumClusterSize={10}
-          averageCenter
-          enableRetinaIcons
-          gridSize={100}
-        >
-          {jobsMarkersOnTheMap}
-        </MarkerClusterer>
-      );
+      return <>{ jobsMarkersOnTheMap }</>;
+      //   <MarkerClusterer
+      //     defaultMinimumClusterSize={10}
+      //     averageCenter
+      //     enableRetinaIcons
+      //     gridSize={60}
+      //   >
+      //     {jobsMarkersOnTheMap}
+      //   </MarkerClusterer>
+      // );
     }
     return null;
   }
@@ -125,7 +127,7 @@ class JobMarker extends React.Component {
     this.state = { showInfoBox: false };
   }
   toggleShowInfoBox = () => {
-    const { job, showInfoBoxForJobId, showInfoBox, closeInfoBox, reactMapClusterRef } = this.props;
+    const { job, showInfoBoxForJobId, showInfoBox, closeInfoBox } = this.props;
     if (showInfoBoxForJobId === job._id) {
       closeInfoBox();
     } else {
@@ -150,6 +152,7 @@ class JobMarker extends React.Component {
       job.location.coordinates &&
       job.location.coordinates.length === 2
     ) {
+      console.log(job.location.coordinates)
       const shouldShowInfoBox = showInfoBoxForJobId === job._id;
       return (
         <Marker

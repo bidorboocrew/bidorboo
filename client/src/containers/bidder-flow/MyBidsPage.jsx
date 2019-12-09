@@ -10,47 +10,75 @@ import { Spinner } from '../../components/Spinner';
 import TaskerVerificationBanner from './TaskerVerificationBanner.jsx';
 import { allMyPostedBids } from '../../app-state/actions/bidsActions';
 import { updateBidState, deleteOpenBid, updateBid } from '../../app-state/actions/bidsActions';
-
+import { BID_STATES } from '../../bdb-tasks/index';
 import { getMeTheRightBidCard } from '../../bdb-tasks/getMeTheRightCard';
-
+const MY_BIDS_TABS = {
+  activeBids: 'activeBids',
+  pastBids: 'pastBids',
+};
 class MyBidsPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedTab: MY_BIDS_TABS.activeBids,
+    };
+  }
   componentDidMount() {
     // get all posted bids
     this.props.allMyPostedBids();
   }
+  // OPEN: 'OPEN',
+  // AWARDED: 'AWARDED',
+  // AWARDED_SEEN: 'AWARDED_SEEN',
+  // AWARDED_BID_CANCELED_BY_TASKER: 'AWARDED_BID_CANCELED_BY_TASKER',
+  // DISPUTED: 'DISPUTED',
+  // AWARDED_BID_CANCELED_BY_REQUESTER: 'AWARDED_BID_CANCELED_BY_REQUESTER',
+  // AWARDED_BID_CANCELED_BY_REQUESTER_SEEN: 'AWARDED_BID_CANCELED_BY_REQUESTER_SEEN',
+  // DONE: 'DONE',
+  // PAYMENT_RELEASED: 'PAYMENT_RELEASED',
+  // PAYMENT_TO_BANK_FAILED: 'PAYMENT_TO_BANK_FAILED',
+  // ARCHIVE: 'ARCHIVE',
+  // DISPUTE_RESOLVED: 'DISPUTE_RESOLVED',
 
   render() {
-    const {
-      isLoading,
-      openBidsList,
-      deleteOpenBid,
-      updateBid,
-      userDetails,
-      isLoggedIn,
-    } = this.props;
-
+    const { isLoading, openBidsList, deleteOpenBid, updateBid } = this.props;
+    const { selectedTab } = this.state;
     const areThereAnyBidsToView = openBidsList && openBidsList.length > 0;
 
-    const didUserSetupABankAccount =
-      userDetails.stripeConnect && userDetails.stripeConnect.last4BankAcc;
-    const isBankVerified =
-      userDetails.stripeConnect &&
-      userDetails.stripeConnect.last4BankAcc &&
-      userDetails.stripeConnect.isVerified;
-
     let myBidsSummaryCards = areThereAnyBidsToView
-      ? openBidsList.map((bid) => {
-          return (
-            <div key={bid._id} className="column is-narrow isforCards slide-in-bottom-small">
-              {getMeTheRightBidCard({
-                bid: bid,
-                isSummaryView: true,
-                updateBid,
-                deleteOpenBid,
-              })}
-            </div>
-          );
-        })
+      ? openBidsList
+          .filter((bid) => {
+            if (selectedTab === MY_BIDS_TABS.pastBids) {
+              return [
+                BID_STATES.PAYMENT_RELEASED,
+                BID_STATES.ARCHIVE,
+                BID_STATES.DISPUTE_RESOLVED,
+                BID_STATES.AWARDED_BID_CANCELED_BY_REQUESTER_SEEN,
+                BID_STATES.AWARDED_BID_CANCELED_BY_TASKER,
+                BID_STATES.DONE,
+              ].includes(bid.state);
+            }
+            return [
+              BID_STATES.OPEN,
+              BID_STATES.AWARDED,
+              BID_STATES.AWARDED_SEEN,
+              BID_STATES.DISPUTED,
+              BID_STATES.AWARDED_BID_CANCELED_BY_REQUESTER,
+              BID_STATES.PAYMENT_TO_BANK_FAILED,
+            ].includes(bid.state);
+          })
+          .map((bid) => {
+            return (
+              <div key={bid._id} className="column is-narrow isforCards slide-in-bottom-small">
+                {getMeTheRightBidCard({
+                  bid: bid,
+                  isSummaryView: true,
+                  updateBid,
+                  deleteOpenBid,
+                })}
+              </div>
+            );
+          })
       : null;
 
     return (
@@ -69,7 +97,23 @@ class MyBidsPage extends React.Component {
         <Spinner renderLabel="getting your bids..." isLoading={isLoading} size={'large'} />
 
         {!isLoading && (
-          <div className="columns is-multiline is-centered is-mobile">{myBidsSummaryCards}</div>
+          <>
+            <div className="tabs is-centered is-fullwidth">
+              <ul>
+                <li className={`${selectedTab === MY_BIDS_TABS.activeBids ? 'is-active' : ''}`}>
+                  <a onClick={() => this.setState({ selectedTab: MY_BIDS_TABS.activeBids })}>
+                    Active Bids
+                  </a>
+                </li>
+                <li className={`${selectedTab === MY_BIDS_TABS.pastBids ? 'is-active' : ''}`}>
+                  <a onClick={() => this.setState({ selectedTab: MY_BIDS_TABS.pastBids })}>
+                    Past Bids
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div className="columns is-multiline is-centered is-mobile">{myBidsSummaryCards}</div>
+          </>
         )}
 
         {!isLoading && !areThereAnyBidsToView && <EmptyStateComponent />}

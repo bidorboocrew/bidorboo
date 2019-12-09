@@ -141,7 +141,7 @@ class GetNotificationsAndScroll extends React.Component {
           <section className="hero is-fullheight">
             <div className="hero-body">
               <div className="container">
-                <h1 className="title has-text-info">Boo for us! we've encountered an error</h1>
+                <h1 className="title has-text-info">Sorry! we've encountered an error</h1>
                 <br />
                 <h1 className="sub-title">
                   Apologies for the inconvenience, We will track the issue and fix it asap.
@@ -150,8 +150,6 @@ class GetNotificationsAndScroll extends React.Component {
                 <a
                   onClick={(e) => {
                     switchRoute(ROUTES.CLIENT.HOME);
-                    // xxxx update without reload
-                    window.location.reload();
                   }}
                   className="button is-success is-small"
                 >
