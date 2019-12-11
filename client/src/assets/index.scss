@@ -1029,3 +1029,16 @@ div.react-datepicker__input-container {
   height: 0;
   width: 0;
 }
+
+.player-wrapper {
+  position: relative;
+  // max-width: 60%;
+  // max-height: 80%;
+  padding-top: 56.25% /* Player ratio: 100 / (1280 / 720) */
+}
+
+.react-player {
+  position: absolute;
+  top: 0;
+  left: 0;
+}

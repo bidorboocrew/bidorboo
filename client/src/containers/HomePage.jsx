@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactPlayer from 'react-player';
 
 import * as ROUTES from '../constants/frontend-route-consts';
 import ProposerRoot from './proposer-flow/ProposerRootPage';
@@ -79,6 +80,20 @@ export default class HomePage extends React.Component {
               <h2 style={{ fontSize: 12 }} className="has-text-white">
                 Get your chores done for the right price. Earn money doing what you enjoy.
               </h2>
+              <div style={{ margin: 'auto', maxWidth: 800 }}>
+                <div className="player-wrapper ">
+                  <ReactPlayer
+                    className="react-player"
+                    url="https://youtu.be/YHh9JbJAyf0"
+                    width="100%"
+                    height="100%"
+                    youtubeConfig={{
+                      playerVars: { showinfo: 0, widget_referrer: 'https://www.bidorboo.ca' },
+                      preload: true,
+                    }}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -98,27 +113,27 @@ export default class HomePage extends React.Component {
             />
           </div>
         </div>
-        <div
+        {/* <div
           style={{
             width: '50%',
             margin: '3rem auto',
             display: 'block',
             borderBottom: '1px solid #ee2a36',
           }}
-        />
-        <div className="columns is-mobile is-multiline is-centered">
+        /> */}
+        {/* <div className="columns is-mobile is-multiline is-centered">
           <div style={{ maxWidth: '21rem', marginBottom: '1.5rem' }} className="column">
             <VideoExplanation />
           </div>
-        </div>
-        <div
+        </div> */}
+        {/* <div
           style={{
             width: '50%',
             margin: '3rem auto',
             display: 'block',
             borderBottom: '1px solid #ee2a36',
           }}
-        />
+        /> */}
         <ProposerRoot />
       </div>
     );
@@ -246,7 +261,15 @@ const VideoExplanation = () => {
       <div className="card-content">
         <div className="content has-text-centered">
           <div style={{ marginBottom: 0, color: '#ee2a36' }} className="title is-size-4">
-            See How It Works
+            <a
+              className="button is-text"
+              href="https://youtu.be/YHh9JbJAyf0"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+
+              See how it works
+            </a>
           </div>
         </div>
       </div>

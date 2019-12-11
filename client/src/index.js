@@ -22,7 +22,8 @@ import { registerPushNotification } from './registerPushNotification';
 window.BidorBoo = window.BidorBoo || {};
 
 if (process.env.NODE_ENV === 'production') {
-  const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_SECRET}`);
+  console.log('production add bugsnag');
+  const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_API_KEY}`);
   bugsnagClient.use(bugsnagReact, React);
   const ErrorBoundary = bugsnagClient.getPlugin('react');
   ReactDOM.render(
@@ -46,7 +47,7 @@ if (process.env.NODE_ENV === 'production') {
     })
     .catch(() => console.info('ServiceWorker was not added'));
 } else {
-ReactDOM.render(
+  ReactDOM.render(
     <Provider store={store}>
       <Router history={appHistory}>
         <GetNotificationsAndScroll>
