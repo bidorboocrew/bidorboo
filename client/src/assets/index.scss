@@ -1034,11 +1034,19 @@ div.react-datepicker__input-container {
   position: relative;
   // max-width: 60%;
   // max-height: 80%;
-  padding-top: 56.25% /* Player ratio: 100 / (1280 / 720) */
+  // border: 1px solid $red;
+  padding-top: 56.25%; /* Player ratio: 100 / (1280 / 720) */
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 .react-player {
   position: absolute;
   top: 0;
   left: 0;
+}
+.ytp-chrome-top-buttons,
+div.ytp-chrome-top-buttons {
+  display: none !important;
+  height: 0 !important;
+  width: 0 !important;
 }

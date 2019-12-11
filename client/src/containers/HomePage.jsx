@@ -86,25 +86,24 @@ export default class HomePage extends React.Component {
         <section className="hero has-text-centered ">
           <div style={{ position: 'relative' }}>
             <div style={{ margin: 'auto', maxWidth: 800 }}>
-              <div className="player-wrapper ">
+              <div className="player-wrapper fade-in ">
                 <ReactPlayer
                   className="react-player"
-                  url="https://youtu.be/YHh9JbJAyf0"
+                  url="https://youtu.be/YHh9JbJAyf0?mode=opaque"
                   width="100%"
                   height="100%"
                   youtubeConfig={{
                     playerVars: {
-                      controls: 0,
                       widget_referrer: 'https://www.bidorboo.ca',
                     },
                     preload: true,
                   }}
                 />
-              </div>{' '}
+              </div>
             </div>
           </div>
         </section>
-
+        <br></br> <br></br>
         <div className="columns is-mobile is-multiline is-centered">
           <div style={{ maxWidth: '21rem', marginBottom: '1.5rem' }} className="column">
             <RequestAService
