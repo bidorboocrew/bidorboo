@@ -83,9 +83,10 @@ export default class HomePage extends React.Component {
             </div>
           </div>
         </section>
+
         <section className="hero has-text-centered ">
           <div style={{ position: 'relative' }}>
-            <div style={{ margin: 'auto', maxWidth: 800 }}>
+            <div style={{ margin: 'auto', maxWidth: 800, padding: '0.5rem' }}>
               <div className="player-wrapper fade-in ">
                 <ReactPlayer
                   className="react-player"
