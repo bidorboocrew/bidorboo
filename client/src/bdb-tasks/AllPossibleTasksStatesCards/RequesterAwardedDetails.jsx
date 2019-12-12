@@ -358,10 +358,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(RequesterAwardedDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(RequesterAwardedDetails);
 
 class RequesterConfirmsCompletion extends React.Component {
   constructor(props) {
@@ -394,34 +391,27 @@ class RequesterConfirmsCompletion extends React.Component {
               <div onClick={this.toggleModal} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <div className="modal-card-title">Tasker is Done?</div>
+                  <div className="modal-card-title">Is Tasker Done?</div>
                 </header>
                 <section className="modal-card-body">
-                  <p>
-                    BidOrBoo crew is happy to know that our tasker fulfilled your request, and we
-                    hope that it was done to your satisfaction.
-                  </p>
+                  <p>BidOrBoo is happy to know that our Tasker fulfilled your request.</p>
                   <br />
                   <div className="group">
                     <label className="label">What will happen next?</label>
-                    <div className="help">
-                      * Once you've confirmed completion the Tasker will be paid
-                    </div>
-                    <div className="help">
-                      * The Tasker and yourself will be prompted to Rate your experience
-                    </div>
+                    <p>* Once you've confirmed completion the Tasker will be paid</p>
+                    <p>* you will be prompted to review the Tasker</p>
                   </div>
                 </section>
                 <footer className="modal-card-foot">
+                  <button onClick={this.toggleModal} className="button is-outline">
+                    Close
+                  </button>
                   <button
                     type="submit"
                     onClick={this.submitConfirmation}
                     className="button is-success"
                   >
-                    Confirm Task Task Completion
-                  </button>
-                  <button onClick={this.toggleModal} className="button is-outline">
-                    Close
+                    Confirm Task Completion
                   </button>
                 </footer>
               </div>
@@ -671,7 +661,6 @@ class AssignedTaskerDetails extends React.Component {
                 </div>
                 {renderAddToCalendar && renderAddToCalendar()}
               </div>
-              <br />
             </div>
             <div style={{ background: 'transparent' }} className="tabs is-centered">
               <ul style={{ marginLeft: 0 }}>

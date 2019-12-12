@@ -139,6 +139,14 @@ const requesterCardTemplates = {
       <div>REQUEST_STATES.PAYMENT_RELEASED details not implemented yet</div>
     );
   },
+
+  [REQUEST_STATES.DISPUTE_RESOLVED]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
+    return isSummaryView ? (
+      <div>REQUEST_STATES.DISPUTE_RESOLVED summary not implemented yet</div>
+    ) : (
+      <div>REQUEST_STATES.DISPUTE_RESOLVED details not implemented yet</div>
+    );
+  },
 };
 
 const TaskerCardTemplates = {
@@ -216,6 +224,19 @@ const TaskerCardTemplates = {
       return <TaskerMyAwardedDoneBidSummary job={job} {...otherArgs} />;
     } else {
       return <TaskerMyAwardedDoneBidDetails job={job} {...otherArgs} />;
+    }
+  },
+  [BID_STATES.DISPUTE_RESOLVED]: ({
+    job,
+    isSummaryView,
+    pointOfView,
+    withBidDetails,
+    ...otherArgs
+  }) => {
+    if (isSummaryView) {
+      return <div>BID_STATES.DISPUTE_RESOLVED state summary view not implememented yet</div>;
+    } else {
+      return <div>BID_STATES.DISPUTE_RESOLVED state detali view not implememented yet</div>;
     }
   },
 };
