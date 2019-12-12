@@ -1,4 +1,4 @@
-const bidDataAccess = require('../data-access/bidDataAccess');
+const { bidDataAccess } = require('../data-access/bidDataAccess');
 
 module.exports = async (req, res, next) => {
   try {
@@ -14,7 +14,7 @@ module.exports = async (req, res, next) => {
         });
       } else {
         if (newBid.isNewBid) {
-          next();
+          return next();
         } else {
           return res.status(400).send({
             errorMsg:

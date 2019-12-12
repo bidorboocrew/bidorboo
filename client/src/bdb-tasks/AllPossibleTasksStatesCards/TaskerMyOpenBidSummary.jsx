@@ -43,7 +43,8 @@ class TaskerMyOpenBidSummary extends React.Component {
     if (!coordinates) {
       return <div>TaskerMyOpenBidSummary is missing properties</div>;
     }
-    const { bidAmount } = bid;
+    const { bidAmount, isNewBid } = bid;
+
     if (!bidAmount) {
       return <div>TaskerMyOpenBidSummary is missing properties</div>;
     }
@@ -90,7 +91,7 @@ class TaskerMyOpenBidSummary extends React.Component {
             )}
           </div>
         </div>
-        {renderFooter({ bid, isPastDue, isAwardedToSomeoneElse })}
+        {renderFooter({ bid, isPastDue, isAwardedToSomeoneElse, isNewBid })}
       </div>
     );
   }
@@ -115,21 +116,34 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskerMyOpenBidSummary);
 
-const renderFooter = ({ bid, isPastDue, isAwardedToSomeoneElse }) => {
+const renderFooter = ({ bid, isPastDue, isAwardedToSomeoneElse, isNewBid }) => {
   if (isAwardedToSomeoneElse) {
     return null;
   } else if (isPastDue) {
     return null;
-  } else if (!isPastDue && !isAwardedToSomeoneElse) {
+  } else if (!isPastDue && !isAwardedToSomeoneElse && isNewBid) {
     return (
       <div className="centeredButtonInCard">
         <a
           onClick={() => {
             switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(bid._id));
           }}
-          className={`button is-fullwidth ${isPastDue ? '' : 'is-info'}`}
+          className={`button is-fullwidth is-info`}
         >
           <span>Change my bid</span>
+        </a>
+      </div>
+    );
+  } else if (!isPastDue && !isAwardedToSomeoneElse && !isNewBid) {
+    return (
+      <div className="centeredButtonInCard">
+        <a
+          onClick={() => {
+            switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(bid._id));
+          }}
+          className={`button is-fullwidth is-info`}
+        >
+          <span>View Details</span>
         </a>
       </div>
     );

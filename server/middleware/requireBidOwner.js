@@ -1,4 +1,4 @@
-const bidDataAccess = require('../data-access/bidDataAccess');
+const { bidDataAccess } = require('../data-access/bidDataAccess');
 
 module.exports = async (req, res, next) => {
   try {
@@ -14,7 +14,7 @@ module.exports = async (req, res, next) => {
           errorMsg: "We couldn't verify that you are the bid owner",
         });
       } else {
-        next();
+        return next();
       }
     }
 

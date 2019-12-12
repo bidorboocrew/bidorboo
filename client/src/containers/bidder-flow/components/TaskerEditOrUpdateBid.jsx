@@ -71,6 +71,7 @@ class TaskerEditOrUpdateBid extends React.Component {
 
     const bidAmount = bid.bidAmount.value;
     const bidCurrency = bid.bidAmount.currency;
+    const isNewBid = bid.isNewBid;
 
     const autoBidOptions =
       bidAmount > 10 ? (
@@ -163,7 +164,7 @@ class TaskerEditOrUpdateBid extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-
+        <br></br>
         {isAwardedToSomeoneElse && (
           <a
             onClick={() => {
@@ -178,14 +179,14 @@ class TaskerEditOrUpdateBid extends React.Component {
             <span>I understand</span>
           </a>
         )}
-        {!isAwardedToSomeoneElse && (
+        {!isAwardedToSomeoneElse && isNewBid && (
           <a
             style={{ width: 'unset' }}
             onClick={(e) => {
               e.preventDefault();
               this.showUpdateBidModal();
             }}
-            className="button is-info firstButtonInCard"
+            className="button is-info centeredButtonInCard"
           >
             <span className="icon">
               <i className="far fa-edit" />

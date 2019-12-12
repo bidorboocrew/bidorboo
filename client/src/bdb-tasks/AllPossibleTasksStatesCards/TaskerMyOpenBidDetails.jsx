@@ -97,7 +97,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }
 
-    const { bidAmount } = bid;
+    const { bidAmount, isNewBid } = bid;
     if (!bidAmount) {
       return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
     }

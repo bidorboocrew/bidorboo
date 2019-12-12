@@ -318,6 +318,8 @@ class BidderRootPage extends React.Component {
                       <div className="card-content VerticalAligner">
                         <div className="has-text-centered">
                           <div className="is-size-6">Search for tasks in areas near you</div>
+                          <div className="is-size-6">Help us spread BidOrBoo in your area</div>
+                          <ShareButtons shareUrl={'/'}></ShareButtons>
                         </div>
                       </div>
                     </div>
@@ -339,9 +341,7 @@ class BidderRootPage extends React.Component {
                           </div>
                           <br />
 
-                          <div className="is-size-6 has-text-weight-semibold">
-                            Help us spread BidOrBoo in your area
-                          </div>
+                          <div className="is-size-6">Help us spread BidOrBoo in your area</div>
                           <ShareButtons shareUrl={'/'}></ShareButtons>
                         </div>
                       </div>
