@@ -125,10 +125,9 @@ class RequesterDoneDetails extends RequestBaseContainer {
               {!requiresProposerReview && <ArchiveTask />}
 
               {requiresProposerReview && <TaskIsFulfilled />}
-
+              <TaskCost cost={requesterPayAmount} />
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
-                  <TaskCost cost={requesterPayAmount} />
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
                   {extras && extras.destinationText && (
                     <DestinationAddressValue
@@ -237,10 +236,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(RequesterDoneDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(RequesterDoneDetails);
 
 class AssignedTaskerDetails extends React.Component {
   render() {

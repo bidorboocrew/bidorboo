@@ -227,16 +227,7 @@ class App extends React.Component {
                 path={`${ROUTES.CLIENT.REVIEW.bidderJobReview}`}
                 component={BidderReviewingCompletedJob}
               />
-              {/* <Route
-              exact
-              path={`${ROUTES.CLIENT.MY_PROFILE.pastProvidedServices}`}
-              component={PastProvidedServices}
-            /> */}
-              {/* <Route
-              exact
-              path={`${ROUTES.CLIENT.MY_PROFILE.pastRequestedServices}`}
-              component={PastRequestedServices}
-            /> */}
+
               <Route exact path={ROUTES.CLIENT.TOS} component={TermsOfService} />
               <Redirect path="*" to={ROUTES.CLIENT.HOME} />
             </Switch>

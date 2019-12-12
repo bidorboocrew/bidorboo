@@ -273,10 +273,15 @@ class RequesterAwardedDetails extends RequestBaseContainer {
               />
 
               <AssignedTasker displayName={_awardedBidRef._bidderRef.displayName} />
+              <TaskCost
+                cost={requesterPayAmount}
+                renderHelp={() => (
+                  <div className="help">to be paid to Tasker after task completion</div>
+                )}
+              />
 
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
-                  <TaskCost cost={requesterPayAmount} />
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
 
                   <TaskSpecificExtras templateId={ID} extras={extras} />
