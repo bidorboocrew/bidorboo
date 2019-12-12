@@ -268,7 +268,7 @@ class App extends React.Component {
                 </div>
               </div>
             </nav>
-            <nav className="container help">
+            <nav className="container help has-text-centered">
               <div className="has-text-light">
                 {`To get in touch via email:`}
                 <a className="has-text-link" href={`mailto:bidorboo@bidorboo.ca`}>
