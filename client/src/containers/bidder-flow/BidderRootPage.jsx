@@ -312,42 +312,48 @@ class BidderRootPage extends React.Component {
               )}
 
               {!isThereAnActiveSearch && (
-                <div className="HorizontalAligner-center column">
-                  <div className="is-fullwidth">
-                    <div className="card">
-                      <div className="card-content VerticalAligner">
-                        <div className="has-text-centered">
-                          <div className="is-size-6">Search for tasks in areas near you</div>
-                          <div className="is-size-6">Help us spread BidOrBoo in your area</div>
-                          <ShareButtons shareUrl={'/'}></ShareButtons>
+                <>
+                  <br></br>
+                  <div className="HorizontalAligner-center column">
+                    <div className="is-fullwidth">
+                      <div className="card">
+                        <div className="card-content VerticalAligner">
+                          <div className="has-text-centered">
+                            <div className="is-size-6">Search for tasks in areas near you</div>
+                            <div className="is-size-6">Help us spread BidOrBoo in your area</div>
+                            <ShareButtons shareUrl={'/'}></ShareButtons>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </>
               )}
               {searchWithNoResults && (
-                <div className="HorizontalAligner-center column">
-                  <div className="is-fullwidth">
-                    <div className="card">
-                      <div className="card-content VerticalAligner">
-                        <div className="has-text-centered">
-                          <div className="is-size-6">
-                            No Tasks available around this area at this time.
-                          </div>
+                <>
+                  <br></br>
+                  <div className="HorizontalAligner-center column">
+                    <div className="is-fullwidth">
+                      <div className="card">
+                        <div className="card-content VerticalAligner">
+                          <div className="has-text-centered">
+                            <div className="is-size-6">
+                              No Tasks available around this area at this time.
+                            </div>
 
-                          <div className="help">
-                            Try Changing Your Search Criteria or search a different area
-                          </div>
-                          <br />
+                            <div className="help">
+                              Try Changing Your Search Criteria or search a different area
+                            </div>
+                            <br />
 
-                          <div className="is-size-6">Help us spread BidOrBoo in your area</div>
-                          <ShareButtons shareUrl={'/'}></ShareButtons>
+                            <div className="is-size-6">Help us spread BidOrBoo in your area</div>
+                            <ShareButtons shareUrl={'/'}></ShareButtons>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </>
               )}
             </React.Fragment>
           )}
