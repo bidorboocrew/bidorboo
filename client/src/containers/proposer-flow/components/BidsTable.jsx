@@ -6,8 +6,6 @@ import {
 } from '../../../containers/commonComponents';
 import * as Constants from '../../../constants/enumConstants';
 import { getChargeDistributionDetails } from '../../commonUtils';
-// confirm award and pay
-const BIDORBOO_SERVICECHARGE = 0.06;
 export default class BidsTable extends React.Component {
   openBidDetailsModal = (bid) => {
     const { markBidAsSeen, jobId, showBidReviewModal } = this.props;
@@ -22,7 +20,7 @@ export default class BidsTable extends React.Component {
   };
 
   render() {
-    const { bidList, viewedByCount } = this.props;
+    const { bidList, viewedByCount, fetchMostRecentBids } = this.props;
 
     const areThereAnyBids = bidList && bidList.length > 0;
 
@@ -31,7 +29,6 @@ export default class BidsTable extends React.Component {
     }
 
     let tableRows = bidList.map((bid) => {
-
       const { value: bidValue } = bid.bidAmount;
       const { requesterTotalPayment: totalCharge } = getChargeDistributionDetails(bidValue);
 
@@ -167,117 +164,7 @@ class TaskerBidCard extends React.Component {
         </div>
 
         {bidAmountHtml()}
-        {/* <div className="field">
-            <BidsTableVerifiedVia userDetails={otherUserProfileInfo} />
-          </div> */}
-
-        {/* <div style={{ marginBottom: '2rem' }} className="content">
-            <div className="has-text-centered">
-              <figure
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(_id));
-                }}
-                style={{ margin: 'auto', width: 128 }}
-                className="image is-128x128"
-              >
-                <img
-                   onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(_id));
-                }}
-
-                  style={{
-                    borderRadius: '100%',
-                    cursor: 'pointer',
-                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
-                  }}
-                  src={otherUserProfileInfo.profileImage.url}
-                />
-              </figure>
-              <div style={{ marginBottom: 0 }} className={`title`}>
-                <span>{otherUserProfileInfo.displayName}</span>
-              </div>
-              <div className={`has-text-grey`} style={{ fontWeight: 300 }}>
-                ({membershipStatusDisplay})
-              </div>
-              {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
-                <div className="has-text-grey" style={{ lineHeight: '52px' }}>
-                  - No Ratings Yet -
-                </div>
-              ) : (
-                <ReactStars
-                  className="ReactStars"
-                  half
-                  count={5}
-                  value={globalRating}
-                  edit={false}
-                  size={35}
-                  color1={'lightgrey'}
-                  color2={'#ffd700'}
-                />
-              )}
-            </div>
-
-            <div>
-              <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
-                {numberOfTimesBeenRated}
-              </span>
-              <span>Ratings Recieved</span>
-            </div>
-            <div>
-              <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
-                {fulfilledBids.length}
-              </span>
-              <span>Completed Tasks</span>
-            </div>
-            <div>
-              <span style={{ marginRight: 12 }} className={`has-text-weight-bold`}>
-                {canceledBids.length}
-              </span>
-              <span>Cancellations</span>
-            </div>
-            <br />
-            <div className="field">
-              <BidsTableVerifiedVia
-                userDetails={otherUserProfileInfo}
-                isCentered={false}
-                smallfont={false}
-              />
-            </div>
-            <div style={{ marginBottom: '3rem' }} className="field">
-              <div>Last Review</div>
-              <div style={{ fontStyle: 'italic' }} className="control">
-                {displayComment}
-              </div>
-            </div>
-          </div> */}
-
-        {/* {bidAmountHtml()} */}
       </div>
     );
   }
 }
-
-const ReviewComments = ({ commenterDisplayName, commenterProfilePicUrl, comment }) => {
-  return (
-    <article
-      style={{ cursor: 'default', border: '1px solid #ededed', padding: 2 }}
-      className="media"
-    >
-      <figure style={{ margin: '0.5rem' }} className="media-left">
-        <p className="image is-size-64x64">
-          <img src={commenterProfilePicUrl} />
-        </p>
-      </figure>
-      <div style={{ padding: '0.5rem' }} className="media-content">
-        <div className="content">
-          <div>{commenterDisplayName} wrote:</div>
-          <p>{comment}</p>
-        </div>
-      </div>
-    </article>
-  );
-};

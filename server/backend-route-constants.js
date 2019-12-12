@@ -34,8 +34,6 @@ module.exports = {
         chargeSucceededWebhook: '/api/stripewebhook/chargeSucceeded',
       },
       GET: {
-        // requestCharge: '/api/requestCharge',
-        // payment: '/api/payment',
         accountLinkForSetupAndVerification: '/api/accountLinkForSetupAndVerification',
         myStripeAccountDetails: '/api/myStripeAccountDetails',
         accountLinkForUpdatingVerification: '/api/accountLinkForUpdatingVerification',

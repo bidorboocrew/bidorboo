@@ -31,7 +31,7 @@ module.exports = (app) => {
     ROUTES.API.PAYMENT.POST.payment,
     requireLogin,
     requireJobOwner,
-    // requireJobIsNotAwarded,
+    requireJobIsNotAwarded,
     requireNoPaymentProcessedForThisJobBefore,
     // requiresCheckPayBidderDetails,
     async (req, res, next) => {

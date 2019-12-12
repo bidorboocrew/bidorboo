@@ -800,7 +800,6 @@ const EnhancedForms = withFormik({
       ...extras // everything else
     } = values;
 
-    debugger;
     let userUploadedImages = [];
     if (!!taskImg1) {
       userUploadedImages.push(taskImg1);

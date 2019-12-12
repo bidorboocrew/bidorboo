@@ -18,6 +18,10 @@ import {
   POINT_OF_VIEW,
   REQUEST_STATES,
 } from '../../bdb-tasks/getMeTheRightCard';
+
+const FETCH_INTERVAL = 15000;
+const FETCH_DURATION = 20; //20times*15second=3mins of fetching then we stop
+
 class ReviewRequestAndBidsPage extends React.Component {
   constructor(props) {
     super(props);
@@ -26,11 +30,21 @@ class ReviewRequestAndBidsPage extends React.Component {
       showBidReviewModal: false,
       bidUnderReview: {},
     };
+
+    this.numberOfFetches = FETCH_DURATION;
   }
 
   fetchMostRecentBids = () => {
-    const { selectedJobWithBids } = this.props;
-    this.props.getPostedJobDetails(selectedJobWithBids._id);
+    if (document.visibilityState == 'hidden') {
+      //  do nothing
+    } else {
+      if (this.numberOfFetches > 0) {
+        const { selectedJobWithBids } = this.props;
+        this.props.getPostedJobDetails(selectedJobWithBids._id);
+        console.log('fetched more bids');
+      }
+      this.numberOfFetches--;
+    }
   };
 
   componentDidMount() {
@@ -48,6 +62,12 @@ class ReviewRequestAndBidsPage extends React.Component {
         redirectBasedOnJobState(selectedJobWithBids);
       }
     }
+
+    this.getMoreBids = setInterval(this.fetchMostRecentBids, FETCH_INTERVAL);
+  }
+  componentWillUnmount() {
+    clearInterval(this.getMoreBids);
+    console.log('interval cleared');
   }
 
   // componentDidUpdate() {}
@@ -122,6 +142,7 @@ class ReviewRequestAndBidsPage extends React.Component {
             <br />
             {shouldShowBidsTable && (
               <BidsTable
+                fetchMostRecentBids={this.fetchMostRecentBids}
                 jobId={selectedJobWithBids._id}
                 bidList={bidList}
                 markBidAsSeen={markBidAsSeen}
@@ -153,7 +174,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ReviewRequestAndBidsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ReviewRequestAndBidsPage);

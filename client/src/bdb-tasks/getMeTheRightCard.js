@@ -234,9 +234,9 @@ const TaskerCardTemplates = {
     ...otherArgs
   }) => {
     if (isSummaryView) {
-      return <div>BID_STATES.DISPUTE_RESOLVED state summary view not implememented yet</div>;
+      return <div>BID_STATES.DISPUTE_RESOLVED state summary view not implemented yet</div>;
     } else {
-      return <div>BID_STATES.DISPUTE_RESOLVED state detali view not implememented yet</div>;
+      return <div>BID_STATES.DISPUTE_RESOLVED state detail view not implemented yet</div>;
     }
   },
 };
@@ -271,7 +271,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
           withBidDetails: true,
           otherArgs,
         });
-        return card || <div>This type aint found</div>;
+        return card || <div>This type ain't found</div>;
       } catch (e) {
         console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
       }
@@ -287,7 +287,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
           withBidDetails: true,
           otherArgs,
         });
-        return card || <div>this aint found BID_STATES.AWARDED_BID_CANCELED_BY_REQUESTER</div>;
+        return card || <div>this ain't found BID_STATES.AWARDED_BID_CANCELED_BY_REQUESTER</div>;
       } catch (e) {
         console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
       }
@@ -302,7 +302,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
           withBidDetails: true,
           otherArgs,
         });
-        return card || <div>this aint found BID_STATES.AWARDED_BID_CANCELED_BY_TASKER</div>;
+        return card || <div>this ain't found BID_STATES.AWARDED_BID_CANCELED_BY_TASKER</div>;
       } catch (e) {
         console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
       }
@@ -323,7 +323,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
         console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
       }
     case BID_STATES.PAYMENT_RELEASED:
-      return <div>This type aint found BID_STATES.PAYMENT_RELEASED</div>;
+      return <div>This type ain't found BID_STATES.PAYMENT_RELEASED</div>;
       break;
     default:
       return <div>default unknown getTaskerBidCard</div>;
@@ -366,7 +366,7 @@ export const getMeTheRightRequestCard = ({ job, isSummaryView, pointOfView, ...o
         pointOfView,
         otherArgs,
       });
-      return card || <div>This type aint found</div>;
+      return card || <div>This type ain't found</div>;
     } catch (e) {
       console.error(e + ' Error Loading Requester Card ' + state);
       return null;
@@ -381,7 +381,7 @@ export const getMeTheRightRequestCard = ({ job, isSummaryView, pointOfView, ...o
         addBidDetails: false,
         otherArgs,
       });
-      return card || <div>This type aint found</div>;
+      return card || <div>This type ain't found</div>;
     } catch (e) {
       console.error(e + ' Error Loading Tasker Card ' + state);
       return null;
