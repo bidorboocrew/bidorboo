@@ -83,7 +83,6 @@ export default class HomePage extends React.Component {
             </div>
           </div>
         </section>
-
         <section className="hero has-text-centered ">
           <div style={{ position: 'relative' }}>
             <div style={{ margin: 'auto', maxWidth: 800, padding: '0.5rem' }}>
@@ -93,11 +92,18 @@ export default class HomePage extends React.Component {
                   url="https://youtu.be/YHh9JbJAyf0?mode=opaque"
                   width="100%"
                   height="100%"
-                  youtubeConfig={{
-                    playerVars: {
+                  config={{
+                    youtube: {
+                      controls: 0,
                       widget_referrer: 'https://www.bidorboo.ca',
+                      modestbranding: 1,
+                      playerVars: {
+                        controls: 0,
+                        modestbranding: 1,
+                        widget_referrer: 'https://www.bidorboo.ca',
+                      },
+                      preload: true,
                     },
-                    preload: true,
                   }}
                 />
               </div>
