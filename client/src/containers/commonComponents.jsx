@@ -142,6 +142,7 @@ export const CenteredUserImageAndRating = ({
   clipUserName = false,
   large = false,
   isCentered = true,
+  labelOnTop = ()=> null
 }) => {
   let temp = userDetails
     ? userDetails
@@ -191,6 +192,7 @@ export const CenteredUserImageAndRating = ({
         </figure>
 
         <div className="content">
+          {labelOnTop && labelOnTop()}
           <div className={`${large ? 'is-size-5' : 'is-size-6'}`}>{trimmedDisplayName}</div>
 
           {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (

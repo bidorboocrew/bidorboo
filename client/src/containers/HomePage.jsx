@@ -256,7 +256,7 @@ const HowItWorksProvideService = () => {
           <p className="is-size-5">Browse tasks</p>
         </li>
         <li>
-          <p className="is-size-5">Place your bid</p>
+          <p className="is-size-5">Enter Your Bid</p>
         </li>
         <li>
           <p className="is-size-5">{`Do it & get paid`}</p>

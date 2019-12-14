@@ -62,7 +62,6 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
       return switchRoute(ROUTES.CLIENT.BIDDER.root);
     }
 
-    const { userAlreadyBid, userExistingBid } = getUserExistingBid(job, currentUserId);
     const userAlreadyView = didUserAlreadyView(job, currentUserId);
 
     const specialStyle = isOnMapView ? { padding: '0.25rem' } : {};
@@ -85,9 +84,12 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                 )}
               />
               <div className="group">
-                <label className="label hasSelectedValue">Requester</label>
                 {!isOnMapView && (
-                  <CenteredUserImageAndRating clipUserName userDetails={_ownerRef} />
+                  <CenteredUserImageAndRating
+                    labelOnTop={() => <label className="label hasSelectedValue">Requester</label>}
+                    clipUserName
+                    userDetails={_ownerRef}
+                  />
                 )}
               </div>
               {!isOnMapView && (
@@ -95,7 +97,6 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                   {/* <label className="label">Task Info</label> */}
                   <CardTitleAndActionsInfo
                     isOnMapView={isOnMapView}
-                    userAlreadyBid={userAlreadyBid}
                     jobState={state}
                     templateId={templateId}
                     bidsList={_bidsListRef}
@@ -104,55 +105,53 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                   />
                 </div>
               )}
-              <br></br>
-              {!isOnMapView && (
-                <div style={{ display: 'flex' }}>
-                  <a
-                    style={{ flexGrow: 1 }}
-                    onClick={(e) => {
-                      switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
-                    }}
-                    className="button is-success firstButtonInCard"
-                  >
-                    Place Your Bid
-                  </a>
 
-                  {showMapView && (
+              {!isOnMapView && (
+                <>
+                  <br></br>
+                  <div style={{ display: 'flex' }}>
                     <a
-                      style={{ marginLeft: 12 }}
+                      style={{ flexGrow: 1 }}
                       onClick={(e) => {
-                        const markerRef = reactMapClusterRef;
-                        if (
-                          markerRef &&
-                          markerRef.current &&
-                          markerRef.current.props &&
-                          markerRef.current.props.onClick &&
-                          typeof markerRef.current.props.onClick === 'function'
-                        ) {
-                          markerRef.current.props.onClick();
-                        }
+                        switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
                       }}
-                      className="button secondButtonInCard "
+                      className="button is-success firstButtonInCard"
                     >
-                      <span className="icon">
-                        <i className="fas fa-map-marked-alt" />
-                      </span>
+                      Enter Your Bid
                     </a>
-                  )}
-                </div>
+                    {showMapView && (
+                      <a
+                        style={{ marginLeft: 12 }}
+                        onClick={(e) => {
+                          const markerRef = reactMapClusterRef;
+                          if (
+                            markerRef &&
+                            markerRef.current &&
+                            markerRef.current.props &&
+                            markerRef.current.props.onClick &&
+                            typeof markerRef.current.props.onClick === 'function'
+                          ) {
+                            markerRef.current.props.onClick();
+                          }
+                        }}
+                        className="button secondButtonInCard "
+                      >
+                        <span className="icon">
+                          <i className="fas fa-map-marked-alt" />
+                        </span>
+                      </a>
+                    )}
+                  </div>
+                </>
               )}
               {isOnMapView && (
                 <div>
-                  <div style={{ display: 'inline-block', marginRight: 12 }}>
-                    <a
-                      style={{ marginTop: 10 }}
-                      onClick={onCloseHandler}
-                      className="button is-small"
-                    >
+                  <div style={{ display: 'inline-block', marginRight: 12, marginTop: -12 }}>
+                    <a onClick={onCloseHandler} className="button is-small">
                       Close
                     </a>
                   </div>
-                  <div style={{ display: 'inline-block' }}>
+                  <div style={{ display: 'inline-block', marginTop: -12 }}>
                     <a
                       onClick={(e) => {
                         if (isLoggedIn) {
@@ -162,7 +161,7 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                       }}
                       className="button is-success is-small"
                     >
-                      Place Your Bid
+                      Enter Your Bid
                     </a>
                   </div>
                 </div>

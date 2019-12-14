@@ -24,15 +24,16 @@ export class JobInfoBox extends React.Component {
         id={`infobox-bid-${job._id}`}
         className="info-Box-map"
         options={{
-          pixelOffset: new google.maps.Size(-50, -50),
+          pixelOffset: new google.maps.Size(0, -5),
           zIndex: 999,
           boxStyle: {
+            maxWidth: '220px',
             zIndex: '30',
             padding: '0px 0px 0px 0px',
             boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
           },
           closeBoxURL: '',
-          infoBoxClearance: new google.maps.Size(10, 10),
+          infoBoxClearance: new google.maps.Size(20, 20),
           isHidden: false,
           pane: 'mapPane',
           enableEventPropagation: true,

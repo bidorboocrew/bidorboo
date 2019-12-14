@@ -90,7 +90,7 @@ class BidModal extends React.Component {
         <div className="modal-background" />
         <div className="modal-card">
           <header className="modal-card-head">
-            <div className="modal-card-title">Place Your Bid!</div>
+            <div className="modal-card-title">Enter Your Bid!</div>
             <button onClick={handleClose} className="delete" aria-label="close" />
           </header>
           <section className="modal-card-body">
