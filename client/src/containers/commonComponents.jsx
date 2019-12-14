@@ -212,57 +212,6 @@ export const CenteredUserImageAndRating = ({
       </div>
     </div>
   );
-  // return (
-  //   <div
-  //     style={{
-  //       cursor: 'pointer',
-  //       display: 'flex',
-  //       alignItems: 'center',
-  //       margin: isCentered ? 'auto' : '',
-  //       width: '13rem',
-  //       overflow: 'hidden',
-  //     }}
-  //     onClick={(e) => {
-  //       e.preventDefault();
-  //       e.stopPropagation();
-  //       switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(userDetails._id));
-  //     }}
-  //   >
-  //     <figure style={{ margin: '0 8px 0 0' }} className="media-left">
-  //       <img
-  //         className={`image ${large ? 'is-64x64' : 'is-48x48'} `}
-  //         style={{
-  //           borderRadius: '100%',
-  //           width: `${large ? 64 : 48}`,
-  //           height: `${large ? 64 : 48}`,
-  //           boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
-  //         }}
-  //         src={profileImage.url}
-  //         alt="image"
-  //       />
-  //     </figure>
-
-  //     <div className="content">
-  //       <div className={`${large ? 'is-size-5' : 'is-size-6'}`}>{trimmedDisplayName}</div>
-
-  //       {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
-  //         <div className="has-text-grey" style={{ lineHeight: '52px', fontSize: 16 }}>
-  //           <span className="icon">
-  //             <i className="far fa-star" />
-  //           </span>
-  //           <span>--</span>
-  //         </div>
-  //       ) : (
-  //         <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 16 }}>
-  //           <span className="icon">
-  //             <i className="fas fa-star" />
-  //           </span>
-  //           <span>{rating.globalRating}</span>
-  //         </div>
-  //       )}
-  //     </div>
-  //   </div>
-  // );
 };
 
 export const CardTitleAndActionsInfo = ({
@@ -270,13 +219,8 @@ export const CardTitleAndActionsInfo = ({
   templateId,
   bidsList = [],
   userAlreadyView = false,
-  userAlreadyBid = false,
-  isOnMapView = false,
   job,
 }) => {
-  const { ID, ICON } = TASKS_DEFINITIONS[templateId];
-  const areThereAnyBidders = bidsList && bidsList.length > 0;
-
   const viewCount = !job || !job.viewedBy || !job.viewedBy.length > 0 ? 0 : job.viewedBy.length;
 
   let bidsCountLabel = 'No bids';
@@ -289,7 +233,6 @@ export const CardTitleAndActionsInfo = ({
 
   const avgBid = findAvgBidInBidList(bidsList);
 
-  const isAwarded = `${jobState ? jobState : ''}` && `${jobState}`.toLowerCase() === 'awarded';
   return (
     <div style={{ textAlign: 'center', marginBottom: '0.5rem' }}>
       <div style={{ width: 80, display: 'inline-block' }}>
@@ -317,17 +260,6 @@ export const CardTitleAndActionsInfo = ({
           <div className="help">Avg Bid</div>
         </div>
       </div>
-      {/* <div style={{ width: 80, display: 'inline-block' }}>
-        {userAlreadyBid && (
-          <div>
-            <div />
-            <div className="icon">
-              <i className="fas fa-dollar-sign" />
-            </div>
-            <div className="help">You've Bid</div>
-          </div>
-        )}
-      </div> */}
     </div>
   );
 };
@@ -651,10 +583,6 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
     govId = { isVerified: false },
   } = userDetails;
 
-  const atLeastOneVerification =
-    isFbUser || isGmailUser || phone.isVerified || email.isVerified || stripeConnect.isVerified;
-  // clearCriminalHistory;
-
   return (
     <div
       style={{ width, margin: isCentered ? 'auto' : '' }}
@@ -705,14 +633,6 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
           </span>
         </div>
       )}
-
-      {/* {clearCriminalHistory && (
-        <div className="verificationBadge isActive">
-          <span title="Verified by criminal check" className="icon">
-            <i className="fas fa-gavel has-text-success" />
-          </span>
-        </div>
-      )} */}
 
       {showAll && (
         <>

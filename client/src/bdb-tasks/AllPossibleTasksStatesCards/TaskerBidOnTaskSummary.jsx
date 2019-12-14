@@ -77,21 +77,22 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
               <UserGivenTitle userGivenTitle={jobTitle} />
 
               {!isOnMapView && <TaskImagesCarousel taskImages={taskImages} />}
-              <div className="group">
-                <label className="label hasSelectedValue">Requester</label>
-                {!isOnMapView && (
-                  <CenteredUserImageAndRating clipUserName userDetails={_ownerRef} />
-                )}
-              </div>
+
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
+              <div className="group">
+                <label className="label hasSelectedValue">Requester</label>
+                {!isOnMapView && (
+                  <CenteredUserImageAndRating clipUserName userDetails={_ownerRef} />
+                )}
+              </div>
               {!isOnMapView && (
                 <div className="group">
-                  <label className="label">Task Info</label>
+                  {/* <label className="label">Task Info</label> */}
                   <CardTitleAndActionsInfo
                     isOnMapView={isOnMapView}
                     userAlreadyBid={userAlreadyBid}
@@ -103,84 +104,42 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                   />
                 </div>
               )}
+              <br></br>
               {!isOnMapView && (
-                <React.Fragment>
-                  {userAlreadyBid ? (
-                    <div style={{ display: 'flex' }}>
-                      <a
-                        style={{ flexGrow: 1 }}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          switchRoute(
-                            ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(
-                              userExistingBid._id,
-                            ),
-                          );
-                        }}
-                        className="button is-dark firstButtonInCard"
-                      >
-                        View My Bid
-                      </a>
-                      {showMapView && (
-                        <a
-                          style={{ marginLeft: 12 }}
-                          onClick={(e) => {
-                            const markerRef = reactMapClusterRef;
-                            if (
-                              markerRef &&
-                              markerRef.current &&
-                              markerRef.current.props &&
-                              markerRef.current.props.onClick &&
-                              typeof markerRef.current.props.onClick === 'function'
-                            ) {
-                              markerRef.current.props.onClick();
-                            }
-                          }}
-                          className="button is-light is-info secondButtonInCard "
-                        >
-                          <span className="icon">
-                            <i className="fas fa-map-marked-alt" />
-                          </span>
-                        </a>
-                      )}
-                    </div>
-                  ) : (
-                    <div style={{ display: 'flex' }}>
-                      <a
-                        style={{ flexGrow: 1 }}
-                        onClick={(e) => {
-                          switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
-                        }}
-                        className="button is-success firstButtonInCard"
-                      >
-                        Place Your Bid
-                      </a>
+                <div style={{ display: 'flex' }}>
+                  <a
+                    style={{ flexGrow: 1 }}
+                    onClick={(e) => {
+                      switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
+                    }}
+                    className="button is-success firstButtonInCard"
+                  >
+                    Place Your Bid
+                  </a>
 
-                      {showMapView && (
-                        <a
-                          style={{ marginLeft: 12 }}
-                          onClick={(e) => {
-                            const markerRef = reactMapClusterRef;
-                            if (
-                              markerRef &&
-                              markerRef.current &&
-                              markerRef.current.props &&
-                              markerRef.current.props.onClick &&
-                              typeof markerRef.current.props.onClick === 'function'
-                            ) {
-                              markerRef.current.props.onClick();
-                            }
-                          }}
-                          className="button is-light is-info secondButtonInCard "
-                        >
-                          <span className="icon">
-                            <i className="fas fa-map-marked-alt" />
-                          </span>
-                        </a>
-                      )}
-                    </div>
+                  {showMapView && (
+                    <a
+                      style={{ marginLeft: 12 }}
+                      onClick={(e) => {
+                        const markerRef = reactMapClusterRef;
+                        if (
+                          markerRef &&
+                          markerRef.current &&
+                          markerRef.current.props &&
+                          markerRef.current.props.onClick &&
+                          typeof markerRef.current.props.onClick === 'function'
+                        ) {
+                          markerRef.current.props.onClick();
+                        }
+                      }}
+                      className="button secondButtonInCard "
+                    >
+                      <span className="icon">
+                        <i className="fas fa-map-marked-alt" />
+                      </span>
+                    </a>
                   )}
-                </React.Fragment>
+                </div>
               )}
               {isOnMapView && (
                 <div>
@@ -194,34 +153,17 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                     </a>
                   </div>
                   <div style={{ display: 'inline-block' }}>
-                    {userAlreadyBid ? (
-                      <a
-                        onClick={(e) => {
-                          e.preventDefault();
-                          switchRoute(
-                            ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(
-                              userExistingBid._id,
-                            ),
-                          );
-                        }}
-                        className="button is-small is-fullwidth"
-                      >
-                        View My existing Bid
-                      </a>
-                    ) : (
-                      <a
-                        style={{ marginTop: 10 }}
-                        onClick={(e) => {
-                          if (isLoggedIn) {
-                            updateViewedBy(job);
-                          }
-                          switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
-                        }}
-                        className="button is-success is-small"
-                      >
-                        Place Your Bid
-                      </a>
-                    )}
+                    <a
+                      onClick={(e) => {
+                        if (isLoggedIn) {
+                          updateViewedBy(job);
+                        }
+                        switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
+                      }}
+                      className="button is-success is-small"
+                    >
+                      Place Your Bid
+                    </a>
                   </div>
                 </div>
               )}

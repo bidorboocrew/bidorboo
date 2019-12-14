@@ -214,11 +214,6 @@ exports.jobDataAccess = {
                 const { _id: jobId, _ownerRef } = job;
                 const jobStartDate = moment(job.startingDateAndTime);
 
-                // normalize the start date to the same timezone to comapre
-                // const normalizedStartDate = moment(jobStartDate)
-                //   .tz('America/Toronto')
-                //   .toISOString();
-
                 const isJobPastDue = moment(jobStartDate).isSameOrBefore(rightNow);
 
                 if (isJobPastDue) {
@@ -1771,7 +1766,7 @@ exports.jobDataAccess = {
           .lean()
           .exec();
 
-      if (!updatedJob || !updatedJob._id || updatedJob.state !== 'DISPUTED') {
+        if (!updatedJob || !updatedJob._id || updatedJob.state !== 'DISPUTED') {
           return reject({
             success: false,
             ErrorMsg: 'failed to update the associated job bidderDisputesJob',

@@ -158,7 +158,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
               </div>
 
               <div className="group">
-                <label className="label hasSelectedValue">Task Info</label>
+                {/* <label className="label hasSelectedValue">Task Info</label> */}
                 <CardTitleAndActionsInfo
                   userAlreadyBid={userAlreadyBid}
                   jobState={state}
