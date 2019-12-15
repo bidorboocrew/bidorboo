@@ -51,6 +51,7 @@ class MyRequestsPage extends React.Component {
             return [
               REQUEST_STATES.OPEN,
               REQUEST_STATES.AWARDED,
+              REQUEST_STATES.AWARDED_SEEN,
               REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER,
               REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER,
               REQUEST_STATES.DISPUTED,

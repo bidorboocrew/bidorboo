@@ -817,17 +817,7 @@ exports.bidDataAccess = {
       .exec();
     return !!isSuccessful;
   },
-  updateBidState: async (bidId, newState) => {
-    const isSuccessful = await BidModel.findOneAndUpdate(
-      { _id: bidId },
-      {
-        $set: { state: newState },
-      }
-    )
-      .lean(true)
-      .exec();
-    return !!isSuccessful;
-  },
+
   updateBidValue: ({ mongoUser_id, bidId, bidAmount }) => {
     const { requesterTotalPayment, taskerTotalPayoutAmount } = getChargeDistributionDetails(
       bidAmount

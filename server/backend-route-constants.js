@@ -114,7 +114,6 @@ module.exports = {
       PUT: {
         updateMyBid: '/api/bids/updateMyBid',
         markBidAsSeen: '/api/bids/markBidAsSeen',
-        updateBidState: '/api/bids/updateBidState',
       },
       DELETE: {
         deleteOpenBid: '/api/bids/deleteOpenBid',

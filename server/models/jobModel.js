@@ -35,6 +35,7 @@ const JobSchema = new Schema(
       enum: [
         'OPEN',
         'AWARDED', //
+        'AWARDED_SEEN',
         'DISPUTED', // disputed job
         'AWARDED_JOB_CANCELED_BY_BIDDER',
         'AWARDED_JOB_CANCELED_BY_BIDDER_SEEN',

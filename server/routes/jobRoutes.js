@@ -6,6 +6,8 @@ const ROUTES = require('../backend-route-constants');
 
 const requireLogin = require('../middleware/requireLogin');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
+const requireJobOwnerOrAwardedBidder = require('../middleware/requireJobOwnerOrAwardedBidder');
+
 const requireUserCanPost = require('../middleware/requireUserCanPost');
 const requireJobOwner = require('../middleware/requireJobOwner');
 const requireCurrentUserIsTheAwardedBidder = require('../middleware/requireCurrentUserIsTheAwardedBidder');
@@ -72,27 +74,23 @@ module.exports = (app) => {
     }
   );
 
-  app.get(
-    ROUTES.API.JOB.GET.awardedJobFullDetailsForRequester,
-    requireLogin,
-    async (req, res) => {
-      try {
-        if (req.query && req.query.jobId) {
-          const { jobId } = req.query;
-          jobFullDetails = await jobDataAccess.getAwardedJobFullDetailsForRequester(jobId);
-          return res.send(jobFullDetails);
-        } else {
-          return res.status(400).send({
-            errorMsg: 'Bad Request for awarded job details, jobId param was Not Specified',
-          });
-        }
-      } catch (e) {
-        return res
-          .status(400)
-          .send({ errorMsg: 'Failed To get jobFullDetailsById', details: `${e}` });
+  app.get(ROUTES.API.JOB.GET.awardedJobFullDetailsForRequester, requireLogin, async (req, res) => {
+    try {
+      if (req.query && req.query.jobId) {
+        const { jobId } = req.query;
+        jobFullDetails = await jobDataAccess.getAwardedJobFullDetailsForRequester(jobId);
+        return res.send(jobFullDetails);
+      } else {
+        return res.status(400).send({
+          errorMsg: 'Bad Request for awarded job details, jobId param was Not Specified',
+        });
       }
+    } catch (e) {
+      return res
+        .status(400)
+        .send({ errorMsg: 'Failed To get jobFullDetailsById', details: `${e}` });
     }
-  );
+  });
 
   app.get(ROUTES.API.JOB.GET.myAwardedJobs, requireBidorBooHost, requireLogin, async (req, res) => {
     try {
@@ -121,24 +119,29 @@ module.exports = (app) => {
       }
     }
   );
-  app.put(ROUTES.API.JOB.PUT.updateJobState, requireLogin, async (req, res, done) => {
-    try {
-      // create new job for this user
-      const data = req.body.data;
-      const { jobId, newState } = data;
+  app.put(
+    ROUTES.API.JOB.PUT.updateJobState,
+    requireLogin,
+    requireJobOwnerOrAwardedBidder,
+    async (req, res, done) => {
+      try {
+        // create new job for this user
+        const data = req.body.data;
+        const { jobId, newState } = data;
 
-      if (jobId && newState) {
-        await jobDataAccess.updateState(jobId, newState);
-        return res.send({ jobId, success: true });
-      } else {
-        return res.status(400).send({
-          errorMsg: 'Bad Request param jobId was Not Specified',
-        });
+        if (jobId && newState) {
+          await jobDataAccess.updateState(jobId, newState);
+          return res.send({ jobId, success: true });
+        } else {
+          return res.status(400).send({
+            errorMsg: 'Bad Request param jobId was Not Specified',
+          });
+        }
+      } catch (e) {
+        return res.status(400).send({ errorMsg: 'Failed To update Job State', details: `${e}` });
       }
-    } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To update Job State', details: `${e}` });
     }
-  });
+  );
   app.post(ROUTES.API.JOB.POST.searchJobs, requireBidorBooHost, async (req, res, done) => {
     try {
       const { searchParams } = req.body.data;

@@ -59,10 +59,15 @@ class TaskerVerificationBanner extends React.Component {
     this.setState({ showUploadImgModal: !this.state.showUploadImgModal });
   };
   render() {
-    const { isLoggedIn, userDetails, myStripeAccountDetails } = this.props;
+    const {
+      isLoggedIn,
+      userDetails,
+      myStripeAccountDetails,
+      isLoadingStripeAccountDetails,
+    } = this.props;
     const { showUploadImgModal } = this.state;
 
-    if (!isLoggedIn) {
+    if (!isLoggedIn || isLoadingStripeAccountDetails) {
       return null;
     }
 
@@ -261,9 +266,10 @@ class TaskerVerificationBanner extends React.Component {
   }
 }
 
-const mapStateToProps = ({ bidsReducer, uiReducer, userReducer }) => {
+const mapStateToProps = ({ userReducer }) => {
   return {
     isLoggedIn: userReducer.isLoggedIn,
+    isLoadingStripeAccountDetails: userReducer.isLoadingStripeAccountDetails,
     userDetails: userReducer.userDetails,
     myStripeAccountDetails: userReducer.myStripeAccountDetails,
   };

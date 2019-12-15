@@ -191,22 +191,5 @@ module.exports = (app) => {
       return res.status(400).send({ errorMsg: 'Failed To post a new bid', details: `${e}` });
     }
   });
-  app.put(ROUTES.API.BID.PUT.updateBidState, requireLogin, async (req, res, done) => {
-    try {
-      // create new job for this user
-      const data = req.body.data;
-      const { bidId, newState } = data;
 
-      if (bidId && newState) {
-        const newBid = await bidDataAccess.updateBidState(bidId, newState);
-        return res.send({ bidId, success: true });
-      } else {
-        return res.status(400).send({
-          errorMsg: 'Bad Request param bidId was Not Specified',
-        });
-      }
-    } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To update Bid State', details: `${e}` });
-    }
-  });
 };

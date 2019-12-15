@@ -168,7 +168,7 @@ const deleteJob = {
 const markBidAsSeen = (state = initialState, { payload }) => {
   const { jobId, bidId } = payload;
   if (jobId && bidId) {
-    const updateBidStateForCurrentActiveJob =
+    const updatedBidsList =
       state.selectedJobWithBids._bidsListRef &&
       state.selectedJobWithBids._bidsListRef.map((bid) => {
         if (bid._id === bidId) {
@@ -179,7 +179,7 @@ const markBidAsSeen = (state = initialState, { payload }) => {
       });
     const updatedSelectedActivePostedJob = {
       ...state.selectedJobWithBids,
-      _bidsListRef: updateBidStateForCurrentActiveJob,
+      _bidsListRef: updatedBidsList,
     };
     return {
       ...state,

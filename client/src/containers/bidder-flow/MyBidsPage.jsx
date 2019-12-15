@@ -9,7 +9,7 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { Spinner } from '../../components/Spinner';
 import TaskerVerificationBanner from './TaskerVerificationBanner.jsx';
 import { allMyPostedBids } from '../../app-state/actions/bidsActions';
-import { updateBidState, deleteOpenBid, updateBid } from '../../app-state/actions/bidsActions';
+import { deleteOpenBid, updateBid } from '../../app-state/actions/bidsActions';
 import { BID_STATES } from '../../bdb-tasks/index';
 import { getMeTheRightBidCard } from '../../bdb-tasks/getMeTheRightCard';
 const MY_BIDS_TABS = {
@@ -135,7 +135,6 @@ const mapStateToProps = ({ bidsReducer, uiReducer, userReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     allMyPostedBids: bindActionCreators(allMyPostedBids, dispatch),
-    updateBidState: bindActionCreators(updateBidState, dispatch),
     deleteOpenBid: bindActionCreators(deleteOpenBid, dispatch),
     updateBid: bindActionCreators(updateBid, dispatch),
   };

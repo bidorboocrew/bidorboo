@@ -235,15 +235,3 @@ export const getAwardedBidDetails = (awardedBidId) => (dispatch) => {
       }),
   });
 };
-
-export const updateBidState = (bidId, newState) => (dispatch) => {
-  //update store with the job details
-  dispatch({
-    type: A.BIDDER_ACTIONS.UPDATE_BID_STATE,
-    payload: axios
-      .put(ROUTES.API.BID.PUT.updateBidState, { data: { bidId, newState } })
-      .catch((error) => {
-        throwErrorNotification(dispatch, error);
-      }),
-  });
-};

@@ -108,7 +108,6 @@ export const API = {
     PUT: {
       updateMyBid: '/api/bids/updateMyBid',
       markBidAsSeen: '/api/bids/markBidAsSeen',
-      updateBidState: '/api/bids/updateBidState',
     },
   },
 };
