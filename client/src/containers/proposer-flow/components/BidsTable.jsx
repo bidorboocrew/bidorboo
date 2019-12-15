@@ -4,7 +4,6 @@ import {
   BidsTableVerifiedVia,
   CenteredUserImageAndRating,
 } from '../../../containers/commonComponents';
-import * as Constants from '../../../constants/enumConstants';
 import { getChargeDistributionDetails } from '../../commonUtils';
 export default class BidsTable extends React.Component {
   openBidDetailsModal = (bid) => {
@@ -20,7 +19,7 @@ export default class BidsTable extends React.Component {
   };
 
   render() {
-    const { bidList, viewedByCount, fetchMostRecentBids } = this.props;
+    const { bidList, viewedByCount } = this.props;
 
     const areThereAnyBids = bidList && bidList.length > 0;
 
@@ -29,7 +28,7 @@ export default class BidsTable extends React.Component {
     }
 
     let tableRows = bidList.map((bid) => {
-      const { value: bidValue } = bid.bidAmount;
+      const { value: bidValue } = bid.bidAmountForRequester;
       const { requesterTotalPayment: totalCharge } = getChargeDistributionDetails(bidValue);
 
       return (
@@ -136,16 +135,11 @@ class TaskerBidCard extends React.Component {
       return null;
     }
 
-    const {
-      _id,
-      rating,
+    const { rating } = otherUserProfileInfo;
 
-      membershipStatus,
-    } = otherUserProfileInfo;
+    // const membershipStatusDisplay = Constants.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
 
-    const membershipStatusDisplay = Constants.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
-
-    const { globalRating, lastComment } = rating;
+    const { lastComment } = rating;
 
     let displayComment = lastComment || 'This user was not reviewed yet!';
     if (displayComment.length > 100) {

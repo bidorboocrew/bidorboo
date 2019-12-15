@@ -11,24 +11,6 @@ const requireJobOwner = require('../middleware/requireJobOwner');
 const requireCurrentUserIsTheAwardedBidder = require('../middleware/requireCurrentUserIsTheAwardedBidder');
 // const stripeServiceUtil = require('../services/stripeService').util;
 module.exports = (app) => {
-  app.get(ROUTES.API.JOB.GET.myJobById, requireLogin, async (req, res) => {
-    try {
-      if (req.query && req.query.jobId) {
-        const { jobId } = req.query;
-        const mongoUser_id = req.user._id;
-
-        const jobDetails = await jobDataAccess.getJobWithBidDetails(mongoUser_id, jobId);
-        return res.send(jobDetails);
-      } else {
-        return res.status(400).send({
-          errorMsg: 'Bad Request for get job by id, jobId param was Not Specified',
-        });
-      }
-    } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To get job by id', details: `${e}` });
-    }
-  });
-
   app.get(ROUTES.API.JOB.GET.jobToBidDetailsById, async (req, res) => {
     try {
       if (req.query && req.query.jobId) {
@@ -67,7 +49,7 @@ module.exports = (app) => {
   //------------------------------------------------------------------------------
   //------------------------------------------------------------------------------
   app.delete(
-    ROUTES.API.JOB.DELETE.myJobById,
+    ROUTES.API.JOB.DELETE.postedJobAndBidsForRequester,
     requireBidorBooHost,
     requireLogin,
     async (req, res, next) => {
@@ -474,7 +456,7 @@ module.exports = (app) => {
 
   // everything below this is reviewed and optimal
   app.get(
-    ROUTES.API.JOB.GET.getMyRequestsSummary,
+    ROUTES.API.JOB.GET.myRequestsSummary,
     requireBidorBooHost,
     requireLogin,
     async (req, res) => {
@@ -491,4 +473,23 @@ module.exports = (app) => {
       }
     }
   );
+  app.get(ROUTES.API.JOB.GET.postedJobAndBidsForRequester, requireLogin, async (req, res) => {
+    try {
+      if (req.query && req.query.jobId) {
+        const { jobId } = req.query;
+        const mongoUser_id = req.user._id;
+
+        const jobDetails = await jobDataAccess.getJobWithBidDetails(mongoUser_id, jobId);
+        return res.send(jobDetails);
+      } else {
+        return res.status(400).send({
+          errorMsg: "Bad Request, couldn't get job by id",
+        });
+      }
+    } catch (e) {
+      console.log('BIDORBOO_ERROR: ROUTES.API.JOB.GET.myJobById ' + e);
+
+      return res.status(400).send({ errorMsg: 'Failed To get job by id', details: `${e}` });
+    }
+  });
 };

@@ -156,6 +156,10 @@ const JobSchema = new Schema(
         message: 'You can attach a maximum of ' + MAX_IMAGE_COUNT + 'images',
       },
     },
+    completionDate: {
+      type: Date,
+      required: true,
+    },
     taskImages: {
       type: [
         {

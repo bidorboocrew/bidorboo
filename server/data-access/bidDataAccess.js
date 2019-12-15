@@ -10,6 +10,7 @@ const stripeServiceUtil = require('../services/stripeService').util;
 const sendGridEmailing = require('../services/sendGrid').EmailService;
 const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
 const WebPushNotifications = require('../services/WebPushNotifications').WebPushNotifications;
+const { getChargeDistributionDetails } = require('../utils/chargesCalculatorUtil');
 
 exports.bidDataAccess = {
   confirmBidBelongsToOwner: (mongoUser_id, bidId) => {
@@ -841,14 +842,26 @@ exports.bidDataAccess = {
   postNewBid: ({ mongoUser_id, jobId, bidAmount }) => {
     return new Promise(async (resolve, reject) => {
       try {
+        const { requesterTotalPayment, taskerTotalPayoutAmount } = getChargeDistributionDetails(
+          bidAmount
+        );
+
         const newBid = await new BidModel({
           _bidderRef: mongoUser_id,
           _jobRef: jobId,
           bidAmount: { value: bidAmount, currency: bidAmount.currency || 'CAD' },
+          requesterPayment: {
+            value: requesterTotalPayment / 100,
+            currency: bidAmount.currency || 'CAD',
+          },
+          bidderPayout: {
+            value: taskerTotalPayoutAmount / 100,
+            currency: bidAmount.currency || 'CAD',
+          },
         }).save();
 
         //update the user and job model with this new bid
-        const updateRelativeModels = await Promise.all([
+        await Promise.all([
           UserModel.findOneAndUpdate(
             { _id: mongoUser_id },
             {

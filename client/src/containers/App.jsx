@@ -105,11 +105,11 @@ class App extends React.Component {
           <section className="hero is-fullheight">
             <div className="hero-body">
               <div className="container">
-                <h1 className="title has-text-info">Sorry! We've encountered an error</h1>
+                <label className="subtitle has-text-info">Sorry! We've encountered an error</label>
                 <br />
-                <h1 className="sub-title">
+                <label className="is-size-7">
                   Apologies for the inconvenience, We will track the issue and fix it asap.
-                </h1>
+                </label>
                 <br />
                 <a
                   onClick={(e) => {

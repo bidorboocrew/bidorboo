@@ -167,43 +167,22 @@ const deleteJob = {
 
 const markBidAsSeen = (state = initialState, { payload }) => {
   const { jobId, bidId } = payload;
-
   if (jobId && bidId) {
-    const updatedMyOpenJobsList = state.myRequests.map((job) => {
-      if (job._id === jobId) {
-        const updated_bidsListRef =
-          job._bidsListRef &&
-          job._bidsListRef.map((bid) => {
-            if (bid._id === bidId) {
-              return { ...bid, isNewBid: false };
-            } else {
-              return { ...bid };
-            }
-          });
-        return { ...job, _bidsListRef: updated_bidsListRef };
-      } else {
-        return { ...job };
-      }
-    });
-
     const updateBidStateForCurrentActiveJob =
       state.selectedJobWithBids._bidsListRef &&
       state.selectedJobWithBids._bidsListRef.map((bid) => {
         if (bid._id === bidId) {
           return { ...bid, isNewBid: false };
         } else {
-          return { ...bid };
+          return bid;
         }
       });
-
     const updatedSelectedActivePostedJob = {
       ...state.selectedJobWithBids,
       _bidsListRef: updateBidStateForCurrentActiveJob,
     };
-
     return {
       ...state,
-      myRequests: [...updatedMyOpenJobsList],
       selectedJobWithBids: { ...updatedSelectedActivePostedJob },
     };
   }

@@ -57,7 +57,9 @@ export const getAllMyRequests = () => (dispatch) =>
 export const cancelJobById = (jobId) => (dispatch) => {
   const req = dispatch({
     type: A.JOB_ACTIONS.DELETE_JOB_BY_ID,
-    payload: axios.delete(ROUTES.API.JOB.DELETE.myJobById, { data: { jobId: jobId } }),
+    payload: axios.delete(ROUTES.API.JOB.DELETE.postedJobAndBidsForRequester, {
+      data: { jobId: jobId },
+    }),
   });
 
   req.then((resp) => {
@@ -105,27 +107,6 @@ export const searchJobsToBidOn = (values) => (dispatch) => {
 //   });
 // };
 
-export const getPostedJobDetails = (jobId) => (dispatch) => {
-  if (!jobId) {
-    return;
-  }
-  return dispatch({
-    type: A.JOB_ACTIONS.GET_POSTED_JOB_DETAILS_BY_ID,
-    payload: axios
-      .get(ROUTES.API.JOB.GET.myJobById, { params: { jobId } })
-      .then((resp) => {
-        if (resp && resp.data) {
-          dispatch({
-            type: A.JOB_ACTIONS.SELECT_ACTIVE_POSTED_JOB,
-            payload: { data: resp.data },
-          });
-        }
-      })
-      .catch((error) => {
-        throwErrorNotification(dispatch, error);
-      }),
-  });
-};
 export const searchByLocation = (userSearchQuery) => (dispatch) => {
   const serverSearchQuery = {
     searchLocation: userSearchQuery.locationField,
@@ -402,11 +383,32 @@ export const uploadTaskImages = (taskImages) => (dispatch) => {
   }
 };
 
-
 //----------------- in use
 
 export const getMyRequestsSummary = () => (dispatch) =>
   dispatch({
     type: A.JOB_ACTIONS.GET_MY_REQUESTS_SUMMARY,
-    payload: axios.get(ROUTES.API.JOB.GET.getMyRequestsSummary),
+    payload: axios.get(ROUTES.API.JOB.GET.myRequestsSummary),
   });
+
+export const getPostedJobAndBidsForRequester = (jobId) => (dispatch) => {
+  if (!jobId) {
+    return;
+  }
+  return dispatch({
+    type: A.JOB_ACTIONS.GET_POSTED_JOB_AND_BIDS_FOR_REQUESTER,
+    payload: axios
+      .get(ROUTES.API.JOB.GET.postedJobAndBidsForRequester, { params: { jobId } })
+      .then((resp) => {
+        if (resp && resp.data) {
+          dispatch({
+            type: A.JOB_ACTIONS.SELECT_ACTIVE_POSTED_JOB,
+            payload: { data: resp.data },
+          });
+        }
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+};

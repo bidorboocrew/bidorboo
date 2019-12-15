@@ -830,69 +830,6 @@ exports.jobDataAccess = {
       .lean(true)
       .exec();
   },
-  getJobWithBidDetails: async (mongDbUserId, jobId) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const jobWithBidDetails = await JobModel.findOne({ _id: jobId, _ownerRef: mongDbUserId })
-          .populate([
-            {
-              path: '_ownerRef',
-              select: {
-                displayName: 1,
-                profileImage: 1,
-                rating: 1,
-                _id: 1,
-                notifications: 1,
-              },
-            },
-            {
-              path: '_awardedBidRef',
-              select: {
-                _bidderRef: 1,
-                isNewBid: 1,
-                state: 1,
-                bidAmount: 1,
-                createdAt: 1,
-                updatedAt: 1,
-              },
-              populate: {
-                path: '_bidderRef',
-                select: {
-                  displayName: 1,
-                  email: 1,
-                  phone: 1,
-                  profileImage: 1,
-                  rating: 1,
-                  userId: 1,
-                },
-              },
-            },
-            {
-              path: '_bidsListRef',
-              select: { _bidderRef: 1, isNewBid: 1, bidAmount: 1, _jobRef: 1 },
-              populate: {
-                path: '_bidderRef',
-                select: {
-                  isGmailUser: 1,
-                  isFbUser: 1,
-                  displayName: 1,
-                  profileImage: 1,
-                  membershipStatus: 1,
-                  rating: 1,
-                  'stripeConnect.isVerified': 1,
-                },
-              },
-            },
-          ])
-          .lean({ virtuals: true })
-          .exec();
-
-        resolve(jobWithBidDetails);
-      } catch (e) {
-        reject(e);
-      }
-    });
-  },
 
   getJobToBidOnDetails: async (jobId) => {
     return new Promise(async (resolve, reject) => {
@@ -2367,10 +2304,9 @@ exports.jobDataAccess = {
       }
     });
   },
-  // all items below this line is optimal and final
-  // get jobs for a user and filter by a given state
+  // all items below this line is optimal and final -----------------------------
+
   getMyRequestsSummary: async (_id) => {
-    // get jobs for a user and filter by a given state
     return JobModel.find(
       { _ownerRef: { $eq: _id } },
       {
@@ -2402,5 +2338,69 @@ exports.jobDataAccess = {
       })
       .lean({ virtuals: true })
       .exec();
+  },
+
+  getJobWithBidDetails: async (mongDbUserId, jobId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const jobWithBidDetails = await JobModel.findOne({ _id: jobId, _ownerRef: mongDbUserId })
+          .populate([
+            {
+              path: '_ownerRef',
+              select: {
+                displayName: 1,
+                profileImage: 1,
+                rating: 1,
+                _id: 1,
+              },
+            },
+            {
+              path: '_awardedBidRef',
+              select: {
+                _bidderRef: 1,
+                isNewBid: 1,
+                bidAmount: 1,
+              },
+              populate: {
+                path: '_bidderRef',
+                select: {
+                  displayName: 1,
+                  email: 1,
+                  phone: 1,
+                  profileImage: 1,
+                  rating: 1,
+                },
+              },
+            },
+            {
+              path: '_bidsListRef',
+              select: {
+                _bidderRef: 1,
+                isNewBid: 1,
+                bidAmount: 1,
+                _jobRef: 1,
+              },
+              populate: {
+                path: '_bidderRef',
+                select: {
+                  isGmailUser: 1,
+                  isFbUser: 1,
+                  displayName: 1,
+                  profileImage: 1,
+                  membershipStatus: 1,
+                  rating: 1,
+                  'stripeConnect.isVerified': 1,
+                },
+              },
+            },
+          ])
+          .lean({ virtuals: true })
+          .exec();
+
+        resolve(jobWithBidDetails);
+      } catch (e) {
+        reject(e);
+      }
+    });
   },
 };

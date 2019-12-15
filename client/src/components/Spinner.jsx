@@ -1,13 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Delay from 'react-delay';
 import classNames from 'classnames';
 
+import { switchRoute } from './../utils';
+import * as ROUTES from '../constants/frontend-route-consts';
+
+const TIMEOUT_DURATION = 50000; //50 seconds
 export const Spinner = ({
   isDark = true,
   size = 'meduim',
   isLoading = false,
   renderLabel = null,
 }) => {
+  const [didRequestTimeout, setDidRequestTimeout] = useState(false);
+  useEffect(() => {
+    const timeoutFunc = setTimeout(() => {
+      setDidRequestTimeout(true);
+    }, TIMEOUT_DURATION);
+
+    return () => clearTimeout(timeoutFunc);
+  }, []);
+
   const spinnerSize = classNames(
     'bdb-spinner',
     { small: size === 'small' },
@@ -16,7 +29,7 @@ export const Spinner = ({
   );
   return (
     <Delay wait={500}>
-      {isLoading && (
+      {isLoading && !didRequestTimeout && (
         <React.Fragment>
           <div style={{ marginTop: '1rem' }} className="VerticalAligner">
             <div className={spinnerSize} />
@@ -30,6 +43,31 @@ export const Spinner = ({
             )}
           </div>
         </React.Fragment>
+      )}
+      {isLoading && didRequestTimeout && (
+        <section className="hero is-fullheight">
+          <div className="hero-body">
+            <div className="container">
+              <label className="subtitle has-text-danger">
+                Something went wrong! The request had timed out
+              </label>
+              <br />
+              <label className="is-size-7">
+                Apologies for the inconvenience, We will track the issue and fix it asap.
+              </label>
+              <br />
+              <br />
+              <a
+                onClick={() => {
+                  switchRoute(ROUTES.CLIENT.HOME);
+                }}
+                className="button is-success is-medium"
+              >
+                Go to Home Page
+              </a>
+            </div>
+          </div>
+        </section>
       )}
     </Delay>
   );

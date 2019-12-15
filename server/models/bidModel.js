@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
+const { getChargeDistributionDetails } = require('../utils/chargesCalculatorUtil');
+
 const MIN_BID_AMOUNT = 20;
 const MAX_BID_AMOUNT = 5000;
 const BidSchema = new Schema(
@@ -15,16 +17,49 @@ const BidSchema = new Schema(
     bidAmount: {
       value: {
         type: Number,
-        required: true,
         validate: {
           validator: (bid) => bid >= MIN_BID_AMOUNT && bid <= MAX_BID_AMOUNT,
           message: 'Minimum bid amount is ' + MIN_BID_AMOUNT + ' and maximum is ' + MAX_BID_AMOUNT,
         },
+        required: true,
       },
       currency: {
         type: String,
         enum: ['CAD', 'USD'],
         default: 'CAD',
+        required: true,
+      },
+    },
+    requesterPayment: {
+      value: {
+        type: Number,
+        validate: {
+          validator: (bid) => bid >= MIN_BID_AMOUNT && bid <= MAX_BID_AMOUNT,
+          message: 'Minimum bid amount is ' + MIN_BID_AMOUNT + ' and maximum is ' + MAX_BID_AMOUNT,
+        },
+        required: true,
+      },
+      currency: {
+        type: String,
+        enum: ['CAD', 'USD'],
+        default: 'CAD',
+        required: true,
+      },
+    },
+    bidderPayout: {
+      value: {
+        type: Number,
+        validate: {
+          validator: (bid) => bid >= MIN_BID_AMOUNT && bid <= MAX_BID_AMOUNT,
+          message: 'Minimum bid amount is ' + MIN_BID_AMOUNT + ' and maximum is ' + MAX_BID_AMOUNT,
+        },
+        required: true,
+      },
+      currency: {
+        type: String,
+        enum: ['CAD', 'USD'],
+        default: 'CAD',
+        required: true,
       },
     },
   },
@@ -37,6 +72,15 @@ const cleanUpOnDeleteJob = function(next) {
     $pull: { _postedBidsRef: { $eq: this._id } },
   }).then(() => next());
 };
+
+// the bid amount from requester point of view
+BidSchema.virtual('bidAmountForRequester').get(function() {
+  if (this.bidAmount) {
+    const { requesterTotalPayment } = getChargeDistributionDetails(this.bidAmount.value);
+    return { value: requesterTotalPayment / 100, currency: this.bidAmount.currency };
+  }
+  return null;
+});
 
 BidSchema.pre('remove', cleanUpOnDeleteJob);
 

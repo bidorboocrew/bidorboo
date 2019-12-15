@@ -8,7 +8,7 @@ import { RenderBackButton, redirectBasedOnJobState } from '../commonComponents';
 
 import { Spinner } from '../../components/Spinner';
 
-import { getPostedJobDetails, markBidAsSeen } from '../../app-state/actions/jobActions';
+import { getPostedJobAndBidsForRequester, markBidAsSeen } from '../../app-state/actions/jobActions';
 
 import BidsTable from './components/BidsTable';
 import AcceptBidAndBidderModal from './components/AcceptBidAndBidderModal';
@@ -20,7 +20,7 @@ import {
 } from '../../bdb-tasks/getMeTheRightCard';
 
 const FETCH_INTERVAL = 15000;
-const FETCH_DURATION = 20; //20times*15second=3mins of fetching then we stop
+const FETCH_DURATION = process.env.NODE_ENV === 'production' ? 20 : 0; //20times*15second=3mins of fetching then we stop
 
 class ReviewRequestAndBidsPage extends React.Component {
   constructor(props) {
@@ -40,7 +40,7 @@ class ReviewRequestAndBidsPage extends React.Component {
     } else {
       if (this.numberOfFetches > 0) {
         const { selectedJobWithBids } = this.props;
-        this.props.getPostedJobDetails(selectedJobWithBids._id);
+        this.props.getPostedJobAndBidsForRequester(selectedJobWithBids._id);
         console.log('fetched more bids');
       }
       this.numberOfFetches--;
@@ -53,10 +53,10 @@ class ReviewRequestAndBidsPage extends React.Component {
 
     let newJobId = this.props.match.params.jobId;
     if (!selectedJobWithBids) {
-      this.props.getPostedJobDetails(newJobId);
+      this.props.getPostedJobAndBidsForRequester(newJobId);
     } else if (selectedJobWithBids._id !== newJobId) {
       // fetch it
-      this.props.getPostedJobDetails(newJobId);
+      this.props.getPostedJobAndBidsForRequester(newJobId);
     } else {
       if (selectedJobWithBids.state !== REQUEST_STATES.OPEN) {
         redirectBasedOnJobState(selectedJobWithBids);
@@ -169,7 +169,7 @@ const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getPostedJobDetails: bindActionCreators(getPostedJobDetails, dispatch),
+    getPostedJobAndBidsForRequester: bindActionCreators(getPostedJobAndBidsForRequester, dispatch),
     markBidAsSeen: bindActionCreators(markBidAsSeen, dispatch),
   };
 };
