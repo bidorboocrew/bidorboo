@@ -70,7 +70,6 @@ class TaskerEditOrUpdateBid extends React.Component {
     const { showUpdateBidDialog } = this.state;
 
     const bidAmount = bid.bidAmount.value;
-    const bidCurrency = bid.bidAmount.currency;
     const isNewBid = bid.isNewBid;
 
     const autoBidOptions =

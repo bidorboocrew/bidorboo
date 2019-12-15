@@ -2359,7 +2359,7 @@ exports.jobDataAccess = {
               select: {
                 _bidderRef: 1,
                 isNewBid: 1,
-                bidAmount: 1,
+                requesterPayment: 1,
               },
               populate: {
                 path: '_bidderRef',
@@ -2377,7 +2377,7 @@ exports.jobDataAccess = {
               select: {
                 _bidderRef: 1,
                 isNewBid: 1,
-                bidAmount: 1,
+                requesterPayment: 1,
                 _jobRef: 1,
               },
               populate: {

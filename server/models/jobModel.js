@@ -158,7 +158,6 @@ const JobSchema = new Schema(
     },
     completionDate: {
       type: Date,
-      required: true,
     },
     taskImages: {
       type: [

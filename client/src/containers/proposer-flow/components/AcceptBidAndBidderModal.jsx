@@ -15,10 +15,7 @@ class AcceptBidAndBidderModal extends React.Component {
     if (!bid || !bid._id || !bid._bidderRef || !bid._jobRef) {
       return null;
     }
-
-    const bidAmount = bid.bidAmount.value;
-
-    const { requesterTotalPayment } = getChargeDistributionDetails(bidAmount);
+    const { value: totalCharge } = bid.requesterPayment;
 
     const otherUserProfileInfo = bid._bidderRef;
     const { rating, membershipStatus } = otherUserProfileInfo;
@@ -76,7 +73,7 @@ class AcceptBidAndBidderModal extends React.Component {
                 Offered to do this task for a total price of
               </div>
               <div className="control is-size-4 has-text-weight-semibold has-text-success">
-                {`${Math.ceil(requesterTotalPayment)} $CAD`}
+                {`${Math.ceil(totalCharge)} $CAD`}
               </div>
             </div>
 

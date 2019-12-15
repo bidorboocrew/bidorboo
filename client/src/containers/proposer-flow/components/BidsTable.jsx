@@ -4,7 +4,6 @@ import {
   BidsTableVerifiedVia,
   CenteredUserImageAndRating,
 } from '../../../containers/commonComponents';
-import { getChargeDistributionDetails } from '../../commonUtils';
 export default class BidsTable extends React.Component {
   openBidDetailsModal = (bid) => {
     const { markBidAsSeen, jobId, showBidReviewModal } = this.props;
@@ -28,8 +27,7 @@ export default class BidsTable extends React.Component {
     }
 
     let tableRows = bidList.map((bid) => {
-      const { value: bidValue } = bid.bidAmountForRequester;
-      const { requesterTotalPayment: totalCharge } = getChargeDistributionDetails(bidValue);
+      const { value: totalCharge } = bid.requesterPayment;
 
       return (
         <div key={bid._id} className="column is-narrow isforCards slide-in-bottom-small">

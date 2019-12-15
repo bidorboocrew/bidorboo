@@ -8,7 +8,7 @@ import * as ROUTES from '../constants/frontend-route-consts';
 const TIMEOUT_DURATION = 50000; //50 seconds
 export const Spinner = ({
   isDark = true,
-  size = 'meduim',
+  size = 'medium',
   isLoading = false,
   renderLabel = null,
 }) => {
@@ -24,7 +24,7 @@ export const Spinner = ({
   const spinnerSize = classNames(
     'bdb-spinner',
     { small: size === 'small' },
-    { meduim: size === 'meduim' },
+    { medium: size === 'medium' },
     { large: size === 'large' },
   );
   return (

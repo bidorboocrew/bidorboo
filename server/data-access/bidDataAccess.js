@@ -829,10 +829,19 @@ exports.bidDataAccess = {
     return !!isSuccessful;
   },
   updateBidValue: ({ mongoUser_id, bidId, bidAmount }) => {
+    const { requesterTotalPayment, taskerTotalPayoutAmount } = getChargeDistributionDetails(
+      bidAmount
+    );
+
     return BidModel.findOneAndUpdate(
       { _id: bidId, _bidderRef: mongoUser_id },
       {
-        $set: { 'bidAmount.value': bidAmount, isNewBid: true },
+        $set: {
+          'bidAmount.value': bidAmount,
+          isNewBid: true,
+          'requesterPayment.value': requesterTotalPayment / 100,
+          'bidderPayout.value': taskerTotalPayoutAmount / 100,
+        },
       },
       { new: true }
     )
