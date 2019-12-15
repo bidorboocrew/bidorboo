@@ -1,9 +1,6 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
-import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -22,50 +19,17 @@ import RequestBaseContainer from './RequestBaseContainer';
 class RequesterAwardedSummary extends RequestBaseContainer {
   render() {
     const { job, cancelJobById } = this.props;
-    if (!job || !job._id || !cancelJobById) {
-      return <div>RequesterAwardedSummary is missing properties</div>;
-    }
-
     const {
       _id: jobId,
       startingDateAndTime,
-      addressText,
-      displayStatus,
-      isHappeningSoon,
-      isHappeningToday,
-      isPastDue,
       _awardedBidRef,
-      jobCompletion = {
-        proposerConfirmed: false,
-        bidderConfirmed: false,
-        proposerDisputed: false,
-      },
+      bidderConfirmedCompletion,
       jobTitle,
       taskImages = [],
     } = job;
-    if (
-      !jobId ||
-      !_awardedBidRef ||
-      !startingDateAndTime ||
-      !addressText ||
-      !displayStatus ||
-      isHappeningSoon === 'undefined' ||
-      isHappeningToday === 'undefined' ||
-      isPastDue === 'undefined'
-    ) {
-      return <div>RequesterAwardedSummary is missing properties</div>;
-    }
-
-    if (!_awardedBidRef._bidderRef) {
-      return <div>RequesterAwardedSummary is missing properties</div>;
-    }
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE) {
-      return <div>RequesterAwardedSummary is missing properties</div>;
-    }
 
-    const { bidderConfirmed } = jobCompletion;
     return (
       <React.Fragment>
         <div
@@ -95,7 +59,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
               }}
               className={`button is-success`}
             >
-              VIEW DETAILS
+              {bidderConfirmedCompletion ? 'CONFIRM COMPLETION' : 'VIEW DETAILS'}
             </a>
           </div>
         </div>
@@ -113,15 +77,4 @@ const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
-    cancelJobById: bindActionCreators(cancelJobById, dispatch),
-    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(RequesterAwardedSummary);
+export default connect(mapStateToProps, null)(RequesterAwardedSummary);

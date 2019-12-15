@@ -15,45 +15,14 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 export default class RequesterDisputedSummary extends React.Component {
   render() {
     const { job } = this.props;
-    if (!job) {
-      return <div>RequesterDisputedSummary is missing properties</div>;
-    }
 
-    const {
-      startingDateAndTime,
-      addressText,
-      _awardedBidRef,
-      displayStatus,
-      state,
-      _ownerRef,
-      taskImages = [],
-      jobTitle,
+    const { startingDateAndTime, taskImages = [], jobTitle, dispute } = job;
 
-      dispute,
-    } = job;
-    if (
-      !startingDateAndTime ||
-      !addressText ||
-      !_awardedBidRef ||
-      !displayStatus ||
-      !state ||
-      !_ownerRef ||
-      !dispute
-    ) {
-      return <div>RequesterDisputedSummary is missing properties</div>;
-    }
-    const { _bidderRef } = _awardedBidRef;
-    if (!_bidderRef) {
-      return <div>RequesterDisputedSummary is missing properties</div>;
-    }
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE) {
-      return <div>RequesterDisputedSummary is missing properties</div>;
-    }
 
     let whoDisputed = '';
 
-    const { taskerDispute, proposerDispute } = dispute;
+    const { taskerDispute } = dispute;
     if (taskerDispute && taskerDispute.reason) {
       whoDisputed = 'Tasker';
     } else {

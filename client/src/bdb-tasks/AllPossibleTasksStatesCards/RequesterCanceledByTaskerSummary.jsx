@@ -21,38 +21,9 @@ class RequesterCanceledByTaskerSummary extends React.Component {
   render() {
     const { job, updateJobState, notificationFeed } = this.props;
 
-    if (!job) {
-      return <div>RequesterCanceledByTaskerSummary is missing properties</div>;
-    }
+    const { startingDateAndTime, taskImages = [], jobTitle } = job;
 
-    const {
-      startingDateAndTime,
-      addressText,
-      _awardedBidRef,
-      displayStatus,
-      state,
-      _ownerRef,
-      taskImages = [],
-      jobTitle,
-    } = job;
-    if (
-      !startingDateAndTime ||
-      !addressText ||
-      !_awardedBidRef ||
-      !displayStatus ||
-      !state ||
-      !_ownerRef
-    ) {
-      return <div>RequesterCanceledByTaskerSummary is missing properties</div>;
-    }
-    const { _bidderRef } = _awardedBidRef;
-    if (!_bidderRef) {
-      return <div>RequesterCanceledByTaskerSummary is missing properties</div>;
-    }
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE) {
-      return <div>RequesterCanceledByTaskerSummary is missing properties</div>;
-    }
 
     let newUnseenState = false;
     if (notificationFeed && notificationFeed.jobIdsWithNewBids) {
@@ -82,7 +53,7 @@ class RequesterCanceledByTaskerSummary extends React.Component {
               )}
             />
 
-            <CancelledBy name={'Tasker'} refundAmount={100} />
+            <CancelledBy name={'Tasker'} />
           </div>
         </div>
 
@@ -115,7 +86,7 @@ class RequesterCanceledByTaskerSummary extends React.Component {
   }
 }
 
-const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
+const mapStateToProps = ({ uiReducer }) => {
   return {
     notificationFeed: uiReducer.notificationFeed,
   };

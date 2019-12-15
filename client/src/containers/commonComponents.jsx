@@ -916,7 +916,7 @@ export const JobCardTitle = ({ img, icon, title, meatballMenu }) => {
   // );
 };
 
-export const CancelledBy = ({ name, refundAmount }) => {
+export const CancelledBy = ({ name }) => {
   return (
     <div className="group">
       <div
@@ -953,9 +953,7 @@ export const CancelledBy = ({ name, refundAmount }) => {
           {`Cancelled by ${name}`}
         </div>
       </div>
-      {/* <div>
-        <div className="help">*BidorBoo will refund you ${refundAmount}%</div>
-      </div> */}
+
     </div>
   );
 };

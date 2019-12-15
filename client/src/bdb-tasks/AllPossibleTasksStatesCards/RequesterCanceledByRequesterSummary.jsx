@@ -12,44 +12,13 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
-import { REQUEST_STATES } from '../index';
-
 export default class RequesterCanceledByRequesterSummary extends React.Component {
   render() {
     const { job } = this.props;
 
-    if (!job) {
-      return <div>RequesterCanceledByRequesterSummary is missing properties</div>;
-    }
+    const { startingDateAndTime, taskImages = [], jobTitle } = job;
 
-    const {
-      startingDateAndTime,
-      addressText,
-      _awardedBidRef,
-      displayStatus,
-      state,
-      _ownerRef,
-      taskImages = [],
-      jobTitle,
-    } = job;
-    if (
-      !startingDateAndTime ||
-      !addressText ||
-      !_awardedBidRef ||
-      !displayStatus ||
-      !state ||
-      !_ownerRef
-    ) {
-      return <div>RequesterCanceledByRequesterSummary is missing properties</div>;
-    }
-    const { _bidderRef } = _awardedBidRef;
-    if (!_bidderRef) {
-      return <div>RequesterCanceledByRequesterSummary is missing properties</div>;
-    }
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE) {
-      return <div>RequesterCanceledByRequesterSummary is missing properties</div>;
-    }
 
     return (
       <div

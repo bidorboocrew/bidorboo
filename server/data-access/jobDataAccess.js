@@ -2383,8 +2383,9 @@ exports.jobDataAccess = {
         jobTitle: 1,
         startingDateAndTime: 1,
         taskImages: 1,
+        dispute: 1,
       },
-      { limit: 1000, sort: { startingDateAndTime: 1 } }
+      { limit: 500, sort: { startingDateAndTime: 1 } }
     )
       .populate({
         path: '_reviewRef',
