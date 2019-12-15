@@ -54,12 +54,6 @@ export const getAllMyRequests = () => (dispatch) =>
     payload: axios.get(ROUTES.API.JOB.GET.getAllMyRequests),
   });
 
-export const getAllMyOpenJobs = () => (dispatch) =>
-  dispatch({
-    type: A.JOB_ACTIONS.GET_ALL_MY_OPEN_JOBS,
-    payload: axios.get(ROUTES.API.JOB.GET.myOpenJobs),
-  });
-
 export const cancelJobById = (jobId) => (dispatch) => {
   const req = dispatch({
     type: A.JOB_ACTIONS.DELETE_JOB_BY_ID,
@@ -407,3 +401,12 @@ export const uploadTaskImages = (taskImages) => (dispatch) => {
     });
   }
 };
+
+
+//----------------- in use
+
+export const getMyRequestsSummary = () => (dispatch) =>
+  dispatch({
+    type: A.JOB_ACTIONS.GET_MY_REQUESTS_SUMMARY,
+    payload: axios.get(ROUTES.API.JOB.GET.getMyRequestsSummary),
+  });

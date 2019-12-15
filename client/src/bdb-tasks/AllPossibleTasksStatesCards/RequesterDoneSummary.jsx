@@ -1,10 +1,5 @@
 import React from 'react';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
-import { showLoginDialog } from '../../app-state/actions/uiActions';
-
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import {
@@ -20,47 +15,18 @@ import {
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import RequestBaseContainer from './RequestBaseContainer';
 
-class RequesterDoneSummary extends RequestBaseContainer {
+export default class RequesterDoneSummary extends RequestBaseContainer {
   render() {
-    const { job, cancelJobById } = this.props;
-    if (!job || !job._id || !cancelJobById) {
-      return <div>RequesterDoneSummary is missing properties</div>;
-    }
+    const { job } = this.props;
 
-    const {
-      _id: jobId,
-      startingDateAndTime,
-      addressText,
-      displayStatus,
-      isHappeningSoon,
-      isHappeningToday,
-      isPastDue,
-      _awardedBidRef,
-      _reviewRef = {
-        revealToBoth: false,
-        requiresProposerReview: true,
-        requiresBidderReview: true,
-      },
-      taskImages = [],
-      jobTitle,
-    } = job;
-    if (
-      !jobId ||
-      !_awardedBidRef ||
-      !startingDateAndTime ||
-      !addressText ||
-      !displayStatus ||
-      isHappeningSoon === 'undefined' ||
-      isHappeningToday === 'undefined' ||
-      isPastDue === 'undefined'
-    ) {
-      return <div>RequesterDoneSummary is missing properties</div>;
-    }
+    const { _id: jobId, startingDateAndTime, _reviewRef, taskImages = [], jobTitle } = job;
+
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE) {
-      return <div>RequesterDoneSummary is missing properties</div>;
-    }
-    const { requiresProposerReview } = _reviewRef;
+    const { requiresProposerReview } = _reviewRef || {
+      revealToBoth: false,
+      requiresProposerReview: true,
+      requiresBidderReview: true,
+    };
 
     return (
       <div className="card has-text-centered cardWithButton">
@@ -84,38 +50,28 @@ class RequesterDoneSummary extends RequestBaseContainer {
         </div>
 
         <div className="centeredButtonInCard ">
-          <a
-            onClick={() => {
-              switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
-            }}
-            className={`button ${requiresProposerReview ? 'is-primary' : 'is-dark'}`}
-          >
-            VIEW DETAILS
-          </a>
+          {!requiresProposerReview && (
+            <a
+              onClick={() => {
+                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
+              }}
+              className="button is-dark"
+            >
+              VIEW DETAILS
+            </a>
+          )}
+          {requiresProposerReview && (
+            <a
+              onClick={() => {
+                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
+              }}
+              className="button is-primary"
+            >
+              REVIEW TASKER
+            </a>
+          )}
         </div>
       </div>
     );
   }
 }
-
-const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
-  return {
-    isLoggedIn: userReducer.isLoggedIn,
-    selectedAwardedJob: jobsReducer.selectedAwardedJob,
-    userDetails: userReducer.userDetails,
-    notificationFeed: uiReducer.notificationFeed,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
-    cancelJobById: bindActionCreators(cancelJobById, dispatch),
-    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(RequesterDoneSummary);

@@ -775,18 +775,6 @@ exports.jobDataAccess = {
       .exec();
   },
 
-  // get jobs for a user and filter by a given state
-  getUserJobsByState: async (userId, stateFilter) => {
-    return User.findOne({ userId: userId }, { _postedJobsRef: 1 })
-      .populate({
-        path: '_postedJobsRef',
-        select: schemaHelpers.JobFull,
-        match: { state: { $eq: stateFilter } },
-        options: { sort: { startingDateAndTime: 1 } },
-      })
-      .lean(true)
-      .exec();
-  },
   getJobById: (jobId) => {
     return JobModel.findById(jobId)
       .lean(true)
@@ -1112,6 +1100,7 @@ exports.jobDataAccess = {
             },
             {
               path: '_reviewRef',
+              match: { proposerReview: { $exists: true }, bidderReview: { $exists: true } },
               select: {
                 proposerReview: 1,
                 bidderReview: 1,
@@ -1143,6 +1132,66 @@ exports.jobDataAccess = {
     });
   },
 
+  getFullJobDetails: async (jobId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const jobWithBidderDetails = await JobModel.findOne({ _id: jobId })
+          .populate([
+            {
+              path: '_awardedBidRef',
+              select: {
+                _bidderRef: 1,
+                isNewBid: 1,
+                state: 1,
+                bidAmount: 1,
+                createdAt: 1,
+                updatedAt: 1,
+              },
+              populate: {
+                path: '_bidderRef',
+                select: {
+                  displayName: 1,
+                  email: 1,
+                  phone: 1,
+                  profileImage: 1,
+                  rating: 1,
+                  userId: 1,
+                  membershipStatus: 1,
+                },
+              },
+            },
+            {
+              path: '_reviewRef',
+              select: {
+                proposerReview: 1,
+                bidderReview: 1,
+                revealToBoth: 1,
+                requiresProposerReview: 1,
+                requiresBidderReview: 1,
+              },
+            },
+            {
+              path: '_ownerRef',
+              select: {
+                displayName: 1,
+                email: 1,
+                phone: 1,
+                profileImage: 1,
+                rating: 1,
+                userId: 1,
+              },
+            },
+          ])
+
+          .lean({ virtuals: true })
+          .exec();
+
+        resolve(jobWithBidderDetails);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
   getAllJobsToBidOnForLoggedOut: async () => {
     // wil return all jobs in the system
     return new Promise(async (resolve, reject) => {
@@ -2171,9 +2220,7 @@ exports.jobDataAccess = {
   //     processedPayment,
   //   };
   // },
-  cancelOpenJob: async (jobId, mongoUser_id) => {
-    return _updateJobStatus(jobId, mongoUser_id, 'CANCELED_OPEN');
-  },
+
   cancelAwardedJob: async (jobId, mongoUser_id) => {
     return _updateJobStatus(jobId, mongoUser_id, 'CANCELED_AWARDED');
   },
@@ -2319,5 +2366,40 @@ exports.jobDataAccess = {
         reject(e);
       }
     });
+  },
+  // all items below this line is optimal and final
+  // get jobs for a user and filter by a given state
+  getMyRequestsSummary: async (_id) => {
+    // get jobs for a user and filter by a given state
+    return JobModel.find(
+      { _ownerRef: { $eq: _id } },
+      {
+        _bidsListRef: 1,
+        _awardedBidRef: 1,
+        state: 1,
+        templateId: 1,
+        _reviewRef: 1,
+        bidderConfirmedCompletion: 1,
+        jobTitle: 1,
+        startingDateAndTime: 1,
+        taskImages: 1,
+      },
+      { limit: 1000, sort: { startingDateAndTime: 1 } }
+    )
+      .populate({
+        path: '_reviewRef',
+        select: {
+          proposerReview: 0,
+          bidderReview: 0,
+        },
+      })
+      .populate({
+        path: '_awardedBidRef',
+        select: {
+          isNewBid: 1,
+        },
+      })
+      .lean({ virtuals: true })
+      .exec();
   },
 };

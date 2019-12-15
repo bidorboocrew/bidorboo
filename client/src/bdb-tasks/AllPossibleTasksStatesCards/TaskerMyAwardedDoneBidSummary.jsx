@@ -61,7 +61,11 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
       return <div>TaskerMyAwardedDoneBidSummary missing properties</div>;
     }
 
-    const { revealToBoth, requiresProposerReview, requiresBidderReview } = _reviewRef;
+    const { revealToBoth, requiresProposerReview, requiresBidderReview } = _reviewRef || {
+      revealToBoth: false,
+      requiresProposerReview: true,
+      requiresBidderReview: true,
+    };
     const { value: bidValue, currency: bidCurrency } = bidAmount;
     const { taskerTotalPayoutAmount } = getChargeDistributionDetails(bidValue);
 

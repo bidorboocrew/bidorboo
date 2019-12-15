@@ -1,7 +1,7 @@
 User-agent: *
 Disallow: /my-profile*
 Disallow: /my-bids*
-Disallow: /my-open-jobs*
+Disallow: /my-open-requests*
 Disallow: /review-my-bid-details*
 Disallow: /my-request*
 Disallow: /awarded-bid-details*

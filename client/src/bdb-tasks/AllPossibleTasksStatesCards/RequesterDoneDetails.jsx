@@ -105,8 +105,13 @@ class RequesterDoneDetails extends RequestBaseContainer {
     }
 
     const { showMore } = this.state;
-    const { revealToBoth, requiresProposerReview, requiresBidderReview } = _reviewRef;
-
+    debugger;
+    const { revealToBoth, requiresProposerReview, requiresBidderReview } = _reviewRef || {
+      revealToBoth: false,
+      requiresProposerReview: true,
+      requiresBidderReview: true,
+    };
+    debugger;
     return (
       <>
         <div style={{ height: 'auto' }} className="card cardWithButton nofixedwidth">
@@ -204,7 +209,7 @@ class RequesterDoneDetails extends RequestBaseContainer {
               {!requiresProposerReview && (
                 <a
                   onClick={() => {
-                    alert('Archive not implemented yet, will take you to archieve');
+                    alert('Archive not implemented yet, will take you to archive');
                   }}
                   className={`button firstButtonInCard is-dark`}
                 >

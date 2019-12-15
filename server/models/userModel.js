@@ -307,16 +307,7 @@ UserSchema.virtual('canPost').get(function() {
 UserSchema.virtual('canBid').get(function() {
   // return this.email && this.email.isVerified;
 
-  return !!(
-    this.phone &&
-    this.phone.isVerified &&
-    this.email &&
-    this.email.isVerified &&
-    this.stripeConnect &&
-    this.stripeConnect.accId &&
-    this.stripeConnect.isVerified &&
-    this.stripeConnect.payoutsEnabled
-  );
+  return !!(this.phone && this.phone.isVerified && this.email && this.email.isVerified);
 });
 
 UserSchema.virtual('disabledReasonMsg').get(function() {

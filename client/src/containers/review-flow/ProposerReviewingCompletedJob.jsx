@@ -133,7 +133,7 @@ export class ProposerReviewingCompletedJob extends React.Component {
               color2={'#ffd700'}
             />
           </div>
-          <div>PUNCTULAITY</div>
+          <div>PUNCTUALITY</div>
           <div>
             <ReactStars
               className="ReactStars"

@@ -191,7 +191,7 @@ class RequestSummary extends React.Component {
                     </div>
 
                     <div>
-                      PUNCTULAITY:
+                      PUNCTUALITY:
                       <ReactStars
                         style={{ cursor: 'pointer', display: 'inline-block' }}
                         half
@@ -200,7 +200,7 @@ class RequestSummary extends React.Component {
                         size={25}
                         color1={'lightgrey'}
                         color2={'#ffd700'}
-                        value={ratingMapping['PUNCTULAITY']}
+                        value={ratingMapping['PUNCTUALITY']}
                       />
                     </div>
                     <div>

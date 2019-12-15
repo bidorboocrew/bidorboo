@@ -11,15 +11,6 @@ const requireJobOwner = require('../middleware/requireJobOwner');
 const requireCurrentUserIsTheAwardedBidder = require('../middleware/requireCurrentUserIsTheAwardedBidder');
 // const stripeServiceUtil = require('../services/stripeService').util;
 module.exports = (app) => {
-  app.get(ROUTES.API.JOB.GET.myOpenJobs, requireBidorBooHost, requireLogin, async (req, res) => {
-    try {
-      userJobsList = await jobDataAccess.getUserJobsByState(req.user.userId, 'OPEN');
-      return res.send(userJobsList);
-    } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To get my open jobs', details: `${e}` });
-    }
-  });
-
   app.get(ROUTES.API.JOB.GET.myJobById, requireLogin, async (req, res) => {
     try {
       if (req.query && req.query.jobId) {
@@ -477,6 +468,26 @@ module.exports = (app) => {
         return res.send({ success: true });
       } catch (e) {
         return res.status(400).send({ errorMsg: 'Failed To bidderDisputeJob', details: `${e}` });
+      }
+    }
+  );
+
+  // everything below this is reviewed and optimal
+  app.get(
+    ROUTES.API.JOB.GET.getMyRequestsSummary,
+    requireBidorBooHost,
+    requireLogin,
+    async (req, res) => {
+      try {
+        const userJobsList = await jobDataAccess.getMyRequestsSummary(req.user._id);
+        if (userJobsList && userJobsList) {
+          return res.send({ myRequestsSummary: userJobsList });
+        }
+        return res.send({ myRequestsSummary: [] });
+      } catch (e) {
+        console.log('BIDORBOO_ERROR: ROUTES.API.JOB.GET.getMyRequestsSummary ' + e);
+
+        return res.status(400).send({ errorMsg: 'Failed To get requests summary' });
       }
     }
   );

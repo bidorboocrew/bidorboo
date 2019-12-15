@@ -61,7 +61,7 @@ export const API = {
   },
   JOB: {
     GET: {
-      myOpenJobs: '/api/job/myOpenJobs',
+      getMyRequestsSummary: '/api/job/getMyRequestsSummary',
       alljobsToBidOn: '/api/job/alljobsToBidOn',
       myJobById: '/api/job',
       jobToBidDetailsById: '/api/job/jobToBidDetailsById',
@@ -124,7 +124,7 @@ export const CLIENT = {
     root: '/bdb-request/root',
     createjob: '/bdb-request/create-job/:templateId',
     dynamicCreateJob: (templateId) => `/bdb-request/create-job/${templateId}`,
-    myRequestsPage: '/my-open-jobs',
+    myRequestsPage: '/my-open-requests',
     reviewRequestAndBidsPage: '/my-request/review-request-details/:jobId',
     dynamicReviewRequestAndBidsPage: (jobId) => `/my-request/review-request-details/${jobId}`,
     selectedAwardedJobPage: '/my-request/awarded-job-details/:jobId',

@@ -78,7 +78,11 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
 
     const { taskerTotalPayoutAmount } = getChargeDistributionDetails(bidValue);
 
-    const { requiresBidderReview } = _reviewRef;
+    const { requiresBidderReview } = _reviewRef || {
+      revealToBoth: false,
+      requiresProposerReview: true,
+      requiresBidderReview: true,
+    };
 
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     if (!TITLE || !ID) {

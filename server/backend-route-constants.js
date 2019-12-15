@@ -73,7 +73,7 @@ module.exports = {
     },
     JOB: {
       GET: {
-        myOpenJobs: '/api/job/myOpenJobs',
+        getMyRequestsSummary: '/api/job/getMyRequestsSummary',
         alljobsToBidOn: '/api/job/alljobsToBidOn',
         myJobById: '/api/job',
         jobToBidDetailsById: '/api/job/jobToBidDetailsById',

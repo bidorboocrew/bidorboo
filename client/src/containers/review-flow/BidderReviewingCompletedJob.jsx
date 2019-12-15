@@ -130,7 +130,7 @@ export class BidderReviewingCompletedJob extends React.Component {
             />
           </div>
           <div>
-            <div>PUNCTULAITY</div>
+            <div>PUNCTUALITY</div>
             <ReactStars
               className="ReactStars"
               style={{ cursor: 'pointer', display: 'inline-block' }}

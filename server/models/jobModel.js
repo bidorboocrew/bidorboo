@@ -28,6 +28,31 @@ const JobSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'BidModel',
     },
+    state: {
+      type: String,
+      default: 'OPEN',
+      index: true,
+      enum: [
+        'OPEN',
+        'AWARDED', //
+        'DISPUTED', // disputed job
+        'AWARDED_JOB_CANCELED_BY_BIDDER',
+        'AWARDED_JOB_CANCELED_BY_BIDDER_SEEN',
+        'AWARDED_JOB_CANCELED_BY_REQUESTER',
+        'AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN',
+        'DONE', //when Tasker confirms we set it to Payout , later a cron job will pay the account
+        'DONE_SEEN',
+        'DISPUTE_RESOLVED',
+        'ARCHIVE', //For historical record
+      ],
+    },
+    templateId: {
+      type: String,
+      trim: true,
+      required: true,
+      enum: ['bdbCarDetailing', 'bdbHouseCleaning', 'bdbPetSittingWalking', 'bdbMoving'],
+    },
+    reported: { type: Number },
     _reviewRef: { type: Schema.Types.ObjectId, ref: 'ReviewModel' },
     latestCheckoutSession: { type: String },
     processedPayment: {
@@ -44,24 +69,10 @@ const JobSchema = new Schema(
         status: { type: String },
       },
     },
-    state: {
-      type: String,
-      default: 'OPEN',
-      index: true,
-      enum: [
-        'OPEN',
-        'AWARDED', //
-        'DISPUTED', // disputed job
-        'AWARDED_JOB_CANCELED_BY_BIDDER',
-        'AWARDED_JOB_CANCELED_BY_BIDDER_SEEN',
-        'AWARDED_JOB_CANCELED_BY_REQUESTER',
-        'CANCELED_OPEN', // Requester cancels a job before awarding
-        'DONE', //when Tasker confirms we set it to Payout , later a cron job will pay the account
-        'PAYMENT_RELEASED',
-        'PAYMENT_TO_BANK_FAILED',
-        'ARCHIVE', //For historical record
-        'DISPUTE_RESOLVED',
-      ],
+    payoutDetails: {
+      id: { type: String },
+      status: { type: String },
+      amount: { type: Number },
     },
     dispute: {
       taskerDispute: {
@@ -77,6 +88,7 @@ const JobSchema = new Schema(
         taskerResolution: { type: String },
       },
     },
+    bidderConfirmedCompletion: { type: Boolean, default: false },
     // why do we have this
     jobCompletion: {
       proposerConfirmed: { type: Boolean, default: false },
@@ -143,17 +155,6 @@ const JobSchema = new Schema(
         },
         message: 'You can attach a maximum of ' + MAX_IMAGE_COUNT + 'images',
       },
-    },
-    templateId: {
-      type: String,
-      trim: true,
-      required: true,
-      enum: ['bdbCarDetailing', 'bdbHouseCleaning', 'bdbPetSittingWalking', 'bdbMoving'],
-    },
-    reported: { type: Number },
-    payoutDetails: {
-      id: { type: String },
-      status: { type: String },
     },
     taskImages: {
       type: [
@@ -249,7 +250,6 @@ JobSchema.virtual('displayStatus').get(function() {
     AWARDED_JOB_CANCELED_BY_REQUESTER: 'Requester Cancelled the Agreement',
     CANCELED_OPEN: 'Canceled Request',
     DONE: 'Completed',
-    PAYMENT_RELEASED: 'Payment sent to Tasker',
     PAYMENT_TO_BANK_FAILED: "Couldn't release funds to your bank",
     ARCHIVE: 'Past Job',
     DISPUTE_RESOLVED: 'Resolved Dispute',

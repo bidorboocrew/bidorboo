@@ -83,7 +83,7 @@ class Header extends React.Component {
           return { activeNavBarMenuId: HREF_TO_TABID.PROVIDE_A_SERVICE };
         }
       }
-      if (nextProp.history.location.pathname.includes('my-open-jobs')) {
+      if (nextProp.history.location.pathname.includes('my-open-requests')) {
         if (prevState.activeNavBarMenuId !== HREF_TO_TABID.MY_REQUESTS) {
           return { activeNavBarMenuId: HREF_TO_TABID.MY_REQUESTS };
         }

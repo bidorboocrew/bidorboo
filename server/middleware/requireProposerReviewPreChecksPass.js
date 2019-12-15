@@ -24,17 +24,17 @@ module.exports = async (req, res, next) => {
         !personalComment
       ) {
         return res.status(403).send({
-          errorMsg: 'missing paramerters . can not pass requireProposerReviewPreChecksPass.',
+          errorMsg: 'missing parameters . can not pass requireProposerReviewPreChecksPass.',
         });
       }
 
-      const jobDetails = await jobDataAccess.getAwardedJobDetails(jobId);
+      const jobDetails = await jobDataAccess.getFullJobDetails(jobId);
 
       const awardedBidder = jobDetails._awardedBidRef && jobDetails._awardedBidRef._bidderRef._id;
       if (!awardedBidder) {
         return res.status(403).send({
           errorMsg:
-            'the Bidder in this request does not correspond to the appoperiate bidder who fullfilled the job',
+            'the Bidder in this request does not correspond to the appropriate bidder who fulfilled the job',
         });
       }
       if (!jobDetails._reviewRef) {

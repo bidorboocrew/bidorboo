@@ -29,7 +29,7 @@ module.exports = (app) => {
           personalComment,
         } = res.locals.bidOrBoo;
 
-        const job = await jobDataAccess.getAwardedJobDetails(jobId);
+        const job = await jobDataAccess.getFullJobDetails(jobId);
         const reviewId = job._reviewRef._id.toString();
 
         const { proposerId, awardedBidder } = res.locals.bidOrBoo;
@@ -42,7 +42,7 @@ module.exports = (app) => {
                 rating: qualityOfWorkRating,
               },
               {
-                category: 'PUNCTULAITY',
+                category: 'PUNCTUALITY',
                 rating: punctualityRating,
               },
               {
@@ -86,9 +86,7 @@ module.exports = (app) => {
 
         return res.send({ success: true, message: 'Proposer Review submitted successfully' });
       } catch (e) {
-        return res
-          .status(400)
-          .send({ errorMsg: 'Failed To bidderConfirmsJobCompleted', details: `${e}` });
+        return res.status(400).send({ errorMsg: 'Failed To submit review', details: `${e}` });
       }
     }
   );
@@ -111,7 +109,7 @@ module.exports = (app) => {
           personalComment,
         } = req.body.data;
 
-        const job = await jobDataAccess.getAwardedJobDetails(jobId);
+        const job = await jobDataAccess.getFullJobDetails(jobId);
         const reviewId = job._reviewRef._id.toString();
 
         // update the review model
@@ -123,7 +121,7 @@ module.exports = (app) => {
                 rating: accuracyOfPostRating,
               },
               {
-                category: 'PUNCTULAITY',
+                category: 'PUNCTUALITY',
                 rating: punctualityRating,
               },
               {

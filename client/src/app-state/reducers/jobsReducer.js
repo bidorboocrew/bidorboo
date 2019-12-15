@@ -3,7 +3,7 @@ import * as A from '../actionTypes';
 
 const initialState = {
   allMyRequests: [],
-  myOpenJobsList: [],
+  myRequestsSummary: [],
   myAwardedJobsList: [],
   listOfJobsToBidOn: [],
   error: null,
@@ -15,22 +15,23 @@ const initialState = {
   selectedAwardedJob: {},
 };
 
-const getMyOpenJobs = {
-  isPending: (state = initialState, { payload }) => ({
+const getMyRequestsSummary = {
+  isPending: (state = initialState) => ({
     ...state,
     isLoading: true,
-    myOpenJobsList: [],
+    myRequestsSummary: [],
   }),
   isFullfilled: (state = initialState, { payload }) => {
-    let myOpenJobs = payload.data && payload.data._postedJobsRef ? payload.data._postedJobsRef : [];
-    return { ...state, myOpenJobsList: myOpenJobs, isLoading: false };
+    const myRequestsSummary =
+      payload.data && payload.data.myRequestsSummary ? payload.data.myRequestsSummary : [];
+    return { ...state, myRequestsSummary, isLoading: false };
   },
   isRejected: (state = initialState, { payload }) => {
-    const getAllMyOpenJobsError =
+    const getMyRequestsSummaryError =
       payload && payload.data
         ? payload.data
         : `unknown issue while ${A.JOB_ACTIONS.GET_ALL_MY_JOBS}${A._REJECTED}`;
-    return { ...state, error: getAllMyOpenJobsError, isLoading: false };
+    return { ...state, error: getMyRequestsSummaryError, isLoading: false };
   },
 };
 
@@ -143,13 +144,13 @@ const deleteJob = {
     if (payload && payload.data) {
       const deletedJobId = payload.data;
       const filteredResults =
-        state.myOpenJobsList &&
-        state.myOpenJobsList.filter((job) => {
+        state.myRequests &&
+        state.myRequests.filter((job) => {
           return job._id !== deletedJobId;
         });
       return {
         ...state,
-        myOpenJobsList: filteredResults,
+        myRequests: filteredResults,
         selectedJobWithBids: {},
         isLoading: false,
       };
@@ -168,7 +169,7 @@ const markBidAsSeen = (state = initialState, { payload }) => {
   const { jobId, bidId } = payload;
 
   if (jobId && bidId) {
-    const updatedMyOpenJobsList = state.myOpenJobsList.map((job) => {
+    const updatedMyOpenJobsList = state.myRequests.map((job) => {
       if (job._id === jobId) {
         const updated_bidsListRef =
           job._bidsListRef &&
@@ -202,7 +203,7 @@ const markBidAsSeen = (state = initialState, { payload }) => {
 
     return {
       ...state,
-      myOpenJobsList: [...updatedMyOpenJobsList],
+      myRequests: [...updatedMyOpenJobsList],
       selectedJobWithBids: { ...updatedSelectedActivePostedJob },
     };
   }
@@ -216,10 +217,6 @@ export default handleActions(
     [`${A.JOB_ACTIONS.GET_ALL_MY_REQUESTS}${A._PENDING}`]: getAllMyRequests.isPending,
     [`${A.JOB_ACTIONS.GET_ALL_MY_REQUESTS}${A._FULFILLED}`]: getAllMyRequests.isFullfilled,
     [`${A.JOB_ACTIONS.GET_ALL_MY_REQUESTS}${A._REJECTED}`]: getAllMyRequests.isRejected,
-    // open jobs
-    [`${A.JOB_ACTIONS.GET_ALL_MY_OPEN_JOBS}${A._PENDING}`]: getMyOpenJobs.isPending,
-    [`${A.JOB_ACTIONS.GET_ALL_MY_OPEN_JOBS}${A._FULFILLED}`]: getMyOpenJobs.isFullfilled,
-    [`${A.JOB_ACTIONS.GET_ALL_MY_OPEN_JOBS}${A._REJECTED}`]: getMyOpenJobs.isRejected,
     // awarded jobs
     [`${A.JOB_ACTIONS.GET_ALL_MY_AWARDED_JOBS}${A._PENDING}`]: getMyAwardedJobs.isPending,
     [`${A.JOB_ACTIONS.GET_ALL_MY_AWARDED_JOBS}${A._FULFILLED}`]: getMyAwardedJobs.isFullfilled,
@@ -244,6 +241,11 @@ export default handleActions(
     [`${A.JOB_ACTIONS.SELECT_AWARDED_JOB}`]: updateSelectedAwardedJob,
     [`${A.JOB_ACTIONS.MARK_BID_AS_SEEN}`]: markBidAsSeen,
     [`${A.AUTH_ACTIONS.USER_IS_LOGGED_OUT}`]: setLoggedOutState,
+
+    // everything below is in use and optimal --------
+    [`${A.JOB_ACTIONS.GET_MY_REQUESTS_SUMMARY}${A._PENDING}`]: getMyRequestsSummary.isPending,
+    [`${A.JOB_ACTIONS.GET_MY_REQUESTS_SUMMARY}${A._FULFILLED}`]: getMyRequestsSummary.isFullfilled,
+    [`${A.JOB_ACTIONS.GET_MY_REQUESTS_SUMMARY}${A._REJECTED}`]: getMyRequestsSummary.isRejected,
   },
   initialState,
 );

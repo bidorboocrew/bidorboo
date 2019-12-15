@@ -1,9 +1,6 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
-import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -22,37 +19,11 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 class RequesterRequestSummary extends React.Component {
   render() {
-    const { job, cancelJobById, notificationFeed } = this.props;
+    const { job, notificationFeed } = this.props;
 
-    if (!job || !job._id || !notificationFeed || !cancelJobById) {
-      return <div>RequesterRequestSummary is missing properties</div>;
-    }
-
-    const {
-      _id: jobId,
-      startingDateAndTime,
-      addressText,
-      isHappeningSoon,
-      isHappeningToday,
-      isPastDue,
-      taskImages = [],
-      jobTitle,
-    } = job;
-    if (
-      !jobId ||
-      !startingDateAndTime ||
-      !addressText ||
-      isHappeningSoon === 'undefined' ||
-      isHappeningToday === 'undefined' ||
-      isPastDue === 'undefined'
-    ) {
-      return <div>RequesterRequestSummary is missing properties</div>;
-    }
+    const { startingDateAndTime, isPastDue, taskImages = [], jobTitle } = job;
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE) {
-      return <div>RequesterRequestSummary is missing properties</div>;
-    }
 
     let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
 
@@ -90,27 +61,13 @@ class RequesterRequestSummary extends React.Component {
   }
 }
 
-const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
+const mapStateToProps = ({ uiReducer }) => {
   return {
-    isLoggedIn: userReducer.isLoggedIn,
-    selectedAwardedJob: jobsReducer.selectedAwardedJob,
-    userDetails: userReducer.userDetails,
     notificationFeed: uiReducer.notificationFeed,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
-    cancelJobById: bindActionCreators(cancelJobById, dispatch),
-    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(RequesterRequestSummary);
+export default connect(mapStateToProps, null)(RequesterRequestSummary);
 
 const renderFooter = ({ job, notificationFeed, isPastDue }) => {
   let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
@@ -152,8 +109,8 @@ const renderFooter = ({ job, notificationFeed, isPastDue }) => {
             <span className="icon">
               <i className="fa fa-hand-paper" />
             </span>
-            <span>{`View ${
-              job._bidsListRef.length > 1 || job._bidsListRef.length === 0 ? 'offers' : 'offer'
+            <span>{`VIEW ${
+              job._bidsListRef.length > 1 || job._bidsListRef.length === 0 ? 'OFFERS' : 'OFFER'
             }`}</span>
           </span>
 

@@ -1,17 +1,22 @@
 export const REQUEST_STATES = {
-  OPEN: 'OPEN',
-  AWARDED: 'AWARDED',
-  DISPUTED: 'DISPUTED',
-  AWARDED_JOB_CANCELED_BY_BIDDER: 'AWARDED_JOB_CANCELED_BY_BIDDER',
-  AWARDED_JOB_CANCELED_BY_REQUESTER: 'AWARDED_JOB_CANCELED_BY_REQUESTER',
-  AWARDED_JOB_CANCELED_BY_BIDDER_SEEN: 'AWARDED_JOB_CANCELED_BY_BIDDER_SEEN',
-  CANCELED_OPEN: 'CANCELED_OPEN',
-  DONE: 'DONE',
+  // delete
   PAIDOUT: 'PAIDOUT',
   PAYMENT_RELEASED: 'PAYMENT_RELEASED',
   PAYMENT_TO_BANK_FAILED: 'PAYMENT_TO_BANK_FAILED',
-  ARCHIVE: 'ARCHIVE',
+  //------delete above
+
+  // real ones
+  OPEN: 'OPEN',
+  AWARDED: 'AWARDED', //
+  DISPUTED: 'DISPUTED', // disputed job
+  AWARDED_JOB_CANCELED_BY_BIDDER: 'AWARDED_JOB_CANCELED_BY_BIDDER',
+  AWARDED_JOB_CANCELED_BY_BIDDER_SEEN: 'AWARDED_JOB_CANCELED_BY_BIDDER_SEEN',
+  AWARDED_JOB_CANCELED_BY_REQUESTER: 'AWARDED_JOB_CANCELED_BY_REQUESTER',
+  AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN: 'AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN',
+  DONE: 'DONE', //when Tasker confirms we set it to Payout , later a cron job will pay the account
+  DONE_SEEN: 'DONE_SEEN',
   DISPUTE_RESOLVED: 'DISPUTE_RESOLVED',
+  ARCHIVE: 'ARCHIVE', //For historical record
 };
 
 export const BID_STATES = {
@@ -51,9 +56,6 @@ export { default as RequesterCanceledByRequesterDetails } from './AllPossibleTas
 export { default as RequesterCanceledByTaskerSummary } from './AllPossibleTasksStatesCards/RequesterCanceledByTaskerSummary';
 
 export { default as RequesterCanceledByTaskerDetails } from './AllPossibleTasksStatesCards/RequesterCanceledByTaskerDetails';
-
-export { default as RequesterOpenCanceledSummary } from './AllPossibleTasksStatesCards/RequesterOpenCanceledSummary';
-export { default as RequesterOpenCanceledDetails } from './AllPossibleTasksStatesCards/RequesterOpenCanceledDetails';
 
 export { default as TaskerBidOnTaskSummary } from './AllPossibleTasksStatesCards/TaskerBidOnTaskSummary';
 

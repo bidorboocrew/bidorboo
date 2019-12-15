@@ -5,8 +5,6 @@ import {
   RequesterRequestSummary,
   RequesterAwardedSummary,
   RequesterAwardedDetails,
-  RequesterOpenCanceledSummary,
-  RequesterOpenCanceledDetails,
   RequesterCanceledByRequesterSummary,
   RequesterCanceledByRequesterDetails,
   RequesterCanceledByTaskerSummary,
@@ -52,13 +50,6 @@ const requesterCardTemplates = {
       <RequesterAwardedSummary job={job} {...otherArgs} />
     ) : (
       <RequesterAwardedDetails job={job} {...otherArgs} />
-    );
-  },
-  [REQUEST_STATES.CANCELED_OPEN]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
-    return isSummaryView ? (
-      <RequesterOpenCanceledSummary job={job} {...otherArgs} />
-    ) : (
-      <RequesterOpenCanceledDetails job={job} {...otherArgs} />
     );
   },
   [REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER]: ({
