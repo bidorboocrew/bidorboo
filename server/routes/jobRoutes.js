@@ -73,14 +73,13 @@ module.exports = (app) => {
   );
 
   app.get(
-    ROUTES.API.JOB.GET.jobFullDetailsById,
-    requireBidorBooHost,
+    ROUTES.API.JOB.GET.awardedJobFullDetailsForRequester,
     requireLogin,
     async (req, res) => {
       try {
         if (req.query && req.query.jobId) {
           const { jobId } = req.query;
-          jobFullDetails = await jobDataAccess.getAwardedJobDetails(jobId);
+          jobFullDetails = await jobDataAccess.getAwardedJobFullDetailsForRequester(jobId);
           return res.send(jobFullDetails);
         } else {
           return res.status(400).send({

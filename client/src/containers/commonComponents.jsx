@@ -142,7 +142,7 @@ export const CenteredUserImageAndRating = ({
   clipUserName = false,
   large = false,
   isCentered = true,
-  labelOnTop = ()=> null
+  labelOnTop = () => null,
 }) => {
   let temp = userDetails
     ? userDetails
@@ -825,11 +825,7 @@ export const TaskersAvailable = ({ numberOfAvailableTaskers }) => {
   );
 };
 
-export const AssignedTasker = ({ displayName }) => {
-  // let taskerName = displayName;
-  // if (taskerName && taskerName.length > 8) {
-  //   taskerName = taskerName.substring(0, 7) + '..';
-  // }
+export const AssignedTasker = () => {
   return (
     <div className="group">
       <div
@@ -863,9 +859,6 @@ export const AssignedTasker = ({ displayName }) => {
         >
           Tasker is Assigned
         </div>
-        {/* <div>
-          <div className="help">*Contact Tasker To finalize details</div>
-        </div> */}
       </div>
     </div>
   );
@@ -953,7 +946,6 @@ export const CancelledBy = ({ name }) => {
           {`Cancelled by ${name}`}
         </div>
       </div>
-
     </div>
   );
 };

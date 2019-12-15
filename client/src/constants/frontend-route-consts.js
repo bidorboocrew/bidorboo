@@ -63,10 +63,12 @@ export const API = {
     GET: {
       myRequestsSummary: '/api/job/myRequestsSummary',
       postedJobAndBidsForRequester: '/api/job',
+      awardedJobFullDetailsForRequester: '/api/job/awardedJobFullDetailsForRequester',
+
+
 
       alljobsToBidOn: '/api/job/alljobsToBidOn',
       jobToBidDetailsById: '/api/job/jobToBidDetailsById',
-      jobFullDetailsById: '/api/job/fullDetails',
       myAwardedJobs: '/api/job/myAwardedJobs',
       getAllMyRequests: '/api/job/getAllMyRequests',
     },

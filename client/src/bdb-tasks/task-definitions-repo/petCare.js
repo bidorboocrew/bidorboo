@@ -163,9 +163,7 @@ Q2) Anything else you want to highlight for the Tasker?
                     : ''
                 }`}
               >
-                <label className={isRequesterHostingClass}>
-                  Where will the pet stay?
-                </label>
+                <label className={isRequesterHostingClass}>Where will the pet stay?</label>
                 <div>
                   <div id="isRequesterHosting" className={`select ${isRequesterHostingClass} `}>
                     <select
@@ -289,6 +287,7 @@ Q2) Anything else you want to highlight for the Tasker?
           return (
             <React.Fragment key={'extras-dietryRestrictions'}>
               <TextAreaInput
+                textAreaStyle={{ minHeight: 50 }}
                 id="dietaryRestrictions"
                 type="text"
                 label="Any dietary restrictions, medical, or special needs?"

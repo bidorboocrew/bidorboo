@@ -8,7 +8,7 @@ import { RenderBackButton } from '../commonComponents';
 
 import { Spinner } from '../../components/Spinner';
 import {
-  getAwardedBidFullDetails,
+  getAwardedJobFullDetailsforRequester,
   proposerConfirmsJobCompletion,
 } from '../../app-state/actions/jobActions';
 
@@ -25,13 +25,13 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
   }
 
   componentDidMount() {
-    const { getAwardedBidFullDetails } = this.props;
+    const { getAwardedJobFullDetailsforRequester } = this.props;
     if (!this.jobId) {
       switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
       return null;
     }
 
-    getAwardedBidFullDetails(this.jobId);
+    getAwardedJobFullDetailsforRequester(this.jobId);
   }
 
   componentDidUpdate() {
@@ -48,7 +48,7 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
         return null;
       }
 
-      this.props.getAwardedBidFullDetails(this.jobId);
+      this.props.getAwardedJobFullDetailsforRequester(this.jobId);
     }
   }
 
@@ -87,7 +87,7 @@ const mapStateToProps = ({ jobsReducer, userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAwardedBidFullDetails: bindActionCreators(getAwardedBidFullDetails, dispatch),
+    getAwardedJobFullDetailsforRequester: bindActionCreators(getAwardedJobFullDetailsforRequester, dispatch),
     proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
   };
 };

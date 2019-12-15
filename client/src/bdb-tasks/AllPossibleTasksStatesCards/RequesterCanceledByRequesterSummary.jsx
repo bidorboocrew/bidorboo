@@ -38,7 +38,7 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
               )}
             />
 
-            <CancelledBy name={'You'} refundAmount={75} />
+            <CancelledBy name={'You'} />
           </div>
         </div>
 

@@ -48,7 +48,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
                   <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
                 )}
               />
-              <AssignedTasker displayName={_awardedBidRef._bidderRef.displayName} />
+              <AssignedTasker />
             </div>
           </div>
 

@@ -51,9 +51,6 @@ class RequesterAwardedDetails extends RequestBaseContainer {
   render() {
     const { job, cancelJobById } = this.props;
 
-    if (!cancelJobById || !job) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
     const {
       _id,
       startingDateAndTime,
@@ -61,9 +58,6 @@ class RequesterAwardedDetails extends RequestBaseContainer {
       _awardedBidRef,
       extras,
       detailedDescription,
-      displayStatus,
-      isHappeningSoon,
-      isHappeningToday,
       isPastDue,
       jobCompletion = {
         proposerConfirmed: false,
@@ -73,52 +67,16 @@ class RequesterAwardedDetails extends RequestBaseContainer {
       taskImages = [],
       jobTitle,
     } = job;
-    if (
-      !_id ||
-      !startingDateAndTime ||
-      !addressText ||
-      !_awardedBidRef ||
-      !displayStatus ||
-      !extras ||
-      !detailedDescription ||
-      isHappeningSoon === 'undefined' ||
-      isHappeningToday === 'undefined' ||
-      isPastDue === 'undefined'
-    ) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-    const { bidAmount, _bidderRef } = _awardedBidRef;
-    if (!bidAmount || !_bidderRef) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
 
-    // xxxx get currency from processed payment
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    if (!bidValue || !bidCurrency) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-    const {
-      requesterTotalPayment: requesterPayAmount,
-      requesterPartialRefundAmount,
-    } = getChargeDistributionDetails(bidValue);
+    const { requesterPayment, _bidderRef } = _awardedBidRef;
+
+    const { value: requesterPayAmount } = requesterPayment;
 
     const { phone, email } = _bidderRef;
-    if (!phone || !email) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
     const { phoneNumber = 'not specified' } = phone;
-    if (!phoneNumber) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
     const { emailAddress } = email;
-    if (!emailAddress) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
 
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE || !ID) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore, showDisputeModal } = this.state;
     const { proposerConfirmed, bidderConfirmed } = jobCompletion;
@@ -158,19 +116,16 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                     </div>
                     <br />
 
-                    <div className="group">
-                      <label className="label">What you need to know:</label>
-                      <div className="control">
-                        * You will receive a refund of
-                        <span className="has-text-danger has-text-weight-semibold">
-                          {`${requesterPartialRefundAmount} which is ~ 80% of your original payment `}
-                        </span>
-                      </div>
-                      <div className="control">* Your global rating will be impacted</div>
-                      <div className="control">
-                        * Cancelling often will put a ban on your account
-                      </div>
+                    <label className="label">What you need to know:</label>
+                    <div className="control">
+                      {'* You will receive a refund of '}
+                      <span className="has-text-danger has-text-weight-semibold">
+                        {` ${Math.floor(0.8 * requesterPayAmount)}$ `}
+                      </span>
+                      {'which is ~ 80% of your original payment'}
                     </div>
+                    <div className="control">* Your global rating will be negatively impacted</div>
+                    <div className="control">* Cancelling often will put a ban on your account</div>
                   </div>
                 </section>
                 <footer className="modal-card-foot">

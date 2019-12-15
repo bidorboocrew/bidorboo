@@ -662,7 +662,6 @@ exports.jobDataAccess = {
                 phone: 1,
                 profileImage: 1,
                 rating: 1,
-                userId: 1,
               },
             },
           },
@@ -674,7 +673,6 @@ exports.jobDataAccess = {
               phone: 1,
               profileImage: 1,
               rating: 1,
-              userId: 1,
             },
           },
         ],
@@ -1006,67 +1004,6 @@ exports.jobDataAccess = {
     } catch (e) {
       throw e;
     }
-  },
-  getAwardedJobDetails: async (jobId) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const jobWithBidderDetails = await JobModel.findOne({ _id: jobId })
-          .populate([
-            {
-              path: '_awardedBidRef',
-              select: {
-                _bidderRef: 1,
-                isNewBid: 1,
-                state: 1,
-                bidAmount: 1,
-                createdAt: 1,
-                updatedAt: 1,
-              },
-              populate: {
-                path: '_bidderRef',
-                select: {
-                  displayName: 1,
-                  email: 1,
-                  phone: 1,
-                  profileImage: 1,
-                  rating: 1,
-                  userId: 1,
-                  membershipStatus: 1,
-                },
-              },
-            },
-            {
-              path: '_reviewRef',
-              match: { proposerReview: { $exists: true }, bidderReview: { $exists: true } },
-              select: {
-                proposerReview: 1,
-                bidderReview: 1,
-                revealToBoth: 1,
-                requiresProposerReview: 1,
-                requiresBidderReview: 1,
-              },
-            },
-            {
-              path: '_ownerRef',
-              select: {
-                displayName: 1,
-                email: 1,
-                phone: 1,
-                profileImage: 1,
-                rating: 1,
-                userId: 1,
-              },
-            },
-          ])
-
-          .lean({ virtuals: true })
-          .exec();
-
-        resolve(jobWithBidderDetails);
-      } catch (e) {
-        reject(e);
-      }
-    });
   },
 
   getFullJobDetails: async (jobId) => {
@@ -2398,6 +2335,58 @@ exports.jobDataAccess = {
           .exec();
 
         resolve(jobWithBidDetails);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+
+  getAwardedJobFullDetailsForRequester: async (jobId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const jobWithBidderDetails = await JobModel.findOne({ _id: jobId })
+          .populate([
+            {
+              path: '_awardedBidRef',
+              select: {
+                _bidderRef: 1,
+                isNewBid: 1,
+                state: 1,
+                requesterPayment: 1,
+                createdAt: 1,
+                updatedAt: 1,
+              },
+              populate: {
+                path: '_bidderRef',
+                select: {
+                  displayName: 1,
+                  email: 1,
+                  phone: 1,
+                  profileImage: 1,
+                  rating: 1,
+                  membershipStatus: 1,
+                },
+              },
+            },
+            {
+              path: '_reviewRef',
+              match: { proposerReview: { $exists: true }, bidderReview: { $exists: true } },
+            },
+            {
+              path: '_ownerRef',
+              select: {
+                displayName: 1,
+                email: 1,
+                phone: 1,
+                profileImage: 1,
+                rating: 1,
+              },
+            },
+          ])
+          .lean({ virtuals: true })
+          .exec();
+
+        resolve(jobWithBidderDetails);
       } catch (e) {
         reject(e);
       }

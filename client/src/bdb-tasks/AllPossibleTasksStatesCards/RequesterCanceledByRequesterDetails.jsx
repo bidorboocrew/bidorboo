@@ -16,51 +16,21 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 export default class RequesterCanceledByRequesterDetails extends React.Component {
   render() {
     const { job } = this.props;
-    if (!job) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
 
     const {
       startingDateAndTime,
-      addressText,
       _awardedBidRef,
-      displayStatus,
-      state,
-      extras,
-      _ownerRef,
-      detailedDescription,
       processedPayment,
       templateId,
       taskImages = [],
       jobTitle,
     } = job;
-    if (
-      !startingDateAndTime ||
-      !addressText ||
-      !_awardedBidRef ||
-      !displayStatus ||
-      !state ||
-      !extras ||
-      !_ownerRef ||
-      !detailedDescription ||
-      !templateId ||
-      !processedPayment
-    ) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
 
-    const { bidAmount, _bidderRef } = _awardedBidRef;
-    if (!bidAmount || !_bidderRef) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
+    const { requesterPayment } = _awardedBidRef;
 
-    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE || !ID) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
 
-    const { amount } = processedPayment;
-    const refundAmount = Math.floor((amount / 100) * 0.8);
+    const refundAmount = Math.floor(requesterPayment.value * 0.8);
 
     return (
       <div
@@ -84,21 +54,21 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
             <div className="group has-text-left">
               <label className="label has-text-danger">What you need to know:</label>
               <ul>
-                <li>
-                  We Are sorry to see this cancellation as BidOrBoo Crew Takes cancellations
-                  seriously
-                </li>
+                <li>At BidOrBoo we takes cancellations seriously.</li>
                 <li>
                   <strong>20% was deducted</strong> from the original full payment because you
                   cancelled.
                 </li>
                 <li>
-                  <strong>{` $${refundAmount}`} was refunded </strong> back to you.
+                  <strong>{` $${refundAmount}`} was refunded </strong> back to your payment card.
                 </li>
-
                 <li>Your global rating will be negatively impacted</li>
                 <li>
-                  Cancelling after booking will put a ban on your account if is done frequently.
+                  Cancelling frequently will put a ban on your account.
+                </li>
+                <li>
+                  You can always review the details of this task in your inbox under "Past Requests"
+                  Tab
                 </li>
               </ul>
             </div>

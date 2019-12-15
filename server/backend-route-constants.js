@@ -75,11 +75,11 @@ module.exports = {
       GET: {
         myRequestsSummary: '/api/job/myRequestsSummary',
         postedJobAndBidsForRequester: '/api/job',
+        awardedJobFullDetailsForRequester: '/api/job/awardedJobFullDetailsForRequester',
 
         alljobsToBidOn: '/api/job/alljobsToBidOn',
         jobToBidDetailsById: '/api/job/jobToBidDetailsById',
         myAwardedJobs: '/api/job/myAwardedJobs',
-        jobFullDetailsById: '/api/job/fullDetails',
         getAllMyRequests: '/api/job/getAllMyRequests',
       },
       POST: {

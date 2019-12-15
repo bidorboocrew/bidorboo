@@ -131,6 +131,7 @@ export const TextAreaInput = ({
   setFocusImmediately,
   placeholder,
   startWithTemplateButton,
+  textAreaStyle = {},
   ...props
 }) => {
   let inputStateClass = '';
@@ -148,7 +149,7 @@ export const TextAreaInput = ({
       {startWithTemplateButton && startWithTemplateButton}
       <div>
         <textarea
-          style={{ resize: 'none', height: 'unset', minHeight: 150 }}
+          style={{ resize: 'none', height: 'unset', minHeight: 150, ...textAreaStyle }}
           className={`input ${inputStateClass} ${iconLeft ? 'has-icon-left' : ''}`}
           id={id}
           type={type}

@@ -6,8 +6,6 @@ import * as ROUTES from '../../../constants/frontend-route-consts';
 import { submitPayment } from '../../../app-state/actions/paymentActions';
 import * as Constants from '../../../constants/enumConstants';
 
-import { getChargeDistributionDetails } from '../../commonUtils';
-
 class AcceptBidAndBidderModal extends React.Component {
   render() {
     const { bid, closeModal, submitPayment } = this.props;

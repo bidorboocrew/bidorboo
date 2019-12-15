@@ -134,11 +134,11 @@ export const searchByLocation = (userSearchQuery) => (dispatch) => {
   });
 };
 
-export const getAwardedBidFullDetails = (jobId) => (dispatch) => {
+export const getAwardedJobFullDetailsforRequester = (jobId) => (dispatch) => {
   dispatch({
-    type: A.JOB_ACTIONS.GET_JOB_FULL_DETAILS_BY_ID,
+    type: A.JOB_ACTIONS.GET_AWARDED_JOB_FULL_DETAILS_FOR_REQUESTER,
     payload: axios
-      .get(ROUTES.API.JOB.GET.jobFullDetailsById, { params: { jobId } })
+      .get(ROUTES.API.JOB.GET.awardedJobFullDetailsForRequester, { params: { jobId } })
       .then((resp) => {
         // update recently added job
         if (resp && resp.data) {

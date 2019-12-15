@@ -122,30 +122,27 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(MyRequestsPage);
 
 const EmptyStateComponent = () => (
-  <div className="HorizontalAligner-center column">
-    <div className="is-fullwidth">
-      <div className="card">
-        <div className="card-content VerticalAligner">
-          <div className="has-text-centered">
-            <div className="is-size-6">No requests found.</div>
-            <br />
-            <a
-              className="button is-success "
-              onClick={(e) => {
-                e.preventDefault();
-                switchRoute(ROUTES.CLIENT.PROPOSER.root);
-              }}
-            >
-              REQUEST A SERVICE
-            </a>
-            <br></br>
-            <br></br>
-            <br></br>
-            <div className="is-size-6">Help us spread BidOrBoo in your area</div>
-            <ShareButtons shareUrl={'/'}></ShareButtons>
+  <>
+    <div className="HorizontalAligner-center column">
+      <div className="is-fullwidth">
+        <div className="card">
+          <div className="card-content VerticalAligner">
+            <div className="has-text-centered">
+              <div className="is-size-6">No requests found.</div>
+              <br />
+              <a
+                className="button is-success "
+                onClick={(e) => {
+                  e.preventDefault();
+                  switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                }}
+              >
+                REQUEST A SERVICE
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </>
 );
