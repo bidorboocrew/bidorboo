@@ -173,7 +173,6 @@ const TaskerCardTemplates = {
       }
     }
   },
-
   [REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER]: ({
     job,
     isSummaryView,
@@ -225,91 +224,95 @@ const TaskerCardTemplates = {
 const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
   const { _jobRef } = bid;
   const state = _jobRef.state;
-  switch (state) {
-    case REQUEST_STATES.OPEN:
-      try {
-        const card = TaskerCardTemplates[state]({
-          bid,
-          job: _jobRef,
-          isSummaryView,
-          pointOfView: POINT_OF_VIEW.TASKER,
-          withBidDetails: true,
-          otherArgs,
-        });
-        return card;
-      } catch (e) {
-        console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
-      }
-      break;
-    case REQUEST_STATES.AWARDED_SEEN:
-    case REQUEST_STATES.AWARDED:
-      // return <TaskerMyOpenBidSummary bid={bid} job={_jobRef} {...otherArgs} />;
-      try {
-        const card = TaskerCardTemplates[BID_STATES.AWARDED]({
-          bid,
-          job: _jobRef,
-          isSummaryView,
-          pointOfView: POINT_OF_VIEW.TASKER,
-          withBidDetails: true,
-          otherArgs,
-        });
-        return card || <div>This type ain't found</div>;
-      } catch (e) {
-        console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
-      }
-      break;
-    case REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN:
-    case REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER:
-      try {
-        const card = TaskerCardTemplates[REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER]({
-          bid,
-          job: _jobRef,
-          isSummaryView,
-          pointOfView: POINT_OF_VIEW.TASKER,
-          withBidDetails: true,
-          otherArgs,
-        });
-        return card || <div>this ain't found BID_STATES.AWARDED_BID_CANCELED_BY_REQUESTER</div>;
-      } catch (e) {
-        console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
-      }
-      break;
-    case REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER_SEEN:
-    case REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER:
-      try {
-        const card = TaskerCardTemplates[REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER]({
-          bid,
-          job: _jobRef,
-          isSummaryView,
-          pointOfView: POINT_OF_VIEW.TASKER,
-          withBidDetails: true,
-          otherArgs,
-        });
-        return card || <div>this ain't found BID_STATES.AWARDED_BID_CANCELED_BY_TASKER</div>;
-      } catch (e) {
-        console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
-      }
-      break;
+  try {
+    switch (state) {
+      case REQUEST_STATES.OPEN:
+        try {
+          const card = TaskerCardTemplates[state]({
+            bid,
+            job: _jobRef,
+            isSummaryView,
+            pointOfView: POINT_OF_VIEW.TASKER,
+            withBidDetails: true,
+            otherArgs,
+          });
+          return card;
+        } catch (e) {
+          console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
+        }
+        break;
+      case REQUEST_STATES.AWARDED_SEEN:
+      case REQUEST_STATES.AWARDED:
+        try {
+          const card = TaskerCardTemplates[BID_STATES.AWARDED]({
+            bid,
+            job: _jobRef,
+            isSummaryView,
+            pointOfView: POINT_OF_VIEW.TASKER,
+            withBidDetails: true,
+            otherArgs,
+          });
+          return card || <div>This type ain't found</div>;
+        } catch (e) {
+          console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
+        }
+        break;
+      case REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN:
+      case REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER:
+        try {
+          const card = TaskerCardTemplates[REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER]({
+            bid,
+            job: _jobRef,
+            isSummaryView,
+            pointOfView: POINT_OF_VIEW.TASKER,
+            withBidDetails: true,
+            otherArgs,
+          });
+          return card || <div>this ain't found BID_STATES.AWARDED_BID_CANCELED_BY_REQUESTER</div>;
+        } catch (e) {
+          console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
+        }
+        break;
+      case REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER_SEEN:
+      case REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER:
+        try {
+          const card = TaskerCardTemplates[REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER]({
+            bid,
+            job: _jobRef,
+            isSummaryView,
+            pointOfView: POINT_OF_VIEW.TASKER,
+            withBidDetails: true,
+            otherArgs,
+          });
+          return card || <div>this ain't found BID_STATES.AWARDED_BID_CANCELED_BY_TASKER</div>;
+        } catch (e) {
+          console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
+        }
+        break;
 
-    case REQUEST_STATES.DONE_SEEN:
-    case REQUEST_STATES.DONE:
-      try {
-        const card = TaskerCardTemplates[REQUEST_STATES.DONE]({
-          bid,
-          job: _jobRef,
-          isSummaryView,
-          pointOfView: POINT_OF_VIEW.TASKER,
-          withBidDetails: true,
-          otherArgs,
-        });
-        return card || <div>BID_STATES.DONE</div>;
-      } catch (e) {
-        console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
-      }
+      case REQUEST_STATES.DONE_SEEN:
+      case REQUEST_STATES.DONE:
+        try {
+          const card = TaskerCardTemplates[REQUEST_STATES.DONE]({
+            bid,
+            job: _jobRef,
+            isSummaryView,
+            pointOfView: POINT_OF_VIEW.TASKER,
+            withBidDetails: true,
+            otherArgs,
+          });
+          return card || <div>BID_STATES.DONE</div>;
+        } catch (e) {
+          console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
+        }
 
-    default:
-      return <div>default unknown getTaskerBidCard</div>;
-      break;
+      default:
+        return <div>default unknown getTaskerBidCard</div>;
+        break;
+    }
+  } catch (e) {
+    console.error(e + ' Error Loading Tasker Card ' + state);
+    return <div>Error Loading Tasker Card </div>;
   }
 };
 
@@ -338,7 +341,6 @@ export const getMeTheRightRequestCard = ({ job, isSummaryView, pointOfView, ...o
     console.error('Summary or Point ofView was not  passed in');
     return;
   }
-
   const { state } = job;
   if (pointOfView === POINT_OF_VIEW.REQUESTER) {
     try {
@@ -351,7 +353,7 @@ export const getMeTheRightRequestCard = ({ job, isSummaryView, pointOfView, ...o
       return card || <div>This type ain't found</div>;
     } catch (e) {
       console.error(e + ' Error Loading Requester Card ' + state);
-      return null;
+      return <div>Error Loading Requester Card </div>;
     }
   }
   if (pointOfView === POINT_OF_VIEW.TASKER) {
@@ -365,8 +367,8 @@ export const getMeTheRightRequestCard = ({ job, isSummaryView, pointOfView, ...o
       });
       return card || <div>This type ain't found</div>;
     } catch (e) {
-      console.error(e + ' Error Loading Tasker Card ' + state);
-      return null;
+      console.error(e + ' Error Loading Requester Card ' + state);
+      return <div>Error Loading Requester Card </div>;
     }
   }
   return null;
