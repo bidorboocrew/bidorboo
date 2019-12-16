@@ -829,29 +829,27 @@ const EnhancedForms = withFormik({
 
     //  offset the location for security
     // https://www.npmjs.com/package/haversine-offset
-    let lng = 0;
     let lat = 0;
+    let lng = 0;
     try {
-      let preOffset = { latitude: location.lat, longitude: location.lng };
+      let preOffset = { lat: location.lat, lng: location.lng };
       let offset = {
-        x: Math.floor(Math.random() * Math.floor(1000)),
-        y: Math.floor(Math.random() * Math.floor(1000)),
+        x: Math.floor(Math.random() * 2000),
+        y: Math.floor(Math.random() * 2000),
       };
 
       let postOffset = haversineOffset(preOffset, offset);
-
-      postOffset.lat = parseFloat(postOffset.lat).toFixed(5);
-      postOffset.lng = parseFloat(postOffset.lng).toFixed(5);
-
-      if (postOffset.lat > 0) {
-        lat = Math.min(postOffset.lat, 90).toFixed(5);
-      } else if (postOffset.lat < 0) {
-        lat = Math.max(postOffset.lat, -90).toFixed(5);
+      const lat = postOffset.lat;
+      const lng = postOffset.lang;
+      if (lat > 90) {
+        lat = 90;
+      } else if (lat < -90) {
+        lat = -90;
       }
-      if (postOffset.lng > 0) {
-        lng = Math.min(postOffset.lng, 180).toFixed(5);
-      } else if (postOffset.lng < 0) {
-        lng = Math.max(postOffset.lng, -180).toFixed(5);
+      if (lng > 180) {
+        lng = 180;
+      } else if (lng < -180) {
+        lng = -180;
       }
     } catch (e) {
       console.error('failed to create location');

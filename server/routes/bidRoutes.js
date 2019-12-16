@@ -14,15 +14,6 @@ const requireLogin = require('../middleware/requireLogin');
 const requirePassDeleteBidChecks = require('../middleware/requirePassDeleteBidChecks');
 
 module.exports = (app) => {
-  app.get(ROUTES.API.BID.GET.allMyPostedBids, requireLogin, async (req, res, done) => {
-    try {
-      const mongoUser_id = req.user._id;
-      const userBidsList = await bidDataAccess.getAllUserBids(mongoUser_id);
-      return res.send(userBidsList);
-    } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To get my open bids', details: `${e}` });
-    }
-  });
   app.get(ROUTES.API.BID.GET.myAwardedBids, requireLogin, async (req, res) => {
     try {
       const mongoUser_id = req.user._id;
@@ -192,4 +183,14 @@ module.exports = (app) => {
     }
   });
 
+  // everything below this line is optimal--------------------------------------------
+  app.get(ROUTES.API.BID.GET.myPostedBidsSummary, requireLogin, async (req, res, done) => {
+    try {
+      const mongoUser_id = req.user._id;
+      const userBidsList = await bidDataAccess.getMyPostedBidsSummary(mongoUser_id);
+      return res.send(userBidsList);
+    } catch (e) {
+      return res.status(400).send({ errorMsg: 'Failed To get my open bids', details: `${e}` });
+    }
+  });
 };

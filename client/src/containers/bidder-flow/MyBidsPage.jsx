@@ -8,9 +8,9 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 
 import { Spinner } from '../../components/Spinner';
 import TaskerVerificationBanner from './TaskerVerificationBanner.jsx';
-import { allMyPostedBids } from '../../app-state/actions/bidsActions';
+import { getMyPostedBidsSummary } from '../../app-state/actions/bidsActions';
 import { deleteOpenBid, updateBid } from '../../app-state/actions/bidsActions';
-import { BID_STATES } from '../../bdb-tasks/index';
+import { REQUEST_STATES } from '../../bdb-tasks/index';
 import { getMeTheRightBidCard } from '../../bdb-tasks/getMeTheRightCard';
 const MY_BIDS_TABS = {
   activeBids: 'activeBids',
@@ -25,20 +25,9 @@ class MyBidsPage extends React.Component {
   }
   componentDidMount() {
     // get all posted bids
-    this.props.allMyPostedBids();
+    this.props.getMyPostedBidsSummary();
   }
-  // OPEN: 'OPEN',
-  // AWARDED: 'AWARDED',
-  // AWARDED_SEEN: 'AWARDED_SEEN',
-  // AWARDED_BID_CANCELED_BY_TASKER: 'AWARDED_BID_CANCELED_BY_TASKER',
-  // DISPUTED: 'DISPUTED',
-  // AWARDED_BID_CANCELED_BY_REQUESTER: 'AWARDED_BID_CANCELED_BY_REQUESTER',
-  // AWARDED_BID_CANCELED_BY_REQUESTER_SEEN: 'AWARDED_BID_CANCELED_BY_REQUESTER_SEEN',
-  // DONE: 'DONE',
-  // PAYMENT_RELEASED: 'PAYMENT_RELEASED',
-  // PAYMENT_TO_BANK_FAILED: 'PAYMENT_TO_BANK_FAILED',
-  // ARCHIVE: 'ARCHIVE',
-  // DISPUTE_RESOLVED: 'DISPUTE_RESOLVED',
+
 
   render() {
     const { isLoading, openBidsList, deleteOpenBid, updateBid } = this.props;
@@ -48,24 +37,26 @@ class MyBidsPage extends React.Component {
     let myBidsSummaryCards = areThereAnyBidsToView
       ? openBidsList
           .filter((bid) => {
-            if (selectedTab === MY_BIDS_TABS.pastBids) {
+            const { _jobRef: job } = bid;
+            if (selectedTab === MY_BIDS_TABS.pastRequests) {
               return [
-                BID_STATES.PAYMENT_RELEASED,
-                BID_STATES.ARCHIVE,
-                BID_STATES.DISPUTE_RESOLVED,
-                BID_STATES.AWARDED_BID_CANCELED_BY_REQUESTER_SEEN,
-                BID_STATES.AWARDED_BID_CANCELED_BY_TASKER,
-                BID_STATES.DONE,
-              ].includes(bid.state);
+                REQUEST_STATES.DISPUTE_RESOLVED,
+                REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER_SEEN,
+                REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN,
+                REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN,
+                REQUEST_STATES.DISPUTE_RESOLVED,
+                REQUEST_STATES.ARCHIVE,
+              ].includes(job.state);
             }
             return [
-              BID_STATES.OPEN,
-              BID_STATES.AWARDED,
-              BID_STATES.AWARDED_SEEN,
-              BID_STATES.DISPUTED,
-              BID_STATES.AWARDED_BID_CANCELED_BY_REQUESTER,
-              BID_STATES.PAYMENT_TO_BANK_FAILED,
-            ].includes(bid.state);
+              REQUEST_STATES.OPEN,
+              REQUEST_STATES.AWARDED,
+              REQUEST_STATES.AWARDED_SEEN,
+              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER,
+              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER,
+              REQUEST_STATES.DISPUTED,
+              REQUEST_STATES.DONE,
+            ].includes(job.state);
           })
           .map((bid) => {
             return (
@@ -134,7 +125,7 @@ const mapStateToProps = ({ bidsReducer, uiReducer, userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    allMyPostedBids: bindActionCreators(allMyPostedBids, dispatch),
+    getMyPostedBidsSummary: bindActionCreators(getMyPostedBidsSummary, dispatch),
     deleteOpenBid: bindActionCreators(deleteOpenBid, dispatch),
     updateBid: bindActionCreators(updateBid, dispatch),
   };

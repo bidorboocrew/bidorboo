@@ -100,7 +100,7 @@ export const API = {
       bid: '/api/bids/postABid',
     },
     GET: {
-      allMyPostedBids: '/api/bids/allMyPostedBids',
+      myPostedBidsSummary: '/api/bids/myPostedBidsSummary',
       myAwardedBids: '/api/bids/myAwardedBids',
       openBidDetails: '/api/bids/openBidDetails',
       awardedBidDetails: '/api/bids/awardedBidDetails',

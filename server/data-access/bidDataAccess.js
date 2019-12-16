@@ -535,18 +535,16 @@ exports.bidDataAccess = {
     });
   },
   // get jobs for a user and filter by a given state
-  getAllUserBids: async (mongoUser_id) => {
+  getMyPostedBidsSummary: async (mongoUser_id) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const [openBids, allOtherBids] = await Promise.all([
+        const [openBids] = await Promise.all([
           new Promise(async (resolve, reject) => {
             UserModel.findById(mongoUser_id, { _postedBidsRef: 1 })
               .populate({
                 path: '_postedBidsRef',
-                match: {
-                  state: {
-                    $in: ['OPEN'],
-                  },
+                select: {
+                  requesterPayment: 0,
                 },
                 populate: {
                   path: '_jobRef',
@@ -554,14 +552,9 @@ exports.bidDataAccess = {
                     _awardedBidRef: 1,
                     _ownerRef: 1,
                     state: 1,
-                    detailedDescription: 1,
                     jobTitle: 1,
-                    location: 1,
-                    stats: 1,
                     startingDateAndTime: 1,
-                    durationOfJob: 1,
                     templateId: 1,
-                    dispute: 1,
                   },
                   populate: {
                     path: '_ownerRef',
@@ -598,95 +591,9 @@ exports.bidDataAccess = {
                 }
               });
           }),
-          new Promise(async (resolve, reject) => {
-            UserModel.findById(mongoUser_id, { _postedBidsRef: 1 })
-              .populate({
-                path: '_postedBidsRef',
-                match: {
-                  state: {
-                    $in: [
-                      'AWARDED_BID_CANCELED_BY_TASKER',
-                      'AWARDED_BID_CANCELED_BY_REQUESTER',
-                      'AWARDED',
-                      'AWARDED_SEEN',
-                      'DONE',
-                      'PAYMENT_RELEASED',
-                    ],
-                  },
-                },
-                populate: {
-                  path: '_jobRef',
-                  select: {
-                    _awardedBidRef: 1,
-                    _ownerRef: 1,
-                    title: 1,
-                    state: 1,
-                    detailedDescription: 1,
-                    jobTitle: 1,
-                    jobCompletion: 1,
-                    location: 1,
-                    stats: 1,
-                    addressText: 1,
-                    startingDateAndTime: 1,
-                    durationOfJob: 1,
-                    templateId: 1,
-                    _reviewRef: 1,
-                    dispute: 1,
-                  },
-                  populate: [
-                    {
-                      path: '_reviewRef',
-                      select: {
-                        proposerReview: 1,
-                        bidderReview: 1,
-                        revealToBoth: 1,
-                        requiresProposerReview: 1,
-                        requiresBidderReview: 1,
-                      },
-                    },
-                    {
-                      path: '_ownerRef',
-                      select: {
-                        _id: 1,
-                        displayName: 1,
-                        rating: 1,
-                        profileImage: 1,
-                      },
-                    },
-                    {
-                      path: '_awardedBidRef',
-                      select: { _bidderRef: 1 },
-                      populate: { path: '_bidderRef', select: { userId: 1 } },
-                    },
-                  ],
-                },
-              })
-              .lean({ virtuals: true })
-              .exec((err, res) => {
-                if (err) {
-                  reject(err);
-                } else {
-                  let results = [];
-                  if (res._postedBidsRef && res._postedBidsRef.length > 0) {
-                    results = res._postedBidsRef
-                      .filter((postedBid) => {
-                        return postedBid && postedBid._jobRef;
-                      })
-                      .sort((a, b) => {
-                        return moment(a._jobRef.startingDateAndTime).isSameOrAfter(
-                          moment(b._jobRef.startingDateAndTime)
-                        )
-                          ? 1
-                          : -1;
-                      });
-                  }
-                  resolve(results);
-                }
-              });
-          }),
         ]);
 
-        resolve({ postedBids: [...openBids, ...allOtherBids] });
+        resolve({ postedBids: openBids });
       } catch (e) {
         reject(e);
       }

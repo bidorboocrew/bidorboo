@@ -192,11 +192,11 @@ export const updateBid = ({ bidId, bidAmount, job }) => (dispatch) => {
   });
 };
 
-export const allMyPostedBids = () => (dispatch) => {
+export const getMyPostedBidsSummary = () => (dispatch) => {
   //update store with the job details
   dispatch({
     type: A.BIDDER_ACTIONS.GET_ALL_MY_OPEN_BIDS,
-    payload: axios.get(ROUTES.API.BID.GET.allMyPostedBids).catch((error) => {
+    payload: axios.get(ROUTES.API.BID.GET.myPostedBidsSummary).catch((error) => {
       throwErrorNotification(dispatch, error);
     }),
   });
