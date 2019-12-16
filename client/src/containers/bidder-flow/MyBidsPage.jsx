@@ -28,7 +28,6 @@ class MyBidsPage extends React.Component {
     this.props.getMyPostedBidsSummary();
   }
 
-
   render() {
     const { isLoading, openBidsList, deleteOpenBid, updateBid } = this.props;
     const { selectedTab } = this.state;
@@ -38,7 +37,7 @@ class MyBidsPage extends React.Component {
       ? openBidsList
           .filter((bid) => {
             const { _jobRef: job } = bid;
-            if (selectedTab === MY_BIDS_TABS.pastRequests) {
+            if (selectedTab === MY_BIDS_TABS.pastBids) {
               return [
                 REQUEST_STATES.DISPUTE_RESOLVED,
                 REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER_SEEN,
@@ -85,29 +84,31 @@ class MyBidsPage extends React.Component {
             </div>
           </div>
         </section>
-        <Spinner renderLabel="getting your bids..." isLoading={isLoading} size={'large'} />
-
-        {!isLoading && (
-          <>
-            <div className="tabs is-centered is-fullwidth">
-              <ul>
-                <li className={`${selectedTab === MY_BIDS_TABS.activeBids ? 'is-active' : ''}`}>
-                  <a onClick={() => this.setState({ selectedTab: MY_BIDS_TABS.activeBids })}>
-                    Active Bids
-                  </a>
-                </li>
-                <li className={`${selectedTab === MY_BIDS_TABS.pastBids ? 'is-active' : ''}`}>
-                  <a onClick={() => this.setState({ selectedTab: MY_BIDS_TABS.pastBids })}>
-                    Past Bids
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div className="columns is-multiline is-centered is-mobile">{myBidsSummaryCards}</div>
-          </>
+        <div className="tabs is-centered is-fullwidth">
+          <ul>
+            <li className={`${selectedTab === MY_BIDS_TABS.activeBids ? 'is-active' : ''}`}>
+              <a onClick={() => this.setState({ selectedTab: MY_BIDS_TABS.activeBids })}>
+                Active Bids
+              </a>
+            </li>
+            <li className={`${selectedTab === MY_BIDS_TABS.pastBids ? 'is-active' : ''}`}>
+              <a onClick={() => this.setState({ selectedTab: MY_BIDS_TABS.pastBids })}>Past Bids</a>
+            </li>
+          </ul>
+        </div>
+        {isLoading && (
+          <Spinner renderLabel="getting your bids..." isLoading={isLoading} size={'large'} />
         )}
-
-        {!isLoading && !areThereAnyBidsToView && <EmptyStateComponent />}
+        {!isLoading &&
+          areThereAnyBidsToView &&
+          myBidsSummaryCards &&
+          myBidsSummaryCards.length > 0 && (
+            <div className="columns is-multiline is-centered is-mobile">{myBidsSummaryCards}</div>
+          )}
+        {!isLoading &&
+          (!areThereAnyBidsToView || !myBidsSummaryCards || !(myBidsSummaryCards.length > 0)) && (
+            <EmptyStateComponent />
+          )}
       </div>
     );
   }

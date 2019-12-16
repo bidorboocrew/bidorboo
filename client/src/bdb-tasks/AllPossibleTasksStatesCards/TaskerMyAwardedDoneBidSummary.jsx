@@ -17,57 +17,25 @@ import {
   UserGivenTitle,
   TaskerWillEarn,
 } from '../../containers/commonComponents';
-import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
-import { getChargeDistributionDetails } from '../../containers/commonUtils';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
-class TaskerMyAwardedDoneBidSummary extends React.Component {
+export default class TaskerMyAwardedDoneBidSummary extends React.Component {
   render() {
-    const { bid, job, cancelAwardedBid } = this.props;
-    if (!bid || !job || !cancelAwardedBid) {
-      return <div>TaskerMyAwardedDoneBidSummary missing properties</div>;
-    }
+    const { bid, job } = this.props;
 
-    const {
-      startingDateAndTime,
-      addressText,
-      isPastDue,
-      isHappeningSoon,
-      isHappeningToday,
-      _reviewRef = {
-        revealToBoth: false,
-        requiresProposerReview: true,
-        requiresBidderReview: true,
-      },
-      taskImages = [],
-      jobTitle,
-    } = job;
-    if (
-      !startingDateAndTime ||
-      !addressText ||
-      isHappeningSoon === 'undefined' ||
-      isHappeningToday === 'undefined' ||
-      isPastDue === 'undefined'
-    ) {
-      return <div>TaskerMyAwardedDoneBidSummary missing properties</div>;
-    }
+    const { startingDateAndTime, _reviewRef, taskImages = [], jobTitle } = job;
+
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE) {
-      return <div>TaskerMyAwardedDoneBidSummary missing properties</div>;
-    }
-    const { displayStatus, bidAmount, _id } = bid;
-    if (!displayStatus || !bidAmount || !_id) {
-      return <div>TaskerMyAwardedDoneBidSummary missing properties</div>;
-    }
 
-    const { revealToBoth, requiresProposerReview, requiresBidderReview } = _reviewRef || {
+    const { bidderPayout } = bid;
+    const { value: taskerTotalPayoutAmount } = bidderPayout;
+
+    const { requiresBidderReview } = _reviewRef || {
       revealToBoth: false,
       requiresProposerReview: true,
       requiresBidderReview: true,
     };
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    const { taskerTotalPayoutAmount } = getChargeDistributionDetails(bidValue);
 
     return (
       <div className={`card has-text-centered cardWithButton`}>
@@ -79,9 +47,7 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
             <TaskImagesCarousel taskImages={taskImages} />
             <SummaryStartDateAndTime
               date={startingDateAndTime}
-              renderHelpComponent={() => (
-                <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
-              )}
+              renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
             <TaskerWillEarn earningAmount={taskerTotalPayoutAmount} />
 
@@ -100,7 +66,7 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
               }}
               className={`button is-primary`}
             >
-              VIEW DETAILS
+              REVIEW REQUESTER
             </a>
           </div>
         )}
@@ -114,7 +80,7 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
               }}
               className={`button is-dark`}
             >
-              Past Task
+              PAST TASK
             </a>
           </div>
         )}
@@ -122,22 +88,3 @@ class TaskerMyAwardedDoneBidSummary extends React.Component {
     );
   }
 }
-
-const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
-  return {
-    isLoggedIn: userReducer.isLoggedIn,
-    selectedAwardedJob: jobsReducer.selectedAwardedJob,
-    userDetails: userReducer.userDetails,
-    notificationFeed: uiReducer.notificationFeed,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
-    cancelAwardedBid: bindActionCreators(cancelAwardedBid, dispatch),
-    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(TaskerMyAwardedDoneBidSummary);

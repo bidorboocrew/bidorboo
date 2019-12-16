@@ -45,7 +45,7 @@ class RequesterAwardedSummary extends RequestBaseContainer {
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
-                  <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+                  <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
               <AssignedTasker />

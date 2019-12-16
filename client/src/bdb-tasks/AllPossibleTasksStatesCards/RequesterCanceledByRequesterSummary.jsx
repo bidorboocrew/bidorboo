@@ -34,7 +34,7 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
             <SummaryStartDateAndTime
               date={startingDateAndTime}
               renderHelpComponent={() => (
-                <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+                <CountDownComponent startingDate={startingDateAndTime} />
               )}
             />
 

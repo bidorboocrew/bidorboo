@@ -105,7 +105,9 @@ exports.bidDataAccess = {
 
           const newTotalOfAllRatings = taskerRating.totalOfAllRatings + 1.25;
           const newTotalOfAllTimesBeenRated = taskerRating.numberOfTimesBeenRated + 1;
-          const newGlobalRating = Math.max(newTotalOfAllRatings / newTotalOfAllTimesBeenRated, 0);
+          const newGlobalRating = parseFloat(
+            Math.max(newTotalOfAllRatings / newTotalOfAllTimesBeenRated, 0).toFixed(1)
+          );
 
           // xxx critical
           const refundCharge = await stripeServiceUtil.fullRefundTransaction({
@@ -545,6 +547,7 @@ exports.bidDataAccess = {
                 path: '_postedBidsRef',
                 select: {
                   requesterPayment: 0,
+                  requesterPartialRefund: 0,
                 },
                 populate: {
                   path: '_jobRef',
@@ -555,6 +558,7 @@ exports.bidDataAccess = {
                     jobTitle: 1,
                     startingDateAndTime: 1,
                     templateId: 1,
+                    location: 1,
                   },
                   populate: {
                     path: '_ownerRef',
@@ -726,9 +730,12 @@ exports.bidDataAccess = {
   },
 
   updateBidValue: ({ mongoUser_id, bidId, bidAmount }) => {
-    const { requesterTotalPayment, taskerTotalPayoutAmount } = getChargeDistributionDetails(
-      bidAmount
-    );
+    const {
+      requesterPaymentAmount,
+      bidderPayoutAmount,
+      requesterPartialRefundAmount,
+      taskerPartialPayoutAmount,
+    } = getChargeDistributionDetails(bidAmount);
 
     return BidModel.findOneAndUpdate(
       { _id: bidId, _bidderRef: mongoUser_id },
@@ -736,8 +743,10 @@ exports.bidDataAccess = {
         $set: {
           'bidAmount.value': bidAmount,
           isNewBid: true,
-          'requesterPayment.value': requesterTotalPayment / 100,
-          'bidderPayout.value': taskerTotalPayoutAmount / 100,
+          'requesterPayment.value': requesterPaymentAmount,
+          'bidderPayout.value': bidderPayoutAmount,
+          'bidderPartialPayout.value': taskerPartialPayoutAmount,
+          'requesterPartialRefund.value': requesterPartialRefundAmount,
         },
       },
       { new: true }
@@ -748,20 +757,31 @@ exports.bidDataAccess = {
   postNewBid: ({ mongoUser_id, jobId, bidAmount }) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const { requesterTotalPayment, taskerTotalPayoutAmount } = getChargeDistributionDetails(
-          bidAmount
-        );
+        const {
+          requesterPaymentAmount,
+          bidderPayoutAmount,
+          requesterPartialRefundAmount,
+          taskerPartialPayoutAmount,
+        } = getChargeDistributionDetails(bidAmount);
 
         const newBid = await new BidModel({
           _bidderRef: mongoUser_id,
           _jobRef: jobId,
           bidAmount: { value: bidAmount, currency: bidAmount.currency || 'CAD' },
           requesterPayment: {
-            value: requesterTotalPayment / 100,
+            value: requesterPaymentAmount,
+            currency: bidAmount.currency || 'CAD',
+          },
+          requesterPartialRefund: {
+            value: requesterPartialRefundAmount,
             currency: bidAmount.currency || 'CAD',
           },
           bidderPayout: {
-            value: taskerTotalPayoutAmount / 100,
+            value: bidderPayoutAmount,
+            currency: bidAmount.currency || 'CAD',
+          },
+          bidderPartialPayout: {
+            value: taskerPartialPayoutAmount,
             currency: bidAmount.currency || 'CAD',
           },
         }).save();
@@ -809,7 +829,7 @@ exports.bidDataAccess = {
 
           const jobTemplate =
             utils.jobTemplateIdToDefinitionObjectMapper[`${jobDetails.templateId}`];
-          const jobTitle = jobDetails.jobTitle || jobTemplate.TITLE || '';
+          const jobTitle = `${jobTemplate.TITLE} - ${jobDetails.jobTitle}`;
           sendGridEmailing.sendNewBidRecievedEmail({
             to: ownerEmailAddress,
             toDisplayName: ownerDetails.displayName,

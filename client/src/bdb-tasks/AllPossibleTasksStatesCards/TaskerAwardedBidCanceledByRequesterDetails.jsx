@@ -17,35 +17,20 @@ import {
   TaskerWillEarn,
 } from '../../containers/commonComponents';
 import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
-import { getChargeDistributionDetails } from '../../containers/commonUtils';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
   render() {
     const { bid, job } = this.props;
-    if (!bid || !job) {
-      return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
-    }
 
     const { startingDateAndTime, taskImages = [], jobTitle } = job;
     if (!startingDateAndTime) {
       return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
     }
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE) {
-      return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
-    }
-    const { displayStatus, bidAmount, _id } = bid;
-    if (!displayStatus || !bidAmount || !_id) {
-      return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
-    }
 
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    if (!bidValue || !bidCurrency) {
-      return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
-    }
-
-    const { taskerPayoutInCaseOfPartialRefund } = getChargeDistributionDetails(bidValue);
+    const { bidderPartialPayout } = bid;
+    const { value: bidderPartialPayoutAmount } = bidderPartialPayout;
 
     return (
       <div
@@ -60,11 +45,9 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
             <TaskImagesCarousel taskImages={taskImages} isLarge />
             <SummaryStartDateAndTime
               date={startingDateAndTime}
-              renderHelpComponent={() => (
-                <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
-              )}
+              renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
-            <TaskerWillEarn earningAmount={taskerPayoutInCaseOfPartialRefund}></TaskerWillEarn>
+            <TaskerWillEarn earningAmount={bidderPartialPayoutAmount}></TaskerWillEarn>
 
             <CancelledBy name="Requester" />
             <div className="group has-text-left">
@@ -72,7 +55,7 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
               <ul>
                 <li>BidOrBoo Takes cancellations seriously</li>
                 <li>
-                  You will <strong>get paid ${taskerPayoutInCaseOfPartialRefund}</strong> for your
+                  You will <strong>get paid ${bidderPartialPayoutAmount}</strong> for your
                   commitment with us.
                 </li>
                 <li>

@@ -10,7 +10,6 @@ import {
   DisputedBy,
   TaskerWillEarn,
 } from '../../containers/commonComponents';
-import { getChargeDistributionDetails } from '../../containers/commonUtils';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
@@ -28,54 +27,20 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
   render() {
     const { bid, job } = this.props;
 
-    if (!bid || !job) {
-      return <div>TaskerMyDisputedBidSummary is missing properties</div>;
-    }
-    const {
-      _ownerRef,
-      startingDateAndTime,
-      addressText,
-      isPastDue,
-      isHappeningSoon,
-      isHappeningToday,
-      taskImages = [],
-      jobTitle,
-      dispute,
-    } = job;
-    if (
-      !startingDateAndTime ||
-      !addressText ||
-      isHappeningSoon === 'undefined' ||
-      isHappeningToday === 'undefined' ||
-      isPastDue === 'undefined' ||
-      !dispute
-    ) {
-      return <div>TaskerMyDisputedBidSummary is missing properties</div>;
-    }
+    const { startingDateAndTime, taskImages = [], jobTitle, dispute } = job;
+
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE) {
-      return <div>TaskerMyDisputedBidSummary is missing properties</div>;
-    }
-    const { displayStatus, bidAmount, _id } = bid;
-    if (!displayStatus || !bidAmount || !_id) {
-      return <div>TaskerMyDisputedBidSummary is missing properties</div>;
-    }
-    // xxx get currency from processed payment
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    if (!bidValue || !bidCurrency) {
-      return <div>TaskerMyDisputedBidSummary is missing properties</div>;
-    }
+
+    const { bidderPayout } = bid;
+    const { value: taskerTotalPayoutAmount } = bidderPayout;
 
     let whoDisputed = '';
-    const { displayName } = _ownerRef;
     const { proposerDispute } = dispute;
     if (proposerDispute && proposerDispute.reason) {
       whoDisputed = 'Requester';
     } else {
       whoDisputed = 'You';
     }
-
-    const { taskerTotalPayoutAmount } = getChargeDistributionDetails(bidValue);
 
     return (
       <div className={`card has-text-centered disputeOnlyView cardWithButton`}>

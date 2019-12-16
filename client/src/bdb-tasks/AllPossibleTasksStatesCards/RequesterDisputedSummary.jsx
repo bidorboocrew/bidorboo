@@ -41,7 +41,7 @@ export default class RequesterDisputedSummary extends React.Component {
             <SummaryStartDateAndTime
               date={startingDateAndTime}
               renderHelpComponent={() => (
-                <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+                <CountDownComponent startingDate={startingDateAndTime} />
               )}
             />
             <DisputedBy name={whoDisputed} />

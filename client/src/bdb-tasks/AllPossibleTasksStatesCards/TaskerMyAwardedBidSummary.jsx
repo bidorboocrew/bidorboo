@@ -2,8 +2,8 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { proposerConfirmsJobCompletion, updateJobState } from '../../app-state/actions/jobActions';
-import { showLoginDialog } from '../../app-state/actions/uiActions';
+import { updateJobState } from '../../app-state/actions/jobActions';
+
 import { REQUEST_STATES } from '../index';
 
 import { switchRoute } from '../../utils';
@@ -18,7 +18,6 @@ import {
   TaskerWillEarn,
   BSWaitingOnRequesterToConfirm,
 } from '../../containers/commonComponents';
-import { getChargeDistributionDetails } from '../../containers/commonUtils';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
@@ -26,12 +25,7 @@ class TaskerMyAwardedBidSummary extends React.Component {
   render() {
     const { bid, job, notificationFeed, updateJobState } = this.props;
 
-    const {
-      startingDateAndTime,
-      bidderConfirmedCompletion,
-      taskImages = [],
-      jobTitle,
-    } = job;
+    const { startingDateAndTime, bidderConfirmedCompletion, taskImages = [], jobTitle } = job;
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
     const { bidderPayout } = bid;
@@ -52,7 +46,7 @@ class TaskerMyAwardedBidSummary extends React.Component {
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
-                  <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+                  <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
               <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
@@ -69,19 +63,14 @@ class TaskerMyAwardedBidSummary extends React.Component {
   }
 }
 
-const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
+const mapStateToProps = ({ uiReducer }) => {
   return {
-    isLoggedIn: userReducer.isLoggedIn,
-    selectedAwardedJob: jobsReducer.selectedAwardedJob,
-    userDetails: userReducer.userDetails,
     notificationFeed: uiReducer.notificationFeed,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
-    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
     updateJobState: bindActionCreators(updateJobState, dispatch),
   };
 };

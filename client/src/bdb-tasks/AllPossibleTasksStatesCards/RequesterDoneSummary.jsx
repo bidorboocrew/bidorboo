@@ -40,7 +40,7 @@ export default class RequesterDoneSummary extends RequestBaseContainer {
             <SummaryStartDateAndTime
               date={startingDateAndTime}
               renderHelpComponent={() => (
-                <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+                <CountDownComponent startingDate={startingDateAndTime} />
               )}
             />
             {!requiresProposerReview && <ArchiveTask />}

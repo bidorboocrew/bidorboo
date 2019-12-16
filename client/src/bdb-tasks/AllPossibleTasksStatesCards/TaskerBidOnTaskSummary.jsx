@@ -15,7 +15,7 @@ import {
   UserGivenTitle,
 } from '../../containers/commonComponents';
 
-import { getUserExistingBid, didUserAlreadyView } from '../../containers/commonUtils';
+import { didUserAlreadyView } from '../../containers/commonUtils';
 
 import RequestBaseContainer from './RequestBaseContainer';
 
@@ -28,19 +28,10 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
     const { job, otherArgs = {} } = this.props;
     const { showRegisterAsTaskerModal } = this.state;
     const { showMapView, isLoggedIn, userDetails, updateViewedBy } = otherArgs;
-    if (!job || !job._id || !otherArgs || isLoggedIn === 'undefined' || !userDetails) {
-      return <div>TaskerBidOnTaskSummary is missing properties</div>;
-    }
 
     const { _id: currentUserId } = userDetails;
-    if (!currentUserId) {
-      return <div>TaskerBidOnTaskSummary is missing properties</div>;
-    }
 
     const { onCloseHandler = () => null, isOnMapView = false } = otherArgs;
-    if (!onCloseHandler || isOnMapView === 'undefined') {
-      return <div>TaskerBidOnTaskSummary is missing properties</div>;
-    }
 
     const {
       reactMapClusterRef,
@@ -49,18 +40,11 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
       _bidsListRef,
       _ownerRef,
       state,
-      extras,
       taskImages = [],
       jobTitle,
     } = job;
-    if (!startingDateAndTime || !templateId || !_ownerRef || !state || !extras) {
-      return <div>TaskerBidOnTaskSummary is missing properties</div>;
-    }
 
-    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE || !ID) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.root);
-    }
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
 
     const userAlreadyView = didUserAlreadyView(job, currentUserId);
 
@@ -80,7 +64,7 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
-                  <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+                  <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
               <div className="group">
@@ -153,7 +137,7 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                   </div>
                   <div style={{ display: 'inline-block', marginTop: -12 }}>
                     <a
-                      onClick={(e) => {
+                      onClick={() => {
                         if (isLoggedIn) {
                           updateViewedBy(job);
                         }

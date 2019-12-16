@@ -69,7 +69,7 @@ module.exports = (app) => {
             : [];
 
         // confirm award and pay
-        const { requesterTotalPayment, bidOrBooPlatformFee } = getChargeDistributionDetails(
+        const { requesterPaymentAmount, bidOrBooPlatformFee } = getChargeDistributionDetails(
           bidAmount.value
         );
 
@@ -109,14 +109,14 @@ module.exports = (app) => {
               requesterEmail,
               jobId,
               bidId,
-              note: `Requester Paid for ${theJob.jobTitle || theJob.templateId}`,
+              note: `Requester Paid for ${theJob.jobTemplateDisplayTitle} ${theJob.jobTitle}`,
             },
             bidderDisplayName: bidderDisplayName || bidderEmail,
             taskId: jobId,
-            taskName: theJob.jobTitle,
+            taskName: `${theJob.jobTemplateDisplayTitle} ${theJob.jobTitle}`,
             requesterEmail,
-            totalCharge: requesterTotalPayment,
-            bidOrBooServiceFee: bidOrBooPlatformFee,
+            totalCharge: requesterPaymentAmount * 100, //in cents
+            bidOrBooServiceFee: bidOrBooPlatformFee * 100, //in cents
             requesterId,
             taskerAccId: stripeAccDetails.accId,
             requesterCustomerId,

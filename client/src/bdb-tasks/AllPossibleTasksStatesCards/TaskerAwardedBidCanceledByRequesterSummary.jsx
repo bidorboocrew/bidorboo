@@ -2,8 +2,8 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { proposerConfirmsJobCompletion, updateJobState } from '../../app-state/actions/jobActions';
-import { showLoginDialog } from '../../app-state/actions/uiActions';
+import { updateJobState } from '../../app-state/actions/jobActions';
+
 import { REQUEST_STATES } from '../index';
 
 import { switchRoute } from '../../utils';
@@ -17,34 +17,19 @@ import {
   UserGivenTitle,
   TaskerWillEarn,
 } from '../../containers/commonComponents';
-import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
-import { getChargeDistributionDetails } from '../../containers/commonUtils';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
   render() {
     const { bid, job, notificationFeed } = this.props;
-    if (!bid || !job) {
-      return <div>TaskerAwardedBidCanceledByTaskerSummary is missing properties</div>;
-    }
 
     const { startingDateAndTime, taskImages = [], jobTitle } = job;
-    if (!startingDateAndTime) {
-      return <div>TaskerAwardedBidCanceledByTaskerSummary is missing properties</div>;
-    }
+
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE) {
-      return <div>TaskerAwardedBidCanceledByTaskerSummary is missing properties</div>;
-    }
-    const { displayStatus, bidAmount, _id } = bid;
-    if (!displayStatus || !bidAmount || !_id) {
-      return <div>TaskerAwardedBidCanceledByTaskerSummary is missing properties</div>;
-    }
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    if (!bidValue || !bidCurrency) {
-      return <div>TaskerAwardedBidCanceledByTaskerSummary is missing properties</div>;
-    }
+
+    const { bidderPartialPayout } = bid;
+    const { value: bidderPartialPayoutAmount } = bidderPartialPayout;
 
     let newUnseenState = false;
     if (notificationFeed && notificationFeed.myBidsWithNewStatus) {
@@ -55,7 +40,6 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
         }
       }
     }
-    const { taskerPayoutInCaseOfPartialRefund } = getChargeDistributionDetails(bidValue);
 
     return (
       <React.Fragment>
@@ -72,10 +56,10 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
-                  <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+                  <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              <TaskerWillEarn earningAmount={taskerPayoutInCaseOfPartialRefund}></TaskerWillEarn>
+              <TaskerWillEarn earningAmount={bidderPartialPayoutAmount}></TaskerWillEarn>
 
               <CancelledBy name="Requester" />
             </div>
@@ -111,20 +95,15 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
   }
 }
 
-const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
+const mapStateToProps = ({ uiReducer }) => {
   return {
-    isLoggedIn: userReducer.isLoggedIn,
-    selectedAwardedJob: jobsReducer.selectedAwardedJob,
-    userDetails: userReducer.userDetails,
     notificationFeed: uiReducer.notificationFeed,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
-    cancelAwardedBid: bindActionCreators(cancelAwardedBid, dispatch),
-    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
+    updateJobState: bindActionCreators(updateJobState, dispatch),
   };
 };
 
@@ -132,7 +111,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(TaskerAwardedBidCanceledByTaskerSummary);
-
-const renderFooter = ({ bid }) => {
-  return <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }} />;
-};

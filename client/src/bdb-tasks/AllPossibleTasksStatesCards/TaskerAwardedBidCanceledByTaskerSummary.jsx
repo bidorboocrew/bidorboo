@@ -1,10 +1,5 @@
 import React from 'react';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { proposerConfirmsJobCompletion } from '../../app-state/actions/jobActions';
-import { showLoginDialog } from '../../app-state/actions/uiActions';
-
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import {
@@ -15,33 +10,16 @@ import {
   TaskImagesCarousel,
   UserGivenTitle,
 } from '../../containers/commonComponents';
-import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
-class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
+export default class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
   render() {
     const { bid, job } = this.props;
-    if (!bid || !job) {
-      return <div>TaskerAwardedBidCanceledByTaskerSummary is missing properties</div>;
-    }
 
     const { startingDateAndTime, taskImages = [], jobTitle } = job;
-    if (!startingDateAndTime) {
-      return <div>TaskerAwardedBidCanceledByTaskerSummary is missing properties</div>;
-    }
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE) {
-      return <div>TaskerAwardedBidCanceledByTaskerSummary is missing properties</div>;
-    }
     const { displayStatus, bidAmount, _id } = bid;
-    if (!displayStatus || !bidAmount || !_id) {
-      return <div>TaskerAwardedBidCanceledByTaskerSummary is missing properties</div>;
-    }
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    if (!bidValue || !bidCurrency) {
-      return <div>TaskerAwardedBidCanceledByTaskerSummary is missing properties</div>;
-    }
 
     return (
       <React.Fragment>
@@ -58,7 +36,7 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
-                  <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+                  <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
               <CancelledBy name="You" />
@@ -82,29 +60,3 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
     );
   }
 }
-
-const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
-  return {
-    isLoggedIn: userReducer.isLoggedIn,
-    selectedAwardedJob: jobsReducer.selectedAwardedJob,
-    userDetails: userReducer.userDetails,
-    notificationFeed: uiReducer.notificationFeed,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
-    cancelAwardedBid: bindActionCreators(cancelAwardedBid, dispatch),
-    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(TaskerAwardedBidCanceledByTaskerSummary);
-
-const renderFooter = ({ bid }) => {
-  return <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }} />;
-};

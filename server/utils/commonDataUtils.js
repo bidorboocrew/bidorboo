@@ -39,7 +39,7 @@ exports.getAwardedJobOwnerBidderAndRelevantNotificationDetails = async (jobId) =
     .exec();
 
   // to speed this query get rid of virtuals and calculate the job dispaly title on the fly here
-  const { _ownerRef, _awardedBidRef, processedPayment, displayTitle } = awardedJob;
+  const { _ownerRef, _awardedBidRef, processedPayment } = awardedJob;
   const { bidAmount } = _awardedBidRef;
   const awardedBidId = _awardedBidRef._id.toString();
   const requestedJobId = awardedJob._id.toString();
@@ -55,7 +55,7 @@ exports.getAwardedJobOwnerBidderAndRelevantNotificationDetails = async (jobId) =
   const requesterDisplayName = ownerDetails.displayName;
   const ownerRating = ownerDetails.rating;
 
-  const jobDisplayName = displayTitle || awardedJob.jobTitle || awardedJob.templateId;
+  const jobDisplayName = `${awardedJob.jobTemplateDisplayTitle} - ${awardedJob.jobTitle}`;
 
   const requestLinkForRequester = ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId);
   const requestLinkForTasker = ROUTES.CLIENT.BIDDER.dynamicCurrentAwardedBid(awardedBidId);
