@@ -1,5 +1,4 @@
 import React from 'react';
-import TextareaAutosize from 'react-autosize-textarea';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import {
@@ -20,52 +19,15 @@ export default class RequesterCanceledByTaskerDetails extends React.Component {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
-    const {
-      startingDateAndTime,
-      addressText,
-      _awardedBidRef,
-      displayStatus,
-      state,
-      extras,
-      _ownerRef,
-      detailedDescription,
-      processedPayment,
-      templateId,
-      taskImages = [],
-      jobTitle,
-    } = job;
-    if (
-      !startingDateAndTime ||
-      !addressText ||
-      !_awardedBidRef ||
-      !displayStatus ||
-      !state ||
-      !extras ||
-      !_ownerRef ||
-      !detailedDescription ||
-      !templateId ||
-      !processedPayment
-    ) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
+    const { startingDateAndTime, _awardedBidRef, taskImages = [], jobTitle } = job;
 
-    const { _bidderRef } = _awardedBidRef;
-    if (!_bidderRef) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-
-    // xxxx get currency from processed payment
+    const { _bidderRef, requesterPayment } = _awardedBidRef;
 
     const { displayName: taskerDisplayName } = _bidderRef;
-    if (!taskerDisplayName) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
 
-    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE || !ID) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-    const { amount: requesterPaid } = processedPayment;
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
+
+    const { value: requesterPaymentAmount } = requesterPayment;
 
     return (
       <div
@@ -80,12 +42,10 @@ export default class RequesterCanceledByTaskerDetails extends React.Component {
             <TaskImagesCarousel taskImages={taskImages} isLarge />
             <SummaryStartDateAndTime
               date={startingDateAndTime}
-              renderHelpComponent={() => (
-                <CountDownComponent startingDate={startingDateAndTime} />
-              )}
+              renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
 
-            <CancelledBy name={`Tasker ${taskerDisplayName}`} refundAmount={100} />
+            <CancelledBy name={`Tasker ${taskerDisplayName}`} />
             <div className="group has-text-left">
               <label className="label">What you need to know:</label>
               <ul>
@@ -94,7 +54,7 @@ export default class RequesterCanceledByTaskerDetails extends React.Component {
                   seriously
                 </li>
                 <li>
-                  <strong>100% refund for the amount of {` $${requesterPaid / 100}`}</strong> was
+                  <strong>100% refund for the amount of {` $${requesterPaymentAmount}`}</strong> was
                   issued back to your card.
                 </li>
                 <li>

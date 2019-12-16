@@ -5,11 +5,6 @@ import { Collapse } from 'react-collapse';
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
-import { showLoginDialog } from '../../app-state/actions/uiActions';
-
 import {
   CountDownComponent,
   DisplayLabelValue,
@@ -23,19 +18,14 @@ import {
   TaskImagesCarousel,
   UserGivenTitle,
 } from '../../containers/commonComponents';
-import { getChargeDistributionDetails } from '../../containers/commonUtils';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import RequestBaseContainer from './RequestBaseContainer';
 
-class RequesterDoneDetails extends RequestBaseContainer {
+export default class RequesterDoneDetails extends RequestBaseContainer {
   render() {
-    const { job, cancelJobById, currentUserDetails } = this.props;
-    const { _id: currentUserId } = currentUserDetails;
+    const { job } = this.props;
 
-    if (!cancelJobById || !job || !currentUserDetails || !currentUserId) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
     const {
       _id: jobId,
       startingDateAndTime,
@@ -43,75 +33,25 @@ class RequesterDoneDetails extends RequestBaseContainer {
       _awardedBidRef,
       extras,
       detailedDescription,
-      displayStatus,
-      isHappeningSoon,
-      isHappeningToday,
-      isPastDue,
-      _reviewRef = {
-        revealToBoth: false,
-        requiresProposerReview: true,
-        requiresBidderReview: true,
-      },
-      jobCompletion = {
-        proposerConfirmed: false,
-        bidderConfirmed: false,
-      },
+      _reviewRef,
       taskImages = [],
       jobTitle,
     } = job;
-    if (
-      !jobId ||
-      !startingDateAndTime ||
-      !addressText ||
-      !_awardedBidRef ||
-      !displayStatus ||
-      !extras ||
-      !detailedDescription ||
-      isHappeningSoon === 'undefined' ||
-      isHappeningToday === 'undefined' ||
-      isPastDue === 'undefined'
-    ) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-    const { bidAmount, _bidderRef } = _awardedBidRef;
-    if (!bidAmount || !_bidderRef) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-    const { proposerConfirmed, bidderConfirmed } = jobCompletion;
 
-    // xxxx get currency from processed payment
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    if (!bidValue || !bidCurrency) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-    const { requesterTotalPayment: requesterPayAmount } = getChargeDistributionDetails(bidValue);
+    const { requesterPayment, _bidderRef } = _awardedBidRef;
+    const { value: requesterPaymentAmount } = requesterPayment;
 
-    const { phone, email, _id: bidderId } = _bidderRef;
-    if (!phone || !email || !bidderId) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-    const { phoneNumber = 'not specified' } = phone;
-    if (!phoneNumber) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
+    const { phone, email } = _bidderRef;
+    const { phoneNumber } = phone;
+
     const { emailAddress } = email;
-    if (!emailAddress) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
 
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE || !ID) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
 
     const { showMore } = this.state;
-    debugger;
-    const { revealToBoth, requiresProposerReview, requiresBidderReview } = _reviewRef || {
-      revealToBoth: false,
+    const { requiresProposerReview } = _reviewRef || {
       requiresProposerReview: true,
-      requiresBidderReview: true,
     };
-    debugger;
     return (
       <>
         <div style={{ height: 'auto' }} className="card cardWithButton nofixedwidth">
@@ -130,7 +70,7 @@ class RequesterDoneDetails extends RequestBaseContainer {
               {!requiresProposerReview && <ArchiveTask />}
 
               {requiresProposerReview && <TaskIsFulfilled />}
-              <TaskCost cost={requesterPayAmount} />
+              <TaskCost cost={requesterPaymentAmount} />
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
@@ -223,25 +163,6 @@ class RequesterDoneDetails extends RequestBaseContainer {
     );
   }
 }
-
-const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
-  return {
-    isLoggedIn: userReducer.isLoggedIn,
-    selectedAwardedJob: jobsReducer.selectedAwardedJob,
-    currentUserDetails: userReducer.userDetails,
-    notificationFeed: uiReducer.notificationFeed,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
-    cancelJobById: bindActionCreators(cancelJobById, dispatch),
-    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(RequesterDoneDetails);
 
 class AssignedTaskerDetails extends React.Component {
   render() {

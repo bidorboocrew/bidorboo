@@ -17,20 +17,12 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
   render() {
     const { job } = this.props;
 
-    const {
-      startingDateAndTime,
-      _awardedBidRef,
-      processedPayment,
-      templateId,
-      taskImages = [],
-      jobTitle,
-    } = job;
-
-    const { requesterPayment } = _awardedBidRef;
+    const { startingDateAndTime, taskImages = [], jobTitle, _awardedBidRef } = job;
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
 
-    const refundAmount = Math.floor(requesterPayment.value * 0.8);
+    const { requesterPartialRefund } = _awardedBidRef;
+    const { value: requesterPartialRefundAmount } = requesterPartialRefund;
 
     return (
       <div
@@ -45,12 +37,10 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
             <TaskImagesCarousel taskImages={taskImages} isLarge />
             <SummaryStartDateAndTime
               date={startingDateAndTime}
-              renderHelpComponent={() => (
-                <CountDownComponent startingDate={startingDateAndTime} />
-              )}
+              renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
 
-            <CancelledBy name={'You'} refundAmount={75} />
+            <CancelledBy name={'You'} />
             <div className="group has-text-left">
               <label className="label has-text-danger">What you need to know:</label>
               <ul>
@@ -60,12 +50,11 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
                   cancelled.
                 </li>
                 <li>
-                  <strong>{` $${refundAmount}`} was refunded </strong> back to your payment card.
+                  <strong>{` $${requesterPartialRefundAmount}`} was refunded </strong> back to your
+                  payment card.
                 </li>
                 <li>Your global rating will be negatively impacted</li>
-                <li>
-                  Cancelling frequently will put a ban on your account.
-                </li>
+                <li>Cancelling frequently will put a ban on your account.</li>
                 <li>
                   You can always review the details of this task in your inbox under "Past Requests"
                   Tab

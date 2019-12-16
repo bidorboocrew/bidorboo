@@ -1,10 +1,5 @@
 import React from 'react';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { proposerConfirmsJobCompletion } from '../../app-state/actions/jobActions';
-import { showLoginDialog } from '../../app-state/actions/uiActions';
-
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import {
@@ -15,34 +10,15 @@ import {
   TaskImagesCarousel,
   UserGivenTitle,
 } from '../../containers/commonComponents';
-import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
-class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
+export default class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
   render() {
     const { bid, job } = this.props;
-    if (!bid || !job) {
-      return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
-    }
 
     const { startingDateAndTime, taskImages = [], jobTitle } = job;
-    if (!startingDateAndTime) {
-      return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
-    }
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE) {
-      return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
-    }
-    const { displayStatus, bidAmount, _id } = bid;
-    if (!displayStatus || !bidAmount || !_id) {
-      return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
-    }
-
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    if (!bidValue || !bidCurrency) {
-      return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
-    }
 
     return (
       <div
@@ -57,18 +33,13 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
             <TaskImagesCarousel taskImages={taskImages} isLarge />
             <SummaryStartDateAndTime
               date={startingDateAndTime}
-              renderHelpComponent={() => (
-                <CountDownComponent startingDate={startingDateAndTime} />
-              )}
+              renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
             <CancelledBy name="You" />
             <div className="group has-text-left">
               <label className="label has-text-danger">What you need to know:</label>
               <ul>
-                <li>
-                  We are sorry to see this cancellation as BidOrBoo Crew Takes cancellations
-                  seriously
-                </li>
+                <li>At BidOrBoo we takes cancellations seriously</li>
                 <li>
                   <strong>Requester was notified about this</strong> and will NOT be expecting you
                   to show up.
@@ -78,8 +49,7 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
                 </li>
                 <li>Your global rating will be negatively impacted</li>
                 <li>
-                  If many cancellations happen in a row you will be <strong>banned</strong> from
-                  BidOrBoo
+                  If many cancellations happen in a row your account will be banned from BidOrBoo
                 </li>
               </ul>
             </div>
@@ -99,25 +69,3 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
     );
   }
 }
-
-const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
-  return {
-    isLoggedIn: userReducer.isLoggedIn,
-    selectedAwardedJob: jobsReducer.selectedAwardedJob,
-    userDetails: userReducer.userDetails,
-    notificationFeed: uiReducer.notificationFeed,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
-    cancelAwardedBid: bindActionCreators(cancelAwardedBid, dispatch),
-    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(TaskerAwardedBidCanceledByTaskerDetails);

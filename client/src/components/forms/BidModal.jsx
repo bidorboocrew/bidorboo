@@ -106,11 +106,6 @@ class BidModal extends React.Component {
               className="input is-focused"
               placeholder={'Enter total bid amount...'}
               onBlur={handleBlur}
-              // helpText={
-              //   avgBid > 0
-              //     ? `*Current Avg bid is $ ${avgBid}$ (CAD)`
-              //     : `* Bid Amount are in (CAD). E.g 50`
-              // }
               error={touched.bidAmountField && errors.bidAmountField}
               value={values.bidAmountField || ''}
               onChange={(e) => {
@@ -143,30 +138,6 @@ class BidModal extends React.Component {
                 {/* https://developers.google.com/recaptcha/docs/faq#id-like-to-hide-the-recaptcha-v3-badge-what-is-allowed */}
               </>
             )}
-
-            {/* <div className="group">
-              <div className="label">BidOrBoo Rules</div>
-
-              {values.bidAmountField && values.bidAmountField > 1 && (
-                <div className="help has-text-success">
-                  * Your Net Payout After deucting BidOrBoo Service Fee:
-                  <strong>
-                    {` ${values.bidAmountField - Math.ceil(values.bidAmountField * 0.04)}$ (CAD)`}
-                  </strong>
-                </div>
-              )}
-              <div className="help">
-                * You must read all the request details thoroughly before bidding.
-              </div>
-              <div className="help">* If your bid is chosen this task will be assigned to you</div>
-              <div className="help">
-                {`* `}
-                <strong>
-                  Canceling after being assigned will negatively impact your rating or if done
-                  frequently will put a ban on your account
-                </strong>
-              </div>
-            </div> */}
           </section>
 
           <footer className="modal-card-foot">

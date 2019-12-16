@@ -42,7 +42,7 @@ export const findAvgBidInBidList = (bidsList) => {
 export const AvgBidDisplayLabelAndValue = ({ bidsList }) => {
   let minBid = findAvgBidInBidList(bidsList);
   let avgBidLabel = minBid ? (
-    <DisplayLabelValue labelText="Avg Bid" labelValue={`${minBid}$ (CAD)`} />
+    <DisplayLabelValue labelText="Avg Bid" labelValue={`$${minBid} (CAD)`} />
   ) : (
     <DisplayLabelValue labelText="Avg Bid" labelValue={`Be the first bidder!`} />
   );
@@ -338,11 +338,11 @@ export class LocationLabelAndValue extends React.Component {
     }
 
     let geocoder;
-    if (!window.BidorBoo.geocoder) {
+    if (!window.BidOrBoo.geocoder) {
       geocoder = new window.google.maps.Geocoder();
-      window.BidorBoo.geocoder = Object.freeze(geocoder);
+      window.BidOrBoo.geocoder = Object.freeze(geocoder);
     } else {
-      geocoder = window.BidorBoo.geocoder;
+      geocoder = window.BidOrBoo.geocoder;
     }
 
     if (window.google && geocoder && location && location.length === 2) {
@@ -985,7 +985,7 @@ export const DisputedBy = ({ name }) => {
           {`Disputed by ${name}`}
         </div>
         <div>
-          <div className="help is-danger">*BidorBooCrew will resolve this ASAP</div>
+          <div className="help is-danger">*BidOrBoo support crew will resolve this ASAP</div>
         </div>
       </div>
     </div>
@@ -1058,7 +1058,7 @@ export const TaskIsFulfilled = () => {
         </div>
       </div>
       {/* <div>
-      <div className="help">*BidorBoo will refund you ${refundAmount}%</div>
+      <div className="help">*BidOrBoo will refund you ${refundAmount}%</div>
     </div> */}
     </div>
   );
@@ -1100,7 +1100,7 @@ export const ArchiveTask = ({ displayName = '' }) => {
         </div>
       </div>
       {/* <div>
-      <div className="help">*BidorBoo will refund you ${refundAmount}%</div>
+      <div className="help">*BidOrBoo will refund you ${refundAmount}%</div>
     </div> */}
     </div>
   );

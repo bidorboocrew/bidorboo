@@ -19,58 +19,12 @@ export default class RequesterDisputedDetails extends React.Component {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
-    const {
-      startingDateAndTime,
-      addressText,
-      _awardedBidRef,
-      displayStatus,
-      state,
-      extras,
-      _ownerRef,
-      detailedDescription,
-      processedPayment,
-      taskImages = [],
-      jobTitle,
-      dispute,
-    } = job;
-    if (
-      !startingDateAndTime ||
-      !addressText ||
-      !_awardedBidRef ||
-      !displayStatus ||
-      !state ||
-      !extras ||
-      !_ownerRef ||
-      !detailedDescription ||
-      !processedPayment ||
-      !dispute
-    ) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-    if (!extras.effort) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-    const { bidAmount, _bidderRef } = _awardedBidRef;
-    if (!bidAmount || !_bidderRef) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
+    const { startingDateAndTime, taskImages = [], jobTitle, dispute } = job;
 
-    const { displayName: taskerDisplayName } = _bidderRef;
-    if (!taskerDisplayName) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-
-    const { displayName: ownerDisplayName } = _ownerRef;
-    if (!ownerDisplayName) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE || !ID) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
 
     let whoDisputed = '';
-    const { taskerDispute, proposerDispute } = dispute;
+    const { taskerDispute } = dispute;
     if (taskerDispute && taskerDispute.reason) {
       whoDisputed = 'Tasker';
     } else {
@@ -86,15 +40,15 @@ export default class RequesterDisputedDetails extends React.Component {
             <TaskImagesCarousel taskImages={taskImages} isLarge />
             <SummaryStartDateAndTime
               date={startingDateAndTime}
-              renderHelpComponent={() => (
-                <CountDownComponent startingDate={startingDateAndTime} />
-              )}
+              renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
             <DisputedBy name={whoDisputed} />
             <div className="group has-text-left">
               <label className="label has-text-danger">What you need to know:</label>
               <ul>
-                <li>BidorBooCrew will assess the dispute asap to ensure your satisfaction</li>
+                <li>
+                  BidOrBoo support crew will assess the dispute asap to ensure your satisfaction
+                </li>
                 <li>
                   Our customer relation team will be in touch with tasker and requester to gather
                   facts

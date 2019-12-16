@@ -2,12 +2,6 @@ import React from 'react';
 import TextareaAutosize from 'react-autosize-textarea';
 import { Collapse } from 'react-collapse';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { bidderConfirmsJobCompletion } from '../../app-state/actions/jobActions';
-import { showLoginDialog } from '../../app-state/actions/uiActions';
-import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
-
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import {
@@ -23,28 +17,20 @@ import {
   TaskImagesCarousel,
   UserGivenTitle,
 } from '../../containers/commonComponents';
-import { getChargeDistributionDetails } from '../../containers/commonUtils';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import RequestBaseContainer from './RequestBaseContainer';
 
-class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
+export default class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
   render() {
-    const { bid, currentUserDetails } = this.props;
-    if (!bid || !bid._id || !currentUserDetails) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
-    const { _jobRef: job } = bid;
-    if (!job) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
+    const { bid } = this.props;
 
+    const { _jobRef: job } = bid;
     const {
       _id: jobId,
       startingDateAndTime,
       addressText,
       extras,
       detailedDescription,
-      displayStatus,
       _ownerRef,
       _reviewRef = {
         revealToBoth: false,
@@ -54,42 +40,18 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
       taskImages = [],
       jobTitle,
     } = job;
-    if (
-      !startingDateAndTime ||
-      !addressText ||
-      !extras ||
-      !detailedDescription ||
-      !displayStatus ||
-      !_ownerRef
-    ) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
 
-    const { bidAmount } = bid;
-    if (!bidAmount) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
-
-    // xxx get currency from processed payment
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    if (!bidValue || !bidCurrency) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
-
-    const { taskerTotalPayoutAmount } = getChargeDistributionDetails(bidValue);
+    const { bidderPayout, bidAmount } = bid;
+    const { value: bidderPayoutAmount } = bidderPayout;
+    const { value: bidValue } = bidAmount;
 
     const { requiresBidderReview } = _reviewRef || {
-      revealToBoth: false,
-      requiresProposerReview: true,
       requiresBidderReview: true,
     };
 
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE || !ID) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
 
-    const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
+    const { showMore } = this.state;
 
     return (
       <React.Fragment>
@@ -114,7 +76,7 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              <TaskerWillEarn earningAmount={taskerTotalPayoutAmount} />
+              <TaskerWillEarn earningAmount={bidderPayoutAmount} />
 
               {!requiresBidderReview && <ArchiveTask />}
 
@@ -174,7 +136,7 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
                     }}
                     className={`button firstButtonInCard is-primary`}
                   >
-                    <span>Review Requester & Task</span>
+                    <span>REVIEW REQUESTER</span>
                   </a>
                 )}
                 {!requiresBidderReview && (
@@ -184,7 +146,7 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
                     }}
                     className={`button firstButtonInCard is-dark`}
                   >
-                    Past Task
+                    PAST TASK
                   </a>
                 )}
               </>
@@ -195,25 +157,6 @@ class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
     );
   }
 }
-
-const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
-  return {
-    isLoggedIn: userReducer.isLoggedIn,
-    selectedAwardedJob: jobsReducer.selectedAwardedJob,
-    currentUserDetails: userReducer.userDetails,
-    notificationFeed: uiReducer.notificationFeed,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    bidderConfirmsJobCompletion: bindActionCreators(bidderConfirmsJobCompletion, dispatch),
-    cancelAwardedBid: bindActionCreators(cancelAwardedBid, dispatch),
-    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(TaskerMyAwardedDoneBidDetails);
 
 class RequesterDetails extends React.Component {
   render() {

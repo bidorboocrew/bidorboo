@@ -20,10 +20,6 @@ import { didUserAlreadyView } from '../../containers/commonUtils';
 import RequestBaseContainer from './RequestBaseContainer';
 
 export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
-  toggleRegisterAsTasker = () => {
-    this.setState({ showRegisterAsTaskerModal: !this.state.showRegisterAsTaskerModal });
-  };
-
   render() {
     const { job, otherArgs = {} } = this.props;
     const { showRegisterAsTaskerModal } = this.state;
@@ -108,15 +104,7 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                         style={{ marginLeft: 12 }}
                         onClick={(e) => {
                           const markerRef = reactMapClusterRef;
-                          if (
-                            markerRef &&
-                            markerRef.current &&
-                            markerRef.current.props &&
-                            markerRef.current.props.onClick &&
-                            typeof markerRef.current.props.onClick === 'function'
-                          ) {
-                            markerRef.current.props.onClick();
-                          }
+                          markerRef.current.props.onClick();
                         }}
                         className="button secondButtonInCard "
                       >
@@ -153,58 +141,7 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
             </div>
           </div>
         </div>
-
-        {showRegisterAsTaskerModal && (
-          <ShowRegisterAsTaskerModal handleClose={this.toggleRegisterAsTasker} />
-        )}
       </React.Fragment>
     );
   }
 }
-
-const ShowRegisterAsTaskerModal = ({ handleClose }) => {
-  return (
-    <React.Fragment>
-      {ReactDOM.createPortal(
-        <div className="modal is-active">
-          <div onClick={handleClose} className="modal-background" />
-          <div className="modal-card">
-            <header className="modal-card-head">
-              <div className="modal-card-title">Setup your payout info</div>
-            </header>
-            <section className="modal-card-body">
-              <div className="group">
-                <label className="label">In order to bid on jobs you must :</label>
-              </div>
-              <ul>
-                <li>- Be at least 19 years of old</li>
-                <li>
-                  <a onClick={() => switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings)}>
-                    - Verify your email and phone info
-                  </a>
-                </li>
-                <li>
-                  <a onClick={() => switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings)}>
-                    - Setup your banking payout details
-                  </a>
-                </li>
-              </ul>
-            </section>
-            <footer className="modal-card-foot">
-              <button onClick={handleClose} className="button is-outline">
-                Close
-              </button>
-              <button
-                onClick={() => switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings)}
-                className="button is-success"
-              >
-                go to my profile
-              </button>
-            </footer>
-          </div>
-        </div>,
-        document.querySelector('#bidorboo-root-modals'),
-      )}
-    </React.Fragment>
-  );
-};

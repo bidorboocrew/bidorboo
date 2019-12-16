@@ -19,7 +19,7 @@ import GetNotificationsAndScroll from './GetNotificationsAndScroll';
 import { registerServiceWorker } from './registerServiceWorker';
 import { registerPushNotification } from './registerPushNotification';
 
-window.BidorBoo = window.BidorBoo || {};
+window.BidOrBoo = window.BidOrBoo || {};
 
 if (process.env.NODE_ENV === 'production') {
   console.log('production add bugsnag');

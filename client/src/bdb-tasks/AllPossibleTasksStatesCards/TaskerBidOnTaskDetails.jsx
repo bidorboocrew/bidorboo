@@ -29,9 +29,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
   render() {
     const { job, otherArgs } = this.props;
     const { showLoginDialog, isLoggedIn } = otherArgs;
-    if (!job) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.root);
-    }
+
     const {
       startingDateAndTime,
       _bidsListRef,
@@ -44,36 +42,13 @@ export default class TaskerBidOnTaskDetails extends React.Component {
       jobTitle,
       taskImages = [],
     } = job;
-    if (
-      !startingDateAndTime ||
-      !_ownerRef ||
-      !state ||
-      !detailedDescription ||
-      !location ||
-      !extras ||
-      !templateId
-    ) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.root);
-    }
 
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${templateId}`];
-    if (!TITLE || !ID) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.root);
-    }
 
     const { coordinates } = location;
-    if (!coordinates) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.root);
-    }
 
     const { submitBid, renderTaskerBidInfo, userDetails } = otherArgs;
-    if (!submitBid || !userDetails) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.root);
-    }
     const { _id: currentUserId } = userDetails;
-    if (!currentUserId) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.root);
-    }
 
     const userAlreadyView = didUserAlreadyView(job, currentUserId);
     const { userAlreadyBid } = getUserExistingBid(job, currentUserId);

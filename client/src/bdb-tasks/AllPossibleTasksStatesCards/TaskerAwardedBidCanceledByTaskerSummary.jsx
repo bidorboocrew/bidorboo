@@ -19,7 +19,6 @@ export default class TaskerAwardedBidCanceledByTaskerSummary extends React.Compo
 
     const { startingDateAndTime, taskImages = [], jobTitle } = job;
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    const { displayStatus, bidAmount, _id } = bid;
 
     return (
       <React.Fragment>

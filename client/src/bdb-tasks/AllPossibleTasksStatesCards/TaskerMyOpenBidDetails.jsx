@@ -25,7 +25,6 @@ import {
   BidAmount,
   TaskerWillEarn,
 } from '../../containers/commonComponents';
-import { getChargeDistributionDetails } from '../../containers/commonUtils';
 import TaskerEditOrUpdateBid from '../../containers/bidder-flow/components/TaskerEditOrUpdateBid';
 
 export default class TaskerMyOpenBidDetails extends React.Component {
@@ -85,46 +84,21 @@ export default class TaskerMyOpenBidDetails extends React.Component {
       taskImages = [],
       jobTitle,
     } = job;
-    if (
-      !startingDateAndTime ||
-      !_ownerRef ||
-      !detailedDescription ||
-      !location ||
-      !extras ||
-      !state ||
-      isPastDue === 'undefined'
-    ) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
 
-    const { bidAmount, isNewBid } = bid;
-    if (!bidAmount) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    if (!bidValue || !bidCurrency) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
+    const { bidderPayout, bidAmount } = bid;
 
-    const { taskerTotalPayoutAmount } = getChargeDistributionDetails(bidValue);
+    const { value: bidderPayoutAmount } = bidderPayout;
+    const { value: bidValue } = bidAmount;
+
     const { updateBid, deleteOpenBid } = otherArgs;
-    if (!updateBid || !deleteOpenBid) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
-    const { displayStatus } = bid;
-    if (!displayStatus) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
 
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE || !ID) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
 
     const { showMore, showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
     const isAwardedToSomeoneElse =
-      state === REQUEST_STATES.AWARDED && bid._id !== job._awardedBidRef;
+      (state === REQUEST_STATES.AWARDED || state === REQUEST_STATES.AWARDED_SEEN) &&
+      bid._id !== job._awardedBidRef;
 
     return (
       <React.Fragment>
@@ -230,7 +204,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
+              <TaskerWillEarn earningAmount={bidderPayoutAmount}></TaskerWillEarn>
 
               {isAwardedToSomeoneElse && <BSAwardedToSomeoneElse />}
 

@@ -3,9 +3,6 @@ import ReactDOM from 'react-dom';
 import TextareaAutosize from 'react-autosize-textarea';
 import { Collapse } from 'react-collapse';
 
-import { switchRoute } from '../../utils';
-import * as ROUTES from '../../constants/frontend-route-consts';
-
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
@@ -28,7 +25,6 @@ import {
   TaskImagesCarousel,
   UserGivenTitle,
 } from '../../containers/commonComponents';
-import { getChargeDistributionDetails } from '../../containers/commonUtils';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import RequestBaseContainer from './RequestBaseContainer';
@@ -68,12 +64,13 @@ class RequesterAwardedDetails extends RequestBaseContainer {
       jobTitle,
     } = job;
 
-    const { requesterPayment, _bidderRef } = _awardedBidRef;
+    const { requesterPayment, requesterPartialRefund, _bidderRef } = _awardedBidRef;
 
-    const { value: requesterPayAmount } = requesterPayment;
+    const { value: requesterPartialRefundAmount } = requesterPartialRefund;
+    const { value: requesterPaymentAmount } = requesterPayment;
 
     const { phone, email } = _bidderRef;
-    const { phoneNumber = 'not specified' } = phone;
+    const { phoneNumber } = phone;
     const { emailAddress } = email;
 
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
@@ -120,7 +117,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                     <div className="control">
                       {'* You will receive a refund of '}
                       <span className="has-text-danger has-text-weight-semibold">
-                        {` ${Math.floor(0.8 * requesterPayAmount)}$ `}
+                        {` $${requesterPartialRefundAmount} `}
                       </span>
                       {'which is ~ 80% of your original payment'}
                     </div>
@@ -229,7 +226,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
 
               <AssignedTasker displayName={_awardedBidRef._bidderRef.displayName} />
               <TaskCost
-                cost={requesterPayAmount}
+                cost={requesterPaymentAmount}
                 renderHelp={() => (
                   <div className="help">to be paid to Tasker after task completion</div>
                 )}

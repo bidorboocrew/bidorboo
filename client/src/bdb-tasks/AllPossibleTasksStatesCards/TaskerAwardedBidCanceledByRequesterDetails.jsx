@@ -1,10 +1,5 @@
 import React from 'react';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { proposerConfirmsJobCompletion } from '../../app-state/actions/jobActions';
-import { showLoginDialog } from '../../app-state/actions/uiActions';
-
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import {
@@ -16,17 +11,14 @@ import {
   UserGivenTitle,
   TaskerWillEarn,
 } from '../../containers/commonComponents';
-import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
-class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
+export default class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
   render() {
     const { bid, job } = this.props;
 
     const { startingDateAndTime, taskImages = [], jobTitle } = job;
-    if (!startingDateAndTime) {
-      return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
-    }
+
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
 
     const { bidderPartialPayout } = bid;
@@ -53,7 +45,7 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
             <div className="group has-text-left">
               <label className="label has-text-danger">What you need to know:</label>
               <ul>
-                <li>BidOrBoo Takes cancellations seriously</li>
+                <li>At BidOrBoo we takes cancellations seriously</li>
                 <li>
                   You will <strong>get paid ${bidderPartialPayoutAmount}</strong> for your
                   commitment with us.
@@ -83,25 +75,3 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
     );
   }
 }
-
-const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
-  return {
-    isLoggedIn: userReducer.isLoggedIn,
-    selectedAwardedJob: jobsReducer.selectedAwardedJob,
-    userDetails: userReducer.userDetails,
-    notificationFeed: uiReducer.notificationFeed,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
-    cancelAwardedBid: bindActionCreators(cancelAwardedBid, dispatch),
-    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(TaskerAwardedBidCanceledByTaskerDetails);

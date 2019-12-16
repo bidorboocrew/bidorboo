@@ -16,13 +16,12 @@ import {
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import RequestBaseContainer from './RequestBaseContainer';
 
-class RequesterAwardedSummary extends RequestBaseContainer {
+export default class RequesterAwardedSummary extends RequestBaseContainer {
   render() {
-    const { job, cancelJobById } = this.props;
+    const { job } = this.props;
     const {
       _id: jobId,
       startingDateAndTime,
-      _awardedBidRef,
       bidderConfirmedCompletion,
       jobTitle,
       taskImages = [],
@@ -67,14 +66,3 @@ class RequesterAwardedSummary extends RequestBaseContainer {
     );
   }
 }
-
-const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
-  return {
-    isLoggedIn: userReducer.isLoggedIn,
-    selectedAwardedJob: jobsReducer.selectedAwardedJob,
-    userDetails: userReducer.userDetails,
-    notificationFeed: uiReducer.notificationFeed,
-  };
-};
-
-export default connect(mapStateToProps, null)(RequesterAwardedSummary);

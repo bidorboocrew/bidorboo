@@ -1,10 +1,5 @@
 import React from 'react';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { proposerConfirmsJobCompletion } from '../../app-state/actions/jobActions';
-import { showLoginDialog } from '../../app-state/actions/uiActions';
-
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import {
@@ -32,8 +27,6 @@ export default class TaskerMyAwardedDoneBidSummary extends React.Component {
     const { value: taskerTotalPayoutAmount } = bidderPayout;
 
     const { requiresBidderReview } = _reviewRef || {
-      revealToBoth: false,
-      requiresProposerReview: true,
       requiresBidderReview: true,
     };
 
