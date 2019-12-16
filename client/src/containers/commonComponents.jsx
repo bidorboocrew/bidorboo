@@ -3,7 +3,7 @@ import logoImg from '../assets/images/android-chrome-192x192.png';
 
 import moment from 'moment';
 import AddToCalendar from 'react-add-to-calendar';
-import { REQUEST_STATES, BID_STATES } from '../bdb-tasks/index';
+import { REQUEST_STATES } from '../bdb-tasks/index';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import * as ROUTES from '../constants/frontend-route-consts';

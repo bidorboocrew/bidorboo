@@ -30,12 +30,10 @@ import {
   TaskerMyDisputedBidDetails,
   REQUEST_STATES,
   POINT_OF_VIEW,
-  BID_STATES,
 } from './index';
 
 export { POINT_OF_VIEW };
 export { REQUEST_STATES };
-export { BID_STATES };
 
 const requesterCardTemplates = {
   [REQUEST_STATES.OPEN]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
@@ -214,9 +212,9 @@ const TaskerCardTemplates = {
     ...otherArgs
   }) => {
     if (isSummaryView) {
-      return <div>BID_STATES.DISPUTE_RESOLVED state summary view not implemented yet</div>;
+      return <div>REQUEST_STATES.DISPUTE_RESOLVED state summary view not implemented yet</div>;
     } else {
-      return <div>BID_STATES.DISPUTE_RESOLVED state detail view not implemented yet</div>;
+      return <div>REQUEST_STATES.DISPUTE_RESOLVED state detail view not implemented yet</div>;
     }
   },
 };
@@ -238,13 +236,13 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
           });
           return card;
         } catch (e) {
-          console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
+          console.error(e + ' Error Loading getTaskerBidCard REQUEST_STATES.OPEN: Card ');
         }
         break;
       case REQUEST_STATES.AWARDED_SEEN:
       case REQUEST_STATES.AWARDED:
         try {
-          const card = TaskerCardTemplates[BID_STATES.AWARDED]({
+          const card = TaskerCardTemplates[REQUEST_STATES.AWARDED]({
             bid,
             job: _jobRef,
             isSummaryView,
@@ -254,7 +252,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
           });
           return card || <div>This type ain't found</div>;
         } catch (e) {
-          console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
+          console.error(e + ' Error Loading getTaskerBidCard REQUEST_STATES.AWARDED: Card ');
         }
         break;
       case REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN:
@@ -268,9 +266,14 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
             withBidDetails: true,
             otherArgs,
           });
-          return card || <div>this ain't found BID_STATES.AWARDED_BID_CANCELED_BY_REQUESTER</div>;
+          return (
+            card || <div>this ain't found REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER</div>
+          );
         } catch (e) {
-          console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
+          console.error(
+            e +
+              ' Error Loading getTaskerBidCard REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER: Card ',
+          );
         }
         break;
       case REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER_SEEN:
@@ -284,9 +287,12 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
             withBidDetails: true,
             otherArgs,
           });
-          return card || <div>this ain't found BID_STATES.AWARDED_BID_CANCELED_BY_TASKER</div>;
+          return card || <div>this ain't found REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER</div>;
         } catch (e) {
-          console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
+          console.error(
+            e +
+              ' Error Loading getTaskerBidCard REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER: Card ',
+          );
         }
         break;
 
@@ -301,9 +307,9 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
             withBidDetails: true,
             otherArgs,
           });
-          return card || <div>BID_STATES.DONE</div>;
+          return card || <div>REQUEST_STATES.DONE</div>;
         } catch (e) {
-          console.error(e + ' Error Loading getTaskerBidCard BID_STATES.OPEN: Card ');
+          console.error(e + ' Error Loading getTaskerBidCard REQUEST_STATES.DONE: Card ');
         }
 
       default:
