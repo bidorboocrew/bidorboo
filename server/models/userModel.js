@@ -156,7 +156,6 @@ const UserSchema = new Schema(
         },
       ],
     },
-
     password: {
       type: String,
       allowBlank: false,
