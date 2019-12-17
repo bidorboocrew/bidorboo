@@ -9,6 +9,7 @@ import {
   CancelledBy,
   TaskImagesCarousel,
   UserGivenTitle,
+  TaskCost,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -21,8 +22,10 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
 
-    const { requesterPartialRefund } = _awardedBidRef;
+    const { requesterPartialRefund, requesterPayment } = _awardedBidRef;
     const { value: requesterPartialRefundAmount } = requesterPartialRefund;
+
+    const { value: requesterPaymentAmount } = requesterPayment;
 
     return (
       <div
@@ -39,6 +42,7 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
               date={startingDateAndTime}
               renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
+            <TaskCost cost={requesterPaymentAmount}></TaskCost>
 
             <CancelledBy name={'You'} />
             <div className="group has-text-left">

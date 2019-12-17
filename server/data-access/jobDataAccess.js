@@ -2202,7 +2202,10 @@ exports.jobDataAccess = {
   getAwardedJobFullDetailsForRequester: async (jobId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const jobWithBidderDetails = await JobModel.findOne({ _id: jobId })
+        const jobWithBidderDetails = await JobModel.findOne(
+          { _id: jobId },
+          { processedPayment: 0, payoutDetails: 0 }
+        )
           .populate([
             {
               path: '_awardedBidRef',

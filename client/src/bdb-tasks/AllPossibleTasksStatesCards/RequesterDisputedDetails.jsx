@@ -8,6 +8,7 @@ import {
   JobCardTitle,
   TaskImagesCarousel,
   UserGivenTitle,
+  TaskCost,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -19,7 +20,7 @@ export default class RequesterDisputedDetails extends React.Component {
       return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
     }
 
-    const { startingDateAndTime, taskImages = [], jobTitle, dispute } = job;
+    const { _awardedBidRef, startingDateAndTime, taskImages = [], jobTitle, dispute } = job;
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
 
@@ -30,6 +31,9 @@ export default class RequesterDisputedDetails extends React.Component {
     } else {
       whoDisputed = 'You';
     }
+
+    const { requesterPayment } = _awardedBidRef;
+    const { value: requesterPaymentAmount } = requesterPayment;
     return (
       <div className="card has-text-centered disputeOnlyView cardWithButton nofixedwidth">
         <div className="card-content">
@@ -42,23 +46,28 @@ export default class RequesterDisputedDetails extends React.Component {
               date={startingDateAndTime}
               renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
+            <TaskCost cost={requesterPaymentAmount}></TaskCost>
+
             <DisputedBy name={whoDisputed} />
             <div className="group has-text-left">
               <label className="label has-text-danger">What you need to know:</label>
               <ul>
                 <li>
-                  BidOrBoo support crew will assess the dispute asap to ensure your satisfaction
+                  <strong>
+                    Your payment ${requesterPaymentAmount} will be on hold until we resolve the
+                    dispute
+                  </strong>
                 </li>
                 <li>
-                  Our customer relation team will be in touch with tasker and requester to gather
-                  facts
+                  BidOrBoo support crew will assess the dispute asap to ensure your satisfaction
                 </li>
-                <li>We will get in touch with you to update you regularly with the status</li>
+
+                <li>We will get in touch with you to update you regularly with the progress</li>
               </ul>
             </div>
           </div>
         </div>
-
+        <br></br>
         <a
           onClick={() => {
             switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
