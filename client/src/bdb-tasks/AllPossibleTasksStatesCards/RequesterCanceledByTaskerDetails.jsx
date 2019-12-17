@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import {
@@ -10,8 +13,14 @@ import {
   UserGivenTitle,
 } from '../../containers/commonComponents';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
+import { updateJobState } from '../../app-state/actions/jobActions';
+import { REQUEST_STATES } from '../index';
 
-export default class RequesterCanceledByTaskerDetails extends React.Component {
+class RequesterCanceledByTaskerDetails extends React.Component {
+  componentDidMount() {
+    const { updateJobState, job } = this.props;
+    updateJobState(job._id, REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER_SEEN);
+  }
   render() {
     const { job } = this.props;
 
@@ -77,3 +86,10 @@ export default class RequesterCanceledByTaskerDetails extends React.Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateJobState: bindActionCreators(updateJobState, dispatch),
+  };
+};
+export default connect(null, mapDispatchToProps)(RequesterCanceledByTaskerDetails);

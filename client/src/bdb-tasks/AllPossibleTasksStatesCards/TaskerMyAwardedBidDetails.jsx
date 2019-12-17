@@ -267,7 +267,15 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
         {bidderConfirmedCompletion && _reviewRef && !_reviewRef.requiresBidderReview && (
           <ReviewTheRequester
             otherUserProfileInfo={_ownerRef}
-            renderActionButton={() => <p>You have submitted your review.</p>}
+            renderActionButton={() => (
+              <ul className="has-text-left">
+                <li>You have submitted your review already.</li>
+                <li>We've contacted the Requester to confirm task completion</li>
+                <li>
+                  This will be automatically marked as completed if they don't respond within 3 days
+                </li>
+              </ul>
+            )}
           />
         )}
       </React.Fragment>

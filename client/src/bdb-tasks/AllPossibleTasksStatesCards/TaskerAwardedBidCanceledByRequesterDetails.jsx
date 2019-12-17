@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -12,8 +14,14 @@ import {
   TaskerWillEarn,
 } from '../../containers/commonComponents';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
+import { updateJobState } from '../../app-state/actions/jobActions';
+import { REQUEST_STATES } from '../index';
 
-export default class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
+class TaskerAwardedBidCanceledByRequesterDetails extends React.Component {
+  componentDidMount() {
+    const { updateJobState, job } = this.props;
+    updateJobState(job._id, REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN);
+  }
   render() {
     const { bid, job } = this.props;
 
@@ -75,3 +83,10 @@ export default class TaskerAwardedBidCanceledByTaskerDetails extends React.Compo
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateJobState: bindActionCreators(updateJobState, dispatch),
+  };
+};
+export default connect(null, mapDispatchToProps)(TaskerAwardedBidCanceledByRequesterDetails);

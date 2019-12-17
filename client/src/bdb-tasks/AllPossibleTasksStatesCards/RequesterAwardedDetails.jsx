@@ -110,20 +110,18 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                       <label className="label has-text-danger">
                         Before you proceed you must know:
                       </label>
-                      <div className="control">
-                        {'* You will receive a refund of '}
-                        <span className="has-text-danger has-text-weight-semibold">
-                          {` $${requesterPartialRefundAmount} `}
-                        </span>
-                        {'which is ~ 80% of your original payment'}
-                      </div>
-                      <div className="control">
-                        * Your global rating will be negatively impacted
-                      </div>
-                      <li>This cancellation will show up on your profile</li>
-                      <div className="control">
-                        * Cancelling often will put a ban on your account
-                      </div>
+                      <ul>
+                        <li>
+                          {'You will receive a refund of '}
+                          <span className="has-text-weight-semibold">
+                            {` $${requesterPartialRefundAmount} `}
+                          </span>
+                          {'which is ~ 80% of your original payment'}
+                        </li>
+                        <li>Your global rating will be negatively impacted</li>
+                        <li>This cancellation will show up on your profile</li>{' '}
+                        <li>Cancelling often will put a ban on your account</li>
+                      </ul>
                     </div>
                   </div>
                 </section>
@@ -149,7 +147,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                     <span className="icon">
                       <i className="far fa-trash-alt" />
                     </span>
-                    <span>Cancel this task</span>
+                    <span>Cancel This Booking</span>
                   </button>
                 </footer>
               </div>

@@ -2,6 +2,7 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { updateJobState } from '../../app-state/actions/jobActions';
 
 import {
   CountDownComponent,
@@ -13,7 +14,6 @@ import {
 } from '../../containers/commonComponents';
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { updateJobState } from '../../app-state/actions/jobActions';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 

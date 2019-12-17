@@ -9,7 +9,6 @@ import { REQUEST_STATES } from '../../bdb-tasks/index';
 import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightCard';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
-import ShareButtons from '../ShareButtons.jsx';
 const MY_REQUESTS_TABS = {
   activeRequests: 'activeRequests',
   pastRequests: 'pastRequests',
@@ -35,19 +34,35 @@ class MyRequestsPage extends React.Component {
     }
 
     const areThereAnyJobsToView = myRequestsSummary && myRequestsSummary.length > 0;
-    let myRequestsSummaryCards = areThereAnyJobsToView
+
+    let pastRequests = areThereAnyJobsToView
       ? myRequestsSummary
           .filter((job) => {
-            if (selectedTab === MY_REQUESTS_TABS.pastRequests) {
-              return [
-                REQUEST_STATES.DISPUTE_RESOLVED,
-                REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER_SEEN,
-                REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN,
-                REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN,
-                REQUEST_STATES.DISPUTE_RESOLVED,
-                REQUEST_STATES.ARCHIVE,
-              ].includes(job.state);
-            }
+            return [
+              REQUEST_STATES.DISPUTE_RESOLVED,
+              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER_SEEN,
+              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN,
+              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN,
+              REQUEST_STATES.DISPUTE_RESOLVED,
+              REQUEST_STATES.ARCHIVE,
+            ].includes(job.state);
+          })
+          .map((job) => {
+            return (
+              <div key={job._id} className="column is-narrow isforCards slide-in-bottom-small">
+                {getMeTheRightRequestCard({
+                  job,
+                  isSummaryView: true,
+                  pointOfView: POINT_OF_VIEW.REQUESTER,
+                })}
+              </div>
+            );
+          })
+      : null;
+
+    let activeRequests = areThereAnyJobsToView
+      ? myRequestsSummary
+          .filter((job) => {
             return [
               REQUEST_STATES.OPEN,
               REQUEST_STATES.AWARDED,
@@ -71,6 +86,15 @@ class MyRequestsPage extends React.Component {
           })
       : null;
 
+    let myRequestsSummaryCards = null;
+    if (areThereAnyJobsToView) {
+      if (selectedTab === MY_REQUESTS_TABS.pastRequests) {
+        myRequestsSummaryCards = pastRequests;
+      } else {
+        myRequestsSummaryCards = activeRequests;
+      }
+    }
+
     return (
       <div>
         <section className="hero is-white">
@@ -87,12 +111,12 @@ class MyRequestsPage extends React.Component {
           <ul>
             <li className={`${selectedTab === MY_REQUESTS_TABS.activeRequests ? 'is-active' : ''}`}>
               <a onClick={() => this.setState({ selectedTab: MY_REQUESTS_TABS.activeRequests })}>
-                Active Requests
+                {`Active Requests (${activeRequests ? activeRequests.length : 0})`}
               </a>
             </li>
             <li className={`${selectedTab === MY_REQUESTS_TABS.pastRequests ? 'is-active' : ''}`}>
               <a onClick={() => this.setState({ selectedTab: MY_REQUESTS_TABS.pastRequests })}>
-                Past Requests
+                {`Past Requests (${pastRequests ? pastRequests.length : 0})`}
               </a>
             </li>
           </ul>
@@ -106,7 +130,7 @@ class MyRequestsPage extends React.Component {
     );
   }
 }
-const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
+const mapStateToProps = ({ jobsReducer, userReducer }) => {
   return {
     myRequestsSummary: jobsReducer.myRequestsSummary,
     isLoading: jobsReducer.isLoading,

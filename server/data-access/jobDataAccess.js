@@ -1787,7 +1787,7 @@ exports.jobDataAccess = {
         }
 
         // if we are cancelling an awardedJob
-        else if (job.state === 'AWARDED') {
+        else if (job.state === 'AWARDED' || job.state === 'AWARDED_SEEN') {
           // CANCELED_BY_REQUESTER_AWARDED case
           const {
             requestedJobId,
@@ -1812,8 +1812,6 @@ exports.jobDataAccess = {
             requesterPushNotSubscription,
             taskerPushNotSubscription,
             processedPayment,
-            ownerRating,
-            taskerRating,
           } = await getAllContactDetails(jobId);
 
           const newTotalOfAllRatings = ownerRating.totalOfAllRatings + 1.25;
@@ -1841,7 +1839,7 @@ exports.jobDataAccess = {
           });
 
           if (refundCharge.status === 'succeeded') {
-            const [updatedJob, updatedBid, updatedRequester] = await Promise.all([
+            const [updatedJob] = await Promise.all([
               JobModel.findOneAndUpdate(
                 { _id: jobId, _ownerRef: mongoUser_id },
                 {
@@ -1937,35 +1935,6 @@ exports.jobDataAccess = {
               });
             }
 
-            // -------------------------------- assert things
-            if (
-              !updatedJob._id ||
-              !updatedJob.processedPayment.refund ||
-              updatedJob.state !== 'AWARDED_JOB_CANCELED_BY_REQUESTER'
-            ) {
-              return reject('failed to update the associated job');
-            }
-
-            if (!updatedBid._id || updatedBid.state !== 'AWARDED_BID_CANCELED_BY_REQUESTER') {
-              return reject('failed to update the associated bid');
-            }
-
-            if (
-              !updatedRequester._id ||
-              !updatedRequester.rating ||
-              !updatedRequester.rating.canceledJobs ||
-              !updatedRequester.rating.canceledJobs.length > 0
-            ) {
-              const addedThisToCanceledJobs = updatedRequester.rating.canceledJobs.some(
-                (canceledJob) => {
-                  return canceledJob.toString() === requestedJobId.toString();
-                }
-              );
-              if (!addedThisToCanceledJobs) {
-                return reject('failed to update the associated Tasker');
-              }
-            }
-
             resolve(updatedJob);
           } else {
             reject({
@@ -1975,7 +1944,7 @@ exports.jobDataAccess = {
           }
         }
         // not open nor awarded job
-        resolve({});
+        reject('something went wrong while canceling job');
       } catch (e) {
         reject(e);
       }
@@ -2055,10 +2024,10 @@ exports.jobDataAccess = {
       }
     });
   },
-  updateJobById: async (jobId, mongoUser_id, updateDetails) => {
+  updateJobById: async (jobId, updateDetails) => {
     return new Promise(async (resolve, reject) => {
       try {
-        await JobModel.findOneAndUpdate({
+        await JobModel.findByIdAndUpdate(jobId, {
           ...updateDetails,
         })
           .lean()

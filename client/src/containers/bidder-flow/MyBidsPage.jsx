@@ -33,20 +33,37 @@ class MyBidsPage extends React.Component {
     const { selectedTab } = this.state;
     const areThereAnyBidsToView = openBidsList && openBidsList.length > 0;
 
-    let myBidsSummaryCards = areThereAnyBidsToView
+    let pastBids = areThereAnyBidsToView
       ? openBidsList
           .filter((bid) => {
             const { _jobRef: job } = bid;
-            if (selectedTab === MY_BIDS_TABS.pastBids) {
-              return [
-                REQUEST_STATES.DISPUTE_RESOLVED,
-                REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER_SEEN,
-                REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN,
-                REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN,
-                REQUEST_STATES.DISPUTE_RESOLVED,
-                REQUEST_STATES.ARCHIVE,
-              ].includes(job.state);
-            }
+            return [
+              REQUEST_STATES.DISPUTE_RESOLVED,
+              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER_SEEN,
+              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN,
+              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN,
+              REQUEST_STATES.DISPUTE_RESOLVED,
+              REQUEST_STATES.ARCHIVE,
+            ].includes(job.state);
+          })
+          .map((bid) => {
+            return (
+              <div key={bid._id} className="column is-narrow isforCards slide-in-bottom-small">
+                {getMeTheRightBidCard({
+                  bid: bid,
+                  isSummaryView: true,
+                  updateBid,
+                  deleteOpenBid,
+                })}
+              </div>
+            );
+          })
+      : null;
+
+    let activeBids = areThereAnyBidsToView
+      ? openBidsList
+          .filter((bid) => {
+            const { _jobRef: job } = bid;
             return [
               REQUEST_STATES.OPEN,
               REQUEST_STATES.AWARDED,
@@ -71,6 +88,15 @@ class MyBidsPage extends React.Component {
           })
       : null;
 
+    let myBidsSummaryCards = null;
+    if (areThereAnyBidsToView) {
+      if (selectedTab === MY_BIDS_TABS.pastBids) {
+        myBidsSummaryCards = pastBids;
+      } else {
+        myBidsSummaryCards = activeBids;
+      }
+    }
+
     return (
       <div>
         <TaskerVerificationBanner></TaskerVerificationBanner>
@@ -88,11 +114,13 @@ class MyBidsPage extends React.Component {
           <ul>
             <li className={`${selectedTab === MY_BIDS_TABS.activeBids ? 'is-active' : ''}`}>
               <a onClick={() => this.setState({ selectedTab: MY_BIDS_TABS.activeBids })}>
-                Active Bids
+                {`Active Bids (${activeBids ? activeBids.length : 0})`}
               </a>
             </li>
             <li className={`${selectedTab === MY_BIDS_TABS.pastBids ? 'is-active' : ''}`}>
-              <a onClick={() => this.setState({ selectedTab: MY_BIDS_TABS.pastBids })}>Past Bids</a>
+              <a onClick={() => this.setState({ selectedTab: MY_BIDS_TABS.pastBids })}>
+                {`Past Bids (${pastBids ? pastBids.length : 0})`}
+              </a>
             </li>
           </ul>
         </div>

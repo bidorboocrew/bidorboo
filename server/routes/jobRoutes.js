@@ -52,7 +52,6 @@ module.exports = (app) => {
   //------------------------------------------------------------------------------
   app.delete(
     ROUTES.API.JOB.DELETE.postedJobAndBidsForRequester,
-    requireBidorBooHost,
     requireLogin,
     async (req, res, next) => {
       try {

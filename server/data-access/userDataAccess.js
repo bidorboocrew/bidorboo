@@ -255,7 +255,6 @@ exports.findUserAndAllNewNotifications = async (mongoUserId) => {
       // xxxxx maybe we should notify of canceled by tasker
       const jobStatesWhereBidderNeedsToBeNotified = [
         'AWARDED',
-        'DISPUTED',
         'AWARDED_JOB_CANCELED_BY_REQUESTER',
         'DONE',
         'DISPUTE_RESOLVED',
@@ -264,7 +263,6 @@ exports.findUserAndAllNewNotifications = async (mongoUserId) => {
       const jobStatesWhereRequesterNeedsToBeNotified = [
         'OPEN',
         'AWARDED_JOB_CANCELED_BY_BIDDER',
-        'DISPUTED',
         'DISPUTE_RESOLVED',
       ];
 
