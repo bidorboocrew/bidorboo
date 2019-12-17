@@ -12,6 +12,7 @@ import {
   UserGivenTitle,
   TaskerWillEarn,
 } from '../../containers/commonComponents';
+import { REQUEST_STATES } from '../index';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
@@ -19,16 +20,12 @@ export default class TaskerMyAwardedDoneBidSummary extends React.Component {
   render() {
     const { bid, job } = this.props;
 
-    const { startingDateAndTime, _reviewRef, taskImages = [], jobTitle } = job;
+    const { startingDateAndTime, taskImages = [], jobTitle, state } = job;
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
 
     const { bidderPayout } = bid;
     const { value: taskerTotalPayoutAmount } = bidderPayout;
-
-    const { requiresBidderReview } = _reviewRef || {
-      requiresBidderReview: true,
-    };
 
     return (
       <div className={`card has-text-centered cardWithButton`}>
@@ -44,39 +41,29 @@ export default class TaskerMyAwardedDoneBidSummary extends React.Component {
             />
             <TaskerWillEarn earningAmount={taskerTotalPayoutAmount} />
 
-            {!requiresBidderReview && <ArchiveTask />}
-
-            {requiresBidderReview && <TaskIsFulfilled />}
+            <TaskIsFulfilled />
           </div>
         </div>
-        {requiresBidderReview && (
-          <div className="centeredButtonInCard">
-            <a
-              onClick={() => {
-                switchRoute(
-                  ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
-                );
-              }}
-              className={`button is-primary`}
-            >
-              REVIEW REQUESTER
-            </a>
-          </div>
-        )}
-        {!requiresBidderReview && (
-          <div className="centeredButtonInCard">
-            <a
-              onClick={() => {
-                switchRoute(
-                  ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
-                );
-              }}
-              className={`button is-dark`}
-            >
-              PAST TASK
-            </a>
-          </div>
-        )}
+        <div className="centeredButtonInCard">
+          <a
+            onClick={() => {
+              switchRoute(
+                ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
+              );
+            }}
+            className={`button is-primary`}
+          >
+            <span>Review Details</span>
+            {REQUEST_STATES.AWARDED === state && (
+              <div
+                style={{ position: 'absolute', top: -5, right: 0, fontSize: 10 }}
+                className="has-text-danger"
+              >
+                <i className="fas fa-circle" />
+              </div>
+            )}
+          </a>
+        </div>
       </div>
     );
   }

@@ -1259,28 +1259,18 @@ exports.jobDataAccess = {
   },
 
   updateJobWithAwardedBidAndPaymentDetails: async (jobId, bidId, processedPaymentDetails) => {
-    return Promise.all([
-      BidModel.findOneAndUpdate(
-        { _id: bidId },
-        {
-          $set: { state: 'AWARDED' },
-        }
-      )
-        .lean()
-        .exec(),
-      JobModel.findOneAndUpdate(
-        { _id: jobId },
-        {
-          $set: {
-            _awardedBidRef: bidId,
-            state: 'AWARDED',
-            processedPayment: processedPaymentDetails,
-          },
-        }
-      )
-        .lean()
-        .exec(),
-    ]);
+    return JobModel.findOneAndUpdate(
+      { _id: jobId },
+      {
+        $set: {
+          _awardedBidRef: bidId,
+          state: 'AWARDED',
+          processedPayment: processedPaymentDetails,
+        },
+      }
+    )
+      .lean()
+      .exec();
   },
 
   findOneByJobId: (id) => {
@@ -1777,15 +1767,7 @@ exports.jobDataAccess = {
               )
                 .lean(true)
                 .exec(),
-              BidModel.findByIdAndUpdate(
-                awardedBidId,
-                {
-                  $set: { state: 'AWARDED_BID_CANCELED_BY_REQUESTER' },
-                },
-                { new: true }
-              )
-                .lean(true)
-                .exec(),
+
               User.findOneAndUpdate(
                 { _id: mongoUser_id },
                 {
