@@ -56,7 +56,7 @@ class TaskerMyAwardedBidSummary extends React.Component {
               {!bidderConfirmedCompletion && <BSTaskerAwarded />}
             </div>
           </div>
-          {renderFooter({ job, bid, notificationFeed, updateJobState })}
+          {renderFooter({ job, bid, notificationFeed, updateJobState, bidderConfirmedCompletion })}
         </div>
       </React.Fragment>
     );
@@ -77,7 +77,13 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskerMyAwardedBidSummary);
 
-const renderFooter = ({ job, bid, notificationFeed, updateJobState }) => {
+const renderFooter = ({
+  job,
+  bid,
+  notificationFeed,
+  updateJobState,
+  bidderConfirmedCompletion,
+}) => {
   let newUnseenState = false;
   if (notificationFeed && notificationFeed.myBidsWithNewStatus) {
     for (let i = 0; i < notificationFeed.myBidsWithNewStatus.length; i++) {
@@ -110,7 +116,7 @@ const renderFooter = ({ job, bid, notificationFeed, updateJobState }) => {
               <i className="fas fa-circle" />
             </div>
           )}
-          VIEW DETAILS
+          {`${bidderConfirmedCompletion ? 'REVIEW REQUESTER' : 'VIEW DETAILS'} `}
         </a>
       </div>
     </React.Fragment>

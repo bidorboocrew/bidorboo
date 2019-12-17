@@ -50,15 +50,16 @@ export default class TaskerMyDisputedBidDetails extends React.Component {
               <label className="label has-text-danger">What you need to know:</label>
               <ul>
                 <li>
-                  BidOrBoo support crew will assess the dispute asap to ensure your satisfaction
-                </li>
-                <li>
                   <strong>
-                    Your bid ${bidderPayoutAmount} will be on hold until we resolve the dispute
+                    Your expected earnings ${bidderPayoutAmount} will be on hold until we resolve
+                    the dispute
                   </strong>
                 </li>
-                <li>Our customer relation team will be in touch with requester to gather facts</li>
-                <li>We will get in touch with you to update you regularly with the status</li>
+                <li>
+                  BidOrBoo support crew will assess the dispute asap to resolve and ensure your
+                  satisfaction
+                </li>
+                <li>We will get in touch with you to update you regularly with the progress</li>
               </ul>
             </div>
           </div>

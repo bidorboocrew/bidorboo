@@ -834,13 +834,14 @@ const EnhancedForms = withFormik({
     try {
       let preOffset = { lat: location.lat, lng: location.lng };
       let offset = {
-        x: Math.floor(Math.random() * 2000),
-        y: Math.floor(Math.random() * 2000),
+        x: Math.floor(Math.random() * (2000 - 100 + 1) + 100),
+        y: Math.floor(Math.random() * (2000 - 100 + 1) + 100),
       };
 
       let postOffset = haversineOffset(preOffset, offset);
-      const lat = postOffset.lat;
-      const lng = postOffset.lang;
+      lat = postOffset.lat;
+      lng = postOffset.lng;
+
       if (lat > 90) {
         lat = 90;
       } else if (lat < -90) {
@@ -866,7 +867,7 @@ const EnhancedForms = withFormik({
       },
       location: {
         type: 'Point',
-        coordinates: [parseFloat(lng), parseFloat(lat)],
+        coordinates: [parseFloat(lng.toFixed(5)), parseFloat(lat.toFixed(5))],
       },
     };
 

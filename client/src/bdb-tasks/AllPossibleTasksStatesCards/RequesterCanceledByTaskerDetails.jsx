@@ -50,17 +50,13 @@ export default class RequesterCanceledByTaskerDetails extends React.Component {
               <label className="label">What you need to know:</label>
               <ul>
                 <li>
-                  We Are sorry to see this cancellation as BidOrBoo Crew Takes cancellations
-                  seriously
+                  <strong>
+                    100% refund for the amount of {` $${requesterPaymentAmount}`} was issued back to
+                    your card.
+                  </strong>
                 </li>
-                <li>
-                  <strong>100% refund for the amount of {` $${requesterPaymentAmount}`}</strong> was
-                  issued back to your card.
-                </li>
-                <li>
-                  <strong>The Tasker's rating has been negatively</strong> impacted for their
-                  cancellation
-                </li>
+                <li>The Tasker's rating has been negatively impacted for their cancellation</li>
+                <li>We Are sorry for the inconvenience, post a new request :) </li>
               </ul>
             </div>
           </div>

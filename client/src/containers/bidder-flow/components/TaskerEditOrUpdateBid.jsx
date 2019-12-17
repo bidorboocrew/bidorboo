@@ -206,7 +206,7 @@ const EnhancedForms = withFormik({
       .required('amount is required.'),
   }),
   handleSubmit: (values, { setSubmitting, props }) => {
-    props.updateBidAction({ bidId: props.bid._id, bidAmount: values.bidAmountField });
+    props.updateBidAction({ bidId: props.bid._id, bidAmount: parseInt(values.bidAmountField) });
     this.closeUpdateBidModal();
     setSubmitting(false);
   },

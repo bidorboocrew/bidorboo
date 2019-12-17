@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { switchRoute } from './../utils';
 import * as ROUTES from '../constants/frontend-route-consts';
 
-const TIMEOUT_DURATION = 50000; //50 seconds
+const TIMEOUT_DURATION = 40000;
 export const Spinner = ({
   isDark = true,
   size = 'medium',

@@ -39,18 +39,14 @@ export default class TaskerAwardedBidCanceledByTaskerDetails extends React.Compo
             <div className="group has-text-left">
               <label className="label has-text-danger">What you need to know:</label>
               <ul>
-                <li>At BidOrBoo we takes cancellations seriously</li>
                 <li>
-                  <strong>Requester was notified about this</strong> and will NOT be expecting you
-                  to show up.
+                  <strong>
+                    Requester was notified about this and will NOT be expecting you to show up.
+                  </strong>
                 </li>
-                <li>
-                  You will <strong>Not</strong> receive any payout for this task.
-                </li>
+                <li>You will not receive any payout for this task.</li>
                 <li>Your global rating will be negatively impacted</li>
-                <li>
-                  If many cancellations happen in a row your account will be banned from BidOrBoo
-                </li>
+                <li>Cancelling often will put a ban on your account</li>
               </ul>
             </div>
           </div>

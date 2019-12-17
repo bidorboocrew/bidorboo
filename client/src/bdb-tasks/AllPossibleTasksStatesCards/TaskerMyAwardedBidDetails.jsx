@@ -38,13 +38,9 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
       addressText,
       extras,
       detailedDescription,
-      isPastDue,
       _ownerRef,
       _id: jobId,
-      jobCompletion = {
-        proposerConfirmed: false,
-        bidderConfirmed: false,
-      },
+      bidderConfirmedCompletion,
       taskImages = [],
       jobTitle,
       _reviewRef,
@@ -59,8 +55,6 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
 
-    const { proposerConfirmed, bidderConfirmed } = jobCompletion;
-
     return (
       <React.Fragment>
         {showDeleteDialog &&
@@ -69,7 +63,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
               <div onClick={this.toggleDeleteConfirmationDialog} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <div className="modal-card-title">Cancel This Agreement</div>
+                  <div className="modal-card-title">Cancel Booking? </div>
                   <button
                     onClick={this.toggleDeleteConfirmationDialog}
                     className="delete"
@@ -78,12 +72,14 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                 </header>
                 <section className="modal-card-body">
                   <div className="content">
-                    <div>Cancelling on the requester is considered a Boo</div>
+                    <div>
+                      Cancelling your booking is taken seriously as it will cause inconvenience for
+                      the requester
+                    </div>
                     <br />
                     <div>
-                      We understand that life happens, but to keep things fair for you and the
-                      Tasker we encourage you to reach out and try to reschedule this task to avoid
-                      cancellation
+                      We understand that life happens, but to keep things fair we encourage you to
+                      reach out and try to reschedule this task to avoid cancellation
                     </div>
                     <br />
                     <div className="group">
@@ -93,7 +89,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                       <ul>
                         <li>Your global rating will be negatively impacted</li>
                         <li>This cancellation will show up on your profile</li>
-                        <li>If many cancellations happen in a row you will be ban from BidOrBoo</li>
+                        <li>Cancelling often will put a ban on your account</li>
                       </ul>
                     </div>
                   </div>
@@ -142,46 +138,48 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                 icon={ICON}
                 title={TITLE}
                 img={IMG}
-                meatballMenu={() => (
-                  <div
-                    ref={(node) => (this.node = node)}
-                    className={`dropdown is-right is-pulled-right ${
-                      showMoreOptionsContextMenu ? 'is-active' : ''
-                    }`}
-                  >
-                    <div className="dropdown-trigger">
-                      <button
-                        onClick={this.toggleShowMoreOptionsContextMenu}
-                        className="button"
-                        aria-haspopup="true"
-                        aria-controls="dropdown-menu"
-                        style={{ border: 'none', boxShadow: 'none' }}
-                      >
-                        <div style={{ padding: 6 }} className="icon">
-                          <i className="fas fa-ellipsis-v" />
-                        </div>
-                      </button>
-                    </div>
-                    {!bidderConfirmed && !proposerConfirmed && (
-                      <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                        <div className="dropdown-content">
-                          <TaskerDisputes {...this.props} />
-
-                          <hr className="dropdown-divider" />
-                          <a
-                            onClick={this.toggleDeleteConfirmationDialog}
-                            className="dropdown-item has-text-danger"
-                          >
-                            <span className="icon">
-                              <i className="far fa-trash-alt" aria-hidden="true" />
-                            </span>
-                            <span>Cancel Request</span>
-                          </a>
-                        </div>
+                meatballMenu={() =>
+                  bidderConfirmedCompletion ? null : (
+                    <div
+                      ref={(node) => (this.node = node)}
+                      className={`dropdown is-right is-pulled-right ${
+                        showMoreOptionsContextMenu ? 'is-active' : ''
+                      }`}
+                    >
+                      <div className="dropdown-trigger">
+                        <button
+                          onClick={this.toggleShowMoreOptionsContextMenu}
+                          className="button"
+                          aria-haspopup="true"
+                          aria-controls="dropdown-menu"
+                          style={{ border: 'none', boxShadow: 'none' }}
+                        >
+                          <div style={{ padding: 6 }} className="icon">
+                            <i className="fas fa-ellipsis-v" />
+                          </div>
+                        </button>
                       </div>
-                    )}
-                  </div>
-                )}
+                      {!bidderConfirmedCompletion && (
+                        <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                          <div className="dropdown-content">
+                            <TaskerDisputes {...this.props} />
+
+                            <hr className="dropdown-divider" />
+                            <a
+                              onClick={this.toggleDeleteConfirmationDialog}
+                              className="dropdown-item has-text-danger"
+                            >
+                              <span className="icon">
+                                <i className="far fa-trash-alt" aria-hidden="true" />
+                              </span>
+                              <span>Cancel Request</span>
+                            </a>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )
+                }
               />
               <UserGivenTitle userGivenTitle={jobTitle} />
 
@@ -194,9 +192,9 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
               />
               <TaskerWillEarn earningAmount={bidderPayoutAmount}></TaskerWillEarn>
 
-              {bidderConfirmed && !proposerConfirmed && <BSWaitingOnRequesterToConfirm />}
+              {bidderConfirmedCompletion && <BSWaitingOnRequesterToConfirm />}
 
-              {!bidderConfirmed && !proposerConfirmed && <BSTaskerAwarded isPastDue={isPastDue} />}
+              {!bidderConfirmedCompletion && <BSTaskerAwarded />}
 
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
@@ -242,13 +240,13 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
           </div>
         </div>
 
-        {!proposerConfirmed && !bidderConfirmed && (
+        {!bidderConfirmedCompletion && (
           <ContactTheRequester
             otherUserProfileInfo={_ownerRef}
             renderActionButton={() => <TaskerConfirmsCompletion {...this.props} />}
           />
         )}
-        {bidderConfirmed && (!_reviewRef || _reviewRef.requiresBidderReview) && (
+        {bidderConfirmedCompletion && (!_reviewRef || _reviewRef.requiresBidderReview) && (
           <ReviewTheRequester
             otherUserProfileInfo={_ownerRef}
             renderActionButton={() => (
@@ -261,12 +259,12 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                 <span className="icon">
                   <i className="fas fa-user-check" />
                 </span>
-                <span>Review The Requester</span>
+                <span>REVIEW REQUESTER</span>
               </a>
             )}
           />
         )}
-        {bidderConfirmed && _reviewRef && !_reviewRef.requiresBidderReview && (
+        {bidderConfirmedCompletion && _reviewRef && !_reviewRef.requiresBidderReview && (
           <ReviewTheRequester
             otherUserProfileInfo={_ownerRef}
             renderActionButton={() => <p>You have submitted your review.</p>}

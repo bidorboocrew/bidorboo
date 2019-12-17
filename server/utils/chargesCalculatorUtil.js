@@ -1,5 +1,5 @@
 const BIDORBOO_SERVICECHARGE_FOR_REQUESTER = 0.06;
-const BIDORBOO_SERVICECHARGE_FOR_TASKER = 0.04;
+const BIDORBOO_SERVICECHARGE_FOR_TASKER = 0.02;
 
 // https://stripe.com/en-ca/connect/pricing
 const BIDORBOO_SERVICECHARGE_TOTAL =
@@ -16,9 +16,13 @@ const BIDORBOO_REQUESTER_REFUND_PERCENTAGE_IN_CASE_OF_CANCELLATION = 0.8;
 const BIDORBOO_TASKER_PAYOUT_PERCENTAGE_IN_CASE_OF_CANCELLATION = 0.2;
 
 exports.getChargeDistributionDetails = (totalBidAmountInDollars) => {
-  const bidOrBooChargeOnRequester = BIDORBOO_SERVICECHARGE_FOR_REQUESTER * totalBidAmountInDollars;
+  let theActualBidAmount = totalBidAmountInDollars;
+  if (typeof totalBidAmountInDollars === 'string') {
+    theActualBidAmount = parseInt(totalBidAmountInDollars);
+  }
+  const bidOrBooChargeOnRequester = BIDORBOO_SERVICECHARGE_FOR_REQUESTER * theActualBidAmount;
 
-  const requesterPaymentAmount = Math.ceil(bidOrBooChargeOnRequester + totalBidAmountInDollars);
+  const requesterPaymentAmount = Math.ceil(bidOrBooChargeOnRequester + theActualBidAmount);
 
   const bidOrBooPlatformFee = requesterPaymentAmount * BIDORBOO_SERVICECHARGE_TOTAL;
 
@@ -49,7 +53,7 @@ exports.getChargeDistributionDetails = (totalBidAmountInDollars) => {
     bidderPayoutAmount: parseFloat(bidderPayoutAmount.toFixed(2)),
     requesterPartialRefundAmount: parseFloat(requesterPartialRefundAmount.toFixed(2)),
     taskerPartialPayoutAmount: parseFloat(taskerPartialPayoutAmount.toFixed(2)),
-    // bidOrBooPlatformFee: bidOrBooPlatformFee,
+    bidOrBooPlatformFee: bidOrBooPlatformFee,
     // stripeCheckoutProcessingFee: stripeCheckoutProcessingFee,
     // stripePayoutToTaskerProcessingFee: stripePayoutToTaskerProcessingFee,
   };

@@ -14,16 +14,6 @@ import {
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 export default class TaskerMyDisputedBidSummary extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      showDeleteDialog: false,
-      showMoreOptionsContextMenu: false,
-      showMore: false,
-    };
-  }
-
   render() {
     const { bid, job } = this.props;
 

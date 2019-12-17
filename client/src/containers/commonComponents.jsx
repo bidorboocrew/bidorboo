@@ -1296,7 +1296,7 @@ export const BSAwardedToSomeoneElse = () => {
   );
 };
 
-export const BSTaskerAwarded = ({ isPastDue }) => {
+export const BSTaskerAwarded = () => {
   return (
     <div className="group">
       <div
@@ -1330,9 +1330,7 @@ export const BSTaskerAwarded = ({ isPastDue }) => {
         >
           Your Bid Won
         </div>
-        <div className="help">{`${
-          !isPastDue ? 'Contact Requester To finalize details' : 'Confirm completion'
-        }`}</div>
+        <div className="help">Contact Requester To finalize details</div>
       </div>
     </div>
   );

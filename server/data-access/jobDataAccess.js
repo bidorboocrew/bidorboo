@@ -246,10 +246,8 @@ exports.jobDataAccess = {
           $and: [
             { state: { $eq: 'AWARDED' } },
             { dispute: { $exists: false } },
-            { jobCompletion: { $exists: true } },
+            { bidderConfirmedCompletion: { $eq: true } },
             { _awardedBidRef: { $exists: true } },
-            { 'jobCompletion.proposerConfirmed': { $eq: false } },
-            { 'jobCompletion.bidderConfirmed': { $eq: true } },
           ],
         })
           .lean(true)
@@ -633,7 +631,6 @@ exports.jobDataAccess = {
           createdAt: 1,
           _reviewRef: 1,
           _id: 1,
-          jobCompletion: 1,
         },
         match: {
           state: { $eq: 'AWARDED' },
@@ -1336,7 +1333,7 @@ exports.jobDataAccess = {
         const updatedJob = await JobModel.findOneAndUpdate(
           { _id: jobId },
           {
-            $set: { 'jobCompletion.proposerConfirmed': true, state: 'DONE' },
+            $set: { state: 'DONE' },
           },
           { new: true }
         )
@@ -1346,7 +1343,6 @@ exports.jobDataAccess = {
         if (
           !updatedJob ||
           !updatedJob._id ||
-          !updatedJob.jobCompletion.proposerConfirmed ||
           !updatedJob._awardedBidRef ||
           !updatedJob._ownerRef ||
           !updatedJob.processedPayment ||
@@ -1520,14 +1516,14 @@ exports.jobDataAccess = {
         const updatedJob = await JobModel.findOneAndUpdate(
           { _id: jobId },
           {
-            $set: { 'jobCompletion.bidderConfirmed': true },
+            $set: { bidderConfirmedCompletion: true },
           },
           { new: true }
         )
           .lean({ virtuals: true })
           .exec();
 
-        if (!updatedJob || !updatedJob._id || !updatedJob.jobCompletion.bidderConfirmed) {
+        if (!updatedJob || !updatedJob._id || !updatedJob.bidderConfirmedCompletion) {
           return reject({
             success: false,
             ErrorMsg: 'failed to update the associated job bidderConfirmed',
@@ -2244,10 +2240,8 @@ exports.jobDataAccess = {
               select: {
                 _bidderRef: 1,
                 isNewBid: 1,
-                state: 1,
                 requesterPayment: 1,
-                createdAt: 1,
-                updatedAt: 1,
+                requesterPartialRefund: 1,
               },
               populate: {
                 path: '_bidderRef',

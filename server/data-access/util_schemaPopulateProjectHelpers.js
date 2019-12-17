@@ -63,7 +63,7 @@ exports.JobFull = {
   _reviewRef: 1,
   title: 1,
   state: 1,
-  jobCompletion: 1,
+  bidderConfirmedCompletion: 1,
   hideFrom: 1,
   viewedBy: 1,
   booedBy: 1,

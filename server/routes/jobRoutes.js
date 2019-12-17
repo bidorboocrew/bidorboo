@@ -284,7 +284,6 @@ module.exports = (app) => {
     async (req, res) => {
       /**
        * What we need to do here
-       *  - update Job.jobCompletion.proposerCponfirmed -> true
        *  - update job sate to Done
        *  - update awarded bid state to Done
        *  - without waiting on the async -> delete all other bids associated with this job

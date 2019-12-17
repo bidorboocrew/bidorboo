@@ -148,6 +148,7 @@ const deleteJob = {
         state.myRequests.filter((job) => {
           return job._id !== deletedJobId;
         });
+
       return {
         ...state,
         myRequests: filteredResults,

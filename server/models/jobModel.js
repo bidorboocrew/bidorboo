@@ -90,11 +90,6 @@ const JobSchema = new Schema(
       },
     },
     bidderConfirmedCompletion: { type: Boolean, default: false },
-    // why do we have this
-    jobCompletion: {
-      proposerConfirmed: { type: Boolean, default: false },
-      bidderConfirmed: { type: Boolean, default: false },
-    },
     // when a tasker cancels on this job hide it from them to avoid future bids by the asshole who canceled
     hideFrom: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }], //array of people who saw this/booed no longer wish to see it ..etc
     viewedBy: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }],
@@ -299,22 +294,6 @@ JobSchema.pre('remove', async function(next) {
     e.safeMsg = 'Encountered an error while deleting this job';
     next(e);
   }
-  // UserModel.update(
-  //   { _postedBids: { $in: this._bidsListRef } },
-  //   { $pull: { _postedBids: { $in: this._bidsListRef } } },
-  //   { multi: true }
-  // )
-  //   .then(() =>
-  //     UserModel.findByIdAndUpdate(this._ownerRef, {
-  //       $pull: { _postedJobsRef: { $in: this._id } },
-  //     })
-  //   )
-  //   .then(() => BidModel.remove({ _id: { $in: this._bidsListRef } }))
-  //   .then(() => next())
-  //   .catch((e) => {
-  //     console.log(e);
-  //     throw new Error('issue deleting job');
-  //   });
 });
 
 mongoose.model('JobModel', JobSchema);

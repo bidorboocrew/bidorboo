@@ -157,18 +157,10 @@ const TaskerCardTemplates = {
     }
   },
   [REQUEST_STATES.AWARDED]: ({ job, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
-    if (job.state === REQUEST_STATES.DISPUTED) {
-      if (isSummaryView) {
-        return <TaskerMyDisputedBidSummary job={job} {...otherArgs} />;
-      } else {
-        return <TaskerMyDisputedBidDetails job={job} {...otherArgs} />;
-      }
+    if (isSummaryView) {
+      return <TaskerMyAwardedBidSummary job={job} {...otherArgs} />;
     } else {
-      if (isSummaryView) {
-        return <TaskerMyAwardedBidSummary job={job} {...otherArgs} />;
-      } else {
-        return <TaskerMyAwardedBidDetails job={job} {...otherArgs} />;
-      }
+      return <TaskerMyAwardedBidDetails job={job} {...otherArgs} />;
     }
   },
   [REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER]: ({
@@ -204,6 +196,20 @@ const TaskerCardTemplates = {
       return <TaskerMyAwardedDoneBidDetails job={job} {...otherArgs} />;
     }
   },
+  [REQUEST_STATES.DISPUTED]: ({
+    job,
+    isSummaryView,
+    pointOfView,
+    withBidDetails,
+    ...otherArgs
+  }) => {
+    if (isSummaryView) {
+      return <TaskerMyDisputedBidSummary job={job} {...otherArgs} />;
+    } else {
+      return <TaskerMyDisputedBidDetails job={job} {...otherArgs} />;
+    }
+  },
+
   [REQUEST_STATES.DISPUTE_RESOLVED]: ({
     job,
     isSummaryView,
@@ -295,7 +301,6 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
           );
         }
         break;
-
       case REQUEST_STATES.DONE_SEEN:
       case REQUEST_STATES.DONE:
         try {
@@ -311,7 +316,20 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
         } catch (e) {
           console.error(e + ' Error Loading getTaskerBidCard REQUEST_STATES.DONE: Card ');
         }
-
+      case REQUEST_STATES.DISPUTED:
+        try {
+          const card = TaskerCardTemplates[REQUEST_STATES.DISPUTED]({
+            bid,
+            job: _jobRef,
+            isSummaryView,
+            pointOfView: POINT_OF_VIEW.TASKER,
+            withBidDetails: true,
+            otherArgs,
+          });
+          return card || <div>REQUEST_STATES.DISPUTED</div>;
+        } catch (e) {
+          console.error(e + ' Error Loading getTaskerBidCard REQUEST_STATES.DONE: Card ');
+        }
       default:
         return <div>default unknown getTaskerBidCard</div>;
         break;

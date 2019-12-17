@@ -82,9 +82,8 @@ exports.getMyPastRequestedServices = (mongoUser_id) => {
         {
           path: 'jobId',
           select: {
-            processedPayment: 1,
             state: 1,
-            jobCompletion: 1,
+            bidderConfirmedCompletion: 1,
             location: 1,
             jobTitle: 1,
             startingDateAndTime: 1,
@@ -126,9 +125,8 @@ exports.getMyPastProvidedServices = (mongoUser_id) => {
         {
           path: 'jobId',
           select: {
-            processedPayment: 1,
             state: 1,
-            jobCompletion: 1,
+            bidderConfirmedCompletion: 1,
             location: 1,
             jobTitle: 1,
             startingDateAndTime: 1,
@@ -276,7 +274,6 @@ exports.findUserAndAllNewNotifications = async (mongoUserId) => {
         userRole: 0,
         picId: 0,
         stripeCustomerAccId: 0,
-        stripeConnect: 0,
       })
         .populate({
           path: '_postedJobsRef',

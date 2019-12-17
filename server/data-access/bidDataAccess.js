@@ -79,6 +79,7 @@ exports.bidDataAccess = {
 
           const requestedJobId = bidDetails._jobRef._id;
           const taskerId = bidDetails._bidderRef;
+          const taskerRating = bidDetails._bidderRef.rating;
           const {
             requesterDisplayName,
             taskerDisplayName,
@@ -97,8 +98,6 @@ exports.bidDataAccess = {
             allowedToPushNotifyTasker,
             requesterPushNotSubscription,
             taskerPushNotSubscription,
-            ownerRating,
-            taskerRating,
           } = await exports.bidDataAccess._getAwardedJobOwnerBidderAndRelevantNotificationDetails(
             requestedJobId
           );
@@ -267,7 +266,6 @@ exports.bidDataAccess = {
         select: {
           _bidderRef: 1,
           isNewBid: 1,
-          state: 1,
           bidAmount: 1,
           createdAt: 1,
           updatedAt: 1,
@@ -295,7 +293,7 @@ exports.bidDataAccess = {
           notifications: 1,
         },
       })
-      .lean({ virtuals: true })
+      .lean(true)
       .exec();
 
     const { _ownerRef, _awardedBidRef, processedPayment } = awardedJob;
@@ -435,7 +433,6 @@ exports.bidDataAccess = {
           state: 1,
           detailedDescription: 1,
           jobTitle: 1,
-          jobCompletion: 1,
           location: 1,
           stats: 1,
           addressText: 1,
@@ -476,7 +473,6 @@ exports.bidDataAccess = {
                 state: 1,
                 detailedDescription: 1,
                 jobTitle: 1,
-                jobCompletion: 1,
                 location: 1,
                 stats: 1,
                 addressText: 1,
@@ -559,6 +555,8 @@ exports.bidDataAccess = {
                     startingDateAndTime: 1,
                     templateId: 1,
                     location: 1,
+                    bidderConfirmedCompletion: 1,
+                    dispute: 1,
                   },
                   populate: {
                     path: '_ownerRef',

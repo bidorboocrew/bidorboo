@@ -48,18 +48,13 @@ class RequesterAwardedDetails extends RequestBaseContainer {
     const { job, cancelJobById } = this.props;
 
     const {
-      _id,
+      _id: jobId,
       startingDateAndTime,
       addressText,
       _awardedBidRef,
       extras,
       detailedDescription,
-      isPastDue,
-      jobCompletion = {
-        proposerConfirmed: false,
-        bidderConfirmed: false,
-        proposerDisputed: false,
-      },
+      bidderConfirmedCompletion,
       taskImages = [],
       jobTitle,
     } = job;
@@ -76,8 +71,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore, showDisputeModal } = this.state;
-    const { proposerConfirmed, bidderConfirmed } = jobCompletion;
-    const jobId = _id;
+
     return (
       <React.Fragment>
         <RequesterDisputes
@@ -93,7 +87,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
               <div onClick={this.toggleDeleteConfirmationDialog} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <div className="modal-card-title">Cancel Appointment</div>
+                  <div className="modal-card-title">Cancel Booking?</div>
                   <button
                     onClick={this.toggleDeleteConfirmationDialog}
                     className="delete"
@@ -103,26 +97,34 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                 <section className="modal-card-body">
                   <div className="content">
                     <div className="has-text-danger">
-                      Cancelling an assigned request is considered a missed appointment.
+                      Cancelling your booking is taken seriously as it will cause inconvenience for
+                      the Tasker
                     </div>
                     <br />
                     <div>
-                      We understand that life happens, but to keep things fair for you and the
-                      tasker we encourage you to reach out and try to reschedule this task to avoid
-                      cancellation
+                      We understand that life happens, but to keep things fair we encourage you to
+                      reach out and try to reschedule this task to avoid cancellation
                     </div>
                     <br />
-
-                    <label className="label">What you need to know:</label>
-                    <div className="control">
-                      {'* You will receive a refund of '}
-                      <span className="has-text-danger has-text-weight-semibold">
-                        {` $${requesterPartialRefundAmount} `}
-                      </span>
-                      {'which is ~ 80% of your original payment'}
+                    <div className="group">
+                      <label className="label has-text-danger">
+                        Before you proceed you must know:
+                      </label>
+                      <div className="control">
+                        {'* You will receive a refund of '}
+                        <span className="has-text-danger has-text-weight-semibold">
+                          {` $${requesterPartialRefundAmount} `}
+                        </span>
+                        {'which is ~ 80% of your original payment'}
+                      </div>
+                      <div className="control">
+                        * Your global rating will be negatively impacted
+                      </div>
+                      <li>This cancellation will show up on your profile</li>
+                      <div className="control">
+                        * Cancelling often will put a ban on your account
+                      </div>
                     </div>
-                    <div className="control">* Your global rating will be negatively impacted</div>
-                    <div className="control">* Cancelling often will put a ban on your account</div>
                   </div>
                 </section>
                 <footer className="modal-card-foot">
@@ -189,7 +191,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                         </div>
                       </button>
                     </div>
-                    {!bidderConfirmed && !proposerConfirmed && (
+                    {!bidderConfirmedCompletion && (
                       <div className="dropdown-menu" id="dropdown-menu" role="menu">
                         <div className="dropdown-content">
                           <a onClick={this.openDisputeModal} className="dropdown-item">
@@ -277,16 +279,12 @@ class RequesterAwardedDetails extends RequestBaseContainer {
           otherUserProfileInfo={_bidderRef}
           emailAddress={emailAddress}
           phoneNumber={phoneNumber}
-          renderAddToCalendar={() => {
-            return (
-              !isPastDue && (
-                <AddAwardedJobToCalendarForRequester job={job} extraClassName={'is-small'} />
-              )
-            );
-          }}
+          renderAddToCalendar={() => (
+            <AddAwardedJobToCalendarForRequester job={job} extraClassName={'is-small'} />
+          )}
           renderActionButton={() => (
             <>
-              <RequesterConfirmsCompletion {...this.props} bidderConfirmed={bidderConfirmed} />
+              <RequesterConfirmsCompletion {...this.props} />
               <br></br>
               <br></br>
             </>
@@ -297,25 +295,15 @@ class RequesterAwardedDetails extends RequestBaseContainer {
   }
 }
 
-const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
-  return {
-    isLoggedIn: userReducer.isLoggedIn,
-    selectedAwardedJob: jobsReducer.selectedAwardedJob,
-    userDetails: userReducer.userDetails,
-    notificationFeed: uiReducer.notificationFeed,
-  };
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
     proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
     cancelJobById: bindActionCreators(cancelJobById, dispatch),
-    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
     proposerDisputesJob: bindActionCreators(proposerDisputesJob, dispatch),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RequesterAwardedDetails);
+export default connect(null, mapDispatchToProps)(RequesterAwardedDetails);
 
 class RequesterConfirmsCompletion extends React.Component {
   constructor(props) {
@@ -337,8 +325,7 @@ class RequesterConfirmsCompletion extends React.Component {
   };
   render() {
     const { showConfirmationModal } = this.state;
-    const { bidderConfirmed, job } = this.props;
-    const { isPastDue } = job;
+    const { job } = this.props;
 
     return (
       <React.Fragment>
@@ -375,13 +362,7 @@ class RequesterConfirmsCompletion extends React.Component {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <a
-          onClick={this.toggleModal}
-          className="button is-success"
-          // className={`button is-fullwidth is-success ${
-          //   isPastDue || bidderConfirmed ? 'heartbeatInstant' : ''
-          // }`}
-        >
+        <a onClick={this.toggleModal} className="button is-success">
           Confirm Task Completion
         </a>
       </React.Fragment>
