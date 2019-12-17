@@ -170,14 +170,13 @@ class RequesterDetails extends React.Component {
       <div
         style={{
           boxShadow: 'none',
-          borderLeft: '1px solid rgba(10,10,10,0.2)',
+          border: 'none',
           borderBottom: '1px solid rgba(10,10,10,0.2)',
-          borderRight: '1px solid rgba(10,10,10,0.2)',
         }}
         className="card cardWithButton nofixedwidth"
       >
         <div style={{ paddingTop: 0 }} className="card-content">
-          <div className="content has-text-left">
+          <div className="content">
             <div style={{ background: 'transparent' }} className="tabs is-centered">
               <ul style={{ marginLeft: 0 }}>
                 <li className="is-active">
@@ -185,16 +184,12 @@ class RequesterDetails extends React.Component {
                     <span className="icon is-small">
                       <i className="fas fa-user-tie" aria-hidden="true" />
                     </span>
-                    <span>Task Requester</span>
+                    <span>Requester</span>
                   </a>
                 </li>
               </ul>
             </div>
-            <CenteredUserImageAndRating
-              userDetails={otherUserProfileInfo}
-              large
-              isCentered={false}
-            />
+            <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large isCentered />
             <br />
           </div>
         </div>

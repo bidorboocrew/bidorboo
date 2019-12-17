@@ -308,7 +308,7 @@ exports.bidDataAccess = {
 
     const requesterDisplayName = ownerDetails.displayName;
     const taskerDisplayName = awardedBidderDetails.displayName;
-    const jobDisplayName = awardedJob.jobTitle || awardedJob.templateId;
+    const jobDisplayName = `${awardedJob.jobTemplateDisplayTitle} - ${awardedJob.jobTitle}`;
 
     const requestLinkForRequester = ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId);
     const requestLinkForTasker = ROUTES.CLIENT.BIDDER.dynamicCurrentAwardedBid(awardedBidId);

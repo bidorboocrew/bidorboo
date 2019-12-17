@@ -15,6 +15,7 @@ import {
   JobCardTitle,
   SummaryStartDateAndTime,
   TaskIsFulfilled,
+  CenteredUserImageAndRating,
   TaskImagesCarousel,
   UserGivenTitle,
 } from '../../containers/commonComponents';
@@ -54,9 +55,17 @@ export default class RequesterDoneDetails extends RequestBaseContainer {
     };
     return (
       <>
-        <div style={{ height: 'auto' }} className="card cardWithButton nofixedwidth">
-          <div className="card-content">
-            <div className="content has-text-centered">
+        <div
+          style={{
+            boxShadow: 'none',
+            borderLeft: '1px solid rgba(10,10,10,0.2)',
+            borderTop: '1px solid rgba(10,10,10,0.2)',
+            borderRight: '1px solid rgba(10,10,10,0.2)',
+          }}
+          className="card has-text-centered"
+        >
+          <div style={{ borderBottom: 0 }} className="card-content">
+            <div className="content">
               <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
               <UserGivenTitle userGivenTitle={jobTitle} />
 
@@ -114,51 +123,36 @@ export default class RequesterDoneDetails extends RequestBaseContainer {
               </div>
             </div>
           </div>
+          <AssignedTaskerDetails
+            otherUserProfileInfo={_bidderRef}
+            emailAddress={emailAddress}
+            phoneNumber={phoneNumber}
+            renderActionButton={() => (
+              <>
+                {requiresProposerReview && (
+                  <a
+                    onClick={() => {
+                      switchRoute(ROUTES.CLIENT.REVIEW.getProposerJobReview({ jobId }));
+                    }}
+                    className={`button firstButtonInCard is-primary`}
+                  >
+                    Review Tasker
+                  </a>
+                )}
+                {!requiresProposerReview && (
+                  <a
+                    onClick={() => {
+                      alert('Archive not implemented yet, will take you to archive');
+                    }}
+                    className={`button firstButtonInCard is-dark`}
+                  >
+                    View In Archive
+                  </a>
+                )}
+              </>
+            )}
+          />
         </div>
-
-        <br />
-        <div style={{ background: 'transparent', marginBottom: 0 }} className="tabs is-centered">
-          <ul>
-            <li className="is-active">
-              <a>
-                <span className="icon is-small">
-                  <i className="fas fa-user-tie" aria-hidden="true" />
-                </span>
-                <span>Your Tasker</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        <AssignedTaskerDetails
-          otherUserProfileInfo={_bidderRef}
-          emailAddress={emailAddress}
-          phoneNumber={phoneNumber}
-          renderActionButton={() => (
-            <>
-              {requiresProposerReview && (
-                <a
-                  onClick={() => {
-                    switchRoute(ROUTES.CLIENT.REVIEW.getProposerJobReview({ jobId }));
-                  }}
-                  className={`button firstButtonInCard is-primary`}
-                >
-                  Review Tasker
-                </a>
-              )}
-              {!requiresProposerReview && (
-                <a
-                  onClick={() => {
-                    alert('Archive not implemented yet, will take you to archive');
-                  }}
-                  className={`button firstButtonInCard is-dark`}
-                >
-                  View In Archive
-                </a>
-              )}
-            </>
-          )}
-        />
       </>
     );
   }
@@ -175,34 +169,30 @@ class AssignedTaskerDetails extends React.Component {
     const { _id } = otherUserProfileInfo;
 
     return (
-      <div className="card cardWithButton nofixedwidth">
-        <div className="card-content">
-          <div className="content ">
-            <div className="has-text-centered">
-              <figure
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(_id));
-                }}
-                style={{ margin: 'auto', width: 90 }}
-                className="image"
-              >
-                <img
-                  style={{
-                    borderRadius: '100%',
-                    cursor: 'pointer',
-                    boxShadow:
-                      '0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.3)',
-                  }}
-                  src={otherUserProfileInfo.profileImage.url}
-                />
-              </figure>
-              <div style={{ marginBottom: 0 }} className={`title`}>
-                <span>{otherUserProfileInfo.displayName}</span>
-              </div>
-              <br />
+      <div
+        style={{
+          boxShadow: 'none',
+          border: 'none',
+          borderBottom: '1px solid rgba(10,10,10,0.2)',
+        }}
+        className="card cardWithButton nofixedwidth"
+      >
+        <div style={{ paddingTop: 0 }} className="card-content">
+          <div className="content">
+            <div style={{ background: 'transparent' }} className="tabs is-centered">
+              <ul style={{ marginLeft: 0 }}>
+                <li className="is-active">
+                  <a>
+                    <span className="icon is-small">
+                      <i className="fas fa-user-tie" aria-hidden="true" />
+                    </span>
+                    <span>Tasker</span>
+                  </a>
+                </li>
+              </ul>
             </div>
+            <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large isCentered />
+            <br />
           </div>
         </div>
         {renderActionButton && renderActionButton()}

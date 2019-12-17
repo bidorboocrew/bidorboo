@@ -1330,55 +1330,27 @@ exports.jobDataAccess = {
     // if tasker didnt
     return new Promise(async (resolve, reject) => {
       try {
-        const updatedJob = await JobModel.findOneAndUpdate(
+        await JobModel.findOneAndUpdate(
           { _id: jobId },
           {
             $set: { state: 'DONE' },
-          },
-          { new: true }
+          }
         )
-          .lean()
+          .lean(true)
           .exec();
 
-        if (
-          !updatedJob ||
-          !updatedJob._id ||
-          !updatedJob._awardedBidRef ||
-          !updatedJob._ownerRef ||
-          !updatedJob.processedPayment ||
-          updatedJob.state !== 'DONE'
-        ) {
-          return reject({
-            success: false,
-            ErrorMsg: 'failed to update the associated job requesterConfirmed',
-          });
-        }
-
-        const updatedAwardedBid = await BidModel.findByIdAndUpdate(
-          updatedJob._awardedBidRef,
-          {
-            $set: { state: 'DONE' },
-          },
-          { new: true }
-        )
-          .lean()
+        const updatedJob = await JobModel.findById(jobId)
+          .populate({
+            path: '_awardedBidRef',
+            select: { _bidderRef: 1 },
+          })
+          .lean(true)
           .exec();
 
-        if (
-          !updatedAwardedBid ||
-          !updatedAwardedBid._id ||
-          !updatedAwardedBid._bidderRef ||
-          updatedAwardedBid.state !== 'DONE'
-        ) {
-          return reject({
-            success: false,
-            ErrorMsg: 'failed to update the associated awarded bid requesterConfirmed',
-          });
-        }
         // update stuff
-        const [updatedTasker, updatedRequester] = await Promise.all([
+        await Promise.all([
           User.findByIdAndUpdate(
-            updatedAwardedBid._bidderRef,
+            updatedJob._awardedBidRef._bidderRef,
             {
               $push: { 'rating.fulfilledBids': updatedJob._awardedBidRef },
             },
@@ -1402,10 +1374,6 @@ exports.jobDataAccess = {
         ]);
 
         const {
-          requestedJobId,
-          awardedBidId,
-          requesterId,
-          taskerId,
           requesterDisplayName,
           taskerDisplayName,
           jobDisplayName,
@@ -1423,88 +1391,54 @@ exports.jobDataAccess = {
           allowedToPushNotifyTasker,
           requesterPushNotSubscription,
           taskerPushNotSubscription,
-          processedPayment,
         } = await getAllContactDetails(jobId);
 
-        if (updatedTasker && updatedTasker.stripeConnect && updatedTasker.stripeConnect.accId) {
-          //xxx
-          // this has to happen via cron job + webhook only do this when payment is available for payout
-          // const payoutInititated = await stripeServiceUtil.payoutToBank(
-          //   updatedTasker.stripeConnect.accId,
-          //   {
-          //     amount: processedPayment.taskerPayout,
-          //     metadata: {
-          //       requesterId,
-          //       requesterEmailAddress,
-          //       taskerId,
-          //       taskerEmailAddress,
-          //       requestedJobId,
-          //       awardedBidId,
-          //       note: 'Task Was Completed Successfully',
-          //     },
-          //   }
-          // );
-
-          // if (payoutInititated.status === 'succeeded') {
-          if (true) {
-            // xxxxxxxxxxxxxx replace with review links
-
-            // begin communication
-            // send communication to both about the cancellation
-            if (allowedToEmailRequester) {
-              sendGridEmailing.tellRequesterJobIsCompleteBeginRating({
-                to: requesterEmailAddress,
-                requestTitle: jobDisplayName,
-                toDisplayName: requesterDisplayName,
-                linkForOwner: requestLinkForRequester,
-              });
-            }
-            if (allowedToEmailTasker) {
-              sendGridEmailing.tellTaskerJobIsCompleteBeginRating({
-                to: taskerEmailAddress,
-                requestTitle: jobDisplayName,
-                toDisplayName: taskerDisplayName,
-                linkForBidder: requestLinkForTasker,
-              });
-            }
-
-            if (allowedToTextRequester) {
-              sendTextService.sendJobIsCompletedText(
-                requesterPhoneNumber,
-                jobDisplayName,
-                requestLinkForRequester
-              );
-            }
-            if (allowedToTextTasker) {
-              sendTextService.sendJobIsCompletedText(
-                taskerPhoneNumber,
-                jobDisplayName,
-                requestLinkForTasker
-              );
-            }
-
-            if (allowedToPushNotifyRequester) {
-              WebPushNotifications.pushAwardedJobWasCompleted(requesterPushNotSubscription, {
-                requestTitle: jobDisplayName,
-                urlToLaunch: requestLinkForRequester,
-              });
-            }
-            if (allowedToPushNotifyTasker) {
-              WebPushNotifications.pushAwardedJobWasCompleted(taskerPushNotSubscription, {
-                requestTitle: requestLinkForRequester,
-                urlToLaunch: requestLinkForTasker,
-              });
-            }
-            resolve({ success: true });
-          } else {
-            // xxxxxx log to our "dispute DB"
-            reject({
-              success: false,
-              ErrorMsg:
-                'failed to submit payout to bidder, but dont worry, BidOrBooCrew will handle this and ensure the Tasker is paid asap',
-            });
-          }
+        if (allowedToEmailRequester) {
+          sendGridEmailing.tellRequesterJobIsCompleteBeginRating({
+            to: requesterEmailAddress,
+            requestTitle: jobDisplayName,
+            toDisplayName: requesterDisplayName,
+            linkForOwner: requestLinkForRequester,
+          });
         }
+        if (allowedToEmailTasker) {
+          sendGridEmailing.tellTaskerJobIsCompleteBeginRating({
+            to: taskerEmailAddress,
+            requestTitle: jobDisplayName,
+            toDisplayName: taskerDisplayName,
+            linkForBidder: requestLinkForTasker,
+          });
+        }
+
+        if (allowedToTextRequester) {
+          sendTextService.sendJobIsCompletedText(
+            requesterPhoneNumber,
+            jobDisplayName,
+            requestLinkForRequester
+          );
+        }
+        if (allowedToTextTasker) {
+          sendTextService.sendJobIsCompletedText(
+            taskerPhoneNumber,
+            jobDisplayName,
+            requestLinkForTasker
+          );
+        }
+
+        if (allowedToPushNotifyRequester) {
+          WebPushNotifications.pushAwardedJobWasCompleted(requesterPushNotSubscription, {
+            requestTitle: jobDisplayName,
+            urlToLaunch: requestLinkForRequester,
+          });
+        }
+        if (allowedToPushNotifyTasker) {
+          WebPushNotifications.pushAwardedJobWasCompleted(taskerPushNotSubscription, {
+            requestTitle: requestLinkForRequester,
+            urlToLaunch: requestLinkForTasker,
+          });
+        }
+
+        resolve({ success: true });
       } catch (e) {
         reject(e);
       }
@@ -1520,15 +1454,8 @@ exports.jobDataAccess = {
           },
           { new: true }
         )
-          .lean({ virtuals: true })
+          .lean()
           .exec();
-
-        if (!updatedJob || !updatedJob._id || !updatedJob.bidderConfirmedCompletion) {
-          return reject({
-            success: false,
-            ErrorMsg: 'failed to update the associated job bidderConfirmed',
-          });
-        }
 
         const {
           requesterDisplayName,
@@ -1609,15 +1536,7 @@ exports.jobDataAccess = {
           .lean()
           .exec();
 
-        if (!updatedJob || !updatedJob._id || updatedJob.state !== 'DISPUTED') {
-          return reject({
-            success: false,
-            ErrorMsg: 'failed to update the associated job bidderDisputesJob',
-          });
-        }
-
         const {
-          requesterId,
           taskerId,
           requesterDisplayName,
           taskerDisplayName,
