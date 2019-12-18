@@ -239,23 +239,6 @@ JobSchema.virtual('isHappeningSoon').get(function() {
   return hours <= 48 && isNotPastDue;
 });
 
-JobSchema.virtual('displayStatus').get(function() {
-  const stateToDisplayName = {
-    OPEN: 'Waiting On Taskers Bids',
-    AWARDED: 'Tasker is Assigned',
-    DISPUTED: 'Dispute',
-    AWARDED_JOB_CANCELED_BY_BIDDER: 'Tasker Cancelled the Agreement',
-    AWARDED_JOB_CANCELED_BY_BIDDER_SEEN: 'Tasker Cancelled the Agreement',
-    AWARDED_JOB_CANCELED_BY_REQUESTER: 'Requester Cancelled the Agreement',
-    CANCELED_OPEN: 'Canceled Request',
-    DONE: 'Completed',
-    PAYMENT_TO_BANK_FAILED: "Couldn't release funds to your bank",
-    ARCHIVE: 'Past Job',
-    DISPUTE_RESOLVED: 'Resolved Dispute',
-  };
-  return stateToDisplayName[this.state];
-});
-
 JobSchema.plugin(mongooseLeanVirtuals);
 
 JobSchema.pre('remove', async function(next) {
