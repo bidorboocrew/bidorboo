@@ -7,7 +7,7 @@ import axios from 'axios';
 import * as A from '../../app-state/actionTypes';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute, throwErrorNotification, goBackToPreviousRoute } from '../../utils';
+import { throwErrorNotification, goBackToPreviousRoute } from '../../utils';
 import { CenteredUserImageAndRating } from '../commonComponents.jsx';
 import { Spinner } from '../../components/Spinner.jsx';
 
@@ -21,6 +21,7 @@ export class BidderReviewingCompletedJob extends React.Component {
       mannerRating: 0,
       personalComment: '',
       userToBeRated: null,
+      jobId: null,
     };
 
     if (this.props.match && this.props.match.params && this.props.match.params.bidId) {
@@ -39,7 +40,10 @@ export class BidderReviewingCompletedJob extends React.Component {
         // update recently added job
         if (resp && resp.data) {
           if (resp.data._jobRef._ownerRef) {
-            this.setState({ userToBeRated: resp.data._jobRef._ownerRef });
+            this.setState({
+              userToBeRated: resp.data._jobRef._ownerRef,
+              jobId: resp.data._jobRef._id,
+            });
           } else {
             dispatch({
               type: A.UI_ACTIONS.SHOW_TOAST_MSG,
@@ -154,16 +158,17 @@ export class BidderReviewingCompletedJob extends React.Component {
         },
       });
     } else {
+      const { userToBeRated, jobId, ...ratingCategories } = this.state;
       // SUBMIT REVIEW
       axios
         .put(ROUTES.API.REVIEW.PUT.bidderSubmitReview, {
           data: {
-            jobId: this.jobId,
-            ...this.state,
+            jobId,
+            ...ratingCategories,
           },
         })
         .then(() => {
-          switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+          goBackToPreviousRoute();
           dispatch &&
             dispatch({
               type: A.UI_ACTIONS.SHOW_TOAST_MSG,
