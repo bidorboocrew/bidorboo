@@ -22,7 +22,7 @@ export class BidderReviewingCompletedJob extends React.Component {
       personalComment: '',
       userToBeRated: null,
     };
-    debugger;
+
     if (this.props.match && this.props.match.params && this.props.match.params.bidId) {
       this.bidId = this.props.match.params.bidId;
     } else {

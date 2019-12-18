@@ -41,7 +41,7 @@ export default class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer 
     } = job;
 
     const { bidderPayout, bidAmount, _id: bidId } = bid;
-    debugger;
+
     const { value: bidderPayoutAmount } = bidderPayout;
     const { value: bidValue } = bidAmount;
 

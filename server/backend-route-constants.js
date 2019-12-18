@@ -154,12 +154,10 @@ module.exports = {
       dynamicCurrentAwardedBid: (bidId) => `https://www.bidorboo.ca/awarded-bid-details/${bidId}`,
     },
     REVIEW: {
-      proposerJobReview: `https://www.bidorboo.ca/bdb-request/review/:proposerId/job/:jobId/bidder/:bidderId`,
-      bidderJobReview: `https://www.bidorboo.ca/bdb-offer/review/:bidderId/bid/:bidId/proposer/:proposerId/job/:jobId`,
-      getProposerJobReview: (proposerId, jobId, bidderId) =>
-        `https://www.bidorboo.ca/bdb-request/review/${proposerId}/job/${jobId}/bidder/${bidderId}`,
-      getBidderJobReview: (bidderId, bidId, proposerId, jobId) =>
-        `https://www.bidorboo.ca/bdb-offer/review/${bidderId}/bid/${bidId}/proposer/${proposerId}/job/${jobId}`,
+      proposerJobReview: `https://www.bidorboo.ca/bdb-request/review/:jobId`,
+      bidderJobReview: `https://www.bidorboo.ca/bdb-offer/review/:bidId`,
+      getProposerJobReview: ({ jobId }) => `https://www.bidorboo.ca/bdb-request/review/${jobId}`,
+      getBidderJobReview: ({ bidId }) => `https://www.bidorboo.ca/bdb-offer/review/${bidId}`,
     },
     MY_PROFILE: {
       myNotifications: '/my-profile/notification-settings',

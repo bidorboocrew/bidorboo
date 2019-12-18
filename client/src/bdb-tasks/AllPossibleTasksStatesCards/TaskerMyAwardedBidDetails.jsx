@@ -48,7 +48,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
     } = job;
 
     const { bidAmount, bidderPayout, _id: bidId } = bid;
-debugger
+
     const { value: bidValue } = bidAmount;
     const { value: bidderPayoutAmount } = bidderPayout;
 
