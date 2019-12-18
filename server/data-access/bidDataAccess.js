@@ -500,25 +500,14 @@ exports.bidDataAccess = {
                 path: '_jobRef',
                 select: {
                   _awardedBidRef: 1,
-                  _ownerRef: 1,
                   state: 1,
                   jobTitle: 1,
                   startingDateAndTime: 1,
                   templateId: 1,
-                  location: 1,
                   bidderConfirmedCompletion: 1,
                   dispute: 1,
                 },
                 populate: [
-                  {
-                    path: '_ownerRef',
-                    select: {
-                      _id: 1,
-                      displayName: 1,
-                      rating: 1,
-                      profileImage: 1,
-                    },
-                  },
                   {
                     path: '_awardedBidRef',
                     select: {

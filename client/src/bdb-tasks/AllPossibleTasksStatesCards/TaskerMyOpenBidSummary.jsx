@@ -14,23 +14,18 @@ import {
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
-import { REQUEST_STATES } from '../index';
 
 export default class TaskerMyOpenBidSummary extends React.Component {
   render() {
     const { bid, job } = this.props;
 
-    const { startingDateAndTime, state, taskImages = [], jobTitle } = job;
+    const { startingDateAndTime, taskImages = [], jobTitle } = job;
 
     const { bidderPayout, isNewBid } = bid;
 
     const taskerTotalPayoutAmount = bidderPayout.value;
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-
-    const isAwardedToSomeoneElse =
-      (state === REQUEST_STATES.AWARDED || state === REQUEST_STATES.AWARDED_SEEN) &&
-      bid._id !== job._awardedBidRef;
 
     return (
       <div className={`card has-text-centered cardWithButton`}>
@@ -47,21 +42,17 @@ export default class TaskerMyOpenBidSummary extends React.Component {
             />
             <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
 
-            {isAwardedToSomeoneElse && <BSAwardedToSomeoneElse />}
-
-            {!isAwardedToSomeoneElse && <BSawaitingOnRequester />}
+            <BSawaitingOnRequester />
           </div>
         </div>
-        {renderFooter({ bid, isAwardedToSomeoneElse, isNewBid })}
+        {renderFooter({ bid, isNewBid })}
       </div>
     );
   }
 }
 
-const renderFooter = ({ bid, isAwardedToSomeoneElse, isNewBid }) => {
-  if (isAwardedToSomeoneElse) {
-    return null;
-  } else if (!isAwardedToSomeoneElse && isNewBid) {
+const renderFooter = ({ bid, isNewBid }) => {
+  if (isNewBid) {
     return (
       <div className="centeredButtonInCard">
         <a
@@ -74,7 +65,7 @@ const renderFooter = ({ bid, isAwardedToSomeoneElse, isNewBid }) => {
         </a>
       </div>
     );
-  } else if (!isAwardedToSomeoneElse && !isNewBid) {
+  } else {
     return (
       <div className="centeredButtonInCard">
         <a

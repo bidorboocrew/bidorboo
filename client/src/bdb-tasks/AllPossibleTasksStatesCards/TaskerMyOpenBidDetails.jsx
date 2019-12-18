@@ -69,9 +69,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
 
   render() {
     const { bid, job, otherArgs } = this.props;
-    if (!bid || !otherArgs || !job) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
+
     const {
       startingDateAndTime,
       _bidsListRef, // not mandatory
@@ -79,7 +77,6 @@ export default class TaskerMyOpenBidDetails extends React.Component {
       detailedDescription,
       location,
       extras,
-      isPastDue,
       state,
       taskImages = [],
       jobTitle,
@@ -196,7 +193,6 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                 )}
               />
               <UserGivenTitle userGivenTitle={jobTitle} />
-
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
@@ -205,16 +201,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                 )}
               />
               <TaskerWillEarn earningAmount={bidderPayoutAmount}></TaskerWillEarn>
-
-              {isAwardedToSomeoneElse && <BSAwardedToSomeoneElse />}
-
-              {!isAwardedToSomeoneElse && (
-                <React.Fragment>
-                  {isPastDue && <BSPastDueExpired />}
-                  {!isPastDue && <BSawaitingOnRequester />}
-                </React.Fragment>
-              )}
-
+              <BSawaitingOnRequester />}
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
                   <BidAmount bidAmount={bidValue}></BidAmount>
@@ -264,12 +251,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                 )}
               </div>
               <br />
-              <TaskerEditOrUpdateBid
-                bid={bid}
-                job={job}
-                updateBidAction={updateBid}
-                isAwardedToSomeoneElse={isAwardedToSomeoneElse}
-              />
+              <TaskerEditOrUpdateBid bid={bid} job={job} updateBidAction={updateBid} />
             </div>
           </div>
         </div>

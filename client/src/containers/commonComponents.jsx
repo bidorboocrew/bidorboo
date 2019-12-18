@@ -1099,9 +1099,6 @@ export const ArchiveTask = ({ displayName = '' }) => {
           Past Task
         </div>
       </div>
-      {/* <div>
-      <div className="help">*BidOrBoo will refund you ${refundAmount}%</div>
-    </div> */}
     </div>
   );
 };

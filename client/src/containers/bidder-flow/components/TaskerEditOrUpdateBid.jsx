@@ -6,9 +6,6 @@ import * as Yup from 'yup';
 import { TextInput } from '../../../components/forms/FormsHelpers';
 import { enforceNumericField } from '../../../components/forms/FormsValidators';
 
-import * as ROUTES from '../../../constants/frontend-route-consts';
-import { switchRoute } from '../../../utils';
-
 class TaskerEditOrUpdateBid extends React.Component {
   constructor(props) {
     super(props);
@@ -164,21 +161,8 @@ class TaskerEditOrUpdateBid extends React.Component {
             document.querySelector('#bidorboo-root-modals'),
           )}
         <br></br>
-        {isAwardedToSomeoneElse && (
-          <a
-            onClick={() => {
-              switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-            }}
-            className={`button`}
-            style={{ flexGrow: 1, marginRight: 10 }}
-          >
-            <span className="icon">
-              <i className="far fa-arrow-alt-circle-left" />
-            </span>
-            <span>I understand</span>
-          </a>
-        )}
-        {!isAwardedToSomeoneElse && isNewBid && (
+
+        {isNewBid && (
           <a
             style={{ width: 'unset' }}
             onClick={(e) => {
