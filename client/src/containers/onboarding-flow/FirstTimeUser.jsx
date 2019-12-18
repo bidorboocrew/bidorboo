@@ -14,13 +14,10 @@ export class FirstTimeUser extends React.Component {
 
     if (!isLoggedIn || !userDetails) {
       switchRoute(`${ROUTES.CLIENT.HOME}`);
-    } else if (userDetails.membershipStatus !== 'NEW_MEMBER') {
-      switchRoute(`${ROUTES.CLIENT.MY_PROFILE.basicSettings}`);
     }
   }
 
   render() {
-    const { displayName } = this.props;
     return (
       <div className="columns is-multiline is-centered is-mobile">
         <div className="column limitLargeMaxWidth">
@@ -65,12 +62,11 @@ export class FirstTimeUser extends React.Component {
   }
 }
 
-const mapStateToProps = ({ userReducer, uiReducer }) => {
+const mapStateToProps = ({ userReducer }) => {
   const { userDetails } = userReducer;
   return {
     isLoggedIn: userReducer.isLoggedIn,
     userDetails,
-    displayName: userDetails.displayName,
   };
 };
 

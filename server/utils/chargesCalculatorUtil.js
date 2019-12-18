@@ -11,7 +11,7 @@ const STRIPE_STATIC_CUT_ON_EACH_CHECKOUT = 0.3; //cent
 const STRIPE_PERCENT_CUT_ON_EACH_PAYOUT = 0.025;
 const STRIPE_STATIC_CUT_ON_EACH_PAYOUT = 0.25; //cent
 
-const BIDORBOO_REQUESTER_REFUND_PERCENTAGE_IN_CASE_OF_CANCELLATION = 0.8;
+const BIDORBOO_REQUESTER_REFUND_PERCENTAGE_IN_CASE_OF_CANCELLATION = 0.9;
 
 const BIDORBOO_TASKER_PAYOUT_PERCENTAGE_IN_CASE_OF_CANCELLATION = 0.2;
 
@@ -37,7 +37,8 @@ exports.getChargeDistributionDetails = (totalBidAmountInDollars) => {
   const stripePayoutToTaskerProcessingFee =
     leftOverMoney * STRIPE_PERCENT_CUT_ON_EACH_PAYOUT + STRIPE_STATIC_CUT_ON_EACH_PAYOUT;
 
-  const bidderPayoutAmount = leftOverMoney - stripePayoutToTaskerProcessingFee;
+  const bidderPayoutAmount = leftOverMoney;
+  const bidderActualPayoutInBank = leftOverMoney - stripePayoutToTaskerProcessingFee;
 
   const requesterPartialRefundAmount =
     BIDORBOO_REQUESTER_REFUND_PERCENTAGE_IN_CASE_OF_CANCELLATION * requesterPaymentAmount;
@@ -54,6 +55,7 @@ exports.getChargeDistributionDetails = (totalBidAmountInDollars) => {
     requesterPartialRefundAmount: parseFloat(requesterPartialRefundAmount.toFixed(2)),
     taskerPartialPayoutAmount: parseFloat(taskerPartialPayoutAmount.toFixed(2)),
     bidOrBooPlatformFee: bidOrBooPlatformFee,
+    bidderActualPayoutInBank: bidderActualPayoutInBank,
     // stripeCheckoutProcessingFee: stripeCheckoutProcessingFee,
     // stripePayoutToTaskerProcessingFee: stripePayoutToTaskerProcessingFee,
   };

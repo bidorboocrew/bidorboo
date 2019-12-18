@@ -40,18 +40,6 @@ const BidSchema = new Schema(
         required: true,
       },
     },
-    bidderPayout: {
-      value: {
-        type: Number,
-        required: true,
-      },
-      currency: {
-        type: String,
-        enum: ['CAD', 'USD'],
-        default: 'CAD',
-        required: true,
-      },
-    },
     requesterPartialRefund: {
       value: {
         type: Number,
@@ -64,7 +52,31 @@ const BidSchema = new Schema(
         required: true,
       },
     },
+    bidderPayout: {
+      value: {
+        type: Number,
+        required: true,
+      },
+      currency: {
+        type: String,
+        enum: ['CAD', 'USD'],
+        default: 'CAD',
+        required: true,
+      },
+    },
     bidderPartialPayout: {
+      value: {
+        type: Number,
+        required: true,
+      },
+      currency: {
+        type: String,
+        enum: ['CAD', 'USD'],
+        default: 'CAD',
+        required: true,
+      },
+    },
+    bidderActualPayoutInBank: {
       value: {
         type: Number,
         required: true,

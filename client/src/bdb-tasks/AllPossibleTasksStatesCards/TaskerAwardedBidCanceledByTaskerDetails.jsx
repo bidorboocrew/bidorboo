@@ -40,9 +40,7 @@ export default class TaskerAwardedBidCanceledByTaskerDetails extends React.Compo
               <label className="label has-text-danger">What you need to know:</label>
               <ul>
                 <li>
-                  <strong>
-                    Requester was notified about this and will NOT be expecting you to show up.
-                  </strong>
+                  <strong>Requester was notified and will NOT be expecting you to show up.</strong>
                 </li>
                 <li>You will not receive any payout for this task.</li>
                 <li>Your global rating will be negatively impacted</li>

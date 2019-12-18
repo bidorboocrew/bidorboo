@@ -136,12 +136,12 @@ export const getCurrentUser = () => (dispatch) => {
               });
             }
           }
-          if (
-            resp.data.membershipStatus === 'NEW_MEMBER' &&
-            window.location.pathname !== ROUTES.CLIENT.TOS
-          ) {
-            switchRoute(ROUTES.CLIENT.ONBOARDING, { redirectUrl: window.location.pathname });
-          }
+          // if (
+          //   resp.data.membershipStatus === 'NEW_MEMBER' &&
+          //   window.location.pathname !== ROUTES.CLIENT.TOS
+          // ) {
+          //   switchRoute(ROUTES.CLIENT.ONBOARDING, { redirectUrl: window.location.pathname });
+          // }
         }
       })
       .catch((error) => {

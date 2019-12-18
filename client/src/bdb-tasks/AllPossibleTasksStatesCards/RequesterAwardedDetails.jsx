@@ -116,7 +116,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                           <span className="has-text-weight-semibold">
                             {` $${requesterPartialRefundAmount} `}
                           </span>
-                          {'which is ~ 80% of your original payment'}
+                          {'which is ~ 90% of your original payment'}
                         </li>
                         <li>Your global rating will be negatively impacted</li>
                         <li>This cancellation will show up on your profile</li>{' '}

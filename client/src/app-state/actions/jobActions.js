@@ -95,7 +95,11 @@ export const searchJobsToBidOn = (values) => (dispatch) => {
 
   dispatch({
     type: A.JOB_ACTIONS.GET_ALL_POSTED_JOBS_VIA_SEARCH,
-    payload: axios.post(ROUTES.API.JOB.POST.updateSearchThenSearchJobs, postData, config),
+    payload: axios
+      .post(ROUTES.API.JOB.POST.updateSearchThenSearchJobs, postData, config)
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
   });
 };
 

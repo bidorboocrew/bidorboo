@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
-// import { updateOnBoardingDetails } from '../../app-state/actions/userModelActions';
 import VerifyEmailField from './VerifyEmailField';
 import VerifyPhoneField from './VerifyPhoneField';
 import UpdatePhoneNumberField from './UpdatePhoneNumberField';

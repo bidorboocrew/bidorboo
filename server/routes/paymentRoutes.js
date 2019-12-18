@@ -145,7 +145,6 @@ module.exports = (app) => {
 
   app.put(
     ROUTES.API.PAYMENT.PUT.setupPaymentDetails,
-    requireBidorBooHost,
     requireLogin,
     requireUserHasAStripeAccountOrInitalizeOne,
     async (req, res) => {
@@ -160,13 +159,20 @@ module.exports = (app) => {
           connectedAccountDetails
         );
         if (last4BankAcc) {
-          const updatedUser = await userDataAccess.updateUserProfileDetails(userId, {
+          const userAfterUpdate = await userDataAccess.updateUserProfileDetails(userId, {
             'stripeConnect.last4BankAcc': last4BankAcc,
           });
+          return res.send({ success: true, updatedUser: userAfterUpdate });
         }
-        return res.send({ success: true, updatedUser: updatedUser });
+        return res.status(400).send({
+          errorMsg: `couldn't register your bank account please use the chat button to talk to our customer support`,
+        });
       } catch (e) {
-        return res.status(400).send({ errorMsg: e });
+        return res
+          .status(400)
+          .send({
+            errorMsg: `couldn't register your bank account please use the chat button to talk to our customer support`,
+          });
       }
     }
   );

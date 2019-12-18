@@ -13,12 +13,7 @@ import {
 import * as ROUTES from './constants/frontend-route-consts';
 import { switchRoute } from './utils';
 import { Spinner } from './components/Spinner';
-// import LoginOrRegisterPage from './containers/onboarding-flow/LoginOrRegisterPage.jsx';
 import { Header } from './containers/index';
-// const EVERY_30_SECS = 900000; //MS
-// const EVERY_15_MINUTES = 900000; //MS
-// const UPDATE_NOTIFICATION_INTERVAL =
-//   process.env.NODE_ENV === 'production' ? EVERY_15_MINUTES : EVERY_30_SECS;
 
 const loggedOutRoutes = [
   ROUTES.CLIENT.HOME,
@@ -47,12 +42,6 @@ class GetNotificationsAndScroll extends React.Component {
     // Update state so the next render will show the fallback UI.
     return { hasError: true };
   }
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if (nextProps.location.pathname !== this.props.location.pathname) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
 
   componentDidUpdate(prevProps) {
     const {
@@ -132,7 +121,7 @@ class GetNotificationsAndScroll extends React.Component {
   }
 
   render() {
-    const { authIsInProgress, isLoggedIn } = this.props;
+    const { authIsInProgress, isLoggedIn, userDetails, history } = this.props;
     if (this.state.hasError) {
       // You can render any custom fallback UI
       return (
@@ -183,7 +172,15 @@ class GetNotificationsAndScroll extends React.Component {
         return this.props.children;
       }
     } else {
-      return this.props.children;
+      if (
+        userDetails.membershipStatus === 'NEW_MEMBER' &&
+        history.location.pathname !== ROUTES.CLIENT.TOS &&
+        history.location.pathname !== ROUTES.CLIENT.ONBOARDING
+      ) {
+        return switchRoute(ROUTES.CLIENT.ONBOARDING, { redirectUrl: this.props.location.pathname });
+      } else {
+        return this.props.children;
+      }
     }
   }
 }

@@ -50,7 +50,7 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
               <ul>
                 <li>At BidOrBoo we takes cancellations seriously.</li>
                 <li>
-                  <strong>20% was deducted</strong> from the original full payment because you
+                  <strong>10% was deducted</strong> from the original full payment because you
                   cancelled.
                 </li>
                 <li>

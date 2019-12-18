@@ -75,13 +75,13 @@ const getMyAwardedJobs = {
 };
 
 const getPostedJobs = {
-  isPending: (state = initialState, { payload }) => ({
+  isPending: (state = initialState) => ({
     ...state,
     isLoading: true,
     listOfJobsToBidOn: [],
   }),
   isFullfilled: (state = initialState, { payload }) => {
-    let allThePostedJobs = payload.data ? payload.data : [];
+    let allThePostedJobs = payload && payload.data ? payload.data : [];
 
     return {
       ...state,

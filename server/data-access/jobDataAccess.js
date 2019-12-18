@@ -14,7 +14,10 @@ const WebPushNotifications = require('../services/WebPushNotifications').WebPush
 const schemaHelpers = require('./util_schemaPopulateProjectHelpers');
 const stripeServiceUtil = require('../services/stripeService').util;
 
-const BIDORBOO_REFUND_AMOUNT = 0.8;
+const {
+  BIDORBOO_REQUESTER_REFUND_PERCENTAGE_IN_CASE_OF_CANCELLATION,
+} = require('../utils/chargesCalculatorUtil');
+
 const getAllContactDetails = require('../utils/commonDataUtils')
   .getAwardedJobOwnerBidderAndRelevantNotificationDetails;
 const templateIdToDisplayName = {
@@ -431,6 +434,8 @@ exports.jobDataAccess = {
                     if (refund && refund.status === 'succeeded') {
                       // application fee is refunded at a rate proportional to the refund amount
                       //  so
+
+                      // XXX you dont need to calc , this should be available in the refund amount
                       const ratioOfRefund = refund.amount / amount;
                       const amountRefundedFromApplicationFee = ratioOfRefund * applicationFeeAmount;
                       const actualKeptBidOrBooApplicationFees =
@@ -647,9 +652,10 @@ exports.jobDataAccess = {
               _bidderRef: 1,
               isNewBid: 1,
               state: 1,
-              bidAmount: 1,
               createdAt: 1,
               updatedAt: 1,
+              requesterPayment: 1,
+              requesterPartialRefund: 1,
             },
             populate: {
               path: '_bidderRef',
@@ -1735,7 +1741,8 @@ exports.jobDataAccess = {
           const charge = paymentIntent.charges.data[0];
           const refundCharge = await stripeServiceUtil.partialRefundTransation({
             chargeId: charge.id,
-            refundAmount: charge.amount * BIDORBOO_REFUND_AMOUNT,
+            refundAmount:
+              charge.amount * BIDORBOO_REQUESTER_REFUND_PERCENTAGE_IN_CASE_OF_CANCELLATION,
             metadata: {
               requesterId,
               requesterEmailAddress,

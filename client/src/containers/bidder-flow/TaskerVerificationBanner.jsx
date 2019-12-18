@@ -95,7 +95,7 @@ class TaskerVerificationBanner extends React.Component {
                 </span>
                 <span>START TASKER ONBOARDING</span>
               </button>
-              <div className="help has-text-light">*Registration will take ~1 minutes</div>
+              <div className="help has-text-light">will take less than 2 minutes</div>
             </div>
           </div>
         </section>
@@ -114,11 +114,16 @@ class TaskerVerificationBanner extends React.Component {
     const areThereMoreRequirement = currently_due.length > 0 || past_due.length > 0;
     const isUserBlocked = !!disabled_reason;
 
-    if (userDetails && areThereMoreRequirement) {
-      if (
-        currently_due.includes('individual.verification.document') ||
-        past_due.includes('individual.verification.document')
-      ) {
+    const showAddBankInfo =
+      (currently_due.includes('external_account') || past_due.includes('external_account')) &&
+      !last4BankAcc;
+
+    const showAddVerificationId =
+      currently_due.includes('individual.verification.document') ||
+      past_due.includes('individual.verification.document');
+    debugger;
+    if (areThereMoreRequirement) {
+      if (showAddVerificationId) {
         return (
           <>
             {showUploadImgModal &&
@@ -164,33 +169,27 @@ class TaskerVerificationBanner extends React.Component {
             </section>
           </>
         );
-      } else if (
-        currently_due.includes('external_account') ||
-        past_due.includes('external_account')
-      ) {
-        if (userDetails && areTherePendingPayments && !last4BankAcc) {
-          return (
-            <section className="hero is-success is-small is-bold slide-in-top">
-              <div className="hero-body">
-                <div className="container">
-                  <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
-                    To receive payouts you must add your bank info
-                  </h1>
-                  <button
-                    className="button is-small is-dark"
-                    onClick={this.redirectToPaymentSetting}
-                  >
-                    <span className="icon">
-                      <i className="far fa-credit-card" aria-hidden="true" />
-                    </span>
-                    <span>GO TO PAYOUT SETTINGS</span>
-                  </button>
-                  <div className="help has-text-light">*Registration will take ~1 minutes</div>
+      } else if (showAddBankInfo) {
+        return (
+          <section className="hero is-success is-small is-bold slide-in-top">
+            <div className="hero-body">
+              <div className="container">
+                <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
+                  To receive payouts you must add your bank info
+                </h1>
+                <button className="button is-small is-dark" onClick={this.redirectToPaymentSetting}>
+                  <span className="icon">
+                    <i className="far fa-credit-card" aria-hidden="true" />
+                  </span>
+                  <span>ADD A PAYOUT ACCOUNT</span>
+                </button>
+                <div className="help has-text-light">
+                  *This will redirect you to payout settings page
                 </div>
               </div>
-            </section>
-          );
-        }
+            </div>
+          </section>
+        );
       } else {
         return (
           <section className="hero is-success is-small is-bold slide-in-top">
@@ -219,28 +218,6 @@ class TaskerVerificationBanner extends React.Component {
           </section>
         );
       }
-    }
-
-    // only show this if there is payouts pending
-    if (userDetails && areTherePendingPayments && !last4BankAcc) {
-      return (
-        <section className="hero is-success is-small is-bold slide-in-top">
-          <div className="hero-body">
-            <div className="container">
-              <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
-                To receive payouts you must add your bank info
-              </h1>
-              <button className="button is-small is-dark" onClick={this.redirectToPaymentSetting}>
-                <span className="icon">
-                  <i className="far fa-credit-card" aria-hidden="true" />
-                </span>
-                <span>GO TO PAYOUT SETTINGS</span>
-              </button>
-              <div className="help has-text-light">*Registration will take ~1 minutes</div>
-            </div>
-          </div>
-        </section>
-      );
     }
 
     if (isUserBlocked) {
