@@ -121,7 +121,7 @@ class TaskerVerificationBanner extends React.Component {
     const showAddVerificationId =
       currently_due.includes('individual.verification.document') ||
       past_due.includes('individual.verification.document');
-    debugger;
+
     if (areThereMoreRequirement) {
       if (showAddVerificationId) {
         return (

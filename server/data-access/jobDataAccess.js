@@ -11,7 +11,6 @@ const sendGridEmailing = require('../services/sendGrid').EmailService;
 const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
 const WebPushNotifications = require('../services/WebPushNotifications').WebPushNotifications;
 
-const schemaHelpers = require('./util_schemaPopulateProjectHelpers');
 const stripeServiceUtil = require('../services/stripeService').util;
 
 const {
@@ -879,11 +878,9 @@ exports.jobDataAccess = {
         const allJobs = await User.findOne({ userId: userId }, { _postedJobsRef: 1 })
           .populate({
             path: '_postedJobsRef',
-            select: schemaHelpers.JobFull,
             options: { sort: { startingDateAndTime: 1 } },
             populate: {
               path: '_bidsListRef',
-              select: schemaHelpers.BidFull,
               populate: {
                 path: '_bidderRef',
                 select: {

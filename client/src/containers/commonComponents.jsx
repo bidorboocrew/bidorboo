@@ -1290,7 +1290,9 @@ export const BSAwardedToSomeoneElse = () => {
         >
           Bid Rejected
         </div>
-        <div className="help">*Task Was awarded to someone else</div>
+
+        <div className="help">*Task was awarded to someone else</div>
+        <div className="help">*This will be removed in 24 hours</div>
       </div>
     </div>
   );
@@ -1328,7 +1330,7 @@ export const BSTaskerAwarded = () => {
             display: 'inline-block',
           }}
         >
-          Your Bid Won
+          Winning Bid
         </div>
         <div className="help">Contact Requester To finalize details</div>
       </div>

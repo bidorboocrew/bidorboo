@@ -17,6 +17,7 @@ import {
   UserGivenTitle,
   TaskerWillEarn,
   BSWaitingOnRequesterToConfirm,
+  BSAwardedToSomeoneElse,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -28,8 +29,8 @@ class TaskerMyAwardedBidSummary extends React.Component {
     const { startingDateAndTime, bidderConfirmedCompletion, taskImages = [], jobTitle } = job;
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    const { bidderPayout } = bid;
-    const { value: taskerTotalPayoutAmount, currency: bidCurrency } = bidderPayout;
+    const { bidderPayout, isAwardedToMe } = bid;
+    const { value: taskerTotalPayoutAmount } = bidderPayout;
 
     return (
       <React.Fragment>
@@ -41,7 +42,6 @@ class TaskerMyAwardedBidSummary extends React.Component {
             <div className="content">
               <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
               <UserGivenTitle userGivenTitle={jobTitle} />
-
               <TaskImagesCarousel taskImages={taskImages} />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
@@ -49,14 +49,26 @@ class TaskerMyAwardedBidSummary extends React.Component {
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
+              {isAwardedToMe && (
+                <>
+                  <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
+                  {bidderConfirmedCompletion && <BSWaitingOnRequesterToConfirm />}
 
-              {bidderConfirmedCompletion && <BSWaitingOnRequesterToConfirm />}
-
-              {!bidderConfirmedCompletion && <BSTaskerAwarded />}
+                  {!bidderConfirmedCompletion && <BSTaskerAwarded />}
+                </>
+              )}
+              {!isAwardedToMe && <BSAwardedToSomeoneElse />}
             </div>
           </div>
-          {renderFooter({ job, bid, notificationFeed, updateJobState, bidderConfirmedCompletion })}
+          {isAwardedToMe &&
+            renderFooter({
+              isAwardedToMe,
+              job,
+              bid,
+              notificationFeed,
+              updateJobState,
+              bidderConfirmedCompletion,
+            })}
         </div>
       </React.Fragment>
     );

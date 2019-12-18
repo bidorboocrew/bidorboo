@@ -129,15 +129,7 @@ exports.bidDataAccess = {
             )
               .lean(true)
               .exec(),
-            BidModel.findByIdAndUpdate(
-              bidId,
-              {
-                $set: { state: 'AWARDED_BID_CANCELED_BY_TASKER' },
-              },
-              { new: true }
-            )
-              .lean(true)
-              .exec(),
+
             UserModel.findByIdAndUpdate(
               taskerId,
               {
@@ -496,29 +488,29 @@ exports.bidDataAccess = {
   getMyPostedBidsSummary: async (mongoUser_id) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const [openBids] = await Promise.all([
-          new Promise(async (resolve, reject) => {
-            UserModel.findById(mongoUser_id, { _postedBidsRef: 1 })
-              .populate({
-                path: '_postedBidsRef',
+        const openBids = await new Promise(async (resolve, reject) => {
+          UserModel.findById(mongoUser_id, { _postedBidsRef: 1 })
+            .populate({
+              path: '_postedBidsRef',
+              select: {
+                requesterPayment: 0,
+                requesterPartialRefund: 0,
+              },
+              populate: {
+                path: '_jobRef',
                 select: {
-                  requesterPayment: 0,
-                  requesterPartialRefund: 0,
+                  _awardedBidRef: 1,
+                  _ownerRef: 1,
+                  state: 1,
+                  jobTitle: 1,
+                  startingDateAndTime: 1,
+                  templateId: 1,
+                  location: 1,
+                  bidderConfirmedCompletion: 1,
+                  dispute: 1,
                 },
-                populate: {
-                  path: '_jobRef',
-                  select: {
-                    _awardedBidRef: 1,
-                    _ownerRef: 1,
-                    state: 1,
-                    jobTitle: 1,
-                    startingDateAndTime: 1,
-                    templateId: 1,
-                    location: 1,
-                    bidderConfirmedCompletion: 1,
-                    dispute: 1,
-                  },
-                  populate: {
+                populate: [
+                  {
                     path: '_ownerRef',
                     select: {
                       _id: 1,
@@ -527,33 +519,54 @@ exports.bidDataAccess = {
                       profileImage: 1,
                     },
                   },
-                },
-              })
-              .lean({ virtuals: true })
-              .exec((err, res) => {
-                if (err) {
-                  reject(err);
-                } else {
-                  let results = [];
-                  if (res._postedBidsRef && res._postedBidsRef.length > 0) {
-                    results = res._postedBidsRef
-                      .filter((postedBid) => {
-                        return postedBid && postedBid._jobRef;
-                      })
-                      .sort((a, b) => {
-                        return moment(a._jobRef.startingDateAndTime).isSameOrAfter(
-                          moment(b._jobRef.startingDateAndTime)
-                        )
-                          ? 1
-                          : -1;
-                      });
-                  }
+                  {
+                    path: '_awardedBidRef',
+                    select: {
+                      _bidderRef: 1,
+                    },
+                  },
+                ],
+              },
+            })
+            .lean({ virtuals: true })
+            .exec((err, res) => {
+              if (err) {
+                reject(err);
+              } else {
+                let results = [];
+                if (res._postedBidsRef && res._postedBidsRef.length > 0) {
+                  results = res._postedBidsRef
 
-                  resolve(results);
+                    .sort((a, b) => {
+                      return moment(a._jobRef.startingDateAndTime).isSameOrAfter(
+                        moment(b._jobRef.startingDateAndTime)
+                      )
+                        ? 1
+                        : -1;
+                    })
+                    .map((postedBid) => {
+                      // XXX remove sensitve info since you did not win this bid but someone else did
+                      if (
+                        postedBid._jobRef.state === 'AWARDED' ||
+                        postedBid._jobRef.state === 'AWARDED_SEEN'
+                      ) {
+                        if (
+                          postedBid._jobRef._awardedBidRef._bidderRef.toString() ===
+                          mongoUser_id.toString()
+                        ) {
+                          postedBid.isAwardedToMe = true;
+                        } else {
+                          postedBid.isAwardedToMe = false;
+                          postedBid._awardedBidRef = {};
+                        }
+                      }
+                      return postedBid;
+                    });
                 }
-              });
-          }),
-        ]);
+                resolve(results);
+              }
+            });
+        });
 
         resolve({ postedBids: openBids });
       } catch (e) {
