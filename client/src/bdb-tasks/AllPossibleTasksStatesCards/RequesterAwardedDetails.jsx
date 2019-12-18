@@ -335,14 +335,18 @@ class RequesterConfirmsCompletion extends React.Component {
                   <div className="modal-card-title">Is the Task Done?</div>
                 </header>
                 <section className="modal-card-body">
-                  <p>BidOrBoo is happy to know that our Tasker fulfilled your request.</p>
-                  <br />
-                  <div className="group">
-                    <label className="label">What will happen next?</label>
-                    <ul>
-                      <li>Once you've confirmed completion the Tasker will be paid</li>
-                      <li>You will be prompted to review the Tasker</li>
-                    </ul>
+                  <div className="content">
+                    <p className="has-text-success">
+                      BidOrBoo is happy to know that our Tasker fulfilled your request.
+                    </p>
+                    <br />
+                    <div className="group">
+                      <label className="label">What will happen next?</label>
+                      <ul>
+                        <li>Once you've confirmed completion the Tasker will be paid</li>
+                        <li>You will be prompted to review the Tasker</li>
+                      </ul>
+                    </div>
                   </div>
                 </section>
                 <footer className="modal-card-foot">

@@ -67,6 +67,7 @@ class RequesterCanceledByTaskerDetails extends React.Component {
                 <li>The Tasker's rating has been negatively impacted for their cancellation</li>
                 <li>We Are sorry for the inconvenience, post a new request :) </li>
               </ul>
+              <br></br>
             </div>
           </div>
         </div>

@@ -73,7 +73,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                 </header>
                 <section className="modal-card-body">
                   <div className="content">
-                    <div>
+                    <div className="has-text-danger">
                       Cancelling your booking is taken seriously as it will cause inconvenience for
                       the requester
                     </div>
@@ -329,21 +329,23 @@ class TaskerConfirmsCompletion extends React.Component {
                   <div className="modal-card-title">Completed This Request?</div>
                 </header>
                 <section className="modal-card-body">
-                  <p>BidOrBoo is proud of you!</p>
-                  <br />
-                  <p>If you are done please confirm that you finished this request.</p>
-                  <br />
+                  <div className="content">
+                    <p className="has-text-success">BidOrBoo is proud of you!</p>
+                    <br />
+                    <p>If you are done please confirm that you finished this request.</p>
+                    <br />
 
-                  <div className="group">
-                    <label className="label">What will happen next?</label>
-                    <ul>
-                      <li>You will be prompted to review the Tasker</li>
-                      <li>The Requester will be notified to confirm the task completion</li>
-                      <li>
-                        Once they confirm your payment will be released to your payout banking
-                        account
-                      </li>
-                    </ul>
+                    <div className="group">
+                      <label className="label">What will happen next?</label>
+                      <ul>
+                        <li>You will be prompted to review the Tasker</li>
+                        <li>The Requester will be notified to confirm the task completion</li>
+                        <li>
+                          Once they confirm your payment will be released to your payout banking
+                          account
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </section>
                 <footer className="modal-card-foot">

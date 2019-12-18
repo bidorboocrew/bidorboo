@@ -716,7 +716,7 @@ export const AwaitingOnTasker = () => {
           Waiting For Taskers
         </div>
 
-        {/* <div className="help">*Check Back soon!</div> */}
+        <div className="help">*Check Back soon!</div>
       </div>
     </div>
   );

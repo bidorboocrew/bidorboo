@@ -45,7 +45,6 @@ class RequesterRequestSummary extends React.Component {
               {areThereAnyBidders && (
                 <TaskersAvailable numberOfAvailableTaskers={job._bidsListRef.length} />
               )}
-              )}
             </div>
           </div>
           {renderFooter({ job, notificationFeed })}
@@ -77,7 +76,7 @@ const renderFooter = ({ job, notificationFeed }) => {
   }
 
   let cardButton = null;
- if (areThereAnyBidders) {
+  if (areThereAnyBidders) {
     cardButton = (
       <div className="centeredButtonInCard">
         <a

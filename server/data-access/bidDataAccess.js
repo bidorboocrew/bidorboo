@@ -54,7 +54,7 @@ exports.bidDataAccess = {
             },
             {
               path: '_jobRef',
-              select: { _id: 1, _ownerRef: 1, startingDateAndTime: 1 },
+              select: { _id: 1, _ownerRef: 1, startingDateAndTime: 1, processedPayment: 1 },
             },
           ])
           .lean(true)
