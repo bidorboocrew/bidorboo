@@ -7,7 +7,6 @@ import {
   SummaryStartDateAndTime,
   BSawaitingOnRequester,
   JobCardTitle,
-  BSAwardedToSomeoneElse,
   TaskImagesCarousel,
   UserGivenTitle,
   TaskerWillEarn,

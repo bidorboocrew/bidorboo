@@ -30,7 +30,7 @@ import RequestBaseContainer from './RequestBaseContainer';
 class TaskerMyAwardedBidDetails extends RequestBaseContainer {
   render() {
     const { bid, cancelAwardedBid } = this.props;
-
+debugger
     const { _jobRef: job } = bid;
 
     const {

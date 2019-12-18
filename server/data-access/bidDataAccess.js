@@ -546,7 +546,7 @@ exports.bidDataAccess = {
                           postedBid.isAwardedToMe = true;
                         } else {
                           postedBid.isAwardedToMe = false;
-                          postedBid._awardedBidRef = {};
+                          postedBid._jobRef._awardedBidRef = {};
                         }
                       }
                       return postedBid;
@@ -558,6 +558,86 @@ exports.bidDataAccess = {
         });
 
         resolve({ postedBids: openBids });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+  getAwardedBidDetailsForTasker: async (mongoUser_id, bidId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const user = await UserModel.findOne({ _id: mongoUser_id }, { _postedBidsRef: 1 })
+          .populate({
+            path: '_postedBidsRef',
+            match: { _id: { $eq: bidId } },
+            select: {
+              bidAmount: 1,
+              bidderPayout: 1,
+              bidderPartialPayout: 1,
+              bidderActualPayoutInBank: 1,
+            },
+            populate: [
+              {
+                path: '_jobRef',
+                populate: [
+                  {
+                    path: '_reviewRef',
+                    select: {
+                      proposerReview: 1,
+                      bidderReview: 1,
+                    },
+                  },
+                  {
+                    path: '_ownerRef',
+                    select: {
+                      _id: 1,
+                      displayName: 1,
+                      rating: 1,
+                      profileImage: 1,
+                      email: 1,
+                      phone: 1,
+                    },
+                  },
+                  {
+                    path: '_awardedBidRef',
+                    select: { _bidderRef: 1 },
+                    populate: { path: '_bidderRef', select: { userId: 1 } },
+                  },
+                ],
+              },
+              {
+                path: '_bidderRef',
+                select: {
+                  _id: 1,
+                  displayName: 1,
+                  rating: 1,
+                  profileImage: 1,
+                  email: 1,
+                  phone: 1,
+                },
+              },
+            ],
+          })
+          .lean({ virtuals: true })
+          .exec();
+
+        const theBid =
+          user && user._postedBidsRef && user._postedBidsRef.length === 1
+            ? user._postedBidsRef[0]
+            : {};
+
+        if (
+          theBid &&
+          (theBid._jobRef.state === 'AWARDED' || theBid._jobRef.state === 'AWARDED_SEEN')
+        ) {
+          if (theBid._jobRef._awardedBidRef._bidderRef._id.toString() === mongoUser_id.toString()) {
+            theBid.isAwardedToMe = true;
+          } else {
+            return resolve({});
+          }
+        }
+
+        return resolve(theBid);
       } catch (e) {
         reject(e);
       }
