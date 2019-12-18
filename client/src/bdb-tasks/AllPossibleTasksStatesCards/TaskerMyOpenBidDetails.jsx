@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TextareaAutosize from 'react-autosize-textarea';
-import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute } from '../../utils';
 import { Collapse } from 'react-collapse';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -17,9 +15,7 @@ import {
   TaskSpecificExtras,
   SummaryStartDateAndTime,
   BSawaitingOnRequester,
-  BSPastDueExpired,
   JobCardTitle,
-  BSAwardedToSomeoneElse,
   TaskImagesCarousel,
   UserGivenTitle,
   BidAmount,
@@ -216,7 +212,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                       destionationAddress={extras.destinationText}
                     ></DestinationAddressValue>
                   )}
-                  <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
+                  <AvgBidDisplayLabelAndValue avgBid={job.avgBid} />
 
                   <div className="group">
                     <label className="label hasSelectedValue">Detailed Description</label>

@@ -54,7 +54,7 @@ exports.bidDataAccess = {
             },
             {
               path: '_jobRef',
-              select: { _id: 1, _ownerRef: 1, processedPayment: 1, startingDateAndTime: 1 },
+              select: { _id: 1, _ownerRef: 1, startingDateAndTime: 1 },
             },
           ])
           .lean(true)
@@ -571,6 +571,7 @@ exports.bidDataAccess = {
             path: '_postedBidsRef',
             match: { _id: { $eq: bidId } },
             select: {
+              _id: 1,
               bidAmount: 1,
               bidderPayout: 1,
               bidderPartialPayout: 1,
@@ -579,6 +580,13 @@ exports.bidDataAccess = {
             populate: [
               {
                 path: '_jobRef',
+                select: {
+                  _bidsListRef: 0,
+                  hideFrom: 0,
+                  viewedBy: 0,
+                  latestCheckoutSession: 0,
+                  processedPayment: 0,
+                },
                 populate: [
                   {
                     path: '_reviewRef',
@@ -618,7 +626,7 @@ exports.bidDataAccess = {
               },
             ],
           })
-          .lean({ virtuals: true })
+          .lean(true)
           .exec();
 
         const theBid =
@@ -652,6 +660,7 @@ exports.bidDataAccess = {
             path: '_postedBidsRef',
             match: { _id: { $eq: bidId } },
             select: {
+              _id: 1,
               bidAmount: 1,
               bidderPayout: 1,
               bidderPartialPayout: 1,

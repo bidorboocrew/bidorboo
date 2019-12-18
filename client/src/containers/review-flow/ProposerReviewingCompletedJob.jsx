@@ -7,8 +7,9 @@ import axios from 'axios';
 import * as A from '../../app-state/actionTypes';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute, goBackToPreviousRoute, throwErrorNotification } from '../../utils';
-
+import { goBackToPreviousRoute, throwErrorNotification } from '../../utils';
+import { CenteredUserImageAndRating } from '../commonComponents.jsx';
+import { Spinner } from '../../components/Spinner.jsx';
 export class ProposerReviewingCompletedJob extends React.Component {
   constructor(props) {
     super(props);
@@ -18,13 +19,49 @@ export class ProposerReviewingCompletedJob extends React.Component {
       communicationRating: 0,
       mannerRating: 0,
       personalComment: '',
+      userToBeRated: null,
     };
     if (this.props.match && this.props.match.params && this.props.match.params.jobId) {
       this.jobId = this.props.match.params.jobId;
     } else {
-      switchRoute(ROUTES.CLIENT.HOME);
+      goBackToPreviousRoute();
       return null;
     }
+  }
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    axios
+      .get(ROUTES.API.JOB.GET.awardedJobFullDetailsForRequester, { params: { jobId: this.jobId } })
+      .then((resp) => {
+        // update recently added job
+        if (resp && resp.data) {
+          if (resp.data._awardedBidRef._bidderRef) {
+            this.setState({ userToBeRated: resp.data._awardedBidRef._bidderRef });
+          } else {
+            dispatch({
+              type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+              payload: {
+                toastDetails: {
+                  type: 'error',
+                  msg: 'Failed to fetch Tasker details',
+                },
+              },
+            });
+          }
+        }
+      })
+      .catch(() => {
+        dispatch({
+          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          payload: {
+            toastDetails: {
+              type: 'error',
+              msg: 'Invalid review request! please go back to your request inbox',
+            },
+          },
+        });
+      });
   }
 
   submitReview = () => {
@@ -40,21 +77,60 @@ export class ProposerReviewingCompletedJob extends React.Component {
     const cleanPerosnalComment = personalComment && personalComment.trim();
 
     if (qualityOfWorkRating === 0) {
-      alert('please fill in a value for the Accuracy of posting category');
+      dispatch({
+        type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+        payload: {
+          toastDetails: {
+            type: 'error',
+            msg: 'please fill in a value for the Accuracy of posting category',
+          },
+        },
+      });
     } else if (punctualityRating === 0) {
-      alert('please fill in a value for the punctuality  category');
+      dispatch({
+        type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+        payload: {
+          toastDetails: {
+            type: 'error',
+            msg: 'please fill in a value for the punctuality  category',
+          },
+        },
+      });
     } else if (communicationRating === 0) {
-      alert('please fill in a value for the communication category');
+      dispatch({
+        type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+        payload: {
+          toastDetails: {
+            type: 'error',
+            msg: 'please fill in a value for the communication category',
+          },
+        },
+      });
     } else if (mannerRating === 0) {
-      alert('please fill in a value for the manners category');
+      dispatch({
+        type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+        payload: {
+          toastDetails: {
+            type: 'error',
+            msg: 'please fill in a value for the manners category',
+          },
+        },
+      });
     } else if (
       !cleanPerosnalComment ||
       cleanPerosnalComment.length < 10 ||
       cleanPerosnalComment.length > 100
     ) {
-      alert(
-        'please add a personal comment with at least 10 characters and no more than 100 chars',
-      );
+      dispatch({
+        type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+        payload: {
+          toastDetails: {
+            type: 'error',
+            msg:
+              'please add a personal comment with at least 10 characters and no more than 100 chars',
+          },
+        },
+      });
     } else {
       // SUBMIT REVIEW
       axios
@@ -65,7 +141,7 @@ export class ProposerReviewingCompletedJob extends React.Component {
           },
         })
         .then(() => {
-          switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
+          goBackToPreviousRoute();
           dispatch &&
             dispatch({
               type: A.UI_ACTIONS.SHOW_TOAST_MSG,
@@ -117,6 +193,8 @@ export class ProposerReviewingCompletedJob extends React.Component {
   };
 
   render() {
+    const { userToBeRated } = this.state;
+
     const bodyContent = () => {
       return (
         <div className="content">
@@ -192,40 +270,50 @@ export class ProposerReviewingCompletedJob extends React.Component {
     };
 
     return (
-      <div className="container is-widescreen has-text-centered">
-        <section className="hero is-small">
-          <div className="hero-body">
-            <div className="container is-widescreen">
-              <h2 className="title">Rate The Tasker</h2>
-            </div>
-          </div>
-        </section>
-        <div className="card-content limitLargeMaxWidth">
-          {bodyContent()}
-          <button
-            style={{ marginLeft: 12, marginTop: 12, width: '14rem' }}
-            className="button is-success is-medium"
-            onClick={this.submitReview}
-          >
-            Submit Your Review
-          </button>
+      <div style={{ background: 'white' }} className="container is-widescreen has-text-centered">
+        {!userToBeRated && (
+          <Spinner renderLabel={'fetching Tasker Details'} isLoading={true} isDark={false} />
+        )}
+        {userToBeRated && (
+          <>
+            <section className="hero is-small is-dark">
+              <div className="hero-body">
+                <div className="container is-widescreen">
+                  <h2 className="title">Rate The Tasker</h2>
+                </div>
+              </div>
+            </section>
+            <br></br>
+            <section className="has-text-centered">
+              <CenteredUserImageAndRating userDetails={userToBeRated} large isCentered />
+            </section>
 
-          <button
-            style={{ marginLeft: 12, marginTop: 12, width: '14rem' }}
-            className="button has-text-dark  is-medium"
-            onClick={() => {
-              goBackToPreviousRoute();
-            }}
-          >
-            remind me later
-          </button>
-        </div>
+            <div className="card-content limitLargeMaxWidth">
+              {bodyContent()}
+              <button
+                style={{ marginLeft: 12, marginTop: 12, width: '14rem' }}
+                className="button is-success is-medium"
+                onClick={this.submitReview}
+              >
+                Submit Your Review
+              </button>
+
+              <button
+                style={{ marginLeft: 12, marginTop: 12, width: '14rem' }}
+                className="button has-text-dark  is-medium"
+                onClick={() => {
+                  goBackToPreviousRoute();
+                }}
+              >
+                remind me later
+              </button>
+            </div>
+          </>
+        )}
+        <br></br> <br></br>
       </div>
     );
   }
 }
 
-export default connect(
-  null,
-  null,
-)(ProposerReviewingCompletedJob);
+export default connect(null, null)(ProposerReviewingCompletedJob);

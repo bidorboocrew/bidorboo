@@ -10,13 +10,12 @@ import {
   cancelJobById,
   proposerDisputesJob,
 } from '../../app-state/actions/jobActions';
-import { showLoginDialog } from '../../app-state/actions/uiActions';
 
 import {
   CountDownComponent,
   DisplayLabelValue,
   TaskCost,
-  AddAwardedJobToCalendarForRequester,
+  AddAwardedJobToCalendarForTasker,
   TaskSpecificExtras,
   JobCardTitle,
   SummaryStartDateAndTime,
@@ -278,7 +277,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
           emailAddress={emailAddress}
           phoneNumber={phoneNumber}
           renderAddToCalendar={() => (
-            <AddAwardedJobToCalendarForRequester job={job} extraClassName={'is-small'} />
+            <AddAwardedJobToCalendarForTasker job={job} extraClassName={'is-small'} />
           )}
           renderActionButton={() => (
             <>
@@ -399,7 +398,7 @@ class RequesterDisputes extends React.Component {
                   <div className="modal-card-title">File a dispute</div>
                 </header>
                 <section className="modal-card-body">
-                  <div>Don't you worry , BidOrBoo Crew will work on resolving this ASAP</div>
+                  <div>Don't you worry , BidOrBoo support will work on resolving this ASAP</div>
 
                   <br />
                   <div className="group">
@@ -527,7 +526,6 @@ class AssignedTaskerDetails extends React.Component {
       emailAddress,
       phoneNumber,
       renderActionButton,
-
       renderAddToCalendar,
     } = this.props;
 

@@ -27,26 +27,12 @@ export const getDaysSinceCreated = (createdAt) => {
   return daysSinceCreated;
 };
 
-export const findAvgBidInBidList = (bidsList) => {
-  let hasBids = bidsList && bidsList.length > 0;
-
-  if (hasBids) {
-    const bidsTotal = bidsList
-      .map((bid) => bid.bidAmount.value)
-      .reduce((accumulator, bidAmount) => accumulator + bidAmount);
-    return Math.ceil(bidsTotal / bidsList.length);
-  }
-  return null;
-};
-
-export const AvgBidDisplayLabelAndValue = ({ bidsList }) => {
-  let minBid = findAvgBidInBidList(bidsList);
-  let avgBidLabel = minBid ? (
-    <DisplayLabelValue labelText="Avg Bid" labelValue={`$${minBid} (CAD)`} />
-  ) : (
+export const AvgBidDisplayLabelAndValue = ({ avgBid }) => {
+  return avgBid === '--' ? (
     <DisplayLabelValue labelText="Avg Bid" labelValue={`Be the first bidder!`} />
+  ) : (
+    <DisplayLabelValue labelText="Avg Bid" labelValue={`$${avgBid} (CAD)`} />
   );
-  return avgBidLabel;
 };
 
 export const DisplayLabelValue = ({ labelText, labelValue, renderHelpComponent = () => null }) => {
@@ -216,13 +202,7 @@ export const CenteredUserImageAndRating = ({
   );
 };
 
-export const CardTitleAndActionsInfo = ({
-  jobState,
-  templateId,
-  bidsList = [],
-  userAlreadyView = false,
-  job,
-}) => {
+export const CardTitleAndActionsInfo = ({ bidsList = [], userAlreadyView = false, job }) => {
   const viewCount = !job || !job.viewedBy || !job.viewedBy.length > 0 ? 0 : job.viewedBy.length;
 
   let bidsCountLabel = 'No bids';
@@ -233,7 +213,7 @@ export const CardTitleAndActionsInfo = ({
     bidsCountLabel = `${bidsList.length} bids`;
   }
 
-  const avgBid = findAvgBidInBidList(bidsList);
+  const { avgBid } = job;
 
   return (
     <div style={{ textAlign: 'center', marginBottom: '0.5rem' }}>
@@ -1335,7 +1315,7 @@ export const BSTaskerAwarded = () => {
   );
 };
 
-export const BSWaitingOnRequesterToConfirm = ({ isPastDue }) => {
+export const BSWaitingOnRequesterToConfirm = () => {
   return (
     <div className="group">
       <div

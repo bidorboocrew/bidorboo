@@ -8,7 +8,7 @@ export const getJobToBidOnDetails = (jobId, isLoggedIn = false) => (dispatch) =>
   dispatch({
     type: A.JOB_ACTIONS.GET_JOB_To_BID_ON_DETAILS_BY_ID,
     payload: axios
-      .get(ROUTES.API.JOB.GET.jobToBidDetailsById, { params: { jobId } })
+      .get(ROUTES.API.JOB.GET.jobToBidOnDetailsForTasker, { params: { jobId } })
       .then((resp) => {
         if (resp && resp.data) {
           if (isLoggedIn) {
@@ -229,7 +229,7 @@ export const getAwardedBidDetails = (awardedBidId) => (dispatch) => {
   dispatch({
     type: A.BIDDER_ACTIONS.GET_AWARDED_BID_DETAILS,
     payload: axios
-      .get(ROUTES.API.BID.GET.awardedBidDetails, { params: { awardedBidId } })
+      .get(ROUTES.API.BID.GET.awardedBidDetailsForTasker, { params: { awardedBidId } })
       .catch((error) => {
         throwErrorNotification(dispatch, error);
       }),

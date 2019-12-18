@@ -22,6 +22,7 @@ import {
   TaskImagesCarousel,
   UserGivenTitle,
   TaskerWillEarn,
+  AddAwardedJobToCalendarForTasker,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -30,7 +31,7 @@ import RequestBaseContainer from './RequestBaseContainer';
 class TaskerMyAwardedBidDetails extends RequestBaseContainer {
   render() {
     const { bid, cancelAwardedBid } = this.props;
-debugger
+
     const { _jobRef: job } = bid;
 
     const {
@@ -46,8 +47,8 @@ debugger
       _reviewRef,
     } = job;
 
-    const { bidAmount, bidderPayout } = bid;
-
+    const { bidAmount, bidderPayout, _id: bidId } = bid;
+debugger
     const { value: bidValue } = bidAmount;
     const { value: bidderPayoutAmount } = bidderPayout;
 
@@ -244,6 +245,9 @@ debugger
           <ContactTheRequester
             otherUserProfileInfo={_ownerRef}
             renderActionButton={() => <TaskerConfirmsCompletion {...this.props} />}
+            renderAddToCalendar={() => (
+              <AddAwardedJobToCalendarForTasker job={job} extraClassName={'is-small'} />
+            )}
           />
         )}
         {bidderConfirmedCompletion && (!_reviewRef || _reviewRef.requiresBidderReview) && (
@@ -252,7 +256,7 @@ debugger
             renderActionButton={() => (
               <a
                 onClick={() => {
-                  switchRoute(ROUTES.CLIENT.REVIEW.getBidderJobReview({ jobId }));
+                  switchRoute(ROUTES.CLIENT.REVIEW.getBidderJobReview({ bidId }));
                 }}
                 className={`button  is-success`}
               >
@@ -269,11 +273,9 @@ debugger
             otherUserProfileInfo={_ownerRef}
             renderActionButton={() => (
               <ul className="has-text-left">
-                <li>You have submitted your review already.</li>
+                <li>You have submitted your review already</li>
                 <li>We've contacted the Requester to confirm task completion</li>
-                <li>
-                  This will be automatically marked as completed if they don't respond within 3 days
-                </li>
+                <li>This will be marked as completed if they don't respond within 3 days</li>
               </ul>
             )}
           />
@@ -327,23 +329,21 @@ class TaskerConfirmsCompletion extends React.Component {
                   <div className="modal-card-title">Completed This Request?</div>
                 </header>
                 <section className="modal-card-body">
-                  <p>BidOrBoo Crew is proud of you!</p>
+                  <p>BidOrBoo is proud of you!</p>
                   <br />
                   <p>If you are done please confirm that you finished this request.</p>
                   <br />
 
                   <div className="group">
                     <label className="label">What will happen next?</label>
-                    <div className="help">
-                      * The Requester will confirm that you have completed this job
-                    </div>
-                    <div className="help">
-                      * Your payment will be released to your bank and should be available within
-                      3-5 business days
-                    </div>
-                    <div className="help">
-                      * The Requester and yourself will be prompted to Rate your experience
-                    </div>
+                    <ul>
+                      <li>You will be prompted to review the Tasker</li>
+                      <li>The Requester will be notified to confirm the task completion</li>
+                      <li>
+                        Once they confirm your payment will be released to your payout banking
+                        account
+                      </li>
+                    </ul>
                   </div>
                 </section>
                 <footer className="modal-card-foot">
@@ -409,8 +409,8 @@ class TaskerDisputes extends React.Component {
                 </header>
                 <section className="modal-card-body">
                   <div>
-                    BidOrBoo Crew is sorry to hear that you are not happy. We will work on resolving
-                    the issue asap.
+                    BidOrBoo is sorry to hear that you are not happy. We will work on resolving the
+                    issue asap.
                   </div>
 
                   <br />
@@ -635,7 +635,6 @@ class ContactTheRequester extends React.Component {
               </div>
               {renderAddToCalendar && renderAddToCalendar()}
             </div>
-            <br />
           </div>
           <div style={{ background: 'transparent' }} className="tabs is-centered">
             <ul style={{ marginLeft: 0 }}>
@@ -664,8 +663,6 @@ class ReviewTheRequester extends React.Component {
       return null;
     }
 
-    const emailAddress = otherUserProfileInfo.email && otherUserProfileInfo.email.emailAddress;
-    const phoneNumber = otherUserProfileInfo.phone && otherUserProfileInfo.phone.phoneNumber;
     return (
       <div
         style={{

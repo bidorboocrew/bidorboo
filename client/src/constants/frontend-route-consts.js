@@ -65,10 +65,8 @@ export const API = {
       postedJobAndBidsForRequester: '/api/job',
       awardedJobFullDetailsForRequester: '/api/job/awardedJobFullDetailsForRequester',
 
-
-
       alljobsToBidOn: '/api/job/alljobsToBidOn',
-      jobToBidDetailsById: '/api/job/jobToBidDetailsById',
+      jobToBidOnDetailsForTasker: '/api/job/jobToBidOnDetailsForTasker',
       myAwardedJobs: '/api/job/myAwardedJobs',
       getAllMyRequests: '/api/job/getAllMyRequests',
     },
@@ -103,7 +101,7 @@ export const API = {
       myPostedBidsSummary: '/api/bids/myPostedBidsSummary',
       myAwardedBids: '/api/bids/myAwardedBids',
       openBidDetails: '/api/bids/openBidDetails',
-      awardedBidDetails: '/api/bids/awardedBidDetails',
+      awardedBidDetailsForTasker: '/api/bids/awardedBidDetailsForTasker',
     },
     PUT: {
       updateMyBid: '/api/bids/updateMyBid',
@@ -144,9 +142,9 @@ export const CLIENT = {
   },
   REVIEW: {
     proposerJobReview: `/bdb-request/review/:jobId`,
-    bidderJobReview: `/bdb-offer/review/:jobId`,
+    bidderJobReview: `/bdb-offer/review/:bidId`,
     getProposerJobReview: ({ jobId }) => `/bdb-request/review/${jobId}`,
-    getBidderJobReview: ({ jobId }) => `/bdb-offer/review/${jobId}`,
+    getBidderJobReview: ({ bidId }) => `/bdb-offer/review/${bidId}`,
   },
   MY_PROFILE: {
     myNotifications: '/my-profile/notification-settings',

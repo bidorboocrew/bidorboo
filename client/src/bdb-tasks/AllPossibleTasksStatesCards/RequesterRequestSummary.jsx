@@ -21,7 +21,7 @@ class RequesterRequestSummary extends React.Component {
   render() {
     const { job, notificationFeed } = this.props;
 
-    const { startingDateAndTime, isPastDue, taskImages = [], jobTitle } = job;
+    const { startingDateAndTime, taskImages = [], jobTitle } = job;
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
 
@@ -34,7 +34,6 @@ class RequesterRequestSummary extends React.Component {
             <div className="content">
               <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
               <UserGivenTitle userGivenTitle={jobTitle} />
-
               <TaskImagesCarousel taskImages={taskImages} />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
@@ -42,19 +41,14 @@ class RequesterRequestSummary extends React.Component {
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              {isPastDue && <PastdueExpired />}
-
-              {!isPastDue && (
-                <React.Fragment>
-                  {!areThereAnyBidders && <AwaitingOnTasker />}
-                  {areThereAnyBidders && (
-                    <TaskersAvailable numberOfAvailableTaskers={job._bidsListRef.length} />
-                  )}
-                </React.Fragment>
+              {!areThereAnyBidders && <AwaitingOnTasker />}
+              {areThereAnyBidders && (
+                <TaskersAvailable numberOfAvailableTaskers={job._bidsListRef.length} />
+              )}
               )}
             </div>
           </div>
-          {renderFooter({ job, notificationFeed, isPastDue })}
+          {renderFooter({ job, notificationFeed })}
         </div>
       </React.Fragment>
     );
@@ -69,11 +63,11 @@ const mapStateToProps = ({ uiReducer }) => {
 
 export default connect(mapStateToProps, null)(RequesterRequestSummary);
 
-const renderFooter = ({ job, notificationFeed, isPastDue }) => {
+const renderFooter = ({ job, notificationFeed }) => {
   let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
   let doesthisJobHaveNewBids = false;
 
-  if (!isPastDue && notificationFeed.jobIdsWithNewBids) {
+  if (notificationFeed.jobIdsWithNewBids) {
     for (let i = 0; i < notificationFeed.jobIdsWithNewBids.length; i++) {
       if (notificationFeed.jobIdsWithNewBids[i]._id === job._id) {
         doesthisJobHaveNewBids = true;
@@ -83,20 +77,7 @@ const renderFooter = ({ job, notificationFeed, isPastDue }) => {
   }
 
   let cardButton = null;
-  if (isPastDue) {
-    cardButton = (
-      <div className="centeredButtonInCard">
-        <a className={`button is-danger`}>
-          <span>
-            <span className="icon">
-              <i className="fa fa-hand-paper" />
-            </span>
-            <span>VIEW DETAILS</span>
-          </span>
-        </a>
-      </div>
-    );
-  } else if (areThereAnyBidders) {
+ if (areThereAnyBidders) {
     cardButton = (
       <div className="centeredButtonInCard">
         <a

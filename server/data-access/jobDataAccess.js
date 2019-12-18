@@ -831,47 +831,6 @@ exports.jobDataAccess = {
       .exec();
   },
 
-  getJobToBidOnDetails: async (jobId) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const jobOwnerFields = {
-          displayName: 1,
-          profileImage: 1,
-          _id: 1,
-          rating: 1,
-        };
-
-        const jobWithBidDetails = await JobModel.findOne(
-          { _id: jobId },
-          {
-            _ownerRef: 1,
-            _bidsListRef: 1,
-            title: 1,
-            state: 1,
-            viewedBy: 1,
-            detailedDescription: 1,
-            jobTitle: 1,
-            location: 1,
-            startingDateAndTime: 1,
-            durationOfJob: 1,
-            templateId: 1,
-            extras: 1,
-            taskImages: 1,
-          }
-        )
-          .populate([
-            { path: '_ownerRef', select: jobOwnerFields },
-            { path: '_bidsListRef', select: { bidAmount: 1 } },
-          ])
-          .lean({ virtuals: true })
-          .exec();
-
-        resolve(jobWithBidDetails);
-      } catch (e) {
-        reject(e);
-      }
-    });
-  },
   getMyPostedJobs: async (userId, jobId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -1147,7 +1106,6 @@ exports.jobDataAccess = {
     return new Promise(async (resolve, reject) => {
       try {
         const today = moment.utc(moment()).toISOString();
-        console.log('search jobs start');
 
         let searchQuery = {
           startingDateAndTime: { $gt: today },
@@ -1170,14 +1128,13 @@ exports.jobDataAccess = {
           _ownerRef: 1,
           templateId: 1,
           startingDateAndTime: 1,
-          extras: 1,
-          state: 1,
           location: 1,
           jobTitle: 1,
           _bidsListRef: 1,
           viewedBy: 1,
           hideFrom: 1,
           taskImages: 1,
+          state: 1,
         })
           .sort({ startingDateAndTime: 1 })
           .populate([
@@ -1190,17 +1147,44 @@ exports.jobDataAccess = {
               select: { _bidderRef: 1, bidAmount: 1 },
             },
           ])
-          .lean();
+          .lean(true);
 
-        jobsUserDidNotBidOn = results.filter((task) => {
-          if (task._bidsListRef && task._bidsListRef.length > 0) {
-            let currentUserAlreadyBid = task._bidsListRef.some(
-              (bidsList) => bidsList._bidderRef.toString() === mongoUser_id.toString()
-            );
-            return !currentUserAlreadyBid;
-          }
-          return true;
-        });
+        jobsUserDidNotBidOn = results
+          .filter((task) => {
+            // remove tasks that the current logged in user is owner of
+            if (task._ownerRef._id.toString() === mongoUser_id.toString()) {
+              return false;
+            }
+
+            // remove tasks that the user already bid on
+            if (task._bidsListRef && task._bidsListRef.length > 0) {
+              let currentUserAlreadyBid = task._bidsListRef.some(
+                (bidsList) => bidsList._bidderRef.toString() === mongoUser_id.toString()
+              );
+              return !currentUserAlreadyBid;
+            }
+
+            // everything else
+            return true;
+          })
+          .map((task) => {
+            const hasBids = task._bidsListRef && task._bidsListRef.length > 0;
+            if (hasBids) {
+              const bidsList = task._bidsListRef;
+              // add avgBid property
+              const bidsTotal = bidsList
+                .map((bid) => bid.bidAmount.value)
+                .reduce((accumulator, bidAmount) => accumulator + bidAmount);
+              task.avgBid = `${Math.ceil(bidsTotal / bidsList.length)}`;
+
+              // remove any personal identifying info about other bidders
+              const cleanBidsList = bidsList.map((bid) => ({ ...bid, bidAmount: {} }));
+              task._bidsListRef = cleanBidsList;
+            } else {
+              task.avgBid = `--`;
+            }
+            return task;
+          });
         return resolve(jobsUserDidNotBidOn);
       } catch (e) {
         reject(e);
@@ -2034,7 +2018,7 @@ exports.jobDataAccess = {
           isNewBid: 1,
         },
       })
-      .lean({ virtuals: true })
+      .lean(true)
       .exec();
   },
 
@@ -2103,7 +2087,57 @@ exports.jobDataAccess = {
       }
     });
   },
+  // everything below this line is great --------------------
+  jobToBidOnDetailsForTasker: async (jobId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const jobWithBidDetails = await JobModel.findOne(
+          { _id: jobId },
+          {
+            _ownerRef: 1,
+            _bidsListRef: 1,
+            title: 1,
+            state: 1,
+            viewedBy: 1,
+            detailedDescription: 1,
+            jobTitle: 1,
+            location: 1,
+            startingDateAndTime: 1,
+            durationOfJob: 1,
+            templateId: 1,
+            extras: 1,
+            taskImages: 1,
+          }
+        )
+          .populate([
+            { path: '_ownerRef', select: { displayName: 1, profileImage: 1, _id: 1, rating: 1 } },
+            { path: '_bidsListRef', select: { bidAmount: 1 } },
+          ])
+          .lean({ virtuals: true })
+          .exec();
 
+        const hasBids = jobWithBidDetails._bidsListRef && jobWithBidDetails._bidsListRef.length > 0;
+        if (hasBids) {
+          const bidsList = jobWithBidDetails._bidsListRef;
+          // add avgBid property
+          const bidsTotal = bidsList
+            .map((bid) => bid.bidAmount.value)
+            .reduce((accumulator, bidAmount) => accumulator + bidAmount);
+          jobWithBidDetails.avgBid = `${Math.ceil(bidsTotal / bidsList.length)}`;
+
+          // remove any personal identifying info about other bidders
+          const cleanBidsList = bidsList.map((bid) => ({ ...bid, bidAmount: {} }));
+          jobWithBidDetails._bidsListRef = cleanBidsList;
+        } else {
+          jobWithBidDetails.avgBid = `--`;
+        }
+
+        resolve(jobWithBidDetails);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
   getAwardedJobFullDetailsForRequester: async (jobId) => {
     return new Promise(async (resolve, reject) => {
       try {

@@ -73,7 +73,6 @@ class RequesterRequestDetails extends React.Component {
       addressText,
       extras,
       detailedDescription,
-      isPastDue,
       taskImages = [],
       jobTitle,
     } = job;
@@ -189,15 +188,10 @@ class RequesterRequestDetails extends React.Component {
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              {isPastDue && <PastdueExpired />}
 
-              {!isPastDue && (
-                <React.Fragment>
-                  {!areThereAnyBidders && <AwaitingOnTasker />}
-                  {areThereAnyBidders && (
-                    <TaskersAvailable numberOfAvailableTaskers={job._bidsListRef.length} />
-                  )}
-                </React.Fragment>
+              {!areThereAnyBidders && <AwaitingOnTasker />}
+              {areThereAnyBidders && (
+                <TaskersAvailable numberOfAvailableTaskers={job._bidsListRef.length} />
               )}
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">

@@ -31,7 +31,7 @@ export const Spinner = ({
     <Delay wait={500}>
       {isLoading && !didRequestTimeout && (
         <React.Fragment>
-          <div style={{ marginTop: '1rem' }} className="VerticalAligner">
+          <div style={{ marginTop: '2rem' }} className="VerticalAligner">
             <div className={spinnerSize} />
           </div>
           <div style={{ marginTop: '1rem' }} className="HorizontalAligner-center">

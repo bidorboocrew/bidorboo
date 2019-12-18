@@ -26,7 +26,6 @@ export default class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer 
 
     const { _jobRef: job } = bid;
     const {
-      _id: jobId,
       startingDateAndTime,
       addressText,
       extras,
@@ -41,7 +40,8 @@ export default class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer 
       jobTitle,
     } = job;
 
-    const { bidderPayout, bidAmount } = bid;
+    const { bidderPayout, bidAmount, _id: bidId } = bid;
+    debugger;
     const { value: bidderPayoutAmount } = bidderPayout;
     const { value: bidValue } = bidAmount;
 
@@ -132,7 +132,7 @@ export default class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer 
                 {requiresBidderReview && (
                   <a
                     onClick={() => {
-                      switchRoute(ROUTES.CLIENT.REVIEW.getBidderJobReview({ jobId }));
+                      switchRoute(ROUTES.CLIENT.REVIEW.getBidderJobReview({ bidId }));
                     }}
                     className={`button firstButtonInCard is-primary`}
                   >

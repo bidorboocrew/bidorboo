@@ -13,11 +13,11 @@ const requireJobOwner = require('../middleware/requireJobOwner');
 const requireCurrentUserIsTheAwardedBidder = require('../middleware/requireCurrentUserIsTheAwardedBidder');
 // const stripeServiceUtil = require('../services/stripeService').util;
 module.exports = (app) => {
-  app.get(ROUTES.API.JOB.GET.jobToBidDetailsById, async (req, res) => {
+  app.get(ROUTES.API.JOB.GET.jobToBidOnDetailsForTasker, async (req, res) => {
     try {
       if (req.query && req.query.jobId) {
         const { jobId } = req.query;
-        const jobDetails = await jobDataAccess.getJobToBidOnDetails(jobId);
+        const jobDetails = await jobDataAccess.jobToBidOnDetailsForTasker(jobId);
         return res.send(jobDetails);
       } else {
         return res.status(400).send({
@@ -342,7 +342,7 @@ module.exports = (app) => {
       const userId = req.user && req.user.userId;
       // update if user is logged in
       if (userId) {
-        const updatedTheUser = await updateUserLastSearchDetails(userId, {
+        await updateUserLastSearchDetails(userId, {
           searchRadius,
           location,
           addressText,

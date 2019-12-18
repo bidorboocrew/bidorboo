@@ -188,14 +188,12 @@ class BidderRootPage extends React.Component {
   };
 
   render() {
-    const { isLoading, isLoggedIn, listOfJobsToBidOn, userDetails, showLoginDialog } = this.props;
+    const { isLoading, isLoggedIn, listOfJobsToBidOn, userDetails } = this.props;
     const { isThereAnActiveSearch, userLastStoredSearchParams, showMapView } = this.state;
 
     const { mapCenterPoint, mapZoomLevel, activeSearchParams } = this.state;
 
-    let currentJobsList = isLoggedIn
-      ? listOfJobsToBidOn.filter((job) => job._ownerRef._id !== userDetails._id)
-      : listOfJobsToBidOn;
+    let currentJobsList = listOfJobsToBidOn;
     const taskerCanBid = userDetails && userDetails.canBid;
 
     currentJobsList = currentJobsList.map((job) => {
@@ -232,7 +230,6 @@ class BidderRootPage extends React.Component {
                   {...this.props}
                 />
                 <br></br>
-                {/* <TasksICanDoSettings></TasksICanDoSettings> */}
 
                 {isLoggedIn && (
                   <div className="columns is-centered is-mobile is-multiline">
