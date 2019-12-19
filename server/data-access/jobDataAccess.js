@@ -1214,14 +1214,14 @@ exports.jobDataAccess = {
       .exec();
   },
 
-  requesterConfirmsJobCompletion: async (jobId) => {
+  requesterConfirmsJobCompletion: async (jobId, completionDate) => {
     // if tasker didnt
     return new Promise(async (resolve, reject) => {
       try {
         await JobModel.findOneAndUpdate(
           { _id: jobId },
           {
-            $set: { state: 'DONE' },
+            $set: { state: 'DONE', completionDate: completionDate },
           }
         )
           .lean(true)
@@ -1913,6 +1913,7 @@ exports.jobDataAccess = {
         startingDateAndTime: 1,
         taskImages: 1,
         dispute: 1,
+        completionDate: 1,
       },
       { limit: 500, sort: { startingDateAndTime: 1 } }
     )

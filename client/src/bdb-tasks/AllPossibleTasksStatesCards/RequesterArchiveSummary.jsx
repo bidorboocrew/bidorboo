@@ -18,7 +18,7 @@ export default class RequesterArchiveSummary extends RequestBaseContainer {
   render() {
     const { job } = this.props;
 
-    const { _id: jobId, startingDateAndTime, taskImages = [], jobTitle } = job;
+    const { _id: jobId, startingDateAndTime, taskImages = [], jobTitle, completionDate } = job;
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
 
@@ -32,7 +32,7 @@ export default class RequesterArchiveSummary extends RequestBaseContainer {
             <TaskImagesCarousel taskImages={taskImages} />
 
             <SummaryStartDateAndTime
-              date={startingDateAndTime}
+              date={completionDate}
               renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
             <ArchiveTask />

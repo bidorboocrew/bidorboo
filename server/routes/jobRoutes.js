@@ -293,14 +293,14 @@ module.exports = (app) => {
        */
       try {
         const data = req.body.data;
-        const { jobId } = data;
+        const { jobId, completionDate } = data;
         if (!jobId) {
           return res.status(400).send({
             errorMsg: 'Bad Request for requesterConfirmsJobCompletion param was Not Specified',
           });
         }
 
-        await jobDataAccess.requesterConfirmsJobCompletion(jobId);
+        await jobDataAccess.requesterConfirmsJobCompletion(jobId,completionDate);
 
         return res.send({ success: true });
       } catch (e) {

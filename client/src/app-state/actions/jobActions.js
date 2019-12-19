@@ -2,7 +2,7 @@ import * as A from '../actionTypes';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
 import { switchRoute, throwErrorNotification } from '../../utils';
-
+import moment from 'moment';
 import TASKS_DEFINITIONS from '../../bdb-tasks/tasksDefinitions';
 
 export const updateJobState = (jobId, newState) => (dispatch) => {
@@ -165,6 +165,7 @@ export const proposerConfirmsJobCompletion = (jobId) => (dispatch) => {
   const postData = JSON.stringify({
     data: {
       jobId,
+      completionDate: moment.utc(new Date()).toISOString(),
     },
   });
 

@@ -51,6 +51,7 @@ class RequesterArchiveDetails extends RequestBaseContainer {
       },
       taskImages = [],
       jobTitle,
+      completionDate,
     } = selectedArchivedJob;
 
     const { requesterPayment, _bidderRef } = _awardedBidRef;
@@ -79,7 +80,7 @@ class RequesterArchiveDetails extends RequestBaseContainer {
 
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
-                date={startingDateAndTime}
+                date={completionDate}
                 renderHelpComponent={() => (
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
