@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Collapse } from 'react-collapse';
 import ShareButtons from '../ShareButtons.jsx';
-import { switchRoute } from '../../utils';
-import * as ROUTES from '../../constants/frontend-route-consts';
 
 import { getCurrentUser } from '../../app-state/actions/authActions';
 

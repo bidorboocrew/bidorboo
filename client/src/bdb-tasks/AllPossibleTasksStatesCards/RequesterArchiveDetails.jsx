@@ -1,10 +1,12 @@
 import React from 'react';
 import TextareaAutosize from 'react-autosize-textarea';
 import { Collapse } from 'react-collapse';
-
-import { switchRoute } from '../../utils';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { goBackToPreviousRoute, switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
+import { getArchivedTaskDetailsForTasker } from '../../app-state/actions/jobActions';
 import {
   CountDownComponent,
   DisplayLabelValue,
@@ -14,18 +16,26 @@ import {
   DestinationAddressValue,
   JobCardTitle,
   SummaryStartDateAndTime,
-  TaskIsFulfilled,
   CenteredUserImageAndRating,
   TaskImagesCarousel,
   UserGivenTitle,
+  ReviewComments,
 } from '../../containers/commonComponents';
-
+import { Spinner } from '../../components/Spinner.jsx';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import RequestBaseContainer from './RequestBaseContainer';
 
-export default class RequesterDoneDetails extends RequestBaseContainer {
+class RequesterArchiveDetails extends RequestBaseContainer {
+  componentDidMount() {
+    const { job, getArchivedTaskDetailsForTasker } = this.props;
+    getArchivedTaskDetailsForTasker(job._id);
+  }
   render() {
-    const { job } = this.props;
+    const { selectedArchivedJob } = this.props;
+
+    if (!selectedArchivedJob || !selectedArchivedJob._id) {
+      return <Spinner renderLabel={'Getting request details'} isLoading={true} size={'large'} />;
+    }
 
     const {
       _id: jobId,
@@ -34,27 +44,22 @@ export default class RequesterDoneDetails extends RequestBaseContainer {
       _awardedBidRef,
       extras,
       detailedDescription,
-      _reviewRef={
+      _reviewRef = {
         revealToBoth: false,
         requiresProposerReview: true,
         requiresBidderReview: true,
       },
       taskImages = [],
       jobTitle,
-    } = job;
+    } = selectedArchivedJob;
 
     const { requesterPayment, _bidderRef } = _awardedBidRef;
     const { value: requesterPaymentAmount } = requesterPayment;
 
-    const { phone, email } = _bidderRef;
-    const { phoneNumber } = phone;
-
-    const { emailAddress } = email;
-
-    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${selectedArchivedJob.templateId}`];
 
     const { showMore } = this.state;
-    debugger
+
     const { requiresProposerReview } = _reviewRef;
     return (
       <>
@@ -79,9 +84,8 @@ export default class RequesterDoneDetails extends RequestBaseContainer {
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              {!requiresProposerReview && <ArchiveTask />}
+              <ArchiveTask />
 
-              {requiresProposerReview && <TaskIsFulfilled />}
               <TaskCost cost={requesterPaymentAmount} />
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
@@ -126,50 +130,45 @@ export default class RequesterDoneDetails extends RequestBaseContainer {
               </div>
             </div>
           </div>
-          <AssignedTaskerDetails
-            otherUserProfileInfo={_bidderRef}
-            emailAddress={emailAddress}
-            phoneNumber={phoneNumber}
-            renderActionButton={() => (
-              <>
-                {requiresProposerReview && (
-                  <a
-                    onClick={() => {
-                      switchRoute(ROUTES.CLIENT.REVIEW.getProposerJobReview({ jobId }));
-                    }}
-                    className={`button firstButtonInCard is-primary`}
-                  >
-                    Review Tasker
-                  </a>
-                )}
-                {!requiresProposerReview && (
-                  <a
-                    onClick={() => {
-                      alert('Archive not implemented yet, will take you to archive');
-                    }}
-                    className={`button firstButtonInCard is-dark`}
-                  >
-                    View In Archive
-                  </a>
-                )}
-              </>
-            )}
-          />
+          <AssignedTaskerDetails otherUserProfileInfo={_bidderRef} {...this.props} />
         </div>
       </>
     );
   }
 }
 
+const mapStateToProps = ({ jobsReducer, userReducer }) => {
+  return {
+    isLoading: !jobsReducer.selectedArchivedJob,
+    selectedArchivedJob: jobsReducer.selectedArchivedJob,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getArchivedTaskDetailsForTasker: bindActionCreators(getArchivedTaskDetailsForTasker, dispatch),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RequesterArchiveDetails);
+
 class AssignedTaskerDetails extends React.Component {
   render() {
-    const { otherUserProfileInfo, renderActionButton } = this.props;
+    const { otherUserProfileInfo, selectedArchivedJob } = this.props;
+    const {
+      _awardedBidRef,
+      _id: jobId,
+      _ownerRef,
+      _reviewRef = {
+        revealToBoth: false,
+        requiresProposerReview: true,
+        requiresBidderReview: true,
+      },
+    } = selectedArchivedJob;
 
     if (!otherUserProfileInfo) {
       return null;
     }
-
-    const { _id } = otherUserProfileInfo;
 
     return (
       <div
@@ -186,19 +185,78 @@ class AssignedTaskerDetails extends React.Component {
               <ul style={{ marginLeft: 0 }}>
                 <li className="is-active">
                   <a>
+                    <span>Your Review</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            {_reviewRef && _reviewRef.proposerReview ? (
+              <ReviewComments
+                commenterDisplayName={_ownerRef.displayName}
+                commenterId={_ownerRef._id}
+                commenterProfilePicUrl={_ownerRef.profileImage.url}
+                comment={_reviewRef.proposerReview.personalComment}
+                ratingCategories={_reviewRef.proposerReview.ratingCategories}
+              ></ReviewComments>
+            ) : (
+              <a
+                onClick={() => {
+                  switchRoute(ROUTES.CLIENT.REVIEW.getProposerJobReview({ jobId }));
+                }}
+                className={`button firstButtonInCard is-primary`}
+              >
+                Review Tasker
+              </a>
+            )}
+            {/* <div style={{ background: 'transparent' }} className="tabs is-centered">
+              <ul style={{ marginLeft: 0 }}>
+                <li className="is-active">
+                  <a>
                     <span className="icon is-small">
                       <i className="fas fa-user-tie" aria-hidden="true" />
                     </span>
-                    <span>Tasker</span>
+                    <span>Assigned Tasker</span>
                   </a>
                 </li>
               </ul>
             </div>
             <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large isCentered />
-            <br />
+            <br /> */}
+            <div style={{ background: 'transparent' }} className="tabs is-centered">
+              <ul style={{ marginLeft: 0 }}>
+                <li className="is-active">
+                  <a>
+                    <span className="icon is-small">
+                      <i className="fas fa-user-tie" aria-hidden="true" />
+                    </span>
+                    <span>Tasker's Review</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            {_reviewRef && _reviewRef.bidderReview ? (
+              <ReviewComments
+                commenterDisplayName={_awardedBidRef._bidderRef.displayName}
+                commenterId={_awardedBidRef._bidderRef._id}
+                commenterProfilePicUrl={_awardedBidRef._bidderRef.profileImage.url}
+                comment={_reviewRef.bidderReview.personalComment}
+                ratingCategories={_reviewRef.bidderReview.ratingCategories}
+              ></ReviewComments>
+            ) : (
+              <div className="help">*Waiting on tasker to submit their review.</div>
+            )}
+
+            <br></br>
+            <hr className="dropdown-divider" />
+            <br></br>
+            <button onClick={goBackToPreviousRoute} className="button is-outline">
+              <span className="icon">
+                <i className="far fa-arrow-alt-circle-left" />
+              </span>
+              <span>Go Back</span>
+            </button>
           </div>
         </div>
-        {renderActionButton && renderActionButton()}
       </div>
     );
   }

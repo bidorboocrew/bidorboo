@@ -399,6 +399,11 @@ export const getPostedJobAndBidsForRequester = (jobId) => (dispatch) => {
   if (!jobId) {
     return;
   }
+  dispatch({
+    type: A.JOB_ACTIONS.SELECT_ACTIVE_POSTED_JOB,
+    payload: { data: {} },
+  });
+
   return dispatch({
     type: A.JOB_ACTIONS.GET_POSTED_JOB_AND_BIDS_FOR_REQUESTER,
     payload: axios
@@ -407,6 +412,35 @@ export const getPostedJobAndBidsForRequester = (jobId) => (dispatch) => {
         if (resp && resp.data) {
           dispatch({
             type: A.JOB_ACTIONS.SELECT_ACTIVE_POSTED_JOB,
+            payload: { data: resp.data },
+          });
+        }
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+};
+
+export const getArchivedTaskDetailsForTasker = (jobId) => (dispatch) => {
+  if (!jobId) {
+    return;
+  }
+  dispatch({
+    type: A.JOB_ACTIONS.SELECT_ARCHIVE_JOB,
+    payload: { data: {} },
+  });
+
+  const x = ROUTES.API.JOB.GET.archivedTaskDetailsForTasker;
+  console.log(x);
+  return dispatch({
+    type: A.JOB_ACTIONS.GET_ARCHIVED_JOB_DETAILS_FOR_REQUESTER,
+    payload: axios
+      .get(ROUTES.API.JOB.GET.archivedTaskDetailsForTasker, { params: { jobId } })
+      .then((resp) => {
+        if (resp && resp.data) {
+          dispatch({
+            type: A.JOB_ACTIONS.SELECT_ARCHIVE_JOB,
             payload: { data: resp.data },
           });
         }

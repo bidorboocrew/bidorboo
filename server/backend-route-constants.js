@@ -74,13 +74,13 @@ module.exports = {
     JOB: {
       GET: {
         myRequestsSummary: '/api/job/myRequestsSummary',
-        postedJobAndBidsForRequester: '/api/job',
+        postedJobAndBidsForRequester: '/api/postedJobAndBidsForRequester',
         awardedJobFullDetailsForRequester: '/api/job/awardedJobFullDetailsForRequester',
+        archivedTaskDetailsForTasker: '/api/job/archivedTaskDetailsForTasker',
 
         alljobsToBidOn: '/api/job/alljobsToBidOn',
         jobToBidOnDetailsForTasker: '/api/job/jobToBidOnDetailsForTasker',
         myAwardedJobs: '/api/job/myAwardedJobs',
-        getAllMyRequests: '/api/job/getAllMyRequests',
       },
       POST: {
         jobImage: '/api/job/uploadImages',
@@ -98,7 +98,7 @@ module.exports = {
         updateJobState: '/api/job/updateJobState',
       },
       DELETE: {
-        postedJobAndBidsForRequester: '/api/job',
+        postedJobAndBidsForRequester: '/api/postedJobAndBidsForRequester',
       },
     },
     BID: {

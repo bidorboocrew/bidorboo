@@ -195,6 +195,7 @@ class App extends React.Component {
                 path={`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}`}
                 component={ReviewMyAwardedJobAndWinningBidPage}
               />
+
               <Route exact path={ROUTES.CLIENT.BIDDER.mybids} component={MyBidsPage} />
               <Route
                 exact

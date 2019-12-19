@@ -13,6 +13,7 @@ const initialState = {
   selectedJobWithBids: {},
   // the currently selected awarded job
   selectedAwardedJob: {},
+  selectedArchivedJob: {},
 };
 
 const getMyRequestsSummary = {
@@ -127,7 +128,12 @@ const updateSelectedActivePostedJob = (state = initialState, { payload }) => {
     selectedJobWithBids: payload.data,
   };
 };
-
+const updateSelectedArchivedJob = (state = initialState, { payload }) => {
+  return {
+    ...state,
+    selectedArchivedJob: payload.data,
+  };
+};
 const updateSelectedAwardedJob = (state = initialState, { payload }) => {
   return {
     ...state,
@@ -218,6 +224,8 @@ export default handleActions(
     [`${A.JOB_ACTIONS.SEARCH_JOB}${A._FULFILLED}`]: searchJob.isFullfilled,
     [`${A.JOB_ACTIONS.SEARCH_JOB}${A._REJECTED}`]: searchJob.isRejected,
     [`${A.JOB_ACTIONS.SELECT_ACTIVE_POSTED_JOB}`]: updateSelectedActivePostedJob,
+    [`${A.JOB_ACTIONS.SELECT_ARCHIVE_JOB}`]: updateSelectedArchivedJob,
+
     [`${A.JOB_ACTIONS.SELECT_AWARDED_JOB}`]: updateSelectedAwardedJob,
     [`${A.JOB_ACTIONS.MARK_BID_AS_SEEN}`]: markBidAsSeen,
     [`${A.AUTH_ACTIONS.USER_IS_LOGGED_OUT}`]: setLoggedOutState,

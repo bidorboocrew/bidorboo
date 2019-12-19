@@ -57,7 +57,14 @@ module.exports = (app) => {
             personalComment,
           },
         });
-
+        if (
+          updatedReviewModel.proposerReview &&
+          updatedReviewModel.proposerReview.personalComment &&
+          updatedReviewModel.bidderReview &&
+          updatedReviewModel.bidderReview.personalComment
+        ) {
+          await jobDataAccess.updateState(jobId, 'ARCHIVE');
+        }
         const bidderRatingDetails = job._awardedBidRef._bidderRef.rating;
 
         const thisTaskAvgRating =
@@ -70,7 +77,7 @@ module.exports = (app) => {
           newBidderGlobalRating = parseFloat(newBidderGlobalRating.toFixed(1));
         }
 
-        const updateCorrespondingUsers = await userDataAccess.proposerPushesAReview(
+        await userDataAccess.proposerPushesAReview(
           reviewId,
           proposerId,
           job._id,
@@ -80,9 +87,7 @@ module.exports = (app) => {
           personalComment
         );
 
-        // xxxx notify stuff
-        // if both are done reviewing send the profile review page
-        // if one is done the other isnt push notify the other to go and review
+        // XXX email both to tell them rating is avilable
 
         return res.send({ success: true, message: 'Proposer Review submitted successfully' });
       } catch (e) {
@@ -99,9 +104,7 @@ module.exports = (app) => {
     async (req, res) => {
       try {
         const {
-          proposerId,
           jobId,
-          bidderId,
           accuracyOfPostRating,
           punctualityRating,
           communicationRating,
@@ -136,7 +139,14 @@ module.exports = (app) => {
             personalComment,
           },
         });
-
+        if (
+          updatedReviewModel.proposerReview &&
+          updatedReviewModel.proposerReview.personalComment &&
+          updatedReviewModel.bidderReview &&
+          updatedReviewModel.bidderReview.personalComment
+        ) {
+          await jobDataAccess.updateState(jobId, 'ARCHIVE');
+        }
         const ownerRatingDetails = job._ownerRef.rating;
 
         const thisTaskAvgRating =
@@ -149,7 +159,7 @@ module.exports = (app) => {
           newProposerGlobalRating = parseFloat(newProposerGlobalRating.toFixed(1));
         }
 
-        const updateCorrespondingUsers = await userDataAccess.bidderPushesAReview(
+        await userDataAccess.bidderPushesAReview(
           reviewId,
           job._awardedBidRef._bidderRef._id,
           job._awardedBidRef._id,
@@ -158,10 +168,8 @@ module.exports = (app) => {
           newTotalOfAllRatings,
           personalComment
         );
-        // xxxx notify stuff
-        // if both are done reviewing send the profile review page
-        // if one is done the other isnt push notify the other to go and review
 
+        // XXX email both to tell them rating is avilable
         return res.send({ success: true, message: 'Bidder Review submitted successfully' });
       } catch (e) {
         return res.status(400).send({ errorMsg: 'Failed To bidderSubmitReview', details: `${e}` });

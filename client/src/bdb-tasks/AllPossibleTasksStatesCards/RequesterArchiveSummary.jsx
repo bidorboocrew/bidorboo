@@ -5,7 +5,6 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import {
   SummaryStartDateAndTime,
   JobCardTitle,
-  TaskIsFulfilled,
   CountDownComponent,
   TaskImagesCarousel,
   ArchiveTask,
@@ -15,24 +14,13 @@ import {
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import RequestBaseContainer from './RequestBaseContainer';
 
-export default class RequesterDoneSummary extends RequestBaseContainer {
+export default class RequesterArchiveSummary extends RequestBaseContainer {
   render() {
     const { job } = this.props;
 
-    const {
-      _id: jobId,
-      startingDateAndTime,
-      _reviewRef = {
-        revealToBoth: false,
-        requiresProposerReview: true,
-        requiresBidderReview: true,
-      },
-      taskImages = [],
-      jobTitle,
-    } = job;
+    const { _id: jobId, startingDateAndTime, taskImages = [], jobTitle } = job;
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    const { requiresProposerReview } = _reviewRef;
 
     return (
       <div className="card has-text-centered cardWithButton">
@@ -47,33 +35,19 @@ export default class RequesterDoneSummary extends RequestBaseContainer {
               date={startingDateAndTime}
               renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
-            {!requiresProposerReview && <ArchiveTask />}
-
-            {requiresProposerReview && <TaskIsFulfilled />}
+            <ArchiveTask />
           </div>
         </div>
 
         <div className="centeredButtonInCard ">
-          {!requiresProposerReview && (
-            <a
-              onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
-              }}
-              className="button is-dark"
-            >
-              VIEW DETAILS
-            </a>
-          )}
-          {requiresProposerReview && (
-            <a
-              onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
-              }}
-              className="button is-primary"
-            >
-              REVIEW TASKER
-            </a>
-          )}
+          <a
+            onClick={() => {
+              switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
+            }}
+            className="button is-dark"
+          >
+            Review Details
+          </a>
         </div>
       </div>
     );

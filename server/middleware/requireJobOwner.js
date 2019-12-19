@@ -4,7 +4,7 @@ module.exports = async (req, res, next) => {
   try {
     if (req.user && req.user.userId) {
       //in the future redirect to login page
-      const { jobId } = req.body.data;
+      const { jobId } = req.body.data || req.query;
       if (!jobId) {
         return res.status(403).send({
           errorMsg: 'missing paramerters jobId . can not confirm that you are the Job Owner.',

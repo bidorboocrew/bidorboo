@@ -40,11 +40,14 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
       extras,
       detailedDescription,
       _ownerRef,
-      _id: jobId,
       bidderConfirmedCompletion,
       taskImages = [],
       jobTitle,
-      _reviewRef,
+      _reviewRef = {
+        revealToBoth: false,
+        requiresProposerReview: true,
+        requiresBidderReview: true,
+      },
     } = job;
 
     const { bidAmount, bidderPayout, _id: bidId } = bid;

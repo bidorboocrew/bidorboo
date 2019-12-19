@@ -20,7 +20,6 @@ export const REQUEST_STATES = {
   ARCHIVE: 'ARCHIVE', //For historical record
 };
 
-
 export const POINT_OF_VIEW = {
   REQUESTER: 'REQUESTER',
   TASKER: 'TASKER',
@@ -35,6 +34,8 @@ export { default as RequesterRequestSummary } from './AllPossibleTasksStatesCard
 export { default as RequesterAwardedDetails } from './AllPossibleTasksStatesCards/RequesterAwardedDetails';
 
 export { default as RequesterAwardedSummary } from './AllPossibleTasksStatesCards/RequesterAwardedSummary';
+export { default as RequesterArchiveSummary } from './AllPossibleTasksStatesCards/RequesterArchiveSummary';
+export { default as RequesterArchiveDetails } from './AllPossibleTasksStatesCards/RequesterArchiveDetails';
 
 export { default as RequesterCanceledByRequesterSummary } from './AllPossibleTasksStatesCards/RequesterCanceledByRequesterSummary';
 

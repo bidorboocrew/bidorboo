@@ -59,7 +59,7 @@ module.exports = (app) => {
         const jobId = req.body.jobId;
 
         if (jobId) {
-          userJobsList = await jobDataAccess.cancelJob(jobId, mongoUser_id);
+          const userJobsList = await jobDataAccess.cancelJob(jobId, mongoUser_id);
           return res.send(jobId);
         } else {
           return res.status(400).send({
@@ -77,7 +77,7 @@ module.exports = (app) => {
     try {
       if (req.query && req.query.jobId) {
         const { jobId } = req.query;
-        jobFullDetails = await jobDataAccess.getAwardedJobFullDetailsForRequester(jobId);
+        const jobFullDetails = await jobDataAccess.getAwardedJobFullDetailsForRequester(jobId);
         return res.send(jobFullDetails);
       } else {
         return res.status(400).send({
@@ -91,33 +91,36 @@ module.exports = (app) => {
     }
   });
 
+  app.get(
+    ROUTES.API.JOB.GET.archivedTaskDetailsForTasker,
+    requireLogin,
+    requireJobOwner,
+    async (req, res) => {
+      try {
+        if (req.query && req.query.jobId) {
+          const { jobId } = req.query;
+          const archivedJobDetails = await jobDataAccess.getArchivedTaskDetailsForTasker(jobId);
+          return res.send(archivedJobDetails);
+        } else {
+          return res.status(400).send({
+            errorMsg: 'Bad Request cannot get past request details',
+          });
+        }
+      } catch (e) {
+        return res.status(400).send({ errorMsg: 'Failed To get request details', details: `${e}` });
+      }
+    }
+  );
+
   app.get(ROUTES.API.JOB.GET.myAwardedJobs, requireBidorBooHost, requireLogin, async (req, res) => {
     try {
-      userJobsList = await jobDataAccess.getUserAwardedJobs(req.user.userId);
+      const userJobsList = await jobDataAccess.getUserAwardedJobs(req.user.userId);
       return res.send(userJobsList);
     } catch (e) {
       return res.status(400).send({ errorMsg: 'Failed To get my awarded jobs', details: `${e}` });
     }
   });
 
-  app.get(
-    ROUTES.API.JOB.GET.getAllMyRequests,
-    requireBidorBooHost,
-    requireLogin,
-    async (req, res) => {
-      try {
-        const userJobsList = await jobDataAccess.getAllRequestsByUserId(req.user._id);
-        if (userJobsList && userJobsList) {
-          return res.send({ allRequests: userJobsList });
-        }
-        return res.send({ allRequests: [] });
-      } catch (e) {
-        return res
-          .status(400)
-          .send({ errorMsg: 'Failed To get getAllMyRequests', details: `${e}` });
-      }
-    }
-  );
   app.put(
     ROUTES.API.JOB.PUT.updateJobState,
     requireLogin,
@@ -462,10 +465,8 @@ module.exports = (app) => {
     async (req, res) => {
       try {
         const userJobsList = await jobDataAccess.getMyRequestsSummary(req.user._id);
-        if (userJobsList && userJobsList) {
-          return res.send({ myRequestsSummary: userJobsList });
-        }
-        return res.send({ myRequestsSummary: [] });
+
+        return res.send({ myRequestsSummary: userJobsList || [] });
       } catch (e) {
         console.log('BIDORBOO_ERROR: ROUTES.API.JOB.GET.getMyRequestsSummary ' + e);
 
@@ -479,7 +480,7 @@ module.exports = (app) => {
         const { jobId } = req.query;
         const mongoUser_id = req.user._id;
 
-        const jobDetails = await jobDataAccess.getJobWithBidDetails(mongoUser_id, jobId);
+        const jobDetails = await jobDataAccess.postedJobAndBidsForRequester(mongoUser_id, jobId);
         return res.send(jobDetails);
       } else {
         return res.status(400).send({

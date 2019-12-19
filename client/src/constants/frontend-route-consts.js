@@ -62,8 +62,9 @@ export const API = {
   JOB: {
     GET: {
       myRequestsSummary: '/api/job/myRequestsSummary',
-      postedJobAndBidsForRequester: '/api/job',
+      postedJobAndBidsForRequester: '/api/postedJobAndBidsForRequester',
       awardedJobFullDetailsForRequester: '/api/job/awardedJobFullDetailsForRequester',
+      archivedTaskDetailsForTasker: '/api/job/archivedTaskDetailsForTasker',
 
       alljobsToBidOn: '/api/job/alljobsToBidOn',
       jobToBidOnDetailsForTasker: '/api/job/jobToBidOnDetailsForTasker',
@@ -86,7 +87,7 @@ export const API = {
       updateJobState: '/api/job/updateJobState',
     },
     DELETE: {
-      postedJobAndBidsForRequester: '/api/job',
+      postedJobAndBidsForRequester: '/api/postedJobAndBidsForRequester',
     },
   },
   BID: {

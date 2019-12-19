@@ -123,6 +123,29 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false, large = 
   );
 };
 
+const CATEGORY_TO_DISPLAY_NAME = {
+  QUALITY_OF_WORK: 'Quality',
+  PUNCTUALITY: 'Punctuality',
+  COMMUNICATION: 'Communication',
+  MANNERS: 'Manners',
+};
+
+export const RatingPerCategoryView = ({ ratingCategories }) => {
+  return (
+    ratingCategories &&
+    ratingCategories.map(({ category, rating }) => (
+      <div key={`${category}-${category}`}>
+        <label>{CATEGORY_TO_DISPLAY_NAME[category]}</label>
+        <div className="has-text-warning" style={{ fontSize: 16 }}>
+          <span className="icon">
+            <i className="fas fa-star" />
+          </span>
+          <span className="has-text-dark">{rating}</span>
+        </div>
+      </div>
+    ))
+  );
+};
 export const CenteredUserImageAndRating = ({
   userDetails,
   clipUserName = false,
@@ -1044,7 +1067,7 @@ export const TaskIsFulfilled = () => {
   );
 };
 
-export const ArchiveTask = ({ displayName = '' }) => {
+export const ArchiveTask = () => {
   return (
     <div className="group">
       <div
@@ -1078,6 +1101,7 @@ export const ArchiveTask = ({ displayName = '' }) => {
         >
           Past Task
         </div>
+        <div className="help">check review and payment</div>
       </div>
     </div>
   );
@@ -1513,3 +1537,51 @@ export const CoolBidOrBooTitle = () => (
     </div>
   </section>
 );
+
+export const ReviewComments = ({
+  commenterDisplayName,
+  commenterProfilePicUrl,
+  comment,
+  commenterId = null,
+  ratingCategories = null,
+}) => {
+  return (
+    <>
+      <article
+        style={{ cursor: 'default', border: '1px solid #ededed', padding: 2 }}
+        className="media"
+      >
+        <figure
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            commenterId && switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(commenterId));
+          }}
+          style={{ margin: '0.5rem', cursor: 'pointer' }}
+          className="media-left"
+        >
+          <p className="image is-64x64">
+            <img
+              style={{
+                borderRadius: '100%',
+                width: 64,
+                height: 64,
+                boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
+              }}
+              src={commenterProfilePicUrl}
+            />
+          </p>
+        </figure>
+        <div style={{ padding: '0.5rem' }} className="media-content">
+          <div className="content">
+            <div>{commenterDisplayName} wrote:</div>
+            <p>{comment}</p>
+          </div>
+        </div>
+      </article>
+      {ratingCategories && (
+        <RatingPerCategoryView ratingCategories={ratingCategories}></RatingPerCategoryView>
+      )}
+    </>
+  );
+};

@@ -13,7 +13,7 @@ import { switchRoute, goBackToPreviousRoute } from '../utils';
 import { Spinner } from '../components/Spinner';
 import { VerifiedVia } from './commonComponents';
 import * as Constants from '../constants/enumConstants';
-
+import { ReviewComments } from './commonComponents.jsx';
 class OtherUserProfileForReviewPage extends React.Component {
   constructor(props) {
     super(props);
@@ -326,24 +326,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(OtherUserProfileForReviewPage);
-
-const ReviewComments = ({ commenterDisplayName, commenterProfilePicUrl, comment }) => {
-  return (
-    <article
-      style={{ cursor: 'default', border: '1px solid #ededed', padding: 2 }}
-      className="media"
-    >
-      <figure style={{ margin: '0.5rem' }} className="media-left">
-        <p className="image is-64x64">
-          <img src={commenterProfilePicUrl} />
-        </p>
-      </figure>
-      <div style={{ padding: '0.5rem' }} className="media-content">
-        <div className="content">
-          <div>{commenterDisplayName} wrote:</div>
-          <p>{comment}</p>
-        </div>
-      </div>
-    </article>
-  );
-};

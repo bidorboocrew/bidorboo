@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   RequesterRequestDetails,
   RequesterRequestSummary,
@@ -11,7 +10,8 @@ import {
   RequesterCanceledByTaskerDetails,
   TaskerBidOnTaskDetails,
   TaskerBidOnTaskSummary,
-  TaskerBidOnTaskSummaryOnMap,
+  RequesterArchiveSummary,
+  RequesterArchiveDetails,
   TaskerMyOpenBidSummary,
   TaskerMyOpenBidDetails,
   TaskerMyAwardedBidSummary,
@@ -135,9 +135,9 @@ const requesterCardTemplates = {
   },
   [REQUEST_STATES.ARCHIVE]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
     return isSummaryView ? (
-      <div>REQUEST_STATES.ARCHIVE summary not implemented yet</div>
+      <RequesterArchiveSummary job={job} {...otherArgs} />
     ) : (
-      <div>REQUEST_STATES.ARCHIVE details not implemented yet</div>
+      <RequesterArchiveDetails job={job} {...otherArgs} />
     );
   },
 };
@@ -331,8 +331,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
           console.error(e + ' Error Loading getTaskerBidCard REQUEST_STATES.DONE: Card ');
         }
       default:
-        return <div>default unknown getTaskerBidCard</div>;
-        break;
+        return <div>default unknown getTaskerBidCard state {state}</div>;
     }
   } catch (e) {
     console.error(e + ' Error Loading Tasker Card ' + state);

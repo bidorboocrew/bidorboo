@@ -39,7 +39,10 @@ exports.jobDataAccess = {
           .toISOString();
 
         await JobModel.find({
-          $and: [{ _awardedBidRef: { $exists: true } }, { state: { $eq: 'AWARDED' } }],
+          $and: [
+            { _awardedBidRef: { $exists: true } },
+            { state: { $in: ['AWARDED', 'AWARDED_SEEN'] } },
+          ],
         })
           .populate({
             path: '_ownerRef',
@@ -246,7 +249,7 @@ exports.jobDataAccess = {
       try {
         await JobModel.find({
           $and: [
-            { state: { $eq: 'AWARDED' } },
+            { state: { $in: ['AWARDED', 'AWARDED_SEEN'] } },
             { dispute: { $exists: false } },
             { bidderConfirmedCompletion: { $eq: true } },
             { _awardedBidRef: { $exists: true } },
@@ -637,7 +640,7 @@ exports.jobDataAccess = {
           _id: 1,
         },
         match: {
-          state: { $eq: 'AWARDED' },
+          state: { $in: ['AWARDED', 'AWARDED_SEEN'] },
           $or: [
             { _reviewRef: { $exists: false } },
             { '_reviewRef.requiresProposerReview': { $eq: true } },
@@ -678,98 +681,6 @@ exports.jobDataAccess = {
             },
           },
         ],
-      })
-      .lean({ virtuals: true })
-      .exec();
-  },
-
-  // get jobs for a user and filter by a given state
-  getAllRequestsByUserId: async (_id) => {
-    return JobModel.find(
-      {
-        $and: [
-          { _ownerRef: { $eq: _id } },
-          {
-            $or: [
-              {
-                $and: [
-                  { state: { $eq: 'OPEN' } },
-                  {
-                    startingDateAndTime: {
-                      $gt: moment()
-                        .utc()
-                        .toISOString(),
-                    },
-                  },
-                ],
-              },
-              {
-                state: {
-                  $in: [
-                    'AWARDED', //
-                    'DISPUTED', // disputed job
-                    'AWARDED_JOB_CANCELED_BY_BIDDER',
-                    'AWARDED_JOB_CANCELED_BY_REQUESTER',
-                    'DONE',
-                  ],
-                },
-              },
-            ],
-          },
-        ],
-      },
-      {
-        booedBy: 0,
-        processedPayment: 0,
-        updatedAt: 0,
-        viewedBy: 0,
-        hideFrom: 0,
-        createdAt: 0,
-      },
-      // xxx how to skip
-      { limit: 1000, sort: { startingDateAndTime: 1 } }
-    )
-      .populate({
-        path: '_reviewRef',
-        select: {
-          proposerReview: 1,
-          bidderReview: 1,
-          revealToBoth: 1,
-          requiresProposerReview: 1,
-          requiresBidderReview: 1,
-        },
-      })
-      .populate({
-        path: '_awardedBidRef',
-        model: 'BidModel',
-        select: {
-          // _bidderRef: 1,
-          isNewBid: 1,
-          state: 1,
-          // bidAmount: 1,
-        },
-        populate: {
-          path: '_bidderRef',
-          select: {
-            displayName: 1,
-            email: 1,
-            phone: 1,
-            profileImage: 1,
-            rating: 1,
-            userId: 1,
-          },
-        },
-      })
-      .populate({
-        path: '_ownerRef',
-        select: {
-          displayName: 1,
-          email: 1,
-          phone: 1,
-          profileImage: 1,
-          rating: 1,
-          userId: 1,
-        },
       })
       .lean({ virtuals: true })
       .exec();
@@ -921,7 +832,7 @@ exports.jobDataAccess = {
         },
       }
     )
-      .lean({ virtuals: true })
+      .lean()
       .exec();
   },
   updateBooedBy: (jobId, mongoUser_id) => {
@@ -2018,75 +1929,10 @@ exports.jobDataAccess = {
           isNewBid: 1,
         },
       })
-      .lean(true)
+      .lean({ virtuals: true })
       .exec();
   },
 
-  getJobWithBidDetails: async (mongDbUserId, jobId) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const jobWithBidDetails = await JobModel.findOne({ _id: jobId, _ownerRef: mongDbUserId })
-          .populate([
-            {
-              path: '_ownerRef',
-              select: {
-                displayName: 1,
-                profileImage: 1,
-                rating: 1,
-                _id: 1,
-              },
-            },
-            {
-              path: '_awardedBidRef',
-              select: {
-                _bidderRef: 1,
-                isNewBid: 1,
-                requesterPayment: 1,
-                requesterPartialRefund: 1,
-              },
-              populate: {
-                path: '_bidderRef',
-                select: {
-                  displayName: 1,
-                  email: 1,
-                  phone: 1,
-                  profileImage: 1,
-                  rating: 1,
-                },
-              },
-            },
-            {
-              path: '_bidsListRef',
-              select: {
-                _bidderRef: 1,
-                isNewBid: 1,
-                requesterPayment: 1,
-                requesterPartialRefund: 1,
-                _jobRef: 1,
-              },
-              populate: {
-                path: '_bidderRef',
-                select: {
-                  isGmailUser: 1,
-                  isFbUser: 1,
-                  displayName: 1,
-                  profileImage: 1,
-                  membershipStatus: 1,
-                  rating: 1,
-                  'stripeConnect.isVerified': 1,
-                },
-              },
-            },
-          ])
-          .lean({ virtuals: true })
-          .exec();
-
-        resolve(jobWithBidDetails);
-      } catch (e) {
-        reject(e);
-      }
-    });
-  },
   // everything below this line is great --------------------
   jobToBidOnDetailsForTasker: async (jobId) => {
     return new Promise(async (resolve, reject) => {
@@ -2138,6 +1984,69 @@ exports.jobDataAccess = {
       }
     });
   },
+
+  getArchivedTaskDetailsForTasker: async (jobId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const archivedJobDetails = await JobModel.findOne(
+          { _id: jobId },
+          { processedPayment: 0, payoutDetails: 0 }
+        )
+          .populate([
+            {
+              path: '_awardedBidRef',
+              select: {
+                _bidderRef: 1,
+                isNewBid: 1,
+                requesterPayment: 1,
+                requesterPartialRefund: 1,
+              },
+              populate: {
+                path: '_bidderRef',
+                select: {
+                  displayName: 1,
+                  profileImage: 1,
+                  rating: 1,
+                  membershipStatus: 1,
+                },
+              },
+            },
+            {
+              path: '_reviewRef',
+            },
+            {
+              path: '_ownerRef',
+              select: {
+                displayName: 1,
+                email: 1,
+                phone: 1,
+                profileImage: 1,
+                rating: 1,
+              },
+            },
+          ])
+          .lean({ virtuals: true })
+          .exec();
+
+        if (archivedJobDetails && archivedJobDetails._id) {
+          if (
+            !(
+              archivedJobDetails._reviewRef &&
+              archivedJobDetails._reviewRef.proposerReview &&
+              archivedJobDetails._reviewRef.bidderReview
+            )
+          ) {
+            archivedJobDetails._reviewRef.bidderReview = null;
+          }
+          return resolve(archivedJobDetails);
+        }
+        reject('cant find the specified request');
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+
   getAwardedJobFullDetailsForRequester: async (jobId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -2168,7 +2077,10 @@ exports.jobDataAccess = {
             },
             {
               path: '_reviewRef',
-              match: { proposerReview: { $exists: true }, bidderReview: { $exists: true } },
+              select: {
+                proposerReview: 0,
+                bidderReview: 0,
+              },
             },
             {
               path: '_ownerRef',
@@ -2185,6 +2097,56 @@ exports.jobDataAccess = {
           .exec();
 
         resolve(jobWithBidderDetails);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+
+  postedJobAndBidsForRequester: async (mongDbUserId, jobId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const jobWithBidDetails = await JobModel.findOne({ _id: jobId, _ownerRef: mongDbUserId })
+          .populate([
+            {
+              path: '_ownerRef',
+              select: {
+                displayName: 1,
+                profileImage: 1,
+                rating: 1,
+                _id: 1,
+              },
+            },
+
+            {
+              path: '_bidsListRef',
+              select: {
+                _bidderRef: 1,
+                isNewBid: 1,
+                requesterPayment: 1,
+                requesterPartialRefund: 1,
+                _jobRef: 1,
+              },
+              populate: {
+                path: '_bidderRef',
+                select: {
+                  isGmailUser: 1,
+                  isFbUser: 1,
+                  displayName: 1,
+                  profileImage: 1,
+                  membershipStatus: 1,
+                  rating: 1,
+                  'email.isVerified': 1,
+                  'phone.isVerified': 1,
+                  'stripeConnect.isVerified': 1,
+                },
+              },
+            },
+          ])
+          .lean({ virtuals: true })
+          .exec();
+
+        resolve(jobWithBidDetails);
       } catch (e) {
         reject(e);
       }

@@ -31,11 +31,7 @@ export default class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer 
       extras,
       detailedDescription,
       _ownerRef,
-      _reviewRef = {
-        revealToBoth: false,
-        requiresProposerReview: true,
-        requiresBidderReview: true,
-      },
+
       taskImages = [],
       jobTitle,
     } = job;
@@ -44,10 +40,6 @@ export default class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer 
 
     const { value: bidderPayoutAmount } = bidderPayout;
     const { value: bidValue } = bidAmount;
-
-    const { requiresBidderReview } = _reviewRef || {
-      requiresBidderReview: true,
-    };
 
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
 
@@ -78,9 +70,7 @@ export default class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer 
               />
               <TaskerWillEarn earningAmount={bidderPayoutAmount} />
 
-              {!requiresBidderReview && <ArchiveTask />}
-
-              {requiresBidderReview && <TaskIsFulfilled />}
+              <TaskIsFulfilled />
 
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
@@ -125,33 +115,7 @@ export default class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer 
             </div>
           </div>
 
-          <RequesterDetails
-            otherUserProfileInfo={_ownerRef}
-            renderActionButton={() => (
-              <>
-                {requiresBidderReview && (
-                  <a
-                    onClick={() => {
-                      switchRoute(ROUTES.CLIENT.REVIEW.getBidderJobReview({ bidId }));
-                    }}
-                    className={`button firstButtonInCard is-primary`}
-                  >
-                    <span>REVIEW REQUESTER</span>
-                  </a>
-                )}
-                {!requiresBidderReview && (
-                  <a
-                    onClick={() => {
-                      alert('Archive not implemented yet, will take you to archieve');
-                    }}
-                    className={`button firstButtonInCard is-dark`}
-                  >
-                    PAST TASK
-                  </a>
-                )}
-              </>
-            )}
-          />
+          <RequesterDetails otherUserProfileInfo={_ownerRef} bidId={bidId} />
         </div>
       </React.Fragment>
     );
@@ -160,7 +124,7 @@ export default class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer 
 
 class RequesterDetails extends React.Component {
   render() {
-    const { otherUserProfileInfo, renderActionButton } = this.props;
+    const { otherUserProfileInfo, bidId } = this.props;
 
     if (!otherUserProfileInfo) {
       return null;
@@ -193,7 +157,14 @@ class RequesterDetails extends React.Component {
             <br />
           </div>
         </div>
-        {renderActionButton && renderActionButton()}
+        <a
+          onClick={() => {
+            switchRoute(ROUTES.CLIENT.REVIEW.getBidderJobReview({ bidId }));
+          }}
+          className={`button firstButtonInCard is-primary`}
+        >
+          <span>REVIEW REQUESTER</span>
+        </a>
       </div>
     );
   }
