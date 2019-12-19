@@ -3,7 +3,7 @@ import React from 'react';
 import { compose, withProps } from 'recompose';
 import { withGoogleMap, GoogleMap, Marker /*,withScriptjs*/ } from 'react-google-maps';
 import { MarkerClusterer } from 'react-google-maps/lib/components/addons/MarkerClusterer';
-import JobInfoBox from './JobInfoBox';
+import RequestInfoBox from './RequestInfoBox';
 
 const MapWithAMarkerClusterer = compose(
   withProps({
@@ -56,24 +56,24 @@ class Cluster extends React.Component {
   // };
   constructor(props) {
     super(props);
-    this.state = { showInfoBoxForJobId: '' };
+    this.state = { showInfoBoxForRequestId: '' };
   }
 
-  showInfoBox = (job) => {
+  showInfoBox = (request) => {
     this.setState(
-      () => ({ showInfoBoxForJobId: job._id }),
+      () => ({ showInfoBoxForRequestId: request._id }),
       () => {
         if (
-          job &&
-          job.location &&
-          job.location.coordinates &&
-          job.location.coordinates.length === 2 &&
-          job.zoomOnInfo
+          request &&
+          request.location &&
+          request.location.coordinates &&
+          request.location.coordinates.length === 2 &&
+          request.zoomOnInfo
         ) {
-          job.zoomOnInfo(
+          request.zoomOnInfo(
             {
-              lng: job.location.coordinates[0],
-              lat: job.location.coordinates[1],
+              lng: request.location.coordinates[0],
+              lat: request.location.coordinates[1],
             },
             () => {
               const mapDiv = document.querySelector(`#bdb-map`);
@@ -85,35 +85,35 @@ class Cluster extends React.Component {
     );
   };
   closeInfoBox = () => {
-    this.setState({ showInfoBoxForJobId: '' });
+    this.setState({ showInfoBoxForRequestId: '' });
   };
 
   render() {
-    const { jobsList, userDetails, isLoggedIn, showLoginDialog } = this.props;
-    const { showInfoBoxForJobId } = this.state;
+    const { requestsList, userDetails, isLoggedIn, showLoginDialog } = this.props;
+    const { showInfoBoxForRequestId } = this.state;
 
-    if (jobsList && jobsList.length > 0) {
-      const jobsMarkersOnTheMap = jobsList.map((job) => (
+    if (requestsList && requestsList.length > 0) {
+      const requestsMarkersOnTheMap = requestsList.map((request) => (
 
-        <JobMarker
+        <RequestMarker
           showInfoBox={this.showInfoBox}
           closeInfoBox={this.closeInfoBox}
-          showInfoBoxForJobId={showInfoBoxForJobId}
-          key={job._id}
-          job={job}
+          showInfoBoxForRequestId={showInfoBoxForRequestId}
+          key={request._id}
+          request={request}
           userDetails={userDetails}
           isLoggedIn={isLoggedIn}
           showLoginDialog={showLoginDialog}
         />
       ));
-      return <>{ jobsMarkersOnTheMap }</>;
+      return <>{ requestsMarkersOnTheMap }</>;
       //   <MarkerClusterer
       //     defaultMinimumClusterSize={10}
       //     averageCenter
       //     enableRetinaIcons
       //     gridSize={60}
       //   >
-      //     {jobsMarkersOnTheMap}
+      //     {requestsMarkersOnTheMap}
       //   </MarkerClusterer>
       // );
     }
@@ -121,23 +121,23 @@ class Cluster extends React.Component {
   }
 }
 
-class JobMarker extends React.Component {
+class RequestMarker extends React.Component {
   constructor(props) {
     super(props);
     this.state = { showInfoBox: false };
   }
   toggleShowInfoBox = () => {
-    const { job, showInfoBoxForJobId, showInfoBox, closeInfoBox } = this.props;
-    if (showInfoBoxForJobId === job._id) {
+    const { request, showInfoBoxForRequestId, showInfoBox, closeInfoBox } = this.props;
+    if (showInfoBoxForRequestId === request._id) {
       closeInfoBox();
     } else {
-      showInfoBox(job);
+      showInfoBox(request);
     }
   };
   render() {
-    const { job, showInfoBoxForJobId } = this.props;
+    const { request, showInfoBoxForRequestId } = this.props;
 
-    // let imgurl = job && job._ownerRef ? job._ownerRef.profileImage.url : null;
+    // let imgurl = request && request._ownerRef ? request._ownerRef.profileImage.url : null;
     // var image = {
     //   url: imgurl,
     //   size: new google.maps.Size(80, 80),
@@ -146,29 +146,29 @@ class JobMarker extends React.Component {
     //   scaledSize: new google.maps.Size(32, 32),
     // };
     if (
-      job &&
-      job.reactMapClusterRef &&
-      job.location &&
-      job.location.coordinates &&
-      job.location.coordinates.length === 2
+      request &&
+      request.reactMapClusterRef &&
+      request.location &&
+      request.location.coordinates &&
+      request.location.coordinates.length === 2
     ) {
-      console.log(job.location.coordinates)
-      const shouldShowInfoBox = showInfoBoxForJobId === job._id;
+      console.log(request.location.coordinates)
+      const shouldShowInfoBox = showInfoBoxForRequestId === request._id;
       return (
         <Marker
-          ref={job.reactMapClusterRef}
+          ref={request.reactMapClusterRef}
           opacity={0.8}
           icon={require('../../../assets/images/mapMarker.png')}
           onClick={this.toggleShowInfoBox}
-          key={job._id}
-          label={job.title}
+          key={request._id}
+          label={request.title}
           position={{
-            lng: job.location.coordinates[0],
-            lat: job.location.coordinates[1],
+            lng: request.location.coordinates[0],
+            lat: request.location.coordinates[1],
           }}
         >
           {shouldShowInfoBox && (
-            <JobInfoBox toggleShowInfoBox={this.toggleShowInfoBox} {...this.props} />
+            <RequestInfoBox toggleShowInfoBox={this.toggleShowInfoBox} {...this.props} />
           )}
         </Marker>
       );

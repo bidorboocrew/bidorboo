@@ -10,7 +10,7 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { goBackToPreviousRoute, throwErrorNotification } from '../../utils';
 import { CenteredUserImageAndRating } from '../commonComponents.jsx';
 import { Spinner } from '../../components/Spinner.jsx';
-export class ProposerReviewingCompletedJob extends React.Component {
+export class RequesterReviewingCompletedRequest extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,8 +21,8 @@ export class ProposerReviewingCompletedJob extends React.Component {
       personalComment: '',
       userToBeRated: null,
     };
-    if (this.props.match && this.props.match.params && this.props.match.params.jobId) {
-      this.jobId = this.props.match.params.jobId;
+    if (this.props.match && this.props.match.params && this.props.match.params.requestId) {
+      this.requestId = this.props.match.params.requestId;
     } else {
       goBackToPreviousRoute();
       return null;
@@ -32,9 +32,9 @@ export class ProposerReviewingCompletedJob extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     axios
-      .get(ROUTES.API.JOB.GET.awardedJobFullDetailsForRequester, { params: { jobId: this.jobId } })
+      .get(ROUTES.API.REQUEST.GET.awardedRequestFullDetailsForRequester, { params: { requestId: this.requestId } })
       .then((resp) => {
-        // update recently added job
+        // update recently added request
         if (resp && resp.data) {
           if (resp.data._awardedBidRef._taskerRef) {
             this.setState({ userToBeRated: resp.data._awardedBidRef._taskerRef });
@@ -134,9 +134,9 @@ export class ProposerReviewingCompletedJob extends React.Component {
     } else {
       // SUBMIT REVIEW
       axios
-        .put(ROUTES.API.REVIEW.PUT.proposerSubmitReview, {
+        .put(ROUTES.API.REVIEW.PUT.requesterSubmitReview, {
           data: {
-            jobId: this.jobId,
+            requestId: this.requestId,
             ...this.state,
           },
         })
@@ -262,7 +262,7 @@ export class ProposerReviewingCompletedJob extends React.Component {
             }}
             value={this.state.personalComment}
             onChange={this.personalCommentOnChange}
-            placeholder="The Tasker was professional and did a great job ...etc"
+            placeholder="The Tasker was professional and did a great request ...etc"
           />
           <div className="help">* note this will be visible to all users</div>
         </div>
@@ -316,4 +316,4 @@ export class ProposerReviewingCompletedJob extends React.Component {
   }
 }
 
-export default connect(null, null)(ProposerReviewingCompletedJob);
+export default connect(null, null)(RequesterReviewingCompletedRequest);

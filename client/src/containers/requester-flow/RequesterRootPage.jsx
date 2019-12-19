@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 import { getAllActiveRequestsTemplateCards } from '../../bdb-tasks/getAllRequestsTemplateCards';
 
-class ProposerRoot extends React.Component {
+class RequesterRoot extends React.Component {
   constructor(props) {
     super(props);
     this.AllActiveTasks = getAllActiveRequestsTemplateCards({ ...props }).map((task, index) => {
@@ -47,4 +47,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProposerRoot);
+export default connect(mapStateToProps, mapDispatchToProps)(RequesterRoot);

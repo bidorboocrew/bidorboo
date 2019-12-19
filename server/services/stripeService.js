@@ -4,8 +4,8 @@ const stripe = require('stripe')(keys.stripeSecretKey);
 
 // // XXXXXX RELEASE THE FUNDS
 // const payoutConfirmation = await stripeServiceUtil.payoutToBank('acct_1DxRCzFZom4pltNY', {
-//   amount: jobDetails.processedPayment.taskerPayout,
-//   metadata: { jobId: jobId.toString(), proposerId: req.user._id.toString() },
+//   amount: requestDetails.processedPayment.taskerPayout,
+//   metadata: { requestId: requestId.toString(), requesterId: req.user._id.toString() },
 // });
 //stripe.com/docs/api/payouts/create
 
@@ -144,7 +144,7 @@ exports.util = {
     // const taskerPayoutAmount = chargeAmount - bidOrBooTotalCommission;
 
     return stripe.checkout.sessions.create({
-      success_url: `${websiteUrl}/my-request/awarded-job-details/${taskId}`,
+      success_url: `${websiteUrl}/my-request/awarded-request-details/${taskId}`,
       cancel_url: `${websiteUrl}/my-request/review-request-details/${taskId}/?checkoutCancelled=true`,
       payment_method_types: ['card'],
       client_reference_id: requesterId,

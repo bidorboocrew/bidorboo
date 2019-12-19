@@ -9,8 +9,8 @@ export const getMyStripeAccountDetails = () => (dispatch) =>
     payload: axios.get(ROUTES.API.PAYMENT.GET.myStripeAccountDetails),
   });
 
-export const submitPayment = ({ jobId, bidId }) => async (dispatch) => {
-  if (!jobId || !bidId) {
+export const submitPayment = ({ requestId, bidId }) => async (dispatch) => {
+  if (!requestId || !bidId) {
     dispatch({
       type: A.UI_ACTIONS.SHOW_TOAST_MSG,
       payload: {
@@ -29,7 +29,7 @@ export const submitPayment = ({ jobId, bidId }) => async (dispatch) => {
       data: { sessionClientId },
     } = await axios.post(ROUTES.API.PAYMENT.POST.payment, {
       data: {
-        jobId,
+        requestId,
         bidId,
       },
     });
@@ -41,16 +41,16 @@ export const submitPayment = ({ jobId, bidId }) => async (dispatch) => {
       });
 
     dispatch({
-      type: A.PROPOSER_ACTIONS.AWARD_TASKER_AND_MAKE_A_PAYMENT,
+      type: A.REQUESTER_ACTIONS.AWARD_TASKER_AND_MAKE_A_PAYMENT,
       payload: window
         .Stripe(`${process.env.REACT_APP_STRIPE_KEY}`)
         .redirectToCheckout({
           sessionId: sessionClientId,
         })
         .then((resp) => {
-          // update recently added job
+          // update recently added request
           if (resp.data && resp.data.success) {
-            switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedJobPage(jobId));
+            switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(requestId));
           } else if (resp.data.error) {
             resp.error.safeMsg = resp.data.error.message;
             throwErrorNotification(dispatch, resp.data.error);
@@ -66,18 +66,18 @@ export const submitPayment = ({ jobId, bidId }) => async (dispatch) => {
 
   //
   // dispatch({
-  //   type: A.PROPOSER_ACTIONS.AWARD_TASKER_AND_MAKE_A_PAYMENT,
+  //   type: A.REQUESTER_ACTIONS.AWARD_TASKER_AND_MAKE_A_PAYMENT,
   //   payload: axios
   //     .post(ROUTES.API.PAYMENT.POST.payment, {
   //       data: {
-  //         jobId,
+  //         requestId,
   //         bidId,
   //       },
   //     })
   //     .then((resp) => {
   //       // axios.get(ROUTES.API.PAYMENT.GET.payment).then((resp) => {});
   //
-  //       // update recently added job
+  //       // update recently added request
   //       if (resp.data && resp.data.success) {
   //         // dispatch({
   //         //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,
@@ -88,7 +88,7 @@ export const submitPayment = ({ jobId, bidId }) => async (dispatch) => {
   //         //     },
   //         //   },
   //         // });
-  //         switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedJobPage(jobId));
+  //         switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(requestId));
   //       }
   //     })
   //     .catch((error) => {

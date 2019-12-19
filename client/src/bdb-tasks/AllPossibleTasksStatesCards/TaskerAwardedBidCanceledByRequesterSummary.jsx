@@ -2,7 +2,7 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { updateJobState } from '../../app-state/actions/jobActions';
+import { updateRequestState } from '../../app-state/actions/requestActions';
 
 import { REQUEST_STATES } from '../index';
 
@@ -10,7 +10,7 @@ import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import {
   CountDownComponent,
-  JobCardTitle,
+  RequestCardTitle,
   CancelledBy,
   SummaryStartDateAndTime,
   TaskImagesCarousel,
@@ -22,11 +22,11 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
   render() {
-    const { bid, job, notificationFeed } = this.props;
+    const { bid, request, notificationFeed } = this.props;
 
-    const { startingDateAndTime, taskImages = [], jobTitle } = job;
+    const { startingDateAndTime, taskImages = [], requestTitle } = request;
 
-    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     const { taskerPartialPayout } = bid;
     const { value: taskerPartialPayoutAmount } = taskerPartialPayout;
@@ -49,8 +49,8 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
         >
           <div className="card-content">
             <div className="content">
-              <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-              <UserGivenTitle userGivenTitle={jobTitle} />
+              <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <UserGivenTitle userGivenTitle={requestTitle} />
 
               <TaskImagesCarousel taskImages={taskImages} />
               <SummaryStartDateAndTime
@@ -70,7 +70,7 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
               onClick={(e) => {
                 e.preventDefault();
                 newUnseenState &&
-                  updateJobState(job._id, REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN);
+                  updateRequestState(request._id, REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_REQUESTER_SEEN);
 
                 switchRoute(
                   ROUTES.CLIENT.TASKER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
@@ -103,7 +103,7 @@ const mapStateToProps = ({ uiReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateJobState: bindActionCreators(updateJobState, dispatch),
+    updateRequestState: bindActionCreators(updateRequestState, dispatch),
   };
 };
 

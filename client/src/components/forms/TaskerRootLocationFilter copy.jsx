@@ -25,7 +25,7 @@ export default class TaskerRootLocationFilter extends React.Component {
       this.geocoder = new this.google.maps.Geocoder();
     }
     this.state = {
-      enableNotifyMeAboutJobsInMyArea: false,
+      enableNotifyMeAboutRequestsInMyArea: false,
     };
   }
 
@@ -174,7 +174,7 @@ export default class TaskerRootLocationFilter extends React.Component {
                     onError={this.errorHandling}
                     placeholder="Start entering an adddress"
                     forceSetAddressValue={addressText}
-                    id="filter-tasker-job"
+                    id="filter-tasker-request"
                   />
                   <React.Fragment>
                     <div>
@@ -207,18 +207,18 @@ export default class TaskerRootLocationFilter extends React.Component {
                 </div>
 
                 <input
-                  id="newJobNotification"
+                  id="newRequestNotification"
                   type="checkbox"
-                  name="newJobNotification"
+                  name="newRequestNotification"
                   className="switch is-rounded is-success"
-                  onChange={this.toggleEnableNotifyMeAboutJobsInMyArea}
-                  checked={this.state.enableNotifyMeAboutJobsInMyArea}
+                  onChange={this.toggleEnableNotifyMeAboutRequestsInMyArea}
+                  checked={this.state.enableNotifyMeAboutRequestsInMyArea}
                 />
                 <label
                   className="has-text-dark has-text-weight-normal"
-                  htmlFor="newJobNotification"
+                  htmlFor="newRequestNotification"
                 >
-                  {this.state.enableNotifyMeAboutJobsInMyArea
+                  {this.state.enableNotifyMeAboutRequestsInMyArea
                     ? 'Yes, Notify Me'
                     : "No, Don't Notify Me"}
                 </label>

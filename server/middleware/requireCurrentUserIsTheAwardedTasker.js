@@ -1,22 +1,22 @@
-const { jobDataAccess } = require('../data-access/jobDataAccess');
+const { requestDataAccess } = require('../data-access/requestDataAccess');
 
 module.exports = async (req, res, next) => {
   try {
     if (req.user && req.user.userId) {
       //in the future redirect to login page
-      const { jobId } = req.body.data;
-      if (!jobId) {
+      const { requestId } = req.body.data;
+      if (!requestId) {
         return res.status(403).send({
           errorMsg: 'missing paramerters . can not confirm that you are the awarded Tasker.',
         });
       }
 
       const mongoUser_id = req.user._id.toString();
-      const job = await jobDataAccess.isAwardedTasker(mongoUser_id, jobId);
+      const request = await requestDataAccess.isAwardedTasker(mongoUser_id, requestId);
 
-      if (job._awardedBidRef && job._awardedBidRef._taskerRef._id.toString() === mongoUser_id) {
+      if (request._awardedBidRef && request._awardedBidRef._taskerRef._id.toString() === mongoUser_id) {
         res.locals.bidOrBoo = {
-          bidId: job._awardedBidRef._id,
+          bidId: request._awardedBidRef._id,
         };
         next();
       } else {

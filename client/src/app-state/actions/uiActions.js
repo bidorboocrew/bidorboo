@@ -51,7 +51,7 @@ export const setServerAppTaskerView = () => (dispatch, getState) => {
   }
 };
 
-export const setServerAppProposerView = () => (dispatch, getState) => {
+export const setServerAppRequesterView = () => (dispatch, getState) => {
   const { userAppView } = getState().uiReducer;
   if (userAppView !== 'REQUESTER') {
     const config = {
@@ -64,7 +64,7 @@ export const setServerAppProposerView = () => (dispatch, getState) => {
     });
 
     dispatch({
-      type: A.USER_MODEL_ACTIONS.UPDATE_USER_APP_VIEW_TO_PROPOSER,
+      type: A.USER_MODEL_ACTIONS.UPDATE_USER_APP_VIEW_TO_REQUESTER,
       payload: axios
         .put(ROUTES.API.USER.PUT.updateAppView, postData, config)
         .then(() => {})
@@ -74,17 +74,17 @@ export const setServerAppProposerView = () => (dispatch, getState) => {
         }),
     });
     return dispatch({
-      type: A.UI_ACTIONS.SET_APP_PROPOSER_VIEW,
+      type: A.UI_ACTIONS.SET_APP_REQUESTER_VIEW,
       payload: 'REQUESTER',
     });
   }
 };
 
-export const setAppViewUIToProposer = () => (dispatch, getState) => {
+export const setAppViewUIToRequester = () => (dispatch, getState) => {
   const { userAppView } = getState().uiReducer;
   if (userAppView !== 'REQUESTER') {
     return dispatch({
-      type: A.UI_ACTIONS.SET_APP_PROPOSER_VIEW,
+      type: A.UI_ACTIONS.SET_APP_REQUESTER_VIEW,
       payload: 'REQUESTER',
     });
   }

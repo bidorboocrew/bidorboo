@@ -6,10 +6,10 @@ import {
 } from '../../../containers/commonComponents';
 export default class BidsTable extends React.Component {
   openBidDetailsModal = (bid) => {
-    const { markBidAsSeen, jobId, showBidReviewModal } = this.props;
+    const { markBidAsSeen, requestId, showBidReviewModal } = this.props;
 
     if (bid.isNewBid) {
-      markBidAsSeen(jobId, bid._id);
+      markBidAsSeen(requestId, bid._id);
     }
 
     if (showBidReviewModal) {

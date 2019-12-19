@@ -61,7 +61,7 @@ class SubscribeToSearchResultsToggle extends React.Component {
         <label style={{ fontWeight: 500 }} htmlFor="notifyMeAboutNewTasks">
           Subscribe to search results
         </label>
-        <p className="help has-text-light">*Get notified when newly posted jobs matches your search criteria</p>
+        <p className="help has-text-light">*Get notified when newly posted requests matches your search criteria</p>
       </div>
     );
   }

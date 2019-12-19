@@ -7,34 +7,34 @@ import { switchRoute } from '../../utils';
 import {
   CountDownComponent,
   SummaryStartDateAndTime,
-  JobCardTitle,
+  RequestCardTitle,
   CancelledBy,
   TaskImagesCarousel,
   UserGivenTitle,
 } from '../../containers/commonComponents';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
-import { updateJobState } from '../../app-state/actions/jobActions';
+import { updateRequestState } from '../../app-state/actions/requestActions';
 import { REQUEST_STATES } from '../index';
 
 class RequesterCanceledByTaskerDetails extends React.Component {
   componentDidMount() {
-    const { updateJobState, job } = this.props;
-    updateJobState(job._id, REQUEST_STATES.AWARDED_JOB_CANCELED_BY_TASKER_SEEN);
+    const { updateRequestState, request } = this.props;
+    updateRequestState(request._id, REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_TASKER_SEEN);
   }
   render() {
-    const { job } = this.props;
+    const { request } = this.props;
 
-    if (!job) {
+    if (!request) {
       return switchRoute(ROUTES.CLIENT.REQUESTER.myRequestsPage);
     }
 
-    const { startingDateAndTime, _awardedBidRef, taskImages = [], jobTitle } = job;
+    const { startingDateAndTime, _awardedBidRef, taskImages = [], requestTitle } = request;
 
     const { _taskerRef, requesterPayment } = _awardedBidRef;
 
     const { displayName: taskerDisplayName } = _taskerRef;
 
-    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     const { value: requesterPaymentAmount } = requesterPayment;
 
@@ -45,8 +45,8 @@ class RequesterCanceledByTaskerDetails extends React.Component {
       >
         <div className="card-content">
           <div className="content">
-            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-            <UserGivenTitle userGivenTitle={jobTitle} />
+            <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <UserGivenTitle userGivenTitle={requestTitle} />
 
             <TaskImagesCarousel taskImages={taskImages} isLarge />
             <SummaryStartDateAndTime
@@ -90,7 +90,7 @@ class RequesterCanceledByTaskerDetails extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateJobState: bindActionCreators(updateJobState, dispatch),
+    updateRequestState: bindActionCreators(updateRequestState, dispatch),
   };
 };
 export default connect(null, mapDispatchToProps)(RequesterCanceledByTaskerDetails);

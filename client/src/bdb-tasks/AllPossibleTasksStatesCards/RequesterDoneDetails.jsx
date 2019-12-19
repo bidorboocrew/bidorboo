@@ -12,7 +12,7 @@ import {
   TaskSpecificExtras,
   ArchiveTask,
   DestinationAddressValue,
-  JobCardTitle,
+  RequestCardTitle,
   SummaryStartDateAndTime,
   TaskIsFulfilled,
   CenteredUserImageAndRating,
@@ -25,10 +25,10 @@ import RequestBaseContainer from './RequestBaseContainer';
 
 export default class RequesterDoneDetails extends RequestBaseContainer {
   render() {
-    const { job } = this.props;
+    const { request } = this.props;
 
     const {
-      _id: jobId,
+      _id: requestId,
       startingDateAndTime,
       addressText,
       _awardedBidRef,
@@ -36,12 +36,12 @@ export default class RequesterDoneDetails extends RequestBaseContainer {
       detailedDescription,
       _reviewRef={
         revealToBoth: false,
-        requiresProposerReview: true,
+        requiresRequesterReview: true,
         requiresTaskerReview: true,
       },
       taskImages = [],
-      jobTitle,
-    } = job;
+      requestTitle,
+    } = request;
 
     const { requesterPayment, _taskerRef } = _awardedBidRef;
     const { value: requesterPaymentAmount } = requesterPayment;
@@ -51,11 +51,11 @@ export default class RequesterDoneDetails extends RequestBaseContainer {
 
     const { emailAddress } = email;
 
-    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     const { showMore } = this.state;
 
-    const { requiresProposerReview } = _reviewRef;
+    const { requiresRequesterReview } = _reviewRef;
     return (
       <>
         <div
@@ -69,8 +69,8 @@ export default class RequesterDoneDetails extends RequestBaseContainer {
         >
           <div style={{ borderBottom: 0 }} className="card-content">
             <div className="content">
-              <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-              <UserGivenTitle userGivenTitle={jobTitle} />
+              <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <UserGivenTitle userGivenTitle={requestTitle} />
 
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
@@ -79,9 +79,9 @@ export default class RequesterDoneDetails extends RequestBaseContainer {
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              {!requiresProposerReview && <ArchiveTask />}
+              {!requiresRequesterReview && <ArchiveTask />}
 
-              {requiresProposerReview && <TaskIsFulfilled />}
+              {requiresRequesterReview && <TaskIsFulfilled />}
               <TaskCost cost={requesterPaymentAmount} />
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
@@ -132,17 +132,17 @@ export default class RequesterDoneDetails extends RequestBaseContainer {
             phoneNumber={phoneNumber}
             renderActionButton={() => (
               <>
-                {requiresProposerReview && (
+                {requiresRequesterReview && (
                   <a
                     onClick={() => {
-                      switchRoute(ROUTES.CLIENT.REVIEW.getProposerJobReview({ jobId }));
+                      switchRoute(ROUTES.CLIENT.REVIEW.getRequesterRequestReview({ requestId }));
                     }}
                     className={`button firstButtonInCard is-primary`}
                   >
                     Review Tasker
                   </a>
                 )}
-                {!requiresProposerReview && (
+                {!requiresRequesterReview && (
                   <a
                     onClick={() => {
                       alert('Archive not implemented yet, will take you to archive');

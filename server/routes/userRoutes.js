@@ -7,7 +7,7 @@ const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 const utils = require('../utils/utilities');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
-const { jobDataAccess } = require('../data-access/jobDataAccess');
+const { requestDataAccess } = require('../data-access/requestDataAccess');
 const {
   resetPasswordReqSchema,
   verifyViaCode,
@@ -239,9 +239,9 @@ module.exports = (app) => {
 
   app.get(ROUTES.API.USER.GET.currentUser, async (req, res, next) => {
     try {
-      // await jobDataAccess.BidOrBooAdmin.nagRequesterToConfirmJob();
+      // await requestDataAccess.BidOrBooAdmin.nagRequesterToConfirmRequest();
 
-      // await jobDataAccess.BidOrBooAdmin.SendPayoutsToBanks();
+      // await requestDataAccess.BidOrBooAdmin.SendPayoutsToBanks();
       // sendTextService.verifyPhone()
 
       // sendTextService.verifyPhoneCode();
@@ -268,8 +268,8 @@ module.exports = (app) => {
       pastRequestedServices = await userDataAccess.getMyPastRequestedServices(
         req.user._id.toString()
       );
-      if (pastRequestedServices && pastRequestedServices._asProposerReviewsRef) {
-        return res.send(pastRequestedServices._asProposerReviewsRef);
+      if (pastRequestedServices && pastRequestedServices._asRequesterReviewsRef) {
+        return res.send(pastRequestedServices._asRequesterReviewsRef);
       }
       return res.send({});
     } catch (e) {

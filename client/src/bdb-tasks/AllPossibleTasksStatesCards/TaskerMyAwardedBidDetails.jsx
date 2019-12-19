@@ -5,7 +5,7 @@ import { Collapse } from 'react-collapse';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { taskerConfirmsJobCompletion, taskerDisputesJob } from '../../app-state/actions/jobActions';
+import { taskerConfirmsRequestCompletion, taskerDisputesRequest } from '../../app-state/actions/requestActions';
 import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -15,14 +15,14 @@ import {
   TaskSpecificExtras,
   SummaryStartDateAndTime,
   BSTaskerAwarded,
-  JobCardTitle,
+  RequestCardTitle,
   BidAmount,
   BSWaitingOnRequesterToConfirm,
   CenteredUserImageAndRating,
   TaskImagesCarousel,
   UserGivenTitle,
   TaskerWillEarn,
-  AddAwardedJobToCalendarForTasker,
+  AddAwardedRequestToCalendarForTasker,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -32,7 +32,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
   render() {
     const { bid, cancelAwardedBid } = this.props;
 
-    const { _jobRef: job } = bid;
+    const { _requestRef: request } = bid;
 
     const {
       startingDateAndTime,
@@ -42,20 +42,20 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
       _ownerRef,
       taskerConfirmedCompletion,
       taskImages = [],
-      jobTitle,
+      requestTitle,
       _reviewRef = {
         revealToBoth: false,
-        requiresProposerReview: true,
+        requiresRequesterReview: true,
         requiresTaskerReview: true,
       },
-    } = job;
+    } = request;
 
     const { bidAmount, taskerPayout, _id: bidId } = bid;
 
     const { value: bidValue } = bidAmount;
     const { value: taskerPayoutAmount } = taskerPayout;
 
-    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
 
@@ -138,7 +138,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
         >
           <div style={{ borderBottom: 0 }} className="card-content">
             <div className="content">
-              <JobCardTitle
+              <RequestCardTitle
                 icon={ICON}
                 title={TITLE}
                 img={IMG}
@@ -185,7 +185,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                   )
                 }
               />
-              <UserGivenTitle userGivenTitle={jobTitle} />
+              <UserGivenTitle userGivenTitle={requestTitle} />
 
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
@@ -249,7 +249,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
             otherUserProfileInfo={_ownerRef}
             renderActionButton={() => <TaskerConfirmsCompletion {...this.props} />}
             renderAddToCalendar={() => (
-              <AddAwardedJobToCalendarForTasker job={job} extraClassName={'is-small'} />
+              <AddAwardedRequestToCalendarForTasker request={request} extraClassName={'is-small'} />
             )}
           />
         )}
@@ -259,7 +259,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
             renderActionButton={() => (
               <a
                 onClick={() => {
-                  switchRoute(ROUTES.CLIENT.REVIEW.getTaskerJobReview({ bidId }));
+                  switchRoute(ROUTES.CLIENT.REVIEW.getTaskerRequestReview({ bidId }));
                 }}
                 className={`button  is-success`}
               >
@@ -290,8 +290,8 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    taskerConfirmsJobCompletion: bindActionCreators(taskerConfirmsJobCompletion, dispatch),
-    taskerDisputesJob: bindActionCreators(taskerDisputesJob, dispatch),
+    taskerConfirmsRequestCompletion: bindActionCreators(taskerConfirmsRequestCompletion, dispatch),
+    taskerDisputesRequest: bindActionCreators(taskerDisputesRequest, dispatch),
     cancelAwardedBid: bindActionCreators(cancelAwardedBid, dispatch),
   };
 };
@@ -311,10 +311,10 @@ class TaskerConfirmsCompletion extends React.Component {
   };
 
   submitConfirmation = () => {
-    const { taskerConfirmsJobCompletion, job } = this.props;
+    const { taskerConfirmsRequestCompletion, request } = this.props;
 
     this.setState({ showConfirmationModal: false }, () => {
-      taskerConfirmsJobCompletion(job._id);
+      taskerConfirmsRequestCompletion(request._id);
     });
   };
 
@@ -385,22 +385,22 @@ class TaskerDisputes extends React.Component {
     };
   }
   submitDispute = (taskerDispute) => {
-    const { taskerDisputesJob } = this.props;
-    taskerDisputesJob(taskerDispute);
+    const { taskerDisputesRequest } = this.props;
+    taskerDisputesRequest(taskerDispute);
   };
   toggleModal = () => {
     this.setState({ showConfirmationModal: !this.state.showConfirmationModal });
   };
   submitConfirmation = () => {
-    const { taskerConfirmsJobCompletion, job } = this.props;
+    const { taskerConfirmsRequestCompletion, request } = this.props;
 
     this.setState({ showConfirmationModal: false }, () => {
-      taskerConfirmsJobCompletion(job._id);
+      taskerConfirmsRequestCompletion(request._id);
     });
   };
   render() {
-    const { job } = this.props;
-    const jobId = job._id;
+    const { request } = this.props;
+    const requestId = request._id;
     const { showConfirmationModal, selectedDispute, disputeText } = this.state;
     return (
       <React.Fragment>
@@ -538,7 +538,7 @@ class TaskerDisputes extends React.Component {
                         taskerDispute: {
                           reason: selectedDispute,
                           details: disputeText,
-                          jobId: jobId,
+                          requestId: requestId,
                         },
                       })
                     }

@@ -2,16 +2,16 @@
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { updateViewedBy } from '../../../app-state/actions/jobActions';
+import { updateViewedBy } from '../../../app-state/actions/requestActions';
 import { showLoginDialog } from '../../../app-state/actions/uiActions';
 import React from 'react';
 import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox';
 
 import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../../bdb-tasks/getMeTheRightCard';
-export class JobInfoBox extends React.Component {
+export class RequestInfoBox extends React.Component {
   render() {
     const {
-      job,
+      request,
       userDetails,
       toggleShowInfoBox,
       isLoggedIn,
@@ -21,7 +21,7 @@ export class JobInfoBox extends React.Component {
 
     return (
       <InfoBox
-        id={`infobox-bid-${job._id}`}
+        id={`infobox-bid-${request._id}`}
         className="info-Box-map"
         options={{
           pixelOffset: new google.maps.Size(0, -5),
@@ -40,7 +40,7 @@ export class JobInfoBox extends React.Component {
         }}
       >
         {getMeTheRightRequestCard({
-          job,
+          request,
           isSummaryView: true,
           pointOfView: POINT_OF_VIEW.TASKER,
           onCloseHandler: toggleShowInfoBox,
@@ -72,4 +72,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(JobInfoBox);
+)(RequestInfoBox);

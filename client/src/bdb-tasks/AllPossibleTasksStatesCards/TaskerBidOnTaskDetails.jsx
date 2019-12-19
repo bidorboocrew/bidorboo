@@ -13,7 +13,7 @@ import {
   DestinationAddressValue,
   CardTitleAndActionsInfo,
   TaskSpecificExtras,
-  JobCardTitle,
+  RequestCardTitle,
   TaskImagesCarousel,
   UserGivenTitle,
 } from '../../containers/commonComponents';
@@ -27,7 +27,7 @@ import {
 
 export default class TaskerBidOnTaskDetails extends React.Component {
   render() {
-    const { job, otherArgs } = this.props;
+    const { request, otherArgs } = this.props;
     const { showLoginDialog, isLoggedIn } = otherArgs;
 
     const {
@@ -39,9 +39,9 @@ export default class TaskerBidOnTaskDetails extends React.Component {
       location,
       extras,
       templateId,
-      jobTitle,
+      requestTitle,
       taskImages = [],
-    } = job;
+    } = request;
 
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${templateId}`];
 
@@ -50,12 +50,12 @@ export default class TaskerBidOnTaskDetails extends React.Component {
     const { submitBid, renderTaskerBidInfo, userDetails } = otherArgs;
     const { _id: currentUserId } = userDetails;
 
-    const userAlreadyView = didUserAlreadyView(job, currentUserId);
-    const { userAlreadyBid } = getUserExistingBid(job, currentUserId);
+    const userAlreadyView = didUserAlreadyView(request, currentUserId);
+    const { userAlreadyBid } = getUserExistingBid(request, currentUserId);
 
     let avgBid = 0;
-    if (job && job._bidsListRef && job._bidsListRef.length > 0) {
-      avgBid = findAvgBidInBidList(job._bidsListRef);
+    if (request && request._bidsListRef && request._bidsListRef.length > 0) {
+      avgBid = findAvgBidInBidList(request._bidsListRef);
     }
 
     const taskerCanBid = userDetails && userDetails.canBid;
@@ -90,8 +90,8 @@ export default class TaskerBidOnTaskDetails extends React.Component {
         >
           <div className="card-content">
             <div className="content">
-              <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-              <UserGivenTitle userGivenTitle={jobTitle} />
+              <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <UserGivenTitle userGivenTitle={requestTitle} />
 
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
@@ -136,11 +136,11 @@ export default class TaskerBidOnTaskDetails extends React.Component {
                 {/* <label className="label hasSelectedValue">Task Info</label> */}
                 <CardTitleAndActionsInfo
                   userAlreadyBid={userAlreadyBid}
-                  jobState={state}
+                  requestState={state}
                   templateId={templateId}
                   bidsList={_bidsListRef}
                   userAlreadyView={userAlreadyView}
-                  job={job}
+                  request={request}
                 />
               </div>
 
@@ -158,12 +158,12 @@ export default class TaskerBidOnTaskDetails extends React.Component {
                   onSubmit={(values) => {
                     submitBid({
                       recaptchaField: values.recaptchaField,
-                      job,
+                      request,
                       bidAmount: values.bidAmountField,
                     });
                   }}
                   onCancel={() => {
-                    // updateBooedBy(job);
+                    // updateBooedBy(request);
                     switchRoute(ROUTES.CLIENT.TASKER.root);
                   }}
                 />

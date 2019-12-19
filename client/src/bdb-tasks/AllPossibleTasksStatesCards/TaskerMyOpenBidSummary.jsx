@@ -6,7 +6,7 @@ import {
   CountDownComponent,
   SummaryStartDateAndTime,
   BSawaitingOnRequester,
-  JobCardTitle,
+  RequestCardTitle,
   TaskImagesCarousel,
   UserGivenTitle,
   TaskerWillEarn,
@@ -16,22 +16,22 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 export default class TaskerMyOpenBidSummary extends React.Component {
   render() {
-    const { bid, job } = this.props;
+    const { bid, request } = this.props;
 
-    const { startingDateAndTime, taskImages = [], jobTitle } = job;
+    const { startingDateAndTime, taskImages = [], requestTitle } = request;
 
     const { taskerPayout, isNewBid } = bid;
 
     const taskerTotalPayoutAmount = taskerPayout.value;
 
-    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     return (
       <div className={`card has-text-centered cardWithButton`}>
         <div className="card-content">
           <div className="content">
-            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-            <UserGivenTitle userGivenTitle={jobTitle} />
+            <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <UserGivenTitle userGivenTitle={requestTitle} />
 
             <TaskImagesCarousel taskImages={taskImages} />
 

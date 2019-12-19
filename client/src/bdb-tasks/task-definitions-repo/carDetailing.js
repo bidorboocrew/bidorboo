@@ -77,7 +77,7 @@ Q3) Any particular stains or dirt that you want to mention?
                 {/* <i className="fas fa-car-alt" style={{ fontSize: 68, color: '#ee2a36' }} /> */}
                 <img
                   src={carDetailing_img}
-                  alt="BidOrBoo task img"
+                  alt="BidOrBoo task"
                   style={{
                     height: 125,
                     width: 125,
@@ -317,7 +317,7 @@ const renderThankyouMoment = ({
       <div>
         <img
           src={carDetailing_img}
-          alt="BidOrBoo task img"
+          alt="BidOrBoo Thank You"
           style={{ height: 125, width: 125, objectFit: 'cover' }}
         />
       </div>

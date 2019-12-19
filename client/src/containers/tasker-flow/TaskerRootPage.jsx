@@ -6,7 +6,7 @@ import ShareButtons from '../ShareButtons.jsx';
 
 import { getCurrentUser } from '../../app-state/actions/authActions';
 
-import { searchJobsToBidOn } from '../../app-state/actions/jobActions';
+import { searchRequestsToBidOn } from '../../app-state/actions/requestActions';
 
 import TaskerRootFilterWrapper from '../../components/forms/TaskerRootFilterWrapper';
 import TaskerRootLocationFilter from '../../components/forms/TaskerRootLocationFilter';
@@ -14,8 +14,8 @@ import TaskerRootLocationFilter from '../../components/forms/TaskerRootLocationF
 import { Spinner } from '../../components/Spinner';
 
 import MapSection from './map/MapSection';
-import TaskerVerificationBanner from './TaskerVerificationBanner.jsx.js';
-import AllJobsView from './components/AllJobsView';
+import TaskerVerificationBanner from './TaskerVerificationBanner';
+import AllRequestsView from './components/AllRequestsView';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 import SubscribeToSearchResultsToggle from './SubscribeToSearchResultsToggle';
 
@@ -43,7 +43,7 @@ class TaskerRootPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { userDetails, searchJobsToBidOn } = this.props;
+    const { userDetails, searchRequestsToBidOn } = this.props;
 
     if (this.props.isLoggedIn && prevProps.isLoggedIn !== this.props.isLoggedIn) {
       const userLastStoredSearchParams = userDetails && userDetails.lastSearch;
@@ -76,7 +76,7 @@ class TaskerRootPage extends React.Component {
             };
           },
           () => {
-            searchJobsToBidOn({
+            searchRequestsToBidOn({
               searchRadius,
               location: { lng: coordinates[0], lat: coordinates[1] },
               addressText,
@@ -88,7 +88,7 @@ class TaskerRootPage extends React.Component {
     }
   }
   componentDidMount() {
-    const { isLoggedIn, userDetails, searchJobsToBidOn } = this.props;
+    const { isLoggedIn, userDetails, searchRequestsToBidOn } = this.props;
 
     if (isLoggedIn) {
       const userLastStoredSearchParams = userDetails && userDetails.lastSearch;
@@ -121,7 +121,7 @@ class TaskerRootPage extends React.Component {
             };
           },
           () => {
-            searchJobsToBidOn({
+            searchRequestsToBidOn({
               searchRadius,
               location: { lng: coordinates[0], lat: coordinates[1] },
               addressText,
@@ -134,7 +134,7 @@ class TaskerRootPage extends React.Component {
   }
 
   submitSearchLocationParams = ({ addressText, latLng, searchRadius, tasksTypeFilter }) => {
-    const { searchJobsToBidOn } = this.props;
+    const { searchRequestsToBidOn } = this.props;
 
     // do some validation xxxxx latLng
     this.setState(
@@ -149,7 +149,7 @@ class TaskerRootPage extends React.Component {
         },
       }),
       () => {
-        searchJobsToBidOn({
+        searchRequestsToBidOn({
           searchRadius: searchRadius,
           location: latLng,
           addressText,
@@ -186,24 +186,24 @@ class TaskerRootPage extends React.Component {
   };
 
   render() {
-    const { isLoading, isLoggedIn, listOfJobsToBidOn, userDetails } = this.props;
+    const { isLoading, isLoggedIn, listOfRequestsToBidOn, userDetails } = this.props;
     const { isThereAnActiveSearch, userLastStoredSearchParams, showMapView } = this.state;
 
     const { mapCenterPoint, mapZoomLevel, activeSearchParams } = this.state;
 
-    let currentJobsList = listOfJobsToBidOn;
+    let currentRequestsList = listOfRequestsToBidOn;
     const taskerCanBid = userDetails && userDetails.canBid;
 
-    currentJobsList = currentJobsList.map((job) => {
+    currentRequestsList = currentRequestsList.map((request) => {
       return {
-        ...job,
+        ...request,
         reactMapClusterRef: React.createRef(),
         zoomOnInfo: this.zoomAndCenterAroundMarker,
       };
     });
 
-    const anyVisibleJobs = currentJobsList && currentJobsList.length > 0;
-    const searchWithNoResults = isThereAnActiveSearch && !anyVisibleJobs;
+    const anyVisibleRequests = currentRequestsList && currentRequestsList.length > 0;
+    const searchWithNoResults = isThereAnActiveSearch && !anyVisibleRequests;
 
     return (
       <>
@@ -217,7 +217,7 @@ class TaskerRootPage extends React.Component {
                   style={{ marginBottom: '0.5rem', paddingLeft: 10 }}
                   className="subtitle has-text-weight-semibold"
                 >
-                  Search For Jobs Near
+                  Search For Requests Near
                 </h1>
 
                 <TaskerRootLocationFilter
@@ -271,7 +271,7 @@ class TaskerRootPage extends React.Component {
                   style={{ marginBottom: 6 }}
                   className="help container is-widescreen has-text-grey has-text-centered"
                 >
-                  {` ${(currentJobsList && currentJobsList.length) ||
+                  {` ${(currentRequestsList && currentRequestsList.length) ||
                     0} tasks available in the search area`}
                 </div>
               )}
@@ -280,13 +280,13 @@ class TaskerRootPage extends React.Component {
                   <MapSection
                     mapCenterPoint={mapCenterPoint}
                     mapZoomLevel={mapZoomLevel}
-                    jobsList={currentJobsList}
+                    requestsList={currentRequestsList}
                     {...this.props}
                   />
                 </div>
               </Collapse>
 
-              {anyVisibleJobs && (
+              {anyVisibleRequests && (
                 <TaskerRootFilterWrapper
                   submitSearchLocationParams={this.submitSearchLocationParams}
                   updateSearchLocationState={this.updateSearchLocationState}
@@ -296,10 +296,10 @@ class TaskerRootPage extends React.Component {
                 />
               )}
 
-              {currentJobsList && currentJobsList.length > 0 && (
+              {currentRequestsList && currentRequestsList.length > 0 && (
                 <>
-                  <AllJobsView
-                    jobsList={currentJobsList}
+                  <AllRequestsView
+                    requestsList={currentRequestsList}
                     {...this.props}
                     showMapView={showMapView}
                   />
@@ -358,18 +358,18 @@ class TaskerRootPage extends React.Component {
   }
 }
 
-const mapStateToProps = ({ jobsReducer, userReducer }) => {
+const mapStateToProps = ({ requestsReducer, userReducer }) => {
   return {
-    isLoading: jobsReducer.isLoading,
+    isLoading: requestsReducer.isLoading,
     userDetails: userReducer.userDetails,
     isLoggedIn: userReducer.isLoggedIn,
-    listOfJobsToBidOn: jobsReducer.listOfJobsToBidOn,
+    listOfRequestsToBidOn: requestsReducer.listOfRequestsToBidOn,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    searchJobsToBidOn: bindActionCreators(searchJobsToBidOn, dispatch),
+    searchRequestsToBidOn: bindActionCreators(searchRequestsToBidOn, dispatch),
     getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };

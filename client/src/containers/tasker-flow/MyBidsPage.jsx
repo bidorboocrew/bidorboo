@@ -7,7 +7,7 @@ import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
 import { Spinner } from '../../components/Spinner';
-import TaskerVerificationBanner from './TaskerVerificationBanner.jsx.js';
+import TaskerVerificationBanner from './TaskerVerificationBanner';
 import { getMyPostedBidsSummary } from '../../app-state/actions/bidsActions';
 import { deleteOpenBid, updateBid } from '../../app-state/actions/bidsActions';
 import { REQUEST_STATES } from '../../bdb-tasks/index';
@@ -36,15 +36,15 @@ class MyBidsPage extends React.Component {
     let pastBids = areThereAnyBidsToView
       ? openBidsList
           .filter((bid) => {
-            const { _jobRef: job } = bid;
+            const { _requestRef: request } = bid;
             return [
               REQUEST_STATES.DISPUTE_RESOLVED,
-              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_TASKER_SEEN,
-              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN,
-              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN,
+              REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_TASKER_SEEN,
+              REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_REQUESTER_SEEN,
+              REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_REQUESTER_SEEN,
               REQUEST_STATES.DISPUTE_RESOLVED,
               REQUEST_STATES.ARCHIVE,
-            ].includes(job.state);
+            ].includes(request.state);
           })
           .map((bid) => {
             return (
@@ -63,16 +63,16 @@ class MyBidsPage extends React.Component {
     let activeBids = areThereAnyBidsToView
       ? openBidsList
           .filter((bid) => {
-            const { _jobRef: job } = bid;
+            const { _requestRef: request } = bid;
             return [
               REQUEST_STATES.OPEN,
               REQUEST_STATES.AWARDED,
               REQUEST_STATES.AWARDED_SEEN,
-              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_TASKER,
-              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER,
+              REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_TASKER,
+              REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_REQUESTER,
               REQUEST_STATES.DISPUTED,
               REQUEST_STATES.DONE,
-            ].includes(job.state);
+            ].includes(request.state);
           })
           .map((bid) => {
             return (

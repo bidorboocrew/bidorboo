@@ -6,7 +6,7 @@ import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import {
   CountDownComponent,
-  JobCardTitle,
+  RequestCardTitle,
   SummaryStartDateAndTime,
   AssignedTasker,
   TaskImagesCarousel,
@@ -18,16 +18,16 @@ import RequestBaseContainer from './RequestBaseContainer';
 
 export default class RequesterAwardedSummary extends RequestBaseContainer {
   render() {
-    const { job } = this.props;
+    const { request } = this.props;
     const {
-      _id: jobId,
+      _id: requestId,
       startingDateAndTime,
       taskerConfirmedCompletion,
-      jobTitle,
+      requestTitle,
       taskImages = [],
-    } = job;
+    } = request;
 
-    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     return (
       <React.Fragment>
@@ -37,8 +37,8 @@ export default class RequesterAwardedSummary extends RequestBaseContainer {
         >
           <div className="card-content">
             <div className="content">
-              <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-              <UserGivenTitle userGivenTitle={jobTitle} />
+              <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <UserGivenTitle userGivenTitle={requestTitle} />
 
               <TaskImagesCarousel taskImages={taskImages} />
               <SummaryStartDateAndTime
@@ -54,7 +54,7 @@ export default class RequesterAwardedSummary extends RequestBaseContainer {
           <div className="centeredButtonInCard">
             <a
               onClick={() => {
-                switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedJobPage(jobId));
+                switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(requestId));
               }}
               className={`button is-success`}
             >

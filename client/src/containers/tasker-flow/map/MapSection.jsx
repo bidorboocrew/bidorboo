@@ -12,17 +12,17 @@ class MapSection extends React.Component {
       isLoggedIn,
       showLoginDialog,
       userDetails,
-      jobsList,
+      requestsList,
       mapZoomLevel,
     } = this.props;
 
-    return jobsList ? (
+    return requestsList ? (
       <MapWithAMarkerClusterer
         mapCenterPoint={mapCenterPoint}
         isLoggedIn={isLoggedIn}
         showLoginDialog={showLoginDialog}
         userDetails={userDetails}
-        jobsList={jobsList}
+        requestsList={requestsList}
         mapZoomLevel={mapZoomLevel}
       />
     ) : null;

@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getCurrentUserNotifications, getCurrentUser } from './app-state/actions/authActions';
 import {
-  setAppViewUIToProposer,
+  setAppViewUIToRequester,
   setAppViewUIToTasker,
-  setServerAppProposerView,
+  setServerAppRequesterView,
   setServerAppTaskerView,
 } from './app-state/actions/uiActions';
 import * as ROUTES from './constants/frontend-route-consts';
@@ -22,7 +22,7 @@ const loggedOutRoutes = [
   ROUTES.CLIENT.USER_ROFILE_FOR_REVIEW,
   ROUTES.CLIENT.REQUESTER.root,
   ROUTES.CLIENT.TASKER.root,
-  ROUTES.CLIENT.TASKER.bidOnJobPage,
+  ROUTES.CLIENT.TASKER.bidOnRequestPage,
 ];
 
 class GetNotificationsAndScroll extends React.Component {
@@ -48,7 +48,7 @@ class GetNotificationsAndScroll extends React.Component {
       isLoggedIn,
       getCurrentUser,
       location,
-      setServerAppProposerView,
+      setServerAppRequesterView,
       setServerAppTaskerView,
     } = this.props;
     const currentUrlPathname = window.location.pathname;
@@ -76,7 +76,7 @@ class GetNotificationsAndScroll extends React.Component {
         }
 
         if (currentUrlPathname.indexOf('bdb-request') > -1) {
-          setServerAppProposerView();
+          setServerAppRequesterView();
         } else if (currentUrlPathname.indexOf('bdb-offer') > -1) {
           setServerAppTaskerView();
         }
@@ -100,14 +100,14 @@ class GetNotificationsAndScroll extends React.Component {
     const {
       getCurrentUser,
       setAppViewUIToTasker,
-      setAppViewUIToProposer,
+      setAppViewUIToRequester,
       isLoggedIn,
       userDetails,
     } = this.props;
 
     if (isLoggedIn) {
       if (userDetails.appView === 'REQUESTER') {
-        setAppViewUIToProposer();
+        setAppViewUIToRequester();
       } else if (userDetails.appView === 'TASKER') {
         setAppViewUIToTasker();
       }
@@ -196,8 +196,8 @@ const mapDispatchToProps = (dispatch) => {
     getCurrentUserNotifications: bindActionCreators(getCurrentUserNotifications, dispatch),
     getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
     setAppViewUIToTasker: bindActionCreators(setAppViewUIToTasker, dispatch),
-    setAppViewUIToProposer: bindActionCreators(setAppViewUIToProposer, dispatch),
-    setServerAppProposerView: bindActionCreators(setServerAppProposerView, dispatch),
+    setAppViewUIToRequester: bindActionCreators(setAppViewUIToRequester, dispatch),
+    setServerAppRequesterView: bindActionCreators(setServerAppRequesterView, dispatch),
     setServerAppTaskerView: bindActionCreators(setServerAppTaskerView, dispatch),
   };
 };

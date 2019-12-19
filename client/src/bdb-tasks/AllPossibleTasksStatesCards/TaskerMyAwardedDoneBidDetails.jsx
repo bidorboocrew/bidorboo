@@ -7,7 +7,7 @@ import { switchRoute } from '../../utils';
 import {
   CountDownComponent,
   TaskSpecificExtras,
-  JobCardTitle,
+  RequestCardTitle,
   SummaryStartDateAndTime,
   BidAmount,
   TaskerWillEarn,
@@ -24,7 +24,7 @@ export default class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer 
   render() {
     const { bid } = this.props;
 
-    const { _jobRef: job } = bid;
+    const { _requestRef: request } = bid;
     const {
       startingDateAndTime,
       addressText,
@@ -33,15 +33,15 @@ export default class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer 
       _ownerRef,
 
       taskImages = [],
-      jobTitle,
-    } = job;
+      requestTitle,
+    } = request;
 
     const { taskerPayout, bidAmount, _id: bidId } = bid;
 
     const { value: taskerPayoutAmount } = taskerPayout;
     const { value: bidValue } = bidAmount;
 
-    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     const { showMore } = this.state;
 
@@ -58,8 +58,8 @@ export default class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer 
         >
           <div style={{ borderBottom: 0 }} className="card-content">
             <div className="content">
-              <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-              <UserGivenTitle userGivenTitle={jobTitle} />
+              <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <UserGivenTitle userGivenTitle={requestTitle} />
 
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
@@ -159,7 +159,7 @@ class RequesterDetails extends React.Component {
         </div>
         <a
           onClick={() => {
-            switchRoute(ROUTES.CLIENT.REVIEW.getTaskerJobReview({ bidId }));
+            switchRoute(ROUTES.CLIENT.REVIEW.getTaskerRequestReview({ bidId }));
           }}
           className={`button firstButtonInCard is-primary`}
         >

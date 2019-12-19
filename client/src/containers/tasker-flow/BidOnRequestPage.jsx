@@ -6,27 +6,27 @@ import { submitBid } from '../../app-state/actions/bidsActions';
 
 import { RenderBackButton } from '../commonComponents';
 
-import { getJobToBidOnDetails } from '../../app-state/actions/bidsActions';
+import { getRequestToBidOnDetails } from '../../app-state/actions/bidsActions';
 
 import { Spinner } from '../../components/Spinner';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightCard';
 
-class BidOnJobPage extends React.Component {
+class BidOnRequestPage extends React.Component {
   componentDidMount() {
-    const { match, getJobToBidOnDetails } = this.props;
+    const { match, getRequestToBidOnDetails } = this.props;
 
-    if (match.params && match.params.jobId) {
-      getJobToBidOnDetails(match.params.jobId);
+    if (match.params && match.params.requestId) {
+      getRequestToBidOnDetails(match.params.requestId);
     }
   }
   render() {
-    const { submitBid, jobDetails, currentUserDetails, isLoggedIn, showLoginDialog } = this.props;
-    let dontShowThisPage = !jobDetails || !jobDetails._id || !jobDetails._ownerRef;
+    const { submitBid, requestDetails, currentUserDetails, isLoggedIn, showLoginDialog } = this.props;
+    let dontShowThisPage = !requestDetails || !requestDetails._id || !requestDetails._ownerRef;
     if (dontShowThisPage) {
       return (
         <section className="section">
-          <Spinner renderLabel="getting job details" isLoading size={'large'} />
+          <Spinner renderLabel="getting request details" isLoading size={'large'} />
         </section>
       );
     }
@@ -39,7 +39,7 @@ class BidOnJobPage extends React.Component {
               <RenderBackButton />
 
               {getMeTheRightRequestCard({
-                job: jobDetails,
+                request: requestDetails,
                 isSummaryView: false,
                 pointOfView: POINT_OF_VIEW.TASKER,
                 submitBid,
@@ -58,14 +58,14 @@ class BidOnJobPage extends React.Component {
 const mapStateToProps = ({ bidsReducer, userReducer }) => {
   return {
     isLoggedIn: userReducer.isLoggedIn,
-    jobDetails: bidsReducer.jobToBidOnDetails,
+    requestDetails: bidsReducer.requestToBidOnDetails,
     currentUserDetails: userReducer.userDetails,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
     submitBid: bindActionCreators(submitBid, dispatch),
-    getJobToBidOnDetails: bindActionCreators(getJobToBidOnDetails, dispatch),
+    getRequestToBidOnDetails: bindActionCreators(getRequestToBidOnDetails, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };
@@ -73,4 +73,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(BidOnJobPage);
+)(BidOnRequestPage);

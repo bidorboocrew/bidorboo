@@ -8,18 +8,18 @@ import { switchRoute } from '../utils';
 class NotificationsModal extends React.Component {
   render() {
     const {
-      jobIdsWithNewBids,
+      requestIdsWithNewBids,
       myBidsWithNewStatus,
-      jobsHappeningToday,
+      requestsHappeningToday,
       bidsHappeningToday,
       onClose,
     } = this.props;
 
     const isAnythingHappeningToday =
-      (jobsHappeningToday && jobsHappeningToday.length > 0) ||
+      (requestsHappeningToday && requestsHappeningToday.length > 0) ||
       (bidsHappeningToday && bidsHappeningToday.length > 0);
 
-    const didRecieveNewBids = jobIdsWithNewBids && jobIdsWithNewBids.length > 0;
+    const didRecieveNewBids = requestIdsWithNewBids && requestIdsWithNewBids.length > 0;
 
     const didMyBidsGetAwarded = myBidsWithNewStatus && myBidsWithNewStatus.length > 0;
     return (
@@ -38,8 +38,8 @@ class NotificationsModal extends React.Component {
                     </li>
                   </ul>
                 </div>
-                {getAwardedJobDetailslinks(
-                  jobsHappeningToday,
+                {getAwardedRequestDetailslinks(
+                  requestsHappeningToday,
                   onClose,
                   <span className="icon">
                     <i className="far fa-clock" />
@@ -63,8 +63,8 @@ class NotificationsModal extends React.Component {
                     </li>
                   </ul>
                 </div>
-                {getReviewJoblinks(
-                  jobIdsWithNewBids,
+                {getReviewRequestlinks(
+                  requestIdsWithNewBids,
                   onClose,
                   <span className="icon">
                     <i className="far fa-plus-square" />
@@ -101,20 +101,20 @@ const mapStateToProps = ({ uiReducer }) => {
   const { notificationFeed } = uiReducer;
 
   const {
-    jobIdsWithNewBids,
+    requestIdsWithNewBids,
     myBidsWithNewStatus,
     reviewsToBeFilled,
     workTodo,
-    jobsHappeningToday,
+    requestsHappeningToday,
     bidsHappeningToday,
   } = notificationFeed;
 
   return {
-    jobIdsWithNewBids,
+    requestIdsWithNewBids,
     myBidsWithNewStatus,
     reviewsToBeFilled,
     workTodo,
-    jobsHappeningToday,
+    requestsHappeningToday,
     bidsHappeningToday,
   };
 };
@@ -123,9 +123,9 @@ export default connect(
   null,
 )(NotificationsModal);
 
-const getAwardedJobDetailslinks = (jobs, closeDialog, icon) => {
-  if (jobs && jobs.length > 0) {
-    return jobs.map((job) => {
+const getAwardedRequestDetailslinks = (requests, closeDialog, icon) => {
+  if (requests && requests.length > 0) {
+    return requests.map((request) => {
       return (
         <div
           style={{
@@ -134,30 +134,30 @@ const getAwardedJobDetailslinks = (jobs, closeDialog, icon) => {
             cursor: 'pointer',
             border: ' 1px solid lightgray',
           }}
-          key={job._id}
+          key={request._id}
           onClick={() => {
             closeDialog();
-            switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedJobPage(job._id));
+            switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(request._id));
           }}
           className="notification"
         >
           <span className="icon">{icon && icon}</span>
-          <span>{`Your ${job.templateId} Request`}</span>
+          <span>{`Your ${request.templateId} Request`}</span>
         </div>
       );
     });
   }
   return null;
 };
-const getReviewJoblinks = (jobs, closeDialog, icon) => {
-  if (jobs && jobs.length > 0) {
-    return jobs.map((job) => {
+const getReviewRequestlinks = (requests, closeDialog, icon) => {
+  if (requests && requests.length > 0) {
+    return requests.map((request) => {
       return (
         <div
-          key={job._id}
+          key={request._id}
           onClick={() => {
             closeDialog();
-            switchRoute(ROUTES.CLIENT.REQUESTER.dynamicReviewRequestAndBidsPage(job._id));
+            switchRoute(ROUTES.CLIENT.REQUESTER.dynamicReviewRequestAndBidsPage(request._id));
           }}
           className="notification"
           style={{
@@ -168,7 +168,7 @@ const getReviewJoblinks = (jobs, closeDialog, icon) => {
           }}
         >
           <span className="icon">{icon && icon}</span>
-          <span>{`${job._bidsListRef.length} new bid on your ${job.templateId} Request`}</span>
+          <span>{`${request._bidsListRef.length} new bid on your ${request.templateId} Request`}</span>
         </div>
       );
     });
@@ -198,7 +198,7 @@ const getAwardedBidsDetailslinks = (bids, closeDialog, icon) => {
           className="notification"
         >
           <span className="icon">{icon && icon}</span>
-          <span>{`Your bid for ${bid._jobRef.templateId} request has WON!`}</span>
+          <span>{`Your bid for ${bid._requestRef.templateId} request has WON!`}</span>
         </div>
       );
     });

@@ -5,7 +5,7 @@ import { Collapse } from 'react-collapse';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { cancelJobById } from '../../app-state/actions/jobActions';
+import { cancelRequestById } from '../../app-state/actions/requestActions';
 
 import {
   DisplayLabelValue,
@@ -15,7 +15,7 @@ import {
   SummaryStartDateAndTime,
   AwaitingOnTasker,
   PastdueExpired,
-  JobCardTitle,
+  RequestCardTitle,
   TaskersAvailable,
   TaskImagesCarousel,
   UserGivenTitle,
@@ -66,7 +66,7 @@ class RequesterRequestDetails extends React.Component {
     }
   };
   render() {
-    const { job, cancelJobById } = this.props;
+    const { request, cancelRequestById } = this.props;
 
     const {
       startingDateAndTime,
@@ -74,12 +74,12 @@ class RequesterRequestDetails extends React.Component {
       extras,
       detailedDescription,
       taskImages = [],
-      jobTitle,
-    } = job;
+      requestTitle,
+    } = request;
 
-    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
-    let areThereAnyTaskers = job._bidsListRef && job._bidsListRef.length > 0;
+    let areThereAnyTaskers = request._bidsListRef && request._bidsListRef.length > 0;
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
 
@@ -121,7 +121,7 @@ class RequesterRequestDetails extends React.Component {
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault();
-                      cancelJobById(job._id);
+                      cancelRequestById(request._id);
                       this.toggleDeleteConfirmationDialog();
                     }}
                     className="button is-danger"
@@ -139,7 +139,7 @@ class RequesterRequestDetails extends React.Component {
         <div className={`card has-text-centered cardWithButton nofixedwidth`}>
           <div className="card-content">
             <div className="content">
-              <JobCardTitle
+              <RequestCardTitle
                 icon={ICON}
                 title={TITLE}
                 img={IMG}
@@ -179,7 +179,7 @@ class RequesterRequestDetails extends React.Component {
                   </div>
                 )}
               />
-              <UserGivenTitle userGivenTitle={jobTitle} />
+              <UserGivenTitle userGivenTitle={requestTitle} />
 
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
@@ -191,7 +191,7 @@ class RequesterRequestDetails extends React.Component {
 
               {!areThereAnyTaskers && <AwaitingOnTasker />}
               {areThereAnyTaskers && (
-                <TaskersAvailable numberOfAvailableTaskers={job._bidsListRef.length} />
+                <TaskersAvailable numberOfAvailableTaskers={request._bidsListRef.length} />
               )}
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
@@ -244,7 +244,7 @@ class RequesterRequestDetails extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    cancelJobById: bindActionCreators(cancelJobById, dispatch),
+    cancelRequestById: bindActionCreators(cancelRequestById, dispatch),
   };
 };
 

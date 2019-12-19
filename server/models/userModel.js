@@ -42,11 +42,11 @@ const ratingSchema = {
   canceledBids: {
     type: [{ type: Schema.Types.ObjectId, ref: 'BidModel' }],
   },
-  fulfilledJobs: {
-    type: [{ type: Schema.Types.ObjectId, ref: 'JobModel' }],
+  fulfilledRequests: {
+    type: [{ type: Schema.Types.ObjectId, ref: 'RequestModel' }],
   },
-  canceledJobs: {
-    type: [{ type: Schema.Types.ObjectId, ref: 'JobModel' }],
+  canceledRequests: {
+    type: [{ type: Schema.Types.ObjectId, ref: 'RequestModel' }],
   },
   latestComment: {
     type: String,
@@ -97,16 +97,16 @@ const UserSchema = new Schema(
       },
       newPostedTasks: { type: Boolean, default: false },
     },
-    _postedJobsRef: {
-      type: [{ type: Schema.Types.ObjectId, ref: 'JobModel' }],
+    _postedRequestsRef: {
+      type: [{ type: Schema.Types.ObjectId, ref: 'RequestModel' }],
       index: true,
-    }, //list of all jobs you have posted
+    }, //list of all requests you have posted
     _postedBidsRef: {
       type: [{ type: Schema.Types.ObjectId, ref: 'BidModel' }],
       index: true,
     }, // list of all bids you made
     _asTaskerReviewsRef: [{ type: Schema.Types.ObjectId, ref: 'ReviewModel' }],
-    _asProposerReviewsRef: [{ type: Schema.Types.ObjectId, ref: 'ReviewModel' }],
+    _asRequesterReviewsRef: [{ type: Schema.Types.ObjectId, ref: 'ReviewModel' }],
     rating: ratingSchema,
     userId: {
       type: String,

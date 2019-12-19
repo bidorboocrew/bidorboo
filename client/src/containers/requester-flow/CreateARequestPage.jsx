@@ -2,12 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { postNewJob, uploadTaskImages } from '../../app-state/actions/jobActions';
+import { postNewRequest, uploadTaskImages } from '../../app-state/actions/requestActions';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 import { RenderBackButton } from '../commonComponents';
 import GenericRequestForm from '../../bdb-tasks/GenericRequestForm';
 
-const creatJobsByIdMap = {
+const creatRequestsByIdMap = {
   ['bdbMoving']: (props) => {
     return <GenericRequestForm requestTemplateId={'bdbMoving'} {...props} />;
   },
@@ -22,16 +22,16 @@ const creatJobsByIdMap = {
   },
 };
 
-class CreateAJobPage extends React.Component {
+class CreateARequestPage extends React.Component {
   constructor(props) {
     super(props);
-    let templateJobId = null;
+    let templateRequestId = null;
     if (props.match && props.match.params && props.match.params.templateId) {
-      templateJobId = props.match.params.templateId;
+      templateRequestId = props.match.params.templateId;
     }
 
     this.state = {
-      chosenTemplate: templateJobId,
+      chosenTemplate: templateRequestId,
     };
   }
 
@@ -42,9 +42,9 @@ class CreateAJobPage extends React.Component {
       <div className="columns is-centered is-mobile">
         <div className="column limitLargeMaxWidth slide-in-right">
           <RenderBackButton />
-          {/* create job based on ID */}
-          {creatJobsByIdMap[`${chosenTemplate}`] &&
-            creatJobsByIdMap[`${chosenTemplate}`](this.props)}
+          {/* create request based on ID */}
+          {creatRequestsByIdMap[`${chosenTemplate}`] &&
+            creatRequestsByIdMap[`${chosenTemplate}`](this.props)}
         </div>
       </div>
     );
@@ -60,7 +60,7 @@ const mapStateToProps = ({ userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    postNewJob: bindActionCreators(postNewJob, dispatch),
+    postNewRequest: bindActionCreators(postNewRequest, dispatch),
     uploadTaskImages: bindActionCreators(uploadTaskImages, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
@@ -69,4 +69,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(CreateAJobPage);
+)(CreateARequestPage);

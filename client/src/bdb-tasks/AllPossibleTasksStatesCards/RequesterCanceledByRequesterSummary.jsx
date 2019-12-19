@@ -2,7 +2,7 @@ import React from 'react';
 import {
   CountDownComponent,
   SummaryStartDateAndTime,
-  JobCardTitle,
+  RequestCardTitle,
   CancelledBy,
   TaskImagesCarousel,
   UserGivenTitle,
@@ -14,11 +14,11 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 export default class RequesterCanceledByRequesterSummary extends React.Component {
   render() {
-    const { job } = this.props;
+    const { request } = this.props;
 
-    const { startingDateAndTime, taskImages = [], jobTitle } = job;
+    const { startingDateAndTime, taskImages = [], requestTitle } = request;
 
-    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     return (
       <div
@@ -27,8 +27,8 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
       >
         <div className="card-content">
           <div className="content">
-            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-            <UserGivenTitle userGivenTitle={jobTitle} />
+            <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <UserGivenTitle userGivenTitle={requestTitle} />
 
             <TaskImagesCarousel taskImages={taskImages} />
             <SummaryStartDateAndTime
@@ -45,7 +45,7 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
         <div className="centeredButtonInCard">
           <a
             onClick={() => {
-              switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedJobPage(job._id));
+              switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(request._id));
             }}
             className="button is-danger"
           >

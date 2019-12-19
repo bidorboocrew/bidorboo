@@ -3,8 +3,8 @@ import { handleActions } from 'redux-actions';
 import * as A from '../actionTypes';
 
 const initialState = {
-  // the job that the user is currently looking to bid on
-  jobToBidOnDetails: {},
+  // the request that the user is currently looking to bid on
+  requestToBidOnDetails: {},
   openBidsList: [],
   isLoadingBids: false,
   getBidsErrorMsg: '',
@@ -15,9 +15,9 @@ const initialState = {
   selectedArchivedBid: {},
 };
 
-const selectJobToBidOn = (state = initialState, { payload }) => ({
+const selectRequestToBidOn = (state = initialState, { payload }) => ({
   ...state,
-  jobToBidOnDetails: payload.jobDetails,
+  requestToBidOnDetails: payload.requestDetails,
 });
 const updateSelectedArchivedBid = (state = initialState, { payload }) => {
   return {
@@ -48,7 +48,7 @@ const getMyPostedBidsSummary = {
     const getBidsErrorMsg =
       payload && payload.data
         ? payload.data
-        : `unknown issue while ${A.JOB_ACTIONS.SEARCH_JOB}${A._REJECTED}`;
+        : `unknown issue while ${A.REQUEST_ACTIONS.SEARCH_REQUEST}${A._REJECTED}`;
     return {
       ...state,
       isLoadingBids: false,
@@ -79,7 +79,7 @@ const getOpenBidDetails = {
     const getBidsErrorMsg =
       payload && payload.data
         ? payload.data
-        : `unknown issue while ${A.JOB_ACTIONS.SEARCH_JOB}${A._REJECTED}`;
+        : `unknown issue while ${A.REQUEST_ACTIONS.SEARCH_REQUEST}${A._REJECTED}`;
     return {
       ...state,
       isLoadingBids: false,
@@ -109,7 +109,7 @@ const getAwardedBidDetail = {
     const getBidsErrorMsg =
       payload && payload.data
         ? payload.data
-        : `unknown issue while ${A.JOB_ACTIONS.SEARCH_JOB}${A._REJECTED}`;
+        : `unknown issue while ${A.REQUEST_ACTIONS.SEARCH_REQUEST}${A._REJECTED}`;
     return {
       ...state,
       isLoadingBids: false,
@@ -140,7 +140,7 @@ const getAwardedBidDetail = {
 //     const getBidsErrorMsg =
 //       payload && payload.data
 //         ? payload.data
-//         : `unknown issue while ${A.JOB_ACTIONS.SEARCH_JOB}${A._REJECTED}`;
+//         : `unknown issue while ${A.REQUEST_ACTIONS.SEARCH_REQUEST}${A._REJECTED}`;
 //     return {
 //       ...state,
 //       isLoadingBids: false,
@@ -154,7 +154,7 @@ const setLoggedOutState = () => {
 };
 export default handleActions(
   {
-    [`${A.TASKER_ACTIONS.SELECT_JOB_TO_BID_ON}`]: selectJobToBidOn,
+    [`${A.TASKER_ACTIONS.SELECT_REQUEST_TO_BID_ON}`]: selectRequestToBidOn,
     [`${A.TASKER_ACTIONS.GET_ALL_MY_OPEN_BIDS}${A._PENDING}`]: getMyPostedBidsSummary.isPending,
     [`${A.TASKER_ACTIONS.GET_ALL_MY_OPEN_BIDS}${A._FULFILLED}`]: getMyPostedBidsSummary.isFullfilled,
     [`${A.TASKER_ACTIONS.GET_ALL_MY_OPEN_BIDS}${A._REJECTED}`]: getMyPostedBidsSummary.isRejected,

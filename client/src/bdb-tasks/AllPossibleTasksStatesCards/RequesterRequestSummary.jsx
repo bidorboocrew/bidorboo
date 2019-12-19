@@ -9,7 +9,7 @@ import {
   SummaryStartDateAndTime,
   AwaitingOnTasker,
   PastdueExpired,
-  JobCardTitle,
+  RequestCardTitle,
   TaskersAvailable,
   TaskImagesCarousel,
   UserGivenTitle,
@@ -19,21 +19,21 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 class RequesterRequestSummary extends React.Component {
   render() {
-    const { job, notificationFeed } = this.props;
+    const { request, notificationFeed } = this.props;
 
-    const { startingDateAndTime, taskImages = [], jobTitle } = job;
+    const { startingDateAndTime, taskImages = [], requestTitle } = request;
 
-    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
-    let areThereAnyTaskers = job._bidsListRef && job._bidsListRef.length > 0;
+    let areThereAnyTaskers = request._bidsListRef && request._bidsListRef.length > 0;
 
     return (
       <React.Fragment>
         <div className={`card has-text-centered cardWithButton`}>
           <div className="card-content">
             <div className="content">
-              <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-              <UserGivenTitle userGivenTitle={jobTitle} />
+              <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <UserGivenTitle userGivenTitle={requestTitle} />
               <TaskImagesCarousel taskImages={taskImages} />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
@@ -43,11 +43,11 @@ class RequesterRequestSummary extends React.Component {
               />
               {!areThereAnyTaskers && <AwaitingOnTasker />}
               {areThereAnyTaskers && (
-                <TaskersAvailable numberOfAvailableTaskers={job._bidsListRef.length} />
+                <TaskersAvailable numberOfAvailableTaskers={request._bidsListRef.length} />
               )}
             </div>
           </div>
-          {renderFooter({ job, notificationFeed })}
+          {renderFooter({ request, notificationFeed })}
         </div>
       </React.Fragment>
     );
@@ -62,14 +62,14 @@ const mapStateToProps = ({ uiReducer }) => {
 
 export default connect(mapStateToProps, null)(RequesterRequestSummary);
 
-const renderFooter = ({ job, notificationFeed }) => {
-  let areThereAnyTaskers = job._bidsListRef && job._bidsListRef.length > 0;
-  let doesthisJobHaveNewBids = false;
+const renderFooter = ({ request, notificationFeed }) => {
+  let areThereAnyTaskers = request._bidsListRef && request._bidsListRef.length > 0;
+  let doesthisRequestHaveNewBids = false;
 
-  if (notificationFeed.jobIdsWithNewBids) {
-    for (let i = 0; i < notificationFeed.jobIdsWithNewBids.length; i++) {
-      if (notificationFeed.jobIdsWithNewBids[i]._id === job._id) {
-        doesthisJobHaveNewBids = true;
+  if (notificationFeed.requestIdsWithNewBids) {
+    for (let i = 0; i < notificationFeed.requestIdsWithNewBids.length; i++) {
+      if (notificationFeed.requestIdsWithNewBids[i]._id === request._id) {
+        doesthisRequestHaveNewBids = true;
         break;
       }
     }
@@ -81,7 +81,7 @@ const renderFooter = ({ job, notificationFeed }) => {
       <div className="centeredButtonInCard">
         <a
           onClick={() => {
-            switchRoute(ROUTES.CLIENT.REQUESTER.dynamicReviewRequestAndBidsPage(job._id));
+            switchRoute(ROUTES.CLIENT.REQUESTER.dynamicReviewRequestAndBidsPage(request._id));
           }}
           className={`button is-info`}
         >
@@ -90,11 +90,11 @@ const renderFooter = ({ job, notificationFeed }) => {
               <i className="fa fa-hand-paper" />
             </span>
             <span>{`VIEW ${
-              job._bidsListRef.length > 1 || job._bidsListRef.length === 0 ? 'OFFERS' : 'OFFER'
+              request._bidsListRef.length > 1 || request._bidsListRef.length === 0 ? 'OFFERS' : 'OFFER'
             }`}</span>
           </span>
 
-          {doesthisJobHaveNewBids && (
+          {doesthisRequestHaveNewBids && (
             <div
               style={{ position: 'absolute', top: -5, right: 0, fontSize: 10 }}
               className="has-text-danger"
@@ -110,7 +110,7 @@ const renderFooter = ({ job, notificationFeed }) => {
       <div className="centeredButtonInCard">
         <a
           onClick={() => {
-            switchRoute(ROUTES.CLIENT.REQUESTER.dynamicReviewRequestAndBidsPage(job._id));
+            switchRoute(ROUTES.CLIENT.REQUESTER.dynamicReviewRequestAndBidsPage(request._id));
           }}
           className={`button is-white`}
         >

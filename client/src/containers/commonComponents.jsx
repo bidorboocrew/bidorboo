@@ -50,7 +50,7 @@ export const CountDownComponent = (props) => {
   return <div className="help">{`* ${moment(startingDate).fromNow()}`}</div>;
 };
 
-export const JobTitleText = ({ title, iconClass }) => {
+export const RequestTitleText = ({ title, iconClass }) => {
   return (
     <div style={{ flexGrow: 1 }} className="title">
       <span className="icon">
@@ -94,7 +94,7 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false, large = 
             boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
           }}
           src={profileImage.url}
-          alt="image"
+          alt="profile image"
         />
       </figure>
 
@@ -196,7 +196,7 @@ export const CenteredUserImageAndRating = ({
               boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
             }}
             src={profileImage.url}
-            alt="image"
+            alt="profile image"
           />
         </figure>
 
@@ -225,8 +225,8 @@ export const CenteredUserImageAndRating = ({
   );
 };
 
-export const CardTitleAndActionsInfo = ({ bidsList = [], userAlreadyView = false, job }) => {
-  const viewCount = !job || !job.viewedBy || !job.viewedBy.length > 0 ? 0 : job.viewedBy.length;
+export const CardTitleAndActionsInfo = ({ bidsList = [], userAlreadyView = false, request }) => {
+  const viewCount = !request || !request.viewedBy || !request.viewedBy.length > 0 ? 0 : request.viewedBy.length;
 
   let bidsCountLabel = 'No bids';
   if (bidsList.length === 1) {
@@ -236,7 +236,7 @@ export const CardTitleAndActionsInfo = ({ bidsList = [], userAlreadyView = false
     bidsCountLabel = `${bidsList.length} bids`;
   }
 
-  const { avgBid } = job;
+  const { avgBid } = request;
 
   return (
     <div style={{ textAlign: 'center', marginBottom: '0.5rem' }}>
@@ -432,14 +432,14 @@ export const DisplayShortAddress = ({ addressText, renderHelpComponent = () => n
   return null;
 };
 
-export const AddAwardedJobToCalendarForTasker = ({ job, extraClassName = '' }) => {
-  if (!job) {
+export const AddAwardedRequestToCalendarForTasker = ({ request, extraClassName = '' }) => {
+  if (!request) {
     return null;
   }
 
-  const { startingDateAndTime, addressText, templateId } = job;
+  const { startingDateAndTime, addressText, templateId } = request;
 
-  const { email, phone, displayName } = job._ownerRef;
+  const { email, phone, displayName } = request._ownerRef;
 
   const emailContact = email && email.emailAddress ? `${email.emailAddress}` : '';
   const phoneContactNumber = phone && phone.phoneNumber ? ` or ${phone.phoneNumber}` : '';
@@ -491,12 +491,12 @@ export const AddAwardedJobToCalendarForTasker = ({ job, extraClassName = '' }) =
   );
 };
 
-export const AddAwardedJobToCalendarForRequester = ({ job, extraClassName = '' }) => {
-  if (!job) {
+export const AddAwardedRequestToCalendarForRequester = ({ request, extraClassName = '' }) => {
+  if (!request) {
     return null;
   }
 
-  const { startingDateAndTime, addressText, templateId, _awardedBidRef } = job;
+  const { startingDateAndTime, addressText, templateId, _awardedBidRef } = request;
   const { _taskerRef } = _awardedBidRef;
 
   const { email, phone, displayName } = _taskerRef;
@@ -875,7 +875,7 @@ export const UserGivenTitle = ({ userGivenTitle }) => {
   );
 };
 
-export const JobCardTitle = ({ img, icon, title, meatballMenu }) => {
+export const RequestCardTitle = ({ img, icon, title, meatballMenu }) => {
   return (
     <div style={{ display: 'flex', alignItems: 'center', width: '100%', marginBottom: 0 }}>
       <div
@@ -1478,13 +1478,13 @@ export const RenderBackButton = () => {
 //   return null;
 // };
 
-export const redirectBasedOnJobState = ({ state, _id: jobId }) => {
+export const redirectBasedOnRequestState = ({ state, _id: requestId }) => {
   switch (state) {
     case REQUEST_STATES.OPEN:
-      switchRoute(ROUTES.CLIENT.REQUESTER.dynamicReviewRequestAndBidsPage(jobId));
+      switchRoute(ROUTES.CLIENT.REQUESTER.dynamicReviewRequestAndBidsPage(requestId));
       break;
     default:
-      switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedJobPage(jobId));
+      switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(requestId));
       break;
   }
 };

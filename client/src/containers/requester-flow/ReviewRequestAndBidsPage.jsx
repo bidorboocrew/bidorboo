@@ -4,11 +4,11 @@ import ReactDOM from 'react-dom';
 
 import { bindActionCreators } from 'redux';
 
-import { RenderBackButton, redirectBasedOnJobState } from '../commonComponents';
+import { RenderBackButton, redirectBasedOnRequestState } from '../commonComponents';
 
 import { Spinner } from '../../components/Spinner';
 
-import { getPostedJobAndBidsForRequester, markBidAsSeen } from '../../app-state/actions/jobActions';
+import { getPostedRequestAndBidsForRequester, markBidAsSeen } from '../../app-state/actions/requestActions';
 
 import BidsTable from './components/BidsTable';
 import AcceptBidAndTaskerModal from './components/AcceptBidAndTaskerModal';
@@ -39,8 +39,8 @@ class ReviewRequestAndBidsPage extends React.Component {
       //  do nothing
     } else {
       if (this.numberOfFetches > 0) {
-        const { selectedJobWithBids } = this.props;
-        this.props.getPostedJobAndBidsForRequester(selectedJobWithBids._id);
+        const { selectedRequestWithBids } = this.props;
+        this.props.getPostedRequestAndBidsForRequester(selectedRequestWithBids._id);
         console.log('fetched more bids');
       }
       this.numberOfFetches--;
@@ -48,18 +48,18 @@ class ReviewRequestAndBidsPage extends React.Component {
   };
 
   componentDidMount() {
-    // if route changed reload the job
-    const { selectedJobWithBids } = this.props;
+    // if route changed reload the request
+    const { selectedRequestWithBids } = this.props;
 
-    let newJobId = this.props.match.params.jobId;
-    if (!selectedJobWithBids) {
-      this.props.getPostedJobAndBidsForRequester(newJobId);
-    } else if (selectedJobWithBids._id !== newJobId) {
+    let newRequestId = this.props.match.params.requestId;
+    if (!selectedRequestWithBids) {
+      this.props.getPostedRequestAndBidsForRequester(newRequestId);
+    } else if (selectedRequestWithBids._id !== newRequestId) {
       // fetch it
-      this.props.getPostedJobAndBidsForRequester(newJobId);
+      this.props.getPostedRequestAndBidsForRequester(newRequestId);
     } else {
-      if (selectedJobWithBids.state !== REQUEST_STATES.OPEN) {
-        redirectBasedOnJobState(selectedJobWithBids);
+      if (selectedRequestWithBids.state !== REQUEST_STATES.OPEN) {
+        redirectBasedOnRequestState(selectedRequestWithBids);
       }
     }
 
@@ -80,10 +80,10 @@ class ReviewRequestAndBidsPage extends React.Component {
   };
 
   render() {
-    const { selectedJobWithBids, markBidAsSeen, paymentIsInProgress } = this.props;
+    const { selectedRequestWithBids, markBidAsSeen, paymentIsInProgress } = this.props;
 
-    // while fetching the job
-    if (!selectedJobWithBids || !selectedJobWithBids._id) {
+    // while fetching the request
+    if (!selectedRequestWithBids || !selectedRequestWithBids._id) {
       return (
         <div className="container is-widescreen">
           <Spinner renderLabel={'Loading Your request and Bids'} isLoading={true} size={'large'} />
@@ -91,12 +91,12 @@ class ReviewRequestAndBidsPage extends React.Component {
       );
     }
 
-    const { state } = selectedJobWithBids;
+    const { state } = selectedRequestWithBids;
     const shouldShowBidsTable = state === REQUEST_STATES.OPEN;
 
     const { showBidReviewModal, bidUnderReview } = this.state;
 
-    const bidList = selectedJobWithBids._bidsListRef;
+    const bidList = selectedRequestWithBids._bidsListRef;
 
     return (
       <div>
@@ -134,7 +134,7 @@ class ReviewRequestAndBidsPage extends React.Component {
           <div className="column limitLargeMaxWidth slide-in-right">
             <RenderBackButton />
             {getMeTheRightRequestCard({
-              job: selectedJobWithBids,
+              request: selectedRequestWithBids,
               isSummaryView: false,
               pointOfView: POINT_OF_VIEW.REQUESTER,
             })}
@@ -143,11 +143,11 @@ class ReviewRequestAndBidsPage extends React.Component {
             {shouldShowBidsTable && (
               <BidsTable
                 fetchMostRecentBids={this.fetchMostRecentBids}
-                jobId={selectedJobWithBids._id}
+                requestId={selectedRequestWithBids._id}
                 bidList={bidList}
                 markBidAsSeen={markBidAsSeen}
                 viewedByCount={
-                  selectedJobWithBids.viewedBy ? selectedJobWithBids.viewedBy.length : 0
+                  selectedRequestWithBids.viewedBy ? selectedRequestWithBids.viewedBy.length : 0
                 }
                 showBidReviewModal={this.showBidReviewModal}
               />
@@ -159,9 +159,9 @@ class ReviewRequestAndBidsPage extends React.Component {
   }
 }
 
-const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
+const mapStateToProps = ({ requestsReducer, userReducer, uiReducer }) => {
   return {
-    selectedJobWithBids: jobsReducer.selectedJobWithBids,
+    selectedRequestWithBids: requestsReducer.selectedRequestWithBids,
     userDetails: userReducer.userDetails,
     paymentIsInProgress: uiReducer.paymentIsInProgress,
   };
@@ -169,7 +169,7 @@ const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getPostedJobAndBidsForRequester: bindActionCreators(getPostedJobAndBidsForRequester, dispatch),
+    getPostedRequestAndBidsForRequester: bindActionCreators(getPostedRequestAndBidsForRequester, dispatch),
     markBidAsSeen: bindActionCreators(markBidAsSeen, dispatch),
   };
 };

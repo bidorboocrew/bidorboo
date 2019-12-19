@@ -32,8 +32,8 @@ class ReviewOpenBidAndRequestPage extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (!this.props.isLoading && (!this.props.selectedOpenBid || !this.props.selectedOpenBid._id)) {
-      // xxxx show cant find job or something instead of ugly redirect
-      // could not find the job so we redirected you
+      // xxxx show cant find request or something instead of ugly redirect
+      // could not find the request so we redirected you
       return switchRoute(ROUTES.CLIENT.TASKER.mybids);
     }
   }
@@ -47,12 +47,12 @@ class ReviewOpenBidAndRequestPage extends React.Component {
 
   render() {
     const { selectedOpenBid, updateBid, currentUserDetails, deleteOpenBid } = this.props;
-    // while fetching the job
+    // while fetching the request
     if (
       !selectedOpenBid ||
       !selectedOpenBid._id ||
-      !selectedOpenBid._jobRef ||
-      !selectedOpenBid._jobRef._id
+      !selectedOpenBid._requestRef ||
+      !selectedOpenBid._requestRef._id
     ) {
       return (
         <div className="container is-widescreen">

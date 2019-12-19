@@ -1,12 +1,12 @@
-const { jobDataAccess } = require('../data-access/jobDataAccess');
+const { requestDataAccess } = require('../data-access/requestDataAccess');
 
 module.exports = async (req, res, next) => {
   try {
     if (req.user && req.user.userId && req.user._id) {
-      const proposerId = req.user._id;
+      const requesterId = req.user._id;
 
       const {
-        jobId,
+        requestId,
         qualityOfWorkRating,
         punctualityRating,
         communicationRating,
@@ -15,8 +15,8 @@ module.exports = async (req, res, next) => {
       } = req.body.data;
 
       if (
-        !proposerId ||
-        !jobId ||
+        !requesterId ||
+        !requestId ||
         !qualityOfWorkRating ||
         !punctualityRating ||
         !communicationRating ||
@@ -24,42 +24,42 @@ module.exports = async (req, res, next) => {
         !personalComment
       ) {
         return res.status(403).send({
-          errorMsg: 'missing parameters . can not pass requireProposerReviewPreChecksPass.',
+          errorMsg: 'missing parameters . can not pass requireRequesterReviewPreChecksPass.',
         });
       }
 
-      const jobDetails = await jobDataAccess.getFullJobDetails(jobId);
+      const requestDetails = await requestDataAccess.getFullRequestDetails(requestId);
 
-      const awardedTasker = jobDetails._awardedBidRef && jobDetails._awardedBidRef._taskerRef._id;
+      const awardedTasker = requestDetails._awardedBidRef && requestDetails._awardedBidRef._taskerRef._id;
       if (!awardedTasker) {
         return res.status(403).send({
-          errorMsg: 'Only the Tasker who fulfilled the job can perform this action',
+          errorMsg: 'Only the Tasker who fulfilled the request can perform this action',
         });
       }
-      if (!jobDetails._reviewRef) {
-        await jobDataAccess.kickStartReviewModel({
-          jobId,
+      if (!requestDetails._reviewRef) {
+        await requestDataAccess.kickStartReviewModel({
+          requestId,
           taskerId: awardedTasker,
-          proposerId,
+          requesterId,
         });
       }
 
-      if (jobDetails._reviewRef && !jobDetails._reviewRef.requiresProposerReview) {
+      if (requestDetails._reviewRef && !requestDetails._reviewRef.requiresRequesterReview) {
         return res.status(403).send({
-          errorMsg: 'You have already submit a review on this job.',
+          errorMsg: 'You have already submit a review on this request.',
         });
       }
 
       res.locals.bidOrBoo = res.locals.bidOrBoo || {};
       res.locals.bidOrBoo = {
-        jobId,
+        requestId,
         qualityOfWorkRating,
         punctualityRating,
         communicationRating,
         mannerRating,
         personalComment,
         awardedTasker,
-        proposerId,
+        requesterId,
       };
       next();
     } else {
@@ -69,7 +69,7 @@ module.exports = async (req, res, next) => {
     return res.status(400).send({
       safeMsg:
         'some error occurred, please chat with our customer support using the chat button at the bottom of the page',
-      errorMsg: 'failed to pass requireProposerReviewPreChecksPass',
+      errorMsg: 'failed to pass requireRequesterReviewPreChecksPass',
       details: `${e}`,
     });
   }

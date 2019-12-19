@@ -219,17 +219,17 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
               <tr>
                 <td class="m_-7318686519169392378Header-left m_-7318686519169392378Target" style="background-color:#ee2a36;border:0;border-collapse:collapse;margin:0;padding:0;font-size:0;line-height:0px;background-size:100% 100%;border-top-left-radius:5px" align="right" height="156" valign="bottom" width="252">
                   <a href="#m_-7318686519169392378_">
-                    <img alt="" height="156" width="252" src="https://ci4.googleusercontent.com/proxy/9-vzO6oIjzdWLz5vxJipUa48-_jdteSGmZPi_jXjI1P9gfsxKXGx5ZC6HCp7gEsdL6c6qVHcVmPrfRVxxz7Yw1GWRX10g1zsI66f3vStuGoBVesH24A0bVJsUdvql3xAbjPcKaA_8g=s0-d-e1-ft#https://stripe-images.s3.amazonaws.com/notifications/hosted/20180110/Header/Left.png" style="display:block;border:0;line-height:100%;width:100%" class="CToWUd">
+                    <img  height="156" width="252" src="https://ci4.googleusercontent.com/proxy/9-vzO6oIjzdWLz5vxJipUa48-_jdteSGmZPi_jXjI1P9gfsxKXGx5ZC6HCp7gEsdL6c6qVHcVmPrfRVxxz7Yw1GWRX10g1zsI66f3vStuGoBVesH24A0bVJsUdvql3xAbjPcKaA_8g=s0-d-e1-ft#https://stripe-images.s3.amazonaws.com/notifications/hosted/20180110/Header/Left.png" style="display:block;border:0;line-height:100%;width:100%" class="CToWUd">
                   </a>
                 </td>
                 <td class="m_-7318686519169392378Header-icon m_-7318686519169392378Target" style="background-color:#ee2a36;border:0;border-collapse:collapse;margin:0;padding:0;font-size:0;line-height:0px;background-size:100% 100%" align="center" height="156" valign="bottom" width="96">
                   <a href="https://www.bidorboo.ca/" style="outline:0;text-decoration:none" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://www.bidorboo.ca/&amp;source=gmail&amp;ust=1569546059074000&amp;usg=AFQjCNGRPXG-YlxD4iHtz5pzS15YrDsjCw">
-                    <img alt="" height="156" width="96" src="https://ci5.googleusercontent.com/proxy/CWAZxB20BZL5WyY3c9lYMGFHyUgJ0fpEofRTtY5rT2iH0hiEEgbe5yY83CJNRUlxEEit1yFtYcvgcT9h3CgTjR2EqvvwSV9hqMtqcFf-guCd0sitz8dfk8rZ5ZaqtpSOrurDGtyzf4OQPFDmTdPZSkQ5=s0-d-e1-ft#https://stripe-images.s3.amazonaws.com/emails/acct_1EkxmxHRQ5neEvOS/2/twelve_degree_icon@2x.png" style="display:block;border:0;line-height:100%;width:100%" class="CToWUd">
+                    <img  height="156" width="96" src="https://ci5.googleusercontent.com/proxy/CWAZxB20BZL5WyY3c9lYMGFHyUgJ0fpEofRTtY5rT2iH0hiEEgbe5yY83CJNRUlxEEit1yFtYcvgcT9h3CgTjR2EqvvwSV9hqMtqcFf-guCd0sitz8dfk8rZ5ZaqtpSOrurDGtyzf4OQPFDmTdPZSkQ5=s0-d-e1-ft#https://stripe-images.s3.amazonaws.com/emails/acct_1EkxmxHRQ5neEvOS/2/twelve_degree_icon@2x.png" style="display:block;border:0;line-height:100%;width:100%" class="CToWUd">
                   </a>
                 </td>
                 <td class="m_-7318686519169392378Header-right m_-7318686519169392378Target" style="background-color:#ee2a36;border:0;border-collapse:collapse;margin:0;padding:0;font-size:0;line-height:0px;background-size:100% 100%;border-top-right-radius:5px" align="left" height="156" valign="bottom" width="252">
                   <a href="#m_-7318686519169392378_">
-                    <img alt="" height="156" width="252" src="https://ci5.googleusercontent.com/proxy/agqjJXCE9UqmeYtipoZMl4NQ5plhy-TKT_WsqxR18QMhNXU7t-dJPtqpaqwtjzrOslBvOe18-HlXRVknnUuUTIhtrECzchPqX06DXBwznI7p5hMwQb0pIl-d9gWCXjLTWHpQSf0rxKo=s0-d-e1-ft#https://stripe-images.s3.amazonaws.com/notifications/hosted/20180110/Header/Right.png" style="display:block;border:0;line-height:100%;width:100%" class="CToWUd">
+                    <img  height="156" width="252" src="https://ci5.googleusercontent.com/proxy/agqjJXCE9UqmeYtipoZMl4NQ5plhy-TKT_WsqxR18QMhNXU7t-dJPtqpaqwtjzrOslBvOe18-HlXRVknnUuUTIhtrECzchPqX06DXBwznI7p5hMwQb0pIl-d9gWCXjLTWHpQSf0rxKo=s0-d-e1-ft#https://stripe-images.s3.amazonaws.com/notifications/hosted/20180110/Header/Right.png" style="display:block;border:0;line-height:100%;width:100%" class="CToWUd">
                   </a>
                 </td>
               </tr>

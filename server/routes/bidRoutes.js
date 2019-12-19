@@ -1,5 +1,5 @@
 const { bidDataAccess } = require('../data-access/bidDataAccess');
-const requireUserHasNotAlreadyBidOnJob = require('../middleware/requireUserHasNotAlreadyBidOnJob');
+const requireUserHasNotAlreadyBidOnRequest = require('../middleware/requireUserHasNotAlreadyBidOnRequest');
 const requireUserCanBid = require('../middleware/requireUserCanBid');
 const requireBidAmountIsNotLocked = require('../middleware/requireBidAmountIsNotLocked');
 
@@ -7,7 +7,7 @@ const requireBidOwner = require('../middleware/requireBidOwner');
 
 const requirePassYouCantBidOnYouOwnRequest = require('../middleware/requirePassYouCantBidOnYouOwnRequest');
 const requirePassesRecaptcha = require('../middleware/requirePassesRecaptcha');
-const requireJobIsNotAwarded = require('../middleware/requireJobIsNotAwarded');
+const requireRequestIsNotAwarded = require('../middleware/requireRequestIsNotAwarded');
 const ROUTES = require('../backend-route-constants');
 
 const requireLogin = require('../middleware/requireLogin');
@@ -105,21 +105,21 @@ module.exports = (app) => {
     requirePassesRecaptcha,
     requirePassYouCantBidOnYouOwnRequest,
     requireUserCanBid,
-    requireJobIsNotAwarded,
-    requireUserHasNotAlreadyBidOnJob,
+    requireRequestIsNotAwarded,
+    requireUserHasNotAlreadyBidOnRequest,
     async (req, res) => {
       try {
-        // create new job for this user
+        // create new request for this user
         const { data } = req.body;
 
-        if (data && data.bidAmount && data.jobId) {
-          const { jobId, bidAmount } = data;
+        if (data && data.bidAmount && data.requestId) {
+          const { requestId, bidAmount } = data;
 
           const mongoUser_id = req.user._id;
 
           const newBid = await bidDataAccess.postNewBid({
             mongoUser_id,
-            jobId,
+            requestId,
             bidAmount,
           });
           return res.send(newBid);
@@ -142,7 +142,7 @@ module.exports = (app) => {
     requireBidAmountIsNotLocked,
     async (req, res, done) => {
       try {
-        // create new job for this user
+        // create new request for this user
         const { data } = req.body;
 
         if (data && data.bidAmount && data.bidId) {
@@ -169,7 +169,7 @@ module.exports = (app) => {
 
   app.put(ROUTES.API.BID.PUT.markBidAsSeen, requireLogin, async (req, res, done) => {
     try {
-      // create new job for this user
+      // create new request for this user
       const data = req.body.data;
       const { bidId } = data;
 
@@ -206,11 +206,11 @@ module.exports = (app) => {
         if (req.query && req.query.bidId) {
           const mongoUser_id = req.user._id;
           const { bidId } = req.query;
-          const archivedJobDetails = await bidDataAccess.getAchivedBidDetailsForTasker({
+          const archivedRequestDetails = await bidDataAccess.getAchivedBidDetailsForTasker({
             bidId,
             mongoUser_id,
           });
-          return res.send(archivedJobDetails);
+          return res.send(archivedRequestDetails);
         } else {
           return res.status(400).send({
             errorMsg: 'Bad Request cannot get past Bid details',

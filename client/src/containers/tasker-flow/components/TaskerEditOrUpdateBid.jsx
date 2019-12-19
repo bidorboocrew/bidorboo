@@ -33,8 +33,8 @@ class TaskerEditOrUpdateBid extends React.Component {
   submitUpdateBid = (e) => {
     e.preventDefault();
 
-    const { updateBidAction, bid, setSubmitting, values, job } = this.props;
-    updateBidAction({ bidId: bid._id, bidAmount: values.bidAmountField, job });
+    const { updateBidAction, bid, setSubmitting, values, request } = this.props;
+    updateBidAction({ bidId: bid._id, bidAmount: values.bidAmountField, request });
     this.setState({
       showUpdateBidDialog: false,
     });
@@ -49,7 +49,7 @@ class TaskerEditOrUpdateBid extends React.Component {
   render() {
     const {
       bid,
-      job,
+      request,
       values,
       touched,
       errors,
@@ -60,7 +60,7 @@ class TaskerEditOrUpdateBid extends React.Component {
       isAwardedToSomeoneElse = false,
     } = this.props;
 
-    if (!job || !job._id || !job._ownerRef || !bid || !bid._id) {
+    if (!request || !request._id || !request._ownerRef || !bid || !bid._id) {
       return null;
     }
 

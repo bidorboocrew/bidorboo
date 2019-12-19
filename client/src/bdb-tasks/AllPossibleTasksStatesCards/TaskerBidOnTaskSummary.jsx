@@ -8,7 +8,7 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 import {
   SummaryStartDateAndTime,
   CardTitleAndActionsInfo,
-  JobCardTitle,
+  RequestCardTitle,
   CountDownComponent,
   TaskImagesCarousel,
   CenteredUserImageAndRating,
@@ -21,7 +21,7 @@ import RequestBaseContainer from './RequestBaseContainer';
 
 export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
   render() {
-    const { job, otherArgs = {} } = this.props;
+    const { request, otherArgs = {} } = this.props;
     const { showRegisterAsTaskerModal } = this.state;
     const { showMapView, isLoggedIn, userDetails, updateViewedBy } = otherArgs;
 
@@ -37,12 +37,12 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
       _ownerRef,
       state,
       taskImages = [],
-      jobTitle,
-    } = job;
+      requestTitle,
+    } = request;
 
-    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
-    const userAlreadyView = didUserAlreadyView(job, currentUserId);
+    const userAlreadyView = didUserAlreadyView(request, currentUserId);
 
     const specialStyle = isOnMapView ? { padding: '0.25rem' } : {};
     const specialStyleCard = isOnMapView ? { width: 300 } : {};
@@ -52,8 +52,8 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
         <div style={{ ...specialStyleCard }} className="card has-text-centered cardWithButton">
           <div style={{ ...specialStyle }} className="card-content">
             <div className="content">
-              <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-              <UserGivenTitle userGivenTitle={jobTitle} />
+              <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <UserGivenTitle userGivenTitle={requestTitle} />
 
               {!isOnMapView && <TaskImagesCarousel taskImages={taskImages} />}
 
@@ -77,11 +77,11 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                   {/* <label className="label">Task Info</label> */}
                   <CardTitleAndActionsInfo
                     isOnMapView={isOnMapView}
-                    jobState={state}
+                    requestState={state}
                     templateId={templateId}
                     bidsList={_bidsListRef}
                     userAlreadyView={userAlreadyView}
-                    job={job}
+                    request={request}
                   />
                 </div>
               )}
@@ -93,7 +93,7 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                     <a
                       style={{ flexGrow: 1 }}
                       onClick={(e) => {
-                        switchRoute(ROUTES.CLIENT.TASKER.getDynamicBidOnJobPage(job._id));
+                        switchRoute(ROUTES.CLIENT.TASKER.getDynamicBidOnRequestPage(request._id));
                       }}
                       className="button is-success firstButtonInCard"
                     >
@@ -127,9 +127,9 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                     <a
                       onClick={() => {
                         if (isLoggedIn) {
-                          updateViewedBy(job);
+                          updateViewedBy(request);
                         }
-                        switchRoute(ROUTES.CLIENT.TASKER.getDynamicBidOnJobPage(job._id));
+                        switchRoute(ROUTES.CLIENT.TASKER.getDynamicBidOnRequestPage(request._id));
                       }}
                       className="button is-success is-small"
                     >

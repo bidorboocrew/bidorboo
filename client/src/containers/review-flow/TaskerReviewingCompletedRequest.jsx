@@ -11,7 +11,7 @@ import { throwErrorNotification, goBackToPreviousRoute } from '../../utils';
 import { CenteredUserImageAndRating } from '../commonComponents.jsx';
 import { Spinner } from '../../components/Spinner.jsx';
 
-export class TaskerReviewingCompletedJob extends React.Component {
+export class TaskerReviewingCompletedRequest extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,7 +21,7 @@ export class TaskerReviewingCompletedJob extends React.Component {
       mannerRating: 0,
       personalComment: '',
       userToBeRated: null,
-      jobId: null,
+      requestId: null,
     };
 
     if (this.props.match && this.props.match.params && this.props.match.params.bidId) {
@@ -37,12 +37,12 @@ export class TaskerReviewingCompletedJob extends React.Component {
     axios
       .get(ROUTES.API.BID.GET.awardedBidDetailsForTasker, { params: { awardedBidId: this.bidId } })
       .then((resp) => {
-        // update recently added job
+        // update recently added request
         if (resp && resp.data) {
-          if (resp.data._jobRef._ownerRef) {
+          if (resp.data._requestRef._ownerRef) {
             this.setState({
-              userToBeRated: resp.data._jobRef._ownerRef,
-              jobId: resp.data._jobRef._id,
+              userToBeRated: resp.data._requestRef._ownerRef,
+              requestId: resp.data._requestRef._id,
             });
           } else {
             dispatch({
@@ -158,12 +158,12 @@ export class TaskerReviewingCompletedJob extends React.Component {
         },
       });
     } else {
-      const { userToBeRated, jobId, ...ratingCategories } = this.state;
+      const { userToBeRated, requestId, ...ratingCategories } = this.state;
       // SUBMIT REVIEW
       axios
         .put(ROUTES.API.REVIEW.PUT.taskerSubmitReview, {
           data: {
-            jobId,
+            requestId,
             ...ratingCategories,
           },
         })
@@ -260,7 +260,7 @@ export class TaskerReviewingCompletedJob extends React.Component {
             }}
             value={this.state.personalComment}
             onChange={this.personalCommentOnChange}
-            placeholder="The Requester was accurate in describing their job and very friendly...etc"
+            placeholder="The Requester was accurate in describing their request and very friendly...etc"
           />
           <div className="help">*Please use polite respectful language.</div>
         </div>
@@ -317,4 +317,4 @@ export class TaskerReviewingCompletedJob extends React.Component {
   }
 }
 
-export default connect(null, null)(TaskerReviewingCompletedJob);
+export default connect(null, null)(TaskerReviewingCompletedRequest);

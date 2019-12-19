@@ -38,188 +38,188 @@ export { POINT_OF_VIEW };
 export { REQUEST_STATES };
 
 const requesterCardTemplates = {
-  [REQUEST_STATES.OPEN]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
+  [REQUEST_STATES.OPEN]: ({ request, isSummaryView, pointOfView, ...otherArgs }) => {
     return isSummaryView ? (
-      <RequesterRequestSummary job={job} {...otherArgs} />
+      <RequesterRequestSummary request={request} {...otherArgs} />
     ) : (
-      <RequesterRequestDetails job={job} {...otherArgs} />
+      <RequesterRequestDetails request={request} {...otherArgs} />
     );
   },
-  [REQUEST_STATES.AWARDED]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
+  [REQUEST_STATES.AWARDED]: ({ request, isSummaryView, pointOfView, ...otherArgs }) => {
     return isSummaryView ? (
-      <RequesterAwardedSummary job={job} {...otherArgs} />
+      <RequesterAwardedSummary request={request} {...otherArgs} />
     ) : (
-      <RequesterAwardedDetails job={job} {...otherArgs} />
+      <RequesterAwardedDetails request={request} {...otherArgs} />
     );
   },
-  [REQUEST_STATES.AWARDED_SEEN]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
+  [REQUEST_STATES.AWARDED_SEEN]: ({ request, isSummaryView, pointOfView, ...otherArgs }) => {
     return isSummaryView ? (
-      <RequesterAwardedSummary job={job} {...otherArgs} />
+      <RequesterAwardedSummary request={request} {...otherArgs} />
     ) : (
-      <RequesterAwardedDetails job={job} {...otherArgs} />
+      <RequesterAwardedDetails request={request} {...otherArgs} />
     );
   },
-  [REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER]: ({
-    job,
+  [REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_REQUESTER]: ({
+    request,
     isSummaryView,
     pointOfView,
     ...otherArgs
   }) => {
     return isSummaryView ? (
-      <RequesterCanceledByRequesterSummary job={job} {...otherArgs} />
+      <RequesterCanceledByRequesterSummary request={request} {...otherArgs} />
     ) : (
-      <RequesterCanceledByRequesterDetails job={job} {...otherArgs} />
+      <RequesterCanceledByRequesterDetails request={request} {...otherArgs} />
     );
   },
-  [REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN]: ({
-    job,
+  [REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_REQUESTER_SEEN]: ({
+    request,
     isSummaryView,
     pointOfView,
     ...otherArgs
   }) => {
     return isSummaryView ? (
-      <RequesterCanceledByRequesterSummary job={job} {...otherArgs} />
+      <RequesterCanceledByRequesterSummary request={request} {...otherArgs} />
     ) : (
-      <RequesterCanceledByRequesterDetails job={job} {...otherArgs} />
+      <RequesterCanceledByRequesterDetails request={request} {...otherArgs} />
     );
   },
-  [REQUEST_STATES.AWARDED_JOB_CANCELED_BY_TASKER]: ({
-    job,
+  [REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_TASKER]: ({
+    request,
     isSummaryView,
     pointOfView,
     ...otherArgs
   }) => {
     return isSummaryView ? (
-      <RequesterCanceledByTaskerSummary job={job} {...otherArgs} />
+      <RequesterCanceledByTaskerSummary request={request} {...otherArgs} />
     ) : (
-      <RequesterCanceledByTaskerDetails job={job} {...otherArgs} />
+      <RequesterCanceledByTaskerDetails request={request} {...otherArgs} />
     );
   },
-  [REQUEST_STATES.AWARDED_JOB_CANCELED_BY_TASKER_SEEN]: ({
-    job,
+  [REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_TASKER_SEEN]: ({
+    request,
     isSummaryView,
     pointOfView,
     ...otherArgs
   }) => {
     return isSummaryView ? (
-      <RequesterCanceledByTaskerSummary job={job} {...otherArgs} />
+      <RequesterCanceledByTaskerSummary request={request} {...otherArgs} />
     ) : (
-      <RequesterCanceledByTaskerDetails job={job} {...otherArgs} />
+      <RequesterCanceledByTaskerDetails request={request} {...otherArgs} />
     );
   },
-  [REQUEST_STATES.DONE]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
+  [REQUEST_STATES.DONE]: ({ request, isSummaryView, pointOfView, ...otherArgs }) => {
     return isSummaryView ? (
-      <RequesterDoneSummary job={job} {...otherArgs} />
+      <RequesterDoneSummary request={request} {...otherArgs} />
     ) : (
-      <RequesterDoneDetails job={job} {...otherArgs} />
+      <RequesterDoneDetails request={request} {...otherArgs} />
     );
   },
-  [REQUEST_STATES.DONE_SEEN]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
+  [REQUEST_STATES.DONE_SEEN]: ({ request, isSummaryView, pointOfView, ...otherArgs }) => {
     return isSummaryView ? (
-      <RequesterDoneSummary job={job} {...otherArgs} />
+      <RequesterDoneSummary request={request} {...otherArgs} />
     ) : (
-      <RequesterDoneDetails job={job} {...otherArgs} />
+      <RequesterDoneDetails request={request} {...otherArgs} />
     );
   },
-  [REQUEST_STATES.DISPUTED]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
+  [REQUEST_STATES.DISPUTED]: ({ request, isSummaryView, pointOfView, ...otherArgs }) => {
     return isSummaryView ? (
-      <RequesterDisputedSummary job={job} {...otherArgs} />
+      <RequesterDisputedSummary request={request} {...otherArgs} />
     ) : (
-      <RequesterDisputedDetails job={job} {...otherArgs} />
+      <RequesterDisputedDetails request={request} {...otherArgs} />
     );
   },
-  [REQUEST_STATES.DISPUTE_RESOLVED]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
+  [REQUEST_STATES.DISPUTE_RESOLVED]: ({ request, isSummaryView, pointOfView, ...otherArgs }) => {
     return isSummaryView ? (
       <div>REQUEST_STATES.DISPUTE_RESOLVED summary not implemented yet</div>
     ) : (
       <div>REQUEST_STATES.DISPUTE_RESOLVED details not implemented yet</div>
     );
   },
-  [REQUEST_STATES.ARCHIVE]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
+  [REQUEST_STATES.ARCHIVE]: ({ request, isSummaryView, pointOfView, ...otherArgs }) => {
     return isSummaryView ? (
-      <RequesterArchiveSummary job={job} {...otherArgs} />
+      <RequesterArchiveSummary request={request} {...otherArgs} />
     ) : (
-      <RequesterArchiveDetails job={job} {...otherArgs} />
+      <RequesterArchiveDetails request={request} {...otherArgs} />
     );
   },
 };
 
 const TaskerCardTemplates = {
-  [REQUEST_STATES.OPEN]: ({ job, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
+  [REQUEST_STATES.OPEN]: ({ request, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
     if (isSummaryView) {
       if (withBidDetails) {
-        return <TaskerMyOpenBidSummary job={job} {...otherArgs} />;
+        return <TaskerMyOpenBidSummary request={request} {...otherArgs} />;
       }
-      return <TaskerBidOnTaskSummary job={job} {...otherArgs} />;
+      return <TaskerBidOnTaskSummary request={request} {...otherArgs} />;
     } else {
       if (withBidDetails) {
-        return <TaskerMyOpenBidDetails job={job} {...otherArgs} />;
+        return <TaskerMyOpenBidDetails request={request} {...otherArgs} />;
       }
-      return <TaskerBidOnTaskDetails job={job} {...otherArgs} />;
+      return <TaskerBidOnTaskDetails request={request} {...otherArgs} />;
     }
   },
-  [REQUEST_STATES.AWARDED]: ({ job, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
+  [REQUEST_STATES.AWARDED]: ({ request, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
     if (isSummaryView) {
-      return <TaskerMyAwardedBidSummary job={job} {...otherArgs} />;
+      return <TaskerMyAwardedBidSummary request={request} {...otherArgs} />;
     } else {
-      return <TaskerMyAwardedBidDetails job={job} {...otherArgs} />;
+      return <TaskerMyAwardedBidDetails request={request} {...otherArgs} />;
     }
   },
-  [REQUEST_STATES.AWARDED_JOB_CANCELED_BY_TASKER]: ({
-    job,
+  [REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_TASKER]: ({
+    request,
     isSummaryView,
     pointOfView,
     withBidDetails,
     ...otherArgs
   }) => {
     if (isSummaryView) {
-      return <TaskerAwardedBidCanceledByTaskerSummary job={job} {...otherArgs} />;
+      return <TaskerAwardedBidCanceledByTaskerSummary request={request} {...otherArgs} />;
     } else {
-      return <TaskerAwardedBidCanceledByTaskerDetails job={job} {...otherArgs} />;
+      return <TaskerAwardedBidCanceledByTaskerDetails request={request} {...otherArgs} />;
     }
   },
-  [REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER]: ({
-    job,
+  [REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_REQUESTER]: ({
+    request,
     isSummaryView,
     pointOfView,
     withBidDetails,
     ...otherArgs
   }) => {
     if (isSummaryView) {
-      return <TaskerAwardedBidCanceledByRequesterSummary job={job} {...otherArgs} />;
+      return <TaskerAwardedBidCanceledByRequesterSummary request={request} {...otherArgs} />;
     } else {
-      return <TaskerAwardedBidCanceledByRequesterDetails job={job} {...otherArgs} />;
+      return <TaskerAwardedBidCanceledByRequesterDetails request={request} {...otherArgs} />;
     }
   },
-  [REQUEST_STATES.DONE]: ({ job, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
+  [REQUEST_STATES.DONE]: ({ request, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
     if (isSummaryView) {
-      return <TaskerMyAwardedDoneBidSummary job={job} {...otherArgs} />;
+      return <TaskerMyAwardedDoneBidSummary request={request} {...otherArgs} />;
     } else {
-      return <TaskerMyAwardedDoneBidDetails job={job} {...otherArgs} />;
+      return <TaskerMyAwardedDoneBidDetails request={request} {...otherArgs} />;
     }
   },
   [REQUEST_STATES.DISPUTED]: ({
-    job,
+    request,
     isSummaryView,
     pointOfView,
     withBidDetails,
     ...otherArgs
   }) => {
     if (isSummaryView) {
-      return <TaskerMyDisputedBidSummary job={job} {...otherArgs} />;
+      return <TaskerMyDisputedBidSummary request={request} {...otherArgs} />;
     } else {
-      return <TaskerMyDisputedBidDetails job={job} {...otherArgs} />;
+      return <TaskerMyDisputedBidDetails request={request} {...otherArgs} />;
     }
   },
-  [REQUEST_STATES.ARCHIVE]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
+  [REQUEST_STATES.ARCHIVE]: ({ request, isSummaryView, pointOfView, ...otherArgs }) => {
     return isSummaryView ? (
-      <TaskerArchiveSummary job={job} {...otherArgs} />
+      <TaskerArchiveSummary request={request} {...otherArgs} />
     ) : (
-      <TaskerArchiveDetails job={job} {...otherArgs} />
+      <TaskerArchiveDetails request={request} {...otherArgs} />
     );
   },
   [REQUEST_STATES.DISPUTE_RESOLVED]: ({
-    job,
+    request,
     isSummaryView,
     pointOfView,
     withBidDetails,
@@ -234,15 +234,15 @@ const TaskerCardTemplates = {
 };
 
 const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
-  const { _jobRef } = bid;
-  const state = _jobRef.state;
+  const { _requestRef } = bid;
+  const state = _requestRef.state;
   try {
     switch (state) {
       case REQUEST_STATES.OPEN:
         try {
           const card = TaskerCardTemplates[state]({
             bid,
-            job: _jobRef,
+            request: _requestRef,
             isSummaryView,
             pointOfView: POINT_OF_VIEW.TASKER,
             withBidDetails: true,
@@ -258,7 +258,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
         try {
           const card = TaskerCardTemplates[REQUEST_STATES.AWARDED]({
             bid,
-            job: _jobRef,
+            request: _requestRef,
             isSummaryView,
             pointOfView: POINT_OF_VIEW.TASKER,
             withBidDetails: true,
@@ -269,12 +269,12 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
           console.error(e + ' Error Loading getTaskerBidCard REQUEST_STATES.AWARDED: Card ');
         }
         break;
-      case REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN:
-      case REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER:
+      case REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_REQUESTER_SEEN:
+      case REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_REQUESTER:
         try {
-          const card = TaskerCardTemplates[REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER]({
+          const card = TaskerCardTemplates[REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_REQUESTER]({
             bid,
-            job: _jobRef,
+            request: _requestRef,
             isSummaryView,
             pointOfView: POINT_OF_VIEW.TASKER,
             withBidDetails: true,
@@ -284,16 +284,16 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
         } catch (e) {
           console.error(
             e +
-              ' Error Loading getTaskerBidCard REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER: Card ',
+              ' Error Loading getTaskerBidCard REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_REQUESTER: Card ',
           );
         }
         break;
-      case REQUEST_STATES.AWARDED_JOB_CANCELED_BY_TASKER_SEEN:
-      case REQUEST_STATES.AWARDED_JOB_CANCELED_BY_TASKER:
+      case REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_TASKER_SEEN:
+      case REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_TASKER:
         try {
-          const card = TaskerCardTemplates[REQUEST_STATES.AWARDED_JOB_CANCELED_BY_TASKER]({
+          const card = TaskerCardTemplates[REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_TASKER]({
             bid,
-            job: _jobRef,
+            request: _requestRef,
             isSummaryView,
             pointOfView: POINT_OF_VIEW.TASKER,
             withBidDetails: true,
@@ -303,7 +303,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
         } catch (e) {
           console.error(
             e +
-              ' Error Loading getTaskerBidCard REQUEST_STATES.AWARDED_JOB_CANCELED_BY_TASKER: Card ',
+              ' Error Loading getTaskerBidCard REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_TASKER: Card ',
           );
         }
         break;
@@ -312,7 +312,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
         try {
           const card = TaskerCardTemplates[REQUEST_STATES.DONE]({
             bid,
-            job: _jobRef,
+            request: _requestRef,
             isSummaryView,
             pointOfView: POINT_OF_VIEW.TASKER,
             withBidDetails: true,
@@ -326,7 +326,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
         try {
           const card = TaskerCardTemplates[REQUEST_STATES.ARCHIVE]({
             bid,
-            job: _jobRef,
+            request: _requestRef,
             isSummaryView,
             pointOfView: POINT_OF_VIEW.TASKER,
             withBidDetails: true,
@@ -340,7 +340,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
         try {
           const card = TaskerCardTemplates[REQUEST_STATES.DISPUTED]({
             bid,
-            job: _jobRef,
+            request: _requestRef,
             isSummaryView,
             pointOfView: POINT_OF_VIEW.TASKER,
             withBidDetails: true,
@@ -368,27 +368,27 @@ export const getMeTheRightBidCard = ({ bid, isSummaryView, ...otherArgs }) => {
     console.error('Summary was not  passed in');
     return;
   }
-  if (!bid._jobRef) {
-    console.error('no associated job for this bid passed in');
+  if (!bid._requestRef) {
+    console.error('no associated request for this bid passed in');
     return; //return
   }
   return getTaskerBidCard(bid, isSummaryView, otherArgs);
 };
 
-export const getMeTheRightRequestCard = ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
-  if (!job || !job.templateId) {
-    console.error('no job passed in');
+export const getMeTheRightRequestCard = ({ request, isSummaryView, pointOfView, ...otherArgs }) => {
+  if (!request || !request.templateId) {
+    console.error('no request passed in');
     return; //return
   }
   if (isSummaryView === undefined || pointOfView === undefined) {
     console.error('Summary or Point ofView was not  passed in');
     return;
   }
-  const { state } = job;
+  const { state } = request;
   if (pointOfView === POINT_OF_VIEW.REQUESTER) {
     try {
       const card = requesterCardTemplates[state]({
-        job,
+        request,
         isSummaryView,
         pointOfView,
         otherArgs,
@@ -402,7 +402,7 @@ export const getMeTheRightRequestCard = ({ job, isSummaryView, pointOfView, ...o
   if (pointOfView === POINT_OF_VIEW.TASKER) {
     try {
       const card = TaskerCardTemplates[state]({
-        job,
+        request,
         isSummaryView,
         pointOfView,
         addBidDetails: false,

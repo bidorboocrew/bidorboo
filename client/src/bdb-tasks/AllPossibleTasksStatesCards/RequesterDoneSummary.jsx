@@ -4,7 +4,7 @@ import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import {
   SummaryStartDateAndTime,
-  JobCardTitle,
+  RequestCardTitle,
   TaskIsFulfilled,
   CountDownComponent,
   TaskImagesCarousel,
@@ -17,29 +17,29 @@ import RequestBaseContainer from './RequestBaseContainer';
 
 export default class RequesterDoneSummary extends RequestBaseContainer {
   render() {
-    const { job } = this.props;
+    const { request } = this.props;
 
     const {
-      _id: jobId,
+      _id: requestId,
       startingDateAndTime,
       _reviewRef = {
         revealToBoth: false,
-        requiresProposerReview: true,
+        requiresRequesterReview: true,
         requiresTaskerReview: true,
       },
       taskImages = [],
-      jobTitle,
-    } = job;
+      requestTitle,
+    } = request;
 
-    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    const { requiresProposerReview } = _reviewRef;
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
+    const { requiresRequesterReview } = _reviewRef;
 
     return (
       <div className="card has-text-centered cardWithButton">
         <div className="card-content">
           <div className="content">
-            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-            <UserGivenTitle userGivenTitle={jobTitle} />
+            <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <UserGivenTitle userGivenTitle={requestTitle} />
 
             <TaskImagesCarousel taskImages={taskImages} />
 
@@ -47,27 +47,27 @@ export default class RequesterDoneSummary extends RequestBaseContainer {
               date={startingDateAndTime}
               renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
-            {!requiresProposerReview && <ArchiveTask />}
+            {!requiresRequesterReview && <ArchiveTask />}
 
-            {requiresProposerReview && <TaskIsFulfilled />}
+            {requiresRequesterReview && <TaskIsFulfilled />}
           </div>
         </div>
 
         <div className="centeredButtonInCard ">
-          {!requiresProposerReview && (
+          {!requiresRequesterReview && (
             <a
               onClick={() => {
-                switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedJobPage(jobId));
+                switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(requestId));
               }}
               className="button is-dark"
             >
               VIEW DETAILS
             </a>
           )}
-          {requiresProposerReview && (
+          {requiresRequesterReview && (
             <a
               onClick={() => {
-                switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedJobPage(jobId));
+                switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(requestId));
               }}
               className="button is-primary"
             >

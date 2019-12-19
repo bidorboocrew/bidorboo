@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { goBackToPreviousRoute, switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
-import { getArchivedTaskDetailsForRequester } from '../../app-state/actions/jobActions';
+import { getArchivedTaskDetailsForRequester } from '../../app-state/actions/requestActions';
 import {
   CountDownComponent,
   DisplayLabelValue,
@@ -14,7 +14,7 @@ import {
   TaskSpecificExtras,
   ArchiveTask,
   DestinationAddressValue,
-  JobCardTitle,
+  RequestCardTitle,
   SummaryStartDateAndTime,
   CenteredUserImageAndRating,
   TaskImagesCarousel,
@@ -27,18 +27,18 @@ import RequestBaseContainer from './RequestBaseContainer';
 
 class RequesterArchiveDetails extends RequestBaseContainer {
   componentDidMount() {
-    const { job, getArchivedTaskDetailsForRequester } = this.props;
-    getArchivedTaskDetailsForRequester(job._id);
+    const { request, getArchivedTaskDetailsForRequester } = this.props;
+    getArchivedTaskDetailsForRequester(request._id);
   }
   render() {
-    const { selectedArchivedJob } = this.props;
+    const { selectedArchivedRequest } = this.props;
 
-    if (!selectedArchivedJob || !selectedArchivedJob._id) {
+    if (!selectedArchivedRequest || !selectedArchivedRequest._id) {
       return <Spinner renderLabel={'Getting request details'} isLoading={true} size={'large'} />;
     }
 
     const {
-      _id: jobId,
+      _id: requestId,
       startingDateAndTime,
       addressText,
       _awardedBidRef,
@@ -46,22 +46,22 @@ class RequesterArchiveDetails extends RequestBaseContainer {
       detailedDescription,
       _reviewRef = {
         revealToBoth: false,
-        requiresProposerReview: true,
+        requiresRequesterReview: true,
         requiresTaskerReview: true,
       },
       taskImages = [],
-      jobTitle,
+      requestTitle,
       completionDate,
-    } = selectedArchivedJob;
+    } = selectedArchivedRequest;
 
     const { requesterPayment, _taskerRef } = _awardedBidRef;
     const { value: requesterPaymentAmount } = requesterPayment;
 
-    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${selectedArchivedJob.templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${selectedArchivedRequest.templateId}`];
 
     const { showMore } = this.state;
 
-    const { requiresProposerReview } = _reviewRef;
+    const { requiresRequesterReview } = _reviewRef;
     return (
       <>
         <div
@@ -75,8 +75,8 @@ class RequesterArchiveDetails extends RequestBaseContainer {
         >
           <div style={{ borderBottom: 0 }} className="card-content">
             <div className="content">
-              <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-              <UserGivenTitle userGivenTitle={jobTitle} />
+              <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <UserGivenTitle userGivenTitle={requestTitle} />
 
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
@@ -138,10 +138,10 @@ class RequesterArchiveDetails extends RequestBaseContainer {
   }
 }
 
-const mapStateToProps = ({ jobsReducer, userReducer }) => {
+const mapStateToProps = ({ requestsReducer, userReducer }) => {
   return {
-    isLoading: !jobsReducer.selectedArchivedJob,
-    selectedArchivedJob: jobsReducer.selectedArchivedJob,
+    isLoading: !requestsReducer.selectedArchivedRequest,
+    selectedArchivedRequest: requestsReducer.selectedArchivedRequest,
   };
 };
 
@@ -155,17 +155,17 @@ export default connect(mapStateToProps, mapDispatchToProps)(RequesterArchiveDeta
 
 class AssignedTaskerDetails extends React.Component {
   render() {
-    const { otherUserProfileInfo, selectedArchivedJob } = this.props;
+    const { otherUserProfileInfo, selectedArchivedRequest } = this.props;
     const {
       _awardedBidRef,
-      _id: jobId,
+      _id: requestId,
       _ownerRef,
       _reviewRef = {
         revealToBoth: false,
-        requiresProposerReview: true,
+        requiresRequesterReview: true,
         requiresTaskerReview: true,
       },
-    } = selectedArchivedJob;
+    } = selectedArchivedRequest;
 
     if (!otherUserProfileInfo) {
       return null;
@@ -191,18 +191,18 @@ class AssignedTaskerDetails extends React.Component {
                 </li>
               </ul>
             </div>
-            {_reviewRef && _reviewRef.proposerReview ? (
+            {_reviewRef && _reviewRef.requesterReview ? (
               <ReviewComments
                 commenterDisplayName={_ownerRef.displayName}
                 commenterId={_ownerRef._id}
                 commenterProfilePicUrl={_ownerRef.profileImage.url}
-                comment={_reviewRef.proposerReview.personalComment}
-                ratingCategories={_reviewRef.proposerReview.ratingCategories}
+                comment={_reviewRef.requesterReview.personalComment}
+                ratingCategories={_reviewRef.requesterReview.ratingCategories}
               ></ReviewComments>
             ) : (
               <a
                 onClick={() => {
-                  switchRoute(ROUTES.CLIENT.REVIEW.getProposerJobReview({ jobId }));
+                  switchRoute(ROUTES.CLIENT.REVIEW.getRequesterRequestReview({ requestId }));
                 }}
                 className={`button firstButtonInCard is-primary`}
               >

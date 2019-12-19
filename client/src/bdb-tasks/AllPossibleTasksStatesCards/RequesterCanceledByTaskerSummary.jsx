@@ -2,12 +2,12 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { updateJobState } from '../../app-state/actions/jobActions';
+import { updateRequestState } from '../../app-state/actions/requestActions';
 
 import {
   CountDownComponent,
   SummaryStartDateAndTime,
-  JobCardTitle,
+  RequestCardTitle,
   CancelledBy,
   TaskImagesCarousel,
   UserGivenTitle,
@@ -19,16 +19,16 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 class RequesterCanceledByTaskerSummary extends React.Component {
   render() {
-    const { job, updateJobState, notificationFeed } = this.props;
+    const { request, updateRequestState, notificationFeed } = this.props;
 
-    const { startingDateAndTime, taskImages = [], jobTitle } = job;
+    const { startingDateAndTime, taskImages = [], requestTitle } = request;
 
-    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     let newUnseenState = false;
-    if (notificationFeed && notificationFeed.jobIdsWithNewBids) {
-      for (let i = 0; i < notificationFeed.jobIdsWithNewBids.length; i++) {
-        if (notificationFeed.jobIdsWithNewBids[i]._id === job._id) {
+    if (notificationFeed && notificationFeed.requestIdsWithNewBids) {
+      for (let i = 0; i < notificationFeed.requestIdsWithNewBids.length; i++) {
+        if (notificationFeed.requestIdsWithNewBids[i]._id === request._id) {
           newUnseenState = true;
           break;
         }
@@ -42,8 +42,8 @@ class RequesterCanceledByTaskerSummary extends React.Component {
       >
         <div className="card-content">
           <div className="content">
-            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-            <UserGivenTitle userGivenTitle={jobTitle} />
+            <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <UserGivenTitle userGivenTitle={requestTitle} />
 
             <TaskImagesCarousel taskImages={taskImages} />
             <SummaryStartDateAndTime
@@ -63,9 +63,9 @@ class RequesterCanceledByTaskerSummary extends React.Component {
               style={{ position: 'relative' }}
               onClick={(e) => {
                 e.preventDefault();
-                newUnseenState && updateJobState(job._id, 'AWARDED_JOB_CANCELED_BY_TASKER_SEEN');
+                newUnseenState && updateRequestState(request._id, 'AWARDED_REQUEST_CANCELED_BY_TASKER_SEEN');
 
-                switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedJobPage(job._id));
+                switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(request._id));
               }}
               className="button is-danger"
             >
@@ -94,7 +94,7 @@ const mapStateToProps = ({ uiReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateJobState: bindActionCreators(updateJobState, dispatch),
+    updateRequestState: bindActionCreators(updateRequestState, dispatch),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(RequesterCanceledByTaskerSummary);

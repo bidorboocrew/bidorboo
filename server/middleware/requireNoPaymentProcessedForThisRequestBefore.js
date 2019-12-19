@@ -1,4 +1,4 @@
-const { jobDataAccess } = require('../data-access/jobDataAccess');
+const { requestDataAccess } = require('../data-access/requestDataAccess');
 const stripeServiceUtil = require('../services/stripeService').util;
 
 const sendGridEmailing = require('../services/sendGrid').EmailService;
@@ -6,23 +6,23 @@ const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
 const WebPushNotifications = require('../services/WebPushNotifications').WebPushNotifications;
 
 const getAllContactDetails = require('../utils/commonDataUtils')
-  .getAwardedJobOwnerTaskerAndRelevantNotificationDetails;
+  .getAwardedRequestOwnerTaskerAndRelevantNotificationDetails;
 
 module.exports = async (req, res, next) => {
   try {
     //in the future redirect to login page
-    const { jobId } = req.body.data;
-    if (!jobId) {
+    const { requestId } = req.body.data;
+    if (!requestId) {
       return res.status(403).send({
-        errorMsg: 'missing paramerters jobId . can not confirm that you are the Job Owner.',
+        errorMsg: 'missing paramerters. can not confirm that you are the request owner.',
       });
     }
 
-    const theJob = await jobDataAccess.getJobById(jobId);
-    if (theJob && theJob._id) {
-      if (theJob.latestCheckoutSession) {
+    const theRequest = await requestDataAccess.getRequestById(requestId);
+    if (theRequest && theRequest._id) {
+      if (theRequest.latestCheckoutSession) {
         const { payment_intent } = await stripeServiceUtil.retrieveSession(
-          theJob.latestCheckoutSession
+          theRequest.latestCheckoutSession
         );
         const pi = await stripeServiceUtil.getPaymentIntents(payment_intent);
         if (
@@ -43,15 +43,15 @@ module.exports = async (req, res, next) => {
             payment_intent: paymentIntentId,
             payment_method: paymentMethodId,
             destination: destinationStripeAcc,
-            metadata: { bidId, jobId },
+            metadata: { bidId, requestId },
           } = chargeObject;
 
           if (captured && paid) {
             // console.log('-------BidOrBooLogging----------------------');
             // console.log('BidOrBooPayment - charge Succeeded');
             // console.log('-------BidOrBooLogging----------------------');
-            // update the job and tasker with the chosen awarded bid
-            await jobDataAccess.updateJobWithAwardedBidAndPaymentDetails(jobId, bidId, {
+            // update the request and tasker with the chosen awarded bid
+            await requestDataAccess.updateRequestWithAwardedBidAndPaymentDetails(requestId, bidId, {
               amount,
               chargeId,
               applicationFeeAmount,
@@ -62,7 +62,7 @@ module.exports = async (req, res, next) => {
             const {
               requesterDisplayName,
               taskerDisplayName,
-              jobDisplayName,
+              requestDisplayName,
               requestLinkForRequester,
               requestLinkForTasker,
               requesterEmailAddress,
@@ -73,11 +73,11 @@ module.exports = async (req, res, next) => {
               allowedToTextTasker,
               allowedToPushNotifyTasker,
               taskerPushNotSubscription,
-            } = await getAllContactDetails(jobId);
+            } = await getAllContactDetails(requestId);
             if (allowedToEmailRequester) {
               sendGridEmailing.tellRequesterThanksforPaymentAndTaskerIsRevealed({
                 to: requesterEmailAddress,
-                requestTitle: jobDisplayName,
+                requestTitle: requestDisplayName,
                 toDisplayName: requesterDisplayName,
                 linkForOwner: requestLinkForRequester,
               });
@@ -85,15 +85,15 @@ module.exports = async (req, res, next) => {
             if (allowedToEmailTasker) {
               sendGridEmailing.tellTaskerThatTheyWereAwarded({
                 to: taskerEmailAddress,
-                requestTitle: jobDisplayName,
+                requestTitle: requestDisplayName,
                 toDisplayName: taskerDisplayName,
                 linkForTasker: requestLinkForTasker,
               });
             }
             if (allowedToTextTasker) {
-              sendTextService.sendJobIsAwardedText(
+              sendTextService.sendRequestIsAwardedText(
                 taskerPhoneNumber,
-                jobDisplayName,
+                requestDisplayName,
                 requestLinkForTasker
               );
             }
@@ -116,12 +116,12 @@ module.exports = async (req, res, next) => {
         next();
       }
     } else {
-      return res.status(403).send({ errorMsg: 'could not locate this job.' });
+      return res.status(403).send({ errorMsg: 'could not locate this request.' });
     }
   } catch (e) {
     return res.status(400).send({
       errorMsg:
-        'failed to validate if there is a payment already for this job, use the chat button at the bottom of the screen to reachout to our customer support team',
+        'failed to validate if there is a payment already for this request, use the chat button at the bottom of the screen to reachout to our customer support team',
       details: `${e}`,
     });
   }

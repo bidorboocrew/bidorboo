@@ -15,7 +15,7 @@ import {
   TaskSpecificExtras,
   SummaryStartDateAndTime,
   BSawaitingOnRequester,
-  JobCardTitle,
+  RequestCardTitle,
   TaskImagesCarousel,
   UserGivenTitle,
   BidAmount,
@@ -64,7 +64,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
   };
 
   render() {
-    const { bid, job, otherArgs } = this.props;
+    const { bid, request, otherArgs } = this.props;
 
     const {
       startingDateAndTime,
@@ -75,8 +75,8 @@ export default class TaskerMyOpenBidDetails extends React.Component {
       extras,
       state,
       taskImages = [],
-      jobTitle,
-    } = job;
+      requestTitle,
+    } = request;
 
     const { taskerPayout, bidAmount } = bid;
 
@@ -85,13 +85,13 @@ export default class TaskerMyOpenBidDetails extends React.Component {
 
     const { updateBid, deleteOpenBid } = otherArgs;
 
-    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     const { showMore, showDeleteDialog, showMoreOptionsContextMenu } = this.state;
 
     const isAwardedToSomeoneElse =
       (state === REQUEST_STATES.AWARDED || state === REQUEST_STATES.AWARDED_SEEN) &&
-      bid._id !== job._awardedBidRef;
+      bid._id !== request._awardedBidRef;
 
     return (
       <React.Fragment>
@@ -148,7 +148,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
         <div className={`card has-text-centered cardWithButton nofixedwidth`}>
           <div className="card-content">
             <div className="content">
-              <JobCardTitle
+              <RequestCardTitle
                 icon={ICON}
                 title={TITLE}
                 img={IMG}
@@ -188,7 +188,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                   </div>
                 )}
               />
-              <UserGivenTitle userGivenTitle={jobTitle} />
+              <UserGivenTitle userGivenTitle={requestTitle} />
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
@@ -212,7 +212,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                       destionationAddress={extras.destinationText}
                     ></DestinationAddressValue>
                   )}
-                  <AvgBidDisplayLabelAndValue avgBid={job.avgBid} />
+                  <AvgBidDisplayLabelAndValue avgBid={request.avgBid} />
 
                   <div className="group">
                     <label className="label hasSelectedValue">Detailed Description</label>
@@ -247,7 +247,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                 )}
               </div>
               <br />
-              <TaskerEditOrUpdateBid bid={bid} job={job} updateBidAction={updateBid} />
+              <TaskerEditOrUpdateBid bid={bid} request={request} updateBidAction={updateBid} />
             </div>
           </div>
         </div>

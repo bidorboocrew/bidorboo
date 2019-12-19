@@ -346,7 +346,7 @@ export default class TermsOfService extends React.Component {
               <br></br>
               <p>
                 6. Public Areas; Acceptable Use The BidOrBoo Platform may contain profiles, email
-                systems, blogs, message boards, reviews, ratings, applications, job postings, chat
+                systems, blogs, message boards, reviews, ratings, applications, request postings, chat
                 areas, news groups, forums, communities and/or other message or communication
                 facilities (“Public Areas”) that allow Users to communicate with other Users. You
                 may only use such community areas to send and receive messages and materials that

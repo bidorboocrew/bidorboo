@@ -1,22 +1,22 @@
-export const getUserExistingBid = (job, currentUserId) => {
-  if (!job._bidsListRef || !job._bidsListRef.length > 0) {
+export const getUserExistingBid = (request, currentUserId) => {
+  if (!request._bidsListRef || !request._bidsListRef.length > 0) {
     return false;
   }
 
   let userExistingBid = null;
-  let userAlreadyBid = job._bidsListRef.some((bid) => {
+  let userAlreadyBid = request._bidsListRef.some((bid) => {
     userExistingBid = bid;
     return bid._taskerRef === currentUserId;
   });
   return { userAlreadyBid, userExistingBid };
 };
 
-export const didUserAlreadyView = (job, currentUserId) => {
-  if (!job.viewedBy || !job.viewedBy.length > 0) {
+export const didUserAlreadyView = (request, currentUserId) => {
+  if (!request.viewedBy || !request.viewedBy.length > 0) {
     return false;
   }
 
-  let didUserAlreadyView = job.viewedBy.some((usrId) => {
+  let didUserAlreadyView = request.viewedBy.some((usrId) => {
     return usrId === currentUserId;
   });
   return didUserAlreadyView;

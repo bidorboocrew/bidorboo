@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { Spinner } from '../../components/Spinner';
-import { getMyRequestsSummary, cancelJobById } from '../../app-state/actions/jobActions';
+import { getMyRequestsSummary, cancelRequestById } from '../../app-state/actions/requestActions';
 import { REQUEST_STATES } from '../../bdb-tasks/index';
 
 import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightCard';
@@ -33,25 +33,25 @@ class MyRequestsPage extends React.Component {
       return <Spinner renderLabel={'Getting your requests'} isLoading={isLoading} size={'large'} />;
     }
 
-    const areThereAnyJobsToView = myRequestsSummary && myRequestsSummary.length > 0;
+    const areThereAnyRequestsToView = myRequestsSummary && myRequestsSummary.length > 0;
 
-    let pastRequests = areThereAnyJobsToView
+    let pastRequests = areThereAnyRequestsToView
       ? myRequestsSummary
-          .filter((job) => {
+          .filter((request) => {
             return [
               REQUEST_STATES.DISPUTE_RESOLVED,
-              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_TASKER_SEEN,
-              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN,
-              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN,
+              REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_TASKER_SEEN,
+              REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_REQUESTER_SEEN,
+              REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_REQUESTER_SEEN,
               REQUEST_STATES.DISPUTE_RESOLVED,
               REQUEST_STATES.ARCHIVE,
-            ].includes(job.state);
+            ].includes(request.state);
           })
-          .map((job) => {
+          .map((request) => {
             return (
-              <div key={job._id} className="column is-narrow isforCards slide-in-bottom-small">
+              <div key={request._id} className="column is-narrow isforCards slide-in-bottom-small">
                 {getMeTheRightRequestCard({
-                  job,
+                  request,
                   isSummaryView: true,
                   pointOfView: POINT_OF_VIEW.REQUESTER,
                 })}
@@ -60,24 +60,24 @@ class MyRequestsPage extends React.Component {
           })
       : null;
 
-    let activeRequests = areThereAnyJobsToView
+    let activeRequests = areThereAnyRequestsToView
       ? myRequestsSummary
-          .filter((job) => {
+          .filter((request) => {
             return [
               REQUEST_STATES.OPEN,
               REQUEST_STATES.AWARDED,
               REQUEST_STATES.AWARDED_SEEN,
-              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_TASKER,
-              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER,
+              REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_TASKER,
+              REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_REQUESTER,
               REQUEST_STATES.DISPUTED,
               REQUEST_STATES.DONE,
-            ].includes(job.state);
+            ].includes(request.state);
           })
-          .map((job) => {
+          .map((request) => {
             return (
-              <div key={job._id} className="column is-narrow isforCards slide-in-bottom-small">
+              <div key={request._id} className="column is-narrow isforCards slide-in-bottom-small">
                 {getMeTheRightRequestCard({
-                  job,
+                  request,
                   isSummaryView: true,
                   pointOfView: POINT_OF_VIEW.REQUESTER,
                 })}
@@ -87,7 +87,7 @@ class MyRequestsPage extends React.Component {
       : null;
 
     let myRequestsSummaryCards = null;
-    if (areThereAnyJobsToView) {
+    if (areThereAnyRequestsToView) {
       if (selectedTab === MY_REQUESTS_TABS.pastRequests) {
         myRequestsSummaryCards = pastRequests;
       } else {
@@ -130,17 +130,17 @@ class MyRequestsPage extends React.Component {
     );
   }
 }
-const mapStateToProps = ({ jobsReducer, userReducer }) => {
+const mapStateToProps = ({ requestsReducer, userReducer }) => {
   return {
-    myRequestsSummary: jobsReducer.myRequestsSummary,
-    isLoading: jobsReducer.isLoading,
+    myRequestsSummary: requestsReducer.myRequestsSummary,
+    isLoading: requestsReducer.isLoading,
     userDetails: userReducer.userDetails,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
     getMyRequestsSummary: bindActionCreators(getMyRequestsSummary, dispatch),
-    cancelJobById: bindActionCreators(cancelJobById, dispatch),
+    cancelRequestById: bindActionCreators(cancelRequestById, dispatch),
   };
 };
 

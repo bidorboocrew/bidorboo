@@ -4,14 +4,14 @@ import moment from 'moment';
 
 import tasksDefinitions from '../../../bdb-tasks/tasksDefinitions';
 
-export const AddAwardedJobToCalendar = ({ job }) => {
-  if (!job) {
+export const AddAwardedRequestToCalendar = ({ request }) => {
+  if (!request) {
     return null;
   }
 
-  const { startingDateAndTime, addressText, templateId } = job;
+  const { startingDateAndTime, addressText, templateId } = request;
 
-  const { email, phone, displayName } = job._ownerRef;
+  const { email, phone, displayName } = request._ownerRef;
 
   const emailContact = email && email.emailAddress ? `${email.emailAddress}` : '';
   const phoneContactNumber = phone && phone.phoneNumber ? ` or ${phone.phoneNumber}` : '';

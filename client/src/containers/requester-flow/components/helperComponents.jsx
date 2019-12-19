@@ -4,12 +4,12 @@ import moment from 'moment';
 
 import tasksDefinitions from '../../../bdb-tasks/tasksDefinitions';
 
-export const AddAwardedJobToCalendar = ({ job }) => {
-  if (!job) {
+export const AddAwardedRequestToCalendar = ({ request }) => {
+  if (!request) {
     return null;
   }
 
-  const { startingDateAndTime, _awardedBidRef, addressText, templateId } = job;
+  const { startingDateAndTime, _awardedBidRef, addressText, templateId } = request;
   const { _taskerRef } = _awardedBidRef;
 
   const { email, phone } = _taskerRef;

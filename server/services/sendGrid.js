@@ -4,7 +4,7 @@ const sgMail = require('@sendgrid/mail');
 const keys = require('../config/keys');
 const populateHtmlTemplate = require('./sendGrid-Htmltemplate').populateHtmlTemplate;
 const populateNewBidHtmlTemplate = require('./sendGrid-Htmltemplate-newBid').populateHtmlTemplate;
-const populateJobUpdates = require('./sendGrid-Htmltemplate-jobUpdates').populateHtmlTemplate;
+const populateRequestUpdates = require('./sendGrid-Htmltemplate-requestUpdates').populateHtmlTemplate;
 
 sgMail.setApiKey(keys.sendGridKey);
 
@@ -52,7 +52,7 @@ exports.EmailService = {
     });
   },
 
-  sendJobIsHappeningSoonToTaskerEmail: ({
+  sendRequestIsHappeningSoonToTaskerEmail: ({
     to,
     requestTitle,
     toDisplayName,
@@ -72,7 +72,7 @@ exports.EmailService = {
         View Request Details: ${linkForTasker}
      `,
 
-      html: populateJobUpdates({
+      html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `
         <p>This is an automated reminder for your upcoming ${requestTitle} task.</p>
@@ -99,7 +99,7 @@ exports.EmailService = {
   },
   // ============Hanan to continue here
 
-  sendNewJobInYourAreaNotification: ({ to, requestTitle, toDisplayName, linkForTasker }) => {
+  sendNewRequestInYourAreaNotification: ({ to, requestTitle, toDisplayName, linkForTasker }) => {
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
@@ -110,7 +110,7 @@ exports.EmailService = {
       ${linkForTasker}
      `,
 
-      html: populateJobUpdates({
+      html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `
         <p>${requestTitle} request was posted in your area.</p>
@@ -131,7 +131,7 @@ exports.EmailService = {
     });
   },
 
-  sendJobIsHappeningSoonToRequesterEmail: ({
+  sendRequestIsHappeningSoonToRequesterEmail: ({
     to,
     requestTitle,
     toDisplayName,
@@ -150,7 +150,7 @@ exports.EmailService = {
     for reference here is the link to your task ${linkForOwner}
      `,
 
-      html: populateJobUpdates({
+      html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `<p>This is an automated reminder for your upcoming scheduled ${requestTitle} task.</p>
         <p>To get in touch with your assigned Tasker owner feel free to contact them on:</p>
@@ -169,7 +169,7 @@ exports.EmailService = {
       console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
     });
   },
-  tellTaskerThatRequesterCancelledJob: ({ to, requestTitle, toDisplayName, linkForTasker }) => {
+  tellTaskerThatRequesterCancelledRequest: ({ to, requestTitle, toDisplayName, linkForTasker }) => {
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
@@ -178,7 +178,7 @@ exports.EmailService = {
       click to View details and understand the full impact  ${linkForTasker}
      `,
 
-      html: populateJobUpdates({
+      html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `<p>We are sorry to inform you that this Request has been cancelled by the requester.</p>
         <p>click to View details and understand the full impact</p>
@@ -193,7 +193,7 @@ exports.EmailService = {
     });
   },
 
-  tellRequeterThatTheyHaveCancelledAnAwardedJob: ({
+  tellRequeterThatTheyHaveCancelledAnAwardedRequest: ({
     to,
     requestTitle,
     toDisplayName,
@@ -209,7 +209,7 @@ exports.EmailService = {
       click to View details and understand the full impact
        ${linkForOwner}
      `,
-      html: populateJobUpdates({
+      html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `<p>We are sorry to hear that things did not work out.</p>
         <p>We will inform the tasker about this to ensure that they will NOT show up.</p>
@@ -224,7 +224,7 @@ exports.EmailService = {
     });
   },
 
-  tellRequeterThatTheTaskerHaveCancelledAnAwardedJob: ({
+  tellRequeterThatTheTaskerHaveCancelledAnAwardedRequest: ({
     to,
     requestTitle,
     toDisplayName,
@@ -240,7 +240,7 @@ exports.EmailService = {
 
       click to View details and understand the full impact ${linkForOwner}
      `,
-      html: populateJobUpdates({
+      html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `<p>It Happens! We are sorry to inform you that things did not work out!</p>
 
@@ -257,7 +257,7 @@ exports.EmailService = {
       console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
     });
   },
-  tellTaskerThatTheyCancelledJob: ({ to, requestTitle, toDisplayName, linkForTasker }) => {
+  tellTaskerThatTheyCancelledRequest: ({ to, requestTitle, toDisplayName, linkForTasker }) => {
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
@@ -270,7 +270,7 @@ exports.EmailService = {
       click to View details and understand the full impact ${linkForTasker}
      `,
 
-      html: populateJobUpdates({
+      html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `
         <p>You have cancelled your agreement and thus will NOT show up to do this task.</p>
@@ -297,7 +297,7 @@ exports.EmailService = {
       text: `BidOrBooCrew is happy to hear that the tasker has finished their work, and we hope that they done so to your satisfaction.
 
       We are waiting on you to confirm that our Tasker have completed your request ${linkForOwner}`,
-      html: populateJobUpdates({
+      html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `<p>BidOrBooCrew is happy to hear that the tasker has finished their work</p>
         <p>We hope that they done so to your satisfaction.</p>
@@ -331,7 +331,7 @@ exports.EmailService = {
       We will keep you posted of any updates. click to View details ${linkForTasker}
      `,
 
-      html: populateJobUpdates({
+      html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `
         <p>Thank you for completing your Task!</p>
@@ -349,7 +349,7 @@ exports.EmailService = {
     });
   },
 
-  tellRequesterJobIsCompleteBeginRating: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
+  tellRequesterRequestIsCompleteBeginRating: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
@@ -360,7 +360,7 @@ exports.EmailService = {
      click to view the details
        ${linkForOwner}
      `,
-      html: populateJobUpdates({
+      html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `
         <p>BidOrBooCrew is SUPER HAPPY to hear that the request was fulfilled.</p>
@@ -378,7 +378,7 @@ exports.EmailService = {
     });
   },
 
-  tellTaskerJobIsCompleteBeginRating: ({ to, requestTitle, toDisplayName, linkForTasker }) => {
+  tellTaskerRequestIsCompleteBeginRating: ({ to, requestTitle, toDisplayName, linkForTasker }) => {
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
@@ -391,7 +391,7 @@ exports.EmailService = {
        ${linkForTasker}
      `,
 
-      html: populateJobUpdates({
+      html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `
         <p>BidOrBooCrew is SUPER HAPPY to hear that you've completed your task</p>
@@ -421,14 +421,14 @@ exports.EmailService = {
       subject: `${requestTitle} Payment successful!`,
       text: `
       Thank you for your paymen! We've notified the Tasker
-      The assigned Tasker will be ready to do a great job and fulfil your service.
+      The assigned Tasker will be ready to do a great request and fulfil your service.
        ${linkForOwner}
      `,
-      html: populateJobUpdates({
+      html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `
         <p>Thank you for your payment! We've notified the Tasker</p>
-        <p>The Tasker will be ready to do a great job and fulfil your service.</p>
+        <p>The Tasker will be ready to do a great request and fulfil your service.</p>
        `,
         clickLink: `${linkForOwner}`,
         clickDisplayName: 'Assigned Tasker Details',
@@ -454,7 +454,7 @@ exports.EmailService = {
       For any changes or to get in touch with the requeter visit the link below
        ${linkForTasker}
      `,
-      html: populateJobUpdates({
+      html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `
         <p>Your ${requestTitle} Bid Won and the request is Assigned to you!</p>
@@ -484,7 +484,7 @@ exports.EmailService = {
       ${linkForTasker}
      `,
 
-      html: populateJobUpdates({
+      html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `
         <p>We are sorry for your inconvienience and want you to know that we will investigat and resolve this asap!</p>
@@ -499,11 +499,11 @@ exports.EmailService = {
       console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
     });
   },
-  informBobCrewAboutFailedPayment: ({ jobId, paymentDetails }) => {
+  informBobCrewAboutFailedPayment: ({ requestId, paymentDetails }) => {
     const msg = {
       to: 'bidorboo@bidorboo.ca',
       from: 'bidorboo@bidorboo.ca',
-      subject: `FAILED PAYOUT CASE: ${jobId}`,
+      subject: `FAILED PAYOUT CASE: ${requestId}`,
       text: ` Payment to bank was not successful follow up with user
     ${JSON.stringify(paymentDetails)}`,
       html: `
@@ -517,21 +517,21 @@ exports.EmailService = {
     });
   },
 
-  tellRequesterThatWeMarkedJobDone: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
+  tellRequesterThatWeMarkedRequestDone: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
       subject: `BidOrBoo Marked ${requestTitle} as Complete`,
       text: `BidOrBooCrew is SUPER HAPPY to hear that your ${requestTitle} request was fulfilled.
-      Since you did not confirm the completion in the past 3 days we went ahead and marked this job as completed.
+      Since you did not confirm the completion in the past 3 days we went ahead and marked this request as completed.
       Please rate your Tasker
        ${linkForOwner}
      `,
-      html: populateJobUpdates({
+      html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `
         <p>BidOrBooCrew is SUPER HAPPY to hear that your ${requestTitle} request was fulfilled</p>
-        <p> Since you did not confirm the completion in the past 3 days we went ahead and marked this job as completed.</p>
+        <p> Since you did not confirm the completion in the past 3 days we went ahead and marked this request as completed.</p>
         <p>Please rate your Tasker</p>
        `,
         clickLink: `${linkForOwner}`,
@@ -543,7 +543,7 @@ exports.EmailService = {
       console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
     });
   },
-  tellRequesterToConfirmJob: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
+  tellRequesterToConfirmRequest: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
@@ -553,7 +553,7 @@ exports.EmailService = {
       Please confirm the completion of this request and rate your Tasker
        ${linkForOwner}
      `,
-      html: populateJobUpdates({
+      html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `
         <p>BidOrBooCrew is SUPER HAPPY to hear that your ${requestTitle} request was fulfilled.</p>
@@ -574,14 +574,14 @@ exports.EmailService = {
     whoSubmitted,
     requesterDisplayName,
     taskerDisplayName,
-    jobDisplayName,
+    requestDisplayName,
     requestLinkForRequester,
     requestLinkForTasker,
     requesterEmailAddress,
     requesterPhoneNumber,
     taskerEmailAddress,
     processedPayment,
-    jobId,
+    requestId,
     reason,
     details,
     userIdWhoFiledDispute,
@@ -591,27 +591,27 @@ exports.EmailService = {
       from: 'bidorboo@bidorboo.ca',
       subject: `DISPUTE CASE: ${reason} submitted by ${whoSubmitted}`,
       text: `
-     Investigate this dispute filed by user ${userIdWhoFiledDispute} about job ${jobId}.
+     Investigate this dispute filed by user ${userIdWhoFiledDispute} about request ${requestId}.
      the claim details are :
     ${details}
     Additional info
     whoSubmitted = ${whoSubmitted},
     requesterDisplayName = ${requesterDisplayName},
     taskerDisplayName = ${taskerDisplayName},
-    jobDisplayName = ${jobDisplayName},
+    requestDisplayName = ${requestDisplayName},
     requestLinkForRequester = ${requestLinkForRequester},
     requestLinkForTasker = ${requestLinkForTasker},
     requesterEmailAddress = ${requesterEmailAddress},
     requesterPhoneNumber = ${requesterPhoneNumber},
     taskerEmailAddress = ${taskerEmailAddress},
-    jobId = ${jobId},
+    requestId = ${requestId},
     reason = ${reason},
     details = ${details},
     processedPayment= ${JSON.stringify(processedPayment)},
      `,
 
       html: `
-      <p>Investigate this dispute filed by user ${userIdWhoFiledDispute} about job ${jobId}.</p>
+      <p>Investigate this dispute filed by user ${userIdWhoFiledDispute} about request ${requestId}.</p>
       <p>the claim details are :</p>
       <p><strong>${details}</strong></p>
       <br>
@@ -619,7 +619,7 @@ exports.EmailService = {
     <p>whoSubmitted = ${whoSubmitted},</p>
     <p>requesterDisplayName = ${requesterDisplayName},</p>
     <p>taskerDisplayName = ${taskerDisplayName},</p>
-    <p>jobDisplayName = ${jobDisplayName},</p>
+    <p>requestDisplayName = ${requestDisplayName},</p>
     <p>requestLinkForRequester = ${requestLinkForRequester},</p>
     <p>requestLinkForTasker = ${requestLinkForTasker},</p>
     <div>
@@ -631,7 +631,7 @@ exports.EmailService = {
     <div>
     <a href="mailto:${taskerEmailAddress}?subject=BidOrBoo DISPUTE"><strong>taskerEmailAddress:</strong> ${taskerEmailAddress}</a>
     </div>
-    <p>jobId = ${jobId},</p>
+    <p>requestId = ${requestId},</p>
     <p>reason = ${reason},</p>
     <p>details = ${details},</p>
     <p>processedPayment = ${JSON.stringify(processedPayment)},</p>

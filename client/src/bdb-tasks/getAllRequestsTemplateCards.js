@@ -28,7 +28,7 @@ const renderTask = ({ task, isLoggedIn, showLoginDialog }) => {
               showLoginDialog(true);
               return;
             }
-            switchRoute(ROUTES.CLIENT.REQUESTER.dynamicCreateJob(ID));
+            switchRoute(ROUTES.CLIENT.REQUESTER.dynamicCreateRequest(ID));
           }}
           className="button is-success firstButtonInCard"
         >

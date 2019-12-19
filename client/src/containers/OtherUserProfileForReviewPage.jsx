@@ -60,7 +60,7 @@ class OtherUserProfileForReviewPage extends React.Component {
       rating,
       createdAt,
       _asTaskerReviewsRef,
-      _asProposerReviewsRef,
+      _asRequesterReviewsRef,
       membershipStatus,
       personalParagraph,
     } = otherUserProfileInfo;
@@ -71,33 +71,33 @@ class OtherUserProfileForReviewPage extends React.Component {
       globalRating,
       fulfilledBids,
       canceledBids,
-      fulfilledJobs,
-      canceledJobs,
+      fulfilledRequests,
+      canceledRequests,
       // lastComment
     } = rating;
 
     let asATaskerReviews = null;
     if (_asTaskerReviewsRef && _asTaskerReviewsRef.length > 0) {
-      asATaskerReviews = _asTaskerReviewsRef.map(({ _id, proposerId, proposerReview }) => {
-        if (!proposerId) {
+      asATaskerReviews = _asTaskerReviewsRef.map(({ _id, requesterId, requesterReview }) => {
+        if (!requesterId) {
           return null;
         }
-        const { displayName, profileImage } = proposerId;
+        const { displayName, profileImage } = requesterId;
 
         return (
           <ReviewComments
             key={_id}
             commenterDisplayName={displayName}
             commenterProfilePicUrl={profileImage.url}
-            comment={proposerReview.personalComment}
+            comment={requesterReview.personalComment}
           />
         );
       });
     }
 
-    let asAProposerReviewsRef = null;
-    if (_asProposerReviewsRef && _asProposerReviewsRef.length > 0) {
-      asAProposerReviewsRef = _asProposerReviewsRef.map(({ _id, taskerId, taskerReview }) => {
+    let asARequesterReviewsRef = null;
+    if (_asRequesterReviewsRef && _asRequesterReviewsRef.length > 0) {
+      asARequesterReviewsRef = _asRequesterReviewsRef.map(({ _id, taskerId, taskerReview }) => {
         if (!taskerId) {
           return null;
         }
@@ -228,10 +228,10 @@ class OtherUserProfileForReviewPage extends React.Component {
                       <p
                         style={{ marginBottom: 4 }}
                         className={`title has-text-weight-bold ${
-                          fulfilledJobs.length > 0 ? 'has-text-success' : ''
+                          fulfilledRequests.length > 0 ? 'has-text-success' : ''
                         }`}
                       >
-                        {fulfilledJobs.length}
+                        {fulfilledRequests.length}
                       </p>
                     </article>
                   </div>
@@ -242,10 +242,10 @@ class OtherUserProfileForReviewPage extends React.Component {
                       <p
                         style={{ marginBottom: 4 }}
                         className={`title has-text-weight-bold${
-                          canceledJobs.length > 0 ? 'has-text-danger' : ''
+                          canceledRequests.length > 0 ? 'has-text-danger' : ''
                         }`}
                       >
-                        {canceledJobs.length}
+                        {canceledRequests.length}
                       </p>
                     </article>
                   </div>
@@ -265,7 +265,7 @@ class OtherUserProfileForReviewPage extends React.Component {
                   </ul>
                 </div>
 
-                {(asATaskerReviews || asAProposerReviewsRef) && (
+                {(asATaskerReviews || asARequesterReviewsRef) && (
                   <div className="field has-addons">
                     <p className="control">
                       <button
@@ -301,8 +301,8 @@ class OtherUserProfileForReviewPage extends React.Component {
                   <React.Fragment>{asATaskerReviews}</React.Fragment>
                 )}
 
-                {asAProposerReviewsRef && this.state.reviewsSelectedButton === 'fromTaskers' && (
-                  <React.Fragment>{asAProposerReviewsRef}</React.Fragment>
+                {asARequesterReviewsRef && this.state.reviewsSelectedButton === 'fromTaskers' && (
+                  <React.Fragment>{asARequesterReviewsRef}</React.Fragment>
                 )}
               </div>
             </div>

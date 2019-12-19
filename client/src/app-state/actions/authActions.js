@@ -131,7 +131,7 @@ export const getCurrentUser = () => (dispatch) => {
               });
             } else {
               dispatch({
-                type: A.UI_ACTIONS.SET_APP_PROPOSER_VIEW,
+                type: A.UI_ACTIONS.SET_APP_REQUESTER_VIEW,
                 payload: 'REQUESTER',
               });
             }

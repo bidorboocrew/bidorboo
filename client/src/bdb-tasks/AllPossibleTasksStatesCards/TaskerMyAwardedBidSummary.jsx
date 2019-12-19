@@ -2,7 +2,7 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { updateJobState } from '../../app-state/actions/jobActions';
+import { updateRequestState } from '../../app-state/actions/requestActions';
 
 import { REQUEST_STATES } from '../index';
 
@@ -12,7 +12,7 @@ import {
   CountDownComponent,
   SummaryStartDateAndTime,
   BSTaskerAwarded,
-  JobCardTitle,
+  RequestCardTitle,
   TaskImagesCarousel,
   UserGivenTitle,
   TaskerWillEarn,
@@ -24,11 +24,11 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 class TaskerMyAwardedBidSummary extends React.Component {
   render() {
-    const { bid, job, notificationFeed, updateJobState } = this.props;
+    const { bid, request, notificationFeed, updateRequestState } = this.props;
 
-    const { startingDateAndTime, taskerConfirmedCompletion, taskImages = [], jobTitle } = job;
+    const { startingDateAndTime, taskerConfirmedCompletion, taskImages = [], requestTitle } = request;
 
-    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
     const { taskerPayout, isAwardedToMe } = bid;
     const { value: taskerTotalPayoutAmount } = taskerPayout;
 
@@ -40,8 +40,8 @@ class TaskerMyAwardedBidSummary extends React.Component {
         >
           <div className="card-content">
             <div className="content">
-              <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-              <UserGivenTitle userGivenTitle={jobTitle} />
+              <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <UserGivenTitle userGivenTitle={requestTitle} />
               <TaskImagesCarousel taskImages={taskImages} />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
@@ -63,10 +63,10 @@ class TaskerMyAwardedBidSummary extends React.Component {
           {isAwardedToMe &&
             renderFooter({
               isAwardedToMe,
-              job,
+              request,
               bid,
               notificationFeed,
-              updateJobState,
+              updateRequestState,
               taskerConfirmedCompletion,
             })}
         </div>
@@ -83,17 +83,17 @@ const mapStateToProps = ({ uiReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateJobState: bindActionCreators(updateJobState, dispatch),
+    updateRequestState: bindActionCreators(updateRequestState, dispatch),
   };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskerMyAwardedBidSummary);
 
 const renderFooter = ({
-  job,
+  request,
   bid,
   notificationFeed,
-  updateJobState,
+  updateRequestState,
   taskerConfirmedCompletion,
 }) => {
   let newUnseenState = false;
@@ -112,7 +112,7 @@ const renderFooter = ({
           style={{ position: 'relative' }}
           onClick={(e) => {
             e.preventDefault();
-            newUnseenState && updateJobState(job._id, REQUEST_STATES.AWARDED_SEEN);
+            newUnseenState && updateRequestState(request._id, REQUEST_STATES.AWARDED_SEEN);
 
             switchRoute(
               ROUTES.CLIENT.TASKER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),

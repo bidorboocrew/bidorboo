@@ -1,4 +1,4 @@
-const { jobDataAccess } = require('../data-access/jobDataAccess');
+const { requestDataAccess } = require('../data-access/requestDataAccess');
 const { reviewDataAccess } = require('../data-access/reviewDataAccess');
 const userDataAccess = require('../data-access/userDataAccess');
 
@@ -6,22 +6,22 @@ const ROUTES = require('../backend-route-constants');
 
 const requireLogin = require('../middleware/requireLogin');
 
-const requireJobOwner = require('../middleware/requireJobOwner');
+const requireRequestOwner = require('../middleware/requireRequestOwner');
 const requireCurrentUserIsTheAwardedTasker = require('../middleware/requireCurrentUserIsTheAwardedTasker');
 
-const requireProposerReviewPreChecksPass = require('../middleware/requireProposerReviewPreChecksPass');
+const requireRequesterReviewPreChecksPass = require('../middleware/requireRequesterReviewPreChecksPass');
 const requireTaskerReviewPreChecksPass = require('../middleware/requireTaskerReviewPreChecksPass');
 
 module.exports = (app) => {
   app.put(
-    ROUTES.API.REVIEW.PUT.proposerSubmitReview,
+    ROUTES.API.REVIEW.PUT.requesterSubmitReview,
     requireLogin,
-    requireJobOwner,
-    requireProposerReviewPreChecksPass,
+    requireRequestOwner,
+    requireRequesterReviewPreChecksPass,
     async (req, res) => {
       try {
         const {
-          jobId,
+          requestId,
           qualityOfWorkRating,
           punctualityRating,
           communicationRating,
@@ -29,13 +29,13 @@ module.exports = (app) => {
           personalComment,
         } = res.locals.bidOrBoo;
 
-        const job = await jobDataAccess.getFullJobDetails(jobId);
-        const reviewId = job._reviewRef._id.toString();
+        const request = await requestDataAccess.getFullRequestDetails(requestId);
+        const reviewId = request._reviewRef._id.toString();
 
-        const { proposerId, awardedTasker } = res.locals.bidOrBoo;
+        const { requesterId, awardedTasker } = res.locals.bidOrBoo;
         // update the review model
         const updatedReviewModel = await reviewDataAccess.updateReviewModel(reviewId, {
-          proposerReview: {
+          requesterReview: {
             ratingCategories: [
               {
                 category: 'QUALITY_OF_WORK',
@@ -58,14 +58,14 @@ module.exports = (app) => {
           },
         });
         if (
-          updatedReviewModel.proposerReview &&
-          updatedReviewModel.proposerReview.personalComment &&
+          updatedReviewModel.requesterReview &&
+          updatedReviewModel.requesterReview.personalComment &&
           updatedReviewModel.taskerReview &&
           updatedReviewModel.taskerReview.personalComment
         ) {
-          await jobDataAccess.updateState(jobId, 'ARCHIVE');
+          await requestDataAccess.updateState(requestId, 'ARCHIVE');
         }
-        const taskerRatingDetails = job._awardedBidRef._taskerRef.rating;
+        const taskerRatingDetails = request._awardedBidRef._taskerRef.rating;
 
         const thisTaskAvgRating =
           (qualityOfWorkRating + punctualityRating + communicationRating + mannerRating) / 4;
@@ -77,10 +77,10 @@ module.exports = (app) => {
           newTaskerGlobalRating = parseFloat(newTaskerGlobalRating.toFixed(1));
         }
 
-        await userDataAccess.proposerPushesAReview(
+        await userDataAccess.requesterPushesAReview(
           reviewId,
-          proposerId,
-          job._id,
+          requesterId,
+          request._id,
           awardedTasker._id,
           newTaskerGlobalRating,
           newTotalOfAllRatings,
@@ -89,7 +89,7 @@ module.exports = (app) => {
 
         // XXX email both to tell them rating is avilable
 
-        return res.send({ success: true, message: 'Proposer Review submitted successfully' });
+        return res.send({ success: true, message: 'Requester Review submitted successfully' });
       } catch (e) {
         return res.status(400).send({ errorMsg: 'Failed To submit review', details: `${e}` });
       }
@@ -104,7 +104,7 @@ module.exports = (app) => {
     async (req, res) => {
       try {
         const {
-          jobId,
+          requestId,
           accuracyOfPostRating,
           punctualityRating,
           communicationRating,
@@ -112,8 +112,8 @@ module.exports = (app) => {
           personalComment,
         } = req.body.data;
 
-        const job = await jobDataAccess.getFullJobDetails(jobId);
-        const reviewId = job._reviewRef._id.toString();
+        const request = await requestDataAccess.getFullRequestDetails(requestId);
+        const reviewId = request._reviewRef._id.toString();
 
         // update the review model
         const updatedReviewModel = await reviewDataAccess.updateReviewModel(reviewId, {
@@ -140,31 +140,31 @@ module.exports = (app) => {
           },
         });
         if (
-          updatedReviewModel.proposerReview &&
-          updatedReviewModel.proposerReview.personalComment &&
+          updatedReviewModel.requesterReview &&
+          updatedReviewModel.requesterReview.personalComment &&
           updatedReviewModel.taskerReview &&
           updatedReviewModel.taskerReview.personalComment
         ) {
-          await jobDataAccess.updateState(jobId, 'ARCHIVE');
+          await requestDataAccess.updateState(requestId, 'ARCHIVE');
         }
-        const ownerRatingDetails = job._ownerRef.rating;
+        const ownerRatingDetails = request._ownerRef.rating;
 
         const thisTaskAvgRating =
           (accuracyOfPostRating + punctualityRating + communicationRating + mannerRating) / 4;
 
         const totalNumberOfTimesBeenRated = ownerRatingDetails.numberOfTimesBeenRated + 1;
         const newTotalOfAllRatings = ownerRatingDetails.totalOfAllRatings + thisTaskAvgRating;
-        let newProposerGlobalRating = newTotalOfAllRatings / totalNumberOfTimesBeenRated;
-        if (newProposerGlobalRating) {
-          newProposerGlobalRating = parseFloat(newProposerGlobalRating.toFixed(1));
+        let newRequesterGlobalRating = newTotalOfAllRatings / totalNumberOfTimesBeenRated;
+        if (newRequesterGlobalRating) {
+          newRequesterGlobalRating = parseFloat(newRequesterGlobalRating.toFixed(1));
         }
 
         await userDataAccess.taskerPushesAReview(
           reviewId,
-          job._awardedBidRef._taskerRef._id,
-          job._awardedBidRef._id,
-          job._ownerRef._id,
-          newProposerGlobalRating,
+          request._awardedBidRef._taskerRef._id,
+          request._awardedBidRef._id,
+          request._ownerRef._id,
+          newRequesterGlobalRating,
           newTotalOfAllRatings,
           personalComment
         );

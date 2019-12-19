@@ -12,7 +12,7 @@ import {
   TaskerWillEarn,
   TaskSpecificExtras,
   ArchiveTask,
-  JobCardTitle,
+  RequestCardTitle,
   SummaryStartDateAndTime,
   TaskImagesCarousel,
   UserGivenTitle,
@@ -38,14 +38,14 @@ class TaskerArchiveDetails extends RequestBaseContainer {
       extras,
       detailedDescription,
       taskImages = [],
-      jobTitle,
+      requestTitle,
       completionDate,
-    } = selectedArchivedBid._jobRef;
+    } = selectedArchivedBid._requestRef;
     console.log(selectedArchivedBid);
     const { taskerPayout } = selectedArchivedBid;
     const { value: taskerPayoutAmount } = taskerPayout;
 
-    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${selectedArchivedBid._jobRef.templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${selectedArchivedBid._requestRef.templateId}`];
 
     const { showMore } = this.state;
 
@@ -62,8 +62,8 @@ class TaskerArchiveDetails extends RequestBaseContainer {
         >
           <div style={{ borderBottom: 0 }} className="card-content">
             <div className="content">
-              <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-              <UserGivenTitle userGivenTitle={jobTitle} />
+              <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <UserGivenTitle userGivenTitle={requestTitle} />
 
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
@@ -151,10 +151,10 @@ class AssignedTaskerDetails extends React.Component {
       _ownerRef,
       _reviewRef = {
         revealToBoth: false,
-        requiresProposerReview: true,
+        requiresRequesterReview: true,
         requiresTaskerReview: true,
       },
-    } = selectedArchivedBid._jobRef;
+    } = selectedArchivedBid._requestRef;
 
     return (
       <div
@@ -188,7 +188,7 @@ class AssignedTaskerDetails extends React.Component {
               <a
                 onClick={() => {
                   switchRoute(
-                    ROUTES.CLIENT.REVIEW.getTaskerJobReview({ bidId: _awardedBidRef._id }),
+                    ROUTES.CLIENT.REVIEW.getTaskerRequestReview({ bidId: _awardedBidRef._id }),
                   );
                 }}
                 className={`button firstButtonInCard is-primary`}
@@ -209,13 +209,13 @@ class AssignedTaskerDetails extends React.Component {
                 </li>
               </ul>
             </div>
-            {_reviewRef && _reviewRef.proposerReview ? (
+            {_reviewRef && _reviewRef.requesterReview ? (
               <ReviewComments
                 commenterDisplayName={_ownerRef.displayName}
                 commenterId={_ownerRef._id}
                 commenterProfilePicUrl={_ownerRef.profileImage.url}
-                comment={_reviewRef.proposerReview.personalComment}
-                ratingCategories={_reviewRef.proposerReview.ratingCategories}
+                comment={_reviewRef.requesterReview.personalComment}
+                ratingCategories={_reviewRef.requesterReview.ratingCategories}
               ></ReviewComments>
             ) : (
               <div className="help">*Waiting on Requester to submit their review.</div>

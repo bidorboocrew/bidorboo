@@ -4,7 +4,7 @@ import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import {
   CountDownComponent,
-  JobCardTitle,
+  RequestCardTitle,
   SummaryStartDateAndTime,
   CancelledBy,
   TaskImagesCarousel,
@@ -15,10 +15,10 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 export default class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
   render() {
-    const { bid, job } = this.props;
+    const { bid, request } = this.props;
 
-    const { startingDateAndTime, taskImages = [], jobTitle } = job;
-    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { startingDateAndTime, taskImages = [], requestTitle } = request;
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     return (
       <div
@@ -27,8 +27,8 @@ export default class TaskerAwardedBidCanceledByTaskerDetails extends React.Compo
       >
         <div className="card-content">
           <div className="content">
-            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-            <UserGivenTitle userGivenTitle={jobTitle} />
+            <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <UserGivenTitle userGivenTitle={requestTitle} />
 
             <TaskImagesCarousel taskImages={taskImages} isLarge />
             <SummaryStartDateAndTime

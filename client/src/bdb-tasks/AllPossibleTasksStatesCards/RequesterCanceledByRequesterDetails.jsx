@@ -5,7 +5,7 @@ import { switchRoute } from '../../utils';
 import {
   CountDownComponent,
   SummaryStartDateAndTime,
-  JobCardTitle,
+  RequestCardTitle,
   CancelledBy,
   TaskImagesCarousel,
   UserGivenTitle,
@@ -16,11 +16,11 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 export default class RequesterCanceledByRequesterDetails extends React.Component {
   render() {
-    const { job } = this.props;
+    const { request } = this.props;
 
-    const { startingDateAndTime, taskImages = [], jobTitle, _awardedBidRef } = job;
+    const { startingDateAndTime, taskImages = [], requestTitle, _awardedBidRef } = request;
 
-    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     const { requesterPartialRefund, requesterPayment } = _awardedBidRef;
     const { value: requesterPartialRefundAmount } = requesterPartialRefund;
@@ -34,8 +34,8 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
       >
         <div className="card-content">
           <div className="content">
-            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-            <UserGivenTitle userGivenTitle={jobTitle} />
+            <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <UserGivenTitle userGivenTitle={requestTitle} />
 
             <TaskImagesCarousel taskImages={taskImages} isLarge />
             <SummaryStartDateAndTime

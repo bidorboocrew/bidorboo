@@ -6,18 +6,18 @@ import { Collapse } from 'react-collapse';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
-  proposerConfirmsJobCompletion,
-  cancelJobById,
-  proposerDisputesJob,
-} from '../../app-state/actions/jobActions';
+  requesterConfirmsRequestCompletion,
+  cancelRequestById,
+  requesterDisputesRequest,
+} from '../../app-state/actions/requestActions';
 
 import {
   CountDownComponent,
   DisplayLabelValue,
   TaskCost,
-  AddAwardedJobToCalendarForTasker,
+  AddAwardedRequestToCalendarForTasker,
   TaskSpecificExtras,
-  JobCardTitle,
+  RequestCardTitle,
   SummaryStartDateAndTime,
   CenteredUserImageAndRating,
   AssignedTasker,
@@ -44,10 +44,10 @@ class RequesterAwardedDetails extends RequestBaseContainer {
     this.setState({ showDisputeModal: true });
   };
   render() {
-    const { job, cancelJobById } = this.props;
+    const { request, cancelRequestById } = this.props;
 
     const {
-      _id: jobId,
+      _id: requestId,
       startingDateAndTime,
       addressText,
       _awardedBidRef,
@@ -55,8 +55,8 @@ class RequesterAwardedDetails extends RequestBaseContainer {
       detailedDescription,
       taskerConfirmedCompletion,
       taskImages = [],
-      jobTitle,
-    } = job;
+      requestTitle,
+    } = request;
 
     const { requesterPayment, requesterPartialRefund, _taskerRef } = _awardedBidRef;
 
@@ -67,7 +67,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
     const { phoneNumber } = phone;
     const { emailAddress } = email;
 
-    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore, showDisputeModal } = this.state;
 
@@ -77,7 +77,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
           {...this.props}
           showDisputeModal={showDisputeModal}
           closeDisputeModal={this.closeDisputeModal}
-          jobId={jobId}
+          requestId={requestId}
         />
 
         {showDeleteDialog &&
@@ -138,7 +138,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault();
-                      cancelJobById(job._id);
+                      cancelRequestById(request._id);
                       this.toggleDeleteConfirmationDialog();
                     }}
                     className="button is-danger"
@@ -164,7 +164,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
         >
           <div style={{ borderBottom: 0 }} className="card-content">
             <div className="content">
-              <JobCardTitle
+              <RequestCardTitle
                 icon={ICON}
                 title={TITLE}
                 img={IMG}
@@ -213,7 +213,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                   </div>
                 )}
               />
-              <UserGivenTitle userGivenTitle={jobTitle} />
+              <UserGivenTitle userGivenTitle={requestTitle} />
 
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
@@ -277,7 +277,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
           emailAddress={emailAddress}
           phoneNumber={phoneNumber}
           renderAddToCalendar={() => (
-            <AddAwardedJobToCalendarForTasker job={job} extraClassName={'is-small'} />
+            <AddAwardedRequestToCalendarForTasker request={request} extraClassName={'is-small'} />
           )}
           renderActionButton={() => (
             <>
@@ -294,9 +294,9 @@ class RequesterAwardedDetails extends RequestBaseContainer {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
-    cancelJobById: bindActionCreators(cancelJobById, dispatch),
-    proposerDisputesJob: bindActionCreators(proposerDisputesJob, dispatch),
+    requesterConfirmsRequestCompletion: bindActionCreators(requesterConfirmsRequestCompletion, dispatch),
+    cancelRequestById: bindActionCreators(cancelRequestById, dispatch),
+    requesterDisputesRequest: bindActionCreators(requesterDisputesRequest, dispatch),
   };
 };
 
@@ -314,15 +314,15 @@ class RequesterConfirmsCompletion extends React.Component {
     this.setState({ showConfirmationModal: !this.state.showConfirmationModal });
   };
   submitConfirmation = () => {
-    const { proposerConfirmsJobCompletion, job } = this.props;
+    const { requesterConfirmsRequestCompletion, request } = this.props;
 
     this.setState({ showConfirmationModal: false }, () => {
-      proposerConfirmsJobCompletion(job._id);
+      requesterConfirmsRequestCompletion(request._id);
     });
   };
   render() {
     const { showConfirmationModal } = this.state;
-    const { job } = this.props;
+    const { request } = this.props;
 
     return (
       <React.Fragment>
@@ -383,12 +383,12 @@ class RequesterDisputes extends React.Component {
   }
 
   submitDispute = (taskerDispute) => {
-    const { proposerDisputesJob } = this.props;
-    proposerDisputesJob(taskerDispute);
+    const { requesterDisputesRequest } = this.props;
+    requesterDisputesRequest(taskerDispute);
   };
 
   render() {
-    const { jobId, showDisputeModal, closeDisputeModal } = this.props;
+    const { requestId, showDisputeModal, closeDisputeModal } = this.props;
 
     const { selectedDispute, disputeText } = this.state;
     return (
@@ -426,13 +426,13 @@ class RequesterDisputes extends React.Component {
                     <label className="radio">
                       <input
                         type="radio"
-                        name="Tasker Did Not Do A Good Job"
+                        name="Tasker Did Not Do A Good Request"
                         onChange={() =>
-                          this.setState({ selectedDispute: 'Tasker Did Not Do A Good Job' })
+                          this.setState({ selectedDispute: 'Tasker Did Not Do A Good Request' })
                         }
-                        checked={selectedDispute === 'Tasker Did Not Do A Good Job'}
+                        checked={selectedDispute === 'Tasker Did Not Do A Good Request'}
                       />
-                      {` Tasker did not do a good job`}
+                      {` Tasker did not do a good request`}
                     </label>
                   </div>
                   <div>
@@ -502,10 +502,10 @@ class RequesterDisputes extends React.Component {
                     type="submit"
                     onClick={() =>
                       this.submitDispute({
-                        proposerDispute: {
+                        requesterDispute: {
                           reason: selectedDispute,
                           details: disputeText,
-                          jobId: jobId,
+                          requestId: requestId,
                         },
                       })
                     }

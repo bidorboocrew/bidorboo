@@ -2,10 +2,10 @@ const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
 // const requiresCheckPayTaskerDetails = require('../middleware/requiresCheckPayTaskerDetails');
-const requireJobOwner = require('../middleware/requireJobOwner');
-const requireNoPaymentProcessedForThisJobBefore = require('../middleware/requireNoPaymentProcessedForThisJobBefore');
+const requireRequestOwner = require('../middleware/requireRequestOwner');
+const requireNoPaymentProcessedForThisRequestBefore = require('../middleware/requireNoPaymentProcessedForThisRequestBefore');
 
-const requireJobIsNotAwarded = require('../middleware/requireJobIsNotAwarded');
+const requireRequestIsNotAwarded = require('../middleware/requireRequestIsNotAwarded');
 const userDataAccess = require('../data-access/userDataAccess');
 
 const sendGridEmailing = require('../services/sendGrid').EmailService;
@@ -16,13 +16,13 @@ const stripeServiceUtil = require('../services/stripeService').util;
 const requireUserHasAStripeAccountOrInitalizeOne = require('../middleware/requireUserHasAStripeAccountOrInitalizeOne');
 
 // const { paymentDataAccess } = require('../data-access/paymentDataAccess');
-const { jobDataAccess } = require('../data-access/jobDataAccess');
+const { requestDataAccess } = require('../data-access/requestDataAccess');
 const { bidDataAccess } = require('../data-access/bidDataAccess');
 
 const { getChargeDistributionDetails } = require('../utils/chargesCalculatorUtil');
 
 const getAllContactDetails = require('../utils/commonDataUtils')
-  .getAwardedJobOwnerTaskerAndRelevantNotificationDetails;
+  .getAwardedRequestOwnerTaskerAndRelevantNotificationDetails;
 
 const keys = require('../config/keys');
 
@@ -30,23 +30,23 @@ module.exports = (app) => {
   app.post(
     ROUTES.API.PAYMENT.POST.payment,
     requireLogin,
-    requireJobOwner,
-    requireJobIsNotAwarded,
-    requireNoPaymentProcessedForThisJobBefore,
+    requireRequestOwner,
+    requireRequestIsNotAwarded,
+    requireNoPaymentProcessedForThisRequestBefore,
     // requiresCheckPayTaskerDetails,
     async (req, res, next) => {
       try {
         const mongoUser_id = req.user._id.toString();
 
-        const { jobId, bidId } = req.body.data;
+        const { requestId, bidId } = req.body.data;
 
         const theBid = await bidDataAccess.getBidById(bidId);
-        const theJob = await jobDataAccess.getJobWithOwnerDetails(jobId);
+        const theRequest = await requestDataAccess.getRequestWithOwnerDetails(requestId);
 
-        if (!theBid || !theBid._id || !theJob || !theJob._id) {
+        if (!theBid || !theBid._id || !theRequest || !theRequest._id) {
           return res.status(403).send({
             errorMsg:
-              "Couldn't locate the job and corresponding Bid. Your card was NOT charged, reload the page and try again.",
+              "Couldn't locate the request and corresponding Bid. Your card was NOT charged, reload the page and try again.",
           });
         }
 
@@ -60,12 +60,12 @@ module.exports = (app) => {
         const taskerEmail = taskerEmailObject.emailAddress;
         const taskerId = taskerIdObject.toString();
 
-        const requesterEmail = theJob._ownerRef.email.emailAddress;
-        const requesterId = theJob._ownerRef._id.toString();
-        const requesterCustomerId = theJob._ownerRef.stripeCustomerAccId;
+        const requesterEmail = theRequest._ownerRef.email.emailAddress;
+        const requesterId = theRequest._ownerRef._id.toString();
+        const requesterCustomerId = theRequest._ownerRef.stripeCustomerAccId;
         const taskImages =
-          theJob.taskImages && theJob.taskImages.length > 0
-            ? theJob.taskImages.map((image) => image.url)
+          theRequest.taskImages && theRequest.taskImages.length > 0
+            ? theRequest.taskImages.map((image) => image.url)
             : [];
 
         // confirm award and pay
@@ -105,15 +105,15 @@ module.exports = (app) => {
             metadata: {
               taskerId,
               taskerEmail,
-              proposerId: req.user._id.toString(),
+              requesterId: req.user._id.toString(),
               requesterEmail,
-              jobId,
+              requestId,
               bidId,
-              note: `Requester Paid for ${theJob.jobTemplateDisplayTitle} ${theJob.jobTitle}`,
+              note: `Requester Paid for ${theRequest.requestTemplateDisplayTitle} ${theRequest.requestTitle}`,
             },
             taskerDisplayName: taskerDisplayName || taskerEmail,
-            taskId: jobId,
-            taskName: `${theJob.jobTemplateDisplayTitle} ${theJob.jobTitle}`,
+            taskId: requestId,
+            taskName: `${theRequest.requestTemplateDisplayTitle} ${theRequest.requestTitle}`,
             requesterEmail,
             totalCharge: requesterPaymentAmount * 100, //in cents
             bidOrBooServiceFee: bidOrBooPlatformFee * 100, //in cents
@@ -122,7 +122,11 @@ module.exports = (app) => {
             requesterCustomerId,
           });
 
-          await jobDataAccess.updateLatestCheckoutSession(jobId, mongoUser_id, sessionClientId);
+          await requestDataAccess.updateLatestCheckoutSession(
+            requestId,
+            mongoUser_id,
+            sessionClientId
+          );
 
           return res.status(200).send({ sessionClientId });
         }
@@ -132,16 +136,6 @@ module.exports = (app) => {
       }
     }
   );
-
-  // app.get(ROUTES.API.PAYMENT.GET.payment, requireLogin, async (req, res) => {
-  //   try {
-  //     const paymentsDetails = await paymentDataAccess.getAllPaymentsDetails();
-
-  //     res.send({ paymentsDetails });
-  //   } catch (e) {
-  //     return res.status(400).send({ errorMsg: 'Failed To create charge', details: `${e}` });
-  //   }
-  // });
 
   app.put(
     ROUTES.API.PAYMENT.PUT.setupPaymentDetails,
@@ -168,11 +162,9 @@ module.exports = (app) => {
           errorMsg: `couldn't register your bank account please use the chat button to talk to our customer support`,
         });
       } catch (e) {
-        return res
-          .status(400)
-          .send({
-            errorMsg: `couldn't register your bank account please use the chat button to talk to our customer support`,
-          });
+        return res.status(400).send({
+          errorMsg: `couldn't register your bank account please use the chat button to talk to our customer support`,
+        });
       }
     }
   );
@@ -358,19 +350,18 @@ module.exports = (app) => {
       let sig = req.headers['stripe-signature'];
       let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
       if (event) {
-        const { id, account, type, data } = event;
+        const { id, type, data } = event;
         const { status, metadata } = data;
-        const { jobId } = metadata;
+        const { requestId } = metadata;
 
         switch (type) {
           case 'payout.paid':
             console.log('payoutsWebhook payout.paid');
-            console.log({ jobId });
+            console.log({ requestId });
 
-            // update the job about this
-            jobDataAccess.updateJobById(jobId, {
+            // update the request about this
+            requestDataAccess.updateRequestById(requestId, {
               $set: {
-                state: 'ARCHIVE',
                 'payoutDetails.status': { status, id },
               },
             });
@@ -378,30 +369,28 @@ module.exports = (app) => {
             break;
           case 'payout.failed':
             console.log('payoutsWebhook payout.failed');
-            console.log({ jobId });
-            jobDataAccess.updateJobById(jobId, {
+            console.log({ requestId });
+            requestDataAccess.updateRequestById(requestId, {
               $set: {
-                state: 'PAYMENT_TO_BANK_FAILED',
                 'payoutDetails.status': { status, id },
               },
             });
-            sendGridEmailing.informBobCrewAboutFailedPayment({ jobId, data });
+            sendGridEmailing.informBobCrewAboutFailedPayment({ requestId, data });
             break;
         }
       }
       return res.status(200).send();
     } catch (e) {
-      return res.status(400).send({ errorMsg: 'payoutsWebhook failured', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'payouts Webhook failed', details: `${e}` });
     }
   });
 
   app.post(ROUTES.API.PAYMENT.POST.chargeSucceededWebhook, async (req, res, next) => {
     try {
-      console.log('chargesucceeded is triggered');
-
       // sign key by strip
       let endpointSecret = keys.stripeWebhookChargesSig;
       let sig = req.headers['stripe-signature'];
+
       let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
       if (event) {
         const {
@@ -417,7 +406,7 @@ module.exports = (app) => {
           payment_intent: paymentIntentId,
           payment_method: paymentMethodId,
           destination: destinationStripeAcc,
-          metadata: { bidId, jobId },
+          metadata: { bidId, requestId },
         } = chargeObject;
 
         if (!captured || !paid) {
@@ -426,17 +415,13 @@ module.exports = (app) => {
 
         console.log('BIDORBOOLOGGING - PAYMENT - process charge');
 
-        const theJob = await jobDataAccess.getJobById(jobId);
+        const theRequest = await requestDataAccess.getRequestById(requestId);
 
-        if (theJob && theJob.processedPayment && theJob.processedPayment.chargeId) {
-          // we already reported this , dont do anything
+        if (theRequest && theRequest.processedPayment && theRequest.processedPayment.chargeId) {
           return res.status(200).send();
         }
-        // console.log('-------BidOrBooLogging----------------------');
-        // console.log('BidOrBooPayment - charge Succeeded');
-        // console.log('-------BidOrBooLogging----------------------');
-        // update the job and tasker with the chosen awarded bid
-        await jobDataAccess.updateJobWithAwardedBidAndPaymentDetails(jobId, bidId, {
+
+        await requestDataAccess.updateRequestWithAwardedBidAndPaymentDetails(requestId, bidId, {
           amount,
           chargeId,
           applicationFeeAmount,
@@ -447,7 +432,7 @@ module.exports = (app) => {
         const {
           requesterDisplayName,
           taskerDisplayName,
-          jobDisplayName,
+          requestDisplayName,
           requestLinkForRequester,
           requestLinkForTasker,
           requesterEmailAddress,
@@ -458,11 +443,11 @@ module.exports = (app) => {
           allowedToTextTasker,
           allowedToPushNotifyTasker,
           taskerPushNotSubscription,
-        } = await getAllContactDetails(jobId);
+        } = await getAllContactDetails(requestId);
         if (allowedToEmailRequester) {
           sendGridEmailing.tellRequesterThanksforPaymentAndTaskerIsRevealed({
             to: requesterEmailAddress,
-            requestTitle: jobDisplayName,
+            requestTitle: requestDisplayName,
             toDisplayName: requesterDisplayName,
             linkForOwner: requestLinkForRequester,
           });
@@ -470,15 +455,15 @@ module.exports = (app) => {
         if (allowedToEmailTasker) {
           sendGridEmailing.tellTaskerThatTheyWereAwarded({
             to: taskerEmailAddress,
-            requestTitle: jobDisplayName,
+            requestTitle: requestDisplayName,
             toDisplayName: taskerDisplayName,
             linkForTasker: requestLinkForTasker,
           });
         }
         if (allowedToTextTasker) {
-          sendTextService.sendJobIsAwardedText(
+          sendTextService.sendRequestIsAwardedText(
             taskerPhoneNumber,
-            jobDisplayName,
+            requestDisplayName,
             requestLinkForTasker
           );
         }
@@ -491,7 +476,7 @@ module.exports = (app) => {
       }
       return res.status(200).send();
     } catch (e) {
-      return res.status(400).send({ errorMsg: 'chargesucceeded failured', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'charge succeeded failed', details: `${e}` });
     }
   });
 
@@ -516,9 +501,9 @@ module.exports = (app) => {
       //     const paymentIntentDetails = await stripeServiceUtil.getPaymentIntents(payment_intent);
       //     const { metadata, id } = paymentIntentDetails;
 
-      //     const { jobId, bidId, amount } = metadata;
+      //     const { requestId, bidId, amount } = metadata;
 
-      //     const updateJobAndBid = await jobDataAccess.updateJobAwardedBid(jobId, bidId, {
+      //     const updateRequestAndBid = await requestDataAccess.updateRequestAwardedBid(requestId, bidId, {
       //       paymentIntentId: id,
       //       amount,
       //     });
@@ -530,7 +515,7 @@ module.exports = (app) => {
       //   safeMsg: 'something went wrong handling payment, our crew wil be in touch with you',
       // });
     } catch (e) {
-      return res.status(400).send({ errorMsg: 'payoutsWebhook failured', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'checkoutFulfillment failed', details: `${e}` });
     }
   });
 };

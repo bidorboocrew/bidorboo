@@ -4,7 +4,7 @@ import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import {
   UserGivenTitle,
-  JobCardTitle,
+  RequestCardTitle,
   TaskImagesCarousel,
   SummaryStartDateAndTime,
   DisputedBy,
@@ -15,18 +15,18 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 export default class TaskerMyDisputedBidSummary extends React.Component {
   render() {
-    const { bid, job } = this.props;
+    const { bid, request } = this.props;
 
-    const { startingDateAndTime, taskImages = [], jobTitle, dispute } = job;
+    const { startingDateAndTime, taskImages = [], requestTitle, dispute } = request;
 
-    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     const { taskerPayout } = bid;
     const { value: taskerTotalPayoutAmount } = taskerPayout;
 
     let whoDisputed = '';
-    const { proposerDispute } = dispute;
-    if (proposerDispute && proposerDispute.reason) {
+    const { requesterDispute } = dispute;
+    if (requesterDispute && requesterDispute.reason) {
       whoDisputed = 'Requester';
     } else {
       whoDisputed = 'You';
@@ -36,8 +36,8 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
       <div className={`card has-text-centered disputeOnlyView cardWithButton`}>
         <div className="card-content">
           <div className="content">
-            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-            <UserGivenTitle userGivenTitle={jobTitle} />
+            <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <UserGivenTitle userGivenTitle={requestTitle} />
 
             <TaskImagesCarousel taskImages={taskImages} />
 

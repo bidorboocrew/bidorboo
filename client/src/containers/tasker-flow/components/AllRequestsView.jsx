@@ -4,16 +4,16 @@ import { switchRoute } from '../../../utils';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { updateViewedBy } from '../../../app-state/actions/jobActions';
+import { updateViewedBy } from '../../../app-state/actions/requestActions';
 import { showLoginDialog } from '../../../app-state/actions/uiActions';
 import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../../bdb-tasks/getMeTheRightCard';
 
-export class AllJobsView extends React.Component {
+export class AllRequestsView extends React.Component {
   render() {
-    const { jobsList } = this.props;
-    return jobsList && jobsList.length > 0 ? (
+    const { requestsList } = this.props;
+    return requestsList && requestsList.length > 0 ? (
       <div className="columns is-multiline is-centered is-mobile">
-        <OtherPeoplesJobs {...this.props} />
+        <OtherPeoplesRequests {...this.props} />
       </div>
     ) : (
       <EmptyStateComponent />
@@ -38,7 +38,7 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(AllJobsView);
+)(AllRequestsView);
 
 const EmptyStateComponent = () => {
   return (
@@ -63,17 +63,17 @@ const EmptyStateComponent = () => {
   );
 };
 
-const OtherPeoplesJobs = (props) => {
-  const { jobsList, showMapView, isLoggedIn, userDetails, showLoginDialog, updateViewedBy } = props;
+const OtherPeoplesRequests = (props) => {
+  const { requestsList, showMapView, isLoggedIn, userDetails, showLoginDialog, updateViewedBy } = props;
 
   const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
-  const components = jobsList
-    .filter((job) => job._ownerRef._id !== currentUserId)
-    .map((job) => {
+  const components = requestsList
+    .filter((request) => request._ownerRef._id !== currentUserId)
+    .map((request) => {
       return (
-        <div key={job._id} className="column is-narrow isforCards slide-in-bottom-small">
+        <div key={request._id} className="column is-narrow isforCards slide-in-bottom-small">
           {getMeTheRightRequestCard({
-            job,
+            request,
             isSummaryView: true,
             pointOfView: POINT_OF_VIEW.TASKER,
             showMapView: showMapView,

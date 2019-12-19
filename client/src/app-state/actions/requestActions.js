@@ -5,13 +5,13 @@ import { switchRoute, throwErrorNotification } from '../../utils';
 import moment from 'moment';
 import TASKS_DEFINITIONS from '../../bdb-tasks/tasksDefinitions';
 
-export const updateJobState = (jobId, newState) => (dispatch) => {
+export const updateRequestState = (requestId, newState) => (dispatch) => {
   return dispatch({
-    type: A.JOB_ACTIONS.UPDATE_STATE,
+    type: A.REQUEST_ACTIONS.UPDATE_STATE,
     payload: axios
-      .put(ROUTES.API.JOB.PUT.updateJobState, {
+      .put(ROUTES.API.REQUEST.PUT.updateRequestState, {
         data: {
-          jobId,
+          requestId,
           newState,
         },
       })
@@ -20,13 +20,13 @@ export const updateJobState = (jobId, newState) => (dispatch) => {
       }),
   });
 };
-export const updateBooedBy = (jobDetails) => (dispatch) =>
+export const updateBooedBy = (requestDetails) => (dispatch) =>
   dispatch({
-    type: A.JOB_ACTIONS.UPDATE_JOB_BOOED_BY,
+    type: A.REQUEST_ACTIONS.UPDATE_REQUEST_BOOED_BY,
     payload: axios
-      .put(ROUTES.API.JOB.PUT.updateBooedBy, {
+      .put(ROUTES.API.REQUEST.PUT.updateBooedBy, {
         data: {
-          jobId: jobDetails._id,
+          requestId: requestDetails._id,
         },
       })
       .catch((error) => {
@@ -34,13 +34,13 @@ export const updateBooedBy = (jobDetails) => (dispatch) =>
       }),
   });
 
-export const updateViewedBy = (jobDetails) => (dispatch) =>
+export const updateViewedBy = (requestDetails) => (dispatch) =>
   dispatch({
-    type: A.JOB_ACTIONS.UPDATE_JOB_VIEWED_BY,
+    type: A.REQUEST_ACTIONS.UPDATE_REQUEST_VIEWED_BY,
     payload: axios
-      .put(ROUTES.API.JOB.PUT.updateViewedBy, {
+      .put(ROUTES.API.REQUEST.PUT.updateViewedBy, {
         data: {
-          jobId: jobDetails._id,
+          requestId: requestDetails._id,
         },
       })
       .catch((error) => {
@@ -50,15 +50,15 @@ export const updateViewedBy = (jobDetails) => (dispatch) =>
 
 export const getAllMyRequests = () => (dispatch) =>
   dispatch({
-    type: A.JOB_ACTIONS.GET_ALL_MY_REQUESTS,
-    payload: axios.get(ROUTES.API.JOB.GET.getAllMyRequests),
+    type: A.REQUEST_ACTIONS.GET_ALL_MY_REQUESTS,
+    payload: axios.get(ROUTES.API.REQUEST.GET.getAllMyRequests),
   });
 
-export const cancelJobById = (jobId) => (dispatch) => {
+export const cancelRequestById = (requestId) => (dispatch) => {
   const req = dispatch({
-    type: A.JOB_ACTIONS.DELETE_JOB_BY_ID,
-    payload: axios.delete(ROUTES.API.JOB.DELETE.postedJobAndBidsForRequester, {
-      data: { jobId: jobId },
+    type: A.REQUEST_ACTIONS.DELETE_REQUEST_BY_ID,
+    payload: axios.delete(ROUTES.API.REQUEST.DELETE.postedRequestAndBidsForRequester, {
+      data: { requestId: requestId },
     }),
   });
 
@@ -79,13 +79,13 @@ export const cancelJobById = (jobId) => (dispatch) => {
   });
 };
 
-export const getAllMyAwardedJobs = () => (dispatch) => {
+export const getAllMyAwardedRequests = () => (dispatch) => {
   dispatch({
-    type: A.JOB_ACTIONS.GET_ALL_MY_AWARDED_JOBS,
-    payload: axios.get(ROUTES.API.JOB.GET.myAwardedJobs),
+    type: A.REQUEST_ACTIONS.GET_ALL_MY_AWARDED_REQUESTS,
+    payload: axios.get(ROUTES.API.REQUEST.GET.myAwardedRequests),
   });
 };
-export const searchJobsToBidOn = (values) => (dispatch) => {
+export const searchRequestsToBidOn = (values) => (dispatch) => {
   const config = {
     headers: { 'Content-Type': 'application/json' },
   };
@@ -94,20 +94,20 @@ export const searchJobsToBidOn = (values) => (dispatch) => {
   });
 
   dispatch({
-    type: A.JOB_ACTIONS.GET_ALL_POSTED_JOBS_VIA_SEARCH,
+    type: A.REQUEST_ACTIONS.GET_ALL_POSTED_REQUESTS_VIA_SEARCH,
     payload: axios
-      .post(ROUTES.API.JOB.POST.updateSearchThenSearchJobs, postData, config)
+      .post(ROUTES.API.REQUEST.POST.updateSearchThenSearchRequests, postData, config)
       .catch((error) => {
         throwErrorNotification(dispatch, error);
       }),
   });
 };
 
-// export const getAllJobsToBidOn = () => (dispatch) => {
+// export const getAllRequestsToBidOn = () => (dispatch) => {
 //
 //   dispatch({
-//     type: A.JOB_ACTIONS.GET_ALL_POSTED_JOBS,
-//     payload: axios.get(ROUTES.API.JOB.GET.alljobsToBidOn),
+//     type: A.REQUEST_ACTIONS.GET_ALL_POSTED_REQUESTS,
+//     payload: axios.get(ROUTES.API.REQUEST.GET.allrequestsToBidOn),
 //   });
 // };
 
@@ -117,17 +117,17 @@ export const searchByLocation = (userSearchQuery) => (dispatch) => {
     searchRaduis: userSearchQuery.searchRadiusField
       ? userSearchQuery.searchRadiusField * 1000
       : 100000, // translate to KM
-    jobTypeFilter: userSearchQuery.filterJobsByCategoryField, // list of categories to exclude from the search
+    requestTypeFilter: userSearchQuery.filterRequestsByCategoryField, // list of categories to exclude from the search
   };
 
   dispatch({
-    type: A.JOB_ACTIONS.SEARCH_JOB,
+    type: A.REQUEST_ACTIONS.SEARCH_REQUEST,
     payload: serverSearchQuery,
   });
   dispatch({
-    type: A.JOB_ACTIONS.SEARCH_JOB,
+    type: A.REQUEST_ACTIONS.SEARCH_REQUEST,
     payload: axios
-      .post(ROUTES.API.JOB.POST.searchJobs, {
+      .post(ROUTES.API.REQUEST.POST.searchRequests, {
         data: {
           searchParams: serverSearchQuery,
         },
@@ -138,16 +138,16 @@ export const searchByLocation = (userSearchQuery) => (dispatch) => {
   });
 };
 
-export const getAwardedJobFullDetailsforRequester = (jobId) => (dispatch) => {
+export const getAwardedRequestFullDetailsforRequester = (requestId) => (dispatch) => {
   dispatch({
-    type: A.JOB_ACTIONS.GET_AWARDED_JOB_FULL_DETAILS_FOR_REQUESTER,
+    type: A.REQUEST_ACTIONS.GET_AWARDED_REQUEST_FULL_DETAILS_FOR_REQUESTER,
     payload: axios
-      .get(ROUTES.API.JOB.GET.awardedJobFullDetailsForRequester, { params: { jobId } })
+      .get(ROUTES.API.REQUEST.GET.awardedRequestFullDetailsForRequester, { params: { requestId } })
       .then((resp) => {
-        // update recently added job
+        // update recently added request
         if (resp && resp.data) {
           dispatch({
-            type: A.JOB_ACTIONS.SELECT_AWARDED_JOB,
+            type: A.REQUEST_ACTIONS.SELECT_AWARDED_REQUEST,
             payload: { data: resp.data },
           });
         }
@@ -158,28 +158,28 @@ export const getAwardedJobFullDetailsforRequester = (jobId) => (dispatch) => {
   });
 };
 
-export const proposerConfirmsJobCompletion = (jobId) => (dispatch) => {
+export const requesterConfirmsRequestCompletion = (requestId) => (dispatch) => {
   const config = {
     headers: { 'Content-Type': 'application/json' },
   };
   const postData = JSON.stringify({
     data: {
-      jobId,
+      requestId,
       completionDate: moment.utc(new Date()).toISOString(),
     },
   });
 
   dispatch({
-    type: A.JOB_ACTIONS.PROPOSER_CONFIRMS_JOB_COMPLETION,
+    type: A.REQUEST_ACTIONS.REQUESTER_CONFIRMS_REQUEST_COMPLETION,
     payload: axios
-      .put(ROUTES.API.JOB.PUT.proposerConfirmsJobCompleted, postData, config)
+      .put(ROUTES.API.REQUEST.PUT.requesterConfirmsRequestCompleted, postData, config)
       .then((resp) => {
-        // update recently added job
+        // update recently added request
         if (resp && resp.data) {
           // xxxx update without reload
           window.location.reload();
           // navigate to review page
-          // switchRoute(`${ROUTES.CLIENT.REQUESTER.selectedAwardedJobPage}/${jobId}`);
+          // switchRoute(`${ROUTES.CLIENT.REQUESTER.selectedAwardedRequestPage}/${requestId}`);
         }
       })
       .catch((error) => {
@@ -188,28 +188,28 @@ export const proposerConfirmsJobCompletion = (jobId) => (dispatch) => {
   });
 };
 
-export const proposerDisputesJob = ({ proposerDispute }) => (dispatch) => {
+export const requesterDisputesRequest = ({ requesterDispute }) => (dispatch) => {
   const config = {
     headers: { 'Content-Type': 'application/json' },
   };
   const postData = JSON.stringify({
     data: {
-      jobId: proposerDispute.jobId,
-      proposerDispute,
+      requestId: requesterDispute.requestId,
+      requesterDispute,
     },
   });
 
   dispatch({
-    type: A.JOB_ACTIONS.PROPOSER_DISPUTES_JOB,
+    type: A.REQUEST_ACTIONS.REQUESTER_DISPUTES_REQUEST,
     payload: axios
-      .put(ROUTES.API.JOB.PUT.proposerDisputeJob, postData, config)
+      .put(ROUTES.API.REQUEST.PUT.requesterDisputeRequest, postData, config)
       .then((resp) => {
-        // update recently added job
+        // update recently added request
         if (resp && resp.data) {
           // xxxx update without reload
           window.location.reload();
           // navigate to review page
-          // switchRoute(`${ROUTES.CLIENT.REQUESTER.selectedAwardedJobPage}/${jobId}`);
+          // switchRoute(`${ROUTES.CLIENT.REQUESTER.selectedAwardedRequestPage}/${requestId}`);
         }
       })
       .catch((error) => {
@@ -218,28 +218,28 @@ export const proposerDisputesJob = ({ proposerDispute }) => (dispatch) => {
   });
 };
 
-export const taskerDisputesJob = ({ taskerDispute }) => (dispatch) => {
+export const taskerDisputesRequest = ({ taskerDispute }) => (dispatch) => {
   const config = {
     headers: { 'Content-Type': 'application/json' },
   };
   const postData = JSON.stringify({
     data: {
-      jobId: taskerDispute.jobId,
+      requestId: taskerDispute.requestId,
       taskerDispute,
     },
   });
 
   dispatch({
-    type: A.JOB_ACTIONS.TASKER_DISPUTES_JOB,
+    type: A.REQUEST_ACTIONS.TASKER_DISPUTES_REQUEST,
     payload: axios
-      .put(ROUTES.API.JOB.PUT.taskerDisputeJob, postData, config)
+      .put(ROUTES.API.REQUEST.PUT.taskerDisputeRequest, postData, config)
       .then((resp) => {
-        // update recently added job
+        // update recently added request
         if (resp && resp.data) {
           // xxxx update without reload
           window.location.reload();
           // navigate to review page
-          // switchRoute(`${ROUTES.CLIENT.REQUESTER.selectedAwardedJobPage}/${jobId}`);
+          // switchRoute(`${ROUTES.CLIENT.REQUESTER.selectedAwardedRequestPage}/${requestId}`);
         }
       })
       .catch((error) => {
@@ -248,27 +248,27 @@ export const taskerDisputesJob = ({ taskerDispute }) => (dispatch) => {
   });
 };
 
-export const taskerConfirmsJobCompletion = (jobId) => (dispatch) => {
+export const taskerConfirmsRequestCompletion = (requestId) => (dispatch) => {
   const config = {
     headers: { 'Content-Type': 'application/json' },
   };
   const postData = JSON.stringify({
     data: {
-      jobId,
+      requestId,
     },
   });
 
   dispatch({
-    type: A.JOB_ACTIONS.TASKER_CONFIRMS_JOB_COMPLETION,
+    type: A.REQUEST_ACTIONS.TASKER_CONFIRMS_REQUEST_COMPLETION,
     payload: axios
-      .put(ROUTES.API.JOB.PUT.taskerConfirmsJobCompleted, postData, config)
+      .put(ROUTES.API.REQUEST.PUT.taskerConfirmsRequestCompleted, postData, config)
       .then((resp) => {
-        // update recently added job
+        // update recently added request
         if (resp && resp.data && resp.data.success) {
           // xxxx update he bid without refresh
           window.location.reload();
           // navigate to review page
-          // switchRoute(`${ROUTES.CLIENT.REQUESTER.selectedAwardedJobPage}/${jobId}`);
+          // switchRoute(`${ROUTES.CLIENT.REQUESTER.selectedAwardedRequestPage}/${requestId}`);
         }
       })
       .catch((error) => {
@@ -277,43 +277,43 @@ export const taskerConfirmsJobCompletion = (jobId) => (dispatch) => {
   });
 };
 
-export const markBidAsSeen = (jobId, bidId) => (dispatch) => {
+export const markBidAsSeen = (requestId, bidId) => (dispatch) => {
   const config = {
     headers: { 'Content-Type': 'application/json' },
   };
   const postData = {
     data: {
-      jobId,
+      requestId,
       bidId,
     },
   };
 
   const response = dispatch({
-    type: A.JOB_ACTIONS.REQUEST_MARK_BID_AS_SEEN,
+    type: A.REQUEST_ACTIONS.REQUEST_MARK_BID_AS_SEEN,
     payload: axios.put(ROUTES.API.BID.PUT.markBidAsSeen, postData, config),
   });
   response.then(({ value }) => {
     if (value) {
       dispatch({
-        type: A.JOB_ACTIONS.MARK_BID_AS_SEEN,
-        payload: { jobId, bidId },
+        type: A.REQUEST_ACTIONS.MARK_BID_AS_SEEN,
+        payload: { requestId, bidId },
       });
     }
   });
 };
 
-export const postNewJob = ({ jobDetails, recaptchaField }) => (dispatch) => {
+export const postNewRequest = ({ requestDetails, recaptchaField }) => (dispatch) => {
   return dispatch({
-    type: A.JOB_ACTIONS.ADD_NEW_JOB,
+    type: A.REQUEST_ACTIONS.ADD_NEW_REQUEST,
     payload: axios
-      .post(ROUTES.API.JOB.POST.newJob, {
+      .post(ROUTES.API.REQUEST.POST.newRequest, {
         recaptchaField,
         data: {
-          jobDetails,
+          requestDetails,
         },
       })
       .then((resp) => {
-        //on successful creation of a job redirect the user to my jobs
+        //on successful creation of a request redirect the user to my requests
         if (resp.data && resp.data._id) {
           const { templateId } = resp.data;
 
@@ -351,7 +351,7 @@ export const uploadTaskImages = (taskImages) => (dispatch) => {
   taskImages &&
     taskImages.length > 0 &&
     taskImages.forEach((file, index) => {
-      data.append('filesToUpload', file, `jobImages+${index}`);
+      data.append('filesToUpload', file, `requestImages+${index}`);
     });
   const config = {
     headers: { 'content-type': 'multipart/form-data' },
@@ -359,9 +359,9 @@ export const uploadTaskImages = (taskImages) => (dispatch) => {
 
   if (taskImages && taskImages.length) {
     return dispatch({
-      type: A.JOB_ACTIONS.ADD_NEW_JOB,
-      payload: axios.put(ROUTES.API.JOB.PUT.jobImage, data, config).then((resp2) => {
-        if (resp2 && resp2.data.success && resp2.data.jobId) {
+      type: A.REQUEST_ACTIONS.ADD_NEW_REQUEST,
+      payload: axios.put(ROUTES.API.REQUEST.PUT.requestImage, data, config).then((resp2) => {
+        if (resp2 && resp2.data.success && resp2.data.requestId) {
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
             payload: {
@@ -372,7 +372,7 @@ export const uploadTaskImages = (taskImages) => (dispatch) => {
             },
           });
         }
-        // switch route to show the currently added job
+        // switch route to show the currently added request
       }),
     });
   } else {
@@ -392,27 +392,27 @@ export const uploadTaskImages = (taskImages) => (dispatch) => {
 
 export const getMyRequestsSummary = () => (dispatch) =>
   dispatch({
-    type: A.JOB_ACTIONS.GET_MY_REQUESTS_SUMMARY,
-    payload: axios.get(ROUTES.API.JOB.GET.myRequestsSummary),
+    type: A.REQUEST_ACTIONS.GET_MY_REQUESTS_SUMMARY,
+    payload: axios.get(ROUTES.API.REQUEST.GET.myRequestsSummary),
   });
 
-export const getPostedJobAndBidsForRequester = (jobId) => (dispatch) => {
-  if (!jobId) {
+export const getPostedRequestAndBidsForRequester = (requestId) => (dispatch) => {
+  if (!requestId) {
     return;
   }
   dispatch({
-    type: A.JOB_ACTIONS.SELECT_ACTIVE_POSTED_JOB,
+    type: A.REQUEST_ACTIONS.SELECT_ACTIVE_POSTED_REQUEST,
     payload: { data: {} },
   });
 
   return dispatch({
-    type: A.JOB_ACTIONS.GET_POSTED_JOB_AND_BIDS_FOR_REQUESTER,
+    type: A.REQUEST_ACTIONS.GET_POSTED_REQUEST_AND_BIDS_FOR_REQUESTER,
     payload: axios
-      .get(ROUTES.API.JOB.GET.postedJobAndBidsForRequester, { params: { jobId } })
+      .get(ROUTES.API.REQUEST.GET.postedRequestAndBidsForRequester, { params: { requestId } })
       .then((resp) => {
         if (resp && resp.data) {
           dispatch({
-            type: A.JOB_ACTIONS.SELECT_ACTIVE_POSTED_JOB,
+            type: A.REQUEST_ACTIONS.SELECT_ACTIVE_POSTED_REQUEST,
             payload: { data: resp.data },
           });
         }
@@ -423,23 +423,23 @@ export const getPostedJobAndBidsForRequester = (jobId) => (dispatch) => {
   });
 };
 
-export const getArchivedTaskDetailsForRequester = (jobId) => (dispatch) => {
-  if (!jobId) {
+export const getArchivedTaskDetailsForRequester = (requestId) => (dispatch) => {
+  if (!requestId) {
     return;
   }
   dispatch({
-    type: A.JOB_ACTIONS.SELECT_ARCHIVE_JOB,
+    type: A.REQUEST_ACTIONS.SELECT_ARCHIVE_REQUEST,
     payload: { data: {} },
   });
 
   return dispatch({
-    type: A.JOB_ACTIONS.GET_ARCHIVED_JOB_DETAILS_FOR_REQUESTER,
+    type: A.REQUEST_ACTIONS.GET_ARCHIVED_REQUEST_DETAILS_FOR_REQUESTER,
     payload: axios
-      .get(ROUTES.API.JOB.GET.achivedTaskDetailsForRequester, { params: { jobId } })
+      .get(ROUTES.API.REQUEST.GET.achivedTaskDetailsForRequester, { params: { requestId } })
       .then((resp) => {
         if (resp && resp.data) {
           dispatch({
-            type: A.JOB_ACTIONS.SELECT_ARCHIVE_JOB,
+            type: A.REQUEST_ACTIONS.SELECT_ARCHIVE_REQUEST,
             payload: { data: resp.data },
           });
         }

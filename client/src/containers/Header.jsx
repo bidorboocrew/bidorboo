@@ -144,21 +144,21 @@ class Header extends React.Component {
     } = this.state;
 
     const {
-      jobIdsWithNewBids,
+      requestIdsWithNewBids,
       myBidsWithNewStatus,
-      jobsHappeningToday,
+      requestsHappeningToday,
       bidsHappeningToday,
     } = notificationFeed;
 
-    const isThereJobsHappeningToday = jobsHappeningToday && jobsHappeningToday.length > 0;
+    const isThereRequestsHappeningToday = requestsHappeningToday && requestsHappeningToday.length > 0;
     const isThereBidsHappeningToday = bidsHappeningToday && bidsHappeningToday.length > 0;
-    const isAnythingHappeningToday = isThereJobsHappeningToday || isThereBidsHappeningToday;
+    const isAnythingHappeningToday = isThereRequestsHappeningToday || isThereBidsHappeningToday;
 
-    const jobRecievedNewBids = jobIdsWithNewBids && jobIdsWithNewBids.length > 0;
+    const requestRecievedNewBids = requestIdsWithNewBids && requestIdsWithNewBids.length > 0;
     const bidsGotAwardedToMe = myBidsWithNewStatus && myBidsWithNewStatus.length > 0;
 
     const showNotificationButton =
-      isAnythingHappeningToday || jobRecievedNewBids || bidsGotAwardedToMe;
+      isAnythingHappeningToday || requestRecievedNewBids || bidsGotAwardedToMe;
     const isOnLoginPage = location.pathname === ROUTES.CLIENT.LOGIN_OR_REGISTER;
     const isActingAsTasker = userAppView === 'TASKER';
 
@@ -365,7 +365,7 @@ class Header extends React.Component {
                 >
                   <span style={{ position: 'relative' }} className="icon">
                     <i className="far fa-plus-square" />
-                    {jobRecievedNewBids && (
+                    {requestRecievedNewBids && (
                       <span
                         style={{
                           fontSize: 8,
@@ -450,7 +450,7 @@ class Header extends React.Component {
                     >
                       <span style={{ position: 'relative' }} className="icon">
                         <i className="fas fa-list" />
-                        {jobRecievedNewBids && (
+                        {requestRecievedNewBids && (
                           <span
                             style={{
                               fontSize: 8,
@@ -559,7 +559,7 @@ class Header extends React.Component {
               aria-expanded={isHamburgerOpen}
             >
               <span style={{ position: 'relative' }} aria-hidden="true">
-                {(jobRecievedNewBids || bidsGotAwardedToMe) && (
+                {(requestRecievedNewBids || bidsGotAwardedToMe) && (
                   <i
                     style={{ position: 'absolute', top: -5, right: -5, fontSize: 8 }}
                     className="has-text-danger fas fa-circle"
@@ -612,7 +612,7 @@ class Header extends React.Component {
                       >
                         <span style={{ position: 'relative' }} className="icon">
                           <i className="fas fa-list" />
-                          {jobRecievedNewBids && (
+                          {requestRecievedNewBids && (
                             <span
                               style={{
                                 fontSize: 8,
@@ -728,7 +728,7 @@ class Header extends React.Component {
                             >
                               <span style={{ position: 'relative' }} className="icon">
                                 <i className="fab fa-nintendo-switch" />
-                                {jobRecievedNewBids && (
+                                {requestRecievedNewBids && (
                                   <span
                                     style={{
                                       fontSize: 8,

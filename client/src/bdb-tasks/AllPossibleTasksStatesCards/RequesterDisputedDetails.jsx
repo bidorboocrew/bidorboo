@@ -5,7 +5,7 @@ import {
   CountDownComponent,
   DisputedBy,
   SummaryStartDateAndTime,
-  JobCardTitle,
+  RequestCardTitle,
   TaskImagesCarousel,
   UserGivenTitle,
   TaskCost,
@@ -15,14 +15,14 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 export default class RequesterDisputedDetails extends React.Component {
   render() {
-    const { job } = this.props;
-    if (!job) {
+    const { request } = this.props;
+    if (!request) {
       return switchRoute(ROUTES.CLIENT.REQUESTER.myRequestsPage);
     }
 
-    const { _awardedBidRef, startingDateAndTime, taskImages = [], jobTitle, dispute } = job;
+    const { _awardedBidRef, startingDateAndTime, taskImages = [], requestTitle, dispute } = request;
 
-    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     let whoDisputed = '';
     const { taskerDispute } = dispute;
@@ -38,8 +38,8 @@ export default class RequesterDisputedDetails extends React.Component {
       <div className="card has-text-centered disputeOnlyView cardWithButton nofixedwidth">
         <div className="card-content">
           <div className="content">
-            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-            <UserGivenTitle userGivenTitle={jobTitle} />
+            <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <UserGivenTitle userGivenTitle={requestTitle} />
 
             <TaskImagesCarousel taskImages={taskImages} isLarge />
             <SummaryStartDateAndTime

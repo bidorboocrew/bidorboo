@@ -10,7 +10,7 @@ class AcceptBidAndTaskerModal extends React.Component {
   render() {
     const { bid, closeModal, submitPayment } = this.props;
 
-    if (!bid || !bid._id || !bid._taskerRef || !bid._jobRef) {
+    if (!bid || !bid._id || !bid._taskerRef || !bid._requestRef) {
       return null;
     }
     const { value: totalCharge } = bid.requesterPayment;
@@ -106,7 +106,7 @@ class AcceptBidAndTaskerModal extends React.Component {
             </button>
             <button
               onClick={() => {
-                submitPayment({ jobId: bid._jobRef, bidId: bid._id });
+                submitPayment({ requestId: bid._requestRef, bidId: bid._id });
               }}
               className="button is-success"
             >

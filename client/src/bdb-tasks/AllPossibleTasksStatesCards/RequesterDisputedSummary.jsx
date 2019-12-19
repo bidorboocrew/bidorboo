@@ -3,7 +3,7 @@ import {
   CountDownComponent,
   DisputedBy,
   SummaryStartDateAndTime,
-  JobCardTitle,
+  RequestCardTitle,
   TaskImagesCarousel,
   UserGivenTitle,
 } from '../../containers/commonComponents';
@@ -14,11 +14,11 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 export default class RequesterDisputedSummary extends React.Component {
   render() {
-    const { job } = this.props;
+    const { request } = this.props;
 
-    const { startingDateAndTime, taskImages = [], jobTitle, dispute } = job;
+    const { startingDateAndTime, taskImages = [], requestTitle, dispute } = request;
 
-    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     let whoDisputed = '';
 
@@ -33,8 +33,8 @@ export default class RequesterDisputedSummary extends React.Component {
       <div className="card has-text-centered disputeOnlyView cardWithButton">
         <div className="card-content">
           <div className="content">
-            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-            <UserGivenTitle userGivenTitle={jobTitle} />
+            <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <UserGivenTitle userGivenTitle={requestTitle} />
 
             <TaskImagesCarousel taskImages={taskImages} />
 
@@ -50,7 +50,7 @@ export default class RequesterDisputedSummary extends React.Component {
           <div className="centeredButtonInCard">
             <a
               onClick={() => {
-                switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedJobPage(job._id));
+                switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(request._id));
               }}
               className="button is-fullwidth is-danger"
             >

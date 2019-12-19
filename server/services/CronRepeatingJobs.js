@@ -1,63 +1,63 @@
-// cron jobs . cleanup tasks to run on the server
-// https://scotch.io/tutorials/nodejs-cron-jobs-by-examples
+// cron requests . cleanup tasks to run on the server
+// https://scotch.io/tutorials/nodejs-cron-requests-by-examples
 // https://www.npmjs.com/package/cron-parser
 
-const { jobDataAccess } = require('../data-access/jobDataAccess');
-const CronJob = require('cron').CronJob;
+const { requestDataAccess } = require('../data-access/requestDataAccess');
+const CronRequest = require('cron').CronRequest;
 // http://pm2.keymetrics.io/docs/usage/environment/
 
 module.exports = () => {
   /**
    * Tasks that we would wana run
    *
-   * - update expired jobs and all relevant details (Expired)
-   * - checkout any jobs that are scheduled for tomorrow and send reminder to owners about the jobs
-   * - payout any completed jobs that are approved and reviewed
+   * - update expired requests and all relevant details (Expired)
+   * - checkout any requests that are scheduled for tomorrow and send reminder to owners about the requests
+   * - payout any completed requests that are approved and reviewed
    * - backup the DB everynight
    */
 
   if (process.env.NODE_ENV === 'production') {
-    console.log('CRON JOBS INITIATED');
+    console.log('CRON REQUESTS INITIATED');
 
     if (process.env.NODE_APP_INSTANCE === '0') {
       // *second (0 - 59, optional)    *minute (0 - 59)    *hour (0 - 23)    *day of month (1 - 31)    *month (1 - 12)    *day of week (0 - 7) (0 or 7 is Sun)
-      // clean jobs at midnight
-      new CronJob(
+      // clean requests at midnight
+      new CronRequest(
         '00 00 00 * * *',
         async () => {
           try {
-            // SAEED you dealt with this
-            console.log('start running cron job: CleanUpAllExpiredNonAwardedJobs');
-            console.time('CleanUpAllExpiredNonAwardedJobs');
-            await jobDataAccess.BidOrBooAdmin.CleanUpAllExpiredNonAwardedJobs();
-            console.timeEnd('CleanUpAllExpiredNonAwardedJobs');
-            console.log('end running cron job: CleanUpAllExpiredNonAwardedJobs');
+            //  handled
+            console.log('start running cron request: CleanUpAllExpiredNonAwardedRequests');
+            console.time('CleanUpAllExpiredNonAwardedRequests');
+            await requestDataAccess.BidOrBooAdmin.CleanUpAllExpiredNonAwardedRequests();
+            console.timeEnd('CleanUpAllExpiredNonAwardedRequests');
+            console.log('end running cron request: CleanUpAllExpiredNonAwardedRequests');
           } catch (e) {
-            console.log('running cron job: CleanUpAllExpiredNonAwardedJobs ' + JSON.stringify(e));
+            console.log('running cron request: CleanUpAllExpiredNonAwardedRequests ' + JSON.stringify(e));
           }
         },
-        () => console.log('end running cron job: CleanUpAllExpiredNonAwardedJobs'),
+        () => console.log('end running cron request: CleanUpAllExpiredNonAwardedRequests'),
         true,
         'America/Toronto'
       ).start();
 
       // run at midnight pm every day of the week
       // Notify anyone who is assigned a task via email and sms at 8pm
-      new CronJob(
+      new CronRequest(
         '00 00 20 * * *',
         async () => {
           try {
             // SAEED you dealt with this
-            console.log('start running cron job: SendRemindersForUpcomingJobs');
-            console.time('SendRemindersForUpcomingJobs');
-            await jobDataAccess.BidOrBooAdmin.SendRemindersForUpcomingJobs();
-            console.timeEnd('SendRemindersForUpcomingJobs');
-            console.log('end running cron job: SendRemindersForUpcomingJobs');
+            console.log('start running cron request: SendRemindersForUpcomingRequests');
+            console.time('SendRemindersForUpcomingRequests');
+            await requestDataAccess.BidOrBooAdmin.SendRemindersForUpcomingRequests();
+            console.timeEnd('SendRemindersForUpcomingRequests');
+            console.log('end running cron request: SendRemindersForUpcomingRequests');
           } catch (e) {
-            console.log('running cron job: SendRemindersForUpcomingJobs ' + JSON.stringify(e));
+            console.log('running cron request: SendRemindersForUpcomingRequests ' + JSON.stringify(e));
           }
         },
-        () => console.log('end running cron job: SendRemindersForUpcomingJobs'),
+        () => console.log('end running cron request: SendRemindersForUpcomingRequests'),
         true,
         'America/Toronto'
       ).start();
@@ -67,50 +67,50 @@ module.exports = () => {
     if (process.env.NODE_APP_INSTANCE === '1') {
       // *second (0 - 59, optional)    *minute (0 - 59)    *hour (0 - 23)    *day of month (1 - 31)    *month (1 - 12)    *day of week (0 - 7) (0 or 7 is Sun)
 
-      new CronJob(
+      new CronRequest(
         '00 00 03 * * *',
         async () => {
           try {
             // SAEED you dealt with this
-            console.log('start running cron job: CleanUpAllBidsAssociatedWithDoneJobs');
-            console.time('CleanUpAllBidsAssociatedWithDoneJobs');
-            await jobDataAccess.BidOrBooAdmin.CleanUpAllBidsAssociatedWithDoneJobs();
-            console.timeEnd('CleanUpAllBidsAssociatedWithDoneJobs');
+            console.log('start running cron request: CleanUpAllBidsAssociatedWithDoneRequests');
+            console.time('CleanUpAllBidsAssociatedWithDoneRequests');
+            await requestDataAccess.BidOrBooAdmin.CleanUpAllBidsAssociatedWithDoneRequests();
+            console.timeEnd('CleanUpAllBidsAssociatedWithDoneRequests');
           } catch (e) {
             console.log(
-              'running cron job: CleanUpAllBidsAssociatedWithDoneJobs ' + JSON.stringify(e)
+              'running cron request: CleanUpAllBidsAssociatedWithDoneRequests ' + JSON.stringify(e)
             );
           }
         },
-        () => console.log('end running cron job: CleanUpAllBidsAssociatedWithDoneJobs'),
+        () => console.log('end running cron request: CleanUpAllBidsAssociatedWithDoneRequests'),
         true,
         'America/Toronto'
       ).start();
     }
 
     if (process.env.NODE_APP_INSTANCE === '2') {
-      new CronJob(
+      new CronRequest(
         '00 00 03 * * *',
         async () => {
           try {
             // SAEED you dealt with this
             console.log(
-              'start running cron job: InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct ' +
+              'start running cron request: InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct ' +
                 new Date()
             );
             console.time('InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct');
-            await jobDataAccess.BidOrBooAdmin.nagRequesterToConfirmJob();
+            await requestDataAccess.BidOrBooAdmin.nagRequesterToConfirmRequest();
             console.timeEnd('InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct');
           } catch (e) {
             console.log(
-              'running cron job: InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct ' +
+              'running cron request: InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct ' +
                 JSON.stringify(e)
             );
           }
         },
         () =>
           console.log(
-            'end running cron job: InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct ' +
+            'end running cron request: InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct ' +
               new Date()
           ),
         true,
@@ -118,19 +118,19 @@ module.exports = () => {
       ).start();
     }
     if (process.env.NODE_APP_INSTANCE === '3') {
-      new CronJob(
+      new CronRequest(
         '00 00 */6 * * *',
         async () => {
           try {
-            console.log('start running cron job: SendPayoutsToBanks');
+            console.log('start running cron request: SendPayoutsToBanks');
             console.time('SendPayoutsToBanks');
-            await jobDataAccess.BidOrBooAdmin.SendPayoutsToBanks();
+            await requestDataAccess.BidOrBooAdmin.SendPayoutsToBanks();
             console.timeEnd('SendPayoutsToBanks');
           } catch (e) {
-            console.log('running cron job: SendPayoutsToBanks ' + JSON.stringify(e));
+            console.log('running cron request: SendPayoutsToBanks ' + JSON.stringify(e));
           }
         },
-        () => console.log('end running cron job: SendPayoutsToBanks'),
+        () => console.log('end running cron request: SendPayoutsToBanks'),
         true,
         'America/Toronto'
       ).start();

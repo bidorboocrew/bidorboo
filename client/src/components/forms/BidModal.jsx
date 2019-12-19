@@ -180,7 +180,7 @@ const EnhancedForms = withFormik({
     setSubmitting(false);
   },
 
-  displayName: 'BidOnJobForm',
+  displayName: 'BidOnRequestForm',
 });
 
 export default EnhancedForms(BidModal);

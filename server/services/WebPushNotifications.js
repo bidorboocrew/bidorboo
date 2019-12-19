@@ -10,7 +10,7 @@ webpush.setVapidDetails(
 );
 
 exports.WebPushNotifications = {
-  sendJobAwaitingRequesterConfirmCompletionText: async (
+  sendRequestAwaitingRequesterConfirmCompletionText: async (
     targetUserPushSubscription,
     { requestTitle, icon, urlToLaunch }
   ) => {
@@ -37,7 +37,7 @@ exports.WebPushNotifications = {
       return e;
     }
   },
-  pushAwardedJobWasCancelled: async (
+  pushAwardedRequestWasCancelled: async (
     targetUserPushSubscription,
     { requestTitle, icon, urlToLaunch }
   ) => {
@@ -64,7 +64,7 @@ exports.WebPushNotifications = {
       return e;
     }
   },
-  pushNewJobInYourArea: async (targetUserPushSubscription, { requestTitle, urlToLaunch }) => {
+  pushNewRequestInYourArea: async (targetUserPushSubscription, { requestTitle, urlToLaunch }) => {
     // if (process.env.NODE_ENV !== 'production') {
     //   return;
     // }
@@ -87,7 +87,7 @@ exports.WebPushNotifications = {
       return e;
     }
   },
-  pushAwardedJobWasCompleted: async (
+  pushAwardedRequestWasCompleted: async (
     targetUserPushSubscription,
     { requestTitle, icon, urlToLaunch }
   ) => {
@@ -114,7 +114,7 @@ exports.WebPushNotifications = {
       return e;
     }
   },
-  tellRequesterThatWeMarkedJobDone: async (
+  tellRequesterThatWeMarkedRequestDone: async (
     targetUserPushSubscription,
     { requestTitle, icon, urlToLaunch }
   ) => {
@@ -141,7 +141,7 @@ exports.WebPushNotifications = {
       return e;
     }
   },
-  tellRequesterToConfirmJob: async (
+  tellRequesterToConfirmRequest: async (
     targetUserPushSubscription,
     { requestTitle, icon, urlToLaunch }
   ) => {
@@ -169,7 +169,7 @@ exports.WebPushNotifications = {
       return e;
     }
   },
-  pushJobIsHappeningSoon: async (
+  pushRequestIsHappeningSoon: async (
     targetUserPushSubscription,
     { requestTitle, icon, urlToLaunch }
   ) => {
@@ -207,7 +207,7 @@ exports.WebPushNotifications = {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
           title: `Good News ${taskerDisplayName} !`,
-          body: `You have been awarded a job. click for details`,
+          body: `You have been awarded a request. click for details`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
           tag: urlToLaunch,

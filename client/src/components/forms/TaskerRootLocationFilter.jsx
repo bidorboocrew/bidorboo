@@ -157,7 +157,7 @@ export default class TaskerRootLocationFilter extends React.Component {
                 onError={this.errorHandling}
                 placeholder="Start entering an adddress"
                 forceSetAddressValue={addressText}
-                id="filter-tasker-job"
+                id="filter-tasker-request"
               />
 
               <a
