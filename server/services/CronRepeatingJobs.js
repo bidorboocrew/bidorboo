@@ -3,7 +3,7 @@
 // https://www.npmjs.com/package/cron-parser
 
 const { requestDataAccess } = require('../data-access/requestDataAccess');
-const CronRequest = require('cron').CronRequest;
+const CronJob = require('cron').CronJob;
 // http://pm2.keymetrics.io/docs/usage/environment/
 
 module.exports = () => {
@@ -22,7 +22,7 @@ module.exports = () => {
     if (process.env.NODE_APP_INSTANCE === '0') {
       // *second (0 - 59, optional)    *minute (0 - 59)    *hour (0 - 23)    *day of month (1 - 31)    *month (1 - 12)    *day of week (0 - 7) (0 or 7 is Sun)
       // clean requests at midnight
-      new CronRequest(
+      new CronJob(
         '00 00 00 * * *',
         async () => {
           try {
@@ -33,7 +33,9 @@ module.exports = () => {
             console.timeEnd('CleanUpAllExpiredNonAwardedRequests');
             console.log('end running cron request: CleanUpAllExpiredNonAwardedRequests');
           } catch (e) {
-            console.log('running cron request: CleanUpAllExpiredNonAwardedRequests ' + JSON.stringify(e));
+            console.log(
+              'running cron request: CleanUpAllExpiredNonAwardedRequests ' + JSON.stringify(e)
+            );
           }
         },
         () => console.log('end running cron request: CleanUpAllExpiredNonAwardedRequests'),
@@ -43,7 +45,7 @@ module.exports = () => {
 
       // run at midnight pm every day of the week
       // Notify anyone who is assigned a task via email and sms at 8pm
-      new CronRequest(
+      new CronJob(
         '00 00 20 * * *',
         async () => {
           try {
@@ -54,7 +56,9 @@ module.exports = () => {
             console.timeEnd('SendRemindersForUpcomingRequests');
             console.log('end running cron request: SendRemindersForUpcomingRequests');
           } catch (e) {
-            console.log('running cron request: SendRemindersForUpcomingRequests ' + JSON.stringify(e));
+            console.log(
+              'running cron request: SendRemindersForUpcomingRequests ' + JSON.stringify(e)
+            );
           }
         },
         () => console.log('end running cron request: SendRemindersForUpcomingRequests'),
@@ -67,7 +71,7 @@ module.exports = () => {
     if (process.env.NODE_APP_INSTANCE === '1') {
       // *second (0 - 59, optional)    *minute (0 - 59)    *hour (0 - 23)    *day of month (1 - 31)    *month (1 - 12)    *day of week (0 - 7) (0 or 7 is Sun)
 
-      new CronRequest(
+      new CronJob(
         '00 00 03 * * *',
         async () => {
           try {
@@ -89,7 +93,7 @@ module.exports = () => {
     }
 
     if (process.env.NODE_APP_INSTANCE === '2') {
-      new CronRequest(
+      new CronJob(
         '00 00 03 * * *',
         async () => {
           try {
@@ -118,7 +122,7 @@ module.exports = () => {
       ).start();
     }
     if (process.env.NODE_APP_INSTANCE === '3') {
-      new CronRequest(
+      new CronJob(
         '00 00 */6 * * *',
         async () => {
           try {
