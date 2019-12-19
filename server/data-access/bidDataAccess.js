@@ -915,7 +915,7 @@ exports.bidDataAccess = {
             _id: bidId,
             _bidderRef: { $eq: mongoUser_id },
           },
-          { requesterPayment: 0, requesterPartialRefund: 0 }
+          { requesterPayment: 0, requesterPartialRefund: 0, addressText: 0 }
         )
           .populate({
             path: '_jobRef',
