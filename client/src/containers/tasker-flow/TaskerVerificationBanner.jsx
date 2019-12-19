@@ -62,7 +62,6 @@ class TaskerVerificationBanner extends React.Component {
     const {
       isLoggedIn,
       userDetails,
-      myStripeAccountDetails,
       isLoadingStripeAccountDetails,
     } = this.props;
     const { showUploadImgModal } = this.state;
@@ -70,12 +69,6 @@ class TaskerVerificationBanner extends React.Component {
     if (!isLoggedIn || isLoadingStripeAccountDetails) {
       return null;
     }
-
-    const istherePaymentDetails = myStripeAccountDetails && myStripeAccountDetails.balanceDetails;
-    const areTherePendingPayments =
-      istherePaymentDetails &&
-      myStripeAccountDetails.balanceDetails.potentialFuturePayouts &&
-      myStripeAccountDetails.balanceDetails.potentialFuturePayouts > 0;
 
     const doesUserHaveAnEstablishedAccId =
       userDetails.stripeConnect && userDetails.stripeConnect.accId;
@@ -106,7 +99,7 @@ class TaskerVerificationBanner extends React.Component {
     const {
       currently_due = [],
       disabled_reason,
-      eventually_due = [],
+      // eventually_due = [],
       past_due = [],
     } = accRequirements;
 

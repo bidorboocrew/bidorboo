@@ -2,6 +2,7 @@ import appHistory from './react-router-history';
 import * as A from './app-state/actionTypes';
 
 export const switchRoute = (routeAndParams, stateContent = null) => {
+  debugger;
   setTimeout(() => {
     //
     if (stateContent) {
@@ -33,10 +34,6 @@ export const throwErrorNotification = (dispatch, error) => {
   let msg = error || 'oops ! something went wrong. We apologise for the inconvenience';
   if (error && error.response && error.response.status === 401) {
     msg = 'You are not authorized! login to perform this action';
-    // dispatch({
-    //   type: A.UI_ACTIONS.OPEN_LOGIN_DIALOG,
-    //   payload: { shouldShowLoginDialog: true },
-    // });
   }
 
   if (error && error.response && error.response.status === 404) {

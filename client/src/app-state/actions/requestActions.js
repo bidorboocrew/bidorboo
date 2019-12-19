@@ -48,12 +48,6 @@ export const updateViewedBy = (requestDetails) => (dispatch) =>
       }),
   });
 
-export const getAllMyRequests = () => (dispatch) =>
-  dispatch({
-    type: A.REQUEST_ACTIONS.GET_ALL_MY_REQUESTS,
-    payload: axios.get(ROUTES.API.REQUEST.GET.getAllMyRequests),
-  });
-
 export const cancelRequestById = (requestId) => (dispatch) => {
   const req = dispatch({
     type: A.REQUEST_ACTIONS.DELETE_REQUEST_BY_ID,
@@ -79,12 +73,6 @@ export const cancelRequestById = (requestId) => (dispatch) => {
   });
 };
 
-export const getAllMyAwardedRequests = () => (dispatch) => {
-  dispatch({
-    type: A.REQUEST_ACTIONS.GET_ALL_MY_AWARDED_REQUESTS,
-    payload: axios.get(ROUTES.API.REQUEST.GET.myAwardedRequests),
-  });
-};
 export const searchRequestsToBidOn = (values) => (dispatch) => {
   const config = {
     headers: { 'Content-Type': 'application/json' },
@@ -97,41 +85,6 @@ export const searchRequestsToBidOn = (values) => (dispatch) => {
     type: A.REQUEST_ACTIONS.GET_ALL_POSTED_REQUESTS_VIA_SEARCH,
     payload: axios
       .post(ROUTES.API.REQUEST.POST.updateSearchThenSearchRequests, postData, config)
-      .catch((error) => {
-        throwErrorNotification(dispatch, error);
-      }),
-  });
-};
-
-// export const getAllRequestsToBidOn = () => (dispatch) => {
-//
-//   dispatch({
-//     type: A.REQUEST_ACTIONS.GET_ALL_POSTED_REQUESTS,
-//     payload: axios.get(ROUTES.API.REQUEST.GET.allrequestsToBidOn),
-//   });
-// };
-
-export const searchByLocation = (userSearchQuery) => (dispatch) => {
-  const serverSearchQuery = {
-    searchLocation: userSearchQuery.locationField,
-    searchRaduis: userSearchQuery.searchRadiusField
-      ? userSearchQuery.searchRadiusField * 1000
-      : 100000, // translate to KM
-    requestTypeFilter: userSearchQuery.filterRequestsByCategoryField, // list of categories to exclude from the search
-  };
-
-  dispatch({
-    type: A.REQUEST_ACTIONS.SEARCH_REQUEST,
-    payload: serverSearchQuery,
-  });
-  dispatch({
-    type: A.REQUEST_ACTIONS.SEARCH_REQUEST,
-    payload: axios
-      .post(ROUTES.API.REQUEST.POST.searchRequests, {
-        data: {
-          searchParams: serverSearchQuery,
-        },
-      })
       .catch((error) => {
         throwErrorNotification(dispatch, error);
       }),
@@ -306,28 +259,17 @@ export const postNewRequest = ({ requestDetails, recaptchaField }) => (dispatch)
   return dispatch({
     type: A.REQUEST_ACTIONS.ADD_NEW_REQUEST,
     payload: axios
-      .post(ROUTES.API.REQUEST.POST.newRequest, {
+      .post(ROUTES.API.REQUEST.POST.createNewRequest, {
         recaptchaField,
         data: {
           requestDetails,
         },
       })
       .then((resp) => {
-        //on successful creation of a request redirect the user to my requests
         if (resp.data && resp.data._id) {
           const { templateId } = resp.data;
 
           switchRoute(ROUTES.CLIENT.REQUESTER.myRequestsPage);
-
-          // dispatch({
-          //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-          //   payload: {
-          //     toastDetails: {
-          //       type: 'success',
-          //       msg: 'Service Request was sucessfully created.',
-          //     },
-          //   },
-          // });
 
           const taskDefinition = TASKS_DEFINITIONS[templateId];
 

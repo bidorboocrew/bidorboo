@@ -46,7 +46,7 @@ export const submitBid = ({ bidAmount, request, recaptchaField }) => (dispatch) 
   dispatch({
     type: A.TASKER_ACTIONS.POST_A_BID,
     payload: axios
-      .post(ROUTES.API.BID.POST.bid, {
+      .post(ROUTES.API.BID.POST.createNewBid, {
         recaptchaField: recaptchaField,
         data: {
           requestId,
@@ -211,16 +211,6 @@ export const getOpenBidDetails = (openBidId) => (dispatch) => {
       .catch((error) => {
         throwErrorNotification(dispatch, error);
       }),
-  });
-};
-
-export const getMyAwardedBids = () => (dispatch) => {
-  //update store with the request details
-  dispatch({
-    type: A.TASKER_ACTIONS.GET_ALL_MY_AWARDED_BIDS,
-    payload: axios.get(ROUTES.API.BID.GET.myAwardedBids).catch((error) => {
-      throwErrorNotification(dispatch, error);
-    }),
   });
 };
 

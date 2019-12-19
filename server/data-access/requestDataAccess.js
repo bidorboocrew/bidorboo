@@ -612,67 +612,6 @@ exports.requestDataAccess = {
     },
   },
 
-  // get requests for a user and filter by a given state
-  getUserAwardedRequests: async (userId) => {
-    return User.findOne({ userId: userId }, { _postedRequestsRef: 1 })
-      .populate({
-        path: '_postedRequestsRef',
-        select: {
-          addressText: 1,
-          templateId: 1,
-          startingDateAndTime: 1,
-          _awardedBidRef: 1,
-          createdAt: 1,
-          _reviewRef: 1,
-          _id: 1,
-        },
-        match: {
-          state: { $in: ['AWARDED', 'AWARDED_SEEN'] },
-          $or: [
-            { _reviewRef: { $exists: false } },
-            { '_reviewRef.requiresRequesterReview': { $eq: true } },
-          ],
-        },
-        options: { sort: { startingDateAndTime: 1 } },
-        populate: [
-          {
-            path: '_awardedBidRef',
-            select: {
-              _taskerRef: 1,
-              isNewBid: 1,
-              state: 1,
-              createdAt: 1,
-              updatedAt: 1,
-              requesterPayment: 1,
-              requesterPartialRefund: 1,
-            },
-            populate: {
-              path: '_taskerRef',
-              select: {
-                displayName: 1,
-                email: 1,
-                phone: 1,
-                profileImage: 1,
-                rating: 1,
-              },
-            },
-          },
-          {
-            path: '_ownerRef',
-            select: {
-              displayName: 1,
-              email: 1,
-              phone: 1,
-              profileImage: 1,
-              rating: 1,
-            },
-          },
-        ],
-      })
-      .lean({ virtuals: true })
-      .exec();
-  },
-
   getRequestById: (requestId) => {
     return RequestModel.findById(requestId)
       .lean(true)
@@ -960,43 +899,6 @@ exports.requestDataAccess = {
     });
   },
 
-  getAllRequestsToBidOn: async (mongoUser_id) => {
-    // wil return all requests in the system
-    return new Promise(async (resolve, reject) => {
-      try {
-        const openRequestsForBidding = await RequestModel.find(
-          { $and: [{ state: { $eq: 'OPEN' }, _ownerRef: { $ne: mongoUser_id.toString() } }] },
-          {
-            _ownerRef: 1,
-            templateId: 1,
-            startingDateAndTime: 1,
-            extras: 1,
-            state: 1,
-            location: 1,
-            requestTitle: 1,
-            taskImages: 1,
-          },
-          {
-            sort: { startingDateAndTime: 1 },
-            allowDiskUse: true,
-          }
-        )
-          .populate({
-            path: '_ownerRef',
-            select: { displayName: 1, profileImage: 1, _id: 1, rating: 1 },
-          })
-          .populate({
-            path: '_bidsListRef',
-            select: { _taskerRef: 1, bidAmount: 1 },
-          })
-          .lean({ virtuals: true })
-          .exec();
-        return resolve(openRequestsForBidding);
-      } catch (e) {
-        return reject(e);
-      }
-    });
-  },
   // get requests near a given location
   // default search raduis is 15km raduis
   // default include all
@@ -1184,7 +1086,7 @@ exports.requestDataAccess = {
         },
         populate: {
           path: '_taskerRef',
-          match: { _id: { $eq: mongoUser_id } },
+          match: { _id: mongoUser_id },
           select: { _id: 1 },
         },
       })
@@ -1988,7 +1890,7 @@ exports.requestDataAccess = {
     return new Promise(async (resolve, reject) => {
       try {
         const archivedRequestDetails = await RequestModel.findOne(
-          { _id: requestId, _ownerRef: { $eq: mongoUser_id } },
+          { _id: requestId, _ownerRef: mongoUser_id },
           { processedPayment: 0, payoutDetails: 0 }
         )
           .populate([

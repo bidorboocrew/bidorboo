@@ -263,34 +263,6 @@ module.exports = (app) => {
     }
   });
 
-  app.get(ROUTES.API.USER.GET.getMyPastRequestedServices, requireLogin, async (req, res, next) => {
-    try {
-      pastRequestedServices = await userDataAccess.getMyPastRequestedServices(
-        req.user._id.toString()
-      );
-      if (pastRequestedServices && pastRequestedServices._asRequesterReviewsRef) {
-        return res.send(pastRequestedServices._asRequesterReviewsRef);
-      }
-      return res.send({});
-    } catch (e) {
-      e.safeMsg = 'Failed To get your past requesterd services details';
-      return next(e);
-    }
-  });
-
-  app.get(ROUTES.API.USER.GET.getMyPastProvidedServices, requireLogin, async (req, res, next) => {
-    try {
-      pasProvidedServices = await userDataAccess.getMyPastProvidedServices(req.user._id.toString());
-      if (pasProvidedServices && pasProvidedServices._asTaskerReviewsRef) {
-        return res.send(pasProvidedServices._asTaskerReviewsRef);
-      }
-      return res.send({});
-    } catch (e) {
-      e.safeMsg = 'Failed To get your past provided services details';
-      return next(e);
-    }
-  });
-
   app.get(ROUTES.API.USER.GET.otherUserProfileInfo, async (req, res, next) => {
     try {
       if (!req.query || !req.query.otherUserId) {

@@ -9,8 +9,6 @@ const initialState = {
   isLoadingBids: false,
   getBidsErrorMsg: '',
   selectedOpenBid: {},
-
-  // awardedBidsList: [],
   selectedAwardedBid: {},
   selectedArchivedBid: {},
 };
@@ -40,7 +38,6 @@ const getMyPostedBidsSummary = {
         ...state,
         isLoadingBids: false,
         openBidsList: postedBids || [],
-        // awardedBidsList: awardedBids || [],
       };
     }
   },
@@ -53,7 +50,6 @@ const getMyPostedBidsSummary = {
       ...state,
       isLoadingBids: false,
       openBidsList: [],
-      // awardedBidsList: [],
       getBidsErrorMsg: getBidsErrorMsg,
     };
   },
@@ -119,36 +115,6 @@ const getAwardedBidDetail = {
   },
 };
 
-// const getMyAwardedBids = {
-//   isPending: (state = initialState) => ({
-//     ...state,
-//     awardedBidsList: [],
-//     isLoadingBids: true,
-//   }),
-//   isFullfilled: (state = initialState, { payload }) => {
-//     if (payload) {
-//       const bids = payload && payload.data;
-//       const { _postedBidsRef } = bids;
-//       return {
-//         ...state,
-//         isLoadingBids: false,
-//         awardedBidsList: _postedBidsRef || [],
-//       };
-//     }
-//   },
-//   isRejected: (state = initialState, { payload }) => {
-//     const getBidsErrorMsg =
-//       payload && payload.data
-//         ? payload.data
-//         : `unknown issue while ${A.REQUEST_ACTIONS.SEARCH_REQUEST}${A._REJECTED}`;
-//     return {
-//       ...state,
-//       isLoadingBids: false,
-//       awardedBidsList: [],
-//       getBidsErrorMsg: getBidsErrorMsg,
-//     };
-//   },
-// };
 const setLoggedOutState = () => {
   return { ...initialState };
 };

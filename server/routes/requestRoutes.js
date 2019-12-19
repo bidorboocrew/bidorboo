@@ -29,23 +29,6 @@ module.exports = (app) => {
     }
   });
 
-  app.get(ROUTES.API.REQUEST.GET.allrequestsToBidOn, requireBidorBooHost, async (req, res) => {
-    try {
-      const currentUserId = req.user ? req.user._id : '';
-
-      let openRequestsForBidding = [];
-      if (!currentUserId) {
-        openRequestsForBidding = await requestDataAccess.getAllRequestsToBidOnForLoggedOut(currentUserId);
-      } else {
-        openRequestsForBidding = await requestDataAccess.getAllRequestsToBidOn(currentUserId);
-      }
-
-      return res.send(openRequestsForBidding);
-    } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To get all posted requests', details: `${e}` });
-    }
-  });
-
   //------------------------------------------------------------------------------
   //------------------------------------------------------------------------------
   //------------------------------------------------------------------------------
@@ -73,23 +56,29 @@ module.exports = (app) => {
     }
   );
 
-  app.get(ROUTES.API.REQUEST.GET.awardedRequestFullDetailsForRequester, requireLogin, async (req, res) => {
-    try {
-      if (req.query && req.query.requestId) {
-        const { requestId } = req.query;
-        const requestFullDetails = await requestDataAccess.getAwardedRequestFullDetailsForRequester(requestId);
-        return res.send(requestFullDetails);
-      } else {
-        return res.status(400).send({
-          errorMsg: 'Bad Request for awarded request details, requestId param was Not Specified',
-        });
+  app.get(
+    ROUTES.API.REQUEST.GET.awardedRequestFullDetailsForRequester,
+    requireLogin,
+    async (req, res) => {
+      try {
+        if (req.query && req.query.requestId) {
+          const { requestId } = req.query;
+          const requestFullDetails = await requestDataAccess.getAwardedRequestFullDetailsForRequester(
+            requestId
+          );
+          return res.send(requestFullDetails);
+        } else {
+          return res.status(400).send({
+            errorMsg: 'Bad Request for awarded request details, requestId param was Not Specified',
+          });
+        }
+      } catch (e) {
+        return res
+          .status(400)
+          .send({ errorMsg: 'Failed To get requestFullDetailsById', details: `${e}` });
       }
-    } catch (e) {
-      return res
-        .status(400)
-        .send({ errorMsg: 'Failed To get requestFullDetailsById', details: `${e}` });
     }
-  });
+  );
 
   app.get(
     ROUTES.API.REQUEST.GET.achivedTaskDetailsForRequester,
@@ -101,10 +90,12 @@ module.exports = (app) => {
           const mongoUser_id = req.user._id;
 
           const { requestId } = req.query;
-          const archivedRequestDetails = await requestDataAccess.getArchivedTaskDetailsForRequester({
-            requestId,
-            mongoUser_id,
-          });
+          const archivedRequestDetails = await requestDataAccess.getArchivedTaskDetailsForRequester(
+            {
+              requestId,
+              mongoUser_id,
+            }
+          );
           return res.send(archivedRequestDetails);
         } else {
           return res.status(400).send({
@@ -116,15 +107,6 @@ module.exports = (app) => {
       }
     }
   );
-
-  app.get(ROUTES.API.REQUEST.GET.myAwardedRequests, requireBidorBooHost, requireLogin, async (req, res) => {
-    try {
-      const userRequestsList = await requestDataAccess.getUserAwardedRequests(req.user.userId);
-      return res.send(userRequestsList);
-    } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To get my awarded requests', details: `${e}` });
-    }
-  });
 
   app.put(
     ROUTES.API.REQUEST.PUT.updateRequestState,
@@ -151,46 +133,26 @@ module.exports = (app) => {
       }
     }
   );
-  app.post(ROUTES.API.REQUEST.POST.searchRequests, requireBidorBooHost, async (req, res, done) => {
-    try {
-      const { searchParams } = req.body.data;
-      if (!searchParams) {
-        return res.status(400).send({
-          errorMsg: 'Bad Request RequestId searchQuery params was Not Specified',
-        });
+
+  app.post(
+    ROUTES.API.REQUEST.POST.createNewRequest,
+    requireLogin,
+    requireUserCanPost,
+    async (req, res) => {
+      try {
+        const { requestDetails } = req.body.data;
+        const mongoUser_id = req.user._id;
+        const newRequest = await requestDataAccess.addARequest(requestDetails, mongoUser_id);
+
+        // notify users that are interested xxxx FIX TO READ USER PREFERENCE on search RADUIS
+        requestDataAccess.getUsersNearRequestAndNotifyThem(newRequest, req.user.userId);
+
+        return res.send(newRequest);
+      } catch (e) {
+        return res.status(400).send({ errorMsg: 'Failed To create new request', details: `${e}` });
       }
-
-      let searchQuery = {
-        searchLocation: searchParams.searchLocation,
-        searchRaduisInMeters: searchParams.searchRaduis,
-        requestTypeFilter: searchParams.requestTypeFilter,
-      };
-
-      existingRequest = await requestDataAccess.getRequestsNear(searchQuery, req.user ? req.user._id : '');
-      if (existingRequest) {
-        return res.send(existingRequest);
-      } else {
-        return res.send({ errorMsg: 'RequestId Was Not Specified' });
-      }
-    } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To perform the search', details: `${e}` });
     }
-  });
-
-  app.post(ROUTES.API.REQUEST.POST.newRequest, requireLogin, requireUserCanPost, async (req, res) => {
-    try {
-      const { requestDetails } = req.body.data;
-      const mongoUser_id = req.user._id;
-      const newRequest = await requestDataAccess.addARequest(requestDetails, mongoUser_id);
-
-      // notify users that are interested xxxx FIX TO READ USER PREFERENCE on search RADUIS
-      requestDataAccess.getUsersNearRequestAndNotifyThem(newRequest, req.user.userId);
-
-      return res.send(newRequest);
-    } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To create new request', details: `${e}` });
-    }
-  });
+  );
   app.post(ROUTES.API.REQUEST.POST.requestImage, requireLogin, async (req, res) => {
     try {
       const filesList = req.files;
@@ -393,7 +355,8 @@ module.exports = (app) => {
         const { requestId } = data;
         if (!requestId) {
           return res.status(400).send({
-            errorMsg: 'Bad Request for taskerConfirmsRequestCompleted, requestId param was Not Specified',
+            errorMsg:
+              'Bad Request for taskerConfirmsRequestCompleted, requestId param was Not Specified',
           });
         }
 
@@ -431,7 +394,9 @@ module.exports = (app) => {
 
         return res.send({ success: true });
       } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To requesterDisputeRequest', details: `${e}` });
+        return res
+          .status(400)
+          .send({ errorMsg: 'Failed To requesterDisputeRequest', details: `${e}` });
       }
     }
   );
@@ -459,7 +424,9 @@ module.exports = (app) => {
         await requestDataAccess.taskerDisputesRequest({ requestId, reason, details });
         return res.send({ success: true });
       } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To taskerDisputeRequest', details: `${e}` });
+        return res
+          .status(400)
+          .send({ errorMsg: 'Failed To taskerDisputeRequest', details: `${e}` });
       }
     }
   );
@@ -481,23 +448,30 @@ module.exports = (app) => {
       }
     }
   );
-  app.get(ROUTES.API.REQUEST.GET.postedRequestAndBidsForRequester, requireLogin, async (req, res) => {
-    try {
-      if (req.query && req.query.requestId) {
-        const { requestId } = req.query;
-        const mongoUser_id = req.user._id;
+  app.get(
+    ROUTES.API.REQUEST.GET.postedRequestAndBidsForRequester,
+    requireLogin,
+    async (req, res) => {
+      try {
+        if (req.query && req.query.requestId) {
+          const { requestId } = req.query;
+          const mongoUser_id = req.user._id;
 
-        const requestDetails = await requestDataAccess.postedRequestAndBidsForRequester(mongoUser_id, requestId);
-        return res.send(requestDetails);
-      } else {
-        return res.status(400).send({
-          errorMsg: "Bad Request, couldn't get request by id",
-        });
+          const requestDetails = await requestDataAccess.postedRequestAndBidsForRequester(
+            mongoUser_id,
+            requestId
+          );
+          return res.send(requestDetails);
+        } else {
+          return res.status(400).send({
+            errorMsg: "Bad Request, couldn't get request by id",
+          });
+        }
+      } catch (e) {
+        console.log('BIDORBOO_ERROR: ROUTES.API.REQUEST.GET.myRequestById ' + e);
+
+        return res.status(400).send({ errorMsg: 'Failed To get request by id', details: `${e}` });
       }
-    } catch (e) {
-      console.log('BIDORBOO_ERROR: ROUTES.API.REQUEST.GET.myRequestById ' + e);
-
-      return res.status(400).send({ errorMsg: 'Failed To get request by id', details: `${e}` });
     }
-  });
+  );
 };

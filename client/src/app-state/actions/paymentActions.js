@@ -63,36 +63,4 @@ export const submitPayment = ({ requestId, bidId }) => async (dispatch) => {
   } catch (error) {
     throwErrorNotification(dispatch, error);
   }
-
-  //
-  // dispatch({
-  //   type: A.REQUESTER_ACTIONS.AWARD_TASKER_AND_MAKE_A_PAYMENT,
-  //   payload: axios
-  //     .post(ROUTES.API.PAYMENT.POST.payment, {
-  //       data: {
-  //         requestId,
-  //         bidId,
-  //       },
-  //     })
-  //     .then((resp) => {
-  //       // axios.get(ROUTES.API.PAYMENT.GET.payment).then((resp) => {});
-  //
-  //       // update recently added request
-  //       if (resp.data && resp.data.success) {
-  //         // dispatch({
-  //         //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-  //         //   payload: {
-  //         //     toastDetails: {
-  //         //       type: 'success',
-  //         //       msg: 'Your transaction was successul',
-  //         //     },
-  //         //   },
-  //         // });
-  //         switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(requestId));
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       throwErrorNotification(dispatch, error);
-  //     }),
-  // });
 };

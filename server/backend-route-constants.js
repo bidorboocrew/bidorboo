@@ -19,15 +19,10 @@ module.exports = {
       LOCAL_LOGIN: '/api/auth/bidorboo/login',
       LOGOUT: '/api/auth/logout',
     },
-    UTILS: {
-      GET: {
-        signCloudinaryRequest: '/api/user/paramstosign',
-      },
-    },
+
     PAYMENT: {
       POST: {
         payment: '/api/payment',
-        personsWebhook: '/api/stripewebhook/persons',
         connectedAccountsWebhook: '/api/stripewebhook/connectedAccounts',
         payoutsWebhook: '/api/stripewebhook/payoutsWebhook',
         checkoutFulfillment: '/api/stripewebhook/checkoutFulfillment',
@@ -46,8 +41,6 @@ module.exports = {
       GET: {
         currentUser: '/api/user/currentUser',
         otherUserProfileInfo: '/api/user/otherUserProfileInfo',
-        getMyPastRequestedServices: '/api/user/getMyPastRequestedServices',
-        getMyPastProvidedServices: '/api/user/getMyPastProvidedServices',
       },
       PUT: {
         userDetails: '/api/user/updateProfileDetails',
@@ -80,12 +73,10 @@ module.exports = {
 
         allrequestsToBidOn: '/api/request/allrequestsToBidOn',
         requestToBidOnDetailsForTasker: '/api/request/requestToBidOnDetailsForTasker',
-        myAwardedRequests: '/api/request/myAwardedRequests',
       },
       POST: {
         requestImage: '/api/request/uploadImages',
-        searchRequests: '/api/request/search',
-        newRequest: '/api/request/createRequest',
+        createNewRequest: '/api/request/createNewRequest',
         updateSearchThenSearchRequests: '/api/user/updateSearchThenSearchRequests',
       },
       PUT: {
@@ -103,11 +94,10 @@ module.exports = {
     },
     BID: {
       POST: {
-        bid: '/api/bids/postABid',
+        createNewBid: '/api/bids/createNewBid',
       },
       GET: {
         myPostedBidsSummary: '/api/bids/myPostedBidsSummary',
-        myAwardedBids: '/api/bids/myAwardedBids',
         openBidDetails: '/api/bids/openBidDetails',
         awardedBidDetailsForTasker: '/api/bids/awardedBidDetailsForTasker',
         achivedBidDetailsForTasker: '/api/bids/achivedBidDetailsForTasker',
@@ -128,7 +118,6 @@ module.exports = {
     USER_ROFILE_FOR_REVIEW: 'https://www.bidorboo.ca/user-profile/:userId',
     dynamicUserProfileForReview: (userId) => `https://www.bidorboo.ca/user-profile/${userId}`,
     dynamicVerification: (field, code) => `https://www.bidorboo.ca/verification/${field}/${code}`,
-    MYAGENDA: 'https://www.bidorboo.ca/my-agenda',
     REQUESTER: {
       root: 'https://www.bidorboo.ca/bdb-request',
       createrequest: 'https://www.bidorboo.ca/bdb-request/create-request/:templateId',
@@ -136,17 +125,20 @@ module.exports = {
         `https://www.bidorboo.ca/bdb-request/create-request/${templateId}`,
       myOpenRequests: 'https://www.bidorboo.ca/my-open-requests/:tabId',
       dynamicMyOpenRequests: (tabId) => `https://www.bidorboo.ca/my-open-requests/${tabId}`,
-      reviewRequestAndBidsPage: 'https://www.bidorboo.ca/my-request/review-request-details/:requestId',
+      reviewRequestAndBidsPage:
+        'https://www.bidorboo.ca/my-request/review-request-details/:requestId',
       dynamicReviewRequestAndBidsPage: (requestId) =>
         `https://www.bidorboo.ca/my-request/review-request-details/${requestId}`,
-      selectedAwardedRequestPage: 'https://www.bidorboo.ca/my-request/awarded-request-details/:requestId',
+      selectedAwardedRequestPage:
+        'https://www.bidorboo.ca/my-request/awarded-request-details/:requestId',
       dynamicSelectedAwardedRequestPage: (requestId) =>
         `https://www.bidorboo.ca/my-request/awarded-request-details/${requestId}`,
     },
     TASKER: {
       root: 'https://www.bidorboo.ca/bdb-offer',
       bidOnRequestPage: 'https://www.bidorboo.ca/bdb-offer/bid-on-request/:requestId',
-      getDynamicBidOnRequestPage: (requestId) => `https://www.bidorboo.ca/bdb-offer/bid-on-request/${requestId}`,
+      getDynamicBidOnRequestPage: (requestId) =>
+        `https://www.bidorboo.ca/bdb-offer/bid-on-request/${requestId}`,
       mybids: 'https://www.bidorboo.ca/my-bids',
       reviewMyBidAndTheRequestDetails: 'https://www.bidorboo.ca/review-my-bid-details/:bidId',
       dynamicReviewMyBidAndTheRequestDetails: (bidId) =>
@@ -157,7 +149,8 @@ module.exports = {
     REVIEW: {
       requesterRequestReview: `https://www.bidorboo.ca/bdb-request/review/:requestId`,
       taskerRequestReview: `https://www.bidorboo.ca/bdb-offer/review/:bidId`,
-      getRequesterRequestReview: ({ requestId }) => `https://www.bidorboo.ca/bdb-request/review/${requestId}`,
+      getRequesterRequestReview: ({ requestId }) =>
+        `https://www.bidorboo.ca/bdb-request/review/${requestId}`,
       getTaskerRequestReview: ({ bidId }) => `https://www.bidorboo.ca/bdb-offer/review/${bidId}`,
     },
     MY_PROFILE: {

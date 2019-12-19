@@ -9,17 +9,10 @@ export const API = {
     LOCAL_LOGIN: '/api/auth/bidorboo/login',
     LOGOUT: '/api/auth/logout',
   },
-  UTILS: {
-    GET: {
-      signCloudinaryRequest: '/api/user/paramstosign',
-    },
-  },
   USER: {
     GET: {
       currentUser: '/api/user/currentUser',
       otherUserProfileInfo: '/api/user/otherUserProfileInfo',
-      getMyPastRequestedServices: '/api/user/getMyPastRequestedServices',
-      getMyPastProvidedServices: '/api/user/getMyPastProvidedServices',
     },
     PUT: {
       userDetails: '/api/user/updateProfileDetails',
@@ -66,13 +59,10 @@ export const API = {
 
       allrequestsToBidOn: '/api/request/allrequestsToBidOn',
       requestToBidOnDetailsForTasker: '/api/request/requestToBidOnDetailsForTasker',
-      myAwardedRequests: '/api/request/myAwardedRequests',
-      getAllMyRequests: '/api/request/getAllMyRequests',
     },
     POST: {
       requestImage: '/api/request/uploadImages',
-      searchRequests: '/api/request/search',
-      newRequest: '/api/request/createRequest',
+      createNewRequest: '/api/request/createNewRequest',
       updateSearchThenSearchRequests: '/api/user/updateSearchThenSearchRequests',
     },
     PUT: {
@@ -94,11 +84,10 @@ export const API = {
       cancelAwardedBid: '/api/bids/cancelAwardedBid',
     },
     POST: {
-      bid: '/api/bids/postABid',
+      createNewBid: '/api/bids/createNewBid',
     },
     GET: {
       myPostedBidsSummary: '/api/bids/myPostedBidsSummary',
-      myAwardedBids: '/api/bids/myAwardedBids',
       openBidDetails: '/api/bids/openBidDetails',
       awardedBidDetailsForTasker: '/api/bids/awardedBidDetailsForTasker',
       achivedBidDetailsForTasker: '/api/bids/achivedBidDetailsForTasker',
@@ -126,9 +115,11 @@ export const CLIENT = {
     dynamicCreateRequest: (templateId) => `/bdb-request/create-request/${templateId}`,
     myRequestsPage: '/my-open-requests',
     reviewRequestAndBidsPage: '/my-request/review-request-details/:requestId',
-    dynamicReviewRequestAndBidsPage: (requestId) => `/my-request/review-request-details/${requestId}`,
+    dynamicReviewRequestAndBidsPage: (requestId) =>
+      `/my-request/review-request-details/${requestId}`,
     selectedAwardedRequestPage: '/my-request/awarded-request-details/:requestId',
-    dynamicSelectedAwardedRequestPage: (requestId) => `/my-request/awarded-request-details/${requestId}`,
+    dynamicSelectedAwardedRequestPage: (requestId) =>
+      `/my-request/awarded-request-details/${requestId}`,
   },
   TASKER: {
     root: '/bdb-offer/root',

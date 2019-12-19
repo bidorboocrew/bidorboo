@@ -321,7 +321,7 @@ exports.util = {
     collectMinimum = true,
   }) => {
     try {
-      // xxxxx important update
+      // XXX important update
       const accountLink = await stripe.accountLinks.create({
         account: stripeConnectAccId,
         failure_url: `${redirectUrl}/?success=false`,

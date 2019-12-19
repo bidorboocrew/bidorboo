@@ -14,17 +14,6 @@ const requireLogin = require('../middleware/requireLogin');
 const requirePassDeleteBidChecks = require('../middleware/requirePassDeleteBidChecks');
 
 module.exports = (app) => {
-  app.get(ROUTES.API.BID.GET.myAwardedBids, requireLogin, async (req, res) => {
-    try {
-      const mongoUser_id = req.user._id;
-      const userBidsList = await bidDataAccess.getUserAwardedBids(mongoUser_id);
-      return res.send(userBidsList);
-    } catch (e) {
-      return res
-        .status(400)
-        .send({ errorMsg: 'Failed To get my all My PostedBids bids', details: `${e}` });
-    }
-  });
   app.delete(
     ROUTES.API.BID.DELETE.deleteOpenBid,
     requireLogin,
@@ -100,7 +89,7 @@ module.exports = (app) => {
   });
 
   app.post(
-    ROUTES.API.BID.POST.bid,
+    ROUTES.API.BID.POST.createNewBid,
     requireLogin,
     requirePassesRecaptcha,
     requirePassYouCantBidOnYouOwnRequest,

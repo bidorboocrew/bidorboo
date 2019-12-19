@@ -2,7 +2,6 @@ import { handleActions } from 'redux-actions';
 import * as A from '../actionTypes';
 
 const initialState = {
-  allMyRequests: [],
   myRequestsSummary: [],
   myAwardedRequestsList: [],
   listOfRequestsToBidOn: [],
@@ -33,45 +32,6 @@ const getMyRequestsSummary = {
         ? payload.data
         : `unknown issue while ${A.REQUEST_ACTIONS.GET_ALL_MY_REQUESTS}${A._REJECTED}`;
     return { ...state, error: getMyRequestsSummaryError, isLoading: false };
-  },
-};
-
-const getAllMyRequests = {
-  isPending: (state = initialState) => ({
-    ...state,
-    isLoading: true,
-    allMyRequests: [],
-  }),
-  isFullfilled: (state = initialState, { payload }) => {
-    let allMyRequests = payload.data.allRequests;
-    return { ...state, allMyRequests, isLoading: false };
-  },
-  isRejected: (state = initialState, { payload }) => {
-    const getAllMyRequestsError =
-      payload && payload.data
-        ? payload.data
-        : `unknown issue while ${A.REQUEST_ACTIONS.GET_ALL_MY_REQUESTS}${A._REJECTED}`;
-    return { ...state, error: getAllMyRequestsError, isLoading: false };
-  },
-};
-
-const getMyAwardedRequests = {
-  isPending: (state = initialState, { payload }) => ({
-    ...state,
-    isLoading: true,
-    myAwardedRequestsList: [],
-  }),
-  isFullfilled: (state = initialState, { payload }) => {
-    let myAwardedRequests =
-      payload.data && payload.data._postedRequestsRef ? payload.data._postedRequestsRef : [];
-    return { ...state, myAwardedRequestsList: myAwardedRequests, isLoading: false };
-  },
-  isRejected: (state = initialState, { payload }) => {
-    const error =
-      payload && payload.data
-        ? payload.data
-        : `unknown issue while ${A.REQUEST_ACTIONS.GET_ALL_MY_REQUESTS}${A._REJECTED}`;
-    return { ...state, error, isLoading: false };
   },
 };
 
@@ -199,15 +159,7 @@ const setLoggedOutState = () => {
 };
 export default handleActions(
   {
-    // everything
-    [`${A.REQUEST_ACTIONS.GET_ALL_MY_REQUESTS}${A._PENDING}`]: getAllMyRequests.isPending,
-    [`${A.REQUEST_ACTIONS.GET_ALL_MY_REQUESTS}${A._FULFILLED}`]: getAllMyRequests.isFullfilled,
-    [`${A.REQUEST_ACTIONS.GET_ALL_MY_REQUESTS}${A._REJECTED}`]: getAllMyRequests.isRejected,
-    // awarded requests
-    [`${A.REQUEST_ACTIONS.GET_ALL_MY_AWARDED_REQUESTS}${A._PENDING}`]: getMyAwardedRequests.isPending,
-    [`${A.REQUEST_ACTIONS.GET_ALL_MY_AWARDED_REQUESTS}${A._FULFILLED}`]: getMyAwardedRequests.isFullfilled,
-    [`${A.REQUEST_ACTIONS.GET_ALL_MY_AWARDED_REQUESTS}${A._REJECTED}`]: getMyAwardedRequests.isRejected,
-    // search requests
+      // search requests
     [`${A.REQUEST_ACTIONS.GET_ALL_POSTED_REQUESTS_VIA_SEARCH}${A._PENDING}`]: getPostedRequests.isPending,
     [`${A.REQUEST_ACTIONS.GET_ALL_POSTED_REQUESTS_VIA_SEARCH}${A._FULFILLED}`]: getPostedRequests.isFullfilled,
     [`${A.REQUEST_ACTIONS.GET_ALL_POSTED_REQUESTS_VIA_SEARCH}${A._REJECTED}`]: getPostedRequests.isRejected,

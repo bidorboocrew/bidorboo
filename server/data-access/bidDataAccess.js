@@ -13,11 +13,6 @@ const WebPushNotifications = require('../services/WebPushNotifications').WebPush
 const { getChargeDistributionDetails } = require('../utils/chargesCalculatorUtil');
 
 exports.bidDataAccess = {
-  confirmBidBelongsToOwner: (mongoUser_id, bidId) => {
-    return BidModel.findOne({ _taskerRef: mongoUser_id, _id: bidId })
-      .lean(true)
-      .exec();
-  },
   cancelAwardedBid: async (mongoUser_id, bidId) => {
     /**
      *
@@ -262,7 +257,9 @@ exports.bidDataAccess = {
     const taskerDisplayName = awardedTaskerDetails.displayName;
     const requestDisplayName = `${awardedRequest.requestTemplateDisplayTitle} - ${awardedRequest.requestTitle}`;
 
-    const requestLinkForRequester = ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(requestId);
+    const requestLinkForRequester = ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(
+      requestId
+    );
     const requestLinkForTasker = ROUTES.CLIENT.TASKER.dynamicCurrentAwardedBid(awardedBidId);
 
     const requesterPushNotSubscription = ownerDetails.pushSubscription;
@@ -410,80 +407,7 @@ exports.bidDataAccess = {
       .lean(true)
       .exec();
   },
-  getUserAwardedBids: async (mongoUser_id) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const user = await UserModel.findById(mongoUser_id.toString(), { _postedBidsRef: 1 })
-          .populate({
-            path: '_postedBidsRef',
-            match: { state: { $in: ['AWARDED', 'AWARDED_SEEN'] } },
-            populate: {
-              path: '_requestRef',
-              select: {
-                _ownerRef: 1,
-                title: 1,
-                state: 1,
-                detailedDescription: 1,
-                requestTitle: 1,
-                location: 1,
-                stats: 1,
-                addressText: 1,
-                startingDateAndTime: 1,
-                durationOfRequest: 1,
-                templateId: 1,
-                createdAt: 1,
-                updatedAt: 1,
-              },
-              match: {
-                $or: [
-                  { _reviewRef: { $exists: false } },
-                  { '_reviewRef.requiresTaskerReview': { $eq: true } },
-                ],
-              },
-              populate: [
-                {
-                  path: '_ownerRef',
-                  select: {
-                    _id: 1,
-                    displayName: 1,
-                    rating: 1,
-                    profileImage: 1,
-                    notifications: 1,
-                  },
-                },
-                {
-                  path: '_reviewRef',
-                },
-              ],
-            },
-          })
-          .lean({ virtuals: true })
-          .exec((err, res) => {
-            if (err) {
-              reject(err);
-            } else {
-              let results = [];
-              if (res._postedBidsRef && res._postedBidsRef.length > 0) {
-                results = res._postedBidsRef
-                  .filter((postedBid) => {
-                    return postedBid && postedBid._requestRef;
-                  })
-                  .sort((a, b) => {
-                    return moment(a._requestRef.startingDateAndTime).isSameOrAfter(
-                      moment(b._requestRef.startingDateAndTime)
-                    )
-                      ? 1
-                      : -1;
-                  });
-              }
-              resolve({ _postedBidsRef: results });
-            }
-          });
-      } catch (e) {
-        reject(e);
-      }
-    });
-  },
+
   // get requests for a user and filter by a given state
   getMyPostedBidsSummary: async (mongoUser_id) => {
     return new Promise(async (resolve, reject) => {
@@ -638,7 +562,9 @@ exports.bidDataAccess = {
           theBid &&
           (theBid._requestRef.state === 'AWARDED' || theBid._requestRef.state === 'AWARDED_SEEN')
         ) {
-          if (theBid._requestRef._awardedBidRef._taskerRef._id.toString() === mongoUser_id.toString()) {
+          if (
+            theBid._requestRef._awardedBidRef._taskerRef._id.toString() === mongoUser_id.toString()
+          ) {
             theBid.isAwardedToMe = true;
           } else {
             return resolve({});
@@ -913,7 +839,7 @@ exports.bidDataAccess = {
         const archivedBidDetails = await BidModel.findOne(
           {
             _id: bidId,
-            _taskerRef: { $eq: mongoUser_id },
+            _taskerRef: mongoUser_id,
           },
           { requesterPayment: 0, requesterPartialRefund: 0, addressText: 0 }
         )
@@ -989,7 +915,7 @@ exports.bidDataAccess = {
   findBidByOwner: async (mongoUser_id, bidId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const theBid = await BidModel.findOne({ _taskerRef: { $eq: mongoUser_id }, _id: bidId })
+        const theBid = await BidModel.findOne({ _taskerRef: mongoUser_id, _id: bidId })
           .lean(true)
           .exec();
 
