@@ -28,6 +28,8 @@ import {
   RequesterDisputedSummary,
   TaskerMyDisputedBidSummary,
   TaskerMyDisputedBidDetails,
+  TaskerArchiveSummary,
+  TaskerArchiveDetails,
   REQUEST_STATES,
   POINT_OF_VIEW,
 } from './index';
@@ -209,7 +211,13 @@ const TaskerCardTemplates = {
       return <TaskerMyDisputedBidDetails job={job} {...otherArgs} />;
     }
   },
-
+  [REQUEST_STATES.ARCHIVE]: ({ job, isSummaryView, pointOfView, ...otherArgs }) => {
+    return isSummaryView ? (
+      <TaskerArchiveSummary job={job} {...otherArgs} />
+    ) : (
+      <TaskerArchiveDetails job={job} {...otherArgs} />
+    );
+  },
   [REQUEST_STATES.DISPUTE_RESOLVED]: ({
     job,
     isSummaryView,
@@ -256,7 +264,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
             withBidDetails: true,
             otherArgs,
           });
-          return card || <div>This type ain't found</div>;
+          return card;
         } catch (e) {
           console.error(e + ' Error Loading getTaskerBidCard REQUEST_STATES.AWARDED: Card ');
         }
@@ -272,9 +280,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
             withBidDetails: true,
             otherArgs,
           });
-          return (
-            card || <div>this ain't found REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER</div>
-          );
+          return card;
         } catch (e) {
           console.error(
             e +
@@ -293,7 +299,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
             withBidDetails: true,
             otherArgs,
           });
-          return card || <div>this ain't found REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER</div>;
+          return card;
         } catch (e) {
           console.error(
             e +
@@ -312,7 +318,21 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
             withBidDetails: true,
             otherArgs,
           });
-          return card || <div>REQUEST_STATES.DONE</div>;
+          return card;
+        } catch (e) {
+          console.error(e + ' Error Loading getTaskerBidCard REQUEST_STATES.DONE: Card ');
+        }
+      case REQUEST_STATES.ARCHIVE:
+        try {
+          const card = TaskerCardTemplates[REQUEST_STATES.ARCHIVE]({
+            bid,
+            job: _jobRef,
+            isSummaryView,
+            pointOfView: POINT_OF_VIEW.TASKER,
+            withBidDetails: true,
+            otherArgs,
+          });
+          return card;
         } catch (e) {
           console.error(e + ' Error Loading getTaskerBidCard REQUEST_STATES.DONE: Card ');
         }
@@ -326,7 +346,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
             withBidDetails: true,
             otherArgs,
           });
-          return card || <div>REQUEST_STATES.DISPUTED</div>;
+          return card;
         } catch (e) {
           console.error(e + ' Error Loading getTaskerBidCard REQUEST_STATES.DONE: Card ');
         }

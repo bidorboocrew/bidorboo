@@ -54,7 +54,7 @@ export default class RequesterDoneDetails extends RequestBaseContainer {
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
 
     const { showMore } = this.state;
-    debugger
+
     const { requiresProposerReview } = _reviewRef;
     return (
       <>

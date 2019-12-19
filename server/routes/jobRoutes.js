@@ -92,14 +92,19 @@ module.exports = (app) => {
   });
 
   app.get(
-    ROUTES.API.JOB.GET.archivedTaskDetailsForTasker,
+    ROUTES.API.JOB.GET.achivedTaskDetailsForRequester,
     requireLogin,
     requireJobOwner,
     async (req, res) => {
       try {
         if (req.query && req.query.jobId) {
+          const mongoUser_id = req.user._id;
+
           const { jobId } = req.query;
-          const archivedJobDetails = await jobDataAccess.getArchivedTaskDetailsForTasker(jobId);
+          const archivedJobDetails = await jobDataAccess.getArchivedTaskDetailsForRequester({
+            jobId,
+            mongoUser_id,
+          });
           return res.send(archivedJobDetails);
         } else {
           return res.status(400).send({
@@ -300,7 +305,7 @@ module.exports = (app) => {
           });
         }
 
-        await jobDataAccess.requesterConfirmsJobCompletion(jobId,completionDate);
+        await jobDataAccess.requesterConfirmsJobCompletion(jobId, completionDate);
 
         return res.send({ success: true });
       } catch (e) {

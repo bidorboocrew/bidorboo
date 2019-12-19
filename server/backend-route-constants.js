@@ -76,7 +76,7 @@ module.exports = {
         myRequestsSummary: '/api/job/myRequestsSummary',
         postedJobAndBidsForRequester: '/api/postedJobAndBidsForRequester',
         awardedJobFullDetailsForRequester: '/api/job/awardedJobFullDetailsForRequester',
-        archivedTaskDetailsForTasker: '/api/job/archivedTaskDetailsForTasker',
+        achivedTaskDetailsForRequester: '/api/job/achivedTaskDetailsForRequester',
 
         alljobsToBidOn: '/api/job/alljobsToBidOn',
         jobToBidOnDetailsForTasker: '/api/job/jobToBidOnDetailsForTasker',
@@ -110,6 +110,7 @@ module.exports = {
         myAwardedBids: '/api/bids/myAwardedBids',
         openBidDetails: '/api/bids/openBidDetails',
         awardedBidDetailsForTasker: '/api/bids/awardedBidDetailsForTasker',
+        achivedBidDetailsForTasker: '/api/bids/achivedBidDetailsForTasker',
       },
       PUT: {
         updateMyBid: '/api/bids/updateMyBid',

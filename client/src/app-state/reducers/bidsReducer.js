@@ -12,12 +12,19 @@ const initialState = {
 
   // awardedBidsList: [],
   selectedAwardedBid: {},
+  selectedArchivedBid: {},
 };
 
 const selectJobToBidOn = (state = initialState, { payload }) => ({
   ...state,
   jobToBidOnDetails: payload.jobDetails,
 });
+const updateSelectedArchivedBid = (state = initialState, { payload }) => {
+  return {
+    ...state,
+    selectedArchivedBid: payload.data,
+  };
+};
 
 const getMyPostedBidsSummary = {
   isPending: (state = initialState) => ({
@@ -161,6 +168,8 @@ export default handleActions(
     [`${A.BIDDER_ACTIONS.GET_AWARDED_BID_DETAILS}${A._FULFILLED}`]: getAwardedBidDetail.isFullfilled,
     [`${A.BIDDER_ACTIONS.GET_AWARDED_BID_DETAILS}${A._REJECTED}`]: getAwardedBidDetail.isRejected,
     [`${A.AUTH_ACTIONS.USER_IS_LOGGED_OUT}`]: setLoggedOutState,
+    [`${A.BIDDER_ACTIONS.SELECT_ARCHIVED_BID}`]: updateSelectedArchivedBid,
+
   },
   initialState,
 );

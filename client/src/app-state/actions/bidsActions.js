@@ -235,3 +235,30 @@ export const getAwardedBidDetails = (awardedBidId) => (dispatch) => {
       }),
   });
 };
+
+export const getArchivedBidDetailsForTasker = (bidId) => (dispatch) => {
+  if (!bidId) {
+    return;
+  }
+  dispatch({
+    type: A.JOB_ACTIONS.SELECT_ARCHIVE_JOB,
+    payload: { data: {} },
+  });
+
+  return dispatch({
+    type: A.BIDDER_ACTIONS.GET_ARCHIVED_BID_DETAILS_FOR_TASKER,
+    payload: axios
+      .get(ROUTES.API.BID.GET.achivedBidDetailsForTasker, { params: { bidId } })
+      .then((resp) => {
+        if (resp && resp.data) {
+          dispatch({
+            type: A.BIDDER_ACTIONS.SELECT_ARCHIVED_BID,
+            payload: { data: resp.data },
+          });
+        }
+      })
+      .catch((error) => {
+        throwErrorNotification(dispatch, error);
+      }),
+  });
+};

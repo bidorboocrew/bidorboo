@@ -1986,11 +1986,11 @@ exports.jobDataAccess = {
     });
   },
 
-  getArchivedTaskDetailsForTasker: async (jobId) => {
+  getArchivedTaskDetailsForRequester: async ({ mongoUser_id, jobId }) => {
     return new Promise(async (resolve, reject) => {
       try {
         const archivedJobDetails = await JobModel.findOne(
-          { _id: jobId },
+          { _id: jobId, _ownerRef: { $eq: mongoUser_id } },
           { processedPayment: 0, payoutDetails: 0 }
         )
           .populate([
@@ -2026,7 +2026,7 @@ exports.jobDataAccess = {
               },
             },
           ])
-          .lean({ virtuals: true })
+          .lean()
           .exec();
 
         if (archivedJobDetails && archivedJobDetails._id) {
@@ -2041,7 +2041,7 @@ exports.jobDataAccess = {
           }
           return resolve(archivedJobDetails);
         }
-        reject('cant find the specified request');
+        reject('cant find the specified Request');
       } catch (e) {
         reject(e);
       }

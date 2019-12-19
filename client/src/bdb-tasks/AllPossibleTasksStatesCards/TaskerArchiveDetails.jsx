@@ -6,17 +6,14 @@ import { bindActionCreators } from 'redux';
 import { goBackToPreviousRoute, switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
-import { getArchivedTaskDetailsForRequester } from '../../app-state/actions/jobActions';
+import { getArchivedBidDetailsForTasker } from '../../app-state/actions/bidsActions';
 import {
   CountDownComponent,
-  DisplayLabelValue,
-  TaskCost,
+  TaskerWillEarn,
   TaskSpecificExtras,
   ArchiveTask,
-  DestinationAddressValue,
   JobCardTitle,
   SummaryStartDateAndTime,
-  CenteredUserImageAndRating,
   TaskImagesCarousel,
   UserGivenTitle,
   ReviewComments,
@@ -25,43 +22,33 @@ import { Spinner } from '../../components/Spinner.jsx';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import RequestBaseContainer from './RequestBaseContainer';
 
-class RequesterArchiveDetails extends RequestBaseContainer {
+class TaskerArchiveDetails extends RequestBaseContainer {
   componentDidMount() {
-    const { job, getArchivedTaskDetailsForRequester } = this.props;
-    getArchivedTaskDetailsForRequester(job._id);
+    const { bid, getArchivedBidDetailsForTasker } = this.props;
+    getArchivedBidDetailsForTasker(bid._id);
   }
   render() {
-    const { selectedArchivedJob } = this.props;
-
-    if (!selectedArchivedJob || !selectedArchivedJob._id) {
+    const { selectedArchivedBid } = this.props;
+    if (!selectedArchivedBid || !selectedArchivedBid._id) {
       return <Spinner renderLabel={'Getting request details'} isLoading={true} size={'large'} />;
     }
 
     const {
-      _id: jobId,
       startingDateAndTime,
-      addressText,
-      _awardedBidRef,
       extras,
       detailedDescription,
-      _reviewRef = {
-        revealToBoth: false,
-        requiresProposerReview: true,
-        requiresBidderReview: true,
-      },
       taskImages = [],
       jobTitle,
       completionDate,
-    } = selectedArchivedJob;
+    } = selectedArchivedBid._jobRef;
+    console.log(selectedArchivedBid);
+    const { bidderPayout } = selectedArchivedBid;
+    const { value: bidderPayoutAmount } = bidderPayout;
 
-    const { requesterPayment, _bidderRef } = _awardedBidRef;
-    const { value: requesterPaymentAmount } = requesterPayment;
-
-    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${selectedArchivedJob.templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${selectedArchivedBid._jobRef.templateId}`];
 
     const { showMore } = this.state;
 
-    const { requiresProposerReview } = _reviewRef;
     return (
       <>
         <div
@@ -87,15 +74,18 @@ class RequesterArchiveDetails extends RequestBaseContainer {
               />
               <ArchiveTask />
 
-              <TaskCost cost={requesterPaymentAmount} />
+              <TaskerWillEarn earningAmount={bidderPayoutAmount} />
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
-                  <DisplayLabelValue labelText="Address" labelValue={addressText} />
+                  {/*
+                    we intentionally do not want to share address
+
+                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
                   {extras && extras.destinationText && (
                     <DestinationAddressValue
                       destionationAddress={extras.destinationText}
                     ></DestinationAddressValue>
-                  )}
+                  )} */}
                   <TaskSpecificExtras templateId={ID} extras={extras} />
                   <div className="group">
                     <label className="label hasSelectedValue">Detailed Description</label>
@@ -131,45 +121,40 @@ class RequesterArchiveDetails extends RequestBaseContainer {
               </div>
             </div>
           </div>
-          <AssignedTaskerDetails otherUserProfileInfo={_bidderRef} {...this.props} />
+          <AssignedTaskerDetails {...this.props} />
         </div>
       </>
     );
   }
 }
 
-const mapStateToProps = ({ jobsReducer, userReducer }) => {
+const mapStateToProps = ({ bidsReducer }) => {
   return {
-    isLoading: !jobsReducer.selectedArchivedJob,
-    selectedArchivedJob: jobsReducer.selectedArchivedJob,
+    isLoading: !bidsReducer.selectedArchivedBid,
+    selectedArchivedBid: bidsReducer.selectedArchivedBid,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getArchivedTaskDetailsForRequester: bindActionCreators(getArchivedTaskDetailsForRequester, dispatch),
+    getArchivedBidDetailsForTasker: bindActionCreators(getArchivedBidDetailsForTasker, dispatch),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RequesterArchiveDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(TaskerArchiveDetails);
 
 class AssignedTaskerDetails extends React.Component {
   render() {
-    const { otherUserProfileInfo, selectedArchivedJob } = this.props;
+    const { selectedArchivedBid } = this.props;
     const {
       _awardedBidRef,
-      _id: jobId,
       _ownerRef,
       _reviewRef = {
         revealToBoth: false,
         requiresProposerReview: true,
         requiresBidderReview: true,
       },
-    } = selectedArchivedJob;
-
-    if (!otherUserProfileInfo) {
-      return null;
-    }
+    } = selectedArchivedBid._jobRef;
 
     return (
       <div
@@ -191,50 +176,6 @@ class AssignedTaskerDetails extends React.Component {
                 </li>
               </ul>
             </div>
-            {_reviewRef && _reviewRef.proposerReview ? (
-              <ReviewComments
-                commenterDisplayName={_ownerRef.displayName}
-                commenterId={_ownerRef._id}
-                commenterProfilePicUrl={_ownerRef.profileImage.url}
-                comment={_reviewRef.proposerReview.personalComment}
-                ratingCategories={_reviewRef.proposerReview.ratingCategories}
-              ></ReviewComments>
-            ) : (
-              <a
-                onClick={() => {
-                  switchRoute(ROUTES.CLIENT.REVIEW.getProposerJobReview({ jobId }));
-                }}
-                className={`button firstButtonInCard is-primary`}
-              >
-                Review Tasker
-              </a>
-            )}
-            {/* <div style={{ background: 'transparent' }} className="tabs is-centered">
-              <ul style={{ marginLeft: 0 }}>
-                <li className="is-active">
-                  <a>
-                    <span className="icon is-small">
-                      <i className="fas fa-user-tie" aria-hidden="true" />
-                    </span>
-                    <span>Assigned Tasker</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large isCentered />
-            <br /> */}
-            <div style={{ background: 'transparent' }} className="tabs is-centered">
-              <ul style={{ marginLeft: 0 }}>
-                <li className="is-active">
-                  <a>
-                    <span className="icon is-small">
-                      <i className="fas fa-user-tie" aria-hidden="true" />
-                    </span>
-                    <span>Tasker's Review</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
             {_reviewRef && _reviewRef.bidderReview ? (
               <ReviewComments
                 commenterDisplayName={_awardedBidRef._bidderRef.displayName}
@@ -244,7 +185,40 @@ class AssignedTaskerDetails extends React.Component {
                 ratingCategories={_reviewRef.bidderReview.ratingCategories}
               ></ReviewComments>
             ) : (
-              <div className="help">*Waiting on tasker to submit their review.</div>
+              <a
+                onClick={() => {
+                  switchRoute(
+                    ROUTES.CLIENT.REVIEW.getBidderJobReview({ bidId: _awardedBidRef._id }),
+                  );
+                }}
+                className={`button firstButtonInCard is-primary`}
+              >
+                Review Requester
+              </a>
+            )}
+
+            <div style={{ background: 'transparent' }} className="tabs is-centered">
+              <ul style={{ marginLeft: 0 }}>
+                <li className="is-active">
+                  <a>
+                    <span className="icon is-small">
+                      <i className="fas fa-user-tie" aria-hidden="true" />
+                    </span>
+                    <span>Requester's Review</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            {_reviewRef && _reviewRef.proposerReview ? (
+              <ReviewComments
+                commenterDisplayName={_ownerRef.displayName}
+                commenterId={_ownerRef._id}
+                commenterProfilePicUrl={_ownerRef.profileImage.url}
+                comment={_reviewRef.proposerReview.personalComment}
+                ratingCategories={_reviewRef.proposerReview.ratingCategories}
+              ></ReviewComments>
+            ) : (
+              <div className="help">*Waiting on Requester to submit their review.</div>
             )}
 
             <br></br>

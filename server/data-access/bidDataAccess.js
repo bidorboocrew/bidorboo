@@ -906,4 +906,97 @@ exports.bidDataAccess = {
       }
     });
   },
+
+  getAchivedBidDetailsForTasker: ({ mongoUser_id, bidId }) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const archivedBidDetails = await BidModel.findOne(
+          {
+            _id: bidId,
+            _bidderRef: { $eq: mongoUser_id },
+          },
+          { requesterPayment: 0, requesterPartialRefund: 0 }
+        )
+          .populate({
+            path: '_jobRef',
+            select: { processedPayment: 0, payoutDetails: 0 },
+            populate: [
+              {
+                path: '_ownerRef',
+                select: {
+                  displayName: 1,
+                  profileImage: 1,
+                  rating: 1,
+                  membershipStatus: 1,
+                },
+              },
+              {
+                path: '_awardedBidRef',
+                select: {
+                  _bidderRef: 1,
+                  isNewBid: 1,
+                  requesterPayment: 1,
+                  requesterPartialRefund: 1,
+                },
+                populate: {
+                  path: '_bidderRef',
+                  select: {
+                    displayName: 1,
+                    profileImage: 1,
+                    rating: 1,
+                    membershipStatus: 1,
+                  },
+                },
+              },
+              {
+                path: '_reviewRef',
+              },
+              {
+                path: '_ownerRef',
+                select: {
+                  displayName: 1,
+                  email: 1,
+                  phone: 1,
+                  profileImage: 1,
+                  rating: 1,
+                },
+              },
+            ],
+          })
+          .lean()
+          .exec();
+
+        if (archivedBidDetails && archivedBidDetails._id) {
+          const jobDetails = archivedBidDetails._jobRef;
+          if (
+            !(
+              jobDetails._reviewRef &&
+              jobDetails._reviewRef.proposerReview &&
+              jobDetails._reviewRef.bidderReview
+            )
+          ) {
+            jobDetails._reviewRef.proposerReview = null;
+          }
+          return resolve(archivedBidDetails);
+        }
+        reject('cant find the specified Bid');
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+
+  findBidByOwner: async (mongoUser_id, bidId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const theBid = await BidModel.findOne({ _bidderRef: { $eq: mongoUser_id }, _id: bidId })
+          .lean(true)
+          .exec();
+
+        resolve(theBid);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
 };

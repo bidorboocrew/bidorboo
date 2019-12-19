@@ -80,3 +80,5 @@ export { default as RequesterDisputedDetails } from './AllPossibleTasksStatesCar
 export { default as TaskerMyDisputedBidDetails } from './AllPossibleTasksStatesCards/TaskerMyDisputedBidDetails';
 
 export { default as TaskerMyDisputedBidSummary } from './AllPossibleTasksStatesCards/TaskerMyDisputedBidSummary';
+export { default as TaskerArchiveSummary } from './AllPossibleTasksStatesCards/TaskerArchiveSummary';
+export { default as TaskerArchiveDetails } from './AllPossibleTasksStatesCards/TaskerArchiveDetails';

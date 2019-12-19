@@ -423,7 +423,7 @@ export const getPostedJobAndBidsForRequester = (jobId) => (dispatch) => {
   });
 };
 
-export const getArchivedTaskDetailsForTasker = (jobId) => (dispatch) => {
+export const getArchivedTaskDetailsForRequester = (jobId) => (dispatch) => {
   if (!jobId) {
     return;
   }
@@ -432,12 +432,10 @@ export const getArchivedTaskDetailsForTasker = (jobId) => (dispatch) => {
     payload: { data: {} },
   });
 
-  const x = ROUTES.API.JOB.GET.archivedTaskDetailsForTasker;
-  console.log(x);
   return dispatch({
     type: A.JOB_ACTIONS.GET_ARCHIVED_JOB_DETAILS_FOR_REQUESTER,
     payload: axios
-      .get(ROUTES.API.JOB.GET.archivedTaskDetailsForTasker, { params: { jobId } })
+      .get(ROUTES.API.JOB.GET.achivedTaskDetailsForRequester, { params: { jobId } })
       .then((resp) => {
         if (resp && resp.data) {
           dispatch({

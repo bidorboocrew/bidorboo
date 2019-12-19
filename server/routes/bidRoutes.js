@@ -196,4 +196,29 @@ module.exports = (app) => {
       return res.status(400).send({ errorMsg: 'Failed To get my open bids', details: `${e}` });
     }
   });
+
+  app.get(
+    ROUTES.API.BID.GET.achivedBidDetailsForTasker,
+    requireLogin,
+    requireBidOwner,
+    async (req, res) => {
+      try {
+        if (req.query && req.query.bidId) {
+          const mongoUser_id = req.user._id;
+          const { bidId } = req.query;
+          const archivedJobDetails = await bidDataAccess.getAchivedBidDetailsForTasker({
+            bidId,
+            mongoUser_id,
+          });
+          return res.send(archivedJobDetails);
+        } else {
+          return res.status(400).send({
+            errorMsg: 'Bad Request cannot get past Bid details',
+          });
+        }
+      } catch (e) {
+        return res.status(400).send({ errorMsg: 'Failed To get Bid details', details: `${e}` });
+      }
+    }
+  );
 };
