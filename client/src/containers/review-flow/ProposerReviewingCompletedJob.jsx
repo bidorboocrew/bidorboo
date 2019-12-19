@@ -36,8 +36,8 @@ export class ProposerReviewingCompletedJob extends React.Component {
       .then((resp) => {
         // update recently added job
         if (resp && resp.data) {
-          if (resp.data._awardedBidRef._bidderRef) {
-            this.setState({ userToBeRated: resp.data._awardedBidRef._bidderRef });
+          if (resp.data._awardedBidRef._taskerRef) {
+            this.setState({ userToBeRated: resp.data._awardedBidRef._taskerRef });
           } else {
             dispatch({
               type: A.UI_ACTIONS.SHOW_TOAST_MSG,

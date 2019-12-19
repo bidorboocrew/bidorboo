@@ -42,8 +42,8 @@ class TaskerArchiveDetails extends RequestBaseContainer {
       completionDate,
     } = selectedArchivedBid._jobRef;
     console.log(selectedArchivedBid);
-    const { bidderPayout } = selectedArchivedBid;
-    const { value: bidderPayoutAmount } = bidderPayout;
+    const { taskerPayout } = selectedArchivedBid;
+    const { value: taskerPayoutAmount } = taskerPayout;
 
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${selectedArchivedBid._jobRef.templateId}`];
 
@@ -74,7 +74,7 @@ class TaskerArchiveDetails extends RequestBaseContainer {
               />
               <ArchiveTask />
 
-              <TaskerWillEarn earningAmount={bidderPayoutAmount} />
+              <TaskerWillEarn earningAmount={taskerPayoutAmount} />
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
                   {/*
@@ -152,7 +152,7 @@ class AssignedTaskerDetails extends React.Component {
       _reviewRef = {
         revealToBoth: false,
         requiresProposerReview: true,
-        requiresBidderReview: true,
+        requiresTaskerReview: true,
       },
     } = selectedArchivedBid._jobRef;
 
@@ -176,19 +176,19 @@ class AssignedTaskerDetails extends React.Component {
                 </li>
               </ul>
             </div>
-            {_reviewRef && _reviewRef.bidderReview ? (
+            {_reviewRef && _reviewRef.taskerReview ? (
               <ReviewComments
-                commenterDisplayName={_awardedBidRef._bidderRef.displayName}
-                commenterId={_awardedBidRef._bidderRef._id}
-                commenterProfilePicUrl={_awardedBidRef._bidderRef.profileImage.url}
-                comment={_reviewRef.bidderReview.personalComment}
-                ratingCategories={_reviewRef.bidderReview.ratingCategories}
+                commenterDisplayName={_awardedBidRef._taskerRef.displayName}
+                commenterId={_awardedBidRef._taskerRef._id}
+                commenterProfilePicUrl={_awardedBidRef._taskerRef.profileImage.url}
+                comment={_reviewRef.taskerReview.personalComment}
+                ratingCategories={_reviewRef.taskerReview.ratingCategories}
               ></ReviewComments>
             ) : (
               <a
                 onClick={() => {
                   switchRoute(
-                    ROUTES.CLIENT.REVIEW.getBidderJobReview({ bidId: _awardedBidRef._id }),
+                    ROUTES.CLIENT.REVIEW.getTaskerJobReview({ bidId: _awardedBidRef._id }),
                   );
                 }}
                 className={`button firstButtonInCard is-primary`}

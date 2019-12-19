@@ -93,7 +93,7 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                     <a
                       style={{ flexGrow: 1 }}
                       onClick={(e) => {
-                        switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
+                        switchRoute(ROUTES.CLIENT.TASKER.getDynamicBidOnJobPage(job._id));
                       }}
                       className="button is-success firstButtonInCard"
                     >
@@ -129,7 +129,7 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                         if (isLoggedIn) {
                           updateViewedBy(job);
                         }
-                        switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
+                        switchRoute(ROUTES.CLIENT.TASKER.getDynamicBidOnJobPage(job._id));
                       }}
                       className="button is-success is-small"
                     >

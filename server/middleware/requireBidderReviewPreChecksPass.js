@@ -4,7 +4,7 @@ const { bidDataAccess } = require('../data-access/bidDataAccess');
 module.exports = async (req, res, next) => {
   try {
     if (req.user && req.user.userId) {
-      const bidderId = req.user._id;
+      const taskerId = req.user._id;
       const {
         jobId,
         accuracyOfPostRating,
@@ -23,7 +23,7 @@ module.exports = async (req, res, next) => {
         !personalComment
       ) {
         return res.status(403).send({
-          errorMsg: 'missing paramerters . can not pass requireBidderReviewPreChecksPass.',
+          errorMsg: 'missing paramerters . can not pass requireTaskerReviewPreChecksPass.',
         });
       }
       const { bidId } = res.locals.bidOrBoo;
@@ -32,7 +32,7 @@ module.exports = async (req, res, next) => {
           errorMsg: 'could not locate your bid. try again later',
         });
       }
-      const bid = await bidDataAccess.getAwardedBidDetails(bidderId, bidId);
+      const bid = await bidDataAccess.getAwardedBidDetails(taskerId, bidId);
       if (!bid || !bid._id || !bid._jobRef) {
         return res.status(403).send({ errorMsg: 'Could not find the specified bid.' });
       }
@@ -42,10 +42,10 @@ module.exports = async (req, res, next) => {
       if (job && job._id) {
         res.locals.bidOrBoo = res.locals.bidOrBoo || {};
         res.locals.bidOrBoo.proposerId = bid._jobRef._ownerRef._id;
-        res.locals.bidOrBoo.bidderId = bid._bidderRef;
+        res.locals.bidOrBoo.taskerId = bid._taskerRef;
 
         if (job._reviewRef) {
-          if (job._reviewRef.bidderReview) {
+          if (job._reviewRef.taskerReview) {
             return res
               .status(403)
               .send({ errorMsg: 'You have already submit a review on this job.' });
@@ -55,7 +55,7 @@ module.exports = async (req, res, next) => {
         } else {
           await jobDataAccess.kickStartReviewModel({
             jobId: job._id,
-            bidderId: res.locals.bidOrBoo.bidderId,
+            taskerId: res.locals.bidOrBoo.taskerId,
             proposerId: res.locals.bidOrBoo.proposerId,
           });
           next();
@@ -63,7 +63,7 @@ module.exports = async (req, res, next) => {
       } else {
         return res.status(403).send({
           errorMsg:
-            'failed requireBidderReviewPreChecksPass cant find the job or the job owner does not correspond to the specified user in this request',
+            'failed requireTaskerReviewPreChecksPass cant find the job or the job owner does not correspond to the specified user in this request',
         });
       }
     } else {
@@ -71,7 +71,7 @@ module.exports = async (req, res, next) => {
     }
   } catch (e) {
     return res.status(400).send({
-      errorMsg: 'failed to pass requireBidderReviewPreChecksPass',
+      errorMsg: 'failed to pass requireTaskerReviewPreChecksPass',
       details: `${e}`,
     });
   }

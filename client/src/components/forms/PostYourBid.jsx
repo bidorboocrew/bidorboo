@@ -3,7 +3,7 @@ import React from 'react';
 import BidModal from './BidModal';
 
 // import { AnytimeQuickModal } from '../../containers/commonComponents.jsx';
-// import TaskerVerificationBanner from '../../containers/bidder-flow/TaskerVerificationBanner.jsx';
+// import TaskerVerificationBanner from '../../containers/tasker-flow/TaskerVerificationBanner.jsx';
 export default class PostYourBid extends React.Component {
   constructor(props) {
     super(props);

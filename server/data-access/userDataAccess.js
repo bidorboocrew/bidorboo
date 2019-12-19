@@ -66,12 +66,12 @@ exports.getMyPastRequestedServices = (mongoUser_id) => {
       select: {
         _id: 1,
         jobId: 1,
-        bidderReview: 1,
-        bidderId: 1,
+        taskerReview: 1,
+        taskerId: 1,
       },
       populate: [
         {
-          path: 'bidderId',
+          path: 'taskerId',
           select: {
             displayName: 1,
             profileImage: 1,
@@ -83,7 +83,7 @@ exports.getMyPastRequestedServices = (mongoUser_id) => {
           path: 'jobId',
           select: {
             state: 1,
-            bidderConfirmedCompletion: 1,
+            taskerConfirmedCompletion: 1,
             location: 1,
             jobTitle: 1,
             startingDateAndTime: 1,
@@ -102,11 +102,11 @@ exports.getMyPastProvidedServices = (mongoUser_id) => {
     { _id: mongoUser_id },
     {
       _id: 0,
-      _asBidderReviewsRef: 1,
+      _asTaskerReviewsRef: 1,
     }
   )
     .populate({
-      path: '_asBidderReviewsRef',
+      path: '_asTaskerReviewsRef',
       select: {
         _id: 1,
         jobId: 1,
@@ -126,7 +126,7 @@ exports.getMyPastProvidedServices = (mongoUser_id) => {
           path: 'jobId',
           select: {
             state: 1,
-            bidderConfirmedCompletion: 1,
+            taskerConfirmedCompletion: 1,
             location: 1,
             jobTitle: 1,
             startingDateAndTime: 1,
@@ -159,7 +159,7 @@ exports.findUserPublicDetails = (mongoUser_id) => {
         }
       )
         .populate({
-          path: '_asBidderReviewsRef',
+          path: '_asTaskerReviewsRef',
           select: {
             _id: 1,
             proposerReview: 1,
@@ -177,11 +177,11 @@ exports.findUserPublicDetails = (mongoUser_id) => {
           path: '_asProposerReviewsRef',
           select: {
             _id: 1,
-            bidderReview: 1,
-            bidderId: 1,
+            taskerReview: 1,
+            taskerId: 1,
           },
           populate: {
-            path: 'bidderId',
+            path: 'taskerId',
             select: {
               displayName: 1,
               profileImage: 1,
@@ -253,7 +253,7 @@ exports.findUserAndAllNewNotifications = async (mongoUserId) => {
   return new Promise(async (resolve, reject) => {
     try {
       // xxxxx maybe we should notify of canceled by tasker
-      const jobStatesWhereBidderNeedsToBeNotified = [
+      const jobStatesWhereTaskerNeedsToBeNotified = [
         'AWARDED',
         'AWARDED_JOB_CANCELED_BY_REQUESTER',
         'DONE',
@@ -262,7 +262,7 @@ exports.findUserAndAllNewNotifications = async (mongoUserId) => {
 
       const jobStatesWhereRequesterNeedsToBeNotified = [
         'OPEN',
-        'AWARDED_JOB_CANCELED_BY_BIDDER',
+        'AWARDED_JOB_CANCELED_BY_TASKER',
         'DISPUTE_RESOLVED',
       ];
 
@@ -292,7 +292,7 @@ exports.findUserAndAllNewNotifications = async (mongoUserId) => {
           select: { _jobRef: 1 },
           populate: {
             path: '_jobRef',
-            match: { state: { $in: jobStatesWhereBidderNeedsToBeNotified } },
+            match: { state: { $in: jobStatesWhereTaskerNeedsToBeNotified } },
             select: {
               templateId: 1,
               state: 1,
@@ -608,8 +608,8 @@ exports.proposerPushesAReview = async (
   reviewId,
   proposerId,
   newFulfilledJobId,
-  bidderId,
-  newBidderGlobalRating,
+  taskerId,
+  newTaskerGlobalRating,
   newTotalOfAllRatings,
   personalComment
 ) => {
@@ -626,11 +626,11 @@ exports.proposerPushesAReview = async (
       .lean(true)
       .exec(),
     User.findOneAndUpdate(
-      { _id: bidderId },
+      { _id: taskerId },
       {
-        $push: { _asBidderReviewsRef: reviewId },
+        $push: { _asTaskerReviewsRef: reviewId },
         $set: {
-          'rating.globalRating': newBidderGlobalRating,
+          'rating.globalRating': newTaskerGlobalRating,
           'rating.totalOfAllRatings': newTotalOfAllRatings,
           'rating.latestComment': personalComment,
         },
@@ -645,9 +645,9 @@ exports.proposerPushesAReview = async (
   ]);
 };
 
-exports.bidderPushesAReview = async (
+exports.taskerPushesAReview = async (
   reviewId,
-  bidderId,
+  taskerId,
   newFulfilledBidId,
   proposerId,
   newProposerGlobalRating,
@@ -656,7 +656,7 @@ exports.bidderPushesAReview = async (
 ) => {
   return await Promise.all([
     await User.findOneAndUpdate(
-      { _id: bidderId },
+      { _id: taskerId },
       {
         $push: {
           'rating.fulfilledBids': newFulfilledBidId,

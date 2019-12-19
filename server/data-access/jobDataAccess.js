@@ -18,7 +18,7 @@ const {
 } = require('../utils/chargesCalculatorUtil');
 
 const getAllContactDetails = require('../utils/commonDataUtils')
-  .getAwardedJobOwnerBidderAndRelevantNotificationDetails;
+  .getAwardedJobOwnerTaskerAndRelevantNotificationDetails;
 const templateIdToDisplayName = {
   bdbHouseCleaning: 'House Cleaning',
   bdbCarDetailing: 'Car Detailing',
@@ -57,9 +57,9 @@ exports.jobDataAccess = {
           })
           .populate({
             path: '_awardedBidRef',
-            select: { _bidderRef: 1 },
+            select: { _taskerRef: 1 },
             populate: {
-              path: '_bidderRef',
+              path: '_taskerRef',
               select: {
                 _id: 1,
                 displayName: 1,
@@ -102,19 +102,19 @@ exports.jobDataAccess = {
                       ownerDetails.phone && ownerDetails.phone.phoneNumber
                         ? ownerDetails.phone.phoneNumber
                         : '';
-                    const linkForOwner = ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(
+                    const linkForOwner = ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedJobPage(
                       jobId
                     );
-                    const awardedBidderDetails = job._awardedBidRef._bidderRef;
-                    const bidderEmailAddress =
-                      awardedBidderDetails.email && awardedBidderDetails.email.emailAddress
-                        ? awardedBidderDetails.email.emailAddress
+                    const awardedTaskerDetails = job._awardedBidRef._taskerRef;
+                    const taskerEmailAddress =
+                      awardedTaskerDetails.email && awardedTaskerDetails.email.emailAddress
+                        ? awardedTaskerDetails.email.emailAddress
                         : '';
-                    const bidderPhoneNumber =
-                      awardedBidderDetails.phone && awardedBidderDetails.phone.phoneNumber
-                        ? awardedBidderDetails.phone.phoneNumber
+                    const taskerPhoneNumber =
+                      awardedTaskerDetails.phone && awardedTaskerDetails.phone.phoneNumber
+                        ? awardedTaskerDetails.phone.phoneNumber
                         : '';
-                    const linkForBidder = ROUTES.CLIENT.BIDDER.dynamicCurrentAwardedBid(
+                    const linkForTasker = ROUTES.CLIENT.TASKER.dynamicCurrentAwardedBid(
                       awardedBidId
                     );
                     if (ownerDetails.notifications && ownerDetails.notifications.email) {
@@ -122,22 +122,22 @@ exports.jobDataAccess = {
                         to: ownerEmailAddress,
                         requestTitle: job.templateId,
                         toDisplayName: `${ownerDetails.displayName}`,
-                        bidderEmailAddress,
-                        bidderPhoneNumber,
+                        taskerEmailAddress,
+                        taskerPhoneNumber,
                         linkForOwner,
                       });
                     }
                     if (
-                      awardedBidderDetails.notifications &&
-                      awardedBidderDetails.notifications.email
+                      awardedTaskerDetails.notifications &&
+                      awardedTaskerDetails.notifications.email
                     ) {
                       sendGridEmailing.sendJobIsHappeningSoonToTaskerEmail({
-                        to: bidderEmailAddress,
+                        to: taskerEmailAddress,
                         requestTitle: job.templateId,
-                        toDisplayName: `${awardedBidderDetails.displayName}`,
+                        toDisplayName: `${awardedTaskerDetails.displayName}`,
                         ownerEmailAddress,
                         ownerPhoneNumber,
-                        linkForBidder,
+                        linkForTasker,
                       });
                     }
 
@@ -153,14 +153,14 @@ exports.jobDataAccess = {
                       );
                     }
                     if (
-                      bidderPhoneNumber &&
-                      awardedBidderDetails.notifications &&
-                      awardedBidderDetails.notifications.text
+                      taskerPhoneNumber &&
+                      awardedTaskerDetails.notifications &&
+                      awardedTaskerDetails.notifications.text
                     ) {
                       sendTextService.sendJobIsHappeningSoonText(
-                        bidderPhoneNumber,
+                        taskerPhoneNumber,
                         job.templateId,
-                        linkForBidder
+                        linkForTasker
                       );
                     }
 
@@ -171,14 +171,14 @@ exports.jobDataAccess = {
                       });
                     }
                     if (
-                      awardedBidderDetails.notifications &&
-                      awardedBidderDetails.notifications.push
+                      awardedTaskerDetails.notifications &&
+                      awardedTaskerDetails.notifications.push
                     ) {
                       WebPushNotifications.pushJobIsHappeningSoon(
-                        awardedBidderDetails.pushSubscription,
+                        awardedTaskerDetails.pushSubscription,
                         {
                           requestTitle: job.templateId,
-                          urlToLaunch: linkForBidder,
+                          urlToLaunch: linkForTasker,
                         }
                       );
                     }
@@ -204,9 +204,9 @@ exports.jobDataAccess = {
         })
           .populate({
             path: '_bidsListRef',
-            select: { _id: 1, _bidderRef: 1 },
+            select: { _id: 1, _taskerRef: 1 },
             populate: {
-              path: '_bidderRef',
+              path: '_taskerRef',
             },
           })
           .exec((err, res) => {
@@ -251,7 +251,7 @@ exports.jobDataAccess = {
           $and: [
             { state: { $in: ['AWARDED', 'AWARDED_SEEN'] } },
             { dispute: { $exists: false } },
-            { bidderConfirmedCompletion: { $eq: true } },
+            { taskerConfirmedCompletion: { $eq: true } },
             { _awardedBidRef: { $exists: true } },
           ],
         })
@@ -554,9 +554,9 @@ exports.jobDataAccess = {
         })
           .populate({
             path: '_bidsListRef',
-            select: { _id: 1, _bidderRef: 1 },
+            select: { _id: 1, _taskerRef: 1 },
             populate: {
-              path: '_bidderRef',
+              path: '_taskerRef',
             },
           })
           .lean(true)
@@ -571,21 +571,21 @@ exports.jobDataAccess = {
                   const areThereAnyBids = job._bidsListRef && job._bidsListRef.length > 0;
                   if (areThereAnyBids) {
                     bidsIds = [];
-                    biddersIds = [];
+                    taskersIds = [];
                     const awardedBidRefId = job._awardedBidRef._id.toString();
 
                     job._bidsListRef.forEach((bidRef) => {
                       // dont delete the awardedBidRef
                       if (bidRef._id.toString() !== awardedBidRefId.toString()) {
                         bidsIds.push(bidRef._id.toString());
-                        biddersIds.push(bidRef._bidderRef._id.toString());
+                        taskersIds.push(bidRef._taskerRef._id.toString());
                       }
                     });
 
-                    biddersIds.forEach((bidderId) => {
-                      // clean ref for bidders
+                    taskersIds.forEach((taskerId) => {
+                      // clean ref for taskers
                       User.findOneAndUpdate(
-                        { _id: bidderId },
+                        { _id: taskerId },
                         { $pull: { _postedBidsRef: { $in: bidsIds } } }
                       )
                         .exec()
@@ -597,7 +597,7 @@ exports.jobDataAccess = {
                         );
                     });
 
-                    // clean the bids for bidders
+                    // clean the bids for taskers
                     bidsIds.forEach((bidId) => {
                       BidModel.deleteOne({ _id: bidId })
                         .exec()
@@ -651,7 +651,7 @@ exports.jobDataAccess = {
           {
             path: '_awardedBidRef',
             select: {
-              _bidderRef: 1,
+              _taskerRef: 1,
               isNewBid: 1,
               state: 1,
               createdAt: 1,
@@ -660,7 +660,7 @@ exports.jobDataAccess = {
               requesterPartialRefund: 1,
             },
             populate: {
-              path: '_bidderRef',
+              path: '_taskerRef',
               select: {
                 displayName: 1,
                 email: 1,
@@ -693,7 +693,7 @@ exports.jobDataAccess = {
   },
   getBidsList: (jobId) => {
     return JobModel.findById(jobId)
-      .populate({ path: '_bidsListRef', select: { _bidderRef: 1 } })
+      .populate({ path: '_bidsListRef', select: { _taskerRef: 1 } })
       .lean(true)
       .exec();
   },
@@ -722,10 +722,10 @@ exports.jobDataAccess = {
       .exec();
   },
 
-  kickStartReviewModel: async ({ jobId, bidderId, proposerId }) => {
+  kickStartReviewModel: async ({ jobId, taskerId, proposerId }) => {
     const kickStartReviewModel = await new ReviewModel({
       jobId,
-      bidderId,
+      taskerId,
       proposerId,
     }).save();
 
@@ -752,9 +752,9 @@ exports.jobDataAccess = {
             populate: {
               path: '_bidsListRef',
               populate: {
-                path: '_bidderRef',
+                path: '_taskerRef',
                 select: {
-                  _asBidderReviewsRef: 1,
+                  _asTaskerReviewsRef: 1,
                   _asProposerReviewsRef: 1,
                   rating: 1,
                   userId: 1,
@@ -879,12 +879,12 @@ exports.jobDataAccess = {
   getFullJobDetails: async (jobId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const jobWithBidderDetails = await JobModel.findOne({ _id: jobId })
+        const jobWithTaskerDetails = await JobModel.findOne({ _id: jobId })
           .populate([
             {
               path: '_awardedBidRef',
               select: {
-                _bidderRef: 1,
+                _taskerRef: 1,
                 isNewBid: 1,
                 state: 1,
                 bidAmount: 1,
@@ -892,7 +892,7 @@ exports.jobDataAccess = {
                 updatedAt: 1,
               },
               populate: {
-                path: '_bidderRef',
+                path: '_taskerRef',
                 select: {
                   displayName: 1,
                   email: 1,
@@ -908,10 +908,10 @@ exports.jobDataAccess = {
               path: '_reviewRef',
               select: {
                 proposerReview: 1,
-                bidderReview: 1,
+                taskerReview: 1,
                 revealToBoth: 1,
                 requiresProposerReview: 1,
-                requiresBidderReview: 1,
+                requiresTaskerReview: 1,
               },
             },
             {
@@ -930,7 +930,7 @@ exports.jobDataAccess = {
           .lean({ virtuals: true })
           .exec();
 
-        resolve(jobWithBidderDetails);
+        resolve(jobWithTaskerDetails);
       } catch (e) {
         reject(e);
       }
@@ -962,7 +962,7 @@ exports.jobDataAccess = {
           })
           .populate({
             path: '_bidsListRef',
-            select: { _bidderRef: 1, bidAmount: 1 },
+            select: { _taskerRef: 1, bidAmount: 1 },
           })
           .lean({ virtuals: true })
           .exec();
@@ -1000,7 +1000,7 @@ exports.jobDataAccess = {
           })
           .populate({
             path: '_bidsListRef',
-            select: { _bidderRef: 1, bidAmount: 1 },
+            select: { _taskerRef: 1, bidAmount: 1 },
           })
           .lean({ virtuals: true })
           .exec();
@@ -1055,7 +1055,7 @@ exports.jobDataAccess = {
             },
             {
               path: '_bidsListRef',
-              select: { _bidderRef: 1, bidAmount: 1 },
+              select: { _taskerRef: 1, bidAmount: 1 },
             },
           ])
           .lean(true);
@@ -1070,7 +1070,7 @@ exports.jobDataAccess = {
             // remove tasks that the user already bid on
             if (task._bidsListRef && task._bidsListRef.length > 0) {
               let currentUserAlreadyBid = task._bidsListRef.some(
-                (bidsList) => bidsList._bidderRef.toString() === mongoUser_id.toString()
+                (bidsList) => bidsList._taskerRef.toString() === mongoUser_id.toString()
               );
               return !currentUserAlreadyBid;
             }
@@ -1088,7 +1088,7 @@ exports.jobDataAccess = {
                 .reduce((accumulator, bidAmount) => accumulator + bidAmount);
               task.avgBid = `${Math.ceil(bidsTotal / bidsList.length)}`;
 
-              // remove any personal identifying info about other bidders
+              // remove any personal identifying info about other taskers
               const cleanBidsList = bidsList.map((bid) => ({ ...bid, bidAmount: {} }));
               task._bidsListRef = cleanBidsList;
             } else {
@@ -1141,11 +1141,11 @@ exports.jobDataAccess = {
               to: user.email.emailAddress,
               requestTitle: templateIdToDisplayName[job.templateId],
               toDisplayName: user.displayName,
-              linkForBidder: ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id),
+              linkForTasker: ROUTES.CLIENT.TASKER.getDynamicBidOnJobPage(job._id),
             });
             WebPushNotifications.pushNewJobInYourArea(user.pushSubscription, {
               requestTitle: templateIdToDisplayName[job.templateId],
-              urlToLaunch: ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id),
+              urlToLaunch: ROUTES.CLIENT.TASKER.getDynamicBidOnJobPage(job._id),
             });
           });
         }
@@ -1184,15 +1184,15 @@ exports.jobDataAccess = {
       .lean({ virtuals: true })
       .exec();
   },
-  isAwardedBidder: (mongoUser_id, jobId) => {
+  isAwardedTasker: (mongoUser_id, jobId) => {
     return JobModel.findOne({ _id: jobId }, { _awardedBidRef: 1 })
       .populate({
         path: '_awardedBidRef',
         select: {
-          _bidderRef: 1,
+          _taskerRef: 1,
         },
         populate: {
-          path: '_bidderRef',
+          path: '_taskerRef',
           match: { _id: { $eq: mongoUser_id } },
           select: { _id: 1 },
         },
@@ -1230,7 +1230,7 @@ exports.jobDataAccess = {
         const updatedJob = await JobModel.findById(jobId)
           .populate({
             path: '_awardedBidRef',
-            select: { _bidderRef: 1 },
+            select: { _taskerRef: 1 },
           })
           .lean(true)
           .exec();
@@ -1238,7 +1238,7 @@ exports.jobDataAccess = {
         // update stuff
         await Promise.all([
           User.findByIdAndUpdate(
-            updatedJob._awardedBidRef._bidderRef,
+            updatedJob._awardedBidRef._taskerRef,
             {
               $push: { 'rating.fulfilledBids': updatedJob._awardedBidRef },
             },
@@ -1294,7 +1294,7 @@ exports.jobDataAccess = {
             to: taskerEmailAddress,
             requestTitle: jobDisplayName,
             toDisplayName: taskerDisplayName,
-            linkForBidder: requestLinkForTasker,
+            linkForTasker: requestLinkForTasker,
           });
         }
 
@@ -1332,13 +1332,13 @@ exports.jobDataAccess = {
       }
     });
   },
-  bidderConfirmsJobCompletion: async (jobId) => {
+  taskerConfirmsJobCompletion: async (jobId) => {
     return new Promise(async (resolve, reject) => {
       try {
         const updatedJob = await JobModel.findOneAndUpdate(
           { _id: jobId },
           {
-            $set: { bidderConfirmedCompletion: true },
+            $set: { taskerConfirmedCompletion: true },
           },
           { new: true }
         )
@@ -1375,7 +1375,7 @@ exports.jobDataAccess = {
             to: taskerEmailAddress,
             requestTitle: jobDisplayName,
             toDisplayName: taskerDisplayName,
-            linkForBidder: requestLinkForTasker,
+            linkForTasker: requestLinkForTasker,
           });
         }
 
@@ -1460,7 +1460,7 @@ exports.jobDataAccess = {
             to: taskerEmailAddress,
             requestTitle: jobDisplayName,
             toDisplayName: taskerDisplayName,
-            linkForBidder: requestLinkForTasker,
+            linkForTasker: requestLinkForTasker,
           });
         }
 
@@ -1495,7 +1495,7 @@ exports.jobDataAccess = {
         if (!updatedJob || !updatedJob._id || updatedJob.state !== 'DISPUTED') {
           return reject({
             success: false,
-            ErrorMsg: 'failed to update the associated job bidderDisputesJob',
+            ErrorMsg: 'failed to update the associated job taskerDisputesJob',
           });
         }
 
@@ -1703,7 +1703,7 @@ exports.jobDataAccess = {
                 to: taskerEmailAddress,
                 requestTitle: jobDisplayName,
                 toDisplayName: taskerDisplayName,
-                linkForBidder: requestLinkForTasker,
+                linkForTasker: requestLinkForTasker,
               });
             }
 
@@ -1846,9 +1846,9 @@ exports.jobDataAccess = {
         const job = await JobModel.findOne({ _id: jobId, _ownerRef: mongoUser_id })
           .populate({
             path: '_bidsListRef',
-            select: { _id: 1, _bidderRef: 1 },
+            select: { _id: 1, _taskerRef: 1 },
             populate: {
-              path: '_bidderRef',
+              path: '_taskerRef',
             },
           })
           .lean(true)
@@ -1857,16 +1857,16 @@ exports.jobDataAccess = {
         const areThereAnyBids = job._bidsListRef && job._bidsListRef.length > 0;
         if (areThereAnyBids) {
           bidsIds = [];
-          biddersIds = [];
+          taskersIds = [];
           job._bidsListRef.forEach((bidRef) => {
             bidsIds.push(bidRef._id.toString());
-            biddersIds.push(bidRef._bidderRef._id.toString());
+            taskersIds.push(bidRef._taskerRef._id.toString());
           });
 
-          biddersIds.forEach(async (bidderId) => {
-            // clean ref for bidders
+          taskersIds.forEach(async (taskerId) => {
+            // clean ref for taskers
             await User.findOneAndUpdate(
-              { _id: bidderId },
+              { _id: taskerId },
               { $pull: { _postedBidsRef: { $in: bidsIds } } },
               { new: true }
             )
@@ -1908,7 +1908,7 @@ exports.jobDataAccess = {
         state: 1,
         templateId: 1,
         _reviewRef: 1,
-        bidderConfirmedCompletion: 1,
+        taskerConfirmedCompletion: 1,
         jobTitle: 1,
         startingDateAndTime: 1,
         taskImages: 1,
@@ -1921,7 +1921,7 @@ exports.jobDataAccess = {
         path: '_reviewRef',
         select: {
           proposerReview: 0,
-          bidderReview: 0,
+          taskerReview: 0,
         },
       })
       .populate({
@@ -1972,7 +1972,7 @@ exports.jobDataAccess = {
             .reduce((accumulator, bidAmount) => accumulator + bidAmount);
           jobWithBidDetails.avgBid = `${Math.ceil(bidsTotal / bidsList.length)}`;
 
-          // remove any personal identifying info about other bidders
+          // remove any personal identifying info about other taskers
           const cleanBidsList = bidsList.map((bid) => ({ ...bid, bidAmount: {} }));
           jobWithBidDetails._bidsListRef = cleanBidsList;
         } else {
@@ -1997,13 +1997,13 @@ exports.jobDataAccess = {
             {
               path: '_awardedBidRef',
               select: {
-                _bidderRef: 1,
+                _taskerRef: 1,
                 isNewBid: 1,
                 requesterPayment: 1,
                 requesterPartialRefund: 1,
               },
               populate: {
-                path: '_bidderRef',
+                path: '_taskerRef',
                 select: {
                   displayName: 1,
                   profileImage: 1,
@@ -2034,10 +2034,10 @@ exports.jobDataAccess = {
             !(
               archivedJobDetails._reviewRef &&
               archivedJobDetails._reviewRef.proposerReview &&
-              archivedJobDetails._reviewRef.bidderReview
+              archivedJobDetails._reviewRef.taskerReview
             )
           ) {
-            archivedJobDetails._reviewRef.bidderReview = null;
+            archivedJobDetails._reviewRef.taskerReview = null;
           }
           return resolve(archivedJobDetails);
         }
@@ -2051,7 +2051,7 @@ exports.jobDataAccess = {
   getAwardedJobFullDetailsForRequester: async (jobId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const jobWithBidderDetails = await JobModel.findOne(
+        const jobWithTaskerDetails = await JobModel.findOne(
           { _id: jobId },
           { processedPayment: 0, payoutDetails: 0 }
         )
@@ -2059,13 +2059,13 @@ exports.jobDataAccess = {
             {
               path: '_awardedBidRef',
               select: {
-                _bidderRef: 1,
+                _taskerRef: 1,
                 isNewBid: 1,
                 requesterPayment: 1,
                 requesterPartialRefund: 1,
               },
               populate: {
-                path: '_bidderRef',
+                path: '_taskerRef',
                 select: {
                   displayName: 1,
                   email: 1,
@@ -2080,7 +2080,7 @@ exports.jobDataAccess = {
               path: '_reviewRef',
               select: {
                 proposerReview: 0,
-                bidderReview: 0,
+                taskerReview: 0,
               },
             },
             {
@@ -2097,7 +2097,7 @@ exports.jobDataAccess = {
           .lean({ virtuals: true })
           .exec();
 
-        resolve(jobWithBidderDetails);
+        resolve(jobWithTaskerDetails);
       } catch (e) {
         reject(e);
       }
@@ -2122,14 +2122,14 @@ exports.jobDataAccess = {
             {
               path: '_bidsListRef',
               select: {
-                _bidderRef: 1,
+                _taskerRef: 1,
                 isNewBid: 1,
                 requesterPayment: 1,
                 requesterPartialRefund: 1,
                 _jobRef: 1,
               },
               populate: {
-                path: '_bidderRef',
+                path: '_taskerRef',
                 select: {
                   isGmailUser: 1,
                   isFbUser: 1,

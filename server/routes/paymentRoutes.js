@@ -1,7 +1,7 @@
 const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
-// const requiresCheckPayBidderDetails = require('../middleware/requiresCheckPayBidderDetails');
+// const requiresCheckPayTaskerDetails = require('../middleware/requiresCheckPayTaskerDetails');
 const requireJobOwner = require('../middleware/requireJobOwner');
 const requireNoPaymentProcessedForThisJobBefore = require('../middleware/requireNoPaymentProcessedForThisJobBefore');
 
@@ -22,7 +22,7 @@ const { bidDataAccess } = require('../data-access/bidDataAccess');
 const { getChargeDistributionDetails } = require('../utils/chargesCalculatorUtil');
 
 const getAllContactDetails = require('../utils/commonDataUtils')
-  .getAwardedJobOwnerBidderAndRelevantNotificationDetails;
+  .getAwardedJobOwnerTaskerAndRelevantNotificationDetails;
 
 const keys = require('../config/keys');
 
@@ -33,7 +33,7 @@ module.exports = (app) => {
     requireJobOwner,
     requireJobIsNotAwarded,
     requireNoPaymentProcessedForThisJobBefore,
-    // requiresCheckPayBidderDetails,
+    // requiresCheckPayTaskerDetails,
     async (req, res, next) => {
       try {
         const mongoUser_id = req.user._id.toString();
@@ -50,15 +50,15 @@ module.exports = (app) => {
           });
         }
 
-        const { _bidderRef, bidAmount } = theBid;
+        const { _taskerRef, bidAmount } = theBid;
         const {
-          email: bidderEmailObject,
-          _id: bidderIdObject,
-          userId: bidderUserId,
-          displayName: bidderDisplayName,
-        } = _bidderRef;
-        const bidderEmail = bidderEmailObject.emailAddress;
-        const bidderId = bidderIdObject.toString();
+          email: taskerEmailObject,
+          _id: taskerIdObject,
+          userId: taskerUserId,
+          displayName: taskerDisplayName,
+        } = _taskerRef;
+        const taskerEmail = taskerEmailObject.emailAddress;
+        const taskerId = taskerIdObject.toString();
 
         const requesterEmail = theJob._ownerRef.email.emailAddress;
         const requesterId = theJob._ownerRef._id.toString();
@@ -73,18 +73,18 @@ module.exports = (app) => {
           bidAmount.value
         );
 
-        let stripeAccDetails = await userDataAccess.getUserStripeAccount(bidderId);
+        let stripeAccDetails = await userDataAccess.getUserStripeAccount(taskerId);
 
         if (!stripeAccDetails.accId) {
           // user does not have a stripe account , we must establish one
           const newStripeConnectAcc = await stripeServiceUtil.initializeConnectedAccount({
-            _id: bidderId,
-            userId: bidderUserId,
-            displayName: bidderDisplayName,
-            email: bidderEmail,
+            _id: taskerId,
+            userId: taskerUserId,
+            displayName: taskerDisplayName,
+            email: taskerEmail,
           });
           if (newStripeConnectAcc.id) {
-            const updateUser = await userDataAccess.findByUserIdAndUpdate(bidderUserId, {
+            const updateUser = await userDataAccess.findByUserIdAndUpdate(taskerUserId, {
               stripeConnect: {
                 accId: newStripeConnectAcc.id,
               },
@@ -93,7 +93,7 @@ module.exports = (app) => {
           } else {
             return res.status(400).send({
               errorMsg:
-                'The bidder does not have a stripe account with us. Sorry we can not process your payment for this bidder',
+                'The tasker does not have a stripe account with us. Sorry we can not process your payment for this tasker',
             });
           }
         }
@@ -103,15 +103,15 @@ module.exports = (app) => {
           const { id: sessionClientId } = await stripeServiceUtil.createChargeForSessionId({
             taskImages,
             metadata: {
-              bidderId,
-              bidderEmail,
+              taskerId,
+              taskerEmail,
               proposerId: req.user._id.toString(),
               requesterEmail,
               jobId,
               bidId,
               note: `Requester Paid for ${theJob.jobTemplateDisplayTitle} ${theJob.jobTitle}`,
             },
-            bidderDisplayName: bidderDisplayName || bidderEmail,
+            taskerDisplayName: taskerDisplayName || taskerEmail,
             taskId: jobId,
             taskName: `${theJob.jobTemplateDisplayTitle} ${theJob.jobTitle}`,
             requesterEmail,
@@ -435,7 +435,7 @@ module.exports = (app) => {
         // console.log('-------BidOrBooLogging----------------------');
         // console.log('BidOrBooPayment - charge Succeeded');
         // console.log('-------BidOrBooLogging----------------------');
-        // update the job and bidder with the chosen awarded bid
+        // update the job and tasker with the chosen awarded bid
         await jobDataAccess.updateJobWithAwardedBidAndPaymentDetails(jobId, bidId, {
           amount,
           chargeId,
@@ -472,7 +472,7 @@ module.exports = (app) => {
             to: taskerEmailAddress,
             requestTitle: jobDisplayName,
             toDisplayName: taskerDisplayName,
-            linkForBidder: requestLinkForTasker,
+            linkForTasker: requestLinkForTasker,
           });
         }
         if (allowedToTextTasker) {

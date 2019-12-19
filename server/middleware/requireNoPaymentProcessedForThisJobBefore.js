@@ -6,7 +6,7 @@ const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
 const WebPushNotifications = require('../services/WebPushNotifications').WebPushNotifications;
 
 const getAllContactDetails = require('../utils/commonDataUtils')
-  .getAwardedJobOwnerBidderAndRelevantNotificationDetails;
+  .getAwardedJobOwnerTaskerAndRelevantNotificationDetails;
 
 module.exports = async (req, res, next) => {
   try {
@@ -50,7 +50,7 @@ module.exports = async (req, res, next) => {
             // console.log('-------BidOrBooLogging----------------------');
             // console.log('BidOrBooPayment - charge Succeeded');
             // console.log('-------BidOrBooLogging----------------------');
-            // update the job and bidder with the chosen awarded bid
+            // update the job and tasker with the chosen awarded bid
             await jobDataAccess.updateJobWithAwardedBidAndPaymentDetails(jobId, bidId, {
               amount,
               chargeId,
@@ -87,7 +87,7 @@ module.exports = async (req, res, next) => {
                 to: taskerEmailAddress,
                 requestTitle: jobDisplayName,
                 toDisplayName: taskerDisplayName,
-                linkForBidder: requestLinkForTasker,
+                linkForTasker: requestLinkForTasker,
               });
             }
             if (allowedToTextTasker) {

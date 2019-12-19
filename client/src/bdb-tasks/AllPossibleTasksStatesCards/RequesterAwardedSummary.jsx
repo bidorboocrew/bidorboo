@@ -22,7 +22,7 @@ export default class RequesterAwardedSummary extends RequestBaseContainer {
     const {
       _id: jobId,
       startingDateAndTime,
-      bidderConfirmedCompletion,
+      taskerConfirmedCompletion,
       jobTitle,
       taskImages = [],
     } = job;
@@ -54,11 +54,11 @@ export default class RequesterAwardedSummary extends RequestBaseContainer {
           <div className="centeredButtonInCard">
             <a
               onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
+                switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedJobPage(jobId));
               }}
               className={`button is-success`}
             >
-              {bidderConfirmedCompletion ? 'CONFIRM COMPLETION' : 'VIEW DETAILS'}
+              {taskerConfirmedCompletion ? 'CONFIRM COMPLETION' : 'VIEW DETAILS'}
             </a>
           </div>
         </div>

@@ -4,7 +4,7 @@ import TextareaAutosize from 'react-autosize-textarea';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
-import TaskerVerificationBanner from '../../containers/bidder-flow/TaskerVerificationBanner.jsx';
+import TaskerVerificationBanner from '../../containers/tasker-flow/TaskerVerificationBanner.jsx';
 import {
   CountDownComponent,
   SummaryStartDateAndTime,
@@ -164,7 +164,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
                   }}
                   onCancel={() => {
                     // updateBooedBy(job);
-                    switchRoute(ROUTES.CLIENT.BIDDER.root);
+                    switchRoute(ROUTES.CLIENT.TASKER.root);
                   }}
                 />
               )}

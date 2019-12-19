@@ -14,7 +14,7 @@ const { getChargeDistributionDetails } = require('../utils/chargesCalculatorUtil
 
 exports.bidDataAccess = {
   confirmBidBelongsToOwner: (mongoUser_id, bidId) => {
-    return BidModel.findOne({ _bidderRef: mongoUser_id, _id: bidId })
+    return BidModel.findOne({ _taskerRef: mongoUser_id, _id: bidId })
       .lean(true)
       .exec();
   },
@@ -30,7 +30,7 @@ exports.bidDataAccess = {
      *        cancel task set status as will be deleted in 48
      * - if Task is NOT PAST DUE:
      *        Remove awarded bid
-     *        Update status to have bidders
+     *        Update status to have taskers
      *
      * - push notify to both informing them of this change
      * especially the case of not past due emphasizethat user can
@@ -40,13 +40,13 @@ exports.bidDataAccess = {
     return new Promise(async (resolve, reject) => {
       try {
         const bidDetails = await BidModel.findOne({
-          _bidderRef: mongoUser_id,
+          _taskerRef: mongoUser_id,
           _id: bidId,
           state: { $in: ['AWARDED', 'AWARDED_SEEN'] },
         })
           .populate([
             {
-              path: '_bidderRef',
+              path: '_taskerRef',
               select: {
                 rating: 1,
                 _id: 1,
@@ -64,8 +64,8 @@ exports.bidDataAccess = {
         const paymentDetails = bidDetails._jobRef.processedPayment;
 
         const requestedJobId = bidDetails._jobRef._id;
-        const taskerId = bidDetails._bidderRef;
-        const taskerRating = bidDetails._bidderRef.rating;
+        const taskerId = bidDetails._taskerRef;
+        const taskerRating = bidDetails._taskerRef.rating;
         const {
           requesterDisplayName,
           taskerDisplayName,
@@ -84,7 +84,7 @@ exports.bidDataAccess = {
           allowedToPushNotifyTasker,
           requesterPushNotSubscription,
           taskerPushNotSubscription,
-        } = await exports.bidDataAccess._getAwardedJobOwnerBidderAndRelevantNotificationDetails(
+        } = await exports.bidDataAccess._getAwardedJobOwnerTaskerAndRelevantNotificationDetails(
           requestedJobId
         );
 
@@ -114,7 +114,7 @@ exports.bidDataAccess = {
               { _id: requestedJobId, _ownerRef: requesterId },
               {
                 $set: {
-                  state: 'AWARDED_JOB_CANCELED_BY_BIDDER',
+                  state: 'AWARDED_JOB_CANCELED_BY_TASKER',
                   'processedPayment.refund': {
                     amount: refundCharge.amount,
                     charge: refundCharge.charge,
@@ -164,7 +164,7 @@ exports.bidDataAccess = {
               to: taskerEmailAddress,
               requestTitle: jobDisplayName,
               toDisplayName: taskerDisplayName,
-              linkForBidder: requestLinkForTasker,
+              linkForTasker: requestLinkForTasker,
             });
           }
 
@@ -211,19 +211,19 @@ exports.bidDataAccess = {
     });
   },
 
-  _getAwardedJobOwnerBidderAndRelevantNotificationDetails: async (jobId) => {
+  _getAwardedJobOwnerTaskerAndRelevantNotificationDetails: async (jobId) => {
     const awardedJob = await JobModel.findById(jobId)
       .populate({
         path: '_awardedBidRef',
         select: {
-          _bidderRef: 1,
+          _taskerRef: 1,
           isNewBid: 1,
           bidAmount: 1,
           createdAt: 1,
           updatedAt: 1,
         },
         populate: {
-          path: '_bidderRef',
+          path: '_taskerRef',
           select: {
             _id: 1,
             email: 1,
@@ -253,20 +253,20 @@ exports.bidDataAccess = {
     const requestedJobId = awardedJob._id.toString();
 
     const ownerDetails = _ownerRef;
-    const awardedBidderDetails = _awardedBidRef._bidderRef;
+    const awardedTaskerDetails = _awardedBidRef._taskerRef;
 
     const requesterId = _ownerRef._id.toString();
-    const taskerId = awardedBidderDetails._id.toString();
+    const taskerId = awardedTaskerDetails._id.toString();
 
     const requesterDisplayName = ownerDetails.displayName;
-    const taskerDisplayName = awardedBidderDetails.displayName;
+    const taskerDisplayName = awardedTaskerDetails.displayName;
     const jobDisplayName = `${awardedJob.jobTemplateDisplayTitle} - ${awardedJob.jobTitle}`;
 
-    const requestLinkForRequester = ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId);
-    const requestLinkForTasker = ROUTES.CLIENT.BIDDER.dynamicCurrentAwardedBid(awardedBidId);
+    const requestLinkForRequester = ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedJobPage(jobId);
+    const requestLinkForTasker = ROUTES.CLIENT.TASKER.dynamicCurrentAwardedBid(awardedBidId);
 
     const requesterPushNotSubscription = ownerDetails.pushSubscription;
-    const taskerPushNotSubscription = awardedBidderDetails.pushSubscription;
+    const taskerPushNotSubscription = awardedTaskerDetails.pushSubscription;
 
     const requesterEmailAddress =
       ownerDetails.email && ownerDetails.email.emailAddress ? ownerDetails.email.emailAddress : '';
@@ -274,26 +274,26 @@ exports.bidDataAccess = {
       ownerDetails.phone && ownerDetails.phone.phoneNumber ? ownerDetails.phone.phoneNumber : '';
 
     const taskerEmailAddress =
-      awardedBidderDetails.email && awardedBidderDetails.email.emailAddress
-        ? awardedBidderDetails.email.emailAddress
+      awardedTaskerDetails.email && awardedTaskerDetails.email.emailAddress
+        ? awardedTaskerDetails.email.emailAddress
         : '';
     const taskerPhoneNumber =
-      awardedBidderDetails.phone && awardedBidderDetails.phone.phoneNumber
-        ? awardedBidderDetails.phone.phoneNumber
+      awardedTaskerDetails.phone && awardedTaskerDetails.phone.phoneNumber
+        ? awardedTaskerDetails.phone.phoneNumber
         : '';
 
     const allowedToEmailRequester = ownerDetails.notifications && ownerDetails.notifications.email;
     const allowedToEmailTasker =
-      awardedBidderDetails.notifications && awardedBidderDetails.notifications.email;
+      awardedTaskerDetails.notifications && awardedTaskerDetails.notifications.email;
 
     const allowedToTextRequester = ownerDetails.notifications && ownerDetails.notifications.text;
     const allowedToTextTasker =
-      awardedBidderDetails.notifications && awardedBidderDetails.notifications.text;
+      awardedTaskerDetails.notifications && awardedTaskerDetails.notifications.text;
 
     const allowedToPushNotifyRequester =
       ownerDetails.notifications && ownerDetails.notifications.push;
     const allowedToPushNotifyTasker =
-      awardedBidderDetails.notifications && awardedBidderDetails.notifications.push;
+      awardedTaskerDetails.notifications && awardedTaskerDetails.notifications.push;
 
     return {
       requestedJobId,
@@ -362,10 +362,10 @@ exports.bidDataAccess = {
   getBidById: (bidId) => {
     return BidModel.findById(bidId)
       .populate({
-        path: '_bidderRef',
+        path: '_taskerRef',
         select: {
           notifications: 1,
-          _asBidderReviewsRef: 1,
+          _asTaskerReviewsRef: 1,
           _asProposerReviewsRef: 1,
           rating: 1,
           userId: 1,
@@ -437,7 +437,7 @@ exports.bidDataAccess = {
               match: {
                 $or: [
                   { _reviewRef: { $exists: false } },
-                  { '_reviewRef.requiresBidderReview': { $eq: true } },
+                  { '_reviewRef.requiresTaskerReview': { $eq: true } },
                 ],
               },
               populate: [
@@ -504,14 +504,14 @@ exports.bidDataAccess = {
                   jobTitle: 1,
                   startingDateAndTime: 1,
                   templateId: 1,
-                  bidderConfirmedCompletion: 1,
+                  taskerConfirmedCompletion: 1,
                   dispute: 1,
                 },
                 populate: [
                   {
                     path: '_awardedBidRef',
                     select: {
-                      _bidderRef: 1,
+                      _taskerRef: 1,
                     },
                   },
                 ],
@@ -540,7 +540,7 @@ exports.bidDataAccess = {
                         postedBid._jobRef.state === 'AWARDED_SEEN'
                       ) {
                         if (
-                          postedBid._jobRef._awardedBidRef._bidderRef.toString() ===
+                          postedBid._jobRef._awardedBidRef._taskerRef.toString() ===
                           mongoUser_id.toString()
                         ) {
                           postedBid.isAwardedToMe = true;
@@ -573,9 +573,9 @@ exports.bidDataAccess = {
             select: {
               _id: 1,
               bidAmount: 1,
-              bidderPayout: 1,
-              bidderPartialPayout: 1,
-              bidderActualPayoutInBank: 1,
+              taskerPayout: 1,
+              taskerPartialPayout: 1,
+              taskerActualPayoutInBank: 1,
             },
             populate: [
               {
@@ -592,7 +592,7 @@ exports.bidDataAccess = {
                     path: '_reviewRef',
                     select: {
                       proposerReview: 1,
-                      bidderReview: 1,
+                      taskerReview: 1,
                     },
                   },
                   {
@@ -608,13 +608,13 @@ exports.bidDataAccess = {
                   },
                   {
                     path: '_awardedBidRef',
-                    select: { _bidderRef: 1 },
-                    populate: { path: '_bidderRef', select: { userId: 1 } },
+                    select: { _taskerRef: 1 },
+                    populate: { path: '_taskerRef', select: { userId: 1 } },
                   },
                 ],
               },
               {
-                path: '_bidderRef',
+                path: '_taskerRef',
                 select: {
                   _id: 1,
                   displayName: 1,
@@ -638,7 +638,7 @@ exports.bidDataAccess = {
           theBid &&
           (theBid._jobRef.state === 'AWARDED' || theBid._jobRef.state === 'AWARDED_SEEN')
         ) {
-          if (theBid._jobRef._awardedBidRef._bidderRef._id.toString() === mongoUser_id.toString()) {
+          if (theBid._jobRef._awardedBidRef._taskerRef._id.toString() === mongoUser_id.toString()) {
             theBid.isAwardedToMe = true;
           } else {
             return resolve({});
@@ -662,9 +662,9 @@ exports.bidDataAccess = {
             select: {
               _id: 1,
               bidAmount: 1,
-              bidderPayout: 1,
-              bidderPartialPayout: 1,
-              bidderActualPayoutInBank: 1,
+              taskerPayout: 1,
+              taskerPartialPayout: 1,
+              taskerActualPayoutInBank: 1,
             },
             populate: [
               {
@@ -674,10 +674,10 @@ exports.bidDataAccess = {
                     path: '_reviewRef',
                     select: {
                       proposerReview: 1,
-                      bidderReview: 1,
+                      taskerReview: 1,
                       revealToBoth: 1,
                       requiresProposerReview: 1,
-                      requiresBidderReview: 1,
+                      requiresTaskerReview: 1,
                     },
                   },
                   {
@@ -693,13 +693,13 @@ exports.bidDataAccess = {
                   },
                   {
                     path: '_awardedBidRef',
-                    select: { _bidderRef: 1 },
-                    populate: { path: '_bidderRef', select: { userId: 1 } },
+                    select: { _taskerRef: 1 },
+                    populate: { path: '_taskerRef', select: { userId: 1 } },
                   },
                 ],
               },
               {
-                path: '_bidderRef',
+                path: '_taskerRef',
                 select: {
                   _id: 1,
                   displayName: 1,
@@ -787,23 +787,23 @@ exports.bidDataAccess = {
   updateBidValue: ({ mongoUser_id, bidId, bidAmount }) => {
     const {
       requesterPaymentAmount,
-      bidderPayoutAmount,
+      taskerPayoutAmount,
       requesterPartialRefundAmount,
       taskerPartialPayoutAmount,
-      bidderActualPayoutInBank,
+      taskerActualPayoutInBank,
     } = getChargeDistributionDetails(bidAmount);
 
     return BidModel.findOneAndUpdate(
-      { _id: bidId, _bidderRef: mongoUser_id },
+      { _id: bidId, _taskerRef: mongoUser_id },
       {
         $set: {
           'bidAmount.value': bidAmount,
           isNewBid: true,
           'requesterPayment.value': requesterPaymentAmount,
-          'bidderPayout.value': bidderPayoutAmount,
-          'bidderPartialPayout.value': taskerPartialPayoutAmount,
+          'taskerPayout.value': taskerPayoutAmount,
+          'taskerPartialPayout.value': taskerPartialPayoutAmount,
           'requesterPartialRefund.value': requesterPartialRefundAmount,
-          'bidderActualPayoutInBank.value': bidderActualPayoutInBank,
+          'taskerActualPayoutInBank.value': taskerActualPayoutInBank,
         },
       },
       { new: true }
@@ -816,14 +816,14 @@ exports.bidDataAccess = {
       try {
         const {
           requesterPaymentAmount,
-          bidderPayoutAmount,
+          taskerPayoutAmount,
           requesterPartialRefundAmount,
           taskerPartialPayoutAmount,
-          bidderActualPayoutInBank,
+          taskerActualPayoutInBank,
         } = getChargeDistributionDetails(bidAmount);
 
         const newBid = await new BidModel({
-          _bidderRef: mongoUser_id,
+          _taskerRef: mongoUser_id,
           _jobRef: jobId,
           bidAmount: { value: bidAmount, currency: bidAmount.currency || 'CAD' },
           requesterPayment: {
@@ -834,16 +834,16 @@ exports.bidDataAccess = {
             value: requesterPartialRefundAmount,
             currency: bidAmount.currency || 'CAD',
           },
-          bidderPayout: {
-            value: bidderPayoutAmount,
+          taskerPayout: {
+            value: taskerPayoutAmount,
             currency: bidAmount.currency || 'CAD',
           },
-          bidderPartialPayout: {
+          taskerPartialPayout: {
             value: taskerPartialPayoutAmount,
             currency: bidAmount.currency || 'CAD',
           },
-          bidderActualPayoutInBank: {
-            value: bidderActualPayoutInBank,
+          taskerActualPayoutInBank: {
+            value: taskerActualPayoutInBank,
             currency: bidAmount.currency || 'CAD',
           },
         }).save();
@@ -875,7 +875,7 @@ exports.bidDataAccess = {
               _id: 1,
               email: 1,
               phone: 1,
-              _bidderRef: 1,
+              _taskerRef: 1,
               pushSubscription: 1,
               notifications: 1,
             },
@@ -896,7 +896,7 @@ exports.bidDataAccess = {
             to: ownerEmailAddress,
             toDisplayName: ownerDetails.displayName,
             taskName: jobTitle,
-            clickLink: `${ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(jobId)}`,
+            clickLink: `${ROUTES.CLIENT.REQUESTER.dynamicReviewRequestAndBidsPage(jobId)}`,
           });
         }
 
@@ -913,7 +913,7 @@ exports.bidDataAccess = {
         const archivedBidDetails = await BidModel.findOne(
           {
             _id: bidId,
-            _bidderRef: { $eq: mongoUser_id },
+            _taskerRef: { $eq: mongoUser_id },
           },
           { requesterPayment: 0, requesterPartialRefund: 0, addressText: 0 }
         )
@@ -933,13 +933,13 @@ exports.bidDataAccess = {
               {
                 path: '_awardedBidRef',
                 select: {
-                  _bidderRef: 1,
+                  _taskerRef: 1,
                   isNewBid: 1,
                   requesterPayment: 1,
                   requesterPartialRefund: 1,
                 },
                 populate: {
-                  path: '_bidderRef',
+                  path: '_taskerRef',
                   select: {
                     displayName: 1,
                     profileImage: 1,
@@ -972,7 +972,7 @@ exports.bidDataAccess = {
             !(
               jobDetails._reviewRef &&
               jobDetails._reviewRef.proposerReview &&
-              jobDetails._reviewRef.bidderReview
+              jobDetails._reviewRef.taskerReview
             )
           ) {
             jobDetails._reviewRef.proposerReview = null;
@@ -989,7 +989,7 @@ exports.bidDataAccess = {
   findBidByOwner: async (mongoUser_id, bidId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const theBid = await BidModel.findOne({ _bidderRef: { $eq: mongoUser_id }, _id: bidId })
+        const theBid = await BidModel.findOne({ _taskerRef: { $eq: mongoUser_id }, _id: bidId })
           .lean(true)
           .exec();
 

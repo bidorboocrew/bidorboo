@@ -154,21 +154,21 @@ const setLoggedOutState = () => {
 };
 export default handleActions(
   {
-    [`${A.BIDDER_ACTIONS.SELECT_JOB_TO_BID_ON}`]: selectJobToBidOn,
-    [`${A.BIDDER_ACTIONS.GET_ALL_MY_OPEN_BIDS}${A._PENDING}`]: getMyPostedBidsSummary.isPending,
-    [`${A.BIDDER_ACTIONS.GET_ALL_MY_OPEN_BIDS}${A._FULFILLED}`]: getMyPostedBidsSummary.isFullfilled,
-    [`${A.BIDDER_ACTIONS.GET_ALL_MY_OPEN_BIDS}${A._REJECTED}`]: getMyPostedBidsSummary.isRejected,
+    [`${A.TASKER_ACTIONS.SELECT_JOB_TO_BID_ON}`]: selectJobToBidOn,
+    [`${A.TASKER_ACTIONS.GET_ALL_MY_OPEN_BIDS}${A._PENDING}`]: getMyPostedBidsSummary.isPending,
+    [`${A.TASKER_ACTIONS.GET_ALL_MY_OPEN_BIDS}${A._FULFILLED}`]: getMyPostedBidsSummary.isFullfilled,
+    [`${A.TASKER_ACTIONS.GET_ALL_MY_OPEN_BIDS}${A._REJECTED}`]: getMyPostedBidsSummary.isRejected,
     // get open bid details
-    [`${A.BIDDER_ACTIONS.GET_OPEN_BID_DETAILS}${A._PENDING}`]: getOpenBidDetails.isPending,
-    [`${A.BIDDER_ACTIONS.GET_OPEN_BID_DETAILS}${A._FULFILLED}`]: getOpenBidDetails.isFullfilled,
-    [`${A.BIDDER_ACTIONS.GET_OPEN_BID_DETAILS}${A._REJECTED}`]: getOpenBidDetails.isRejected,
+    [`${A.TASKER_ACTIONS.GET_OPEN_BID_DETAILS}${A._PENDING}`]: getOpenBidDetails.isPending,
+    [`${A.TASKER_ACTIONS.GET_OPEN_BID_DETAILS}${A._FULFILLED}`]: getOpenBidDetails.isFullfilled,
+    [`${A.TASKER_ACTIONS.GET_OPEN_BID_DETAILS}${A._REJECTED}`]: getOpenBidDetails.isRejected,
 
     // get awarded bid details
-    [`${A.BIDDER_ACTIONS.GET_AWARDED_BID_DETAILS}${A._PENDING}`]: getAwardedBidDetail.isPending,
-    [`${A.BIDDER_ACTIONS.GET_AWARDED_BID_DETAILS}${A._FULFILLED}`]: getAwardedBidDetail.isFullfilled,
-    [`${A.BIDDER_ACTIONS.GET_AWARDED_BID_DETAILS}${A._REJECTED}`]: getAwardedBidDetail.isRejected,
+    [`${A.TASKER_ACTIONS.GET_AWARDED_BID_DETAILS}${A._PENDING}`]: getAwardedBidDetail.isPending,
+    [`${A.TASKER_ACTIONS.GET_AWARDED_BID_DETAILS}${A._FULFILLED}`]: getAwardedBidDetail.isFullfilled,
+    [`${A.TASKER_ACTIONS.GET_AWARDED_BID_DETAILS}${A._REJECTED}`]: getAwardedBidDetail.isRejected,
     [`${A.AUTH_ACTIONS.USER_IS_LOGGED_OUT}`]: setLoggedOutState,
-    [`${A.BIDDER_ACTIONS.SELECT_ARCHIVED_BID}`]: updateSelectedArchivedBid,
+    [`${A.TASKER_ACTIONS.SELECT_ARCHIVED_BID}`]: updateSelectedArchivedBid,
 
   },
   initialState,

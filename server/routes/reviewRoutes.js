@@ -7,10 +7,10 @@ const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 
 const requireJobOwner = require('../middleware/requireJobOwner');
-const requireCurrentUserIsTheAwardedBidder = require('../middleware/requireCurrentUserIsTheAwardedBidder');
+const requireCurrentUserIsTheAwardedTasker = require('../middleware/requireCurrentUserIsTheAwardedTasker');
 
 const requireProposerReviewPreChecksPass = require('../middleware/requireProposerReviewPreChecksPass');
-const requireBidderReviewPreChecksPass = require('../middleware/requireBidderReviewPreChecksPass');
+const requireTaskerReviewPreChecksPass = require('../middleware/requireTaskerReviewPreChecksPass');
 
 module.exports = (app) => {
   app.put(
@@ -32,7 +32,7 @@ module.exports = (app) => {
         const job = await jobDataAccess.getFullJobDetails(jobId);
         const reviewId = job._reviewRef._id.toString();
 
-        const { proposerId, awardedBidder } = res.locals.bidOrBoo;
+        const { proposerId, awardedTasker } = res.locals.bidOrBoo;
         // update the review model
         const updatedReviewModel = await reviewDataAccess.updateReviewModel(reviewId, {
           proposerReview: {
@@ -60,29 +60,29 @@ module.exports = (app) => {
         if (
           updatedReviewModel.proposerReview &&
           updatedReviewModel.proposerReview.personalComment &&
-          updatedReviewModel.bidderReview &&
-          updatedReviewModel.bidderReview.personalComment
+          updatedReviewModel.taskerReview &&
+          updatedReviewModel.taskerReview.personalComment
         ) {
           await jobDataAccess.updateState(jobId, 'ARCHIVE');
         }
-        const bidderRatingDetails = job._awardedBidRef._bidderRef.rating;
+        const taskerRatingDetails = job._awardedBidRef._taskerRef.rating;
 
         const thisTaskAvgRating =
           (qualityOfWorkRating + punctualityRating + communicationRating + mannerRating) / 4;
 
-        const totalNumberOfTimesBeenRated = bidderRatingDetails.numberOfTimesBeenRated + 1;
-        const newTotalOfAllRatings = bidderRatingDetails.totalOfAllRatings + thisTaskAvgRating;
-        let newBidderGlobalRating = newTotalOfAllRatings / totalNumberOfTimesBeenRated;
-        if (newBidderGlobalRating) {
-          newBidderGlobalRating = parseFloat(newBidderGlobalRating.toFixed(1));
+        const totalNumberOfTimesBeenRated = taskerRatingDetails.numberOfTimesBeenRated + 1;
+        const newTotalOfAllRatings = taskerRatingDetails.totalOfAllRatings + thisTaskAvgRating;
+        let newTaskerGlobalRating = newTotalOfAllRatings / totalNumberOfTimesBeenRated;
+        if (newTaskerGlobalRating) {
+          newTaskerGlobalRating = parseFloat(newTaskerGlobalRating.toFixed(1));
         }
 
         await userDataAccess.proposerPushesAReview(
           reviewId,
           proposerId,
           job._id,
-          awardedBidder._id,
-          newBidderGlobalRating,
+          awardedTasker._id,
+          newTaskerGlobalRating,
           newTotalOfAllRatings,
           personalComment
         );
@@ -97,10 +97,10 @@ module.exports = (app) => {
   );
 
   app.put(
-    ROUTES.API.REVIEW.PUT.bidderSubmitReview,
+    ROUTES.API.REVIEW.PUT.taskerSubmitReview,
     requireLogin,
-    requireCurrentUserIsTheAwardedBidder,
-    requireBidderReviewPreChecksPass,
+    requireCurrentUserIsTheAwardedTasker,
+    requireTaskerReviewPreChecksPass,
     async (req, res) => {
       try {
         const {
@@ -117,7 +117,7 @@ module.exports = (app) => {
 
         // update the review model
         const updatedReviewModel = await reviewDataAccess.updateReviewModel(reviewId, {
-          bidderReview: {
+          taskerReview: {
             ratingCategories: [
               {
                 category: 'ACCURACY_OF_POST',
@@ -142,8 +142,8 @@ module.exports = (app) => {
         if (
           updatedReviewModel.proposerReview &&
           updatedReviewModel.proposerReview.personalComment &&
-          updatedReviewModel.bidderReview &&
-          updatedReviewModel.bidderReview.personalComment
+          updatedReviewModel.taskerReview &&
+          updatedReviewModel.taskerReview.personalComment
         ) {
           await jobDataAccess.updateState(jobId, 'ARCHIVE');
         }
@@ -159,9 +159,9 @@ module.exports = (app) => {
           newProposerGlobalRating = parseFloat(newProposerGlobalRating.toFixed(1));
         }
 
-        await userDataAccess.bidderPushesAReview(
+        await userDataAccess.taskerPushesAReview(
           reviewId,
-          job._awardedBidRef._bidderRef._id,
+          job._awardedBidRef._taskerRef._id,
           job._awardedBidRef._id,
           job._ownerRef._id,
           newProposerGlobalRating,
@@ -169,10 +169,9 @@ module.exports = (app) => {
           personalComment
         );
 
-        // XXX email both to tell them rating is avilable
-        return res.send({ success: true, message: 'Bidder Review submitted successfully' });
+        return res.send({ success: true, message: "Tasker's Review submitted successfully" });
       } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To bidderSubmitReview', details: `${e}` });
+        return res.status(400).send({ errorMsg: 'Failed To taskerSubmitReview', details: `${e}` });
       }
     }
   );

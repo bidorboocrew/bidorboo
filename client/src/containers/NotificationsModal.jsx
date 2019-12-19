@@ -137,7 +137,7 @@ const getAwardedJobDetailslinks = (jobs, closeDialog, icon) => {
           key={job._id}
           onClick={() => {
             closeDialog();
-            switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
+            switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedJobPage(job._id));
           }}
           className="notification"
         >
@@ -157,7 +157,7 @@ const getReviewJoblinks = (jobs, closeDialog, icon) => {
           key={job._id}
           onClick={() => {
             closeDialog();
-            switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
+            switchRoute(ROUTES.CLIENT.REQUESTER.dynamicReviewRequestAndBidsPage(job._id));
           }}
           className="notification"
           style={{
@@ -185,7 +185,7 @@ const getAwardedBidsDetailslinks = (bids, closeDialog, icon) => {
           onClick={() => {
             closeDialog();
             switchRoute(
-              ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
+              ROUTES.CLIENT.TASKER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
             );
           }}
           style={{

@@ -19,20 +19,20 @@ import { REQUEST_STATES } from '../index';
 class RequesterCanceledByTaskerDetails extends React.Component {
   componentDidMount() {
     const { updateJobState, job } = this.props;
-    updateJobState(job._id, REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER_SEEN);
+    updateJobState(job._id, REQUEST_STATES.AWARDED_JOB_CANCELED_BY_TASKER_SEEN);
   }
   render() {
     const { job } = this.props;
 
     if (!job) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
+      return switchRoute(ROUTES.CLIENT.REQUESTER.myRequestsPage);
     }
 
     const { startingDateAndTime, _awardedBidRef, taskImages = [], jobTitle } = job;
 
-    const { _bidderRef, requesterPayment } = _awardedBidRef;
+    const { _taskerRef, requesterPayment } = _awardedBidRef;
 
-    const { displayName: taskerDisplayName } = _bidderRef;
+    const { displayName: taskerDisplayName } = _taskerRef;
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
 
@@ -74,7 +74,7 @@ class RequesterCanceledByTaskerDetails extends React.Component {
 
         <a
           onClick={() => {
-            switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
+            switchRoute(ROUTES.CLIENT.REQUESTER.myRequestsPage);
           }}
           className="button firstButtonInCard"
         >

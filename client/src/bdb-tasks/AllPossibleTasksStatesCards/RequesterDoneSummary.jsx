@@ -25,7 +25,7 @@ export default class RequesterDoneSummary extends RequestBaseContainer {
       _reviewRef = {
         revealToBoth: false,
         requiresProposerReview: true,
-        requiresBidderReview: true,
+        requiresTaskerReview: true,
       },
       taskImages = [],
       jobTitle,
@@ -57,7 +57,7 @@ export default class RequesterDoneSummary extends RequestBaseContainer {
           {!requiresProposerReview && (
             <a
               onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
+                switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedJobPage(jobId));
               }}
               className="button is-dark"
             >
@@ -67,7 +67,7 @@ export default class RequesterDoneSummary extends RequestBaseContainer {
           {requiresProposerReview && (
             <a
               onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
+                switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedJobPage(jobId));
               }}
               className="button is-primary"
             >

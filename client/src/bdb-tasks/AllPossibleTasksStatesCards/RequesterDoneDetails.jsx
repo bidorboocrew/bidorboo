@@ -37,16 +37,16 @@ export default class RequesterDoneDetails extends RequestBaseContainer {
       _reviewRef={
         revealToBoth: false,
         requiresProposerReview: true,
-        requiresBidderReview: true,
+        requiresTaskerReview: true,
       },
       taskImages = [],
       jobTitle,
     } = job;
 
-    const { requesterPayment, _bidderRef } = _awardedBidRef;
+    const { requesterPayment, _taskerRef } = _awardedBidRef;
     const { value: requesterPaymentAmount } = requesterPayment;
 
-    const { phone, email } = _bidderRef;
+    const { phone, email } = _taskerRef;
     const { phoneNumber } = phone;
 
     const { emailAddress } = email;
@@ -127,7 +127,7 @@ export default class RequesterDoneDetails extends RequestBaseContainer {
             </div>
           </div>
           <AssignedTaskerDetails
-            otherUserProfileInfo={_bidderRef}
+            otherUserProfileInfo={_taskerRef}
             emailAddress={emailAddress}
             phoneNumber={phoneNumber}
             renderActionButton={() => (

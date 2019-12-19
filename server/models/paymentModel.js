@@ -11,7 +11,7 @@
 //     paymentDetails: {
 //       proposerPayment: { type: Number, required: true },
 //       bidOrBooCommission: { type: Number, required: true },
-//       bidderEarns: { type: Number, required: true },
+//       taskerEarns: { type: Number, required: true },
 //       stripeCommission: { type: Number, required: true },
 //       currency: String,
 //     },

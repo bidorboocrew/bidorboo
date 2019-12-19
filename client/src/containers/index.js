@@ -15,19 +15,19 @@ export {
 } from './proposer-flow/ReviewMyAwardedJobAndWinningBidPage';
 export { default as ReviewRequestAndBidsPage } from './proposer-flow/ReviewRequestAndBidsPage';
 
-// bidder flow
-export { default as BidderRootPage } from './bidder-flow/BidderRootPage';
-export { default as BidOnJobPage } from './bidder-flow/BidOnJobPage';
-export { default as ReviewBidAndRequestPage } from './bidder-flow/ReviewOpenBidAndRequestPage';
-export { default as ReviewAwardedBidPage } from './bidder-flow/ReviewAwardedBidPage';
-export { default as MyBidsPage } from './bidder-flow/MyBidsPage';
+// tasker flow
+export { default as TaskerRootPage } from './tasker-flow/TaskerRootPage';
+export { default as BidOnJobPage } from './tasker-flow/BidOnJobPage';
+export { default as ReviewBidAndRequestPage } from './tasker-flow/ReviewOpenBidAndRequestPage';
+export { default as ReviewAwardedBidPage } from './tasker-flow/ReviewAwardedBidPage';
+export { default as MyBidsPage } from './tasker-flow/MyBidsPage';
 
 export { default as NotificationsModal } from './NotificationsModal';
 
 export {
   default as ProposerReviewingCompletedJob,
 } from './review-flow/ProposerReviewingCompletedJob';
-export { default as BidderReviewingCompletedJob } from './review-flow/BidderReviewingCompletedJob';
+export { default as TaskerReviewingCompletedJob } from './review-flow/TaskerReviewingCompletedJob';
 
 export { default as OtherUserProfileForReviewPage } from './OtherUserProfileForReviewPage';
 

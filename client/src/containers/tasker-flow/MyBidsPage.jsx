@@ -7,7 +7,7 @@ import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
 import { Spinner } from '../../components/Spinner';
-import TaskerVerificationBanner from './TaskerVerificationBanner.jsx';
+import TaskerVerificationBanner from './TaskerVerificationBanner.jsx.js';
 import { getMyPostedBidsSummary } from '../../app-state/actions/bidsActions';
 import { deleteOpenBid, updateBid } from '../../app-state/actions/bidsActions';
 import { REQUEST_STATES } from '../../bdb-tasks/index';
@@ -39,7 +39,7 @@ class MyBidsPage extends React.Component {
             const { _jobRef: job } = bid;
             return [
               REQUEST_STATES.DISPUTE_RESOLVED,
-              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER_SEEN,
+              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_TASKER_SEEN,
               REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN,
               REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN,
               REQUEST_STATES.DISPUTE_RESOLVED,
@@ -68,7 +68,7 @@ class MyBidsPage extends React.Component {
               REQUEST_STATES.OPEN,
               REQUEST_STATES.AWARDED,
               REQUEST_STATES.AWARDED_SEEN,
-              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER,
+              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_TASKER,
               REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER,
               REQUEST_STATES.DISPUTED,
               REQUEST_STATES.DONE,
@@ -173,7 +173,7 @@ const EmptyStateComponent = () => {
             <a
               className="button is-success"
               onClick={() => {
-                switchRoute(ROUTES.CLIENT.BIDDER.root);
+                switchRoute(ROUTES.CLIENT.TASKER.root);
               }}
             >
               View Requested Tasks
@@ -191,7 +191,7 @@ const FloatingAddNewBidButton = () => {
       onClick={(e) => {
         e.stopPropagation();
         e.preventDefault();
-        switchRoute(ROUTES.CLIENT.BIDDER.root);
+        switchRoute(ROUTES.CLIENT.TASKER.root);
       }}
       className="button is-success bdbFloatingButtonText"
     >

@@ -20,9 +20,9 @@ export default class TaskerMyOpenBidSummary extends React.Component {
 
     const { startingDateAndTime, taskImages = [], jobTitle } = job;
 
-    const { bidderPayout, isNewBid } = bid;
+    const { taskerPayout, isNewBid } = bid;
 
-    const taskerTotalPayoutAmount = bidderPayout.value;
+    const taskerTotalPayoutAmount = taskerPayout.value;
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
 
@@ -56,7 +56,7 @@ const renderFooter = ({ bid, isNewBid }) => {
       <div className="centeredButtonInCard">
         <a
           onClick={() => {
-            switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(bid._id));
+            switchRoute(ROUTES.CLIENT.TASKER.dynamicReviewMyOpenBidAndTheRequestDetails(bid._id));
           }}
           className={`button is-fullwidth is-info`}
         >
@@ -69,7 +69,7 @@ const renderFooter = ({ bid, isNewBid }) => {
       <div className="centeredButtonInCard">
         <a
           onClick={() => {
-            switchRoute(ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(bid._id));
+            switchRoute(ROUTES.CLIENT.TASKER.dynamicReviewMyOpenBidAndTheRequestDetails(bid._id));
           }}
           className={`button is-fullwidth is-info`}
         >

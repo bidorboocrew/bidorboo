@@ -59,7 +59,7 @@ class OtherUserProfileForReviewPage extends React.Component {
     const {
       rating,
       createdAt,
-      _asBidderReviewsRef,
+      _asTaskerReviewsRef,
       _asProposerReviewsRef,
       membershipStatus,
       personalParagraph,
@@ -76,9 +76,9 @@ class OtherUserProfileForReviewPage extends React.Component {
       // lastComment
     } = rating;
 
-    let asABidderReviews = null;
-    if (_asBidderReviewsRef && _asBidderReviewsRef.length > 0) {
-      asABidderReviews = _asBidderReviewsRef.map(({ _id, proposerId, proposerReview }) => {
+    let asATaskerReviews = null;
+    if (_asTaskerReviewsRef && _asTaskerReviewsRef.length > 0) {
+      asATaskerReviews = _asTaskerReviewsRef.map(({ _id, proposerId, proposerReview }) => {
         if (!proposerId) {
           return null;
         }
@@ -97,18 +97,18 @@ class OtherUserProfileForReviewPage extends React.Component {
 
     let asAProposerReviewsRef = null;
     if (_asProposerReviewsRef && _asProposerReviewsRef.length > 0) {
-      asAProposerReviewsRef = _asProposerReviewsRef.map(({ _id, bidderId, bidderReview }) => {
-        if (!bidderId) {
+      asAProposerReviewsRef = _asProposerReviewsRef.map(({ _id, taskerId, taskerReview }) => {
+        if (!taskerId) {
           return null;
         }
-        const { displayName, profileImage } = bidderId;
+        const { displayName, profileImage } = taskerId;
 
         return (
           <ReviewComments
             key={_id}
             commenterDisplayName={displayName}
             commenterProfilePicUrl={profileImage.url}
-            comment={bidderReview.personalComment}
+            comment={taskerReview.personalComment}
           />
         );
       });
@@ -265,7 +265,7 @@ class OtherUserProfileForReviewPage extends React.Component {
                   </ul>
                 </div>
 
-                {(asABidderReviews || asAProposerReviewsRef) && (
+                {(asATaskerReviews || asAProposerReviewsRef) && (
                   <div className="field has-addons">
                     <p className="control">
                       <button
@@ -297,8 +297,8 @@ class OtherUserProfileForReviewPage extends React.Component {
                   </div>
                 )}
 
-                {asABidderReviews && this.state.reviewsSelectedButton === 'fromRequesters' && (
-                  <React.Fragment>{asABidderReviews}</React.Fragment>
+                {asATaskerReviews && this.state.reviewsSelectedButton === 'fromRequesters' && (
+                  <React.Fragment>{asATaskerReviews}</React.Fragment>
                 )}
 
                 {asAProposerReviewsRef && this.state.reviewsSelectedButton === 'fromTaskers' && (

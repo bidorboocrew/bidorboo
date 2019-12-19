@@ -21,20 +21,20 @@ export const showSpecialMoment = (specialMomentContent) => (dispatch) =>
     payload: { specialMomentContent },
   });
 
-export const setServerAppBidderView = () => (dispatch, getState) => {
+export const setServerAppTaskerView = () => (dispatch, getState) => {
   const { userAppView } = getState().uiReducer;
-  if (userAppView !== 'BIDDER') {
+  if (userAppView !== 'TASKER') {
     const config = {
       headers: { 'Content-Type': 'application/json' },
     };
     const postData = JSON.stringify({
       data: {
-        appViewId: 'BIDDER',
+        appViewId: 'TASKER',
       },
     });
 
     dispatch({
-      type: A.USER_MODEL_ACTIONS.UPDATE_USER_APP_VIEW_TO_BIDDER,
+      type: A.USER_MODEL_ACTIONS.UPDATE_USER_APP_VIEW_TO_TASKER,
       payload: axios
         .put(ROUTES.API.USER.PUT.updateAppView, postData, config)
         .then(() => {})
@@ -45,21 +45,21 @@ export const setServerAppBidderView = () => (dispatch, getState) => {
     });
 
     return dispatch({
-      type: A.UI_ACTIONS.SET_APP_BIDDER_VIEW,
-      payload: 'BIDDER',
+      type: A.UI_ACTIONS.SET_APP_TASKER_VIEW,
+      payload: 'TASKER',
     });
   }
 };
 
 export const setServerAppProposerView = () => (dispatch, getState) => {
   const { userAppView } = getState().uiReducer;
-  if (userAppView !== 'PROPOSER') {
+  if (userAppView !== 'REQUESTER') {
     const config = {
       headers: { 'Content-Type': 'application/json' },
     };
     const postData = JSON.stringify({
       data: {
-        appViewId: 'PROPOSER',
+        appViewId: 'REQUESTER',
       },
     });
 
@@ -75,27 +75,27 @@ export const setServerAppProposerView = () => (dispatch, getState) => {
     });
     return dispatch({
       type: A.UI_ACTIONS.SET_APP_PROPOSER_VIEW,
-      payload: 'PROPOSER',
+      payload: 'REQUESTER',
     });
   }
 };
 
 export const setAppViewUIToProposer = () => (dispatch, getState) => {
   const { userAppView } = getState().uiReducer;
-  if (userAppView !== 'PROPOSER') {
+  if (userAppView !== 'REQUESTER') {
     return dispatch({
       type: A.UI_ACTIONS.SET_APP_PROPOSER_VIEW,
-      payload: 'PROPOSER',
+      payload: 'REQUESTER',
     });
   }
 };
 
-export const setAppViewUIToBidder = () => (dispatch, getState) => {
+export const setAppViewUIToTasker = () => (dispatch, getState) => {
   const { userAppView } = getState().uiReducer;
-  if (userAppView !== 'BIDDER') {
+  if (userAppView !== 'TASKER') {
     return dispatch({
-      type: A.UI_ACTIONS.SET_APP_BIDDER_VIEW,
-      payload: 'BIDDER',
+      type: A.UI_ACTIONS.SET_APP_TASKER_VIEW,
+      payload: 'TASKER',
     });
   }
 };

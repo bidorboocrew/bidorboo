@@ -124,15 +124,15 @@ export const getCurrentUser = () => (dispatch) => {
           //   },
           // });
           if (resp.data.appView) {
-            if (resp.data.appView === 'BIDDER') {
+            if (resp.data.appView === 'TASKER') {
               dispatch({
-                type: A.UI_ACTIONS.SET_APP_BIDDER_VIEW,
-                payload: 'BIDDER',
+                type: A.UI_ACTIONS.SET_APP_TASKER_VIEW,
+                payload: 'TASKER',
               });
             } else {
               dispatch({
                 type: A.UI_ACTIONS.SET_APP_PROPOSER_VIEW,
-                payload: 'PROPOSER',
+                payload: 'REQUESTER',
               });
             }
           }

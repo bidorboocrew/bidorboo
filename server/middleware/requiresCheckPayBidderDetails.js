@@ -18,7 +18,7 @@ module.exports = async (req, res, next) => {
         .status(403)
         .send({ errorMsg: 'Bid can not be found did NOT process the payment.' });
     }
-    const { _bidderRef, bidAmount } = theBid;
+    const { _taskerRef, bidAmount } = theBid;
 
     const BIDORBOO_SERVICECHARGE = 0.06;
 
@@ -40,18 +40,18 @@ module.exports = async (req, res, next) => {
       });
     }
 
-    let stripeAccDetails = await userDataAccess.getUserStripeAccount(_bidderRef._id.toString());
+    let stripeAccDetails = await userDataAccess.getUserStripeAccount(_taskerRef._id.toString());
 
     if (!stripeAccDetails.accId) {
       // user does not have a stripe account , we must establish one
       const newStripeConnectAcc = await stripeServiceUtil.initializeConnectedAccount({
-        user_id: _bidderRef._id.toString(),
-        userId: _bidderRef.userId,
-        displayName: _bidderRef.displayName,
-        email: _bidderRef.email.emailAddress,
+        user_id: _taskerRef._id.toString(),
+        userId: _taskerRef.userId,
+        displayName: _taskerRef.displayName,
+        email: _taskerRef.email.emailAddress,
       });
       if (newStripeConnectAcc.id) {
-        const updateUser = await userDataAccess.findByUserIdAndUpdate(_bidderRef.userId, {
+        const updateUser = await userDataAccess.findByUserIdAndUpdate(_taskerRef.userId, {
           stripeConnect: {
             accId: newStripeConnectAcc.id,
           },
@@ -60,7 +60,7 @@ module.exports = async (req, res, next) => {
       } else {
         return res.status(400).send({
           errorMsg:
-            'The bidder does not have a stripe accoutn with us. Sorry we can not process yoru payment for this bidder',
+            'The tasker does not have a stripe accoutn with us. Sorry we can not process yoru payment for this tasker',
         });
       }
     }
@@ -74,7 +74,7 @@ module.exports = async (req, res, next) => {
     } else {
       return res.status(400).send({
         errorMsg:
-          'The bidder does not have a stripe accoutn with us. Sorry we can not process yoru payment for this bidder',
+          'The tasker does not have a stripe accoutn with us. Sorry we can not process yoru payment for this tasker',
       });
     }
   } catch (e) {

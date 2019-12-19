@@ -40,7 +40,7 @@ export default class HomePage extends React.Component {
                   boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
                 }}
                 onClick={(e) => {
-                  switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                  switchRoute(ROUTES.CLIENT.REQUESTER.root);
                 }}
                 className="button is-medium is-white"
               >
@@ -55,7 +55,7 @@ export default class HomePage extends React.Component {
                   boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
                 }}
                 onClick={(e) => {
-                  switchRoute(ROUTES.CLIENT.BIDDER.root);
+                  switchRoute(ROUTES.CLIENT.TASKER.root);
                 }}
                 className="button is-medium is-dark"
               >
@@ -115,14 +115,14 @@ export default class HomePage extends React.Component {
           <div style={{ maxWidth: '21rem', marginBottom: '1.5rem' }} className="column">
             <RequestAService
               onClickHandler={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                switchRoute(ROUTES.CLIENT.REQUESTER.root);
               }}
             />
           </div>
           <div style={{ maxWidth: '21rem', marginBottom: '1.5rem' }} className="column">
             <ProvideAService
               onClickHandler={() => {
-                switchRoute(ROUTES.CLIENT.BIDDER.root);
+                switchRoute(ROUTES.CLIENT.TASKER.root);
               }}
             />
           </div>
@@ -160,7 +160,7 @@ const RequestAService = (props) => {
   return (
     <div
       onClick={() => {
-        switchRoute(ROUTES.CLIENT.PROPOSER.root);
+        switchRoute(ROUTES.CLIENT.REQUESTER.root);
       }}
       style={{ cursor: 'pointer' }}
       className="card cardWithButton"
@@ -178,7 +178,7 @@ const RequestAService = (props) => {
       {/* <div className="centeredButtonInCard">
         <button
           onClick={() => {
-            switchRoute(ROUTES.CLIENT.PROPOSER.root);
+            switchRoute(ROUTES.CLIENT.REQUESTER.root);
           }}
           className="button is-fullwidth is-white"
         >
@@ -196,7 +196,7 @@ const ProvideAService = () => {
   return (
     <div
       onClick={(e) => {
-        switchRoute(ROUTES.CLIENT.BIDDER.root);
+        switchRoute(ROUTES.CLIENT.TASKER.root);
       }}
       style={{ cursor: 'pointer' }}
       className="card cardWithButton"
@@ -214,7 +214,7 @@ const ProvideAService = () => {
       {/* <div className="centeredButtonInCard">
         <button
           onClick={(e) => {
-            switchRoute(ROUTES.CLIENT.BIDDER.root);
+            switchRoute(ROUTES.CLIENT.TASKER.root);
           }}
           className="button is-fullwidth is-dark"
         >

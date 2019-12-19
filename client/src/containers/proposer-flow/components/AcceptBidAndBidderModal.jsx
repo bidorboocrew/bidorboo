@@ -6,16 +6,16 @@ import * as ROUTES from '../../../constants/frontend-route-consts';
 import { submitPayment } from '../../../app-state/actions/paymentActions';
 import * as Constants from '../../../constants/enumConstants';
 
-class AcceptBidAndBidderModal extends React.Component {
+class AcceptBidAndTaskerModal extends React.Component {
   render() {
     const { bid, closeModal, submitPayment } = this.props;
 
-    if (!bid || !bid._id || !bid._bidderRef || !bid._jobRef) {
+    if (!bid || !bid._id || !bid._taskerRef || !bid._jobRef) {
       return null;
     }
     const { value: totalCharge } = bid.requesterPayment;
 
-    const otherUserProfileInfo = bid._bidderRef;
+    const otherUserProfileInfo = bid._taskerRef;
     const { rating, membershipStatus } = otherUserProfileInfo;
 
     const membershipStatusDisplay = Constants.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
@@ -128,4 +128,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(AcceptBidAndBidderModal);
+export default connect(null, mapDispatchToProps)(AcceptBidAndTaskerModal);

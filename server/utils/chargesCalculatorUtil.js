@@ -37,8 +37,8 @@ exports.getChargeDistributionDetails = (totalBidAmountInDollars) => {
   const stripePayoutToTaskerProcessingFee =
     leftOverMoney * STRIPE_PERCENT_CUT_ON_EACH_PAYOUT + STRIPE_STATIC_CUT_ON_EACH_PAYOUT;
 
-  const bidderPayoutAmount = leftOverMoney;
-  const bidderActualPayoutInBank = leftOverMoney - stripePayoutToTaskerProcessingFee;
+  const taskerPayoutAmount = leftOverMoney;
+  const taskerActualPayoutInBank = leftOverMoney - stripePayoutToTaskerProcessingFee;
 
   const requesterPartialRefundAmount =
     BIDORBOO_REQUESTER_REFUND_PERCENTAGE_IN_CASE_OF_CANCELLATION * requesterPaymentAmount;
@@ -46,16 +46,16 @@ exports.getChargeDistributionDetails = (totalBidAmountInDollars) => {
   // const actualKeptBidOrBooApplicationFees = bidOrBooPlatformFee - amountRefundedFromApplicationFee;
 
   const taskerPartialPayoutAmount =
-    bidderPayoutAmount * BIDORBOO_TASKER_PAYOUT_PERCENTAGE_IN_CASE_OF_CANCELLATION;
+    taskerPayoutAmount * BIDORBOO_TASKER_PAYOUT_PERCENTAGE_IN_CASE_OF_CANCELLATION;
   // requesterPaymentAmount - requesterPartialRefundAmount - actualKeptBidOrBooApplicationFees;
 
   return {
     requesterPaymentAmount: parseFloat(requesterPaymentAmount.toFixed(2)),
-    bidderPayoutAmount: parseFloat(bidderPayoutAmount.toFixed(2)),
+    taskerPayoutAmount: parseFloat(taskerPayoutAmount.toFixed(2)),
     requesterPartialRefundAmount: parseFloat(requesterPartialRefundAmount.toFixed(2)),
     taskerPartialPayoutAmount: parseFloat(taskerPartialPayoutAmount.toFixed(2)),
     bidOrBooPlatformFee: bidOrBooPlatformFee,
-    bidderActualPayoutInBank: bidderActualPayoutInBank,
+    taskerActualPayoutInBank: taskerActualPayoutInBank,
     // stripeCheckoutProcessingFee: stripeCheckoutProcessingFee,
     // stripePayoutToTaskerProcessingFee: stripePayoutToTaskerProcessingFee,
   };

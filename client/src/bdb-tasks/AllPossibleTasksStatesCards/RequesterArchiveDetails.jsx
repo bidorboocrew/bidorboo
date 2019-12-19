@@ -47,14 +47,14 @@ class RequesterArchiveDetails extends RequestBaseContainer {
       _reviewRef = {
         revealToBoth: false,
         requiresProposerReview: true,
-        requiresBidderReview: true,
+        requiresTaskerReview: true,
       },
       taskImages = [],
       jobTitle,
       completionDate,
     } = selectedArchivedJob;
 
-    const { requesterPayment, _bidderRef } = _awardedBidRef;
+    const { requesterPayment, _taskerRef } = _awardedBidRef;
     const { value: requesterPaymentAmount } = requesterPayment;
 
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${selectedArchivedJob.templateId}`];
@@ -131,7 +131,7 @@ class RequesterArchiveDetails extends RequestBaseContainer {
               </div>
             </div>
           </div>
-          <AssignedTaskerDetails otherUserProfileInfo={_bidderRef} {...this.props} />
+          <AssignedTaskerDetails otherUserProfileInfo={_taskerRef} {...this.props} />
         </div>
       </>
     );
@@ -163,7 +163,7 @@ class AssignedTaskerDetails extends React.Component {
       _reviewRef = {
         revealToBoth: false,
         requiresProposerReview: true,
-        requiresBidderReview: true,
+        requiresTaskerReview: true,
       },
     } = selectedArchivedJob;
 
@@ -235,13 +235,13 @@ class AssignedTaskerDetails extends React.Component {
                 </li>
               </ul>
             </div>
-            {_reviewRef && _reviewRef.bidderReview ? (
+            {_reviewRef && _reviewRef.taskerReview ? (
               <ReviewComments
-                commenterDisplayName={_awardedBidRef._bidderRef.displayName}
-                commenterId={_awardedBidRef._bidderRef._id}
-                commenterProfilePicUrl={_awardedBidRef._bidderRef.profileImage.url}
-                comment={_reviewRef.bidderReview.personalComment}
-                ratingCategories={_reviewRef.bidderReview.ratingCategories}
+                commenterDisplayName={_awardedBidRef._taskerRef.displayName}
+                commenterId={_awardedBidRef._taskerRef._id}
+                commenterProfilePicUrl={_awardedBidRef._taskerRef.profileImage.url}
+                comment={_reviewRef.taskerReview.personalComment}
+                ratingCategories={_reviewRef.taskerReview.ratingCategories}
               ></ReviewComments>
             ) : (
               <div className="help">*Waiting on tasker to submit their review.</div>

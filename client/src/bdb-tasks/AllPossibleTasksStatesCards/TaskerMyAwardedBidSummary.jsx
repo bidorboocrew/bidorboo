@@ -26,11 +26,11 @@ class TaskerMyAwardedBidSummary extends React.Component {
   render() {
     const { bid, job, notificationFeed, updateJobState } = this.props;
 
-    const { startingDateAndTime, bidderConfirmedCompletion, taskImages = [], jobTitle } = job;
+    const { startingDateAndTime, taskerConfirmedCompletion, taskImages = [], jobTitle } = job;
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    const { bidderPayout, isAwardedToMe } = bid;
-    const { value: taskerTotalPayoutAmount } = bidderPayout;
+    const { taskerPayout, isAwardedToMe } = bid;
+    const { value: taskerTotalPayoutAmount } = taskerPayout;
 
     return (
       <React.Fragment>
@@ -52,9 +52,9 @@ class TaskerMyAwardedBidSummary extends React.Component {
               {isAwardedToMe && (
                 <>
                   <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
-                  {bidderConfirmedCompletion && <BSWaitingOnRequesterToConfirm />}
+                  {taskerConfirmedCompletion && <BSWaitingOnRequesterToConfirm />}
 
-                  {!bidderConfirmedCompletion && <BSTaskerAwarded />}
+                  {!taskerConfirmedCompletion && <BSTaskerAwarded />}
                 </>
               )}
               {!isAwardedToMe && <BSAwardedToSomeoneElse />}
@@ -67,7 +67,7 @@ class TaskerMyAwardedBidSummary extends React.Component {
               bid,
               notificationFeed,
               updateJobState,
-              bidderConfirmedCompletion,
+              taskerConfirmedCompletion,
             })}
         </div>
       </React.Fragment>
@@ -94,7 +94,7 @@ const renderFooter = ({
   bid,
   notificationFeed,
   updateJobState,
-  bidderConfirmedCompletion,
+  taskerConfirmedCompletion,
 }) => {
   let newUnseenState = false;
   if (notificationFeed && notificationFeed.myBidsWithNewStatus) {
@@ -115,7 +115,7 @@ const renderFooter = ({
             newUnseenState && updateJobState(job._id, REQUEST_STATES.AWARDED_SEEN);
 
             switchRoute(
-              ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
+              ROUTES.CLIENT.TASKER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
             );
           }}
           className="button is-success"
@@ -128,7 +128,7 @@ const renderFooter = ({
               <i className="fas fa-circle" />
             </div>
           )}
-          {`${bidderConfirmedCompletion ? 'REVIEW REQUESTER' : 'VIEW DETAILS'} `}
+          {`${taskerConfirmedCompletion ? 'REVIEW REQUESTER' : 'VIEW DETAILS'} `}
         </a>
       </div>
     </React.Fragment>

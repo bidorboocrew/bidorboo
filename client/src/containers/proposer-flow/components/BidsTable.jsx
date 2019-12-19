@@ -32,7 +32,7 @@ export default class BidsTable extends React.Component {
       return (
         <div key={bid._id} className="column is-narrow isforCards slide-in-bottom-small">
           <TaskerBidCard
-            otherUserProfileInfo={bid._bidderRef}
+            otherUserProfileInfo={bid._taskerRef}
             bidAmountHtml={() => (
               <div className="centeredButtonInCard">
                 <div style={{ fontSize: 12 }} className="has-text-centered has-text-grey">

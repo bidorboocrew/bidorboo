@@ -11,7 +11,7 @@ import { Spinner } from '../../components/Spinner';
 import { getPostedJobAndBidsForRequester, markBidAsSeen } from '../../app-state/actions/jobActions';
 
 import BidsTable from './components/BidsTable';
-import AcceptBidAndBidderModal from './components/AcceptBidAndBidderModal';
+import AcceptBidAndTaskerModal from './components/AcceptBidAndTaskerModal';
 
 import {
   getMeTheRightRequestCard,
@@ -127,7 +127,7 @@ class ReviewRequestAndBidsPage extends React.Component {
           )}
 
         {showBidReviewModal && (
-          <AcceptBidAndBidderModal closeModal={this.hideBidReviewModal} bid={bidUnderReview} />
+          <AcceptBidAndTaskerModal closeModal={this.hideBidReviewModal} bid={bidUnderReview} />
         )}
 
         <div className="columns is-centered is-mobile">

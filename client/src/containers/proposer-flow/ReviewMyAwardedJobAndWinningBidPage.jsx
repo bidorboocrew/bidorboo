@@ -27,7 +27,7 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
   componentDidMount() {
     const { getAwardedJobFullDetailsforRequester } = this.props;
     if (!this.jobId) {
-      switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
+      switchRoute(ROUTES.CLIENT.REQUESTER.myRequestsPage);
       return null;
     }
 
@@ -44,7 +44,7 @@ class ReviewMyAwardedJobAndWinningBidPage extends React.Component {
     if (newJobId !== this.jobId) {
       this.jobId = newJobId;
       if (!this.jobId) {
-        switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
+        switchRoute(ROUTES.CLIENT.REQUESTER.myRequestsPage);
         return null;
       }
 

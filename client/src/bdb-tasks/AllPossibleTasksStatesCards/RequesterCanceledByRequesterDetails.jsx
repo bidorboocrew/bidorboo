@@ -70,7 +70,7 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
 
         <a
           onClick={() => {
-            switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
+            switchRoute(ROUTES.CLIENT.REQUESTER.myRequestsPage);
           }}
           className="button firstButtonInCard"
         >

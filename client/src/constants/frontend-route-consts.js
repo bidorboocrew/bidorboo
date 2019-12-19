@@ -56,7 +56,7 @@ export const API = {
   REVIEW: {
     PUT: {
       proposerSubmitReview: '/api/review/proposerSubmitReview',
-      bidderSubmitReview: '/api/review/bidderSubmitReview',
+      taskerSubmitReview: '/api/review/taskerSubmitReview',
     },
   },
   JOB: {
@@ -81,9 +81,9 @@ export const API = {
       updateViewedBy: '/api/job/updateViewedBy',
       updateBooedBy: '/api/job/updateBooedBy',
       proposerConfirmsJobCompleted: '/api/job/proposerConfirmsJobCompleted',
-      bidderConfirmsJobCompleted: '/api/job/bidderConfirmsJobCompleted',
+      taskerConfirmsJobCompleted: '/api/job/taskerConfirmsJobCompleted',
       proposerDisputeJob: '/api/job/proposerDisputeJob',
-      bidderDisputeJob: '/api/job/bidderDisputeJob',
+      taskerDisputeJob: '/api/job/taskerDisputeJob',
       updateJobState: '/api/job/updateJobState',
     },
     DELETE: {
@@ -122,7 +122,7 @@ export const CLIENT = {
   USER_ROFILE_FOR_REVIEW: '/user-profile/:userId',
   dynamicUserProfileForReview: (userId) => `/user-profile/${userId}`,
   dynamicVerification: (field, code) => `/verification/${field}/${code}`,
-  PROPOSER: {
+  REQUESTER: {
     root: '/bdb-request/root',
     createjob: '/bdb-request/create-job/:templateId',
     dynamicCreateJob: (templateId) => `/bdb-request/create-job/${templateId}`,
@@ -132,7 +132,7 @@ export const CLIENT = {
     selectedAwardedJobPage: '/my-request/awarded-job-details/:jobId',
     dynamicSelectedAwardedJobPage: (jobId) => `/my-request/awarded-job-details/${jobId}`,
   },
-  BIDDER: {
+  TASKER: {
     root: '/bdb-offer/root',
     bidOnJobPage: '/bdb-offer/bid-on-job/:jobId',
     getDynamicBidOnJobPage: (jobId) => `/bdb-offer/bid-on-job/${jobId}`,
@@ -144,9 +144,9 @@ export const CLIENT = {
   },
   REVIEW: {
     proposerJobReview: `/bdb-request/review/:jobId`,
-    bidderJobReview: `/bdb-offer/review/:bidId`,
+    taskerJobReview: `/bdb-offer/review/:bidId`,
     getProposerJobReview: ({ jobId }) => `/bdb-request/review/${jobId}`,
-    getBidderJobReview: ({ bidId }) => `/bdb-offer/review/${bidId}`,
+    getTaskerJobReview: ({ bidId }) => `/bdb-offer/review/${bidId}`,
   },
   MY_PROFILE: {
     myNotifications: '/my-profile/notification-settings',

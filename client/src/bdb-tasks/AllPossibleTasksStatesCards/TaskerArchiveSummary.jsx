@@ -43,7 +43,7 @@ export default class TaskerArchiveSummary extends RequestBaseContainer {
           <a
             onClick={() => {
               switchRoute(
-                ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
+                ROUTES.CLIENT.TASKER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
               );
             }}
             className="button is-dark"

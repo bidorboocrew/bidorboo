@@ -6,9 +6,9 @@ import { bindActionCreators } from 'redux';
 import { getCurrentUserNotifications, getCurrentUser } from './app-state/actions/authActions';
 import {
   setAppViewUIToProposer,
-  setAppViewUIToBidder,
+  setAppViewUIToTasker,
   setServerAppProposerView,
-  setServerAppBidderView,
+  setServerAppTaskerView,
 } from './app-state/actions/uiActions';
 import * as ROUTES from './constants/frontend-route-consts';
 import { switchRoute } from './utils';
@@ -20,9 +20,9 @@ const loggedOutRoutes = [
   ROUTES.CLIENT.TOS,
   ROUTES.CLIENT.RESETPASSWORD,
   ROUTES.CLIENT.USER_ROFILE_FOR_REVIEW,
-  ROUTES.CLIENT.PROPOSER.root,
-  ROUTES.CLIENT.BIDDER.root,
-  ROUTES.CLIENT.BIDDER.bidOnJobPage,
+  ROUTES.CLIENT.REQUESTER.root,
+  ROUTES.CLIENT.TASKER.root,
+  ROUTES.CLIENT.TASKER.bidOnJobPage,
 ];
 
 class GetNotificationsAndScroll extends React.Component {
@@ -49,7 +49,7 @@ class GetNotificationsAndScroll extends React.Component {
       getCurrentUser,
       location,
       setServerAppProposerView,
-      setServerAppBidderView,
+      setServerAppTaskerView,
     } = this.props;
     const currentUrlPathname = window.location.pathname;
     if (currentUrlPathname.indexOf('my-profile/basic-settings') > 0) {
@@ -78,7 +78,7 @@ class GetNotificationsAndScroll extends React.Component {
         if (currentUrlPathname.indexOf('bdb-request') > -1) {
           setServerAppProposerView();
         } else if (currentUrlPathname.indexOf('bdb-offer') > -1) {
-          setServerAppBidderView();
+          setServerAppTaskerView();
         }
       }
 
@@ -99,17 +99,17 @@ class GetNotificationsAndScroll extends React.Component {
   componentDidMount() {
     const {
       getCurrentUser,
-      setAppViewUIToBidder,
+      setAppViewUIToTasker,
       setAppViewUIToProposer,
       isLoggedIn,
       userDetails,
     } = this.props;
 
     if (isLoggedIn) {
-      if (userDetails.appView === 'PROPOSER') {
+      if (userDetails.appView === 'REQUESTER') {
         setAppViewUIToProposer();
-      } else if (userDetails.appView === 'BIDDER') {
-        setAppViewUIToBidder();
+      } else if (userDetails.appView === 'TASKER') {
+        setAppViewUIToTasker();
       }
     } else {
       getCurrentUser();
@@ -195,10 +195,10 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getCurrentUserNotifications: bindActionCreators(getCurrentUserNotifications, dispatch),
     getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
-    setAppViewUIToBidder: bindActionCreators(setAppViewUIToBidder, dispatch),
+    setAppViewUIToTasker: bindActionCreators(setAppViewUIToTasker, dispatch),
     setAppViewUIToProposer: bindActionCreators(setAppViewUIToProposer, dispatch),
     setServerAppProposerView: bindActionCreators(setServerAppProposerView, dispatch),
-    setServerAppBidderView: bindActionCreators(setServerAppBidderView, dispatch),
+    setServerAppTaskerView: bindActionCreators(setServerAppTaskerView, dispatch),
   };
 };
 

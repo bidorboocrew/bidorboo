@@ -74,7 +74,7 @@ export const cancelJobById = (jobId) => (dispatch) => {
         },
       });
 
-      switchRoute(`${ROUTES.CLIENT.PROPOSER.myRequestsPage}`);
+      switchRoute(`${ROUTES.CLIENT.REQUESTER.myRequestsPage}`);
     }
   });
 };
@@ -179,7 +179,7 @@ export const proposerConfirmsJobCompletion = (jobId) => (dispatch) => {
           // xxxx update without reload
           window.location.reload();
           // navigate to review page
-          // switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`);
+          // switchRoute(`${ROUTES.CLIENT.REQUESTER.selectedAwardedJobPage}/${jobId}`);
         }
       })
       .catch((error) => {
@@ -209,7 +209,7 @@ export const proposerDisputesJob = ({ proposerDispute }) => (dispatch) => {
           // xxxx update without reload
           window.location.reload();
           // navigate to review page
-          // switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`);
+          // switchRoute(`${ROUTES.CLIENT.REQUESTER.selectedAwardedJobPage}/${jobId}`);
         }
       })
       .catch((error) => {
@@ -230,16 +230,16 @@ export const taskerDisputesJob = ({ taskerDispute }) => (dispatch) => {
   });
 
   dispatch({
-    type: A.JOB_ACTIONS.BIDDER_DISPUTES_JOB,
+    type: A.JOB_ACTIONS.TASKER_DISPUTES_JOB,
     payload: axios
-      .put(ROUTES.API.JOB.PUT.bidderDisputeJob, postData, config)
+      .put(ROUTES.API.JOB.PUT.taskerDisputeJob, postData, config)
       .then((resp) => {
         // update recently added job
         if (resp && resp.data) {
           // xxxx update without reload
           window.location.reload();
           // navigate to review page
-          // switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`);
+          // switchRoute(`${ROUTES.CLIENT.REQUESTER.selectedAwardedJobPage}/${jobId}`);
         }
       })
       .catch((error) => {
@@ -248,7 +248,7 @@ export const taskerDisputesJob = ({ taskerDispute }) => (dispatch) => {
   });
 };
 
-export const bidderConfirmsJobCompletion = (jobId) => (dispatch) => {
+export const taskerConfirmsJobCompletion = (jobId) => (dispatch) => {
   const config = {
     headers: { 'Content-Type': 'application/json' },
   };
@@ -259,16 +259,16 @@ export const bidderConfirmsJobCompletion = (jobId) => (dispatch) => {
   });
 
   dispatch({
-    type: A.JOB_ACTIONS.BIDDER_CONFIRMS_JOB_COMPLETION,
+    type: A.JOB_ACTIONS.TASKER_CONFIRMS_JOB_COMPLETION,
     payload: axios
-      .put(ROUTES.API.JOB.PUT.bidderConfirmsJobCompleted, postData, config)
+      .put(ROUTES.API.JOB.PUT.taskerConfirmsJobCompleted, postData, config)
       .then((resp) => {
         // update recently added job
         if (resp && resp.data && resp.data.success) {
           // xxxx update he bid without refresh
           window.location.reload();
           // navigate to review page
-          // switchRoute(`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}/${jobId}`);
+          // switchRoute(`${ROUTES.CLIENT.REQUESTER.selectedAwardedJobPage}/${jobId}`);
         }
       })
       .catch((error) => {
@@ -317,7 +317,7 @@ export const postNewJob = ({ jobDetails, recaptchaField }) => (dispatch) => {
         if (resp.data && resp.data._id) {
           const { templateId } = resp.data;
 
-          switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
+          switchRoute(ROUTES.CLIENT.REQUESTER.myRequestsPage);
 
           // dispatch({
           //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,

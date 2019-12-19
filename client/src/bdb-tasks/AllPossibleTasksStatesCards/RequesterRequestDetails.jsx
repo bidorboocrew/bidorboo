@@ -79,7 +79,7 @@ class RequesterRequestDetails extends React.Component {
 
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
 
-    let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
+    let areThereAnyTaskers = job._bidsListRef && job._bidsListRef.length > 0;
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
 
@@ -189,8 +189,8 @@ class RequesterRequestDetails extends React.Component {
                 )}
               />
 
-              {!areThereAnyBidders && <AwaitingOnTasker />}
-              {areThereAnyBidders && (
+              {!areThereAnyTaskers && <AwaitingOnTasker />}
+              {areThereAnyTaskers && (
                 <TaskersAvailable numberOfAvailableTaskers={job._bidsListRef.length} />
               )}
               <Collapse isOpened={showMore}>

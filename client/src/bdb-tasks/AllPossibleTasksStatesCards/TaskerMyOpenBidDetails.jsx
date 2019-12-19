@@ -21,7 +21,7 @@ import {
   BidAmount,
   TaskerWillEarn,
 } from '../../containers/commonComponents';
-import TaskerEditOrUpdateBid from '../../containers/bidder-flow/components/TaskerEditOrUpdateBid';
+import TaskerEditOrUpdateBid from '../../containers/tasker-flow/components/TaskerEditOrUpdateBid';
 
 export default class TaskerMyOpenBidDetails extends React.Component {
   constructor(props) {
@@ -78,9 +78,9 @@ export default class TaskerMyOpenBidDetails extends React.Component {
       jobTitle,
     } = job;
 
-    const { bidderPayout, bidAmount } = bid;
+    const { taskerPayout, bidAmount } = bid;
 
-    const { value: bidderPayoutAmount } = bidderPayout;
+    const { value: taskerPayoutAmount } = taskerPayout;
     const { value: bidValue } = bidAmount;
 
     const { updateBid, deleteOpenBid } = otherArgs;
@@ -196,7 +196,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              <TaskerWillEarn earningAmount={bidderPayoutAmount}></TaskerWillEarn>
+              <TaskerWillEarn earningAmount={taskerPayoutAmount}></TaskerWillEarn>
               <BSawaitingOnRequester />}
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">

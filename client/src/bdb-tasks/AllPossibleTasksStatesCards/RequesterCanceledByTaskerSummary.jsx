@@ -63,9 +63,9 @@ class RequesterCanceledByTaskerSummary extends React.Component {
               style={{ position: 'relative' }}
               onClick={(e) => {
                 e.preventDefault();
-                newUnseenState && updateJobState(job._id, 'AWARDED_JOB_CANCELED_BY_BIDDER_SEEN');
+                newUnseenState && updateJobState(job._id, 'AWARDED_JOB_CANCELED_BY_TASKER_SEEN');
 
-                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
+                switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedJobPage(job._id));
               }}
               className="button is-danger"
             >

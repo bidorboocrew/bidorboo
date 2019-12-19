@@ -5,13 +5,17 @@ import { bindActionCreators } from 'redux';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
-import { getOpenBidDetails, updateBid, deleteOpenBid } from '../../app-state/actions/bidsActions';
-
-import { Spinner } from '../../components/Spinner';
+import {
+  getAwardedBidDetails,
+  updateBid,
+  deleteOpenBid,
+} from '../../app-state/actions/bidsActions';
 import { RenderBackButton } from '../commonComponents';
+import { Spinner } from '../../components/Spinner';
+
 import { getMeTheRightBidCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightCard';
 
-class ReviewOpenBidAndRequestPage extends React.Component {
+class ReviewAwardedBidPage extends React.Component {
   constructor(props) {
     super(props);
     this.bidId = null;
@@ -23,18 +27,21 @@ class ReviewOpenBidAndRequestPage extends React.Component {
 
   componentDidMount() {
     if (!this.bidId) {
-      switchRoute(ROUTES.CLIENT.BIDDER.root);
+      switchRoute(ROUTES.CLIENT.TASKER.root);
       return null;
     }
 
-    this.props.getOpenBidDetails(this.bidId);
+    this.props.getAwardedBidDetails(this.bidId);
   }
 
   componentDidUpdate(prevProps) {
-    if (!this.props.isLoading && (!this.props.selectedOpenBid || !this.props.selectedOpenBid._id)) {
+    if (
+      !this.props.isLoading &&
+      (!this.props.selectedAwardedBid || !this.props.selectedAwardedBid._id)
+    ) {
       // xxxx show cant find job or something instead of ugly redirect
       // could not find the job so we redirected you
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+      return switchRoute(ROUTES.CLIENT.TASKER.mybids);
     }
   }
 
@@ -46,13 +53,13 @@ class ReviewOpenBidAndRequestPage extends React.Component {
   };
 
   render() {
-    const { selectedOpenBid, updateBid, currentUserDetails, deleteOpenBid } = this.props;
+    const { selectedAwardedBid, updateBid, currentUserDetails, deleteOpenBid } = this.props;
     // while fetching the job
     if (
-      !selectedOpenBid ||
-      !selectedOpenBid._id ||
-      !selectedOpenBid._jobRef ||
-      !selectedOpenBid._jobRef._id
+      !selectedAwardedBid ||
+      !selectedAwardedBid._id ||
+      !selectedAwardedBid._jobRef ||
+      !selectedAwardedBid._jobRef._id
     ) {
       return (
         <div className="container is-widescreen">
@@ -62,17 +69,19 @@ class ReviewOpenBidAndRequestPage extends React.Component {
     }
 
     return (
-      <div className="columns is-centered is-mobile">
-        <div className="column limitLargeMaxWidth slide-in-right">
-          . <RenderBackButton />
-          {getMeTheRightBidCard({
-            bid: selectedOpenBid,
-            isSummaryView: false,
-            pointOfView: POINT_OF_VIEW.TASKER,
-            userDetails: currentUserDetails,
-            updateBid,
-            deleteOpenBid,
-          })}
+      <div>
+        <div className="columns is-centered is-mobile">
+          <div className="column limitLargeMaxWidth slide-in-right">
+            <RenderBackButton />
+            {getMeTheRightBidCard({
+              bid: selectedAwardedBid,
+              isSummaryView: false,
+              pointOfView: POINT_OF_VIEW.TASKER,
+              userDetails: currentUserDetails,
+              updateBid,
+              deleteOpenBid,
+            })}
+          </div>
         </div>
       </div>
     );
@@ -81,7 +90,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
 
 const mapStateToProps = ({ bidsReducer, userReducer }) => {
   return {
-    selectedOpenBid: bidsReducer.selectedOpenBid,
+    selectedAwardedBid: bidsReducer.selectedAwardedBid,
     isLoading: bidsReducer.isLoadingBids,
     currentUserDetails: userReducer.userDetails,
   };
@@ -90,12 +99,9 @@ const mapStateToProps = ({ bidsReducer, userReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     deleteOpenBid: bindActionCreators(deleteOpenBid, dispatch),
-    getOpenBidDetails: bindActionCreators(getOpenBidDetails, dispatch),
+    getAwardedBidDetails: bindActionCreators(getAwardedBidDetails, dispatch),
     updateBid: bindActionCreators(updateBid, dispatch),
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ReviewOpenBidAndRequestPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ReviewAwardedBidPage);

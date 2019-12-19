@@ -29,8 +29,8 @@ class TaskerAwardedBidCanceledByRequesterDetails extends React.Component {
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
 
-    const { bidderPartialPayout } = bid;
-    const { value: bidderPartialPayoutAmount } = bidderPartialPayout;
+    const { taskerPartialPayout } = bid;
+    const { value: taskerPartialPayoutAmount } = taskerPartialPayout;
 
     return (
       <div
@@ -47,7 +47,7 @@ class TaskerAwardedBidCanceledByRequesterDetails extends React.Component {
               date={startingDateAndTime}
               renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
-            <TaskerWillEarn earningAmount={bidderPartialPayoutAmount}></TaskerWillEarn>
+            <TaskerWillEarn earningAmount={taskerPartialPayoutAmount}></TaskerWillEarn>
 
             <CancelledBy name="Requester" />
             <div className="group has-text-left">
@@ -55,7 +55,7 @@ class TaskerAwardedBidCanceledByRequesterDetails extends React.Component {
               <ul>
                 <li>At BidOrBoo we takes cancellations seriously</li>
                 <li>
-                  You will <strong>get paid ${bidderPartialPayoutAmount}</strong> for your
+                  You will <strong>get paid ${taskerPartialPayoutAmount}</strong> for your
                   commitment with us.
                 </li>
                 <li>
@@ -72,7 +72,7 @@ class TaskerAwardedBidCanceledByRequesterDetails extends React.Component {
 
         <a
           className="button firstButtonInCard"
-          onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.mybids)}
+          onClick={() => switchRoute(ROUTES.CLIENT.TASKER.mybids)}
         >
           <span className="icon">
             <i className="far fa-arrow-alt-circle-left" />

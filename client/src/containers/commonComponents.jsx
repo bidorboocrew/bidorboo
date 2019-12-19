@@ -29,7 +29,7 @@ export const getDaysSinceCreated = (createdAt) => {
 
 export const AvgBidDisplayLabelAndValue = ({ avgBid }) => {
   return avgBid === '--' ? (
-    <DisplayLabelValue labelText="Avg Bid" labelValue={`Be the first bidder!`} />
+    <DisplayLabelValue labelText="Avg Bid" labelValue={`Be the first tasker!`} />
   ) : (
     <DisplayLabelValue labelText="Avg Bid" labelValue={`$${avgBid} (CAD)`} />
   );
@@ -497,9 +497,9 @@ export const AddAwardedJobToCalendarForRequester = ({ job, extraClassName = '' }
   }
 
   const { startingDateAndTime, addressText, templateId, _awardedBidRef } = job;
-  const { _bidderRef } = _awardedBidRef;
+  const { _taskerRef } = _awardedBidRef;
 
-  const { email, phone, displayName } = _bidderRef;
+  const { email, phone, displayName } = _taskerRef;
 
   const emailContact = email && email.emailAddress ? `${email.emailAddress}` : '';
   const phoneContactNumber = phone && phone.phoneNumber ? ` or ${phone.phoneNumber}` : '';
@@ -1481,10 +1481,10 @@ export const RenderBackButton = () => {
 export const redirectBasedOnJobState = ({ state, _id: jobId }) => {
   switch (state) {
     case REQUEST_STATES.OPEN:
-      switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(jobId));
+      switchRoute(ROUTES.CLIENT.REQUESTER.dynamicReviewRequestAndBidsPage(jobId));
       break;
     default:
-      switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
+      switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedJobPage(jobId));
       break;
   }
 };

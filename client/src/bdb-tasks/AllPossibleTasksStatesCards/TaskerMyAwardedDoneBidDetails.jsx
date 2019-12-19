@@ -36,9 +36,9 @@ export default class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer 
       jobTitle,
     } = job;
 
-    const { bidderPayout, bidAmount, _id: bidId } = bid;
+    const { taskerPayout, bidAmount, _id: bidId } = bid;
 
-    const { value: bidderPayoutAmount } = bidderPayout;
+    const { value: taskerPayoutAmount } = taskerPayout;
     const { value: bidValue } = bidAmount;
 
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
@@ -68,7 +68,7 @@ export default class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer 
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              <TaskerWillEarn earningAmount={bidderPayoutAmount} />
+              <TaskerWillEarn earningAmount={taskerPayoutAmount} />
 
               <TaskIsFulfilled />
 
@@ -159,7 +159,7 @@ class RequesterDetails extends React.Component {
         </div>
         <a
           onClick={() => {
-            switchRoute(ROUTES.CLIENT.REVIEW.getBidderJobReview({ bidId }));
+            switchRoute(ROUTES.CLIENT.REVIEW.getTaskerJobReview({ bidId }));
           }}
           className={`button firstButtonInCard is-primary`}
         >

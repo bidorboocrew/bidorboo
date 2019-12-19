@@ -9,31 +9,32 @@
 
 import React from 'react';
 
-import TASKS_DEFINITIONS from '../../bdb-tasks/tasksDefinitions';
+import classNames from 'classnames';
+
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
 // for reverse geocoding , get addressText from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
 // https://stackoverflow.com/questions/6478914/reverse-geocoding-code
 
-export default class BidderRootLocationFilter extends React.Component {
+export default class TaskerRootLocationFilter extends React.Component {
   constructor(props) {
     super(props);
     this.google = window.google;
     if (this.google) {
       this.geocoder = new this.google.maps.Geocoder();
     }
+    this.state = {
+      enableNotifyMeAboutJobsInMyArea: false,
+    };
   }
 
   handleChange = (addressText, latLng) => {
     this.props.updateSearchLocationState({ addressText, latLng });
   };
 
-  updateSearchRaduisSelection = (event) => {
-    this.props.updateSearchLocationState({ searchRadius: event.target.value });
-  };
-  updateTaskTypesFilter = (taskTypes) => {
-    this.props.updateSearchLocationState({ tasksTypeFilter: taskTypes });
+  updateSearchRaduisSelection = (raduisKm) => {
+    this.props.updateSearchLocationState({ searchRadius: raduisKm });
   };
 
   handleSelect = (addressText) => {
@@ -125,76 +126,131 @@ export default class BidderRootLocationFilter extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { activeSearchParams, submitSearchLocationParams } = this.props;
-
+    const { activeSearchParams, submitSearchLocationParams, toggleSideNav } = this.props;
     submitSearchLocationParams({
       ...activeSearchParams,
     });
+    toggleSideNav();
   };
 
   render() {
-    const { activeSearchParams } = this.props;
-    const { addressText, latLng, searchRadius, tasksTypeFilter } = activeSearchParams;
+    const { activeSearchParams, toggleSideNav, isLoggedIn } = this.props;
+    const { addressText, latLng, searchRadius } = activeSearchParams;
 
     const disableSubmit = !addressText || !latLng || !latLng.lat || !latLng.lng || !searchRadius;
 
     return (
-      <div
-        style={{ height: 'unset', border: '1px solid #26ca70' }}
-        className="card cardWithButton nofixedwidth"
-      >
-        <div className="card-content">
-          <div className="content has-text-left">
-            <div className="group">
-              <label style={{ fontWeight: 400 }} className="label">
-                Address
-              </label>
-              <GeoSearch
-                value={addressText}
-                onChange={this.handleChange}
-                onSelect={this.handleSelect}
-                handleSelect={this.handleSelect}
-                onError={this.errorHandling}
-                placeholder="Start entering an adddress"
-                forceSetAddressValue={addressText}
-                id="filter-tasker-job"
-              />
-
-              <a
-                style={{ marginTop: 6, fontSize: 14, color: '#ce1bbf' }}
-                onClick={this.autoDetectCurrentAddress}
-                className="is-small is-text"
-              >
-                <span className="icon">
-                  <i className="fas fa-map-marker-alt" />
-                </span>
-                <span>Auto Detect</span>
-              </a>
-            </div>
-            <SearchRadius
-              updateSearchRaduisSelection={this.updateSearchRaduisSelection}
-              searchRadiusValue={searchRadius}
-            />
-            <br></br>
-            <TaskTypeFilter
-              updateTaskTypesFilter={this.updateTaskTypesFilter}
-              currentFilters={tasksTypeFilter}
-            ></TaskTypeFilter>
-            <br></br>
-          </div>
-
-          <div
-            disabled={disableSubmit}
-            onClick={this.handleSubmit}
-            className="firstButtonInCard button is-success"
-          >
-            <span className="icon">
-              <i className="fas fa-search" />
-            </span>
-            <span>{`Search`}</span>
-          </div>
+      <React.Fragment>
+        <div
+          style={{
+            background: '#6b88e0',
+            color: 'white',
+            padding: '0.75rem 0.25rem',
+            marginBottom: '0',
+            fontSize: '1.5rem',
+          }}
+          onClick={toggleSideNav}
+        >
+          <span className="icon">
+            <i className="fas fa-chevron-left" />
+          </span>
+          <span style={{ marginLeft: 8 }}>Filter Tasks</span>
         </div>
-      </div>
+
+        <div className="theContent">
+          <>
+            <div style={{ padding: '0 0.5rem 0.5rem 0.5rem', fontWeight: 600 }}>
+              Where will you provide your services?
+            </div>
+            <section style={{ padding: '0.5rem' }} className="modal-card-body">
+              <div className="content">
+                <div className="group">
+                  <label className="label">Enter Address</label>
+                  <GeoSearch
+                    value={addressText}
+                    onChange={this.handleChange}
+                    onSelect={this.handleSelect}
+                    handleSelect={this.handleSelect}
+                    onError={this.errorHandling}
+                    placeholder="Start entering an adddress"
+                    forceSetAddressValue={addressText}
+                    id="filter-tasker-job"
+                  />
+                  <React.Fragment>
+                    <div>
+                      <a
+                        style={{ marginTop: 6, fontSize: 14 }}
+                        onClick={this.autoDetectCurrentAddress}
+                        className="is-small is-text"
+                      >
+                        <span className="icon">
+                          <i className="fas fa-map-marker-alt" />
+                        </span>
+                        <span>Auto Detect</span>
+                      </a>
+                    </div>
+                  </React.Fragment>
+                </div>
+
+                <SearchRadius
+                  updateSearchRaduisSelection={this.updateSearchRaduisSelection}
+                  searchRadiusValue={searchRadius}
+                />
+              </div>
+            </section>
+          </>
+          {/* {isLoggedIn && (
+            <>
+              <div style={{ padding: '0.5rem' }}>
+                <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
+                  Should BidOrBoo Notify you When A New Task is Posted?
+                </div>
+
+                <input
+                  id="newJobNotification"
+                  type="checkbox"
+                  name="newJobNotification"
+                  className="switch is-rounded is-success"
+                  onChange={this.toggleEnableNotifyMeAboutJobsInMyArea}
+                  checked={this.state.enableNotifyMeAboutJobsInMyArea}
+                />
+                <label
+                  className="has-text-dark has-text-weight-normal"
+                  htmlFor="newJobNotification"
+                >
+                  {this.state.enableNotifyMeAboutJobsInMyArea
+                    ? 'Yes, Notify Me'
+                    : "No, Don't Notify Me"}
+                </label>
+              </div>
+            </>
+          )} */}
+
+          <div className="has-text-centered">
+            <button
+              disabled={disableSubmit}
+              style={{ width: 300 }}
+              onClick={this.handleSubmit}
+              className="button is-success"
+            >
+              <span className="icon">
+                <i className="far fa-share-square" />
+              </span>
+              <span>{`${isLoggedIn ? 'Save & Apply' : 'Apply Search'}`}</span>
+            </button>
+          </div>
+          <br />
+          <div className="has-text-centered">
+            <button style={{ width: 300 }} onClick={toggleSideNav} className="button is-light">
+              <span className="icon">
+                <i className="fas fa-chevron-left" />
+              </span>
+              <span>{`Discard & Close`}</span>
+            </button>
+          </div>
+          <br />
+        </div>
+      </React.Fragment>
     );
   }
 }
@@ -217,27 +273,18 @@ class GeoSearch extends React.Component {
 
       return (
         <div>
-          <input
-            id={id}
-            value={value}
-            onBlur={onBlurEvent}
-            {...getInputProps({
-              type: 'text',
-              placeholder: `${placeholder}`,
-              className: 'input',
-              style: {
-                fontWeight: 500,
-
-                backgroundColor: 'white',
-                borderLeft: 'unset',
-                borderRight: 'unset',
-                borderTop: 'unset',
-                boxShadow: 'unset',
-                borderRadius: 0,
-              },
-            })}
-          />
-
+          <div>
+            <input
+              id={id}
+              value={value}
+              onBlur={onBlurEvent}
+              {...getInputProps({
+                type: 'text',
+                placeholder: `${placeholder}`,
+                className: 'input',
+              })}
+            />
+          </div>
           <div
             style={{ ...containerDropDownStyle }}
             role="menu"
@@ -302,77 +349,44 @@ class SearchRadius extends React.Component {
   render() {
     const { updateSearchRaduisSelection, searchRadiusValue } = this.props;
     return (
-      <div style={{ marginBottom: 0 }} className="group">
-        <label style={{ fontWeight: 400 }} className="label">
-          Search Radius
-        </label>
-        <div>
-          <div className="select">
-            <select
-              style={{
-                padding: '0 6px',
-              }}
-              value={searchRadiusValue}
-              onChange={updateSearchRaduisSelection}
-              onBlur={updateSearchRaduisSelection}
-            >
-              <option value="25">{`25km`}</option>
-              <option value="50">{`50km`}</option>
-              <option value="100">{`100km`}</option>
-              <option value="150">{`150km`}</option>
-            </select>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
-
-class TaskTypeFilter extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { taskTypesIds: {} };
-  }
-
-  createTaskFilterButtonTags = () => {
-    const { currentFilters } = this.props;
-
-    const filterButtons = Object.keys(TASKS_DEFINITIONS)
-      .filter((key) => !TASKS_DEFINITIONS[key].isComingSoon)
-      .map((key) => {
-        // let controlClass = `tag is-rounded ${taskTypesIds[key] ? 'is-link' : ''}`;
-        let controlClass = `tag is-rounded ${currentFilters.indexOf(key) > -1 && 'is-info'}`;
-        return (
+      <div className="group">
+        <label className="label">Select Search Radius</label>
+        <div className="buttons has-addons">
           <span
-            style={{cursor: 'pointer', minWidth: 165 }}
-            key={`key-${key}`}
-            onClick={() => {
-              const { updateTaskTypesFilter } = this.props;
-              let currentActiveFilters = [...currentFilters];
-              if (currentActiveFilters.indexOf(key) > -1) {
-                currentActiveFilters.splice(currentActiveFilters.indexOf(key), 1);
-              } else {
-                currentActiveFilters.push(key);
-              }
-              updateTaskTypesFilter(currentActiveFilters);
-            }}
-            className={controlClass}
+            style={{ borderRadius: 0 }}
+            onClick={() => updateSearchRaduisSelection(25)}
+            className={classNames('button ', {
+              'is-info is-selected': searchRadiusValue === 25,
+            })}
           >
-            {TASKS_DEFINITIONS[key].TITLE}
+            25km
           </span>
-        );
-      });
-    return filterButtons;
-  };
-
-  render() {
-    const listOfTasks = this.createTaskFilterButtonTags();
-    return (
-      <div className="has-text-left">
-        <div className="group">
-          <label className="label">Filter By service type</label>
+          <span
+            onClick={() => updateSearchRaduisSelection(50)}
+            className={classNames('button ', {
+              'is-info is-selected': searchRadiusValue === 50,
+            })}
+          >
+            50km
+          </span>
+          <span
+            onClick={() => updateSearchRaduisSelection(100)}
+            className={classNames('button ', {
+              'is-info is-selected': searchRadiusValue === 100,
+            })}
+          >
+            100km
+          </span>
+          <span
+            style={{ borderRadius: 0 }}
+            onClick={() => updateSearchRaduisSelection(150)}
+            className={classNames('button ', {
+              'is-info is-selected': searchRadiusValue === 150,
+            })}
+          >
+            150km
+          </span>
         </div>
-        <div className="tags are-medium">{listOfTasks}</div>
       </div>
     );
   }

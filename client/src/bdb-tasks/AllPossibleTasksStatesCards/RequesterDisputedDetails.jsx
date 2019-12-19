@@ -17,7 +17,7 @@ export default class RequesterDisputedDetails extends React.Component {
   render() {
     const { job } = this.props;
     if (!job) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
+      return switchRoute(ROUTES.CLIENT.REQUESTER.myRequestsPage);
     }
 
     const { _awardedBidRef, startingDateAndTime, taskImages = [], jobTitle, dispute } = job;
@@ -70,7 +70,7 @@ export default class RequesterDisputedDetails extends React.Component {
         <br></br>
         <a
           onClick={() => {
-            switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
+            switchRoute(ROUTES.CLIENT.REQUESTER.myRequestsPage);
           }}
           className="button firstButtonInCard"
         >

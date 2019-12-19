@@ -3,15 +3,15 @@ const mongoose = require('mongoose');
 const JobModel = mongoose.model('JobModel');
 const ROUTES = require('../backend-route-constants');
 
-exports.getAwardedJobOwnerBidderAndRelevantNotificationDetails = async (jobId) => {
+exports.getAwardedJobOwnerTaskerAndRelevantNotificationDetails = async (jobId) => {
   const awardedJob = await JobModel.findById(jobId)
     .populate({
       path: '_awardedBidRef',
       select: {
-        _bidderRef: 1,
+        _taskerRef: 1,
       },
       populate: {
-        path: '_bidderRef',
+        path: '_taskerRef',
         select: {
           _id: 1,
           email: 1,
@@ -45,23 +45,23 @@ exports.getAwardedJobOwnerBidderAndRelevantNotificationDetails = async (jobId) =
   const requestedJobId = awardedJob._id.toString();
 
   const ownerDetails = _ownerRef;
-  const awardedBidderDetails = _awardedBidRef._bidderRef;
+  const awardedTaskerDetails = _awardedBidRef._taskerRef;
 
   const requesterId = _ownerRef._id.toString();
-  const taskerId = awardedBidderDetails._id.toString();
-  const taskerDisplayName = awardedBidderDetails.displayName;
-  const taskerRating = awardedBidderDetails.rating;
+  const taskerId = awardedTaskerDetails._id.toString();
+  const taskerDisplayName = awardedTaskerDetails.displayName;
+  const taskerRating = awardedTaskerDetails.rating;
 
   const requesterDisplayName = ownerDetails.displayName;
   const ownerRating = ownerDetails.rating;
 
   const jobDisplayName = `${awardedJob.jobTemplateDisplayTitle} - ${awardedJob.jobTitle}`;
 
-  const requestLinkForRequester = ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId);
-  const requestLinkForTasker = ROUTES.CLIENT.BIDDER.dynamicCurrentAwardedBid(awardedBidId);
+  const requestLinkForRequester = ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedJobPage(jobId);
+  const requestLinkForTasker = ROUTES.CLIENT.TASKER.dynamicCurrentAwardedBid(awardedBidId);
 
   const requesterPushNotSubscription = ownerDetails.pushSubscription;
-  const taskerPushNotSubscription = awardedBidderDetails.pushSubscription;
+  const taskerPushNotSubscription = awardedTaskerDetails.pushSubscription;
 
   const requesterEmailAddress =
     ownerDetails.email && ownerDetails.email.emailAddress ? ownerDetails.email.emailAddress : '';
@@ -69,26 +69,26 @@ exports.getAwardedJobOwnerBidderAndRelevantNotificationDetails = async (jobId) =
     ownerDetails.phone && ownerDetails.phone.phoneNumber ? ownerDetails.phone.phoneNumber : '';
 
   const taskerEmailAddress =
-    awardedBidderDetails.email && awardedBidderDetails.email.emailAddress
-      ? awardedBidderDetails.email.emailAddress
+    awardedTaskerDetails.email && awardedTaskerDetails.email.emailAddress
+      ? awardedTaskerDetails.email.emailAddress
       : '';
   const taskerPhoneNumber =
-    awardedBidderDetails.phone && awardedBidderDetails.phone.phoneNumber
-      ? awardedBidderDetails.phone.phoneNumber
+    awardedTaskerDetails.phone && awardedTaskerDetails.phone.phoneNumber
+      ? awardedTaskerDetails.phone.phoneNumber
       : '';
 
   const allowedToEmailRequester = ownerDetails.notifications && ownerDetails.notifications.email;
   const allowedToEmailTasker =
-    awardedBidderDetails.notifications && awardedBidderDetails.notifications.email;
+    awardedTaskerDetails.notifications && awardedTaskerDetails.notifications.email;
 
   const allowedToTextRequester = ownerDetails.notifications && ownerDetails.notifications.text;
   const allowedToTextTasker =
-    awardedBidderDetails.notifications && awardedBidderDetails.notifications.text;
+    awardedTaskerDetails.notifications && awardedTaskerDetails.notifications.text;
 
   const allowedToPushNotifyRequester =
     ownerDetails.notifications && ownerDetails.notifications.push;
   const allowedToPushNotifyTasker =
-    awardedBidderDetails.notifications && awardedBidderDetails.notifications.push;
+    awardedTaskerDetails.notifications && awardedTaskerDetails.notifications.push;
 
   return {
     requestedJobId,

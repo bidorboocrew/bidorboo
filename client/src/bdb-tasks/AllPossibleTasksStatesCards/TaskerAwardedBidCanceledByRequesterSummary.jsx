@@ -28,8 +28,8 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
 
-    const { bidderPartialPayout } = bid;
-    const { value: bidderPartialPayoutAmount } = bidderPartialPayout;
+    const { taskerPartialPayout } = bid;
+    const { value: taskerPartialPayoutAmount } = taskerPartialPayout;
 
     let newUnseenState = false;
     if (notificationFeed && notificationFeed.myBidsWithNewStatus) {
@@ -59,7 +59,7 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              <TaskerWillEarn earningAmount={bidderPartialPayoutAmount}></TaskerWillEarn>
+              <TaskerWillEarn earningAmount={taskerPartialPayoutAmount}></TaskerWillEarn>
 
               <CancelledBy name="Requester" />
             </div>
@@ -73,7 +73,7 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
                   updateJobState(job._id, REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN);
 
                 switchRoute(
-                  ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
+                  ROUTES.CLIENT.TASKER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
                 );
               }}
               className="button is-danger"

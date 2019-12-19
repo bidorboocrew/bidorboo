@@ -8,7 +8,7 @@
 //   logPaymentInfo: ({
 //     mongoUser_id,
 //     jobId,
-//     awardedBidderId,
+//     awardedTaskerId,
 //     amount,
 //     stripeConfirmationId,
 //     currency,
@@ -24,13 +24,13 @@
 //         const paymentModel = await new PaymentModel({
 //           _jobRef: jobId,
 //           _from: mongoUser_id,
-//           _to: awardedBidderId,
+//           _to: awardedTaskerId,
 //           stripeConfirmationId: stripeConfirmationId,
 //           paymentDetails: {
 //             proposerPayment: amount,
 //             bidOrBooCommission: bidOrBooCommission,
 //             stripeCommission: stripeCommission,
-//             bidderEarns: amount - bidOrBooCommission - stripeCommission,
+//             taskerEarns: amount - bidOrBooCommission - stripeCommission,
 //             currency,
 //           },
 //         }).save();

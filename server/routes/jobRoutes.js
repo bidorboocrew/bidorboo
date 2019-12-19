@@ -6,11 +6,11 @@ const ROUTES = require('../backend-route-constants');
 
 const requireLogin = require('../middleware/requireLogin');
 const requireBidorBooHost = require('../middleware/requireBidorBooHost');
-const requireJobOwnerOrAwardedBidder = require('../middleware/requireJobOwnerOrAwardedBidder');
+const requireJobOwnerOrAwardedTasker = require('../middleware/requireJobOwnerOrAwardedTasker');
 
 const requireUserCanPost = require('../middleware/requireUserCanPost');
 const requireJobOwner = require('../middleware/requireJobOwner');
-const requireCurrentUserIsTheAwardedBidder = require('../middleware/requireCurrentUserIsTheAwardedBidder');
+const requireCurrentUserIsTheAwardedTasker = require('../middleware/requireCurrentUserIsTheAwardedTasker');
 // const stripeServiceUtil = require('../services/stripeService').util;
 module.exports = (app) => {
   app.get(ROUTES.API.JOB.GET.jobToBidOnDetailsForTasker, async (req, res) => {
@@ -129,7 +129,7 @@ module.exports = (app) => {
   app.put(
     ROUTES.API.JOB.PUT.updateJobState,
     requireLogin,
-    requireJobOwnerOrAwardedBidder,
+    requireJobOwnerOrAwardedTasker,
     async (req, res, done) => {
       try {
         // create new job for this user
@@ -376,13 +376,13 @@ module.exports = (app) => {
   });
 
   app.put(
-    ROUTES.API.JOB.PUT.bidderConfirmsJobCompleted,
+    ROUTES.API.JOB.PUT.taskerConfirmsJobCompleted,
     requireLogin,
-    requireCurrentUserIsTheAwardedBidder,
+    requireCurrentUserIsTheAwardedTasker,
     async (req, res) => {
       /**
        * What we need to do :
-       *  - Update Job completion.bidderConfirmed : true
+       *  - Update Job completion.taskerConfirmed : true
        *  - Notify push and email Requester to confirm completion
        *  - start review process for Tasker
        */
@@ -391,16 +391,16 @@ module.exports = (app) => {
         const { jobId } = data;
         if (!jobId) {
           return res.status(400).send({
-            errorMsg: 'Bad Request for bidderConfirmsJobCompleted, jobId param was Not Specified',
+            errorMsg: 'Bad Request for taskerConfirmsJobCompleted, jobId param was Not Specified',
           });
         }
 
-        await jobDataAccess.bidderConfirmsJobCompletion(jobId);
+        await jobDataAccess.taskerConfirmsJobCompletion(jobId);
         return res.send({ success: true });
       } catch (e) {
         return res
           .status(400)
-          .send({ errorMsg: 'Failed To bidderConfirmsJobCompleted', details: `${e}` });
+          .send({ errorMsg: 'Failed To taskerConfirmsJobCompleted', details: `${e}` });
       }
     }
   );
@@ -434,9 +434,9 @@ module.exports = (app) => {
     }
   );
   app.put(
-    ROUTES.API.JOB.PUT.bidderDisputeJob,
+    ROUTES.API.JOB.PUT.taskerDisputeJob,
     requireLogin,
-    requireCurrentUserIsTheAwardedBidder,
+    requireCurrentUserIsTheAwardedTasker,
     async (req, res) => {
       try {
         const data = req.body.data;
@@ -444,20 +444,20 @@ module.exports = (app) => {
 
         if (!jobId || !taskerDispute) {
           return res.status(400).send({
-            errorMsg: 'Bad Request for bidderDisputeJob, missing params',
+            errorMsg: 'Bad Request for taskerDisputeJob, missing params',
           });
         }
         const { reason, details } = taskerDispute;
         if (!reason || !details) {
           return res.status(400).send({
-            errorMsg: 'Bad Request for bidderDisputeJob, missing params 2',
+            errorMsg: 'Bad Request for taskerDisputeJob, missing params 2',
           });
         }
 
         await jobDataAccess.taskerDisputesJob({ jobId, reason, details });
         return res.send({ success: true });
       } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To bidderDisputeJob', details: `${e}` });
+        return res.status(400).send({ errorMsg: 'Failed To taskerDisputeJob', details: `${e}` });
       }
     }
   );

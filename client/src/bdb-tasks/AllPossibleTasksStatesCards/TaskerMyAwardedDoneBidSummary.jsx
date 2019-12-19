@@ -24,8 +24,8 @@ export default class TaskerMyAwardedDoneBidSummary extends React.Component {
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
 
-    const { bidderPayout } = bid;
-    const { value: taskerTotalPayoutAmount } = bidderPayout;
+    const { taskerPayout } = bid;
+    const { value: taskerTotalPayoutAmount } = taskerPayout;
 
     return (
       <div className={`card has-text-centered cardWithButton`}>
@@ -48,7 +48,7 @@ export default class TaskerMyAwardedDoneBidSummary extends React.Component {
           <a
             onClick={() => {
               switchRoute(
-                ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
+                ROUTES.CLIENT.TASKER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
               );
             }}
             className={`button is-primary`}

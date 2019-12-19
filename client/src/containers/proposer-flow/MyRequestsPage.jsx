@@ -40,7 +40,7 @@ class MyRequestsPage extends React.Component {
           .filter((job) => {
             return [
               REQUEST_STATES.DISPUTE_RESOLVED,
-              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER_SEEN,
+              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_TASKER_SEEN,
               REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN,
               REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN,
               REQUEST_STATES.DISPUTE_RESOLVED,
@@ -67,7 +67,7 @@ class MyRequestsPage extends React.Component {
               REQUEST_STATES.OPEN,
               REQUEST_STATES.AWARDED,
               REQUEST_STATES.AWARDED_SEEN,
-              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER,
+              REQUEST_STATES.AWARDED_JOB_CANCELED_BY_TASKER,
               REQUEST_STATES.AWARDED_JOB_CANCELED_BY_REQUESTER,
               REQUEST_STATES.DISPUTED,
               REQUEST_STATES.DONE,
@@ -159,7 +159,7 @@ const EmptyStateComponent = () => (
                 className="button is-success "
                 onClick={(e) => {
                   e.preventDefault();
-                  switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                  switchRoute(ROUTES.CLIENT.REQUESTER.root);
                 }}
               >
                 REQUEST A SERVICE

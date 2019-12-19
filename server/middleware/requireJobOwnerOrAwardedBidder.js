@@ -13,8 +13,8 @@ module.exports = async (req, res, next) => {
 
       const userId = req.user._id.toString();
       const jobOwner = await jobDataAccess.isJobOwner(userId, jobId);
-      const awardedBidder = await jobDataAccess.isAwardedBidder(userId, jobId);
-      if ((jobOwner && jobOwner._id) || (awardedBidder && awardedBidder._id)) {
+      const awardedTasker = await jobDataAccess.isAwardedTasker(userId, jobId);
+      if ((jobOwner && jobOwner._id) || (awardedTasker && awardedTasker._id)) {
         next();
       } else {
         return res

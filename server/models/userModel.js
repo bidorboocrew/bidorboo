@@ -71,8 +71,8 @@ const UserSchema = new Schema(
   {
     appView: {
       type: String,
-      default: 'PROPOSER',
-      enum: ['PROPOSER', 'BIDDER'],
+      default: 'REQUESTER',
+      enum: ['REQUESTER', 'TASKER'],
     },
     isGmailUser: {
       type: Boolean,
@@ -105,7 +105,7 @@ const UserSchema = new Schema(
       type: [{ type: Schema.Types.ObjectId, ref: 'BidModel' }],
       index: true,
     }, // list of all bids you made
-    _asBidderReviewsRef: [{ type: Schema.Types.ObjectId, ref: 'ReviewModel' }],
+    _asTaskerReviewsRef: [{ type: Schema.Types.ObjectId, ref: 'ReviewModel' }],
     _asProposerReviewsRef: [{ type: Schema.Types.ObjectId, ref: 'ReviewModel' }],
     rating: ratingSchema,
     userId: {

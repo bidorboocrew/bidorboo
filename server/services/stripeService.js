@@ -4,7 +4,7 @@ const stripe = require('stripe')(keys.stripeSecretKey);
 
 // // XXXXXX RELEASE THE FUNDS
 // const payoutConfirmation = await stripeServiceUtil.payoutToBank('acct_1DxRCzFZom4pltNY', {
-//   amount: jobDetails.processedPayment.bidderPayout,
+//   amount: jobDetails.processedPayment.taskerPayout,
 //   metadata: { jobId: jobId.toString(), proposerId: req.user._id.toString() },
 // });
 //stripe.com/docs/api/payouts/create
@@ -72,7 +72,7 @@ exports.util = {
   //   const originalCharge = amount.value;
   //   const bidOrBooServiceFee = Math.ceil(originalCharge * BIDORBOO_SERVICECHARGE);
   //   const totalAmount = (originalCharge + bidOrBooServiceFee) * 100;
-  //   // const bidderPayoutAmount = chargeAmount - bidOrBooTotalCommission;
+  //   // const taskerPayoutAmount = chargeAmount - bidOrBooTotalCommission;
 
   //   return stripe.checkout.sessions.create({
   //     customer: 'cus_FdV8pImnyoVJDp',
@@ -128,12 +128,12 @@ exports.util = {
     requesterId,
     requesterEmail,
     taskerAccId,
-    bidderDisplayName,
+    taskerDisplayName,
     requesterCustomerId,
     taskImages,
   }) => {
     const title = `${taskName} Request Booking`;
-    const description = `*amount will be held till the tasker (${bidderDisplayName}) completes this service`;
+    const description = `*amount will be held till the tasker (${taskerDisplayName}) completes this service`;
 
     // const BIDORBOO_SERVICECHARGE = 0.06;
 
@@ -141,7 +141,7 @@ exports.util = {
     // const originalCharge = amount.value;
     // const bidOrBooServiceFee = Math.ceil(originalCharge * BIDORBOO_SERVICECHARGE);
     // const totalAmount = (originalCharge + bidOrBooServiceFee) * 100;
-    // const bidderPayoutAmount = chargeAmount - bidOrBooTotalCommission;
+    // const taskerPayoutAmount = chargeAmount - bidOrBooTotalCommission;
 
     return stripe.checkout.sessions.create({
       success_url: `${websiteUrl}/my-request/awarded-job-details/${taskId}`,

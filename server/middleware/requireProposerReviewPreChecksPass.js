@@ -30,17 +30,16 @@ module.exports = async (req, res, next) => {
 
       const jobDetails = await jobDataAccess.getFullJobDetails(jobId);
 
-      const awardedBidder = jobDetails._awardedBidRef && jobDetails._awardedBidRef._bidderRef._id;
-      if (!awardedBidder) {
+      const awardedTasker = jobDetails._awardedBidRef && jobDetails._awardedBidRef._taskerRef._id;
+      if (!awardedTasker) {
         return res.status(403).send({
-          errorMsg:
-            'the Bidder in this request does not correspond to the appropriate bidder who fulfilled the job',
+          errorMsg: 'Only the Tasker who fulfilled the job can perform this action',
         });
       }
       if (!jobDetails._reviewRef) {
         await jobDataAccess.kickStartReviewModel({
           jobId,
-          bidderId: awardedBidder,
+          taskerId: awardedTasker,
           proposerId,
         });
       }
@@ -59,7 +58,7 @@ module.exports = async (req, res, next) => {
         communicationRating,
         mannerRating,
         personalComment,
-        awardedBidder,
+        awardedTasker,
         proposerId,
       };
       next();

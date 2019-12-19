@@ -8,7 +8,7 @@ export const USER_MEMBERSHIP_STATUS = {
 };
 
 export const APP_MODE = {
-  BIDDER: 'BIDDER',
+  TASKER: 'TASKER',
 };
 
 export const USER_MEMBERSHIP_TO_DISPLAY = {

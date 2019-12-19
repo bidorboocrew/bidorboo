@@ -20,7 +20,7 @@ module.exports = async (req, res, next) => {
       next();
     } else {
       let hasUserAlreadyBid = job._bidsListRef.some((bid) => {
-        return bid._bidderRef._id.toString() === req.user._id.toString();
+        return bid._taskerRef._id.toString() === req.user._id.toString();
       });
       if (hasUserAlreadyBid) {
         return res.status(403).send({ errorMsg: 'You Already Bid on this job.' });

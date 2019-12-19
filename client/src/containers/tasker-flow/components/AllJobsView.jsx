@@ -51,7 +51,7 @@ const EmptyStateComponent = () => {
             <a
               className="button is-success "
               onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                switchRoute(ROUTES.CLIENT.REQUESTER.root);
               }}
             >
               Post Requests

@@ -10,16 +10,16 @@ export const AddAwardedJobToCalendar = ({ job }) => {
   }
 
   const { startingDateAndTime, _awardedBidRef, addressText, templateId } = job;
-  const { _bidderRef } = _awardedBidRef;
+  const { _taskerRef } = _awardedBidRef;
 
-  const { email, phone } = _bidderRef;
+  const { email, phone } = _taskerRef;
 
   const emailContact = email && email.emailAddress ? `${email.emailAddress}` : '';
   const phoneContactNumber = phone && phone.phoneNumber ? ` or ${phone.phoneNumber}` : '';
 
   const title = `BidOrBoo: ${tasksDefinitions[templateId].TITLE} request`;
   const description = `${
-    _bidderRef.displayName
+    _taskerRef.displayName
   } is going to help you take care of your request. To get in touch contact them at ${emailContact}${phoneContactNumber}`;
 
   const selectedTime = `${moment(startingDateAndTime).get('hour')}`;

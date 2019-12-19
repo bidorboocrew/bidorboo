@@ -41,7 +41,7 @@ export const submitPayment = ({ jobId, bidId }) => async (dispatch) => {
       });
 
     dispatch({
-      type: A.PROPOSER_ACTIONS.AWARD_BIDDER_AND_MAKE_A_PAYMENT,
+      type: A.PROPOSER_ACTIONS.AWARD_TASKER_AND_MAKE_A_PAYMENT,
       payload: window
         .Stripe(`${process.env.REACT_APP_STRIPE_KEY}`)
         .redirectToCheckout({
@@ -50,7 +50,7 @@ export const submitPayment = ({ jobId, bidId }) => async (dispatch) => {
         .then((resp) => {
           // update recently added job
           if (resp.data && resp.data.success) {
-            switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
+            switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedJobPage(jobId));
           } else if (resp.data.error) {
             resp.error.safeMsg = resp.data.error.message;
             throwErrorNotification(dispatch, resp.data.error);
@@ -66,7 +66,7 @@ export const submitPayment = ({ jobId, bidId }) => async (dispatch) => {
 
   //
   // dispatch({
-  //   type: A.PROPOSER_ACTIONS.AWARD_BIDDER_AND_MAKE_A_PAYMENT,
+  //   type: A.PROPOSER_ACTIONS.AWARD_TASKER_AND_MAKE_A_PAYMENT,
   //   payload: axios
   //     .post(ROUTES.API.PAYMENT.POST.payment, {
   //       data: {
@@ -88,7 +88,7 @@ export const submitPayment = ({ jobId, bidId }) => async (dispatch) => {
   //         //     },
   //         //   },
   //         // });
-  //         switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
+  //         switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedJobPage(jobId));
   //       }
   //     })
   //     .catch((error) => {

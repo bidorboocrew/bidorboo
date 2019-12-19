@@ -53,17 +53,17 @@ class RequesterAwardedDetails extends RequestBaseContainer {
       _awardedBidRef,
       extras,
       detailedDescription,
-      bidderConfirmedCompletion,
+      taskerConfirmedCompletion,
       taskImages = [],
       jobTitle,
     } = job;
 
-    const { requesterPayment, requesterPartialRefund, _bidderRef } = _awardedBidRef;
+    const { requesterPayment, requesterPartialRefund, _taskerRef } = _awardedBidRef;
 
     const { value: requesterPartialRefundAmount } = requesterPartialRefund;
     const { value: requesterPaymentAmount } = requesterPayment;
 
-    const { phone, email } = _bidderRef;
+    const { phone, email } = _taskerRef;
     const { phoneNumber } = phone;
     const { emailAddress } = email;
 
@@ -188,7 +188,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                         </div>
                       </button>
                     </div>
-                    {!bidderConfirmedCompletion && (
+                    {!taskerConfirmedCompletion && (
                       <div className="dropdown-menu" id="dropdown-menu" role="menu">
                         <div className="dropdown-content">
                           <a onClick={this.openDisputeModal} className="dropdown-item">
@@ -223,7 +223,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                 )}
               />
 
-              <AssignedTasker displayName={_awardedBidRef._bidderRef.displayName} />
+              <AssignedTasker displayName={_awardedBidRef._taskerRef.displayName} />
               <TaskCost
                 cost={requesterPaymentAmount}
                 renderHelp={() => (
@@ -273,7 +273,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
         </div>
 
         <AssignedTaskerDetails
-          otherUserProfileInfo={_bidderRef}
+          otherUserProfileInfo={_taskerRef}
           emailAddress={emailAddress}
           phoneNumber={phoneNumber}
           renderAddToCalendar={() => (

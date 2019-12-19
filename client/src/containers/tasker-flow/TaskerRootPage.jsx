@@ -8,19 +8,19 @@ import { getCurrentUser } from '../../app-state/actions/authActions';
 
 import { searchJobsToBidOn } from '../../app-state/actions/jobActions';
 
-import BidderRootFilterWrapper from '../../components/forms/BidderRootFilterWrapper';
-import BidderRootLocationFilter from '../../components/forms/BidderRootLocationFilter';
+import TaskerRootFilterWrapper from '../../components/forms/TaskerRootFilterWrapper';
+import TaskerRootLocationFilter from '../../components/forms/TaskerRootLocationFilter';
 
 import { Spinner } from '../../components/Spinner';
 
 import MapSection from './map/MapSection';
-import TaskerVerificationBanner from './TaskerVerificationBanner.jsx';
+import TaskerVerificationBanner from './TaskerVerificationBanner.jsx.js';
 import AllJobsView from './components/AllJobsView';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 import SubscribeToSearchResultsToggle from './SubscribeToSearchResultsToggle';
 
 import TASKS_DEFINITIONS from '../../bdb-tasks/tasksDefinitions';
-class BidderRootPage extends React.Component {
+class TaskerRootPage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -220,7 +220,7 @@ class BidderRootPage extends React.Component {
                   Search For Jobs Near
                 </h1>
 
-                <BidderRootLocationFilter
+                <TaskerRootLocationFilter
                   submitSearchLocationParams={this.submitSearchLocationParams}
                   updateSearchLocationState={this.updateSearchLocationState}
                   activeSearchParams={activeSearchParams}
@@ -287,7 +287,7 @@ class BidderRootPage extends React.Component {
               </Collapse>
 
               {anyVisibleJobs && (
-                <BidderRootFilterWrapper
+                <TaskerRootFilterWrapper
                   submitSearchLocationParams={this.submitSearchLocationParams}
                   updateSearchLocationState={this.updateSearchLocationState}
                   activeSearchParams={activeSearchParams}
@@ -375,4 +375,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BidderRootPage);
+export default connect(mapStateToProps, mapDispatchToProps)(TaskerRootPage);

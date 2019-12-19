@@ -21,8 +21,8 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
 
-    const { bidderPayout } = bid;
-    const { value: taskerTotalPayoutAmount } = bidderPayout;
+    const { taskerPayout } = bid;
+    const { value: taskerTotalPayoutAmount } = taskerPayout;
 
     let whoDisputed = '';
     const { proposerDispute } = dispute;
@@ -53,7 +53,7 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
             style={{ position: 'relative' }}
             onClick={() => {
               switchRoute(
-                ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
+                ROUTES.CLIENT.TASKER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
               );
             }}
             className="button is-fullwidth is-danger"

@@ -5,7 +5,7 @@ import { Collapse } from 'react-collapse';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { bidderConfirmsJobCompletion, taskerDisputesJob } from '../../app-state/actions/jobActions';
+import { taskerConfirmsJobCompletion, taskerDisputesJob } from '../../app-state/actions/jobActions';
 import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -40,20 +40,20 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
       extras,
       detailedDescription,
       _ownerRef,
-      bidderConfirmedCompletion,
+      taskerConfirmedCompletion,
       taskImages = [],
       jobTitle,
       _reviewRef = {
         revealToBoth: false,
         requiresProposerReview: true,
-        requiresBidderReview: true,
+        requiresTaskerReview: true,
       },
     } = job;
 
-    const { bidAmount, bidderPayout, _id: bidId } = bid;
+    const { bidAmount, taskerPayout, _id: bidId } = bid;
 
     const { value: bidValue } = bidAmount;
-    const { value: bidderPayoutAmount } = bidderPayout;
+    const { value: taskerPayoutAmount } = taskerPayout;
 
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
 
@@ -143,7 +143,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                 title={TITLE}
                 img={IMG}
                 meatballMenu={() =>
-                  bidderConfirmedCompletion ? null : (
+                  taskerConfirmedCompletion ? null : (
                     <div
                       ref={(node) => (this.node = node)}
                       className={`dropdown is-right is-pulled-right ${
@@ -163,7 +163,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                           </div>
                         </button>
                       </div>
-                      {!bidderConfirmedCompletion && (
+                      {!taskerConfirmedCompletion && (
                         <div className="dropdown-menu" id="dropdown-menu" role="menu">
                           <div className="dropdown-content">
                             <TaskerDisputes {...this.props} />
@@ -194,11 +194,11 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              <TaskerWillEarn earningAmount={bidderPayoutAmount}></TaskerWillEarn>
+              <TaskerWillEarn earningAmount={taskerPayoutAmount}></TaskerWillEarn>
 
-              {bidderConfirmedCompletion && <BSWaitingOnRequesterToConfirm />}
+              {taskerConfirmedCompletion && <BSWaitingOnRequesterToConfirm />}
 
-              {!bidderConfirmedCompletion && <BSTaskerAwarded />}
+              {!taskerConfirmedCompletion && <BSTaskerAwarded />}
 
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
@@ -244,7 +244,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
           </div>
         </div>
 
-        {!bidderConfirmedCompletion && (
+        {!taskerConfirmedCompletion && (
           <ContactTheRequester
             otherUserProfileInfo={_ownerRef}
             renderActionButton={() => <TaskerConfirmsCompletion {...this.props} />}
@@ -253,13 +253,13 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
             )}
           />
         )}
-        {bidderConfirmedCompletion && (!_reviewRef || _reviewRef.requiresBidderReview) && (
+        {taskerConfirmedCompletion && (!_reviewRef || _reviewRef.requiresTaskerReview) && (
           <ReviewTheRequester
             otherUserProfileInfo={_ownerRef}
             renderActionButton={() => (
               <a
                 onClick={() => {
-                  switchRoute(ROUTES.CLIENT.REVIEW.getBidderJobReview({ bidId }));
+                  switchRoute(ROUTES.CLIENT.REVIEW.getTaskerJobReview({ bidId }));
                 }}
                 className={`button  is-success`}
               >
@@ -271,7 +271,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
             )}
           />
         )}
-        {bidderConfirmedCompletion && _reviewRef && !_reviewRef.requiresBidderReview && (
+        {taskerConfirmedCompletion && _reviewRef && !_reviewRef.requiresTaskerReview && (
           <ReviewTheRequester
             otherUserProfileInfo={_ownerRef}
             renderActionButton={() => (
@@ -290,7 +290,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    bidderConfirmsJobCompletion: bindActionCreators(bidderConfirmsJobCompletion, dispatch),
+    taskerConfirmsJobCompletion: bindActionCreators(taskerConfirmsJobCompletion, dispatch),
     taskerDisputesJob: bindActionCreators(taskerDisputesJob, dispatch),
     cancelAwardedBid: bindActionCreators(cancelAwardedBid, dispatch),
   };
@@ -311,10 +311,10 @@ class TaskerConfirmsCompletion extends React.Component {
   };
 
   submitConfirmation = () => {
-    const { bidderConfirmsJobCompletion, job } = this.props;
+    const { taskerConfirmsJobCompletion, job } = this.props;
 
     this.setState({ showConfirmationModal: false }, () => {
-      bidderConfirmsJobCompletion(job._id);
+      taskerConfirmsJobCompletion(job._id);
     });
   };
 
@@ -392,10 +392,10 @@ class TaskerDisputes extends React.Component {
     this.setState({ showConfirmationModal: !this.state.showConfirmationModal });
   };
   submitConfirmation = () => {
-    const { bidderConfirmsJobCompletion, job } = this.props;
+    const { taskerConfirmsJobCompletion, job } = this.props;
 
     this.setState({ showConfirmationModal: false }, () => {
-      bidderConfirmsJobCompletion(job._id);
+      taskerConfirmsJobCompletion(job._id);
     });
   };
   render() {

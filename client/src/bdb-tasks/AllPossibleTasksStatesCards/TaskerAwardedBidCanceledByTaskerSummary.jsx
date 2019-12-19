@@ -46,7 +46,7 @@ export default class TaskerAwardedBidCanceledByTaskerSummary extends React.Compo
               style={{ position: 'relative' }}
               onClick={() => {
                 switchRoute(
-                  ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
+                  ROUTES.CLIENT.TASKER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
                 );
               }}
               className="button is-danger "

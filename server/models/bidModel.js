@@ -5,7 +5,7 @@ const MIN_BID_AMOUNT = 20;
 const MAX_BID_AMOUNT = 5000;
 const BidSchema = new Schema(
   {
-    _bidderRef: {
+    _taskerRef: {
       type: Schema.Types.ObjectId,
       ref: 'UserModel',
       required: true,
@@ -52,7 +52,7 @@ const BidSchema = new Schema(
         required: true,
       },
     },
-    bidderPayout: {
+    taskerPayout: {
       value: {
         type: Number,
         required: true,
@@ -64,7 +64,7 @@ const BidSchema = new Schema(
         required: true,
       },
     },
-    bidderPartialPayout: {
+    taskerPartialPayout: {
       value: {
         type: Number,
         required: true,
@@ -76,7 +76,7 @@ const BidSchema = new Schema(
         required: true,
       },
     },
-    bidderActualPayoutInBank: {
+    taskerActualPayoutInBank: {
       value: {
         type: Number,
         required: true,
@@ -95,7 +95,7 @@ const BidSchema = new Schema(
 
 const cleanUpOnDeleteJob = function(next) {
   const UserModel = mongoose.model('UserModel');
-  UserModel.findByIdAndUpdate(this._bidderRef, {
+  UserModel.findByIdAndUpdate(this._taskerRef, {
     $pull: { _postedBidsRef: { $eq: this._id } },
   }).then(() => next());
 };

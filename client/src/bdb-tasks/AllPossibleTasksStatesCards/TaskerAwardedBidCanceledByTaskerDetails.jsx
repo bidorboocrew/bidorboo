@@ -52,7 +52,7 @@ export default class TaskerAwardedBidCanceledByTaskerDetails extends React.Compo
 
         <a
           className="button firstButtonInCard"
-          onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.mybids)}
+          onClick={() => switchRoute(ROUTES.CLIENT.TASKER.mybids)}
         >
           <span className="icon">
             <i className="far fa-arrow-alt-circle-left" />

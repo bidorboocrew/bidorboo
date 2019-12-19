@@ -27,7 +27,7 @@ export const getJobToBidOnDetails = (jobId, isLoggedIn = false) => (dispatch) =>
           }
           //update store with the job details
           dispatch({
-            type: A.BIDDER_ACTIONS.SELECT_JOB_TO_BID_ON,
+            type: A.TASKER_ACTIONS.SELECT_JOB_TO_BID_ON,
             payload: {
               jobDetails: resp.data,
             },
@@ -44,7 +44,7 @@ export const submitBid = ({ bidAmount, job, recaptchaField }) => (dispatch) => {
 
   const { _id: jobId, templateId } = job;
   dispatch({
-    type: A.BIDDER_ACTIONS.POST_A_BID,
+    type: A.TASKER_ACTIONS.POST_A_BID,
     payload: axios
       .post(ROUTES.API.BID.POST.bid, {
         recaptchaField: recaptchaField,
@@ -58,7 +58,7 @@ export const submitBid = ({ bidAmount, job, recaptchaField }) => (dispatch) => {
         if (resp.data && resp.data._id) {
           const taskDefinition = TASKS_DEFINITIONS[templateId];
           //rediret user to the current bid
-          switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+          switchRoute(ROUTES.CLIENT.TASKER.mybids);
           dispatch({
             type: A.UI_ACTIONS.SHOW_SPECIAL_MOMENT,
             payload: {
@@ -86,7 +86,7 @@ export const submitBid = ({ bidAmount, job, recaptchaField }) => (dispatch) => {
 export const deleteOpenBid = (bidId) => (dispatch) => {
   //update store with the job details
   dispatch({
-    type: A.BIDDER_ACTIONS.DELETE_AN_OPEN_BID,
+    type: A.TASKER_ACTIONS.DELETE_AN_OPEN_BID,
     payload: axios
       .delete(ROUTES.API.BID.DELETE.deleteOpenBid, {
         data: { bidId },
@@ -116,7 +116,7 @@ export const deleteOpenBid = (bidId) => (dispatch) => {
 export const cancelAwardedBid = (bidId) => (dispatch) => {
   //update store with the job details
   dispatch({
-    type: A.BIDDER_ACTIONS.CANCEL_MY_AWARDED_BID,
+    type: A.TASKER_ACTIONS.CANCEL_MY_AWARDED_BID,
     payload: axios
       .delete(ROUTES.API.BID.DELETE.cancelAwardedBid, {
         data: { bidId },
@@ -148,7 +148,7 @@ export const updateBid = ({ bidId, bidAmount, job }) => (dispatch) => {
   const { templateId } = job;
 
   dispatch({
-    type: A.BIDDER_ACTIONS.UPDATE_A_BID,
+    type: A.TASKER_ACTIONS.UPDATE_A_BID,
     payload: axios
       .post(ROUTES.API.BID.PUT.updateMyBid, {
         data: {
@@ -172,7 +172,7 @@ export const updateBid = ({ bidId, bidAmount, job }) => (dispatch) => {
           //rediret user to the current bid
 
           delayedReload(
-            ROUTES.CLIENT.BIDDER.dynamicReviewMyOpenBidAndTheRequestDetails(resp.data._id),
+            ROUTES.CLIENT.TASKER.dynamicReviewMyOpenBidAndTheRequestDetails(resp.data._id),
           );
 
           // dispatch({
@@ -195,7 +195,7 @@ export const updateBid = ({ bidId, bidAmount, job }) => (dispatch) => {
 export const getMyPostedBidsSummary = () => (dispatch) => {
   //update store with the job details
   dispatch({
-    type: A.BIDDER_ACTIONS.GET_ALL_MY_OPEN_BIDS,
+    type: A.TASKER_ACTIONS.GET_ALL_MY_OPEN_BIDS,
     payload: axios.get(ROUTES.API.BID.GET.myPostedBidsSummary).catch((error) => {
       throwErrorNotification(dispatch, error);
     }),
@@ -205,7 +205,7 @@ export const getMyPostedBidsSummary = () => (dispatch) => {
 export const getOpenBidDetails = (openBidId) => (dispatch) => {
   //update store with the job details
   dispatch({
-    type: A.BIDDER_ACTIONS.GET_OPEN_BID_DETAILS,
+    type: A.TASKER_ACTIONS.GET_OPEN_BID_DETAILS,
     payload: axios
       .get(ROUTES.API.BID.GET.openBidDetails, { params: { openBidId } })
       .catch((error) => {
@@ -217,7 +217,7 @@ export const getOpenBidDetails = (openBidId) => (dispatch) => {
 export const getMyAwardedBids = () => (dispatch) => {
   //update store with the job details
   dispatch({
-    type: A.BIDDER_ACTIONS.GET_ALL_MY_AWARDED_BIDS,
+    type: A.TASKER_ACTIONS.GET_ALL_MY_AWARDED_BIDS,
     payload: axios.get(ROUTES.API.BID.GET.myAwardedBids).catch((error) => {
       throwErrorNotification(dispatch, error);
     }),
@@ -227,7 +227,7 @@ export const getMyAwardedBids = () => (dispatch) => {
 export const getAwardedBidDetails = (awardedBidId) => (dispatch) => {
   //update store with the job details
   dispatch({
-    type: A.BIDDER_ACTIONS.GET_AWARDED_BID_DETAILS,
+    type: A.TASKER_ACTIONS.GET_AWARDED_BID_DETAILS,
     payload: axios
       .get(ROUTES.API.BID.GET.awardedBidDetailsForTasker, { params: { awardedBidId } })
       .catch((error) => {
@@ -246,13 +246,13 @@ export const getArchivedBidDetailsForTasker = (bidId) => (dispatch) => {
   });
 
   return dispatch({
-    type: A.BIDDER_ACTIONS.GET_ARCHIVED_BID_DETAILS_FOR_TASKER,
+    type: A.TASKER_ACTIONS.GET_ARCHIVED_BID_DETAILS_FOR_TASKER,
     payload: axios
       .get(ROUTES.API.BID.GET.achivedBidDetailsForTasker, { params: { bidId } })
       .then((resp) => {
         if (resp && resp.data) {
           dispatch({
-            type: A.BIDDER_ACTIONS.SELECT_ARCHIVED_BID,
+            type: A.TASKER_ACTIONS.SELECT_ARCHIVED_BID,
             payload: { data: resp.data },
           });
         }

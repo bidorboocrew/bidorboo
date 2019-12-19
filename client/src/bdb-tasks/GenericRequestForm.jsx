@@ -169,7 +169,7 @@ class GenericRequestForm extends React.Component {
 
   onGoBack = (e) => {
     e.preventDefault();
-    switchRoute(ROUTES.CLIENT.PROPOSER.root);
+    switchRoute(ROUTES.CLIENT.REQUESTER.root);
   };
 
   autoSetGeoLocation = (addressText) => {

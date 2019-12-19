@@ -281,8 +281,8 @@ module.exports = (app) => {
   app.get(ROUTES.API.USER.GET.getMyPastProvidedServices, requireLogin, async (req, res, next) => {
     try {
       pasProvidedServices = await userDataAccess.getMyPastProvidedServices(req.user._id.toString());
-      if (pasProvidedServices && pasProvidedServices._asBidderReviewsRef) {
-        return res.send(pasProvidedServices._asBidderReviewsRef);
+      if (pasProvidedServices && pasProvidedServices._asTaskerReviewsRef) {
+        return res.send(pasProvidedServices._asTaskerReviewsRef);
       }
       return res.send({});
     } catch (e) {

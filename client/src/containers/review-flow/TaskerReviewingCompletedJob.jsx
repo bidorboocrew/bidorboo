@@ -11,7 +11,7 @@ import { throwErrorNotification, goBackToPreviousRoute } from '../../utils';
 import { CenteredUserImageAndRating } from '../commonComponents.jsx';
 import { Spinner } from '../../components/Spinner.jsx';
 
-export class BidderReviewingCompletedJob extends React.Component {
+export class TaskerReviewingCompletedJob extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -161,7 +161,7 @@ export class BidderReviewingCompletedJob extends React.Component {
       const { userToBeRated, jobId, ...ratingCategories } = this.state;
       // SUBMIT REVIEW
       axios
-        .put(ROUTES.API.REVIEW.PUT.bidderSubmitReview, {
+        .put(ROUTES.API.REVIEW.PUT.taskerSubmitReview, {
           data: {
             jobId,
             ...ratingCategories,
@@ -317,4 +317,4 @@ export class BidderReviewingCompletedJob extends React.Component {
   }
 }
 
-export default connect(null, null)(BidderReviewingCompletedJob);
+export default connect(null, null)(TaskerReviewingCompletedJob);

@@ -25,7 +25,7 @@ class RequesterRequestSummary extends React.Component {
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
 
-    let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
+    let areThereAnyTaskers = job._bidsListRef && job._bidsListRef.length > 0;
 
     return (
       <React.Fragment>
@@ -41,8 +41,8 @@ class RequesterRequestSummary extends React.Component {
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              {!areThereAnyBidders && <AwaitingOnTasker />}
-              {areThereAnyBidders && (
+              {!areThereAnyTaskers && <AwaitingOnTasker />}
+              {areThereAnyTaskers && (
                 <TaskersAvailable numberOfAvailableTaskers={job._bidsListRef.length} />
               )}
             </div>
@@ -63,7 +63,7 @@ const mapStateToProps = ({ uiReducer }) => {
 export default connect(mapStateToProps, null)(RequesterRequestSummary);
 
 const renderFooter = ({ job, notificationFeed }) => {
-  let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
+  let areThereAnyTaskers = job._bidsListRef && job._bidsListRef.length > 0;
   let doesthisJobHaveNewBids = false;
 
   if (notificationFeed.jobIdsWithNewBids) {
@@ -76,12 +76,12 @@ const renderFooter = ({ job, notificationFeed }) => {
   }
 
   let cardButton = null;
-  if (areThereAnyBidders) {
+  if (areThereAnyTaskers) {
     cardButton = (
       <div className="centeredButtonInCard">
         <a
           onClick={() => {
-            switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
+            switchRoute(ROUTES.CLIENT.REQUESTER.dynamicReviewRequestAndBidsPage(job._id));
           }}
           className={`button is-info`}
         >
@@ -110,7 +110,7 @@ const renderFooter = ({ job, notificationFeed }) => {
       <div className="centeredButtonInCard">
         <a
           onClick={() => {
-            switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(job._id));
+            switchRoute(ROUTES.CLIENT.REQUESTER.dynamicReviewRequestAndBidsPage(job._id));
           }}
           className={`button is-white`}
         >

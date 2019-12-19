@@ -20,9 +20,9 @@ export default class TaskerMyDisputedBidDetails extends React.Component {
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
 
-    const { bidderPayout } = bid;
+    const { taskerPayout } = bid;
 
-    const { value: bidderPayoutAmount } = bidderPayout;
+    const { value: taskerPayoutAmount } = taskerPayout;
 
     let whoDisputed = '';
     const { proposerDispute } = dispute;
@@ -42,7 +42,7 @@ export default class TaskerMyDisputedBidDetails extends React.Component {
             <TaskImagesCarousel taskImages={taskImages} />
 
             <SummaryStartDateAndTime date={startingDateAndTime} />
-            <TaskerWillEarn earningAmount={bidderPayoutAmount}></TaskerWillEarn>
+            <TaskerWillEarn earningAmount={taskerPayoutAmount}></TaskerWillEarn>
 
             <DisputedBy name={whoDisputed} />
 
@@ -51,7 +51,7 @@ export default class TaskerMyDisputedBidDetails extends React.Component {
               <ul>
                 <li>
                   <strong>
-                    Your expected earnings ${bidderPayoutAmount} will be on hold until we resolve
+                    Your expected earnings ${taskerPayoutAmount} will be on hold until we resolve
                     the dispute
                   </strong>
                 </li>
@@ -67,7 +67,7 @@ export default class TaskerMyDisputedBidDetails extends React.Component {
           <div style={{ padding: '0 0.5rem 0.5rem 0.5rem' }}>
             <a
               onClick={() => {
-                switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+                switchRoute(ROUTES.CLIENT.TASKER.mybids);
               }}
               className={`button firstButtonInCard`}
               style={{ flexGrow: 1, marginRight: 10 }}

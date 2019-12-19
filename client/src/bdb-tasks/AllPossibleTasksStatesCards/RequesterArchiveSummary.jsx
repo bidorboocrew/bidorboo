@@ -42,7 +42,7 @@ export default class RequesterArchiveSummary extends RequestBaseContainer {
         <div className="centeredButtonInCard ">
           <a
             onClick={() => {
-              switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
+              switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedJobPage(jobId));
             }}
             className="button is-dark"
           >

@@ -14,7 +14,7 @@ const ReviewSchema = new Schema(
       ref: 'JobModel',
       required: [true, 'Review must be associated with a Request'],
     },
-    bidderId: {
+    taskerId: {
       type: Schema.Types.ObjectId,
       ref: 'UserModel',
       required: [true, 'Review must be associated with a Tasker'],
@@ -30,7 +30,7 @@ const ReviewSchema = new Schema(
         personalComment: String, //max 100 chars
       },
     },
-    bidderReview: {
+    taskerReview: {
       type: {
         ratingCategories: [{ type: categories }],
         personalComment: String, //max 120 chars
@@ -43,12 +43,12 @@ const ReviewSchema = new Schema(
 ReviewSchema.virtual('requiresProposerReview').get(function() {
   return !this.proposerReview;
 });
-ReviewSchema.virtual('requiresBidderReview').get(function() {
-  return !this.bidderReview;
+ReviewSchema.virtual('requiresTaskerReview').get(function() {
+  return !this.taskerReview;
 });
 
 ReviewSchema.virtual('revealToBoth').get(function() {
-  return !this.proposerReview && !this.bidderReview;
+  return !this.proposerReview && !this.taskerReview;
 });
 
 ReviewSchema.plugin(mongooseLeanVirtuals);

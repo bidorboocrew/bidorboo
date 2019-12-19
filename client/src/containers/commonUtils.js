@@ -6,7 +6,7 @@ export const getUserExistingBid = (job, currentUserId) => {
   let userExistingBid = null;
   let userAlreadyBid = job._bidsListRef.some((bid) => {
     userExistingBid = bid;
-    return bid._bidderRef === currentUserId;
+    return bid._taskerRef === currentUserId;
   });
   return { userAlreadyBid, userExistingBid };
 };

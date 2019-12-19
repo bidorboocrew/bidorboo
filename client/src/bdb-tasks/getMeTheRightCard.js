@@ -83,7 +83,7 @@ const requesterCardTemplates = {
       <RequesterCanceledByRequesterDetails job={job} {...otherArgs} />
     );
   },
-  [REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER]: ({
+  [REQUEST_STATES.AWARDED_JOB_CANCELED_BY_TASKER]: ({
     job,
     isSummaryView,
     pointOfView,
@@ -95,7 +95,7 @@ const requesterCardTemplates = {
       <RequesterCanceledByTaskerDetails job={job} {...otherArgs} />
     );
   },
-  [REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER_SEEN]: ({
+  [REQUEST_STATES.AWARDED_JOB_CANCELED_BY_TASKER_SEEN]: ({
     job,
     isSummaryView,
     pointOfView,
@@ -165,7 +165,7 @@ const TaskerCardTemplates = {
       return <TaskerMyAwardedBidDetails job={job} {...otherArgs} />;
     }
   },
-  [REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER]: ({
+  [REQUEST_STATES.AWARDED_JOB_CANCELED_BY_TASKER]: ({
     job,
     isSummaryView,
     pointOfView,
@@ -288,10 +288,10 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
           );
         }
         break;
-      case REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER_SEEN:
-      case REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER:
+      case REQUEST_STATES.AWARDED_JOB_CANCELED_BY_TASKER_SEEN:
+      case REQUEST_STATES.AWARDED_JOB_CANCELED_BY_TASKER:
         try {
-          const card = TaskerCardTemplates[REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER]({
+          const card = TaskerCardTemplates[REQUEST_STATES.AWARDED_JOB_CANCELED_BY_TASKER]({
             bid,
             job: _jobRef,
             isSummaryView,
@@ -303,7 +303,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
         } catch (e) {
           console.error(
             e +
-              ' Error Loading getTaskerBidCard REQUEST_STATES.AWARDED_JOB_CANCELED_BY_BIDDER: Card ',
+              ' Error Loading getTaskerBidCard REQUEST_STATES.AWARDED_JOB_CANCELED_BY_TASKER: Card ',
           );
         }
         break;

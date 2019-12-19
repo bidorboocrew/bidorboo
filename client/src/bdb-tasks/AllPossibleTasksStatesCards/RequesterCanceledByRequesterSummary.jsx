@@ -45,7 +45,7 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
         <div className="centeredButtonInCard">
           <a
             onClick={() => {
-              switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
+              switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedJobPage(job._id));
             }}
             className="button is-danger"
           >

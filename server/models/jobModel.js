@@ -37,8 +37,8 @@ const JobSchema = new Schema(
         'AWARDED', //
         'AWARDED_SEEN',
         'DISPUTED', // disputed job
-        'AWARDED_JOB_CANCELED_BY_BIDDER',
-        'AWARDED_JOB_CANCELED_BY_BIDDER_SEEN',
+        'AWARDED_JOB_CANCELED_BY_TASKER',
+        'AWARDED_JOB_CANCELED_BY_TASKER_SEEN',
         'AWARDED_JOB_CANCELED_BY_REQUESTER',
         'AWARDED_JOB_CANCELED_BY_REQUESTER_SEEN',
         'DONE', //when Tasker confirms we set it to Payout , later a cron job will pay the account
@@ -89,7 +89,7 @@ const JobSchema = new Schema(
         taskerResolution: { type: String },
       },
     },
-    bidderConfirmedCompletion: { type: Boolean, default: false },
+    taskerConfirmedCompletion: { type: Boolean, default: false },
     // when a tasker cancels on this job hide it from them to avoid future bids by the asshole who canceled
     hideFrom: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }], //array of people who saw this/booed no longer wish to see it ..etc
     viewedBy: [{ type: Schema.Types.ObjectId, ref: 'UserModel' }],
@@ -249,13 +249,13 @@ JobSchema.pre('remove', async function(next) {
       .lean()
       .exec();
     if (bidsToBeRemoved && bidsToBeRemoved.length > 0) {
-      let bidders = [];
+      let taskers = [];
       bidsToBeRemoved.forEach((bid) => {
-        bidders.push(bid._bidderRef._id);
+        taskers.push(bid._taskerRef._id);
       });
 
       await UserModel.update(
-        { _id: { $in: bidders } },
+        { _id: { $in: taskers } },
         { $pull: { _postedBidsRef: { $in: this._bidsListRef } } },
         { multi: true }
       )
