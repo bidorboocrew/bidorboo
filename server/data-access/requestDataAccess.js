@@ -27,7 +27,7 @@ exports.requestDataAccess = {
   BidOrBooAdmin: {
     SendRemindersForUpcomingRequests: async () => {
       try {
-        await RequestModel.find({
+        const requests = await RequestModel.find({
           $and: [
             { _awardedBidRef: { $exists: true } },
             { state: { $in: ['AWARDED', 'AWARDED_SEEN'] } },
@@ -60,127 +60,113 @@ exports.requestDataAccess = {
             },
           })
           .lean({ virtuals: true })
-          .exec((err, res) => {
-            if (err) {
-              throw err;
-            }
-            if (res && res.length > 0) {
-              try {
-                res &&
-                  res.length > 0 &&
-                  res.forEach(async (request) => {
-                    const { isHappeningSoon } = request;
+          .exec();
 
-                    if (isHappeningSoon) {
-                      const requestId = request._id.toString();
-                      const awardedBidId = request._awardedBidRef._id.toString();
-                      const ownerDetails = request._ownerRef;
-                      const ownerEmailAddress =
-                        ownerDetails.email && ownerDetails.email.emailAddress
-                          ? ownerDetails.email.emailAddress
-                          : '';
-                      const ownerPhoneNumber =
-                        ownerDetails.phone && ownerDetails.phone.phoneNumber
-                          ? ownerDetails.phone.phoneNumber
-                          : '';
-                      const linkForOwner = ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(
-                        requestId
-                      );
-                      const awardedTaskerDetails = request._awardedBidRef._taskerRef;
-                      const taskerEmailAddress =
-                        awardedTaskerDetails.email && awardedTaskerDetails.email.emailAddress
-                          ? awardedTaskerDetails.email.emailAddress
-                          : '';
-                      const taskerPhoneNumber =
-                        awardedTaskerDetails.phone && awardedTaskerDetails.phone.phoneNumber
-                          ? awardedTaskerDetails.phone.phoneNumber
-                          : '';
-                      const linkForTasker = ROUTES.CLIENT.TASKER.dynamicCurrentAwardedBid(
-                        awardedBidId
-                      );
-                      if (ownerDetails.notifications && ownerDetails.notifications.email) {
-                        sendGridEmailing.sendRequestIsHappeningSoonToRequesterEmail({
-                          to: ownerEmailAddress,
-                          requestTitle: request.templateId,
-                          toDisplayName: `${ownerDetails.displayName}`,
-                          taskerEmailAddress,
-                          taskerPhoneNumber,
-                          linkForOwner,
-                        });
-                      }
-                      if (
-                        awardedTaskerDetails.notifications &&
-                        awardedTaskerDetails.notifications.email
-                      ) {
-                        sendGridEmailing.sendRequestIsHappeningSoonToTaskerEmail({
-                          to: taskerEmailAddress,
-                          requestTitle: request.templateId,
-                          toDisplayName: `${awardedTaskerDetails.displayName}`,
-                          ownerEmailAddress,
-                          ownerPhoneNumber,
-                          linkForTasker,
-                        });
-                      }
+        if (requests && requests.length > 0) {
+          requests.forEach(async (request) => {
+            try {
+              const { isHappeningSoon } = request;
 
-                      if (
-                        ownerPhoneNumber &&
-                        ownerDetails.notifications &&
-                        ownerDetails.notifications.text
-                      ) {
-                        sendTextService.sendRequestIsHappeningSoonText(
-                          ownerPhoneNumber,
-                          request.templateId,
-                          linkForOwner
-                        );
-                      }
-                      if (
-                        taskerPhoneNumber &&
-                        awardedTaskerDetails.notifications &&
-                        awardedTaskerDetails.notifications.text
-                      ) {
-                        sendTextService.sendRequestIsHappeningSoonText(
-                          taskerPhoneNumber,
-                          request.templateId,
-                          linkForTasker
-                        );
-                      }
-
-                      if (ownerDetails.notifications && ownerDetails.notifications.push) {
-                        WebPushNotifications.pushRequestIsHappeningSoon(
-                          ownerDetails.pushSubscription,
-                          {
-                            requestTitle: request.templateId,
-                            urlToLaunch: linkForOwner,
-                          }
-                        );
-                      }
-                      if (
-                        awardedTaskerDetails.notifications &&
-                        awardedTaskerDetails.notifications.push
-                      ) {
-                        WebPushNotifications.pushRequestIsHappeningSoon(
-                          awardedTaskerDetails.pushSubscription,
-                          {
-                            requestTitle: request.templateId,
-                            urlToLaunch: linkForTasker,
-                          }
-                        );
-                      }
-                    }
+              if (isHappeningSoon) {
+                const requestId = request._id.toString();
+                const awardedBidId = request._awardedBidRef._id.toString();
+                const ownerDetails = request._ownerRef;
+                const ownerEmailAddress =
+                  ownerDetails.email && ownerDetails.email.emailAddress
+                    ? ownerDetails.email.emailAddress
+                    : '';
+                const ownerPhoneNumber =
+                  ownerDetails.phone && ownerDetails.phone.phoneNumber
+                    ? ownerDetails.phone.phoneNumber
+                    : '';
+                const linkForOwner = ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(
+                  requestId
+                );
+                const awardedTaskerDetails = request._awardedBidRef._taskerRef;
+                const taskerEmailAddress =
+                  awardedTaskerDetails.email && awardedTaskerDetails.email.emailAddress
+                    ? awardedTaskerDetails.email.emailAddress
+                    : '';
+                const taskerPhoneNumber =
+                  awardedTaskerDetails.phone && awardedTaskerDetails.phone.phoneNumber
+                    ? awardedTaskerDetails.phone.phoneNumber
+                    : '';
+                const linkForTasker = ROUTES.CLIENT.TASKER.dynamicCurrentAwardedBid(awardedBidId);
+                if (ownerDetails.notifications && ownerDetails.notifications.email) {
+                  sendGridEmailing.sendRequestIsHappeningSoonToRequesterEmail({
+                    to: ownerEmailAddress,
+                    requestTitle: request.templateId,
+                    toDisplayName: `${ownerDetails.displayName}`,
+                    taskerEmailAddress,
+                    taskerPhoneNumber,
+                    linkForOwner,
                   });
-              } catch (innerError) {
-                throw innerError;
+                }
+                if (
+                  awardedTaskerDetails.notifications &&
+                  awardedTaskerDetails.notifications.email
+                ) {
+                  sendGridEmailing.sendRequestIsHappeningSoonToTaskerEmail({
+                    to: taskerEmailAddress,
+                    requestTitle: request.templateId,
+                    toDisplayName: `${awardedTaskerDetails.displayName}`,
+                    ownerEmailAddress,
+                    ownerPhoneNumber,
+                    linkForTasker,
+                  });
+                }
+
+                if (
+                  ownerPhoneNumber &&
+                  ownerDetails.notifications &&
+                  ownerDetails.notifications.text
+                ) {
+                  sendTextService.sendRequestIsHappeningSoonText(
+                    ownerPhoneNumber,
+                    request.templateId,
+                    linkForOwner
+                  );
+                }
+                if (
+                  taskerPhoneNumber &&
+                  awardedTaskerDetails.notifications &&
+                  awardedTaskerDetails.notifications.text
+                ) {
+                  sendTextService.sendRequestIsHappeningSoonText(
+                    taskerPhoneNumber,
+                    request.templateId,
+                    linkForTasker
+                  );
+                }
+
+                if (ownerDetails.notifications && ownerDetails.notifications.push) {
+                  WebPushNotifications.pushRequestIsHappeningSoon(ownerDetails.pushSubscription, {
+                    requestTitle: request.templateId,
+                    urlToLaunch: linkForOwner,
+                  });
+                }
+                if (awardedTaskerDetails.notifications && awardedTaskerDetails.notifications.push) {
+                  WebPushNotifications.pushRequestIsHappeningSoon(
+                    awardedTaskerDetails.pushSubscription,
+                    {
+                      requestTitle: request.templateId,
+                      urlToLaunch: linkForTasker,
+                    }
+                  );
+                }
               }
+            } catch (innerE) {
+              console.log('BIDORBOO_ERROR: SendRemindersForUpcomingRequests_Error ' + innerE);
             }
           });
-        return;
+        }
       } catch (e) {
-        console.log('BIDORBOO_ERROR: SendRemindersForUpcomingRequests_Error ' + JSON.stringify(e));
+        console.log('BIDORBOO_ERROR: SendRemindersForUpcomingRequests_Error ' + e);
       }
     },
     CleanUpAllExpiredNonAwardedRequests: async () => {
       try {
-        await RequestModel.find({
+        const requests = await RequestModel.find({
           startingDateAndTime: { $exists: true },
           _awardedBidRef: { $exists: false },
         })
@@ -192,203 +178,181 @@ exports.requestDataAccess = {
             },
           })
           .lean({ virtuals: true })
-          .exec((err, res) => {
-            if (err) {
-              throw err;
-            }
+          .exec();
 
-            if (res && res.length > 0) {
-              res.forEach((request) => {
-                const { _id: requestId, isPastDue, startingDateAndTime } = request;
+        if (requests && requests.length > 0) {
+          requests.forEach((request) => {
+            try {
+              console.log(
+                `BIDORBOO_LOGGING === deleting request ${requestId} which was planned for ${startingDateAndTime}`
+              );
+              const { _id: requestId, isPastDue, startingDateAndTime } = request;
 
-                if (isPastDue) {
-                  try {
-                    console.log(
-                      `BIDORBOO_LOGGING === deleting request ${requestId} which was planned for ${startingDateAndTime}`
-                    );
-
-                    request.remove().catch((e) => {
-                      console.log(
-                        'BIDORBOO_ERROR: CleanUpAllExpiredNonAwardedRequests_REMOVE_REQUEST_ISSUE ' +
-                          e
-                      );
-                    });
-                  } catch (innerError) {
-                    throw innerError;
-                  }
-                }
-              });
+              if (isPastDue) {
+                request.remove().catch((deleteError) => {
+                  console.log('BIDORBOO_ERROR: CleanUpAllExpiredNonAwardedRequests ' + deleteError);
+                });
+              }
+            } catch (innerError) {
+              console.log('BIDORBOO_ERROR: CleanUpAllExpiredNonAwardedRequests ' + innerError);
             }
           });
+        }
 
         return;
       } catch (e) {
-        console.log(
-          'BIDORBOO_ERROR: CleanUpAllExpiredNonAwardedRequests_Error ' + JSON.stringify(e)
-        );
+        console.log('BIDORBOO_ERROR: CleanUpAllExpiredNonAwardedRequests_Error ' + e);
       }
     },
     nagRequesterToConfirmRequest: async () => {
       try {
-        await RequestModel.find({
+        const requests = await RequestModel.find({
           state: { $in: ['AWARDED', 'AWARDED_SEEN'] },
           dispute: { $exists: false },
           taskerConfirmedCompletion: { $eq: true },
           _awardedBidRef: { $exists: true },
         })
           .lean(true)
-          .exec((err, res) => {
-            if (err) {
-              throw err;
-            }
+          .exec();
 
-            const threeDaysAgo = moment.utc().subtract(3, 'days');
+        const threeDaysAgo = moment.utc().subtract(3, 'days');
 
-            if (res && res.length > 0) {
-              try {
-                res.forEach(async (request) => {
-                  const requestStartDate = request.startingDateAndTime;
-                  const markAsDoneAnyways = moment(requestStartDate).isBefore(threeDaysAgo);
+        if (requests && requests.length > 0) {
+          requests.forEach(async (request) => {
+            try {
+              const requestStartDate = request.startingDateAndTime;
+              const markAsDoneAnyways = moment(requestStartDate).isBefore(threeDaysAgo);
 
-                  const {
-                    requesterDisplayName,
+              const {
+                requesterDisplayName,
+                requestDisplayName,
+                requestLinkForRequester,
+                requesterEmailAddress,
+                requesterPhoneNumber,
+                allowedToEmailRequester,
+                allowedToTextRequester,
+                allowedToPushNotifyRequester,
+                requesterPushNotSubscription,
+              } = await getAllContactDetails(request._id);
+
+              if (markAsDoneAnyways) {
+                console.log('-------AUTO MARK REQUEST DONE----------------------');
+                console.log(request._id);
+
+                await RequestModel.findOneAndUpdate(
+                  { _id: request._id },
+                  {
+                    $set: {
+                      state: 'DONE',
+                    },
+                  }
+                )
+                  .lean(true)
+                  .exec();
+                console.log('-------AUTO MARK REQUEST DONE----------------------');
+                if (allowedToEmailRequester) {
+                  console.log(
+                    'sensendGridEmailingdTextService.tellRequesterThatWeMarkedRequestDone'
+                  );
+                  console.log({
+                    to: requesterEmailAddress,
+                    requestTitle: requestDisplayName,
+                    toDisplayName: requesterDisplayName,
+                    linkForOwner: requestLinkForRequester,
+                  });
+                  sendGridEmailing.tellRequesterThatWeMarkedRequestDone({
+                    to: requesterEmailAddress,
+                    requestTitle: requestDisplayName,
+                    toDisplayName: requesterDisplayName,
+                    linkForOwner: requestLinkForRequester,
+                  });
+                }
+
+                if (allowedToTextRequester) {
+                  console.log('sendTextService.tellRequesterThatWeMarkedRequestDone');
+                  console.log({
+                    requesterPhoneNumber,
                     requestDisplayName,
                     requestLinkForRequester,
-                    requesterEmailAddress,
+                  });
+                  sendTextService.tellRequesterThatWeMarkedRequestDone(
                     requesterPhoneNumber,
-                    allowedToEmailRequester,
-                    allowedToTextRequester,
-                    allowedToPushNotifyRequester,
-                    requesterPushNotSubscription,
-                  } = await getAllContactDetails(request._id);
+                    requestDisplayName,
+                    requestLinkForRequester
+                  );
+                }
 
-                  if (markAsDoneAnyways) {
-                    console.log('-------AUTO MARK REQUEST DONE----------------------');
-                    console.log(request._id);
+                if (allowedToPushNotifyRequester) {
+                  console.log('WebPushNotifications.tellRequesterToConfirmRequest');
+                  console.log({
+                    requestTitle: requestDisplayName,
+                    urlToLaunch: requestLinkForRequester,
+                  });
 
-                    await RequestModel.findOneAndUpdate(
-                      { _id: request._id },
-                      {
-                        $set: {
-                          state: 'DONE',
-                        },
-                      }
-                    )
-                      .lean(true)
-                      .exec();
-                    console.log('-------AUTO MARK REQUEST DONE----------------------');
-                    if (allowedToEmailRequester) {
-                      console.log(
-                        'sensendGridEmailingdTextService.tellRequesterThatWeMarkedRequestDone'
-                      );
-                      console.log({
-                        to: requesterEmailAddress,
-                        requestTitle: requestDisplayName,
-                        toDisplayName: requesterDisplayName,
-                        linkForOwner: requestLinkForRequester,
-                      });
-                      sendGridEmailing.tellRequesterThatWeMarkedRequestDone({
-                        to: requesterEmailAddress,
-                        requestTitle: requestDisplayName,
-                        toDisplayName: requesterDisplayName,
-                        linkForOwner: requestLinkForRequester,
-                      });
-                    }
+                  WebPushNotifications.tellRequesterToConfirmRequest(requesterPushNotSubscription, {
+                    requestTitle: requestDisplayName,
+                    urlToLaunch: requestLinkForRequester,
+                  });
+                }
+              } else {
+                if (allowedToEmailRequester) {
+                  console.log('sensendGridEmailingdTextService.tellRequesterToConfirmRequest');
+                  console.log({
+                    to: requesterEmailAddress,
+                    requestTitle: requestDisplayName,
+                    toDisplayName: requesterDisplayName,
+                    linkForOwner: requestLinkForRequester,
+                  });
+                  sendGridEmailing.tellRequesterToConfirmRequest({
+                    to: requesterEmailAddress,
+                    requestTitle: requestDisplayName,
+                    toDisplayName: requesterDisplayName,
+                    linkForOwner: requestLinkForRequester,
+                  });
+                }
 
-                    if (allowedToTextRequester) {
-                      console.log('sendTextService.tellRequesterThatWeMarkedRequestDone');
-                      console.log({
-                        requesterPhoneNumber,
-                        requestDisplayName,
-                        requestLinkForRequester,
-                      });
-                      sendTextService.tellRequesterThatWeMarkedRequestDone(
-                        requesterPhoneNumber,
-                        requestDisplayName,
-                        requestLinkForRequester
-                      );
-                    }
+                if (allowedToTextRequester) {
+                  console.log('sendTextService.tellRequesterToConfirmRequest');
+                  console.log({
+                    requesterPhoneNumber,
+                    requestDisplayName,
+                    requestLinkForRequester,
+                  });
+                  sendTextService.tellRequesterToConfirmRequest(
+                    requesterPhoneNumber,
+                    requestDisplayName,
+                    requestLinkForRequester
+                  );
+                }
 
-                    if (allowedToPushNotifyRequester) {
-                      console.log('WebPushNotifications.tellRequesterToConfirmRequest');
-                      console.log({
-                        requestTitle: requestDisplayName,
-                        urlToLaunch: requestLinkForRequester,
-                      });
+                if (allowedToPushNotifyRequester) {
+                  console.log('WebPushNotifications.tellRequesterToConfirmRequest');
+                  console.log({
+                    requestTitle: requestDisplayName,
+                    urlToLaunch: requestLinkForRequester,
+                  });
 
-                      WebPushNotifications.tellRequesterToConfirmRequest(
-                        requesterPushNotSubscription,
-                        {
-                          requestTitle: requestDisplayName,
-                          urlToLaunch: requestLinkForRequester,
-                        }
-                      );
-                    }
-                  } else {
-                    if (allowedToEmailRequester) {
-                      console.log('sensendGridEmailingdTextService.tellRequesterToConfirmRequest');
-                      console.log({
-                        to: requesterEmailAddress,
-                        requestTitle: requestDisplayName,
-                        toDisplayName: requesterDisplayName,
-                        linkForOwner: requestLinkForRequester,
-                      });
-                      sendGridEmailing.tellRequesterToConfirmRequest({
-                        to: requesterEmailAddress,
-                        requestTitle: requestDisplayName,
-                        toDisplayName: requesterDisplayName,
-                        linkForOwner: requestLinkForRequester,
-                      });
-                    }
-
-                    if (allowedToTextRequester) {
-                      console.log('sendTextService.tellRequesterToConfirmRequest');
-                      console.log({
-                        requesterPhoneNumber,
-                        requestDisplayName,
-                        requestLinkForRequester,
-                      });
-                      sendTextService.tellRequesterToConfirmRequest(
-                        requesterPhoneNumber,
-                        requestDisplayName,
-                        requestLinkForRequester
-                      );
-                    }
-
-                    if (allowedToPushNotifyRequester) {
-                      console.log('WebPushNotifications.tellRequesterToConfirmRequest');
-                      console.log({
-                        requestTitle: requestDisplayName,
-                        urlToLaunch: requestLinkForRequester,
-                      });
-
-                      WebPushNotifications.tellRequesterToConfirmRequest(
-                        requesterPushNotSubscription,
-                        {
-                          requestTitle: requestDisplayName,
-                          urlToLaunch: requestLinkForRequester,
-                        }
-                      );
-                    }
-                  }
-                });
-              } catch (innerError) {
-                throw innerError;
+                  WebPushNotifications.tellRequesterToConfirmRequest(requesterPushNotSubscription, {
+                    requestTitle: requestDisplayName,
+                    urlToLaunch: requestLinkForRequester,
+                  });
+                }
               }
+            } catch (innerError) {
+              console.log('BIDORBOO_ERROR: nagRequesterToConfirmRequest_Error ' + innerError);
             }
           });
-
+        }
         return;
       } catch (e) {
-        console.log('BIDORBOO_ERROR: nagRequesterToConfirmRequest_Error ' + JSON.stringify(e));
+        console.log('BIDORBOO_ERROR: nagRequesterToConfirmRequest_Error ' + e);
       }
     },
     SendPayoutsToBanks: async () => {
       try {
         // find all requests that are done and does not have payment to bank on the way
 
-        console.log(' SendPayoutsToBanks');
-        return RequestModel.find({
+        const requests = RequestModel.find({
           _awardedBidRef: { $exists: true },
           processedPayment: { $exists: true },
           state: {
@@ -404,122 +368,106 @@ exports.requestDataAccess = {
           paymentToBank: { $exists: false },
         })
           .lean(true)
-          .exec((err, res) => {
-            if (err) {
-              throw err;
-            }
+          .exec();
 
-            if (res && res.length > 0) {
-              try {
-                res.forEach(async (request) => {
-                  const { _id: requestId, processedPayment } = request;
-                  const {
-                    amount,
-                    applicationFeeAmount,
-                    destinationStripeAcc,
-                    paymentIntentId,
-                    refund,
-                  } = processedPayment;
+        if (requests && requests.length > 0) {
+          requests.forEach(async (request) => {
+            try {
+              const { _id: requestId, processedPayment } = request;
+              const {
+                amount,
+                applicationFeeAmount,
+                destinationStripeAcc,
+                paymentIntentId,
+                refund,
+              } = processedPayment;
 
-                  const taskerConnectAccDetails = await stripeServiceUtil.getConnectedAccountDetails(
-                    destinationStripeAcc
+              const taskerConnectAccDetails = await stripeServiceUtil.getConnectedAccountDetails(
+                destinationStripeAcc
+              );
+
+              // confirm payouts enabled
+              if (taskerConnectAccDetails && taskerConnectAccDetails.payouts_enabled) {
+                let taskerPayout = 0;
+                if (refund && refund.status === 'succeeded') {
+                  const ratioOfRefund = refund.amount / amount;
+                  const amountRefundedFromApplicationFee = ratioOfRefund * applicationFeeAmount;
+                  const actualKeptBidOrBooApplicationFees =
+                    applicationFeeAmount - amountRefundedFromApplicationFee;
+
+                  taskerPayout = Math.floor(
+                    amount - refund.amount - actualKeptBidOrBooApplicationFees
                   );
+                } else if (refund && refund.status !== 'succeeded') {
+                  console.log(
+                    'BIDORBOO_PAYMENTS: DANGER INVESTIGATE WHY THIS IS NOT SUCCESSFUL' +
+                      JSON.stringify(request)
+                  );
+                  return;
+                }
+                if (!refund) {
+                  taskerPayout = Math.floor(amount - applicationFeeAmount);
+                }
 
-                  // confirm payouts enabled
-                  if (taskerConnectAccDetails && taskerConnectAccDetails.payouts_enabled) {
-                    let taskerPayout = 0;
-                    if (refund && refund.status === 'succeeded') {
-                      const ratioOfRefund = refund.amount / amount;
-                      const amountRefundedFromApplicationFee = ratioOfRefund * applicationFeeAmount;
-                      const actualKeptBidOrBooApplicationFees =
-                        applicationFeeAmount - amountRefundedFromApplicationFee;
+                let payoutInititated = null;
+                try {
+                  payoutInititated = await stripeServiceUtil.payoutToBank(destinationStripeAcc, {
+                    amount: taskerPayout,
+                    metadata: {
+                      paymentIntentId,
+                      requestId: requestId.toString(),
+                      destinationStripeAcc,
+                      note: 'Released Payout to Tasker',
+                    },
+                  });
 
-                      taskerPayout = Math.floor(
-                        amount - refund.amount - actualKeptBidOrBooApplicationFees
-                      );
-                    } else if (refund && refund.status !== 'succeeded') {
-                      console.log(
-                        'BIDORBOO_PAYMENTS: DANGER INVESTIGATE WHY THIS IS NOT SUCCESSFUL' +
-                          JSON.stringify(request)
-                      );
-                      return;
+                  const { id: payoutId, status } = payoutInititated;
+                  // update request with the payment details
+                  await RequestModel.findOneAndUpdate(
+                    { _id: requestId },
+                    {
+                      $set: {
+                        payoutDetails: {
+                          id: payoutId,
+                          status,
+                        },
+                      },
                     }
-                    if (!refund) {
-                      taskerPayout = Math.floor(amount - applicationFeeAmount);
-                    }
-
-                    console.log('send payout');
-                    let payoutInititated = null;
-                    try {
-                      payoutInititated = await stripeServiceUtil.payoutToBank(
-                        destinationStripeAcc,
-                        {
-                          amount: taskerPayout,
-                          metadata: {
-                            paymentIntentId,
-                            requestId: requestId.toString(),
-                            destinationStripeAcc,
-                            note: 'Released Payout to Tasker',
-                          },
-                        }
-                      );
-
-                      const { id: payoutId, status } = payoutInititated;
-                      // update request with the payment details
-                      await RequestModel.findOneAndUpdate(
-                        { _id: requestId },
-                        {
-                          $set: {
-                            payoutDetails: {
-                              id: payoutId,
-                              status,
-                            },
-                          },
-                        }
-                      )
-                        .lean()
-                        .exec();
-                    } catch (errorPayout) {
-                      if (errorPayout) {
-                        console.log(
-                          'BIDORBOO_ERROR: SendPayoutsToBanks_Error ' +
-                            errorPayout +
-                            '  ' +
-                            errorPayout.message
-                        );
-                      } else {
-                        console.log('BIDORBOO_ERROR: SendPayoutsToBanks_Error ' + errorPayout);
-                      }
-                    }
-                    // xxx on update request update bid
-                    // } else {
-                    //   console.log('BIDORBOO_PAYMENTS: NOT_ENOUGH_TO_PAYOUT');
-                    //   console.log('destinationStripeAcc ' + destinationStripeAcc);
-                    //   console.log('request ' + JSON.stringify(request));
-                    //   console.log('-----------------------------------------');
-                    // }
-                  } else {
+                  )
+                    .lean()
+                    .exec();
+                } catch (errorPayout) {
+                  if (errorPayout) {
                     console.log(
-                      'BIDORBOO_PAYMENTS: DANGER PAYOUT IS NOT ENABLED PLEASE INVESTIGATE WHY'
+                      'BIDORBOO_ERROR: SendPayoutsToBanks_Error ' +
+                        errorPayout +
+                        '  ' +
+                        errorPayout.message
                     );
-                    console.log('destinationStripeAcc ' + destinationStripeAcc);
-                    console.log('request ' + JSON.stringify(request));
-                    console.log('-----------------------------------------');
+                  } else {
+                    console.log('BIDORBOO_ERROR: SendPayoutsToBanks_Error ' + errorPayout);
                   }
-                });
-              } catch (innerError) {
-                throw innerError;
+                }
+              } else {
+                console.log(
+                  'BIDORBOO_PAYMENTS: DANGER PAYOUT IS NOT ENABLED PLEASE INVESTIGATE WHY ' +
+                    destinationStripeAcc
+                );
               }
+            } catch (innerError) {
+              throw innerError;
             }
           });
+        }
+        return;
       } catch (e) {
-        console.log('BIDORBOO_ERROR: SendPayoutsToBanks_Error ' + JSON.stringify(e));
+        console.log('BIDORBOO_ERROR: SendPayoutsToBanks_Error ' + e);
       }
     },
 
     CleanUpAllBidsAssociatedWithDoneRequests: async () => {
       try {
-        await RequestModel.find({
+        const requests = RequestModel.find({
           _awardedBidRef: { $exists: true },
           state: { $eq: 'ARCHIVE' },
         })
@@ -531,67 +479,63 @@ exports.requestDataAccess = {
             },
           })
           .lean(true)
-          .exec((err, res) => {
-            if (err) {
-              throw err;
-            }
+          .exec();
 
-            if (res && res.length > 0) {
-              try {
-                res.forEach((request) => {
-                  const areThereAnyBids = request._bidsListRef && request._bidsListRef.length > 0;
-                  if (areThereAnyBids) {
-                    bidsIds = [];
-                    taskersIds = [];
-                    const awardedBidRefId = request._awardedBidRef._id.toString();
+        if (requests && requests.length > 0) {
+          requests.forEach((request) => {
+            try {
+              const areThereAnyBids = request._bidsListRef && request._bidsListRef.length > 0;
+              if (areThereAnyBids) {
+                bidsIds = [];
+                taskersIds = [];
+                const awardedBidRefId = request._awardedBidRef._id.toString();
 
-                    request._bidsListRef.forEach((bidRef) => {
-                      // dont delete the awardedBidRef
-                      if (bidRef._id.toString() !== awardedBidRefId.toString()) {
-                        bidsIds.push(bidRef._id.toString());
-                        taskersIds.push(bidRef._taskerRef._id.toString());
-                      }
-                    });
-
-                    taskersIds.forEach((taskerId) => {
-                      // clean ref for taskers
-                      User.findOneAndUpdate(
-                        { _id: taskerId },
-                        { $pull: { _postedBidsRef: { $in: bidsIds } } }
-                      )
-                        .exec()
-                        .catch((fail) =>
-                          console.log(
-                            'BIDORBOO_ERROR: CleanUpAllBidsAssociatedWithDoneRequests_Error User.findOneAndUpdate ' +
-                              JSON.stringify(fail)
-                          )
-                        );
-                    });
-
-                    // clean the bids for taskers
-                    bidsIds.forEach((bidId) => {
-                      BidModel.deleteOne({ _id: bidId })
-                        .exec()
-                        .catch((fail2) =>
-                          console.log(
-                            'BIDORBOO_ERROR: CleanUpAllBidsAssociatedWithDoneRequests_Error BidModel.deleteOne ' +
-                              JSON.stringify(fail2)
-                          )
-                        );
-                    });
+                request._bidsListRef.forEach((bidRef) => {
+                  // dont delete the awardedBidRef
+                  if (bidRef._id.toString() !== awardedBidRefId.toString()) {
+                    bidsIds.push(bidRef._id.toString());
+                    taskersIds.push(bidRef._taskerRef._id.toString());
                   }
                 });
-              } catch (innerError) {
-                throw innerError;
+
+                taskersIds.forEach((taskerId) => {
+                  // clean ref for taskers
+                  User.findOneAndUpdate(
+                    { _id: taskerId },
+                    { $pull: { _postedBidsRef: { $in: bidsIds } } }
+                  )
+                    .exec()
+                    .catch((fail) =>
+                      console.log(
+                        'BIDORBOO_ERROR: CleanUpAllBidsAssociatedWithDoneRequests User.findOneAndUpdate ' +
+                          JSON.stringify(fail)
+                      )
+                    );
+                });
+
+                // clean the bids for taskers
+                bidsIds.forEach((bidId) => {
+                  BidModel.deleteOne({ _id: bidId })
+                    .exec()
+                    .catch((fail2) =>
+                      console.log(
+                        'BIDORBOO_ERROR: CleanUpAllBidsAssociatedWithDoneRequests BidModel.deleteOne ' +
+                          JSON.stringify(fail2)
+                      )
+                    );
+                });
               }
+            } catch (innerError) {
+              console.log(
+                'BIDORBOO_ERROR: CleanUpAllBidsAssociatedWithDoneRequests ' +
+                  JSON.stringify(innerError)
+              );
             }
           });
-
+        }
         return;
       } catch (e) {
-        console.log(
-          'BIDORBOO_ERROR: CleanUpAllBidsAssociatedWithDoneRequests_Error ' + JSON.stringify(e)
-        );
+        console.log('BIDORBOO_ERROR: CleanUpAllBidsAssociatedWithDoneRequests ' + e);
       }
     },
   },

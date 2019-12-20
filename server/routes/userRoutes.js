@@ -240,13 +240,8 @@ module.exports = (app) => {
     try {
       // await requestDataAccess.BidOrBooAdmin.nagRequesterToConfirmRequest();
 
-      // await requestDataAccess.BidOrBooAdmin.SendPayoutsToBanks();
-      // sendTextService.verifyPhone()
+      // requestDataAccess.BidOrBooAdmin.SendRemindersForUpcomingRequests();
 
-      // sendTextService.verifyPhoneCode();
-      // console.log('---------------------------');
-      // console.log(req.ipInfo);
-      // console.log('---------------------------');
       let existingUser = null;
       if (req.user) {
         existingUser = await userDataAccess.findUserAndAllNewNotifications(req.user._id);
