@@ -33,38 +33,30 @@ module.exports = async (req, res, next) => {
         });
       }
       const bid = await bidDataAccess.getAwardedBidDetails(taskerId, bidId);
-      if (!bid || !bid._id || !bid._requestRef) {
+      if (!bid || !bid._id || !bid._requestRef || !bid._requestRef._id) {
         return res.status(403).send({ errorMsg: 'Could not find the specified bid.' });
       }
+      const request = bid._requestRef;
 
-      const request = await requestDataAccess.getRequestWithReviewModel(requestId, bid._requestRef._ownerRef._id);
+      res.locals.bidOrBoo = res.locals.bidOrBoo || {};
+      res.locals.bidOrBoo.requesterId = request._ownerRef._id;
+      res.locals.bidOrBoo.taskerId = bid._taskerRef;
 
-      if (request && request._id) {
-        res.locals.bidOrBoo = res.locals.bidOrBoo || {};
-        res.locals.bidOrBoo.requesterId = bid._requestRef._ownerRef._id;
-        res.locals.bidOrBoo.taskerId = bid._taskerRef;
-
-        if (request._reviewRef) {
-          if (request._reviewRef.taskerReview) {
-            return res
-              .status(403)
-              .send({ errorMsg: 'You have already submit a review on this request.' });
-          } else {
-            next();
-          }
-        } else {
-          await requestDataAccess.kickStartReviewModel({
-            requestId: request._id,
-            taskerId: res.locals.bidOrBoo.taskerId,
-            requesterId: res.locals.bidOrBoo.requesterId,
+      if (request._reviewRef) {
+        if (request._reviewRef.taskerReview && request._reviewRef.taskerReview.personalComment) {
+          return res.status(403).send({
+            errorMsg: 'You have already submit a review.',
           });
+        } else {
           next();
         }
       } else {
-        return res.status(403).send({
-          errorMsg:
-            'failed requireTaskerReviewPreChecksPass cant find the request or the request owner does not correspond to the specified user in this request',
+        await requestDataAccess.kickStartReviewModel({
+          requestId: request._id,
+          taskerId: res.locals.bidOrBoo.taskerId,
+          requesterId: res.locals.bidOrBoo.requesterId,
         });
+        next();
       }
     } else {
       return res.status(403).send({ errorMsg: 'only logged in users can perform this operation.' });

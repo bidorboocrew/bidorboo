@@ -16,7 +16,6 @@ import {
   DestinationAddressValue,
   RequestCardTitle,
   SummaryStartDateAndTime,
-  CenteredUserImageAndRating,
   TaskImagesCarousel,
   UserGivenTitle,
   ReviewComments,
@@ -38,17 +37,11 @@ class RequesterArchiveDetails extends RequestBaseContainer {
     }
 
     const {
-      _id: requestId,
       startingDateAndTime,
       addressText,
       _awardedBidRef,
       extras,
       detailedDescription,
-      _reviewRef = {
-        revealToBoth: false,
-        requiresRequesterReview: true,
-        requiresTaskerReview: true,
-      },
       taskImages = [],
       requestTitle,
       completionDate,
@@ -61,7 +54,6 @@ class RequesterArchiveDetails extends RequestBaseContainer {
 
     const { showMore } = this.state;
 
-    const { requiresRequesterReview } = _reviewRef;
     return (
       <>
         <div
@@ -147,7 +139,10 @@ const mapStateToProps = ({ requestsReducer, userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getArchivedTaskDetailsForRequester: bindActionCreators(getArchivedTaskDetailsForRequester, dispatch),
+    getArchivedTaskDetailsForRequester: bindActionCreators(
+      getArchivedTaskDetailsForRequester,
+      dispatch,
+    ),
   };
 };
 
@@ -156,16 +151,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(RequesterArchiveDeta
 class AssignedTaskerDetails extends React.Component {
   render() {
     const { otherUserProfileInfo, selectedArchivedRequest } = this.props;
-    const {
-      _awardedBidRef,
-      _id: requestId,
-      _ownerRef,
-      _reviewRef = {
-        revealToBoth: false,
-        requiresRequesterReview: true,
-        requiresTaskerReview: true,
-      },
-    } = selectedArchivedRequest;
+    const { _awardedBidRef, _id: requestId, _ownerRef, _reviewRef } = selectedArchivedRequest;
 
     if (!otherUserProfileInfo) {
       return null;
@@ -209,20 +195,6 @@ class AssignedTaskerDetails extends React.Component {
                 Review Tasker
               </a>
             )}
-            {/* <div style={{ background: 'transparent' }} className="tabs is-centered">
-              <ul style={{ marginLeft: 0 }}>
-                <li className="is-active">
-                  <a>
-                    <span className="icon is-small">
-                      <i className="fas fa-user-tie" aria-hidden="true" />
-                    </span>
-                    <span>Assigned Tasker</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large isCentered />
-            <br /> */}
             <div style={{ background: 'transparent' }} className="tabs is-centered">
               <ul style={{ marginLeft: 0 }}>
                 <li className="is-active">

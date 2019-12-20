@@ -29,12 +29,12 @@ class MyBidsPage extends React.Component {
   }
 
   render() {
-    const { isLoading, openBidsList, deleteOpenBid, updateBid } = this.props;
+    const { isLoading, postedBidsSummary, deleteOpenBid, updateBid } = this.props;
     const { selectedTab } = this.state;
-    const areThereAnyBidsToView = openBidsList && openBidsList.length > 0;
+    const areThereAnyBidsToView = postedBidsSummary && postedBidsSummary.length > 0;
 
     let pastBids = areThereAnyBidsToView
-      ? openBidsList
+      ? postedBidsSummary
           .filter((bid) => {
             const { _requestRef: request } = bid;
             return [
@@ -61,7 +61,7 @@ class MyBidsPage extends React.Component {
       : null;
 
     let activeBids = areThereAnyBidsToView
-      ? openBidsList
+      ? postedBidsSummary
           .filter((bid) => {
             const { _requestRef: request } = bid;
             return [
@@ -146,7 +146,7 @@ const mapStateToProps = ({ bidsReducer, uiReducer, userReducer }) => {
   return {
     isLoggedIn: userReducer.isLoggedIn,
     userDetails: userReducer.userDetails,
-    openBidsList: bidsReducer.openBidsList,
+    postedBidsSummary: bidsReducer.postedBidsSummary,
     isLoading: bidsReducer.isLoadingBids,
     notificationFeed: uiReducer.notificationFeed,
   };

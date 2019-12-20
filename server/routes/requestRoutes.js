@@ -59,6 +59,7 @@ module.exports = (app) => {
   app.get(
     ROUTES.API.REQUEST.GET.awardedRequestFullDetailsForRequester,
     requireLogin,
+    requireRequestOwner,
     async (req, res) => {
       try {
         if (req.query && req.query.requestId) {
@@ -322,7 +323,7 @@ module.exports = (app) => {
         });
       }
 
-      let requestsAroundMe = await requestDataAccess.getRequestsNear(
+      let requestsAroundMe = await requestDataAccess.searchRequestsByLocationForLoggedInTasker(
         {
           searchRadius,
           location,

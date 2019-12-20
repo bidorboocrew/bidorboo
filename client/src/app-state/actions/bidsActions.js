@@ -159,7 +159,7 @@ export const updateBid = ({ bidId, bidAmount, request }) => (dispatch) => {
 
 export const getMyPostedBidsSummary = () => (dispatch) => {
   dispatch({
-    type: A.TASKER_ACTIONS.GET_ALL_MY_OPEN_BIDS,
+    type: A.TASKER_ACTIONS.GET_ALL_MY_POSTED_BIDS_SUMMARY,
     payload: axios.get(ROUTES.API.BID.GET.myPostedBidsSummary).catch((error) => {
       throwErrorNotification(dispatch, error);
     }),

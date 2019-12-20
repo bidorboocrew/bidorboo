@@ -1025,7 +1025,7 @@ export const BidAmount = ({ renderHelp, bidAmount }) => {
   );
 };
 
-export const TaskIsFulfilled = () => {
+export const TaskIsFulfilled = ({ renderHelp = () => null }) => {
   return (
     <div className="group">
       <div
@@ -1060,10 +1060,8 @@ export const TaskIsFulfilled = () => {
         >
           {`Task is Fullfilled`}
         </div>
+        {renderHelp()}
       </div>
-      {/* <div>
-      <div className="help">*BidOrBoo will refund you ${refundAmount}%</div>
-    </div> */}
     </div>
   );
 };

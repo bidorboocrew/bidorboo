@@ -5,7 +5,10 @@ import { Collapse } from 'react-collapse';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { taskerConfirmsRequestCompletion, taskerDisputesRequest } from '../../app-state/actions/requestActions';
+import {
+  taskerConfirmsRequestCompletion,
+  taskerDisputesRequest,
+} from '../../app-state/actions/requestActions';
 import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -43,11 +46,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
       taskerConfirmedCompletion,
       taskImages = [],
       requestTitle,
-      _reviewRef = {
-        revealToBoth: false,
-        requiresRequesterReview: true,
-        requiresTaskerReview: true,
-      },
+      _reviewRef,
     } = request;
 
     const { bidAmount, taskerPayout, _id: bidId } = bid;
@@ -58,7 +57,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
-
+    const requiresTaskerReview = _reviewRef.requiresTaskerReview;
     return (
       <React.Fragment>
         {showDeleteDialog &&
@@ -253,7 +252,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
             )}
           />
         )}
-        {taskerConfirmedCompletion && (!_reviewRef || _reviewRef.requiresTaskerReview) && (
+        {taskerConfirmedCompletion && requiresTaskerReview && (
           <ReviewTheRequester
             otherUserProfileInfo={_ownerRef}
             renderActionButton={() => (
@@ -271,7 +270,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
             )}
           />
         )}
-        {taskerConfirmedCompletion && _reviewRef && !_reviewRef.requiresTaskerReview && (
+        {taskerConfirmedCompletion && !requiresTaskerReview && (
           <ReviewTheRequester
             otherUserProfileInfo={_ownerRef}
             renderActionButton={() => (

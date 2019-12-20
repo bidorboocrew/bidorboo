@@ -149,11 +149,7 @@ class AssignedTaskerDetails extends React.Component {
     const {
       _awardedBidRef,
       _ownerRef,
-      _reviewRef = {
-        revealToBoth: false,
-        requiresRequesterReview: true,
-        requiresTaskerReview: true,
-      },
+      _reviewRef,
     } = selectedArchivedBid._requestRef;
 
     return (

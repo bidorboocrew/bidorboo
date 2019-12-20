@@ -19,7 +19,7 @@ import {
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import RequestBaseContainer from './RequestBaseContainer';
 
-export default class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer {
+export default class TaskerBidDoneDetails extends RequestBaseContainer {
   render() {
     const { bid } = this.props;
 
@@ -30,9 +30,9 @@ export default class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer 
       extras,
       detailedDescription,
       _ownerRef,
-
       taskImages = [],
       requestTitle,
+      _reviewRef,
     } = request;
 
     const { taskerPayout, bidAmount, _id: bidId } = bid;
@@ -43,6 +43,7 @@ export default class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer 
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     const { showMore } = this.state;
+    const requiresTaskerReview = _reviewRef.requiresTaskerReview;
 
     return (
       <React.Fragment>
@@ -69,7 +70,16 @@ export default class TaskerMyAwardedDoneBidDetails extends RequestBaseContainer 
               />
               <TaskerWillEarn earningAmount={taskerPayoutAmount} />
 
-              <TaskIsFulfilled />
+              <TaskIsFulfilled
+                renderHelp={() => {
+                  if (requiresTaskerReview) {
+                    return <div className="help">Waiting on your review</div>;
+                  }
+                  if (!requiresTaskerReview) {
+                    return <div className="help">Waiting on Requester review</div>;
+                  }
+                }}
+              />
 
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">

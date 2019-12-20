@@ -4,7 +4,7 @@ import * as A from '../actionTypes';
 
 const initialState = {
   requestToBidOnDetails: {},
-  openBidsList: [],
+  postedBidsSummary: [],
   isLoadingBids: false,
   getBidsErrorMsg: '',
   selectedOpenBid: {},
@@ -27,16 +27,16 @@ const getMyPostedBidsSummary = {
   isPending: (state = initialState) => ({
     ...state,
     isLoadingBids: true,
-    openBidsList: [],
+    postedBidsSummary: [],
   }),
   isFullfilled: (state = initialState, { payload }) => {
     if (payload) {
       const bids = payload && payload.data;
-      const { postedBids } = bids;
+      const { postedBidsSummary } = bids;
       return {
         ...state,
         isLoadingBids: false,
-        openBidsList: postedBids || [],
+        postedBidsSummary: postedBidsSummary || [],
       };
     }
   },
@@ -48,7 +48,7 @@ const getMyPostedBidsSummary = {
     return {
       ...state,
       isLoadingBids: false,
-      openBidsList: [],
+      postedBidsSummary: [],
       getBidsErrorMsg: getBidsErrorMsg,
     };
   },
@@ -120,9 +120,9 @@ const setLoggedOutState = () => {
 export default handleActions(
   {
     [`${A.TASKER_ACTIONS.SELECT_REQUEST_TO_BID_ON}`]: selectRequestToBidOn,
-    [`${A.TASKER_ACTIONS.GET_ALL_MY_OPEN_BIDS}${A._PENDING}`]: getMyPostedBidsSummary.isPending,
-    [`${A.TASKER_ACTIONS.GET_ALL_MY_OPEN_BIDS}${A._FULFILLED}`]: getMyPostedBidsSummary.isFullfilled,
-    [`${A.TASKER_ACTIONS.GET_ALL_MY_OPEN_BIDS}${A._REJECTED}`]: getMyPostedBidsSummary.isRejected,
+    [`${A.TASKER_ACTIONS.GET_ALL_MY_POSTED_BIDS_SUMMARY}${A._PENDING}`]: getMyPostedBidsSummary.isPending,
+    [`${A.TASKER_ACTIONS.GET_ALL_MY_POSTED_BIDS_SUMMARY}${A._FULFILLED}`]: getMyPostedBidsSummary.isFullfilled,
+    [`${A.TASKER_ACTIONS.GET_ALL_MY_POSTED_BIDS_SUMMARY}${A._REJECTED}`]: getMyPostedBidsSummary.isRejected,
     // get open bid details
     [`${A.TASKER_ACTIONS.GET_OPEN_BID_DETAILS}${A._PENDING}`]: getOpenBidDetails.isPending,
     [`${A.TASKER_ACTIONS.GET_OPEN_BID_DETAILS}${A._FULFILLED}`]: getOpenBidDetails.isFullfilled,

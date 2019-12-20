@@ -30,7 +30,8 @@ module.exports = async (req, res, next) => {
 
       const requestDetails = await requestDataAccess.getFullRequestDetails(requestId);
 
-      const awardedTasker = requestDetails._awardedBidRef && requestDetails._awardedBidRef._taskerRef._id;
+      const awardedTasker =
+        requestDetails._awardedBidRef && requestDetails._awardedBidRef._taskerRef._id;
       if (!awardedTasker) {
         return res.status(403).send({
           errorMsg: 'Only the Tasker who fulfilled the request can perform this action',
@@ -44,9 +45,13 @@ module.exports = async (req, res, next) => {
         });
       }
 
-      if (requestDetails._reviewRef && !requestDetails._reviewRef.requiresRequesterReview) {
+      if (
+        requestDetails._reviewRef &&
+        requestDetails._reviewRef.requesterReview &&
+        requestDetails._reviewRef.requesterReview.personalComment
+      ) {
         return res.status(403).send({
-          errorMsg: 'You have already submit a review on this request.',
+          errorMsg: 'You have already submit a review.',
         });
       }
 
@@ -69,7 +74,7 @@ module.exports = async (req, res, next) => {
     return res.status(400).send({
       safeMsg:
         'some error occurred, please chat with our customer support using the chat button at the bottom of the page',
-      errorMsg: 'failed to pass requireRequesterReviewPreChecksPass',
+      errorMsg: 'failed to pass require requesterReview checks',
       details: `${e}`,
     });
   }

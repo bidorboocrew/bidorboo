@@ -8,7 +8,6 @@ import {
   TaskIsFulfilled,
   CountDownComponent,
   TaskImagesCarousel,
-  ArchiveTask,
   UserGivenTitle,
 } from '../../containers/commonComponents';
 
@@ -22,17 +21,13 @@ export default class RequesterDoneSummary extends RequestBaseContainer {
     const {
       _id: requestId,
       startingDateAndTime,
-      _reviewRef = {
-        revealToBoth: false,
-        requiresRequesterReview: true,
-        requiresTaskerReview: true,
-      },
+      _reviewRef,
       taskImages = [],
       requestTitle,
     } = request;
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
-    const { requiresRequesterReview } = _reviewRef;
+    const requiresRequesterReview = _reviewRef.requiresRequesterReview;
 
     return (
       <div className="card has-text-centered cardWithButton">
@@ -47,33 +42,29 @@ export default class RequesterDoneSummary extends RequestBaseContainer {
               date={startingDateAndTime}
               renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
-            {!requiresRequesterReview && <ArchiveTask />}
 
-            {requiresRequesterReview && <TaskIsFulfilled />}
+            <TaskIsFulfilled
+              renderHelp={() => {
+                if (requiresRequesterReview) {
+                  return <div className="help">Waiting on your review</div>;
+                }
+                if (!requiresRequesterReview) {
+                  return <div className="help">Waiting on Tasker's review</div>;
+                }
+              }}
+            />
           </div>
         </div>
 
         <div className="centeredButtonInCard ">
-          {!requiresRequesterReview && (
-            <a
-              onClick={() => {
-                switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(requestId));
-              }}
-              className="button is-dark"
-            >
-              VIEW DETAILS
-            </a>
-          )}
-          {requiresRequesterReview && (
-            <a
-              onClick={() => {
-                switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(requestId));
-              }}
-              className="button is-primary"
-            >
-              REVIEW TASKER
-            </a>
-          )}
+          <a
+            onClick={() => {
+              switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(requestId));
+            }}
+            className="button is-primary"
+          >
+            {requiresRequesterReview ? 'REVIEW TASKER' : 'VIEW DETAILS'}
+          </a>
         </div>
       </div>
     );

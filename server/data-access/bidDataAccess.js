@@ -411,72 +411,86 @@ exports.bidDataAccess = {
   getMyPostedBidsSummary: async (mongoUser_id) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const openBids = await new Promise(async (resolve, reject) => {
-          UserModel.findById(mongoUser_id, { _postedBidsRef: 1 })
-            .populate({
-              path: '_postedBidsRef',
+        const { _postedBidsRef } = await UserModel.findById(mongoUser_id, { _postedBidsRef: 1 })
+          .populate({
+            path: '_postedBidsRef',
+            select: {
+              requesterPayment: 0,
+              requesterPartialRefund: 0,
+            },
+            populate: {
+              path: '_requestRef',
               select: {
-                requesterPayment: 0,
-                requesterPartialRefund: 0,
+                _awardedBidRef: 1,
+                state: 1,
+                requestTitle: 1,
+                startingDateAndTime: 1,
+                templateId: 1,
+                taskerConfirmedCompletion: 1,
+                dispute: 1,
+                _reviewRef: 1,
               },
-              populate: {
-                path: '_requestRef',
-                select: {
-                  _awardedBidRef: 1,
-                  state: 1,
-                  requestTitle: 1,
-                  startingDateAndTime: 1,
-                  templateId: 1,
-                  taskerConfirmedCompletion: 1,
-                  dispute: 1,
+              populate: [
+                {
+                  path: '_reviewRef',
                 },
-                populate: [
-                  {
-                    path: '_awardedBidRef',
-                    select: {
-                      _taskerRef: 1,
-                    },
+                {
+                  path: '_awardedBidRef',
+                  select: {
+                    _taskerRef: 1,
                   },
-                ],
-              },
+                },
+              ],
+            },
+          })
+          .lean({ virtuals: true })
+          .exec();
+
+        let results = [];
+        if (_postedBidsRef && _postedBidsRef.length > 0) {
+          results = _postedBidsRef
+            .sort((a, b) => {
+              return moment(a._requestRef.startingDateAndTime).isSameOrAfter(
+                moment(b._requestRef.startingDateAndTime)
+              )
+                ? 1
+                : -1;
             })
-            .lean({ virtuals: true })
-            .exec((err, res) => {
-              if (err) {
-                reject(err);
+            .map((postedBid) => {
+              const requestRef = postedBid._requestRef;
+              if (
+                requestRef._awardedBidRef &&
+                requestRef._awardedBidRef._taskerRef.toString() === mongoUser_id.toString()
+              ) {
+                postedBid.isAwardedToMe = true;
               } else {
-                let results = [];
-                if (res._postedBidsRef && res._postedBidsRef.length > 0) {
-                  results = res._postedBidsRef
-
-                    .sort((a, b) => {
-                      return moment(a._requestRef.startingDateAndTime).isSameOrAfter(
-                        moment(b._requestRef.startingDateAndTime)
-                      )
-                        ? 1
-                        : -1;
-                    })
-                    .map((postedBid) => {
-                      if (
-                        postedBid._requestRef._awardedBidRef &&
-                        postedBid._requestRef._awardedBidRef._taskerRef.toString() ===
-                          mongoUser_id.toString()
-                      ) {
-                        postedBid.isAwardedToMe = true;
-                      } else {
-                        postedBid.isAwardedToMe = false;
-                        postedBid._requestRef._awardedBidRef = {};
-                      }
-
-                      return postedBid;
-                    });
-                }
-                resolve(results);
+                postedBid.isAwardedToMe = false;
+                requestRef._awardedBidRef = {};
               }
-            });
-        });
 
-        resolve({ postedBids: openBids });
+              if (['DONE', 'DONE_SEEN'].includes(requestRef.state)) {
+                const reviewRef = requestRef._reviewRef;
+
+                const revealToBoth = !!(
+                  reviewRef &&
+                  reviewRef.requesterReview &&
+                  reviewRef.taskerReview
+                );
+
+                const requiresRequesterReview =
+                  !reviewRef || (reviewRef && !reviewRef.requesterReview);
+
+                const requiresTaskerReview = !reviewRef || (reviewRef && !reviewRef.taskerReview);
+                requestRef._reviewRef = {
+                  revealToBoth,
+                  requiresRequesterReview,
+                  requiresTaskerReview,
+                };
+              }
+              return postedBid;
+            });
+        }
+        resolve(results);
       } catch (e) {
         reject(e);
       }
@@ -593,13 +607,6 @@ exports.bidDataAccess = {
                 populate: [
                   {
                     path: '_reviewRef',
-                    select: {
-                      requesterReview: 1,
-                      taskerReview: 1,
-                      revealToBoth: 1,
-                      requiresRequesterReview: 1,
-                      requiresTaskerReview: 1,
-                    },
                   },
                   {
                     path: '_ownerRef',

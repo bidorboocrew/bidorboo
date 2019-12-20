@@ -10,7 +10,6 @@ import {
   DisplayLabelValue,
   TaskCost,
   TaskSpecificExtras,
-  ArchiveTask,
   DestinationAddressValue,
   RequestCardTitle,
   SummaryStartDateAndTime,
@@ -34,11 +33,7 @@ export default class RequesterDoneDetails extends RequestBaseContainer {
       _awardedBidRef,
       extras,
       detailedDescription,
-      _reviewRef={
-        revealToBoth: false,
-        requiresRequesterReview: true,
-        requiresTaskerReview: true,
-      },
+      _reviewRef,
       taskImages = [],
       requestTitle,
     } = request;
@@ -55,7 +50,7 @@ export default class RequesterDoneDetails extends RequestBaseContainer {
 
     const { showMore } = this.state;
 
-    const { requiresRequesterReview } = _reviewRef;
+    const requiresRequesterReview = _reviewRef.requiresRequesterReview;
     return (
       <>
         <div
@@ -79,9 +74,17 @@ export default class RequesterDoneDetails extends RequestBaseContainer {
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              {!requiresRequesterReview && <ArchiveTask />}
 
-              {requiresRequesterReview && <TaskIsFulfilled />}
+              <TaskIsFulfilled
+                renderHelp={() => {
+                  if (requiresRequesterReview) {
+                    return <div className="help">Waiting on your review</div>;
+                  }
+                  if (!requiresRequesterReview) {
+                    return <div className="help">Waiting on Tasker's review</div>;
+                  }
+                }}
+              />
               <TaskCost cost={requesterPaymentAmount} />
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
@@ -137,20 +140,22 @@ export default class RequesterDoneDetails extends RequestBaseContainer {
                     onClick={() => {
                       switchRoute(ROUTES.CLIENT.REVIEW.getRequesterRequestReview({ requestId }));
                     }}
-                    className={`button firstButtonInCard is-primary`}
+                    className={`button centeredButtonInCard is-primary`}
                   >
                     Review Tasker
                   </a>
                 )}
                 {!requiresRequesterReview && (
-                  <a
-                    onClick={() => {
-                      alert('Archive not implemented yet, will take you to archive');
-                    }}
-                    className={`button firstButtonInCard is-dark`}
-                  >
-                    View In Archive
-                  </a>
+                  <div style={{ textAlign: 'center' }}>
+                    <ul className="has-text-left">
+                      <li>You have submitted your review already</li>
+                      <li>We've contacted the Tasker to submit their review</li>
+                      <li>
+                        After that, this task will be archived under (Past Requests) for your
+                        reference
+                      </li>
+                    </ul>
+                  </div>
                 )}
               </>
             )}
@@ -168,8 +173,6 @@ class AssignedTaskerDetails extends React.Component {
     if (!otherUserProfileInfo) {
       return null;
     }
-
-    const { _id } = otherUserProfileInfo;
 
     return (
       <div
@@ -189,16 +192,16 @@ class AssignedTaskerDetails extends React.Component {
                     <span className="icon is-small">
                       <i className="fas fa-user-tie" aria-hidden="true" />
                     </span>
-                    <span>Tasker</span>
+                    <span>Assigned Tasker</span>
                   </a>
                 </li>
               </ul>
             </div>
             <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large isCentered />
+            {renderActionButton && renderActionButton()}
             <br />
           </div>
         </div>
-        {renderActionButton && renderActionButton()}
       </div>
     );
   }

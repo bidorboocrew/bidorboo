@@ -66,7 +66,7 @@ describe('Creating records', () => {
     try {
       const { requestDataAccess } = require('../data-access/requestDataAccess');
       console.log('search requests start');
-      const searchResults = await requestDataAccess.getRequestsNear({
+      const searchResults = await requestDataAccess.searchRequestsByLocationForLoggedInTasker({
         location: { lat: 45.36829, lng: -75.618 },
         searchRadius: '150',
       });

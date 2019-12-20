@@ -22,8 +22,8 @@ import {
   TaskerAwardedBidCanceledByRequesterDetails,
   RequesterDoneSummary,
   RequesterDoneDetails,
-  TaskerMyAwardedDoneBidDetails,
-  TaskerMyAwardedDoneBidSummary,
+  TaskerBidDoneDetails,
+  TaskerBidDoneSummary,
   RequesterDisputedDetails,
   RequesterDisputedSummary,
   TaskerMyDisputedBidSummary,
@@ -193,9 +193,9 @@ const TaskerCardTemplates = {
   },
   [REQUEST_STATES.DONE]: ({ request, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
     if (isSummaryView) {
-      return <TaskerMyAwardedDoneBidSummary request={request} {...otherArgs} />;
+      return <TaskerBidDoneSummary request={request} {...otherArgs} />;
     } else {
-      return <TaskerMyAwardedDoneBidDetails request={request} {...otherArgs} />;
+      return <TaskerBidDoneDetails request={request} {...otherArgs} />;
     }
   },
   [REQUEST_STATES.DISPUTED]: ({

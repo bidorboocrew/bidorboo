@@ -622,13 +622,13 @@ exports.requestDataAccess = {
           taskImages: 1,
         },
       })
-      .lean({ virtuals: true })
+      .lean()
       .exec();
   },
   getRequestWithReviewModel: async (requestId, ownerId) => {
     return RequestModel.findOne({ _id: requestId, _ownerRef: ownerId })
       .populate({ path: '_reviewRef' })
-      .lean({ virtuals: true })
+      .lean()
       .exec();
   },
 
@@ -816,13 +816,6 @@ exports.requestDataAccess = {
             },
             {
               path: '_reviewRef',
-              select: {
-                requesterReview: 1,
-                taskerReview: 1,
-                revealToBoth: 1,
-                requiresRequesterReview: 1,
-                requiresTaskerReview: 1,
-              },
             },
             {
               path: '_ownerRef',
@@ -837,7 +830,7 @@ exports.requestDataAccess = {
             },
           ])
 
-          .lean({ virtuals: true })
+          .lean(true)
           .exec();
 
         resolve(requestWithTaskerDetails);
@@ -846,54 +839,21 @@ exports.requestDataAccess = {
       }
     });
   },
-  getAllRequestsToBidOnForLoggedOut: async () => {
-    // wil return all requests in the system
-    return new Promise(async (resolve, reject) => {
-      try {
-        const openRequestsForBidding = await RequestModel.find(
-          { state: { $eq: 'OPEN' } },
-          {
-            _ownerRef: 1,
-            templateId: 1,
-            startingDateAndTime: 1,
-            extras: 1,
-            state: 1,
-            location: 1,
-            requestTitle: 1,
-          },
-          {
-            sort: { startingDateAndTime: 1 },
-            allowDiskUse: true,
-          }
-        )
-          .populate({
-            path: '_ownerRef',
-            select: { displayName: 1, profileImage: 1, _id: 1, rating: 1 },
-          })
-          .populate({
-            path: '_bidsListRef',
-            select: { _taskerRef: 1, bidAmount: 1 },
-          })
-          .lean({ virtuals: true })
-          .exec();
-        return resolve(openRequestsForBidding);
-      } catch (e) {
-        return reject(e);
-      }
-    });
-  },
 
   // get requests near a given location
   // default search raduis is 15km raduis
   // default include all
-  getRequestsNear: ({ location, searchRadius = 25000, tasksTypeFilter }, mongoUser_id = '') => {
+  searchRequestsByLocationForLoggedInTasker: (
+    { location, searchRadius = 25000, tasksTypeFilter },
+    mongoUser_id = ''
+  ) => {
     return new Promise(async (resolve, reject) => {
       try {
         const today = moment.utc(moment()).toISOString();
 
         let searchQuery = {
           startingDateAndTime: { $gt: today },
-          state: { $eq: 'OPEN' },
+          state: 'OPEN',
           templateId: { $in: tasksTypeFilter },
           location: {
             $near: {
@@ -935,6 +895,11 @@ exports.requestDataAccess = {
 
         requestsUserDidNotBidOn = results
           .filter((task) => {
+            // for logged out user return all
+            if (mongoUser_id === '') {
+              return true;
+            }
+
             // remove tasks that the current logged in user is owner of
             if (task._ownerRef._id.toString() === mongoUser_id.toString()) {
               return false;
@@ -1963,10 +1928,6 @@ exports.requestDataAccess = {
             },
             {
               path: '_reviewRef',
-              select: {
-                requesterReview: 0,
-                taskerReview: 0,
-              },
             },
             {
               path: '_ownerRef',
@@ -1979,9 +1940,27 @@ exports.requestDataAccess = {
               },
             },
           ])
-          .lean({ virtuals: true })
+          .lean(true)
           .exec();
 
+        if (!requestWithTaskerDetails || !requestWithTaskerDetails._id) {
+          return reject("Couldn't find the specified Request");
+        }
+        if (['DONE', 'DONE_SEEN'].includes(requestWithTaskerDetails.state)) {
+          const reviewRef = requestWithTaskerDetails._reviewRef;
+
+          const revealToBoth = !!(reviewRef && reviewRef.requesterReview && reviewRef.taskerReview);
+
+          const requiresRequesterReview = !reviewRef || (reviewRef && !reviewRef.requesterReview);
+
+          const requiresTaskerReview = !reviewRef || (reviewRef && !reviewRef.taskerReview);
+
+          requestWithTaskerDetails._reviewRef = {
+            revealToBoth,
+            requiresRequesterReview,
+            requiresTaskerReview,
+          };
+        }
         resolve(requestWithTaskerDetails);
       } catch (e) {
         reject(e);

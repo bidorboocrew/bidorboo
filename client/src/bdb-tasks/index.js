@@ -69,9 +69,9 @@ export { default as RequesterDoneSummary } from './AllPossibleTasksStatesCards/R
 
 export { default as RequesterDoneDetails } from './AllPossibleTasksStatesCards/RequesterDoneDetails';
 
-export { default as TaskerMyAwardedDoneBidDetails } from './AllPossibleTasksStatesCards/TaskerMyAwardedDoneBidDetails';
+export { default as TaskerBidDoneDetails } from './AllPossibleTasksStatesCards/TaskerBidDoneDetails';
 
-export { default as TaskerMyAwardedDoneBidSummary } from './AllPossibleTasksStatesCards/TaskerMyAwardedDoneBidSummary';
+export { default as TaskerBidDoneSummary } from './AllPossibleTasksStatesCards/TaskerBidDoneSummary';
 
 export { default as RequesterDisputedSummary } from './AllPossibleTasksStatesCards/RequesterDisputedSummary';
 

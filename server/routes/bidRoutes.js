@@ -179,8 +179,8 @@ module.exports = (app) => {
   app.get(ROUTES.API.BID.GET.myPostedBidsSummary, requireLogin, async (req, res, done) => {
     try {
       const mongoUser_id = req.user._id;
-      const userBidsList = await bidDataAccess.getMyPostedBidsSummary(mongoUser_id);
-      return res.send(userBidsList);
+      const postedBidsSummary = await bidDataAccess.getMyPostedBidsSummary(mongoUser_id);
+      return res.send({ postedBidsSummary });
     } catch (e) {
       return res.status(400).send({ errorMsg: 'Failed To get my open bids', details: `${e}` });
     }

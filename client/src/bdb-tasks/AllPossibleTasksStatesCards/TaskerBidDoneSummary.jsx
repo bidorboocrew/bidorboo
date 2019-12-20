@@ -16,16 +16,17 @@ import { REQUEST_STATES } from '../index';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
-export default class TaskerMyAwardedDoneBidSummary extends React.Component {
+export default class TaskerBidDoneSummary extends React.Component {
   render() {
     const { bid, request } = this.props;
 
-    const { startingDateAndTime, taskImages = [], requestTitle, state } = request;
+    const { startingDateAndTime, taskImages = [], requestTitle, state, _reviewRef } = request;
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     const { taskerPayout, isAwardedToMe } = bid;
     const { value: taskerTotalPayoutAmount } = taskerPayout;
+    const requiresTaskerReview = _reviewRef.requiresTaskerReview;
 
     return (
       <div className={`card has-text-centered cardWithButton`}>
@@ -42,7 +43,16 @@ export default class TaskerMyAwardedDoneBidSummary extends React.Component {
             {isAwardedToMe && (
               <>
                 <TaskerWillEarn earningAmount={taskerTotalPayoutAmount} />
-                <TaskIsFulfilled />
+                <TaskIsFulfilled
+                  renderHelp={() => {
+                    if (requiresTaskerReview) {
+                      return <div className="help">Waiting on your review</div>;
+                    }
+                    if (!requiresTaskerReview) {
+                      return <div className="help">Waiting on Requester's review</div>;
+                    }
+                  }}
+                />
               </>
             )}
             {!isAwardedToMe && <BSAwardedToSomeoneElse />}
