@@ -207,7 +207,7 @@ exports.updateAppViewReq = {
       appViewId: Joi.string()
         .trim()
         .uppercase()
-        .valid('REQUESTER', 'TASKER')
+        .valid(['REQUESTER', 'TASKER'])
         .error(() => {
           return {
             message: 'Invalid App view',

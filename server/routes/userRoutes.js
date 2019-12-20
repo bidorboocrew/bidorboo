@@ -63,8 +63,8 @@ module.exports = (app) => {
 
   app.post(
     ROUTES.API.USER.POST.verifyEmail,
-    requireLogin,
     celebrate(verifyViaCode),
+    requireLogin,
     async (req, res, next) => {
       try {
         const userId = req.user.userId;
@@ -91,8 +91,8 @@ module.exports = (app) => {
   );
   app.post(
     ROUTES.API.USER.POST.verifyPhone,
-    requireLogin,
     celebrate(verifyViaCode),
+    requireLogin,
     async (req, res, next) => {
       try {
         const userId = req.user.userId;
@@ -254,8 +254,8 @@ module.exports = (app) => {
 
   app.put(
     ROUTES.API.USER.PUT.notificationSettings,
-    requireLogin,
     celebrate(notificationSettingsUpdateReq),
+    requireLogin,
     async (req, res, next) => {
       try {
         const notificationSettings = req.body.data;
@@ -276,8 +276,8 @@ module.exports = (app) => {
 
   app.put(
     ROUTES.API.USER.PUT.updateOnboardingDetails,
-    requireLogin,
     celebrate(agreeToTosReq),
+    requireLogin,
     async (req, res, next) => {
       try {
         let newDetails = {
@@ -301,8 +301,8 @@ module.exports = (app) => {
 
   app.put(
     ROUTES.API.USER.PUT.userDetails,
-    requireLogin,
     celebrate(userDetailsReqSchema),
+    requireLogin,
     async (req, res, next) => {
       try {
         const userId = req.user.userId;
@@ -326,8 +326,8 @@ module.exports = (app) => {
 
   app.put(
     ROUTES.API.USER.PUT.updateAppView,
-    requireLogin,
     celebrate(updateAppViewReq),
+    requireLogin,
     async (req, res, next) => {
       try {
         const { appViewId } = req.body.data;

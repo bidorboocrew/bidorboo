@@ -1,7 +1,6 @@
 const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
-const requireBidorBooHost = require('../middleware/requireBidorBooHost');
-// const requiresCheckPayTaskerDetails = require('../middleware/requiresCheckPayTaskerDetails');
+
 const requireRequestOwner = require('../middleware/requireRequestOwner');
 const requireNoPaymentProcessedForThisRequestBefore = require('../middleware/requireNoPaymentProcessedForThisRequestBefore');
 
@@ -171,7 +170,6 @@ module.exports = (app) => {
 
   app.get(
     ROUTES.API.PAYMENT.GET.accountLinkForSetupAndVerification,
-    requireBidorBooHost,
     requireLogin,
     requireUserHasAStripeAccountOrInitalizeOne,
     async (req, res) => {
@@ -199,7 +197,6 @@ module.exports = (app) => {
 
   app.get(
     ROUTES.API.PAYMENT.GET.accountLinkForUpdatingVerification,
-    requireBidorBooHost,
     requireLogin,
     requireUserHasAStripeAccountOrInitalizeOne,
     async (req, res) => {
@@ -225,60 +222,55 @@ module.exports = (app) => {
     }
   );
 
-  app.get(
-    ROUTES.API.PAYMENT.GET.myStripeAccountDetails,
-    requireBidorBooHost,
-    requireLogin,
-    async (req, res) => {
-      try {
-        const mongoUser_id = req.user._id.toString();
+  app.get(ROUTES.API.PAYMENT.GET.myStripeAccountDetails, requireLogin, async (req, res) => {
+    try {
+      const mongoUser_id = req.user._id.toString();
 
-        let accDetails = [];
-        const paymentsDetails = await userDataAccess.getUserStripeAccount(mongoUser_id);
+      let accDetails = [];
+      const paymentsDetails = await userDataAccess.getUserStripeAccount(mongoUser_id);
 
-        if (paymentsDetails && paymentsDetails.accId) {
-          accDetails = await stripeServiceUtil.getConnectedAccountBalance(paymentsDetails.accId);
-        }
-        let verifiedAmount = 0;
-        let pendingVerificationAmount = 0;
-        let paidoutAmount = 0;
-
-        if (accDetails && accDetails.length === 2) {
-          const accountBalance = accDetails[0];
-          const accountPayouts = accDetails[1];
-
-          accountBalance.available &&
-            accountBalance.available.forEach((availableCash) => {
-              verifiedAmount += availableCash.amount;
-            });
-
-          accountBalance.pending &&
-            accountBalance.pending.forEach((pendingCash) => {
-              pendingVerificationAmount += pendingCash.amount;
-            });
-
-          accountPayouts.data &&
-            accountPayouts.data.forEach((paidoutCash) => {
-              paidoutAmount += paidoutCash.amount;
-            });
-        }
-
-        return res.send({
-          balanceDetails: {
-            verifiedAmount: verifiedAmount / 100,
-            pendingVerificationAmount: pendingVerificationAmount / 100,
-            potentialFuturePayouts: (verifiedAmount + pendingVerificationAmount) / 100,
-            pastEarnings: paidoutAmount / 100,
-          },
-        });
-      } catch (e) {
-        return res.status(400).send({
-          errorMsg: 'Failed To retrieve your connected stripe account details',
-          details: `${e}`,
-        });
+      if (paymentsDetails && paymentsDetails.accId) {
+        accDetails = await stripeServiceUtil.getConnectedAccountBalance(paymentsDetails.accId);
       }
+      let verifiedAmount = 0;
+      let pendingVerificationAmount = 0;
+      let paidoutAmount = 0;
+
+      if (accDetails && accDetails.length === 2) {
+        const accountBalance = accDetails[0];
+        const accountPayouts = accDetails[1];
+
+        accountBalance.available &&
+          accountBalance.available.forEach((availableCash) => {
+            verifiedAmount += availableCash.amount;
+          });
+
+        accountBalance.pending &&
+          accountBalance.pending.forEach((pendingCash) => {
+            pendingVerificationAmount += pendingCash.amount;
+          });
+
+        accountPayouts.data &&
+          accountPayouts.data.forEach((paidoutCash) => {
+            paidoutAmount += paidoutCash.amount;
+          });
+      }
+
+      return res.send({
+        balanceDetails: {
+          verifiedAmount: verifiedAmount / 100,
+          pendingVerificationAmount: pendingVerificationAmount / 100,
+          potentialFuturePayouts: (verifiedAmount + pendingVerificationAmount) / 100,
+          pastEarnings: paidoutAmount / 100,
+        },
+      });
+    } catch (e) {
+      return res.status(400).send({
+        errorMsg: 'Failed To retrieve your connected stripe account details',
+        details: `${e}`,
+      });
     }
-  );
+  });
   // /**
   //  * user verification
   //  * verification issues with image

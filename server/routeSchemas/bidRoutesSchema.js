@@ -3,10 +3,6 @@
 // load Joi module
 const { Joi } = require('celebrate');
 
-const MAX_PARAGRAPH_LENGTH = 255;
-const MAX_NAME_LENGTH = 25;
-const MIN_NAME_LENGTH = 3;
-
 exports.deleteOpenBid = {
   body: Joi.object({
     bidId: Joi.string()

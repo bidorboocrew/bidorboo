@@ -1,3 +1,17 @@
+const { celebrate } = require('celebrate');
+
+const {
+  requiresRequestId,
+  deletePostedRequestAndBidsForRequester,
+  updateRequestState,
+  updateViewedBy,
+  updateBooedBy,
+  requesterConfirmsRequestCompleted,
+  updateSearchThenSearchRequests,
+  taskerConfirmsRequestCompleted,
+  requesterDisputeRequest,
+} = require('../routeSchemas/rquestRoutesSchema');
+
 const { requestDataAccess } = require('../data-access/requestDataAccess');
 const { updateUserLastSearchDetails } = require('../data-access/userDataAccess');
 const { uploadFileToCloudinary } = require('../utils/utilities');
@@ -5,50 +19,37 @@ const { uploadFileToCloudinary } = require('../utils/utilities');
 const ROUTES = require('../backend-route-constants');
 
 const requireLogin = require('../middleware/requireLogin');
-const requireBidorBooHost = require('../middleware/requireBidorBooHost');
 const requireRequestOwnerOrAwardedTasker = require('../middleware/requireRequestOwnerOrAwardedTasker');
 
 const requireUserCanPost = require('../middleware/requireUserCanPost');
 const requireRequestOwner = require('../middleware/requireRequestOwner');
 const requireCurrentUserIsTheAwardedTasker = require('../middleware/requireCurrentUserIsTheAwardedTasker');
-// const stripeServiceUtil = require('../services/stripeService').util;
 module.exports = (app) => {
-  app.get(ROUTES.API.REQUEST.GET.requestToBidOnDetailsForTasker, async (req, res) => {
-    try {
-      if (req.query && req.query.requestId) {
+  app.get(
+    ROUTES.API.REQUEST.GET.requestToBidOnDetailsForTasker,
+    celebrate(requiresRequestId),
+    async (req, res) => {
+      try {
         const { requestId } = req.query;
         const requestDetails = await requestDataAccess.requestToBidOnDetailsForTasker(requestId);
         return res.send(requestDetails);
-      } else {
-        return res.status(400).send({
-          errorMsg: 'Bad Request for get request by id, requestId param was Not Specified',
-        });
+      } catch (e) {
+        return res.status(400).send({ errorMsg: 'Failed To get request by id', details: `${e}` });
       }
-    } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To get request by id', details: `${e}` });
     }
-  });
+  );
 
-  //------------------------------------------------------------------------------
-  //------------------------------------------------------------------------------
-  //------------------------------------------------------------------------------
-  //------------------------------------------------------------------------------
   app.delete(
     ROUTES.API.REQUEST.DELETE.postedRequestAndBidsForRequester,
+    celebrate(deletePostedRequestAndBidsForRequester),
     requireLogin,
     async (req, res, next) => {
       try {
         const mongoUser_id = req.user._id;
-        const requestId = req.body.requestId;
+        const { requestId } = req.body.requestId;
 
-        if (requestId) {
-          const userRequestsList = await requestDataAccess.cancelRequest(requestId, mongoUser_id);
-          return res.send(requestId);
-        } else {
-          return res.status(400).send({
-            errorMsg: 'Bad Request RequestId param was Not Specified',
-          });
-        }
+        await requestDataAccess.cancelRequest(requestId, mongoUser_id);
+        return res.send(requestId);
       } catch (e) {
         next(e);
         // return res.status(400).send({ errorMsg: 'Failed To delete request', details: `${e}` });
@@ -58,21 +59,16 @@ module.exports = (app) => {
 
   app.get(
     ROUTES.API.REQUEST.GET.awardedRequestFullDetailsForRequester,
+    celebrate(requiresRequestId),
     requireLogin,
     requireRequestOwner,
     async (req, res) => {
       try {
-        if (req.query && req.query.requestId) {
-          const { requestId } = req.query;
-          const requestFullDetails = await requestDataAccess.getAwardedRequestFullDetailsForRequester(
-            requestId
-          );
-          return res.send(requestFullDetails);
-        } else {
-          return res.status(400).send({
-            errorMsg: 'Bad Request for awarded request details, requestId param was Not Specified',
-          });
-        }
+        const { requestId } = req.query;
+        const requestFullDetails = await requestDataAccess.getAwardedRequestFullDetailsForRequester(
+          requestId
+        );
+        return res.send(requestFullDetails);
       } catch (e) {
         return res
           .status(400)
@@ -83,26 +79,19 @@ module.exports = (app) => {
 
   app.get(
     ROUTES.API.REQUEST.GET.achivedTaskDetailsForRequester,
+    celebrate(requiresRequestId),
     requireLogin,
     requireRequestOwner,
     async (req, res) => {
       try {
-        if (req.query && req.query.requestId) {
-          const mongoUser_id = req.user._id;
+        const mongoUser_id = req.user._id;
 
-          const { requestId } = req.query;
-          const archivedRequestDetails = await requestDataAccess.getArchivedTaskDetailsForRequester(
-            {
-              requestId,
-              mongoUser_id,
-            }
-          );
-          return res.send(archivedRequestDetails);
-        } else {
-          return res.status(400).send({
-            errorMsg: 'Bad Request cannot get past request details',
-          });
-        }
+        const { requestId } = req.query;
+        const archivedRequestDetails = await requestDataAccess.getArchivedTaskDetailsForRequester({
+          requestId,
+          mongoUser_id,
+        });
+        return res.send(archivedRequestDetails);
       } catch (e) {
         return res.status(400).send({ errorMsg: 'Failed To get request details', details: `${e}` });
       }
@@ -111,6 +100,7 @@ module.exports = (app) => {
 
   app.put(
     ROUTES.API.REQUEST.PUT.updateRequestState,
+    celebrate(updateRequestState),
     requireLogin,
     requireRequestOwnerOrAwardedTasker,
     async (req, res, done) => {
@@ -118,15 +108,8 @@ module.exports = (app) => {
         // create new request for this user
         const data = req.body.data;
         const { requestId, newState } = data;
-
-        if (requestId && newState) {
-          await requestDataAccess.updateState(requestId, newState);
-          return res.send({ requestId, success: true });
-        } else {
-          return res.status(400).send({
-            errorMsg: 'Bad Request param requestId was Not Specified',
-          });
-        }
+        await requestDataAccess.updateState(requestId, newState);
+        return res.send({ requestId, success: true });
       } catch (e) {
         return res
           .status(400)
@@ -134,7 +117,7 @@ module.exports = (app) => {
       }
     }
   );
-
+  //XXXXX for each job type specify what is acceptable here
   app.post(
     ROUTES.API.REQUEST.POST.createNewRequest,
     requireLogin,
@@ -184,7 +167,7 @@ module.exports = (app) => {
           );
         });
 
-        const imageUploadResults = await Promise.all(cloudinaryUploadReqs);
+        await Promise.all(cloudinaryUploadReqs);
 
         res.send({
           taskImages: cloudinaryHostedImageObj,
@@ -195,80 +178,48 @@ module.exports = (app) => {
     }
   });
 
-  app.put(ROUTES.API.REQUEST.PUT.updateViewedBy, requireLogin, async (req, res) => {
-    try {
-      const data = req.body.data;
-      const { requestId } = data;
-      if (!requestId) {
-        return res.status(400).send({
-          errorMsg: 'Bad Request for updateViewedBy, requestId param was Not Specified',
-        });
+  app.put(
+    ROUTES.API.REQUEST.PUT.updateViewedBy,
+    celebrate(updateViewedBy),
+    requireLogin,
+    async (req, res) => {
+      try {
+        const { requestId } = req.body.data;
+        const mongoUser_id = req.user._id;
+        await requestDataAccess.updateViewedBy(requestId, mongoUser_id);
+        return res.send({ success: true });
+      } catch (e) {
+        return res.status(400).send({ errorMsg: 'Failed To updateViewedBy', details: `${e}` });
       }
-      const mongoUser_id = req.user._id;
-
-      await requestDataAccess.updateViewedBy(requestId, mongoUser_id);
-      return res.send({ success: true });
-    } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To updateViewedBy', details: `${e}` });
     }
-  });
+  );
 
-  app.put(ROUTES.API.REQUEST.PUT.updateBooedBy, requireLogin, async (req, res) => {
-    try {
-      const data = req.body.data;
-      const { requestId } = data;
-      if (!requestId) {
-        return res.status(400).send({
-          errorMsg: 'Bad Request for updateBooedBy, requestId param was Not Specified',
-        });
+  app.put(
+    ROUTES.API.REQUEST.PUT.updateBooedBy,
+    celebrate(updateBooedBy),
+    requireLogin,
+    async (req, res) => {
+      try {
+        const { requestId } = req.body.data;
+
+        const mongoUser_id = req.user._id;
+
+        await requestDataAccess.updateBooedBy(requestId, mongoUser_id);
+        return res.send({ success: true });
+      } catch (e) {
+        return res.status(400).send({ errorMsg: 'Failed To updateBooedBy', details: `${e}` });
       }
-      const mongoUser_id = req.user._id;
-
-      await requestDataAccess.updateBooedBy(requestId, mongoUser_id);
-      return res.send({ success: true });
-    } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To updateBooedBy', details: `${e}` });
     }
-  });
-
-  app.put(ROUTES.API.REQUEST.PUT.updateBooedBy, requireLogin, async (req, res) => {
-    try {
-      const data = req.body.data;
-      const { requestId } = data;
-      if (!requestId) {
-        return res.status(400).send({
-          errorMsg: 'Bad Request for updateBooedBy, requestId param was Not Specified',
-        });
-      }
-      const mongoUser_id = req.user._id;
-
-      await requestDataAccess.updateBooedBy(requestId, mongoUser_id);
-      return res.send({ success: true });
-    } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To updateBooedBy', details: `${e}` });
-    }
-  });
+  );
 
   app.put(
     ROUTES.API.REQUEST.PUT.requesterConfirmsRequestCompleted,
+    celebrate(requesterConfirmsRequestCompleted),
     requireLogin,
     requireRequestOwner,
     async (req, res) => {
-      /**
-       * What we need to do here
-       *  - update request sate to Done
-       *  - update awarded bid state to Done
-       *  - without waiting on the async -> delete all other bids associated with this request
-       *  - notify both both and congrat for fulfilling this request and prompt to do another one
-       */
       try {
-        const data = req.body.data;
-        const { requestId, completionDate } = data;
-        if (!requestId) {
-          return res.status(400).send({
-            errorMsg: 'Bad Request for requesterConfirmsRequestCompletion param was Not Specified',
-          });
-        }
+        const { requestId, completionDate } = req.body.data;
 
         await requestDataAccess.requesterConfirmsRequestCompletion(requestId, completionDate);
 
@@ -281,85 +232,52 @@ module.exports = (app) => {
     }
   );
 
-  app.post(ROUTES.API.REQUEST.POST.updateSearchThenSearchRequests, async (req, res, next) => {
-    try {
-      const searchDetails = req.body.data;
-      if (!searchDetails) {
-        return res.status(403).send({
-          errorMsg: 'searchDetails failed due to missing params',
-        });
-      }
-      const {
-        searchRadius,
-        location,
-        addressText,
-        tasksTypeFilter = [
-          'bdbHouseCleaning',
-          'bdbCarDetailing',
-          'bdbPetSittingWalking',
-          'bdbMoving',
-        ],
-      } = searchDetails;
-      if (
-        !searchRadius ||
-        !addressText ||
-        !location ||
-        location.lat === '' ||
-        location.lng === ''
-      ) {
-        return res.status(403).send({
-          errorMsg: 'searchDetails failed due to invalid params ',
-        });
-      }
+  app.post(
+    ROUTES.API.REQUEST.POST.updateSearchThenSearchRequests,
+    celebrate(updateSearchThenSearchRequests),
+    async (req, res, next) => {
+      try {
+        const searchDetails = req.body.data;
 
-      const userId = req.user && req.user.userId;
-      // update if user is logged in
-      if (userId) {
-        await updateUserLastSearchDetails(userId, {
-          searchRadius,
-          location,
-          addressText,
-          tasksTypeFilter,
-        });
+        const { searchRadius, location, addressText, tasksTypeFilter } = searchDetails;
+
+        const userId = req.user && req.user.userId;
+        // update if user is logged in
+        if (userId) {
+          await updateUserLastSearchDetails(userId, {
+            searchRadius,
+            location,
+            addressText,
+            tasksTypeFilter,
+          });
+        }
+
+        let requestsAroundMe = await requestDataAccess.searchRequestsByLocationForLoggedInTasker(
+          {
+            searchRadius,
+            location,
+            tasksTypeFilter,
+          },
+          req.user ? req.user._id : ''
+        );
+
+        return res.send(requestsAroundMe);
+      } catch (e) {
+        return res
+          .status(400)
+          .send({ errorMsg: 'Failed To search for requests Settings', details: `${e}` });
       }
-
-      let requestsAroundMe = await requestDataAccess.searchRequestsByLocationForLoggedInTasker(
-        {
-          searchRadius,
-          location,
-          tasksTypeFilter,
-        },
-        req.user ? req.user._id : ''
-      );
-
-      return res.send(requestsAroundMe);
-    } catch (e) {
-      return res
-        .status(400)
-        .send({ errorMsg: 'Failed To search for requests Settings', details: `${e}` });
     }
-  });
+  );
 
   app.put(
     ROUTES.API.REQUEST.PUT.taskerConfirmsRequestCompleted,
+    celebrate(taskerConfirmsRequestCompleted),
     requireLogin,
     requireCurrentUserIsTheAwardedTasker,
     async (req, res) => {
-      /**
-       * What we need to do :
-       *  - Update request completion.taskerConfirmed : true
-       *  - Notify push and email Requester to confirm completion
-       *  - start review process for Tasker
-       */
       try {
-        const data = req.body.data;
-        const { requestId } = data;
-        if (!requestId) {
-          return res.status(400).send({
-            errorMsg:
-              'Bad Request for taskerConfirmsRequestCompleted, requestId param was Not Specified',
-          });
-        }
+        const { requestId } = req.body.data;
 
         await requestDataAccess.taskerConfirmsRequestCompletion(requestId);
         return res.send({ success: true });
@@ -373,23 +291,13 @@ module.exports = (app) => {
 
   app.put(
     ROUTES.API.REQUEST.PUT.requesterDisputeRequest,
+    celebrate(requesterDisputeRequest),
     requireLogin,
     requireRequestOwner,
     async (req, res) => {
       try {
-        const data = req.body.data;
-        const { requestId, requesterDispute } = data;
-        if (!requestId || !requesterDispute) {
-          return res.status(400).send({
-            errorMsg: 'Bad Request for requesterDisputeRequest param was Not Specified',
-          });
-        }
+        const { requestId, requesterDispute } = req.body.data;
         const { reason, details } = requesterDispute;
-        if (!reason || !details) {
-          return res.status(400).send({
-            errorMsg: 'Bad Request for requesterDisputeRequest, missing params 2',
-          });
-        }
 
         await requestDataAccess.requesterDisputesRequest({ requestId, reason, details });
 
@@ -403,24 +311,14 @@ module.exports = (app) => {
   );
   app.put(
     ROUTES.API.REQUEST.PUT.taskerDisputeRequest,
+    celebrate(taskerDisputeRequest),
     requireLogin,
     requireCurrentUserIsTheAwardedTasker,
     async (req, res) => {
       try {
-        const data = req.body.data;
-        const { requestId, taskerDispute } = data;
+        const { requestId, taskerDispute } = req.body.data;
 
-        if (!requestId || !taskerDispute) {
-          return res.status(400).send({
-            errorMsg: 'Bad Request for taskerDisputeRequest, missing params',
-          });
-        }
         const { reason, details } = taskerDispute;
-        if (!reason || !details) {
-          return res.status(400).send({
-            errorMsg: 'Bad Request for taskerDisputeRequest, missing params 2',
-          });
-        }
 
         await requestDataAccess.taskerDisputesRequest({ requestId, reason, details });
         return res.send({ success: true });
@@ -433,41 +331,31 @@ module.exports = (app) => {
   );
 
   // everything below this is reviewed and optimal
-  app.get(
-    ROUTES.API.REQUEST.GET.myRequestsSummary,
-    requireBidorBooHost,
-    requireLogin,
-    async (req, res) => {
-      try {
-        const userRequestsList = await requestDataAccess.getMyRequestsSummary(req.user._id);
+  app.get(ROUTES.API.REQUEST.GET.myRequestsSummary, requireLogin, async (req, res) => {
+    try {
+      const userRequestsList = await requestDataAccess.getMyRequestsSummary(req.user._id);
 
-        return res.send({ myRequestsSummary: userRequestsList || [] });
-      } catch (e) {
-        console.log('BIDORBOO_ERROR: ROUTES.API.REQUEST.GET.getMyRequestsSummary ' + e);
+      return res.send({ myRequestsSummary: userRequestsList || [] });
+    } catch (e) {
+      console.log('BIDORBOO_ERROR: ROUTES.API.REQUEST.GET.getMyRequestsSummary ' + e);
 
-        return res.status(400).send({ errorMsg: 'Failed To get requests summary' });
-      }
+      return res.status(400).send({ errorMsg: 'Failed To get requests summary' });
     }
-  );
+  });
   app.get(
     ROUTES.API.REQUEST.GET.postedRequestAndBidsForRequester,
+    celebrate(requiresRequestId),
     requireLogin,
     async (req, res) => {
       try {
-        if (req.query && req.query.requestId) {
-          const { requestId } = req.query;
-          const mongoUser_id = req.user._id;
+        const { requestId } = req.query;
+        const mongoUser_id = req.user._id;
 
-          const requestDetails = await requestDataAccess.postedRequestAndBidsForRequester(
-            mongoUser_id,
-            requestId
-          );
-          return res.send(requestDetails);
-        } else {
-          return res.status(400).send({
-            errorMsg: "Bad Request, couldn't get request by id",
-          });
-        }
+        const requestDetails = await requestDataAccess.postedRequestAndBidsForRequester(
+          mongoUser_id,
+          requestId
+        );
+        return res.send(requestDetails);
       } catch (e) {
         console.log('BIDORBOO_ERROR: ROUTES.API.REQUEST.GET.myRequestById ' + e);
 
