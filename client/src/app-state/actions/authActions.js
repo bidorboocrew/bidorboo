@@ -11,8 +11,6 @@ export const verifyPhone = (code, onSuccessCallback = () => null) => (dispatch) 
         data: { code },
       })
       .then((verifyReq) => {
-        //rediret user to my profile
-
         if (verifyReq && verifyReq.data && verifyReq.data.success) {
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
@@ -34,8 +32,6 @@ export const verifyPhone = (code, onSuccessCallback = () => null) => (dispatch) 
         }
       })
       .catch((error) => {
-        //rediret user to my profile
-        // switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
         throwErrorNotification(dispatch, error);
       }),
   });
@@ -48,8 +44,6 @@ export const verifyEmail = (code, onSuccessCallback = () => null) => (dispatch) 
         data: { code },
       })
       .then((verifyReq) => {
-        //rediret user to my profile
-        // switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
         if (verifyReq && verifyReq.data && verifyReq.data.success) {
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
@@ -71,8 +65,6 @@ export const verifyEmail = (code, onSuccessCallback = () => null) => (dispatch) 
         }
       })
       .catch((error) => {
-        //rediret user to my profile
-        // switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
         throwErrorNotification(dispatch, error);
       }),
   });
@@ -89,9 +81,6 @@ export const getCurrentUserNotifications = () => (dispatch) => {
             payload: resp.data,
           });
         }
-        // } else {
-        //   switchRoute(ROUTES.CLIENT.HOME);
-        // }
       })
       .catch((error) => {
         throwErrorNotification(dispatch, error);
@@ -113,16 +102,7 @@ export const getCurrentUser = () => (dispatch) => {
           dispatch({
             type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
           });
-          // xxxx stupid welcome notification
-          // dispatch({
-          //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-          //   payload: {
-          //     toastDetails: {
-          //       type: 'success',
-          //       msg: `Welcome to BidOrBoo ${resp.data.displayName || resp.data.email.emailAddress}`,
-          //     },
-          //   },
-          // });
+
           if (resp.data.appView) {
             if (resp.data.appView === 'TASKER') {
               dispatch({
@@ -136,12 +116,6 @@ export const getCurrentUser = () => (dispatch) => {
               });
             }
           }
-          // if (
-          //   resp.data.membershipStatus === 'NEW_MEMBER' &&
-          //   window.location.pathname !== ROUTES.CLIENT.TOS
-          // ) {
-          //   switchRoute(ROUTES.CLIENT.ONBOARDING, { redirectUrl: window.location.pathname });
-          // }
         }
       })
       .catch((error) => {

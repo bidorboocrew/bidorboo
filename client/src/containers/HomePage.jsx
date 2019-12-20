@@ -4,7 +4,6 @@ import ReactPlayer from 'react-player';
 import * as ROUTES from '../constants/frontend-route-consts';
 import RequesterRoot from './requester-flow/RequesterRootPage';
 import { switchRoute } from '../utils';
-import HOW_IT_WORKS from '../assets/images/HOW_IT_WORKS.png';
 import MainBanner from '../assets/images/MainBanner.png';
 import REQUESTER_MAINPAGE from '../assets/images/REQUESTER_MAINPAGE.png';
 import TASKER_MAINPAGE from '../assets/images/TASKER_MAINPAGE.png';
@@ -262,32 +261,6 @@ const HowItWorksProvideService = () => {
           <p className="is-size-5">{`Do it & get paid`}</p>
         </li>
       </ul>
-    </div>
-  );
-};
-
-const VideoExplanation = () => {
-  return (
-    <div style={{ height: 'unset' }} className="card">
-      <div className="card-image">
-        <figure className="image">
-          <img src={HOW_IT_WORKS} alt="Placeholder" />
-        </figure>
-      </div>
-      <div className="card-content">
-        <div className="content has-text-centered">
-          <div style={{ marginBottom: 0, color: '#ee2a36' }} className="title is-size-4">
-            <a
-              className="button is-text"
-              href="https://youtu.be/YHh9JbJAyf0"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              See how it works
-            </a>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

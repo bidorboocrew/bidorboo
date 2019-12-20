@@ -39,7 +39,6 @@ export const setServerAppTaskerView = () => (dispatch, getState) => {
         .put(ROUTES.API.USER.PUT.updateAppView, postData, config)
         .then(() => {})
         .catch((error) => {
-          // throwErrorNotification(dispatch, error);
           console.error(`couldn't save user appview + ${error}`);
         }),
     });
@@ -69,7 +68,6 @@ export const setServerAppRequesterView = () => (dispatch, getState) => {
         .put(ROUTES.API.USER.PUT.updateAppView, postData, config)
         .then(() => {})
         .catch((error) => {
-          // throwErrorNotification(dispatch, error);
           console.error(`couldn't save user appview + ${error}`);
         }),
     });

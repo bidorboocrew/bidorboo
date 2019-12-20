@@ -25,7 +25,6 @@ export const getRequestToBidOnDetails = (requestId, isLoggedIn = false) => (disp
                 }),
             });
           }
-          //update store with the request details
           dispatch({
             type: A.TASKER_ACTIONS.SELECT_REQUEST_TO_BID_ON,
             payload: {
@@ -40,7 +39,6 @@ export const getRequestToBidOnDetails = (requestId, isLoggedIn = false) => (disp
   });
 
 export const submitBid = ({ bidAmount, request, recaptchaField }) => (dispatch) => {
-  //update store with the request details
 
   const { _id: requestId, templateId } = request;
   dispatch({
@@ -54,10 +52,8 @@ export const submitBid = ({ bidAmount, request, recaptchaField }) => (dispatch) 
         },
       })
       .then((resp) => {
-        // update recently added request
         if (resp.data && resp.data._id) {
           const taskDefinition = TASKS_DEFINITIONS[templateId];
-          //rediret user to the current bid
           switchRoute(ROUTES.CLIENT.TASKER.mybids);
           dispatch({
             type: A.UI_ACTIONS.SHOW_SPECIAL_MOMENT,
@@ -65,16 +61,6 @@ export const submitBid = ({ bidAmount, request, recaptchaField }) => (dispatch) 
               specialMomentContent: taskDefinition.renderThankYouForPostingBid,
             },
           });
-
-          // dispatch({
-          //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-          //   payload: {
-          //     toastDetails: {
-          //       type: 'success',
-          //       msg: 'You have made your bid. Good Luck!',
-          //     },
-          //   },
-          // });
         }
       })
       .catch((error) => {
@@ -84,7 +70,6 @@ export const submitBid = ({ bidAmount, request, recaptchaField }) => (dispatch) 
 };
 
 export const deleteOpenBid = (bidId) => (dispatch) => {
-  //update store with the request details
   dispatch({
     type: A.TASKER_ACTIONS.DELETE_AN_OPEN_BID,
     payload: axios
@@ -92,7 +77,6 @@ export const deleteOpenBid = (bidId) => (dispatch) => {
         data: { bidId },
       })
       .then((resp) => {
-        // update recently added request
         if (resp.data && resp.data.success) {
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
@@ -103,7 +87,6 @@ export const deleteOpenBid = (bidId) => (dispatch) => {
               },
             },
           });
-          // xxxx update without reload
           window.location.reload();
         }
       })
@@ -114,7 +97,6 @@ export const deleteOpenBid = (bidId) => (dispatch) => {
 };
 
 export const cancelAwardedBid = (bidId) => (dispatch) => {
-  //update store with the request details
   dispatch({
     type: A.TASKER_ACTIONS.CANCEL_MY_AWARDED_BID,
     payload: axios
@@ -122,7 +104,6 @@ export const cancelAwardedBid = (bidId) => (dispatch) => {
         data: { bidId },
       })
       .then((resp) => {
-        // update recently added request
         if (resp.data && resp.data.success) {
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
@@ -133,7 +114,6 @@ export const cancelAwardedBid = (bidId) => (dispatch) => {
               },
             },
           });
-          // xxxx update without reload
           window.location.reload();
         }
       })
@@ -144,7 +124,6 @@ export const cancelAwardedBid = (bidId) => (dispatch) => {
 };
 
 export const updateBid = ({ bidId, bidAmount, request }) => (dispatch) => {
-  //update store with the request details
   const { templateId } = request;
 
   dispatch({
@@ -157,11 +136,9 @@ export const updateBid = ({ bidId, bidAmount, request }) => (dispatch) => {
         },
       })
       .then((resp) => {
-        // update recently added request
         if (resp.data && resp.data._id) {
-          // xxxx update some store value instead of reloading the page
-          const taskDefinition = TASKS_DEFINITIONS[templateId];
 
+          const taskDefinition = TASKS_DEFINITIONS[templateId];
           dispatch({
             type: A.UI_ACTIONS.SHOW_SPECIAL_MOMENT,
             payload: {
@@ -169,21 +146,9 @@ export const updateBid = ({ bidId, bidAmount, request }) => (dispatch) => {
             },
           });
 
-          //rediret user to the current bid
-
           delayedReload(
             ROUTES.CLIENT.TASKER.dynamicReviewMyOpenBidAndTheRequestDetails(resp.data._id),
           );
-
-          // dispatch({
-          //   type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-          //   payload: {
-          //     toastDetails: {
-          //       type: 'success',
-          //       msg: 'You have udpated your bid. Good Luck!',
-          //     },
-          //   },
-          // });
         }
       })
       .catch((error) => {
@@ -193,7 +158,6 @@ export const updateBid = ({ bidId, bidAmount, request }) => (dispatch) => {
 };
 
 export const getMyPostedBidsSummary = () => (dispatch) => {
-  //update store with the request details
   dispatch({
     type: A.TASKER_ACTIONS.GET_ALL_MY_OPEN_BIDS,
     payload: axios.get(ROUTES.API.BID.GET.myPostedBidsSummary).catch((error) => {
@@ -203,7 +167,6 @@ export const getMyPostedBidsSummary = () => (dispatch) => {
 };
 
 export const getOpenBidDetails = (openBidId) => (dispatch) => {
-  //update store with the request details
   dispatch({
     type: A.TASKER_ACTIONS.GET_OPEN_BID_DETAILS,
     payload: axios
@@ -215,7 +178,6 @@ export const getOpenBidDetails = (openBidId) => (dispatch) => {
 };
 
 export const getAwardedBidDetails = (awardedBidId) => (dispatch) => {
-  //update store with the request details
   dispatch({
     type: A.TASKER_ACTIONS.GET_AWARDED_BID_DETAILS,
     payload: axios

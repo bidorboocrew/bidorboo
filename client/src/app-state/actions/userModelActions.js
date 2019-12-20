@@ -25,8 +25,6 @@ export const updateProfileDetails = (profileDetails) => (dispatch) => {
     })
     .then((resp) => {
       if (resp.data && resp.data.userId) {
-        //update everyone that user is now logged in
-        //update everyone that user is now logged in
         dispatch({
           type: A.USER_MODEL_ACTIONS.UPDATE_USER_PROFILE,
           payload: resp.data,
@@ -57,7 +55,6 @@ export const updateProfileImage = (imgFile) => (dispatch) => {
       .put(ROUTES.API.USER.PUT.profilePicture, data, config)
       .then((resp) => {
         if (resp.data && resp.data.userId) {
-          //update profile data
           dispatch({
             type: A.USER_MODEL_ACTIONS.UPDATE_USER_PROFILE,
             payload: resp.data,

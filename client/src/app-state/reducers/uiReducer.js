@@ -35,7 +35,6 @@ const showSpecialMoment = (state = initialState, { payload }) => {
 };
 const updateNotificationFeed = (state = initialState, { payload }) => {
   if (payload) {
-    // const
     const requestIdsWithNewBids = payload.z_notify_requestsWithNewUnseenState || [];
     const myBidsWithNewStatus = payload.z_notify_myBidsWithNewStatus || [];
     const reviewsToBeFilled = payload.z_track_reviewsToBeFilled || [];

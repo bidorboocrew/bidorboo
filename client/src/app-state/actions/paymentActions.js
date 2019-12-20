@@ -34,11 +34,9 @@ export const submitPayment = ({ requestId, bidId }) => async (dispatch) => {
       },
     });
 
-    const checkoutResults = await window
-      .Stripe(`${process.env.REACT_APP_STRIPE_KEY}`)
-      .redirectToCheckout({
-        sessionId: sessionClientId,
-      });
+    await window.Stripe(`${process.env.REACT_APP_STRIPE_KEY}`).redirectToCheckout({
+      sessionId: sessionClientId,
+    });
 
     dispatch({
       type: A.REQUESTER_ACTIONS.AWARD_TASKER_AND_MAKE_A_PAYMENT,
@@ -48,7 +46,6 @@ export const submitPayment = ({ requestId, bidId }) => async (dispatch) => {
           sessionId: sessionClientId,
         })
         .then((resp) => {
-          // update recently added request
           if (resp.data && resp.data.success) {
             switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(requestId));
           } else if (resp.data.error) {

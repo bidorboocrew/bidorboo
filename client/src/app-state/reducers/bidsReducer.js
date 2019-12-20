@@ -3,7 +3,6 @@ import { handleActions } from 'redux-actions';
 import * as A from '../actionTypes';
 
 const initialState = {
-  // the request that the user is currently looking to bid on
   requestToBidOnDetails: {},
   openBidsList: [],
   isLoadingBids: false,

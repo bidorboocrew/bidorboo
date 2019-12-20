@@ -1,20 +1,8 @@
 @charset "utf-8";
 
-// @import './_fonts.scss';
-// @import './_variables.scss';
 @import './_animatecss.scss';
 @import './_addToCalendar.scss';
-// @import './_cropperjs.scss';
 
-// @import 'react-responsive-carousel/lib/styles/carousel.min.css';
-
-// @import './_reactBigCalendar.scss';
-
-// @import './_commonClasses.scss';
-// --------------------------------------------------
-// Flexbox SASS mixins
-// The spec: http://www.w3.org/TR/css3-flexbox
-// --------------------------------------------------
 @import url('https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700&display=swap');
 
 $border-divider: 1px solid rgba(0, 0, 0, 0.12);
@@ -1032,9 +1020,6 @@ div.react-datepicker__input-container {
 
 .player-wrapper {
   position: relative;
-  // max-width: 60%;
-  // max-height: 80%;
-  // border: 1px solid $red;
   padding-top: 56.25%; /* Player ratio: 100 / (1280 / 720) */
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }

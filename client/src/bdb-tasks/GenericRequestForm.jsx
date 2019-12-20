@@ -1,11 +1,3 @@
-/**
- * TODO SAID
- * handle validation using YUP and otherways
- * handle blur on address change
- * make the address optional
- *
- */
-
 import React, { useState } from 'react';
 import { Collapse } from 'react-collapse';
 import axios from 'axios';
@@ -22,7 +14,6 @@ import {
   DateInput,
   TextInput,
 } from '../components/forms/FormsHelpers';
-// import { StepsForRequest } from '../containers/commonComponents';
 
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
@@ -46,7 +37,6 @@ class GenericRequestForm extends React.Component {
     if (this.google) {
       this.geocoder = new this.google.maps.Geocoder();
     }
-    // extras
     this.extrasFunc = TASKS_DEFINITIONS[this.requestTemplateId].extras.bind(this);
     this.extrasValidations =
       TASKS_DEFINITIONS[this.requestTemplateId].extrasValidation &&
@@ -189,7 +179,6 @@ class GenericRequestForm extends React.Component {
         this.props.setFieldValue('destinationText', addressText, true);
       },
     );
-    // update the form field with the current position coordinates
   };
   setTaskTitle = () => {
     const { TITLE } = TASKS_DEFINITIONS[this.requestTemplateId];
@@ -397,7 +386,6 @@ class GenericRequestForm extends React.Component {
                     }}
                     handleSelect={(address) => {
                       setFieldValue('destinationText', address, true);
-                      // this.autoSetGeoLocation(address);
                     }}
                   />
                 </>

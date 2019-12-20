@@ -8,9 +8,7 @@ const initialState = {
   error: null,
   isLoading: false,
   mapCenterPoint: { lat: 45.4215, lng: -75.6972 },
-  // the currently selected active request
   selectedRequestWithBids: {},
-  // the currently selected awarded request
   selectedAwardedRequest: {},
   selectedArchivedRequest: {},
 };
@@ -159,18 +157,14 @@ const setLoggedOutState = () => {
 };
 export default handleActions(
   {
-      // search requests
     [`${A.REQUEST_ACTIONS.GET_ALL_POSTED_REQUESTS_VIA_SEARCH}${A._PENDING}`]: getPostedRequests.isPending,
     [`${A.REQUEST_ACTIONS.GET_ALL_POSTED_REQUESTS_VIA_SEARCH}${A._FULFILLED}`]: getPostedRequests.isFullfilled,
     [`${A.REQUEST_ACTIONS.GET_ALL_POSTED_REQUESTS_VIA_SEARCH}${A._REJECTED}`]: getPostedRequests.isRejected,
-    //delete a request
+
     [`${A.REQUEST_ACTIONS.DELETE_REQUEST_BY_ID}${A._PENDING}`]: deleteRequest.isPending,
     [`${A.REQUEST_ACTIONS.DELETE_REQUEST_BY_ID}${A._FULFILLED}`]: deleteRequest.isFullfilled,
     [`${A.REQUEST_ACTIONS.DELETE_REQUEST_BY_ID}${A._REJECTED}`]: deleteRequest.isRejected,
 
-    // [`${A.REQUEST_ACTIONS.GET_ALL_POSTED_REQUESTS}${A._PENDING}`]: getPostedRequests.isPending,
-    // [`${A.REQUEST_ACTIONS.GET_ALL_POSTED_REQUESTS}${A._FULFILLED}`]: getPostedRequests.isFullfilled,
-    // [`${A.REQUEST_ACTIONS.GET_ALL_POSTED_REQUESTS}${A._REJECTED}`]: getPostedRequests.isRejected,
     [`${A.REQUEST_ACTIONS.SEARCH_REQUEST}`]: searchRequest.performSearch,
     [`${A.REQUEST_ACTIONS.SEARCH_REQUEST}${A._PENDING}`]: searchRequest.isPending,
     [`${A.REQUEST_ACTIONS.SEARCH_REQUEST}${A._FULFILLED}`]: searchRequest.isFullfilled,
@@ -182,7 +176,6 @@ export default handleActions(
     [`${A.REQUEST_ACTIONS.MARK_BID_AS_SEEN}`]: markBidAsSeen,
     [`${A.AUTH_ACTIONS.USER_IS_LOGGED_OUT}`]: setLoggedOutState,
 
-    // everything below is in use and optimal --------
     [`${A.REQUEST_ACTIONS.GET_MY_REQUESTS_SUMMARY}${A._PENDING}`]: getMyRequestsSummary.isPending,
     [`${A.REQUEST_ACTIONS.GET_MY_REQUESTS_SUMMARY}${A._FULFILLED}`]: getMyRequestsSummary.isFullfilled,
     [`${A.REQUEST_ACTIONS.GET_MY_REQUESTS_SUMMARY}${A._REJECTED}`]: getMyRequestsSummary.isRejected,

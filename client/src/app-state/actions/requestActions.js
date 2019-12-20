@@ -97,7 +97,6 @@ export const getAwardedRequestFullDetailsforRequester = (requestId) => (dispatch
     payload: axios
       .get(ROUTES.API.REQUEST.GET.awardedRequestFullDetailsForRequester, { params: { requestId } })
       .then((resp) => {
-        // update recently added request
         if (resp && resp.data) {
           dispatch({
             type: A.REQUEST_ACTIONS.SELECT_AWARDED_REQUEST,
@@ -127,12 +126,8 @@ export const requesterConfirmsRequestCompletion = (requestId) => (dispatch) => {
     payload: axios
       .put(ROUTES.API.REQUEST.PUT.requesterConfirmsRequestCompleted, postData, config)
       .then((resp) => {
-        // update recently added request
         if (resp && resp.data) {
-          // xxxx update without reload
           window.location.reload();
-          // navigate to review page
-          // switchRoute(`${ROUTES.CLIENT.REQUESTER.selectedAwardedRequestPage}/${requestId}`);
         }
       })
       .catch((error) => {
@@ -157,12 +152,8 @@ export const requesterDisputesRequest = ({ requesterDispute }) => (dispatch) => 
     payload: axios
       .put(ROUTES.API.REQUEST.PUT.requesterDisputeRequest, postData, config)
       .then((resp) => {
-        // update recently added request
         if (resp && resp.data) {
-          // xxxx update without reload
           window.location.reload();
-          // navigate to review page
-          // switchRoute(`${ROUTES.CLIENT.REQUESTER.selectedAwardedRequestPage}/${requestId}`);
         }
       })
       .catch((error) => {
@@ -187,12 +178,8 @@ export const taskerDisputesRequest = ({ taskerDispute }) => (dispatch) => {
     payload: axios
       .put(ROUTES.API.REQUEST.PUT.taskerDisputeRequest, postData, config)
       .then((resp) => {
-        // update recently added request
         if (resp && resp.data) {
-          // xxxx update without reload
           window.location.reload();
-          // navigate to review page
-          // switchRoute(`${ROUTES.CLIENT.REQUESTER.selectedAwardedRequestPage}/${requestId}`);
         }
       })
       .catch((error) => {
@@ -216,12 +203,8 @@ export const taskerConfirmsRequestCompletion = (requestId) => (dispatch) => {
     payload: axios
       .put(ROUTES.API.REQUEST.PUT.taskerConfirmsRequestCompleted, postData, config)
       .then((resp) => {
-        // update recently added request
         if (resp && resp.data && resp.data.success) {
-          // xxxx update he bid without refresh
           window.location.reload();
-          // navigate to review page
-          // switchRoute(`${ROUTES.CLIENT.REQUESTER.selectedAwardedRequestPage}/${requestId}`);
         }
       })
       .catch((error) => {
@@ -314,7 +297,6 @@ export const uploadTaskImages = (taskImages) => (dispatch) => {
             },
           });
         }
-        // switch route to show the currently added request
       }),
     });
   } else {
@@ -330,7 +312,6 @@ export const uploadTaskImages = (taskImages) => (dispatch) => {
   }
 };
 
-//----------------- in use
 
 export const getMyRequestsSummary = () => (dispatch) =>
   dispatch({

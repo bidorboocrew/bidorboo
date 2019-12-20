@@ -55,8 +55,6 @@ class MyProfile extends React.Component {
       membershipStatus,
       phone,
       rating,
-      picId,
-      // autoDetectlocation,
     } = userDetails;
 
     personalParagraph = personalParagraph || 'not provided';
@@ -66,9 +64,6 @@ class MyProfile extends React.Component {
     const shouldShowPhoneVerification = phone.phoneNumber && !phone.isVerified;
     // email is provided but it is not verified
     const shouldShowEmailVerification = email.emailAddress && !email.isVerified;
-
-    const didUserProvidePicId = !!picId && picId.front && picId.back;
-    const isPictureIdVerified = didUserProvidePicId && picId.isVerified;
 
     const membershipStatusDisplay = C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
 
@@ -344,6 +339,7 @@ const userImageAndStats = (
                     </span>
                   </div>
                   <img
+                    alt="user profile"
                     style={{
                       borderRadius: '100%',
                       cursor: 'pointer',
