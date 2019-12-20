@@ -37,7 +37,6 @@ exports.bidDataAccess = {
         const bidDetails = await BidModel.findOne({
           _taskerRef: mongoUser_id,
           _id: bidId,
-          state: { $in: ['AWARDED', 'AWARDED_SEEN'] },
         })
           .populate([
             {

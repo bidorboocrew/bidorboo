@@ -13,7 +13,7 @@ const STRIPE_STATIC_CUT_ON_EACH_PAYOUT = 0.25; //cent
 
 const BIDORBOO_REQUESTER_REFUND_PERCENTAGE_IN_CASE_OF_CANCELLATION = 0.9;
 
-const BIDORBOO_TASKER_PAYOUT_PERCENTAGE_IN_CASE_OF_CANCELLATION = 0.2;
+const BIDORBOO_TASKER_PAYOUT_PERCENTAGE_IN_CASE_OF_CANCELLATION = 0.1;
 
 exports.getChargeDistributionDetails = (totalBidAmountInDollars) => {
   let theActualBidAmount = totalBidAmountInDollars;

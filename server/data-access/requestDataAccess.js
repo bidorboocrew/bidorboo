@@ -13,9 +13,7 @@ const WebPushNotifications = require('../services/WebPushNotifications').WebPush
 
 const stripeServiceUtil = require('../services/stripeService').util;
 
-const {
-  BIDORBOO_REQUESTER_REFUND_PERCENTAGE_IN_CASE_OF_CANCELLATION,
-} = require('../utils/chargesCalculatorUtil');
+const BIDORBOO_REQUESTER_REFUND_PERCENTAGE_IN_CASE_OF_CANCELLATION = 0.9;
 
 const getAllContactDetails = require('../utils/commonDataUtils')
   .getAwardedRequestOwnerTaskerAndRelevantNotificationDetails;
@@ -393,7 +391,16 @@ exports.requestDataAccess = {
         return RequestModel.find({
           _awardedBidRef: { $exists: true },
           processedPayment: { $exists: true },
-          state: { $in: ['DONE', 'DONE_SEEN', 'ARCHIVE'] },
+          state: {
+            $in: [
+              'DONE',
+              'DONE_SEEN',
+              'ARCHIVE',
+              'AWARDED_REQUEST_CANCELED_BY_REQUESTER',
+              'AWARDED_REQUEST_CANCELED_BY_REQUESTER_SEEN',
+              'ARCHIVE',
+            ],
+          },
           paymentToBank: { $exists: false },
         })
           .lean(true)
@@ -1492,6 +1499,7 @@ exports.requestDataAccess = {
             requesterPushNotSubscription,
             taskerPushNotSubscription,
             processedPayment,
+            ownerRating,
           } = await getAllContactDetails(requestId);
 
           const newTotalOfAllRatings = ownerRating.totalOfAllRatings + 1.25;
