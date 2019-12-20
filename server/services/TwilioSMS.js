@@ -74,7 +74,7 @@ exports.TxtMsgingService = {
         // from: '+16137022661', // From a valid Twilio number
       })
       .then((message) => {
-        console.log(`BIDORBOOLOGS======== twilio send msg succeeded ${message.sid}`);
+        // console.log(`BIDORBOOLOGS======== twilio send msg succeeded ${message.sid}`);
       })
       .catch((e) => {
         console.log(`BIDORBOOLOGS======== twilio send msg issue ${e}`);

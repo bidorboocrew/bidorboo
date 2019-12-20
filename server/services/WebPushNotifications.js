@@ -21,7 +21,7 @@ exports.WebPushNotifications = {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
           title: `${requestTitle} awaiting your confirmation!`,
-          body: `Tasker is done ! Click for more details`,
+          body: `Tasker is done! Click for more details`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
           tag: urlToLaunch,
@@ -47,7 +47,7 @@ exports.WebPushNotifications = {
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
-          title: `${requestTitle} Was Cancelled!`,
+          title: `${requestTitle} was cancelled!`,
           body: `It is cancelled! Click for more details`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
@@ -97,7 +97,7 @@ exports.WebPushNotifications = {
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
-          title: `${requestTitle} is Completed!`,
+          title: `${requestTitle} is completed!`,
           body: `It is DONE! Click to Rate it`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
@@ -124,7 +124,7 @@ exports.WebPushNotifications = {
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
-          title: `BidOrBoo Marked ${requestTitle} as Complete because you did not act in 3 days.`,
+          title: `BidOrBoo marked ${requestTitle} as Complete because you did not act in 3 days.`,
           body: `Click to rate the tasker`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
@@ -206,8 +206,8 @@ exports.WebPushNotifications = {
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
-          title: `Good News ${taskerDisplayName} !`,
-          body: `You have been awarded a request. click for details`,
+          title: `Good News ${taskerDisplayName}`,
+          body: `Your Bid WON! click for details`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
           tag: urlToLaunch,
