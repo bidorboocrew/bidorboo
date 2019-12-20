@@ -1029,3 +1029,10 @@ div.react-datepicker__input-container {
   top: 0;
   left: 0;
 }
+
+.media-content {
+  p {
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+  }
+}
