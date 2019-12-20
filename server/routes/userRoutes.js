@@ -16,7 +16,6 @@ const {
   agreeToTosReq,
   userDetailsReqSchema,
   updateAppViewReq,
-  tasksICanDoReq,
 } = require('../routeSchemas/userRoutesReqSchema');
 
 // We are using the formatted Joi Validation error

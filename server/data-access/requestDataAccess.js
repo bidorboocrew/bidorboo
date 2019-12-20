@@ -393,7 +393,7 @@ exports.requestDataAccess = {
         return RequestModel.find({
           _awardedBidRef: { $exists: true },
           processedPayment: { $exists: true },
-          state: { $in: ['DONE', 'DONE_SEEN', 'ARCHIVED'] },
+          state: { $in: ['DONE', 'DONE_SEEN', 'ARCHIVE'] },
           paymentToBank: { $exists: false },
         })
           .lean(true)
@@ -441,22 +441,6 @@ exports.requestDataAccess = {
                       taskerPayout = Math.floor(amount - applicationFeeAmount);
                     }
 
-                    // const [accountBalance] = await stripeServiceUtil.getConnectedAccountBalance(
-                    //   destinationStripeAcc
-                    // );
-
-                    // let totalAvailableBalanceForPayout =
-                    //   accountBalance &&
-                    //   accountBalance.available &&
-                    //   accountBalance.available.reduce(
-                    //     (sumOfAllAvailableBalances, balanceItem) =>
-                    //       sumOfAllAvailableBalances + balanceItem.amount,
-                    //     0
-                    //   );
-
-                    // let isThereEnoughToCoverPayout = totalAvailableBalanceForPayout >= taskerPayout;
-                    // confirm there is enough available balance to cover payment
-                    // if (isThereEnoughToCoverPayout) {
                     console.log('send payout');
                     let payoutInititated = null;
                     try {
@@ -472,40 +456,33 @@ exports.requestDataAccess = {
                           },
                         }
                       );
-                      console.log({
-                        amount: taskerPayout,
-                        paymentIntentId,
-                        requestId: requestId.toString(),
-                        destinationStripeAcc,
-                        note: 'Release Payout to Tasker',
-                      });
 
-                      if (payoutInititated && payoutInititated.status === 'succeeded') {
-                        const { id: payoutId, status } = payoutInititated;
-                        // update request with the payment details
-                        RequestModel.findOneAndUpdate(
-                          { _id: requestId },
-                          {
-                            $set: {
-                              payoutDetails: {
-                                payoutId,
-                                status,
-                              },
+                      const { id: payoutId, status } = payoutInititated;
+                      // update request with the payment details
+                      await RequestModel.findOneAndUpdate(
+                        { _id: requestId },
+                        {
+                          $set: {
+                            payoutDetails: {
+                              id: payoutId,
+                              status,
                             },
-                          }
-                        )
-                          .exec()
-                          .catch((fail) =>
-                            console.log(
-                              'BIDORBOO_ERROR: SendPayoutsToBanks_Error ' + JSON.stringify(fail)
-                            )
-                          );
-                      }
+                          },
+                        }
+                      )
+                        .lean()
+                        .exec();
                     } catch (errorPayout) {
-                      console.log(
-                        'BIDORBOO_ERROR: SendPayoutsToBanks_Error ' + JSON.stringify(errorPayout)
-                      );
-                      throw errorPayout;
+                      if (errorPayout) {
+                        console.log(
+                          'BIDORBOO_ERROR: SendPayoutsToBanks_Error ' +
+                            errorPayout +
+                            '  ' +
+                            errorPayout.message
+                        );
+                      } else {
+                        console.log('BIDORBOO_ERROR: SendPayoutsToBanks_Error ' + errorPayout);
+                      }
                     }
                     // xxx on update request update bid
                     // } else {

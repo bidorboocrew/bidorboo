@@ -73,7 +73,6 @@ const RequestSchema = new Schema(
     payoutDetails: {
       id: { type: String },
       status: { type: String },
-      amount: { type: Number },
     },
     dispute: {
       taskerDispute: {

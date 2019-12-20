@@ -312,7 +312,6 @@ export const uploadTaskImages = (taskImages) => (dispatch) => {
   }
 };
 
-
 export const getMyRequestsSummary = () => (dispatch) =>
   dispatch({
     type: A.REQUEST_ACTIONS.GET_MY_REQUESTS_SUMMARY,
@@ -323,10 +322,6 @@ export const getPostedRequestAndBidsForRequester = (requestId) => (dispatch) => 
   if (!requestId) {
     return;
   }
-  dispatch({
-    type: A.REQUEST_ACTIONS.SELECT_ACTIVE_POSTED_REQUEST,
-    payload: { data: {} },
-  });
 
   return dispatch({
     type: A.REQUEST_ACTIONS.GET_POSTED_REQUEST_AND_BIDS_FOR_REQUESTER,

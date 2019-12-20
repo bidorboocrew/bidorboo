@@ -226,7 +226,8 @@ export const CenteredUserImageAndRating = ({
 };
 
 export const CardTitleAndActionsInfo = ({ bidsList = [], userAlreadyView = false, request }) => {
-  const viewCount = !request || !request.viewedBy || !request.viewedBy.length > 0 ? 0 : request.viewedBy.length;
+  const viewCount =
+    !request || !request.viewedBy || !request.viewedBy.length > 0 ? 0 : request.viewedBy.length;
 
   let bidsCountLabel = 'No bids';
   if (bidsList.length === 1) {
@@ -736,7 +737,7 @@ export const AwaitingOnTasker = () => {
             fontSize: 16,
           }}
         >
-          Waiting For Taskers
+          Waiting For Bids
         </div>
 
         <div className="help">*Check Back soon!</div>

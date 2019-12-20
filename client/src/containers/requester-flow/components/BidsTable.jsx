@@ -91,7 +91,7 @@ const TableWithNoBids = ({ viewedByCount }) => {
               <span className="icon is-small">
                 <i className="fas fa-user-clock" aria-hidden="true" />
               </span>
-              <span>Waiting For Taskers</span>
+              <span>Waiting For Bids</span>
             </a>
           </li>
         </ul>

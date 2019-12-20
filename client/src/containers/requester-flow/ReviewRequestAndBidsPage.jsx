@@ -8,7 +8,10 @@ import { RenderBackButton, redirectBasedOnRequestState } from '../commonComponen
 
 import { Spinner } from '../../components/Spinner';
 
-import { getPostedRequestAndBidsForRequester, markBidAsSeen } from '../../app-state/actions/requestActions';
+import {
+  getPostedRequestAndBidsForRequester,
+  markBidAsSeen,
+} from '../../app-state/actions/requestActions';
 
 import BidsTable from './components/BidsTable';
 import AcceptBidAndTaskerModal from './components/AcceptBidAndTaskerModal';
@@ -19,8 +22,8 @@ import {
   REQUEST_STATES,
 } from '../../bdb-tasks/getMeTheRightCard';
 
-const FETCH_INTERVAL = 15000;
-const FETCH_DURATION = process.env.NODE_ENV === 'production' ? 20 : 0; //20times*15second=3mins of fetching then we stop
+const FETCH_INTERVAL = 5000;
+const FETCH_DURATION = 30; //20times*15second=3mins of fetching then we stop
 
 class ReviewRequestAndBidsPage extends React.Component {
   constructor(props) {
@@ -169,7 +172,10 @@ const mapStateToProps = ({ requestsReducer, userReducer, uiReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getPostedRequestAndBidsForRequester: bindActionCreators(getPostedRequestAndBidsForRequester, dispatch),
+    getPostedRequestAndBidsForRequester: bindActionCreators(
+      getPostedRequestAndBidsForRequester,
+      dispatch,
+    ),
     markBidAsSeen: bindActionCreators(markBidAsSeen, dispatch),
   };
 };

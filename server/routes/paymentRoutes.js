@@ -350,7 +350,7 @@ module.exports = (app) => {
       let sig = req.headers['stripe-signature'];
       let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
       if (event) {
-        const { id, type, data } = event;
+        const { type, data } = event;
         const { status, metadata } = data;
         const { requestId } = metadata;
 
@@ -362,7 +362,7 @@ module.exports = (app) => {
             // update the request about this
             requestDataAccess.updateRequestById(requestId, {
               $set: {
-                'payoutDetails.status': { status, id },
+                'payoutDetails.status': { status },
               },
             });
             //xxx inform user that it is paid via msg email..etc
@@ -372,7 +372,15 @@ module.exports = (app) => {
             console.log({ requestId });
             requestDataAccess.updateRequestById(requestId, {
               $set: {
-                'payoutDetails.status': { status, id },
+                'payoutDetails.status': { status },
+              },
+            });
+            sendGridEmailing.informBobCrewAboutFailedPayment({ requestId, data });
+            break;
+          default:
+            requestDataAccess.updateRequestById(requestId, {
+              $set: {
+                'payoutDetails.status': { status },
               },
             });
             sendGridEmailing.informBobCrewAboutFailedPayment({ requestId, data });

@@ -327,15 +327,15 @@ exports.EmailService = {
       to,
       from: 'bidorboo@bidorboo.ca',
       subject: `${requestTitle} is Completed!`,
-      text: `BidOrBoo is HAPPY to hear that the request was fulfilled.
-      Now it is your turn to RATE the Tasker
+      text: `BidOrBoo is happy to hear that the request was fulfilled.
+      Now it is your turn to rate the Tasker
      `,
       html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `
-        <p>BidOrBoo is HAPPY to hear that the request was fulfilled.</p>
+        <p>BidOrBoo is happy to hear that the request was fulfilled.</p>
 
-        <p>Now it is your turn to RATE the Tasker</p>
+        <p>Now it is your turn to rate the Tasker</p>
          <p>click to view the details</p>
        `,
         clickLink: `${linkForOwner}`,
@@ -353,15 +353,15 @@ exports.EmailService = {
       to,
       from: 'bidorboo@bidorboo.ca',
       subject: `${requestTitle} is Completed!`,
-      text: `BidOrBoo is HAPPY to hear that you've completed this request
+      text: `BidOrBoo is happy to hear that you've completed this request
       Your payout is on the way and you should recieve it within 5-10 business days`,
 
       html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `
-        <p>BidOrBoo is HAPPY to hear that you've completed this request</p>
+        <p>BidOrBoo is happy to hear that you've completed this request</p>
         <p>Your payout is on the way and you should recieve it within 5-10 business days</p>
-        <p>Now it is your turn to RATE the Requester</p>
+        <p>Now it is your turn to rate the Requester</p>
         <p>click to view the details</p>
        `,
         clickLink: `${linkForTasker}`,
@@ -457,12 +457,12 @@ exports.EmailService = {
       to,
       from: 'bidorboo@bidorboo.ca',
       subject: `BidOrBoo Marked ${requestTitle} as Complete`,
-      text: `BidOrBoo is HAPPY to hear that your ${requestTitle} request was fulfilled.
+      text: `BidOrBoo is happy to hear that your ${requestTitle} request was fulfilled.
       Since you did not confirm the completion in the past 3 days we went ahead and marked this request as completed.`,
       html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `
-        <p>BidOrBoo is HAPPY to hear that your ${requestTitle} request was fulfilled</p>
+        <p>BidOrBoo is happy to hear that your ${requestTitle} request was fulfilled</p>
         <p> Since you did not confirm the completion in the past 3 days we went ahead and marked this request as completed.</p>
         <p>Please rate the Tasker</p>
        `,
@@ -480,12 +480,12 @@ exports.EmailService = {
       to,
       from: 'bidorboo@bidorboo.ca',
       subject: `Confirm ${requestTitle} completion!`,
-      text: `BidOrBoo is HAPPY to hear that your ${requestTitle} request was fulfilled.
+      text: `BidOrBoo is happy to hear that your ${requestTitle} request was fulfilled.
       Please confirm the completion of this`,
       html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `
-        <p>BidOrBoo is HAPPY to hear that your ${requestTitle} request was fulfilled.</p>
+        <p>BidOrBoo is happy to hear that your ${requestTitle} request was fulfilled.</p>
         <p>Please confirm the completion of this request asap</p>
         <p>click to view the details</p>
        `,
