@@ -29,7 +29,6 @@ class GetNotificationsAndScroll extends React.Component {
   constructor(props) {
     super(props);
     this.lastFetch = moment();
-
     this.state = { hasError: false };
   }
 
@@ -51,25 +50,26 @@ class GetNotificationsAndScroll extends React.Component {
       setServerAppRequesterView,
       setServerAppTaskerView,
     } = this.props;
+
     const currentUrlPathname = window.location.pathname;
-    if (currentUrlPathname.indexOf('my-profile/basic-settings') > 0) {
-      document.querySelector('body').setAttribute('style', 'background:white');
-    } else {
-      document.querySelector('body').setAttribute('style', 'background:#eeeeee');
-    }
+
     if (currentUrlPathname.indexOf('termsAndPrivacy') > -1) {
       setTimeout(() => {
         window.scrollTo(0, 0);
       }, 0);
       return;
     }
+
     if (location.pathname !== prevProps.location.pathname) {
       if (isLoggedIn !== prevProps.isLoggedIn && !isLoggedIn) {
         getCurrentUser();
       }
 
       if (isLoggedIn) {
-        if (currentUrlPathname.indexOf('on-boarding') > -1) {
+        if (
+          currentUrlPathname.indexOf('terms-of-service') > -1 ||
+          currentUrlPathname.indexOf('login-and-registration') > -1
+        ) {
           // do not fetch notifications on these pages above
         } else {
           this.props.getCurrentUserNotifications();
@@ -87,14 +87,6 @@ class GetNotificationsAndScroll extends React.Component {
       }, 0);
     }
   }
-
-  // componentDidCatch() {
-  //   // clearTimeout(this.fetchUserAndNotificationUpdated);
-  // }
-
-  // componentWillUnmount() {
-  //   // clearTimeout(this.fetchUserAndNotificationUpdated);
-  // }
 
   componentDidMount() {
     const {
@@ -156,31 +148,35 @@ class GetNotificationsAndScroll extends React.Component {
     }
 
     if (authIsInProgress) {
-      return <Spinner renderLabel="securing your connection" />;
+      return <Spinner renderLabel="securing your connection..." />;
     }
+
     if (!isLoggedIn) {
+      // if you are on one of our logged out experience roots , just show it
       if (loggedOutRoutes.indexOf(this.props.location.pathname) > -1) {
         return this.props.children;
-      } else {
-        if (this.props.location.pathname !== ROUTES.CLIENT.LOGIN_OR_REGISTER) {
-          return switchRoute(ROUTES.CLIENT.LOGIN_OR_REGISTER, {
-            isLoggedIn,
-            redirectedFromUrl: this.props.location.pathname,
-          });
-        }
+      }
 
+      // if you are on the loging in page
+      if (this.props.location.pathname.includes(ROUTES.CLIENT.LOGIN_OR_REGISTER)) {
         return this.props.children;
       }
+
+      // you are trying to hit a logged in protected route
+      return switchRoute(ROUTES.CLIENT.LOGIN_OR_REGISTER, {
+        isLoggedIn,
+        redirectedFromUrl: this.props.location.pathname,
+      });
+    }
+
+    if (
+      userDetails.membershipStatus === 'NEW_MEMBER' &&
+      history.location.pathname !== ROUTES.CLIENT.TOS &&
+      history.location.pathname !== ROUTES.CLIENT.ONBOARDING
+    ) {
+      return switchRoute(ROUTES.CLIENT.ONBOARDING, { redirectUrl: this.props.location.pathname });
     } else {
-      if (
-        userDetails.membershipStatus === 'NEW_MEMBER' &&
-        history.location.pathname !== ROUTES.CLIENT.TOS &&
-        history.location.pathname !== ROUTES.CLIENT.ONBOARDING
-      ) {
-        return switchRoute(ROUTES.CLIENT.ONBOARDING, { redirectUrl: this.props.location.pathname });
-      } else {
-        return this.props.children;
-      }
+      return this.props.children;
     }
   }
 }

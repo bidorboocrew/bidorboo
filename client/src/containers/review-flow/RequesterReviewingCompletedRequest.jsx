@@ -29,10 +29,18 @@ export class RequesterReviewingCompletedRequest extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    document.querySelector('body').setAttribute('style', 'background:#eeeeee');
+  }
+
   componentDidMount() {
+    document.querySelector('body').setAttribute('style', 'background:white');
+
     const { dispatch } = this.props;
     axios
-      .get(ROUTES.API.REQUEST.GET.awardedRequestFullDetailsForRequester, { params: { requestId: this.requestId } })
+      .get(ROUTES.API.REQUEST.GET.awardedRequestFullDetailsForRequester, {
+        params: { requestId: this.requestId },
+      })
       .then((resp) => {
         // update recently added request
         if (resp && resp.data) {

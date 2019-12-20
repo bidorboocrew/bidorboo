@@ -32,7 +32,13 @@ export class TaskerReviewingCompletedRequest extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    document.querySelector('body').setAttribute('style', 'background:#eeeeee');
+  }
+
   componentDidMount() {
+    document.querySelector('body').setAttribute('style', 'background:white');
+
     const { dispatch } = this.props;
     axios
       .get(ROUTES.API.BID.GET.awardedBidDetailsForTasker, { params: { awardedBidId: this.bidId } })

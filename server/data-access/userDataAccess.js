@@ -185,6 +185,7 @@ exports.findUserAndAllNewNotifications = async (mongoUserId) => {
         userRole: 0,
         picId: 0,
         stripeCustomerAccId: 0,
+        verification: 0,
       })
         .populate({
           path: '_postedRequestsRef',

@@ -141,7 +141,5 @@ export const CLIENT = {
     myNotifications: '/my-profile/notification-settings',
     basicSettings: '/my-profile/basic-settings',
     paymentSettings: '/my-profile/payment-settings',
-    pastRequestedServices: '/my-profile/past-requested-services',
-    pastProvidedServices: '/my-profile/past-provided-services',
   },
 };

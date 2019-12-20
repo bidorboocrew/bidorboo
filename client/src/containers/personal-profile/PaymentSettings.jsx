@@ -14,7 +14,9 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 
 class PaymentSettings extends React.Component {
   componentDidMount() {
-    this.props.getMyStripeAccountDetails();
+    const { isLoggedIn } = this.props;
+
+    isLoggedIn && this.props.getMyStripeAccountDetails();
   }
 
   render() {

@@ -16,7 +16,9 @@ class TaskerVerificationBanner extends React.Component {
     this.state = { showUploadImgModal: false };
   }
   componentDidMount() {
-    this.props.getMyStripeAccountDetails();
+    const { isLoggedIn } = this.props;
+
+    isLoggedIn && this.props.getMyStripeAccountDetails();
   }
 
   startupTaskerProfile = async () => {
@@ -59,11 +61,7 @@ class TaskerVerificationBanner extends React.Component {
     this.setState({ showUploadImgModal: !this.state.showUploadImgModal });
   };
   render() {
-    const {
-      isLoggedIn,
-      userDetails,
-      isLoadingStripeAccountDetails,
-    } = this.props;
+    const { isLoggedIn, userDetails, isLoadingStripeAccountDetails } = this.props;
     const { showUploadImgModal } = this.state;
 
     if (!isLoggedIn || isLoadingStripeAccountDetails) {

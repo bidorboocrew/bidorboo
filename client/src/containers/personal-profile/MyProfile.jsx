@@ -26,6 +26,13 @@ class MyProfile extends React.Component {
       showImageUploadDialog: false,
     };
   }
+  componentDidMount() {
+    document.querySelector('body').setAttribute('style', 'background:white');
+  }
+
+  componentWillUnmount() {
+    document.querySelector('body').setAttribute('style', 'background:#eeeeee');
+  }
 
   toggleEditProfile = () => {
     this.setState({ isEditProfile: !this.state.isEditProfile });
