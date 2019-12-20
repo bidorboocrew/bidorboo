@@ -458,21 +458,17 @@ exports.bidDataAccess = {
                         : -1;
                     })
                     .map((postedBid) => {
-                      // XXX remove sensitve info since you did not win this bid but someone else did
                       if (
-                        postedBid._requestRef.state === 'AWARDED' ||
-                        postedBid._requestRef.state === 'AWARDED_SEEN'
-                      ) {
-                        if (
-                          postedBid._requestRef._awardedBidRef._taskerRef.toString() ===
+                        postedBid._requestRef._awardedBidRef &&
+                        postedBid._requestRef._awardedBidRef._taskerRef.toString() ===
                           mongoUser_id.toString()
-                        ) {
-                          postedBid.isAwardedToMe = true;
-                        } else {
-                          postedBid.isAwardedToMe = false;
-                          postedBid._requestRef._awardedBidRef = {};
-                        }
+                      ) {
+                        postedBid.isAwardedToMe = true;
+                      } else {
+                        postedBid.isAwardedToMe = false;
+                        postedBid._requestRef._awardedBidRef = {};
                       }
+
                       return postedBid;
                     });
                 }
@@ -924,5 +920,21 @@ exports.bidDataAccess = {
         reject(e);
       }
     });
+  },
+  confirm: (mongoUser_id, bidId) => {
+    return BidModel.findOne({ _id: bidId }, { _awardedBidRef: 1 })
+      .populate({
+        path: '_awardedBidRef',
+        select: {
+          _taskerRef: 1,
+        },
+        populate: {
+          path: '_taskerRef',
+          match: { _id: mongoUser_id },
+          select: { _id: 1 },
+        },
+      })
+      .lean()
+      .exec();
   },
 };

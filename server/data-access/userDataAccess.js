@@ -53,7 +53,6 @@ exports.updateOnboardingDetails = (mongoUser_id, onBoardingDetails) => {
   this.updateUserProfileDetails(mongoUser_id, onBoardingDetails);
 };
 
-
 exports.findUserPublicDetails = (mongoUser_id) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -210,6 +209,11 @@ exports.findUserAndAllNewNotifications = async (mongoUserId) => {
             select: {
               templateId: 1,
               state: 1,
+              _awardedBidRef: 1,
+            },
+            populate: {
+              path: '_awardedBidRef',
+              select: { _taskerRef: 1 },
             },
           },
         })
@@ -232,8 +236,13 @@ exports.findUserAndAllNewNotifications = async (mongoUserId) => {
       let z_notify_myBidsWithNewStatus =
         user._postedBidsRef &&
         user._postedBidsRef.filter((myBid) => {
-          const theAssociatedRequest = myBid._requestRef;
-          if (!!theAssociatedRequest) {
+          const requestAssociatedWithMyBid = myBid._requestRef;
+          if (requestAssociatedWithMyBid && requestAssociatedWithMyBid._awardedBidRef) {
+            return (
+              requestAssociatedWithMyBid._awardedBidRef._taskerRef.toString() ===
+              mongoUserId.toString()
+            );
+          } else if (!!requestAssociatedWithMyBid) {
             return true;
           }
           return false;

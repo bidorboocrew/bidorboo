@@ -13,7 +13,6 @@ import {
   TaskerWillEarn,
   CenteredUserImageAndRating,
   TaskIsFulfilled,
-  ArchiveTask,
   TaskImagesCarousel,
   UserGivenTitle,
 } from '../../containers/commonComponents';

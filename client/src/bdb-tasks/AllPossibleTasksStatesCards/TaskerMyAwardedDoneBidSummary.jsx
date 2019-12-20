@@ -7,7 +7,7 @@ import {
   TaskIsFulfilled,
   RequestCardTitle,
   SummaryStartDateAndTime,
-  ArchiveTask,
+  BSAwardedToSomeoneElse,
   TaskImagesCarousel,
   UserGivenTitle,
   TaskerWillEarn,
@@ -24,7 +24,7 @@ export default class TaskerMyAwardedDoneBidSummary extends React.Component {
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
-    const { taskerPayout } = bid;
+    const { taskerPayout, isAwardedToMe } = bid;
     const { value: taskerTotalPayoutAmount } = taskerPayout;
 
     return (
@@ -39,30 +39,36 @@ export default class TaskerMyAwardedDoneBidSummary extends React.Component {
               date={startingDateAndTime}
               renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
-            <TaskerWillEarn earningAmount={taskerTotalPayoutAmount} />
-
-            <TaskIsFulfilled />
+            {isAwardedToMe && (
+              <>
+                <TaskerWillEarn earningAmount={taskerTotalPayoutAmount} />
+                <TaskIsFulfilled />
+              </>
+            )}
+            {!isAwardedToMe && <BSAwardedToSomeoneElse />}
           </div>
         </div>
         <div className="centeredButtonInCard">
-          <a
-            onClick={() => {
-              switchRoute(
-                ROUTES.CLIENT.TASKER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
-              );
-            }}
-            className={`button is-primary`}
-          >
-            <span>Review Details</span>
-            {REQUEST_STATES.AWARDED === state && (
-              <div
-                style={{ position: 'absolute', top: -5, right: 0, fontSize: 10 }}
-                className="has-text-danger"
-              >
-                <i className="fas fa-circle" />
-              </div>
-            )}
-          </a>
+          {isAwardedToMe && (
+            <a
+              onClick={() => {
+                switchRoute(
+                  ROUTES.CLIENT.TASKER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
+                );
+              }}
+              className={`button is-primary`}
+            >
+              <span>Review Details</span>
+              {REQUEST_STATES.AWARDED === state && (
+                <div
+                  style={{ position: 'absolute', top: -5, right: 0, fontSize: 10 }}
+                  className="has-text-danger"
+                >
+                  <i className="fas fa-circle" />
+                </div>
+              )}
+            </a>
+          )}
         </div>
       </div>
     );
