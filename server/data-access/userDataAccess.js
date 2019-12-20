@@ -59,6 +59,7 @@ exports.findUserPublicDetails = (mongoUser_id) => {
       const otherUserDetails = await User.findOne(
         { _id: mongoUser_id },
         {
+          appView:0,
           pushSubscription: 0,
           userRole: 0,
           settings: 0,
@@ -69,6 +70,8 @@ exports.findUserPublicDetails = (mongoUser_id) => {
           password: 0,
           _postedRequestsRef: 0,
           _postedBidsRef: 0,
+          lastSearch:0,
+          stripeCustomerAccId: 0,
         }
       )
         .populate({
@@ -391,38 +394,23 @@ exports.updateUserProfilePic = (userId, imgUrl, imgPublicId) =>
     .exec();
 
 exports.updateUserAppView = (userId, appView) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      await User.findOneAndUpdate(
-        { userId },
-        {
-          $set: { appView: `${appView}` },
-        }
-      );
-      resolve({ success: true });
-    } catch (e) {
-      reject(e);
+  return User.findOneAndUpdate(
+    { userId },
+    {
+      $set: { appView: `${appView}` },
     }
-  });
+  );
 };
 
 exports.updateNotificationSettings = (userId, notificationSettings) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      let updatedUser = await User.findOneAndUpdate(
-        { userId },
-        {
-          $set: { notifications: { ...notificationSettings } },
-        }
-      )
-        .lean(true)
-        .exec();
-
-      resolve(updatedUser);
-    } catch (e) {
-      reject(e);
+  return User.findOneAndUpdate(
+    { userId },
+    {
+      $set: { notifications: { ...notificationSettings } },
     }
-  });
+  )
+    .lean(true)
+    .exec();
 };
 
 exports.updateUserLastSearchDetails = (

@@ -217,6 +217,20 @@ exports.updateAppViewReq = {
     }),
   }),
 };
+
+exports.otherUserProfileInfo = {
+  query: Joi.object({
+    otherUserId: Joi.string()
+      .trim()
+      .error(() => {
+        return {
+          message: 'Invalid Request, could not get user profile info',
+        };
+      })
+      .required(),
+  }),
+};
+
 exports.userDetailsReqSchema = {
   body: Joi.object({
     data: Joi.object({

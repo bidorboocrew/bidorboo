@@ -6,8 +6,7 @@ const { celebrate } = require('celebrate');
 const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 const utils = require('../utils/utilities');
-const requireBidorBooHost = require('../middleware/requireBidorBooHost');
-const { requestDataAccess } = require('../data-access/requestDataAccess');
+// const { requestDataAccess } = require('../data-access/requestDataAccess');
 const {
   resetPasswordReqSchema,
   verifyViaCode,
@@ -16,18 +15,12 @@ const {
   agreeToTosReq,
   userDetailsReqSchema,
   updateAppViewReq,
+  otherUserProfileInfo,
 } = require('../routeSchemas/userRoutesReqSchema');
 
-// We are using the formatted Joi Validation error
-// Pass false as argument to use a generic error
-// const SchemaValidator = require('../middleware/SchemaValidator');
-// const validateRequest = SchemaValidator(true);
-
-// const cloudinary = require('cloudinary');
 module.exports = (app) => {
   app.post(
     ROUTES.API.USER.POST.updateUserPassword,
-    requireBidorBooHost,
     celebrate(resetPasswordReqSchema),
     async (req, res, next) => {
       try {
@@ -70,7 +63,6 @@ module.exports = (app) => {
 
   app.post(
     ROUTES.API.USER.POST.verifyEmail,
-    requireBidorBooHost,
     requireLogin,
     celebrate(verifyViaCode),
     async (req, res, next) => {
@@ -99,7 +91,6 @@ module.exports = (app) => {
   );
   app.post(
     ROUTES.API.USER.POST.verifyPhone,
-    requireBidorBooHost,
     requireLogin,
     celebrate(verifyViaCode),
     async (req, res, next) => {
@@ -132,76 +123,64 @@ module.exports = (app) => {
       }
     }
   );
-  app.post(
-    ROUTES.API.USER.POST.resendVerificationEmail,
-    requireBidorBooHost,
-    requireLogin,
-    async (req, res, next) => {
-      try {
-        const userId = req.user.userId;
-        const user = await userDataAccess.findOneByUserId(userId);
+  app.post(ROUTES.API.USER.POST.resendVerificationEmail, requireLogin, async (req, res, next) => {
+    try {
+      const userId = req.user.userId;
+      const user = await userDataAccess.findOneByUserId(userId);
 
-        if (user) {
-          const verificationRequest = await userDataAccess.resetAndSendEmailVerificationCode(
-            userId,
-            user.email.emailAddress
-          );
-          if (verificationRequest.success) {
-            return res.send(verificationRequest);
-          } else {
-            return res.status(400).send({
-              errorMsg: 'unexpected error occurred sendVerificationEmail',
-            });
-          }
+      if (user) {
+        const verificationRequest = await userDataAccess.resetAndSendEmailVerificationCode(
+          userId,
+          user.email.emailAddress
+        );
+        if (verificationRequest.success) {
+          return res.send(verificationRequest);
         } else {
           return res.status(400).send({
-            safeMsg: 'Failed To send verification email',
+            errorMsg: 'unexpected error occurred sendVerificationEmail',
           });
         }
-      } catch (e) {
-        e.safeMsg = 'Failed To send verification email';
-        return next(e);
+      } else {
+        return res.status(400).send({
+          safeMsg: 'Failed To send verification email',
+        });
       }
+    } catch (e) {
+      e.safeMsg = 'Failed To send verification email';
+      return next(e);
     }
-  );
-  app.post(
-    ROUTES.API.USER.POST.resendVerificationMsg,
-    requireBidorBooHost,
-    requireLogin,
-    async (req, res, next) => {
-      try {
-        const userId = req.user.userId;
-        const user = await userDataAccess.findOneByUserId(userId);
+  });
+  app.post(ROUTES.API.USER.POST.resendVerificationMsg, requireLogin, async (req, res, next) => {
+    try {
+      const userId = req.user.userId;
+      const user = await userDataAccess.findOneByUserId(userId);
 
-        if (user) {
-          const { success } = await userDataAccess.resetAndSendPhoneVerificationPin(
-            userId,
-            user.phone.phoneNumber
-          );
+      if (user) {
+        const { success } = await userDataAccess.resetAndSendPhoneVerificationPin(
+          userId,
+          user.phone.phoneNumber
+        );
 
-          if (success) {
-            res.send({ success });
-          } else {
-            return res.status(400).send({
-              errorMsg: 'unexpected error occurred while sending Verification Msg',
-            });
-          }
+        if (success) {
+          res.send({ success });
         } else {
           return res.status(400).send({
-            safeMsg: 'verify message failed',
+            errorMsg: 'unexpected error occurred while sending Verification Msg',
           });
         }
-      } catch (e) {
-        e.safeMsg = 'Failed To send verification message';
-        return next(e);
+      } else {
+        return res.status(400).send({
+          safeMsg: 'verify message failed',
+        });
       }
+    } catch (e) {
+      e.safeMsg = 'Failed To send verification message';
+      return next(e);
     }
-  );
+  });
 
-  // xxxx
   app.post(
     ROUTES.API.USER.POST.loggedOutRequestEmailVerificationCode,
-    requireBidorBooHost,
     celebrate(loggedoutEmailVerificationReq),
     async (req, res, next) => {
       try {
@@ -238,10 +217,6 @@ module.exports = (app) => {
 
   app.get(ROUTES.API.USER.GET.currentUser, async (req, res, next) => {
     try {
-      // await requestDataAccess.BidOrBooAdmin.nagRequesterToConfirmRequest();
-
-      // requestDataAccess.BidOrBooAdmin.SendRemindersForUpcomingRequests();
-
       let existingUser = null;
       if (req.user) {
         existingUser = await userDataAccess.findUserAndAllNewNotifications(req.user._id);
@@ -257,26 +232,25 @@ module.exports = (app) => {
     }
   });
 
-  app.get(ROUTES.API.USER.GET.otherUserProfileInfo, async (req, res, next) => {
-    try {
-      if (!req.query || !req.query.otherUserId) {
-        return res.status(400).send({
-          errorMsg: 'get otherUserProfileInfo failed due to missing params',
-        });
-      }
-      const { otherUserId } = req.query;
+  app.get(
+    ROUTES.API.USER.GET.otherUserProfileInfo,
+    celebrate(otherUserProfileInfo),
+    async (req, res, next) => {
+      try {
+        const { otherUserId } = req.query;
 
-      const otherUserDetails = await userDataAccess.findUserPublicDetails(otherUserId);
-      if (otherUserDetails) {
-        return res.send(otherUserDetails);
-      }
+        const otherUserDetails = await userDataAccess.findUserPublicDetails(otherUserId);
+        if (otherUserDetails) {
+          return res.send(otherUserDetails);
+        }
 
-      return res.send({});
-    } catch (e) {
-      e.safeMsg = 'Failed To get user public details';
-      return next(e);
+        return res.send({});
+      } catch (e) {
+        e.safeMsg = 'Failed To get user public details';
+        return next(e);
+      }
     }
-  });
+  );
 
   app.put(
     ROUTES.API.USER.PUT.notificationSettings,
@@ -358,8 +332,8 @@ module.exports = (app) => {
       try {
         const { appViewId } = req.body.data;
         const userId = req.user.userId;
-        const userAfterUpdates = await userDataAccess.updateUserAppView(userId, appViewId);
-        return res.send(userAfterUpdates);
+        await userDataAccess.updateUserAppView(userId, appViewId);
+        return res.send({ success: true });
       } catch (e) {
         e.safeMsg = 'Failed To update update user app view';
         return next(e);

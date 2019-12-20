@@ -4,11 +4,6 @@ module.exports = async (req, res, next) => {
   try {
     //in the future redirect to login page
     const { requestId } = req.body.data;
-    if (!requestId) {
-      return res.status(403).send({
-        errorMsg: 'missing paramerters requestId ',
-      });
-    }
 
     const userId = req.user._id.toString();
     const requestOwner = await requestDataAccess.isRequestOwner(userId, requestId);

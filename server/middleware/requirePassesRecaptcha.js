@@ -8,12 +8,6 @@ const recaptcha = new Recaptcha({
 });
 
 module.exports = async (req, res, next) => {
-  if (!req.body || !req.body.recaptchaField) {
-    return res.status(403).send({
-      errorMsg:
-        'missing recaptcha field. can not confirm that you are not a robot. if this persists please contact bidorboo@bidorboo.ca',
-    });
-  }
   try {
     if (process.env.NODE_ENV !== 'production') {
       return next();
