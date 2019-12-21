@@ -126,6 +126,7 @@ export default class TaskerRootLocationFilter extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { activeSearchParams, submitSearchLocationParams } = this.props;
+    debugger;
 
     submitSearchLocationParams({
       ...activeSearchParams,
@@ -344,7 +345,7 @@ class TaskTypeFilter extends React.Component {
         let controlClass = `tag is-rounded ${currentFilters.indexOf(key) > -1 && 'is-info'}`;
         return (
           <span
-            style={{cursor: 'pointer', minWidth: 165 }}
+            style={{ cursor: 'pointer', minWidth: 165 }}
             key={`key-${key}`}
             onClick={() => {
               const { updateTaskTypesFilter } = this.props;

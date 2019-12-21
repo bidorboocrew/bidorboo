@@ -218,71 +218,69 @@ exports.taskerDisputeRequest = {
 exports.updateSearchThenSearchRequests = {
   body: Joi.object({
     data: Joi.object({
-      searchDetails: Joi.object({
-        addressText: Joi.string()
-          .trim()
-          .min(5)
-          .max(500)
-          .error(() => {
-            return {
-              message: 'Invalid Request, missing address text',
-            };
-          })
-          .required(),
-        tasksTypeFilter: Joi.array()
-          .min(1)
-          .items(
-            Joi.string()
-              .trim()
-              .valid(['bdbHouseCleaning', 'bdbCarDetailing', 'bdbPetSittingWalking', 'bdbMoving'])
-              .error(() => {
-                return {
-                  message: 'Invalid Request, missing or invalid task type',
-                };
-              })
-          )
-          .error(() => {
-            return {
-              message: 'Invalid Request, missing or invalid task type filter',
-            };
-          })
-          .required(),
-        location: Joi.object({
-          lat: Joi.number()
-            .min(-90)
-            .max(90)
-            .error(() => {
-              return {
-                message: 'Invalid Request, missing or invalid lattitude',
-              };
-            })
-            .required(),
-          lng: Joi.number()
-            .min(-180)
-            .max(180)
-            .error(() => {
-              return {
-                message: 'Invalid Request, missing or invalid longitutde',
-              };
-            })
-            .required(),
+      addressText: Joi.string()
+        .trim()
+        .min(5)
+        .max(500)
+        .error(() => {
+          return {
+            message: 'Invalid Request, missing address text',
+          };
         })
+        .required(),
+      tasksTypeFilter: Joi.array()
+        .min(1)
+        .items(
+          Joi.string()
+            .trim()
+            .valid(['bdbHouseCleaning', 'bdbCarDetailing', 'bdbPetSittingWalking', 'bdbMoving'])
+            .error(() => {
+              return {
+                message: 'Invalid Request, missing or invalid task type',
+              };
+            })
+        )
+        .error(() => {
+          return {
+            message: 'Invalid Request, missing or invalid task type filter',
+          };
+        })
+        .required(),
+      location: Joi.object({
+        lat: Joi.number()
+          .min(-90)
+          .max(90)
           .error(() => {
             return {
-              message: 'Invalid Request, missing search location',
+              message: 'Invalid Request, missing or invalid lattitude',
             };
           })
           .required(),
-        searchRadius: Joi.number()
-          .min(0)
-          .max(200)
+        lng: Joi.number()
+          .min(-180)
+          .max(180)
           .error(() => {
             return {
-              message: 'Invalid Request, missing search radius',
+              message: 'Invalid Request, missing or invalid longitutde',
             };
           })
           .required(),
-      }),
+      })
+        .error(() => {
+          return {
+            message: 'Invalid Request, missing search location',
+          };
+        })
+        .required(),
+      searchRadius: Joi.number()
+        .min(0)
+        .max(200)
+        .error(() => {
+          return {
+            message: 'Invalid Request, missing search radius',
+          };
+        })
+        .required(),
     }),
   }),
 };

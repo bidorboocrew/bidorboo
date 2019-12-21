@@ -57,7 +57,6 @@ class TaskerEditOrUpdateBid extends React.Component {
       handleBlur,
       isValid,
       isSubmitting,
-      isAwardedToSomeoneElse = false,
     } = this.props;
 
     if (!request || !request._id || !request._ownerRef || !bid || !bid._id) {
@@ -111,7 +110,7 @@ class TaskerEditOrUpdateBid extends React.Component {
               <div className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <div className="modal-card-title">Change my bid</div>
+                  <div className="modal-card-title">Change Bid Amount</div>
                   <button
                     onClick={this.closeUpdateBidModal}
                     className="delete"
@@ -121,7 +120,7 @@ class TaskerEditOrUpdateBid extends React.Component {
                 <section className="modal-card-body">
                   <p>
                     Enter a new <strong>$ total amount</strong> you want to recieve in exchange for
-                    fulfilling this task
+                    doing this task
                   </p>
                   <TextInput
                     label="Enter The New Bid Amount"
@@ -174,7 +173,7 @@ class TaskerEditOrUpdateBid extends React.Component {
             <span className="icon">
               <i className="far fa-edit" />
             </span>
-            <span>Change my bid</span>
+            <span>Change Bid Amount</span>
           </a>
         )}
       </div>

@@ -1,6 +1,6 @@
 const { celebrate } = require('celebrate');
 
-const { submitReviewValidation } = require('../routeSchemas/reviewRoutesSchema');
+const { requesterSubmitReview, taskerSubmitReview } = require('../routeSchemas/reviewRoutesSchema');
 
 const { requestDataAccess } = require('../data-access/requestDataAccess');
 const { reviewDataAccess } = require('../data-access/reviewDataAccess');
@@ -19,7 +19,7 @@ const requireTaskerReviewPreChecksPass = require('../middleware/requireTaskerRev
 module.exports = (app) => {
   app.put(
     ROUTES.API.REVIEW.PUT.requesterSubmitReview,
-    celebrate(submitReviewValidation),
+    celebrate(requesterSubmitReview),
     requireLogin,
     requireRequestOwner,
     requireRequesterReviewPreChecksPass,
@@ -103,7 +103,7 @@ module.exports = (app) => {
 
   app.put(
     ROUTES.API.REVIEW.PUT.taskerSubmitReview,
-    celebrate(submitReviewValidation),
+    celebrate(taskerSubmitReview),
     requireLogin,
     requireCurrentUserIsTheAwardedTasker,
     requireTaskerReviewPreChecksPass,

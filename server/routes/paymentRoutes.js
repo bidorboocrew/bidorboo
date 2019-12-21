@@ -32,7 +32,6 @@ module.exports = (app) => {
     requireRequestOwner,
     requireRequestIsNotAwarded,
     requireNoPaymentProcessedForThisRequestBefore,
-    // requiresCheckPayTaskerDetails,
     async (req, res, next) => {
       try {
         const mongoUser_id = req.user._id.toString();

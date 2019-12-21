@@ -10,6 +10,7 @@ const {
   updateSearchThenSearchRequests,
   taskerConfirmsRequestCompleted,
   requesterDisputeRequest,
+  taskerDisputeRequest,
 } = require('../routeSchemas/rquestRoutesSchema');
 
 const { requestDataAccess } = require('../data-access/requestDataAccess');
@@ -237,9 +238,7 @@ module.exports = (app) => {
     celebrate(updateSearchThenSearchRequests),
     async (req, res, next) => {
       try {
-        const searchDetails = req.body.data;
-
-        const { searchRadius, location, addressText, tasksTypeFilter } = searchDetails;
+        const { searchRadius, location, addressText, tasksTypeFilter } = req.body.data;
 
         const userId = req.user && req.user.userId;
         // update if user is logged in

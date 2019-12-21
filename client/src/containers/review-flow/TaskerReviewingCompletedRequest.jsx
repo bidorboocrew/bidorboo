@@ -295,20 +295,20 @@ export class TaskerReviewingCompletedRequest extends React.Component {
               {bodyContent()}
               <button
                 style={{ marginLeft: 12, marginTop: 12, width: '14rem' }}
-                className="button is-success is-medium"
+                className="button is-success"
                 onClick={this.submitReview}
               >
-                Submit Your Review
+                Submit Review
               </button>
 
               <button
                 style={{ marginLeft: 12, marginTop: 12, width: '14rem' }}
-                className="button has-text-dark  is-medium"
+                className="button has-text-dark"
                 onClick={() => {
                   goBackToPreviousRoute();
                 }}
               >
-                remind me later
+                Remind Me Later
               </button>
               <div className="help">
                 Your review will not be displayed until both of you have completed submitting your

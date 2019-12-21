@@ -110,7 +110,7 @@ class AcceptBidAndTaskerModal extends React.Component {
               }}
               className="button is-success"
             >
-              <span>Book This Tasker</span>
+              <span>Book Now</span>
               <span className="icon">
                 <i className="fas fa-chevron-right" />
               </span>

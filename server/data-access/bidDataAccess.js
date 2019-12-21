@@ -576,8 +576,24 @@ exports.bidDataAccess = {
           ) {
             theBid.isAwardedToMe = true;
           } else {
+            // you are not the awarded bidder
             return resolve({});
           }
+        }
+
+        if (['DONE', 'DONE_SEEN', 'AWARDED', 'AWARDED_SEEN'].includes(theBid._requestRef.state)) {
+          const reviewRef = theBid._requestRef._reviewRef;
+
+          const revealToBoth = !!(reviewRef && reviewRef.requesterReview && reviewRef.taskerReview);
+
+          const requiresRequesterReview = !reviewRef || (reviewRef && !reviewRef.requesterReview);
+
+          const requiresTaskerReview = !reviewRef || (reviewRef && !reviewRef.taskerReview);
+          theBid._requestRef._reviewRef = {
+            revealToBoth,
+            requiresRequesterReview,
+            requiresTaskerReview,
+          };
         }
 
         return resolve(theBid);

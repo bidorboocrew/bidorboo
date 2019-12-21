@@ -145,7 +145,11 @@ export class RequesterReviewingCompletedRequest extends React.Component {
         .put(ROUTES.API.REVIEW.PUT.requesterSubmitReview, {
           data: {
             requestId: this.requestId,
-            ...this.state,
+            qualityOfWorkRating: this.state.qualityOfWorkRating,
+            punctualityRating: this.state.punctualityRating,
+            communicationRating: this.state.communicationRating,
+            mannerRating: this.state.mannerRating,
+            personalComment: this.state.personalComment,
           },
         })
         .then(() => {
@@ -300,20 +304,20 @@ export class RequesterReviewingCompletedRequest extends React.Component {
               {bodyContent()}
               <button
                 style={{ marginLeft: 12, marginTop: 12, width: '14rem' }}
-                className="button is-success is-medium"
+                className="button is-success"
                 onClick={this.submitReview}
               >
-                Submit Your Review
+                Submit Review
               </button>
 
               <button
                 style={{ marginLeft: 12, marginTop: 12, width: '14rem' }}
-                className="button has-text-dark  is-medium"
+                className="button has-text-dark"
                 onClick={() => {
                   goBackToPreviousRoute();
                 }}
               >
-                remind me later
+                Remind Me Later
               </button>
             </div>
           </>

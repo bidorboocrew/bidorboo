@@ -66,7 +66,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
               <div onClick={this.toggleDeleteConfirmationDialog} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <div className="modal-card-title">Cancel Booking? </div>
+                  <div className="modal-card-title">Cancel Booking?</div>
                   <button
                     onClick={this.toggleDeleteConfirmationDialog}
                     className="delete"
@@ -333,9 +333,7 @@ class TaskerConfirmsCompletion extends React.Component {
                 <section className="modal-card-body">
                   <div className="content">
                     <p className="has-text-success">BidOrBoo is proud of you!</p>
-                    <br />
                     <p>If you are done please confirm that you finished this request.</p>
-                    <br />
 
                     <div className="group">
                       <label className="label">What will happen next?</label>

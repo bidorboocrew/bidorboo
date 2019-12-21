@@ -255,11 +255,10 @@ class OtherUserProfileForReviewPage extends React.Component {
                   <ul style={{ marginLeft: 0 }}>
                     <li className="is-active">
                       <a>
-                        <span>{`${
-                          numberOfTimesBeenRated === 1
-                            ? `1 Review`
-                            : `${numberOfTimesBeenRated} Reviews`
-                        } `}</span>
+                        <span className="icon">
+                          <i className="fas fa-book"></i>
+                        </span>
+                        <span> Reviews</span>
                       </a>
                     </li>
                   </ul>
@@ -277,7 +276,9 @@ class OtherUserProfileForReviewPage extends React.Component {
                             : ''
                         } `}
                       >
-                        <span>From Requesters</span>
+                        <span>{`From Requesters (${
+                          asATaskerReviews ? asATaskerReviews.length : 0
+                        })`}</span>
                       </button>
                     </p>
 
@@ -291,7 +292,9 @@ class OtherUserProfileForReviewPage extends React.Component {
                             : ''
                         } `}
                       >
-                        <span>From Taskers</span>
+                        <span>{`From Taskers (${
+                          asARequesterReviewsRef ? asARequesterReviewsRef.length : 0
+                        })`}</span>
                       </button>
                     </p>
                   </div>

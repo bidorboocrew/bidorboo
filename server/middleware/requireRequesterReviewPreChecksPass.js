@@ -3,7 +3,14 @@ const { requestDataAccess } = require('../data-access/requestDataAccess');
 module.exports = async (req, res, next) => {
   try {
     const requesterId = req.user._id;
-
+    const {
+      requestId,
+      qualityOfWorkRating,
+      punctualityRating,
+      communicationRating,
+      mannerRating,
+      personalComment,
+    } = req.body.data;
     const requestDetails = await requestDataAccess.getFullRequestDetails(requestId);
 
     const awardedTasker =

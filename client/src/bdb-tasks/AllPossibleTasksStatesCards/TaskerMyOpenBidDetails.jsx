@@ -68,12 +68,10 @@ export default class TaskerMyOpenBidDetails extends React.Component {
 
     const {
       startingDateAndTime,
-      _bidsListRef, // not mandatory
       _ownerRef,
       detailedDescription,
       location,
       extras,
-      state,
       taskImages = [],
       requestTitle,
     } = request;
@@ -88,10 +86,6 @@ export default class TaskerMyOpenBidDetails extends React.Component {
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     const { showMore, showDeleteDialog, showMoreOptionsContextMenu } = this.state;
-
-    const isAwardedToSomeoneElse =
-      (state === REQUEST_STATES.AWARDED || state === REQUEST_STATES.AWARDED_SEEN) &&
-      bid._id !== request._awardedBidRef;
 
     return (
       <React.Fragment>
@@ -197,7 +191,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                 )}
               />
               <TaskerWillEarn earningAmount={taskerPayoutAmount}></TaskerWillEarn>
-              <BSawaitingOnRequester />}
+              <BSawaitingOnRequester />
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
                   <BidAmount bidAmount={bidValue}></BidAmount>

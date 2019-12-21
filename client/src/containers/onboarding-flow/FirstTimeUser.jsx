@@ -18,6 +18,10 @@ export class FirstTimeUser extends React.Component {
   }
 
   render() {
+    const { authIsInProgress } = this.props;
+    if (authIsInProgress) {
+      return null;
+    }
     return (
       <div className="columns is-multiline is-centered is-mobile">
         <div className="column limitLargeMaxWidth">
@@ -62,10 +66,11 @@ export class FirstTimeUser extends React.Component {
   }
 }
 
-const mapStateToProps = ({ userReducer }) => {
-  const { userDetails } = userReducer;
+const mapStateToProps = ({ userReducer, uiReducer }) => {
+  const { userDetails, isLoggedIn } = userReducer;
   return {
-    isLoggedIn: userReducer.isLoggedIn,
+    authIsInProgress: uiReducer.authIsInProgress,
+    isLoggedIn,
     userDetails,
   };
 };
