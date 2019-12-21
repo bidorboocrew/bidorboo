@@ -4,7 +4,6 @@ import TextareaAutosize from 'react-autosize-textarea';
 import { Collapse } from 'react-collapse';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
-import { REQUEST_STATES } from '../index';
 
 import {
   CountDownComponent,

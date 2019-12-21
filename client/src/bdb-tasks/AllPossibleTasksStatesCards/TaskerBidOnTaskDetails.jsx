@@ -19,11 +19,7 @@ import {
 } from '../../containers/commonComponents';
 import PostYourBid from '../../components/forms/PostYourBid';
 
-import {
-  getUserExistingBid,
-  didUserAlreadyView,
-  findAvgBidInBidList,
-} from '../../containers/commonUtils';
+import { getUserExistingBid, didUserAlreadyView } from '../../containers/commonUtils';
 
 export default class TaskerBidOnTaskDetails extends React.Component {
   render() {
@@ -41,6 +37,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
       templateId,
       requestTitle,
       taskImages = [],
+      avgBid,
     } = request;
 
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${templateId}`];
@@ -52,11 +49,6 @@ export default class TaskerBidOnTaskDetails extends React.Component {
 
     const userAlreadyView = didUserAlreadyView(request, currentUserId);
     const { userAlreadyBid } = getUserExistingBid(request, currentUserId);
-
-    let avgBid = 0;
-    if (request && request._bidsListRef && request._bidsListRef.length > 0) {
-      avgBid = findAvgBidInBidList(request._bidsListRef);
-    }
 
     const taskerCanBid = userDetails && userDetails.canBid;
 
@@ -154,7 +146,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
                   taskerCanBid={taskerCanBid}
                   showLoginDialog={showLoginDialog}
                   isLoggedIn={isLoggedIn}
-                  avgBid={avgBid}
+                  avgBid={avgBid === '--' ? 0 : avgBid}
                   onSubmit={(values) => {
                     submitBid({
                       recaptchaField: values.recaptchaField,

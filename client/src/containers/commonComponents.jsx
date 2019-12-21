@@ -438,14 +438,14 @@ export const AddAwardedRequestToCalendarForTasker = ({ request, extraClassName =
     return null;
   }
 
-  const { startingDateAndTime, addressText, templateId } = request;
+  const { startingDateAndTime, addressText, templateId, requestTitle } = request;
 
   const { email, phone, displayName } = request._ownerRef;
 
   const emailContact = email && email.emailAddress ? `${email.emailAddress}` : '';
   const phoneContactNumber = phone && phone.phoneNumber ? ` or ${phone.phoneNumber}` : '';
 
-  const title = `${TASKS_DEFINITIONS[templateId] && TASKS_DEFINITIONS[templateId].TITLE}`;
+  const title = `${TASKS_DEFINITIONS[templateId].TITLE} - ${requestTitle}`;
   const description = `BidOrBoo Booking: You are going to help ${displayName} fulfill a ${title} request. To get in touch contact them at ${emailContact} ${phoneContactNumber}`;
 
   const selectedTime = `${moment(startingDateAndTime).get('hour')}`;
@@ -497,7 +497,7 @@ export const AddAwardedRequestToCalendarForRequester = ({ request, extraClassNam
     return null;
   }
 
-  const { startingDateAndTime, addressText, templateId, _awardedBidRef } = request;
+  const { startingDateAndTime, addressText, templateId, _awardedBidRef, requestTitle } = request;
   const { _taskerRef } = _awardedBidRef;
 
   const { email, phone, displayName } = _taskerRef;
@@ -505,7 +505,7 @@ export const AddAwardedRequestToCalendarForRequester = ({ request, extraClassNam
   const emailContact = email && email.emailAddress ? `${email.emailAddress}` : '';
   const phoneContactNumber = phone && phone.phoneNumber ? ` or ${phone.phoneNumber}` : '';
 
-  const title = `${TASKS_DEFINITIONS[templateId] && TASKS_DEFINITIONS[templateId].TITLE}`;
+  const title = `${TASKS_DEFINITIONS[templateId].TITLE} - ${requestTitle}`;
   const description = `BidOrBoo Booking: You requested a ${title} and assigned ${displayName} as the tasker. To get in touch contact them at ${emailContact} ${phoneContactNumber}`;
 
   const selectedTime = `${moment(startingDateAndTime).get('hour')}`;
