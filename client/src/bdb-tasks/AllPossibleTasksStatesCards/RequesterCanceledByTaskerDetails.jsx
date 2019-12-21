@@ -24,10 +24,6 @@ class RequesterCanceledByTaskerDetails extends React.Component {
   render() {
     const { request } = this.props;
 
-    if (!request) {
-      return switchRoute(ROUTES.CLIENT.REQUESTER.myRequestsPage);
-    }
-
     const { startingDateAndTime, _awardedBidRef, taskImages = [], requestTitle } = request;
 
     const { _taskerRef, requesterPayment } = _awardedBidRef;

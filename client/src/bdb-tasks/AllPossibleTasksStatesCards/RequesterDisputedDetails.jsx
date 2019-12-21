@@ -16,9 +16,6 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 export default class RequesterDisputedDetails extends React.Component {
   render() {
     const { request } = this.props;
-    if (!request) {
-      return switchRoute(ROUTES.CLIENT.REQUESTER.myRequestsPage);
-    }
 
     const { _awardedBidRef, startingDateAndTime, taskImages = [], requestTitle, dispute } = request;
 

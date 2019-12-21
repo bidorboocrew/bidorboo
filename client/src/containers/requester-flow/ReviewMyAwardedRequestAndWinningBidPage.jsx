@@ -4,15 +4,18 @@ import { bindActionCreators } from 'redux';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
-import { RenderBackButton } from '../commonComponents';
 
 import { Spinner } from '../../components/Spinner';
 import {
   getAwardedRequestFullDetailsforRequester,
   requesterConfirmsRequestCompletion,
 } from '../../app-state/actions/requestActions';
-
-import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightCard';
+import {
+  getMeTheRightRequestCard,
+  POINT_OF_VIEW,
+  REQUEST_STATES,
+} from '../../bdb-tasks/getMeTheRightCard';
+import { RenderBackButton, requesterViewRerouteBasedOnRequestState } from '../commonComponents';
 
 class ReviewMyAwardedRequestAndWinningBidPage extends React.Component {
   constructor(props) {
@@ -61,6 +64,15 @@ class ReviewMyAwardedRequestAndWinningBidPage extends React.Component {
           <Spinner renderLabel={'Getting Your Request Details'} isLoading={true} size={'large'} />
         </div>
       );
+    }
+
+    if (
+      selectedAwardedRequest &&
+      !!selectedAwardedRequest.state &&
+      selectedAwardedRequest.state === REQUEST_STATES.OPEN
+    ) {
+      requesterViewRerouteBasedOnRequestState(selectedAwardedRequest);
+      return null;
     }
 
     return (

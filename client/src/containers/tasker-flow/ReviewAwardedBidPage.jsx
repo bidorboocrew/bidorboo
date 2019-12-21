@@ -10,10 +10,10 @@ import {
   updateBid,
   deleteOpenBid,
 } from '../../app-state/actions/bidsActions';
-import { RenderBackButton } from '../commonComponents';
+import { RenderBackButton, taskerViewRerouteBasedOnRequestState } from '../commonComponents';
 import { Spinner } from '../../components/Spinner';
 
-import { getMeTheRightBidCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightCard';
+import { getMeTheRightBidCard, POINT_OF_VIEW,REQUEST_STATES } from '../../bdb-tasks/getMeTheRightCard';
 
 class ReviewAwardedBidPage extends React.Component {
   constructor(props) {
@@ -66,6 +66,18 @@ class ReviewAwardedBidPage extends React.Component {
           <Spinner renderLabel="getting your bid details" isLoading={true} size={'large'} />
         </div>
       );
+    }
+
+    if (
+      selectedAwardedBid &&
+      !!selectedAwardedBid.state &&
+      selectedAwardedBid.state !== REQUEST_STATES.OPEN
+    ) {
+      taskerViewRerouteBasedOnRequestState({
+        jobState: selectedAwardedBid._requestRef.state,
+        bidId: selectedAwardedBid._id,
+      });
+      return null;
     }
 
     return (

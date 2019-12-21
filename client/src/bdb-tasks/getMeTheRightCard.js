@@ -360,6 +360,7 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
 };
 
 export const getMeTheRightBidCard = ({ bid, isSummaryView, ...otherArgs }) => {
+  debugger
   if (!bid || !bid._id) {
     console.error('no bid passed in');
     return; //return
@@ -376,6 +377,7 @@ export const getMeTheRightBidCard = ({ bid, isSummaryView, ...otherArgs }) => {
 };
 
 export const getMeTheRightRequestCard = ({ request, isSummaryView, pointOfView, ...otherArgs }) => {
+ debugger
   if (!request || !request.templateId) {
     console.error('no request passed in');
     return; //return

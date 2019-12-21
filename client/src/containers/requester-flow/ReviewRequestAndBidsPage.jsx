@@ -4,8 +4,6 @@ import ReactDOM from 'react-dom';
 
 import { bindActionCreators } from 'redux';
 
-import { RenderBackButton, redirectBasedOnRequestState } from '../commonComponents';
-
 import { Spinner } from '../../components/Spinner';
 
 import {
@@ -21,6 +19,7 @@ import {
   POINT_OF_VIEW,
   REQUEST_STATES,
 } from '../../bdb-tasks/getMeTheRightCard';
+import { RenderBackButton, requesterViewRerouteBasedOnRequestState } from '../commonComponents';
 
 const FETCH_INTERVAL = 5000;
 const FETCH_DURATION = 30; //20times*15second=3mins of fetching then we stop
@@ -45,8 +44,8 @@ class ReviewRequestAndBidsPage extends React.Component {
         const { selectedRequestWithBids } = this.props;
         this.props.getPostedRequestAndBidsForRequester(selectedRequestWithBids._id);
         console.log('fetched more bids');
+        this.numberOfFetches--;
       }
-      this.numberOfFetches--;
     }
   };
 
@@ -60,20 +59,14 @@ class ReviewRequestAndBidsPage extends React.Component {
     } else if (selectedRequestWithBids._id !== newRequestId) {
       // fetch it
       this.props.getPostedRequestAndBidsForRequester(newRequestId);
-    } else {
-      if (selectedRequestWithBids.state !== REQUEST_STATES.OPEN) {
-        redirectBasedOnRequestState(selectedRequestWithBids);
-      }
     }
-
     this.getMoreBids = setInterval(this.fetchMostRecentBids, FETCH_INTERVAL);
   }
+
   componentWillUnmount() {
     clearInterval(this.getMoreBids);
     console.log('interval cleared');
   }
-
-  // componentDidUpdate() {}
 
   showBidReviewModal = (bid) => {
     this.setState({ showBidReviewModal: true, bidUnderReview: bid });
@@ -92,6 +85,15 @@ class ReviewRequestAndBidsPage extends React.Component {
           <Spinner renderLabel={'Loading Your request and Bids'} isLoading={true} size={'large'} />
         </div>
       );
+    }
+
+    if (
+      selectedRequestWithBids &&
+      !!selectedRequestWithBids.state &&
+      selectedRequestWithBids.state !== REQUEST_STATES.OPEN
+    ) {
+      requesterViewRerouteBasedOnRequestState(selectedRequestWithBids);
+      return null;
     }
 
     const { state } = selectedRequestWithBids;

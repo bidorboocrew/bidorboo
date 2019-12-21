@@ -59,10 +59,11 @@ class RequesterAwardedDetails extends RequestBaseContainer {
     } = request;
 
     const { requesterPayment, requesterPartialRefund, _taskerRef } = _awardedBidRef;
+    debugger;
 
     const { value: requesterPartialRefundAmount } = requesterPartialRefund;
     const { value: requesterPaymentAmount } = requesterPayment;
-
+    debugger;
     const { phone, email } = _taskerRef;
     const { phoneNumber } = phone;
     const { emailAddress } = email;
@@ -70,7 +71,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore, showDisputeModal } = this.state;
-
+    debugger;
     return (
       <React.Fragment>
         <RequesterDisputes
@@ -294,7 +295,10 @@ class RequesterAwardedDetails extends RequestBaseContainer {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    requesterConfirmsRequestCompletion: bindActionCreators(requesterConfirmsRequestCompletion, dispatch),
+    requesterConfirmsRequestCompletion: bindActionCreators(
+      requesterConfirmsRequestCompletion,
+      dispatch,
+    ),
     cancelRequestById: bindActionCreators(cancelRequestById, dispatch),
     requesterDisputesRequest: bindActionCreators(requesterDisputesRequest, dispatch),
   };

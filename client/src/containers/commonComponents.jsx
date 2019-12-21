@@ -1477,13 +1477,24 @@ export const RenderBackButton = () => {
 //   return null;
 // };
 
-export const redirectBasedOnRequestState = ({ state, _id: requestId }) => {
+export const requesterViewRerouteBasedOnRequestState = ({ state, _id: requestId }) => {
   switch (state) {
     case REQUEST_STATES.OPEN:
       switchRoute(ROUTES.CLIENT.REQUESTER.dynamicReviewRequestAndBidsPage(requestId));
       break;
     default:
       switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(requestId));
+      break;
+  }
+};
+
+export const taskerViewRerouteBasedOnRequestState = ({ jobState, bidId }) => {
+  switch (jobState) {
+    case REQUEST_STATES.OPEN:
+      switchRoute(ROUTES.CLIENT.TASKER.dynamicReviewMyOpenBidAndTheRequestDetails(bidId));
+      break;
+    default:
+      switchRoute(ROUTES.CLIENT.TASKER.dynamicReviewMyAwardedBidAndTheRequestDetails(bidId));
       break;
   }
 };

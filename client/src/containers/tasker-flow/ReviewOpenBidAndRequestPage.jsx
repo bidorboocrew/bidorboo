@@ -8,8 +8,12 @@ import { switchRoute } from '../../utils';
 import { getOpenBidDetails, updateBid, deleteOpenBid } from '../../app-state/actions/bidsActions';
 
 import { Spinner } from '../../components/Spinner';
-import { RenderBackButton } from '../commonComponents';
-import { getMeTheRightBidCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightCard';
+import { RenderBackButton, taskerViewRerouteBasedOnRequestState } from '../commonComponents';
+import {
+  getMeTheRightBidCard,
+  POINT_OF_VIEW,
+  REQUEST_STATES,
+} from '../../bdb-tasks/getMeTheRightCard';
 
 class ReviewOpenBidAndRequestPage extends React.Component {
   constructor(props) {
@@ -61,10 +65,22 @@ class ReviewOpenBidAndRequestPage extends React.Component {
       );
     }
 
+    if (
+      selectedOpenBid &&
+      !!selectedOpenBid.state &&
+      selectedOpenBid.state === REQUEST_STATES.OPEN
+    ) {
+      taskerViewRerouteBasedOnRequestState({
+        jobState: selectedOpenBid._requestRef.state,
+        bidId: selectedOpenBid._id,
+      });
+      return null;
+    }
+
     return (
       <div className="columns is-centered is-mobile">
         <div className="column limitLargeMaxWidth slide-in-right">
-          . <RenderBackButton />
+          <RenderBackButton />
           {getMeTheRightBidCard({
             bid: selectedOpenBid,
             isSummaryView: false,
@@ -95,7 +111,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ReviewOpenBidAndRequestPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ReviewOpenBidAndRequestPage);
