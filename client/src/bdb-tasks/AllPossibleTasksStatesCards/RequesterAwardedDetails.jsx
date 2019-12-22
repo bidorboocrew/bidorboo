@@ -572,7 +572,7 @@ class AssignedTaskerDetails extends React.Component {
 
               <div style={{ marginBottom: '2rem' }}>
                 <div className="group">
-                  <div style={{ fontWeight: 500, fontSize: 16, lineHeight: '32px' }}>
+                  <div style={{ display: 'inline-block', textAlign: 'left', lineHeight: '28px' }}>
                     <div>
                       <a
                         href={`mailto:${emailAddress}?subject=BidOrBoo - Reaching out to finalize time and location details&body=I requested ${requestTitle} service and reaching out to agree on meeting time and details`}

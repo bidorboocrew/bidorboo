@@ -89,8 +89,10 @@ const renderFooter = ({ request, notificationFeed }) => {
             <span className="icon">
               <i className="fa fa-hand-paper" />
             </span>
-            <span>{`VIEW ${
-              request._bidsListRef.length > 1 || request._bidsListRef.length === 0 ? 'OFFERS' : 'OFFER'
+            <span>{`View ${
+              request._bidsListRef.length > 1 || request._bidsListRef.length === 0
+                ? 'Offers'
+                : 'Offer'
             }`}</span>
           </span>
 
