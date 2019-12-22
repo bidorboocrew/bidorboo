@@ -58,7 +58,7 @@ export default class RequesterAwardedSummary extends RequestBaseContainer {
               }}
               className={`button is-success`}
             >
-              {taskerConfirmedCompletion ? 'CONFIRM COMPLETION' : 'VIEW DETAILS'}
+              {taskerConfirmedCompletion ? 'CONFIRM COMPLETION' : 'View Details'}
             </a>
           </div>
         </div>

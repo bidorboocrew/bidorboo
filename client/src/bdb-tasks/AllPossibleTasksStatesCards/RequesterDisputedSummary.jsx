@@ -54,7 +54,7 @@ export default class RequesterDisputedSummary extends React.Component {
               }}
               className="button is-fullwidth is-danger"
             >
-              VIEW DETAILS
+              View Details
             </a>
           </div>
         </React.Fragment>

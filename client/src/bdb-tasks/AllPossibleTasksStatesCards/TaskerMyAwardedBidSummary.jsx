@@ -128,7 +128,7 @@ const renderFooter = ({
               <i className="fas fa-circle" />
             </div>
           )}
-          {`${taskerConfirmedCompletion ? 'REVIEW REQUESTER' : 'VIEW DETAILS'} `}
+          {`${taskerConfirmedCompletion ? 'REVIEW REQUESTER' : 'View Details'} `}
         </a>
       </div>
     </React.Fragment>

@@ -332,9 +332,8 @@ const EstablishedAccountView = (props) => {
 };
 
 const ShowEarningsOnly = (props) => {
-  const { userDetails, myStripeAccountDetails } = props;
+  const { myStripeAccountDetails } = props;
 
-  let { stripeConnect } = userDetails;
   let istherePaymentDetails = myStripeAccountDetails && myStripeAccountDetails.balanceDetails;
 
   return (

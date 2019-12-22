@@ -51,7 +51,7 @@ export default class TaskerAwardedBidCanceledByTaskerSummary extends React.Compo
               }}
               className="button is-danger "
             >
-              VIEW DETAILS
+              View Details
             </a>
           </div>
         </div>

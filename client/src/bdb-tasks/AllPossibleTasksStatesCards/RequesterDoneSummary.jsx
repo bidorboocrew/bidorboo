@@ -63,7 +63,7 @@ export default class RequesterDoneSummary extends RequestBaseContainer {
             }}
             className="button is-primary"
           >
-            {requiresRequesterReview ? 'REVIEW TASKER' : 'VIEW DETAILS'}
+            {requiresRequesterReview ? 'REVIEW TASKER' : 'View Details'}
           </a>
         </div>
       </div>

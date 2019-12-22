@@ -4,6 +4,8 @@ import TextareaAutosize from 'react-autosize-textarea';
 import * as Yup from 'yup';
 import dogWalking_img from '../../assets/images/dogWalking_img.png';
 import { TextAreaInput, TextInput } from '../../components/forms/FormsHelpers';
+import { switchRoute } from './../../utils';
+import * as ROUTES from '../../constants/frontend-route-consts';
 
 export default {
   ID: 'bdbPetSittingWalking',
@@ -63,6 +65,11 @@ Q2) Anything else you want to highlight for the Tasker?
       dogWalking_img,
       setShowModal,
       subText: 'The Requester Will Be notified. Good Luck',
+      renderExtraAction: () => (
+        <a className="button is-dark" onClick={switchRoute(ROUTES.CLIENT.TASKER.root)}>
+          Continue Bidding
+        </a>
+      ),
     });
   },
   renderThankYouForEditingBid: function(setShowModal) {
@@ -71,6 +78,11 @@ Q2) Anything else you want to highlight for the Tasker?
       setShowModal,
       mainText: 'Bid Was Updated!',
       subText: 'The Requester Will Be notified. Good Luck',
+      renderExtraAction: () => (
+        <a className="button is-dark" onClick={switchRoute(ROUTES.CLIENT.TASKER.root)}>
+          Continue Bidding
+        </a>
+      ),
     });
   },
 
@@ -329,6 +341,7 @@ const renderThankyouMoment = ({
   setShowModal,
   mainText = 'Thank You!',
   subText,
+  renderExtraAction = () => null,
 }) => {
   return (
     <div style={{ padding: '1.5rem', background: 'white' }}>
@@ -345,6 +358,7 @@ const renderThankyouMoment = ({
           <i className="fas fa-arrow-right" />
         </span>
       </a>
+      {renderExtraAction()}
     </div>
   );
 };

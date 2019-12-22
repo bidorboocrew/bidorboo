@@ -77,7 +77,7 @@ class RequesterCanceledByTaskerSummary extends React.Component {
                   <i className="fas fa-circle" />
                 </div>
               )}
-              VIEW DETAILS
+              View Details
             </a>
           </div>
         </React.Fragment>

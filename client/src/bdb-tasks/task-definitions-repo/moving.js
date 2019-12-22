@@ -2,6 +2,8 @@ import React from 'react';
 
 import * as Yup from 'yup';
 import moving_img from '../../assets/images/moving_img.png';
+import { switchRoute } from './../../utils';
+import * as ROUTES from '../../constants/frontend-route-consts';
 
 export default {
   ID: 'bdbMoving',
@@ -99,6 +101,11 @@ Q2)Any items that require extreme caution or care ?
       moving_img,
       setShowModal,
       subText: 'The Requester Will Be notified. Good Luck',
+      renderExtraAction: () => (
+        <a className="button is-dark" onClick={switchRoute(ROUTES.CLIENT.TASKER.root)}>
+          Continue Bidding
+        </a>
+      ),
     });
   },
   renderThankYouForEditingBid: function(setShowModal) {
@@ -107,6 +114,11 @@ Q2)Any items that require extreme caution or care ?
       setShowModal,
       mainText: 'Bid Was Updated!',
       subText: 'The Requester Will Be notified. Good Luck',
+      renderExtraAction: () => (
+        <a className="button is-dark" onClick={switchRoute(ROUTES.CLIENT.TASKER.root)}>
+          Continue Bidding
+        </a>
+      ),
     });
   },
 
@@ -417,7 +429,13 @@ Q2)Any items that require extreme caution or care ?
   care for all your valuables while moving HOWEVER It is YOUR responsibility to
   wrap things well and to inform taskers of any fragile pieces.`,
 };
-const renderThankyouMoment = ({ moving_img, setShowModal, mainText = 'Thank You!', subText }) => {
+const renderThankyouMoment = ({
+  moving_img,
+  setShowModal,
+  mainText = 'Thank You!',
+  subText,
+  renderExtraAction = () => null,
+}) => {
   return (
     <div style={{ padding: '1.5rem', background: 'white' }}>
       <div>
@@ -431,8 +449,10 @@ const renderThankyouMoment = ({ moving_img, setShowModal, mainText = 'Thank You!
       <a className="button is-large is-success" onClick={() => setShowModal(false)}>
         <span className="icon is-large">
           <i className="fas fa-arrow-right" />
+          <span>View Inbox</span>
         </span>
       </a>
+      {renderExtraAction()}
     </div>
   );
 };

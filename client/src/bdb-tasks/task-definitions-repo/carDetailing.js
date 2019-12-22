@@ -2,9 +2,10 @@ import React from 'react';
 
 import * as Yup from 'yup';
 import carDetailing_img from '../../assets/images/carDetailing_img.png';
+import { switchRoute } from './../../utils';
+import * as ROUTES from '../../constants/frontend-route-consts';
 
 const NO_SELECTION = 'NO_SELECTION';
-
 export default {
   ID: 'bdbCarDetailing',
   TITLE: 'Car Detailing',
@@ -56,6 +57,11 @@ Q3) Any particular stains or dirt that you want to mention?
       carDetailing_img,
       setShowModal,
       subText: 'The Requester Will Be notified. Good Luck',
+      renderExtraAction: () => (
+        <a className="button is-dark" onClick={switchRoute(ROUTES.CLIENT.TASKER.root)}>
+          Continue Bidding
+        </a>
+      ),
     });
   },
   renderThankYouForEditingBid: function(setShowModal) {
@@ -64,6 +70,11 @@ Q3) Any particular stains or dirt that you want to mention?
       setShowModal,
       mainText: 'Bid Was Updated!',
       subText: 'The Requester Will Be notified. Good Luck',
+      renderExtraAction: () => (
+        <a className="button is-dark" onClick={switchRoute(ROUTES.CLIENT.TASKER.root)}>
+          Continue Bidding
+        </a>
+      ),
     });
   },
 
@@ -311,6 +322,7 @@ const renderThankyouMoment = ({
   setShowModal,
   mainText = 'Thank You!',
   subText,
+  renderExtraAction = () => null,
 }) => {
   return (
     <div style={{ padding: '1.5rem', background: 'white' }}>
@@ -331,6 +343,7 @@ const renderThankyouMoment = ({
           <i className="fas fa-arrow-right" />
         </span>
       </a>
+      {renderExtraAction()}
     </div>
   );
 };

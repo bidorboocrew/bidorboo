@@ -49,7 +49,7 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
             }}
             className="button is-danger"
           >
-            VIEW DETAILS
+            View Details
           </a>
         </div>
       </div>

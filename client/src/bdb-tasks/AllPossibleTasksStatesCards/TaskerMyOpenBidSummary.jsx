@@ -73,7 +73,7 @@ const renderFooter = ({ bid, isNewBid }) => {
           }}
           className={`button is-fullwidth is-info`}
         >
-          <span>VIEW DETAILS</span>
+          <span>View Details</span>
         </a>
       </div>
     );
