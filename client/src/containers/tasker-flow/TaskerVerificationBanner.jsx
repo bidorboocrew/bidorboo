@@ -13,7 +13,7 @@ class TaskerVerificationBanner extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { showUploadImgModal: false };
+    this.state = { showUploadImgModal: false, isLoading: false };
   }
   componentDidMount() {
     const { isLoggedIn } = this.props;
@@ -22,29 +22,33 @@ class TaskerVerificationBanner extends React.Component {
   }
 
   startupTaskerProfile = async () => {
-    try {
-      const { data } = await axios.get(
-        `${ROUTES.API.PAYMENT.GET.accountLinkForSetupAndVerification}/?redirectUrl=${window.location.href}`,
-      );
-      if (data.success && data.accountLinkUrl) {
-        window.location = data.accountLinkUrl;
+    this.setState({ isLoading: true }, async () => {
+      try {
+        const { data } = await axios.get(
+          `${ROUTES.API.PAYMENT.GET.accountLinkForSetupAndVerification}/?redirectUrl=${window.location.href}`,
+        );
+        if (data.success && data.accountLinkUrl) {
+          window.location = data.accountLinkUrl;
+        }
+      } catch (e) {
+        alert(`sorry we couldn't establish connection with stripe`);
       }
-    } catch (e) {
-      alert(`sorry we couldn't establish connection with stripe`);
-    }
+    });
   };
 
   updateTaskerProfile = async () => {
-    try {
-      const { data } = await axios.get(
-        `${ROUTES.API.PAYMENT.GET.accountLinkForUpdatingVerification}/?redirectUrl=${window.location.href}`,
-      );
-      if (data.success && data.accountLinkUrl) {
-        window.location = data.accountLinkUrl;
+    this.setState({ isLoading: true }, async () => {
+      try {
+        const { data } = await axios.get(
+          `${ROUTES.API.PAYMENT.GET.accountLinkForUpdatingVerification}/?redirectUrl=${window.location.href}`,
+        );
+        if (data.success && data.accountLinkUrl) {
+          window.location = data.accountLinkUrl;
+        }
+      } catch (e) {
+        alert(`sorry we couldn't establish connection with stripe`);
       }
-    } catch (e) {
-      alert(`sorry we couldn't establish connection with stripe`);
-    }
+    });
   };
 
   redirectToPaymentSetting = () => {
@@ -60,9 +64,10 @@ class TaskerVerificationBanner extends React.Component {
   toggleUploadImgModal = () => {
     this.setState({ showUploadImgModal: !this.state.showUploadImgModal });
   };
+
   render() {
     const { isLoggedIn, userDetails, isLoadingStripeAccountDetails } = this.props;
-    const { showUploadImgModal } = this.state;
+    const { showUploadImgModal, isLoading } = this.state;
 
     if (!isLoggedIn || isLoadingStripeAccountDetails) {
       return null;
@@ -80,7 +85,10 @@ class TaskerVerificationBanner extends React.Component {
               <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
                 Want to provide your services and earn money?
               </h1>
-              <button className="button is-small is-dark" onClick={this.startupTaskerProfile}>
+              <button
+                className={`button is-small is-dark ${isLoading ? 'is-loading' : ''}`}
+                onClick={this.startupTaskerProfile}
+              >
                 <span className="icon">
                   <i className="fas fa-user-tie"></i>
                 </span>
@@ -146,7 +154,10 @@ class TaskerVerificationBanner extends React.Component {
                     For faster payouts complete your profile
                   </h1>
 
-                  <button className="button is-small is-dark" onClick={this.toggleUploadImgModal}>
+                  <button
+                    className={`button is-small is-dark ${isLoading ? 'is-loading' : ''}`}
+                    onClick={this.toggleUploadImgModal}
+                  >
                     <span className="icon">
                       <i className="fas fa-user-tie"></i>
                     </span>
@@ -168,7 +179,10 @@ class TaskerVerificationBanner extends React.Component {
                 <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
                   To receive payouts you must add your bank info
                 </h1>
-                <button className="button is-small is-dark" onClick={this.redirectToPaymentSetting}>
+                <button
+                  className={`button is-small is-dark ${isLoading ? 'is-loading' : ''}`}
+                  onClick={this.redirectToPaymentSetting}
+                >
                   <span className="icon">
                     <i className="far fa-credit-card" aria-hidden="true" />
                   </span>
@@ -195,7 +209,10 @@ class TaskerVerificationBanner extends React.Component {
                     For faster payouts complete your profile
                   </h1>
                 )}
-                <button className="button is-small is-dark" onClick={this.updateTaskerProfile}>
+                <button
+                  className={`button is-small is-dark ${isLoading ? 'is-loading' : ''}`}
+                  onClick={this.updateTaskerProfile}
+                >
                   <span className="icon">
                     <i className="fas fa-user-tie"></i>
                   </span>
@@ -219,7 +236,10 @@ class TaskerVerificationBanner extends React.Component {
               <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
                 We were not able to verify your info
               </h1>
-              <button className="button is-small is-dark" onClick={this.chatWithSupportNow}>
+              <button
+                className={`button is-small is-dark ${isLoading ? 'is-loading' : ''}`}
+                onClick={this.chatWithSupportNow}
+              >
                 <span className="icon">
                   <i className="far fa-comment-dots" />
                 </span>
