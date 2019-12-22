@@ -227,7 +227,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
               <TaskCost
                 cost={requesterPaymentAmount}
                 renderHelp={() => (
-                  <div className="help">to be paid to Tasker after task completion</div>
+                  <div className="help">will be released to Tasker after completion</div>
                 )}
               />
 
@@ -276,6 +276,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
           otherUserProfileInfo={_taskerRef}
           emailAddress={emailAddress}
           phoneNumber={phoneNumber}
+          requestTitle={requestTitle}
           renderAddToCalendar={() => (
             <AddAwardedRequestToCalendarForTasker request={request} extraClassName={'is-small'} />
           )}
@@ -325,7 +326,6 @@ class RequesterConfirmsCompletion extends React.Component {
   };
   render() {
     const { showConfirmationModal } = this.state;
-    const { request } = this.props;
 
     return (
       <React.Fragment>
@@ -534,6 +534,7 @@ class AssignedTaskerDetails extends React.Component {
       phoneNumber,
       renderActionButton,
       renderAddToCalendar,
+      requestTitle,
     } = this.props;
 
     if (!otherUserProfileInfo) {
@@ -571,10 +572,10 @@ class AssignedTaskerDetails extends React.Component {
 
               <div style={{ marginBottom: '2rem' }}>
                 <div className="group">
-                  <div style={{ fontWeight: 500, fontSize: 16 }}>
+                  <div style={{ fontWeight: 500, fontSize: 16, lineHeight: '32px' }}>
                     <div>
                       <a
-                        href={`mailto:${emailAddress}?subject=BidOrBoo - I requested your service and reaching out to agree on meeting time and details`}
+                        href={`mailto:${emailAddress}?subject=BidOrBoo - Reaching out to finalize time and location details&body=I requested ${requestTitle} service and reaching out to agree on meeting time and details`}
                       >
                         <span className="icon">
                           <i className="far fa-envelope" />

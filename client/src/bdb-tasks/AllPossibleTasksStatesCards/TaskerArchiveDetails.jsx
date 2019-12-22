@@ -44,7 +44,9 @@ class TaskerArchiveDetails extends RequestBaseContainer {
     const { taskerPayout } = selectedArchivedBid;
     const { value: taskerPayoutAmount } = taskerPayout;
 
-    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${selectedArchivedBid._requestRef.templateId}`];
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[
+      `${selectedArchivedBid._requestRef.templateId}`
+    ];
 
     const { showMore } = this.state;
 
@@ -144,12 +146,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(TaskerArchiveDetails
 
 class AssignedTaskerDetails extends React.Component {
   render() {
-    const { selectedArchivedBid } = this.props;
-    const {
-      _awardedBidRef,
-      _ownerRef,
-      _reviewRef,
-    } = selectedArchivedBid._requestRef;
+    const { selectedArchivedBid, requestTitle = '' } = this.props;
+    const { _awardedBidRef, _ownerRef, _reviewRef } = selectedArchivedBid._requestRef;
 
     return (
       <div

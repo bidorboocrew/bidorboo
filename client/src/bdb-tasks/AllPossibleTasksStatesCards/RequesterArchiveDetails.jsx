@@ -123,14 +123,17 @@ class RequesterArchiveDetails extends RequestBaseContainer {
               </div>
             </div>
           </div>
-          <AssignedTaskerDetails otherUserProfileInfo={_taskerRef} {...this.props} />
+          <AssignedTaskerDetails
+            otherUserProfileInfo={_taskerRef}
+            {...this.props}
+          />
         </div>
       </>
     );
   }
 }
 
-const mapStateToProps = ({ requestsReducer, userReducer }) => {
+const mapStateToProps = ({ requestsReducer }) => {
   return {
     isLoading: !requestsReducer.selectedArchivedRequest,
     selectedArchivedRequest: requestsReducer.selectedArchivedRequest,

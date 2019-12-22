@@ -117,7 +117,7 @@ class LocalLoginForm extends React.Component {
             }}
             disabled={isSubmitting}
           >
-            reset your credentials ?
+            forgot your password ?
           </button>
         </div>
         <br></br>

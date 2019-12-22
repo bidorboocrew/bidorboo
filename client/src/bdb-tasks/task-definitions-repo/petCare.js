@@ -66,8 +66,11 @@ Q2) Anything else you want to highlight for the Tasker?
       setShowModal,
       subText: 'The Requester Will Be notified. Good Luck',
       renderExtraAction: () => (
-        <a className="button is-dark" onClick={switchRoute(ROUTES.CLIENT.TASKER.root)}>
-          Continue Bidding
+        <a className="button is-dark" onClick={() => switchRoute(ROUTES.CLIENT.TASKER.root)}>
+          <span style={{ marginRight: 2 }}>Continue Bidding</span>
+          <span className="icon">
+            <i className="fas fa-arrow-right" />
+          </span>
         </a>
       ),
     });
@@ -79,8 +82,11 @@ Q2) Anything else you want to highlight for the Tasker?
       mainText: 'Bid Was Updated!',
       subText: 'The Requester Will Be notified. Good Luck',
       renderExtraAction: () => (
-        <a className="button is-dark" onClick={switchRoute(ROUTES.CLIENT.TASKER.root)}>
-          Continue Bidding
+        <a className="button is-dark" onClick={() => switchRoute(ROUTES.CLIENT.TASKER.root)}>
+          <span style={{ marginRight: 2 }}>Continue Bidding</span>
+          <span className="icon">
+            <i className="fas fa-arrow-right" />
+          </span>
         </a>
       ),
     });
@@ -353,12 +359,16 @@ const renderThankyouMoment = ({
       </h1>
 
       <p style={{ fontSize: 18, fontWeight: 500, paddingBottom: '1rem' }}>{subText}</p>
-      <a className="button is-large is-success" onClick={() => setShowModal(false)}>
-        <span className="icon is-large">
-          <i className="fas fa-arrow-right" />
-        </span>
-      </a>
-      {renderExtraAction()}
+      <div>
+        <a className="button is-success" onClick={() => setShowModal(false)}>
+          <span style={{ marginRight: 2 }}>View Inbox</span>
+          <span className="icon">
+            <i className="fas fa-arrow-right" />
+          </span>
+        </a>
+      </div>
+      <br></br>
+      <div>{renderExtraAction()}</div>
     </div>
   );
 };

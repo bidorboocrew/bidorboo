@@ -1100,7 +1100,6 @@ export const ArchiveTask = () => {
         >
           Past Task
         </div>
-        <div className="help">check review and payment</div>
       </div>
     </div>
   );

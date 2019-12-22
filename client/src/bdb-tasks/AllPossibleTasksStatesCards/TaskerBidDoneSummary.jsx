@@ -68,8 +68,8 @@ export default class TaskerBidDoneSummary extends React.Component {
               }}
               className={`button is-primary`}
             >
-              <span>View Details</span>
-              {REQUEST_STATES.AWARDED === state && (
+              <span>Review Details</span>
+              {REQUEST_STATES.DONE === state && (
                 <div
                   style={{ position: 'absolute', top: -5, right: 0, fontSize: 10 }}
                   className="has-text-danger"

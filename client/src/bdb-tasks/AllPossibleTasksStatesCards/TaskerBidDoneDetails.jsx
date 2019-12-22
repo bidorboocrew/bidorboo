@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import TextareaAutosize from 'react-autosize-textarea';
 import { Collapse } from 'react-collapse';
 
@@ -18,8 +20,16 @@ import {
 } from '../../containers/commonComponents';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import RequestBaseContainer from './RequestBaseContainer';
+import { REQUEST_STATES } from '../index';
+import { updateRequestState } from '../../app-state/actions/requestActions';
 
-export default class TaskerBidDoneDetails extends RequestBaseContainer {
+class TaskerBidDoneDetails extends RequestBaseContainer {
+  componentDidMount() {
+    debugger;
+    const { updateRequestState, request } = this.props;
+    updateRequestState(request._id, REQUEST_STATES.DONE_SEEN);
+  }
+
   render() {
     const { bid } = this.props;
 
@@ -130,6 +140,13 @@ export default class TaskerBidDoneDetails extends RequestBaseContainer {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateRequestState: bindActionCreators(updateRequestState, dispatch),
+  };
+};
+export default connect(null, mapDispatchToProps)(TaskerBidDoneDetails);
 
 class RequesterDetails extends React.Component {
   render() {
