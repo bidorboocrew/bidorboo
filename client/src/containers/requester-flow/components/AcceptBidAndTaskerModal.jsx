@@ -51,14 +51,14 @@ class AcceptBidAndTaskerModal extends React.Component {
               </label>
               {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
                 <div className="has-text-grey" style={{ lineHeight: '52px', fontSize: 18 }}>
-                  <span className="icon">
+                  <span className="icon has-text-warning">
                     <i className="far fa-star" />
                   </span>
                   <span>--</span>
                 </div>
               ) : (
                 <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 18 }}>
-                  <span className="icon">
+                  <span className="icon has-text-warning">
                     <i className="fas fa-star" />
                   </span>
                   <span>{globalRating}</span>

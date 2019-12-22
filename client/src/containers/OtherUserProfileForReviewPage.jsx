@@ -13,7 +13,8 @@ import { switchRoute, goBackToPreviousRoute } from '../utils';
 import { Spinner } from '../components/Spinner';
 import { VerifiedVia } from './commonComponents';
 import * as Constants from '../constants/enumConstants';
-import { ReviewComments } from './commonComponents.jsx';
+import { RenderBackButton, ReviewComments } from './commonComponents.jsx';
+
 class OtherUserProfileForReviewPage extends React.Component {
   constructor(props) {
     super(props);
@@ -33,9 +34,14 @@ class OtherUserProfileForReviewPage extends React.Component {
     this.setState({ reviewsSelectedButton: val });
   };
   componentDidMount() {
+    document.querySelector('body').setAttribute('style', 'background:white');
     if (this.userIdUnderReview) {
       this.props.getOtherUserProfileInfo(this.userIdUnderReview);
     }
+  }
+
+  componentWillUnmount() {
+    document.querySelector('body').setAttribute('style', 'background:#eeeeee');
   }
 
   render() {
@@ -43,7 +49,6 @@ class OtherUserProfileForReviewPage extends React.Component {
       isLoadingAnotherUserProfile,
       otherUserProfileInfo,
       isMyPersonalProfile = false,
-      renderBeforeComments = () => null,
     } = this.props;
     if (!this.userIdUnderReview) {
       return null;
@@ -67,76 +72,66 @@ class OtherUserProfileForReviewPage extends React.Component {
     const membershipStatusDisplay = Constants.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
 
     const {
-      numberOfTimesBeenRated,
       globalRating,
       fulfilledBids,
       canceledBids,
       fulfilledRequests,
       canceledRequests,
-      // lastComment
     } = rating;
 
     let asATaskerReviews = null;
     if (_asTaskerReviewsRef && _asTaskerReviewsRef.length > 0) {
-      asATaskerReviews = _asTaskerReviewsRef.map(({ _id, requesterId, requesterReview }) => {
-        if (!requesterId) {
-          return null;
-        }
-        const { displayName, profileImage } = requesterId;
+      asATaskerReviews = _asTaskerReviewsRef.map(
+        ({ _id, requesterId, requesterReview, createdAt }) => {
+          if (!requesterId) {
+            return null;
+          }
+          const { displayName, profileImage } = requesterId;
 
-        return (
-          <ReviewComments
-            key={_id}
-            commenterDisplayName={displayName}
-            commenterProfilePicUrl={profileImage.url}
-            comment={requesterReview.personalComment}
-          />
-        );
-      });
+          return (
+            <ReviewComments
+              key={_id}
+              commenterDisplayName={displayName}
+              commenterProfilePicUrl={profileImage.url}
+              comment={requesterReview.personalComment}
+              createdAt={createdAt}
+            />
+          );
+        },
+      );
     }
 
     let asARequesterReviewsRef = null;
     if (_asRequesterReviewsRef && _asRequesterReviewsRef.length > 0) {
-      asARequesterReviewsRef = _asRequesterReviewsRef.map(({ _id, taskerId, taskerReview }) => {
-        if (!taskerId) {
-          return null;
-        }
-        const { displayName, profileImage } = taskerId;
+      asARequesterReviewsRef = _asRequesterReviewsRef.map(
+        ({ _id, taskerId, taskerReview, createdAt }) => {
+          if (!taskerId) {
+            return null;
+          }
+          const { displayName, profileImage } = taskerId;
 
-        return (
-          <ReviewComments
-            key={_id}
-            commenterDisplayName={displayName}
-            commenterProfilePicUrl={profileImage.url}
-            comment={taskerReview.personalComment}
-          />
-        );
-      });
+          return (
+            <ReviewComments
+              key={_id}
+              commenterDisplayName={displayName}
+              commenterProfilePicUrl={profileImage.url}
+              comment={taskerReview.personalComment}
+              createdAt={createdAt}
+            />
+          );
+        },
+      );
     }
 
     return (
-      <>
-        <br></br>
-        <div className="container is-widescreen">
+      <div className="columns is-centered is-mobile">
+        <div className="column limitLargeMaxWidth slide-in-right">
           {!isMyPersonalProfile && (
-            <section className="hero is-white is-small">
-              <div className="hero-body">
-                <h1 className="title">
-                  <span className="icon">
-                    <i className="far fa-user" />
-                  </span>
-                  <span>{` ${otherUserProfileInfo.displayName}'s Profile`}</span>
-                </h1>
-                <h2>
-                  <a className="button is-link" onClick={() => goBackToPreviousRoute()}>
-                    <span className="icon">
-                      <i className="far fa-arrow-alt-circle-left" />
-                    </span>
-                    <span>Go Back</span>
-                  </a>
-                </h2>
-              </div>
-            </section>
+            <>
+              <br />
+              <RenderBackButton></RenderBackButton>
+              <br />
+            </>
           )}
 
           <div className="card noBordered">
@@ -165,14 +160,14 @@ class OtherUserProfileForReviewPage extends React.Component {
                     </label>
                     {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
                       <div className="has-text-grey" style={{ lineHeight: '52px', fontSize: 18 }}>
-                        <span className="icon">
+                        <span className="icon has-text-warning">
                           <i className="far fa-star" />
                         </span>
                         <span>--</span>
                       </div>
                     ) : (
                       <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 18 }}>
-                        <span className="icon">
+                        <span className="icon has-text-warning">
                           <i className="fas fa-star" />
                         </span>
                         <span>{globalRating}</span>
@@ -311,7 +306,7 @@ class OtherUserProfileForReviewPage extends React.Component {
             </div>
           </div>
         </div>
-      </>
+      </div>
     );
   }
 }

@@ -59,7 +59,7 @@ exports.findUserPublicDetails = (mongoUser_id) => {
       const otherUserDetails = await User.findOne(
         { _id: mongoUser_id },
         {
-          appView:0,
+          appView: 0,
           pushSubscription: 0,
           userRole: 0,
           settings: 0,
@@ -70,7 +70,7 @@ exports.findUserPublicDetails = (mongoUser_id) => {
           password: 0,
           _postedRequestsRef: 0,
           _postedBidsRef: 0,
-          lastSearch:0,
+          lastSearch: 0,
           stripeCustomerAccId: 0,
         }
       )
@@ -80,6 +80,7 @@ exports.findUserPublicDetails = (mongoUser_id) => {
             _id: 1,
             requesterReview: 1,
             requesterId: 1,
+            createdAt: 1,
           },
           populate: {
             path: 'requesterId',
@@ -95,6 +96,7 @@ exports.findUserPublicDetails = (mongoUser_id) => {
             _id: 1,
             taskerReview: 1,
             taskerId: 1,
+            createdAt: 1,
           },
           populate: {
             path: 'taskerId',

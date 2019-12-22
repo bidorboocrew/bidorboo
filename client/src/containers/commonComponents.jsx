@@ -111,7 +111,7 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false, large = 
             </div>
           ) : (
             <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 16 }}>
-              <span className="icon">
+              <span className="icon has-text-warning">
                 <i className="fas fa-star" />
               </span>
               <span>{rating.globalRating}</span>
@@ -137,8 +137,8 @@ export const RatingPerCategoryView = ({ ratingCategories }) => {
       <div key={`${category}-${category}`}>
         <label>{CATEGORY_TO_DISPLAY_NAME[category]}</label>
         <div className="has-text-warning" style={{ fontSize: 16 }}>
-          <span className="icon">
-            <i className="fas fa-star" />
+          <span className="icon has-text-warning">
+            <i className="fas fa-star " />
           </span>
           <span className="has-text-dark">{rating}</span>
         </div>
@@ -212,8 +212,8 @@ export const CenteredUserImageAndRating = ({
               <span className="has-text-dark">--</span>
             </div>
           ) : (
-            <div className="has-text-warning" style={{ lineHeight: '52px', fontSize: 16 }}>
-              <span className="icon">
+            <div style={{ lineHeight: '52px', fontSize: 16 }}>
+              <span className="icon has-text-warning">
                 <i className="fas fa-star" />
               </span>
               <span className="has-text-dark">{rating.globalRating}</span>
@@ -1554,6 +1554,7 @@ export const ReviewComments = ({
   comment,
   commenterId = null,
   ratingCategories = null,
+  createdAt,
 }) => {
   return (
     <>
@@ -1584,7 +1585,15 @@ export const ReviewComments = ({
         </figure>
         <div style={{ padding: '0.5rem' }} className="media-content">
           <div className="content">
-            <div>{commenterDisplayName} wrote:</div>
+            <div>
+              <span>{commenterDisplayName}</span>
+              {createdAt && (
+                <span style={{ fontSize: 12 }} className="has-text-grey">
+                  {` - (${moment.utc(createdAt).format('DD-MMM-YYYY')})`}
+                </span>
+              )}
+            </div>
+
             <p>{comment}</p>
           </div>
         </div>
