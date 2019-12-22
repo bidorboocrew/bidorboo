@@ -68,7 +68,7 @@ export default class TaskerBidDoneSummary extends React.Component {
               }}
               className={`button is-primary`}
             >
-              <span>Review Details</span>
+              <span>View Details</span>
               {REQUEST_STATES.AWARDED === state && (
                 <div
                   style={{ position: 'absolute', top: -5, right: 0, fontSize: 10 }}

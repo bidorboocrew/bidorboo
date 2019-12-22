@@ -253,22 +253,25 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
           />
         )}
         {taskerConfirmedCompletion && requiresTaskerReview && (
-          <ReviewTheRequester
-            otherUserProfileInfo={_ownerRef}
-            renderActionButton={() => (
-              <a
-                onClick={() => {
-                  switchRoute(ROUTES.CLIENT.REVIEW.getTaskerRequestReview({ bidId }));
-                }}
-                className={`button  is-success`}
-              >
-                <span className="icon">
-                  <i className="fas fa-user-check" />
-                </span>
-                <span>REVIEW REQUESTER</span>
-              </a>
-            )}
-          />
+          <>
+            <br></br>
+            <ReviewTheRequester
+              otherUserProfileInfo={_ownerRef}
+              renderActionButton={() => (
+                <a
+                  onClick={() => {
+                    switchRoute(ROUTES.CLIENT.REVIEW.getTaskerRequestReview({ bidId }));
+                  }}
+                  className={`button  is-success`}
+                >
+                  <span className="icon">
+                    <i className="fas fa-user-check" />
+                  </span>
+                  <span>Review Requester</span>
+                </a>
+              )}
+            />
+          </>
         )}
         {taskerConfirmedCompletion && !requiresTaskerReview && (
           <ReviewTheRequester
@@ -582,7 +585,7 @@ class ContactTheRequester extends React.Component {
       >
         <div style={{ paddingTop: 0 }} className="card-content">
           <div className="content has-text-left">
-            <div style={{ background: 'transparent' }} className="tabs is-centered">
+            <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
               <ul style={{ marginLeft: 0 }}>
                 <li className="is-active">
                   <a>
@@ -638,7 +641,7 @@ class ContactTheRequester extends React.Component {
               {renderAddToCalendar && renderAddToCalendar()}
             </div>
           </div>
-          <div style={{ background: 'transparent' }} className="tabs is-centered">
+          <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
             <ul style={{ marginLeft: 0 }}>
               <li className="is-active">
                 <a>
@@ -651,6 +654,7 @@ class ContactTheRequester extends React.Component {
             </ul>
           </div>
           <div style={{ textAlign: 'center' }}>{renderActionButton && renderActionButton()}</div>
+          <br />
         </div>
       </div>
     );
@@ -677,7 +681,7 @@ class ReviewTheRequester extends React.Component {
       >
         <div style={{ paddingTop: 0 }} className="card-content">
           <div className="content has-text-left">
-            <div style={{ background: 'transparent' }} className="tabs is-centered">
+            <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
               <ul style={{ marginLeft: 0 }}>
                 <li className="is-active">
                   <a>

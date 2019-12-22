@@ -46,7 +46,7 @@ export default class RequesterArchiveSummary extends RequestBaseContainer {
             }}
             className="button is-dark"
           >
-            Review Details
+            View Details
           </a>
         </div>
       </div>

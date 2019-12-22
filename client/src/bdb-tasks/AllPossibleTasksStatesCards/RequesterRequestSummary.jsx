@@ -114,7 +114,7 @@ const renderFooter = ({ request, notificationFeed }) => {
           }}
           className={`button is-white`}
         >
-          <span>VIEW REQUEST</span>
+          <span>View Request</span>
         </a>
       </div>
     );

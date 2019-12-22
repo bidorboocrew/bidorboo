@@ -553,14 +553,14 @@ class AssignedTaskerDetails extends React.Component {
       >
         <div style={{ paddingTop: 0 }} className="card-content">
           <div className="content">
-            <div style={{ background: 'transparent' }} className="tabs is-centered">
+            <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
               <ul style={{ marginLeft: 0 }}>
                 <li className="is-active">
                   <a>
                     <span className="icon">
                       <i className="far fa-handshake"></i>
                     </span>
-                    <span>Contact The Assigned Tasker</span>
+                    <span>Contact The Tasker</span>
                   </a>
                 </li>
               </ul>
@@ -606,14 +606,14 @@ class AssignedTaskerDetails extends React.Component {
                 {renderAddToCalendar && renderAddToCalendar()}
               </div>
             </div>
-            <div style={{ background: 'transparent' }} className="tabs is-centered">
+            <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
               <ul style={{ marginLeft: 0 }}>
                 <li className="is-active">
                   <a>
                     <span className="icon is-small">
                       <i className="fa fa-clock" aria-hidden="true" />
                     </span>
-                    <span>After The Task Is fulfilled</span>
+                    <span>After The Task Is Done</span>
                   </a>
                 </li>
               </ul>

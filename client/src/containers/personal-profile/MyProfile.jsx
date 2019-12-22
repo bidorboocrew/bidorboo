@@ -240,7 +240,7 @@ class MyProfile extends React.Component {
             </div>
 
             <br></br>
-            <div style={{ background: 'transparent' }} className="tabs is-centered">
+            <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
               <ul style={{ marginLeft: 0 }}>
                 <li className="is-active">
                   <a>

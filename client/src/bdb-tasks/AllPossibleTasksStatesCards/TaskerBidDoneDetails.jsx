@@ -150,7 +150,7 @@ class RequesterDetails extends React.Component {
       >
         <div style={{ paddingTop: 0 }} className="card-content">
           <div className="content">
-            <div style={{ background: 'transparent' }} className="tabs is-centered">
+            <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
               <ul style={{ marginLeft: 0 }}>
                 <li className="is-active">
                   <a>
@@ -164,16 +164,17 @@ class RequesterDetails extends React.Component {
             </div>
             <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large isCentered />
             <br />
+            <a
+              onClick={() => {
+                switchRoute(ROUTES.CLIENT.REVIEW.getTaskerRequestReview({ bidId }));
+              }}
+              className={`button is-primary`}
+            >
+              <span>Review Requester</span>
+            </a>
+            <br />
           </div>
         </div>
-        <a
-          onClick={() => {
-            switchRoute(ROUTES.CLIENT.REVIEW.getTaskerRequestReview({ bidId }));
-          }}
-          className={`button firstButtonInCard is-primary`}
-        >
-          <span>REVIEW REQUESTER</span>
-        </a>
       </div>
     );
   }

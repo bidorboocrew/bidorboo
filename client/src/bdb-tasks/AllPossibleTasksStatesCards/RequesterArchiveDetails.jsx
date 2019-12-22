@@ -168,7 +168,7 @@ class AssignedTaskerDetails extends React.Component {
       >
         <div style={{ paddingTop: 0 }} className="card-content">
           <div className="content">
-            <div style={{ background: 'transparent' }} className="tabs is-centered">
+            <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
               <ul style={{ marginLeft: 0 }}>
                 <li className="is-active">
                   <a>
@@ -195,7 +195,7 @@ class AssignedTaskerDetails extends React.Component {
                 Review Tasker
               </a>
             )}
-            <div style={{ background: 'transparent' }} className="tabs is-centered">
+            <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
               <ul style={{ marginLeft: 0 }}>
                 <li className="is-active">
                   <a>

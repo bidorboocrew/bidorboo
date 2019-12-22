@@ -251,14 +251,14 @@ class OtherUserProfileForReviewPage extends React.Component {
                   </div>
                 </div>
 
-                <div style={{ background: 'transparent' }} className="tabs is-centered">
+                <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
                   <ul style={{ marginLeft: 0 }}>
                     <li className="is-active">
                       <a>
                         <span className="icon">
                           <i className="fas fa-book"></i>
                         </span>
-                        <span> Reviews</span>
+                        <span>Reviews</span>
                       </a>
                     </li>
                   </ul>
