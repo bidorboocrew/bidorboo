@@ -27,15 +27,15 @@ if (process.env.NODE_ENV === 'production') {
   bugsnagClient.use(bugsnagReact, React);
   const ErrorBoundary = bugsnagClient.getPlugin('react');
   ReactDOM.render(
-    <ErrorBoundary>
-      <Provider store={store}>
-        <Router history={appHistory}>
+    <Provider store={store}>
+      <Router history={appHistory}>
+        <ErrorBoundary>
           <GetNotificationsAndScroll>
             <App />
           </GetNotificationsAndScroll>
-        </Router>
-      </Provider>
-    </ErrorBoundary>,
+        </ErrorBoundary>
+      </Router>
+    </Provider>,
     document.getElementById('BidOrBoo-app'),
   );
 
