@@ -125,11 +125,10 @@ const HeaderTitle = (props) => {
 };
 
 const InitialAccountSetupView = (props) => {
-  const { showAddPaymentDetails, userDetails, myStripeAccountDetails } = props;
+  const { userDetails } = props;
 
   const [isNinteenPlus, setNinteenPlus] = useState(false);
   const [isCanadian, setCanadian] = useState(false);
-  // const [isValidBankAcc, setValidBankAcc] = useState(false);
   const [hasAgreedToTOS, setHasAgreedToTos] = useState(false);
 
   const userMeetsTaskerRequirements = isNinteenPlus && isCanadian && hasAgreedToTOS;
