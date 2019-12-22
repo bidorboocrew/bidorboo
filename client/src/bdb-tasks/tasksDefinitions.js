@@ -6,8 +6,9 @@ import moving from './task-definitions-repo/moving';
 const TASKS_DEFINITIONS = {
   [`${houseCleaning.ID}`]: { ...houseCleaning },
   [`${petCare.ID}`]: { ...petCare },
-  // [`${moving.ID}`]: { ...moving },
-  // [`${carDetailing.ID}`]: { ...carDetailing },
+  [`${moving.ID}`]: { ...moving },
+  [`${carDetailing.ID}`]: { ...carDetailing },
 };
+
 
 export default TASKS_DEFINITIONS;

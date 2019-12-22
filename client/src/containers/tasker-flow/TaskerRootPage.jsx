@@ -19,7 +19,6 @@ import AllRequestsView from './components/AllRequestsView';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 import SubscribeToSearchResultsToggle from './SubscribeToSearchResultsToggle';
 
-import TASKS_DEFINITIONS from '../../bdb-tasks/tasksDefinitions';
 class TaskerRootPage extends React.Component {
   constructor(props) {
     super(props);
@@ -36,7 +35,7 @@ class TaskerRootPage extends React.Component {
         searchRadius: '100',
         addressText: '',
         latLng: { lng: -75.801867, lat: 45.296898 },
-        tasksTypeFilter: [...Object.keys(TASKS_DEFINITIONS)],
+        tasksTypeFilter: ['bdbHouseCleaning', 'bdbPetSittingWalking'],
       },
     };
     this.mapRootRef = React.createRef();
