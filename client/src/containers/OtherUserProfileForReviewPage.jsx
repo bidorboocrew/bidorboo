@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getOtherUserProfileInfo } from '../app-state/actions/userModelActions';
 import * as ROUTES from '../constants/frontend-route-consts';
-import { switchRoute, goBackToPreviousRoute } from '../utils';
+import { switchRoute } from '../utils';
 import { Spinner } from '../components/Spinner';
 import { VerifiedVia } from './commonComponents';
 import * as Constants from '../constants/enumConstants';
@@ -49,6 +49,7 @@ class OtherUserProfileForReviewPage extends React.Component {
       isLoadingAnotherUserProfile,
       otherUserProfileInfo,
       isMyPersonalProfile = false,
+      nextAction = null,
     } = this.props;
     if (!this.userIdUnderReview) {
       return null;
@@ -128,9 +129,26 @@ class OtherUserProfileForReviewPage extends React.Component {
         <div className="column limitLargeMaxWidth slide-in-right">
           {!isMyPersonalProfile && (
             <>
-              <br />
-              <RenderBackButton></RenderBackButton>
-              <br />
+              <div style={{ margin: '1rem 0.5rem 1rem 0.5rem', height: 52 }}>
+                <div className="is-pulled-left">
+                  <RenderBackButton></RenderBackButton>
+                </div>
+
+                {nextAction && nextAction.text && nextAction.clickHandler && (
+                  <div className="is-pulled-right">
+                    <button
+                      onClick={nextAction.clickHandler}
+                      style={{ margin: '0px 0px 1rem' }}
+                      className="button is-success"
+                    >
+                      <span style={{ meaginRight: 2 }}>{nextAction.text}</span>
+                      <span className="icon is-large">
+                        <i className="fas fa-chevron-right" />
+                      </span>
+                    </button>
+                  </div>
+                )}
+              </div>
             </>
           )}
 

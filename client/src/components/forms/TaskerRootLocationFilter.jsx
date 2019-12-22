@@ -159,7 +159,7 @@ class TaskerRootLocationFilter extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { activeSearchParams, submitSearchLocationParams } = this.props;
-    debugger;
+
 
     submitSearchLocationParams({
       ...activeSearchParams,

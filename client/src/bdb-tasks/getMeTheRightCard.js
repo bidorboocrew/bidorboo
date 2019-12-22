@@ -145,7 +145,13 @@ const requesterCardTemplates = {
 };
 
 const TaskerCardTemplates = {
-  [REQUEST_STATES.OPEN]: ({ request, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
+  [REQUEST_STATES.OPEN]: ({
+    request,
+    isSummaryView,
+    pointOfView,
+    withBidDetails,
+    ...otherArgs
+  }) => {
     if (isSummaryView) {
       if (withBidDetails) {
         return <TaskerMyOpenBidSummary request={request} {...otherArgs} />;
@@ -158,7 +164,13 @@ const TaskerCardTemplates = {
       return <TaskerBidOnTaskDetails request={request} {...otherArgs} />;
     }
   },
-  [REQUEST_STATES.AWARDED]: ({ request, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
+  [REQUEST_STATES.AWARDED]: ({
+    request,
+    isSummaryView,
+    pointOfView,
+    withBidDetails,
+    ...otherArgs
+  }) => {
     if (isSummaryView) {
       return <TaskerMyAwardedBidSummary request={request} {...otherArgs} />;
     } else {
@@ -191,7 +203,13 @@ const TaskerCardTemplates = {
       return <TaskerAwardedBidCanceledByRequesterDetails request={request} {...otherArgs} />;
     }
   },
-  [REQUEST_STATES.DONE]: ({ request, isSummaryView, pointOfView, withBidDetails, ...otherArgs }) => {
+  [REQUEST_STATES.DONE]: ({
+    request,
+    isSummaryView,
+    pointOfView,
+    withBidDetails,
+    ...otherArgs
+  }) => {
     if (isSummaryView) {
       return <TaskerBidDoneSummary request={request} {...otherArgs} />;
     } else {
@@ -360,10 +378,9 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
 };
 
 export const getMeTheRightBidCard = ({ bid, isSummaryView, ...otherArgs }) => {
-  debugger
   if (!bid || !bid._id) {
     console.error('no bid passed in');
-    return; //return
+    return null; //return
   }
   if (isSummaryView === undefined) {
     console.error('Summary was not  passed in');
@@ -377,10 +394,9 @@ export const getMeTheRightBidCard = ({ bid, isSummaryView, ...otherArgs }) => {
 };
 
 export const getMeTheRightRequestCard = ({ request, isSummaryView, pointOfView, ...otherArgs }) => {
- debugger
   if (!request || !request.templateId) {
     console.error('no request passed in');
-    return; //return
+    return null; //return
   }
   if (isSummaryView === undefined || pointOfView === undefined) {
     console.error('Summary or Point ofView was not  passed in');

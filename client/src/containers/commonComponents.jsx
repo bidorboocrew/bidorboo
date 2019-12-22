@@ -1451,31 +1451,6 @@ export const RenderBackButton = () => {
     </a>
   );
 };
-// https://github.com/FormidableLabs/nuka-carousel
-// export const TaskImagesCarousel = ({ taskImages }) => {
-
-//   if (taskImages && taskImages.length > 0) {
-//     let carouselImg = taskImages.map((taskImage) => <img src={taskImage.url} />);
-
-//     return (
-//       <Carousel
-//         renderCenterLeftControls={({ previousSlide }) => (
-//           <button className="button is-danger is-outlined" onClick={previousSlide}>
-//             <i className="fas fa-arrow-left" />
-//           </button>
-//         )}
-//         renderCenterRightControls={({ nextSlide }) => (
-//           <button className="button is-danger is-outlined" onClick={nextSlide}>
-//             <i className="fas fa-arrow-right" />
-//           </button>
-//         )}
-//       >
-//         {carouselImg}
-//       </Carousel>
-//     );
-//   }
-//   return null;
-// };
 
 export const requesterViewRerouteBasedOnRequestState = ({ state, _id: requestId }) => {
   switch (state) {
