@@ -43,34 +43,32 @@ class AcceptBidAndTaskerModal extends React.Component {
                   src={otherUserProfileInfo.profileImage.url}
                 />
               </figure>
-              <label
-                style={{ marginBottom: 0 }}
-                className="label has-text-dark has-text-weight-semibold is-size-5"
-              >
+              <label style={{ marginBottom: 0 }} className="label has-text-dark is-size-5">
                 {otherUserProfileInfo.displayName}
               </label>
               {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
-                <div className="has-text-grey" style={{ lineHeight: '52px', fontSize: 18 }}>
+                <div className="has-text-grey" style={{ fontSize: 18 }}>
                   <span className="icon has-text-warning">
                     <i className="far fa-star" />
                   </span>
                   <span>--</span>
                 </div>
               ) : (
-                <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 18 }}>
+                <div className="has-text-dark" style={{ fontSize: 18 }}>
                   <span className="icon has-text-warning">
                     <i className="fas fa-star" />
                   </span>
                   <span>{globalRating}</span>
                 </div>
               )}
-              <label className="help">Status: {membershipStatusDisplay}</label>
+              {/* <label className="help">Status: {membershipStatusDisplay}</label> */}
             </div>
+            <br></br>
             <div className="has-text-centered">
               <div style={{ marginBottom: 0, marginTop: 4 }}>
                 Offered to do this task for a total price of
               </div>
-              <div className="control is-size-4 has-text-weight-semibold has-text-success">
+              <div className="control is-size-5 has-text-weight-semibold has-text-success">
                 {`${Math.ceil(totalCharge)} $CAD`}
               </div>
             </div>
@@ -85,7 +83,7 @@ class AcceptBidAndTaskerModal extends React.Component {
               }}
               className="navbar-divider"
             />
-            <div className="help">
+            {/* <div className="help">
               * By proceeding you confirm that you agree with all
               <a target="_blank" rel="noopener noreferrer" href={`${ROUTES.CLIENT.TOS}`}>
                 {` BidOrBoo Service Agreement Terms`}
@@ -98,7 +96,7 @@ class AcceptBidAndTaskerModal extends React.Component {
               >
                 {` Stripe Connected Account Agreement`}
               </a>
-            </div>
+            </div> */}
           </section>
           <footer className="modal-card-foot">
             <button style={{ marginLeft: 4 }} onClick={closeModal} className="button">
