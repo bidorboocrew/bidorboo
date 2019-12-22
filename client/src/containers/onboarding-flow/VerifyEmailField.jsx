@@ -1,8 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import * as A from '../../app-state/actionTypes';
 
 import axios from 'axios';
 
@@ -32,17 +32,24 @@ class VerifyEmailField extends React.Component {
         );
         this.setState({ isResendingVCode: false, inputCodeContent: '' });
       } catch (e) {
-        // some alert
-        alert(
-          'Unable to verify your email, please click the chat button in the footer, or contact us bidorboo@bidorboo.ca to resolve this',
-        );
+        this.props.dispatch({
+          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          payload: {
+            toastDetails: {
+              type: 'error',
+              msg:
+                'Unable to verify your email, please click the chat button in the footer, or contact us bidorboo@bidorboo.ca to resolve this',
+            },
+          },
+        });
+
         this.setState({ isResendingVCode: false, inputCodeContent: '' });
       }
     });
   };
   render() {
-    const { isResendingVCode, inputCodeContent, showEnterPinDialog } = this.state;
-    const { verifyEmail, verifyingEmailInProgress } = this.props;
+    const { isResendingVCode, inputCodeContent } = this.state;
+    const { verifyEmail, verifyingEmailInProgress, dispatch } = this.props;
 
     return (
       <div>
@@ -77,12 +84,28 @@ class VerifyEmailField extends React.Component {
             onClick={() => {
               if (!isResendingVCode || !verifyingEmailInProgress) {
                 if (!inputCodeContent) {
-                  alert('Please use the 6 digits code we sent to your email');
+                  dispatch({
+                    type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+                    payload: {
+                      toastDetails: {
+                        type: 'error',
+                        msg: 'Please use the 6 digits code we sent to your email',
+                      },
+                    },
+                  });
                 } else if (inputCodeContent.length === 6) {
                   verifyEmail(`${inputCodeContent}`);
                   this.toggleEnterPinDialog();
                 } else {
-                  alert("you've entered an invalid code. code is a 6 digit sent to your email");
+                  dispatch({
+                    type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+                    payload: {
+                      toastDetails: {
+                        type: 'error',
+                        msg: "you've entered an invalid code. code is a 6 digit sent to your email",
+                      },
+                    },
+                  });
                 }
               }
             }}
@@ -92,9 +115,7 @@ class VerifyEmailField extends React.Component {
             Verify Email
           </button>
         </div>
-        <div className="help">
-          *Check inbox/junk folders for an email from bidorboo@bidorboo.ca
-        </div>
+        <div className="help">*Check inbox/junk folders for an email from bidorboo@bidorboo.ca</div>
         <br />
       </div>
     );
@@ -114,7 +135,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(VerifyEmailField);
+export default connect(mapStateToProps, mapDispatchToProps)(VerifyEmailField);

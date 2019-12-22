@@ -1,4 +1,7 @@
 import React, { createRef } from 'react';
+import { connect } from 'react-redux';
+import * as A from '../app-state/actionTypes';
+
 import Dropzone from 'react-dropzone';
 import Cropper from 'react-cropper';
 import ReactDOM from 'react-dom';
@@ -8,7 +11,7 @@ import 'cropperjs/dist/cropper.css';
 
 const MAX_FILE_SIZE_IN_MB = 1000000 * 10; //10MB
 
-export default class UploaderComponent extends React.Component {
+class UploaderComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = { thumb: null, showCropper: false };
@@ -129,13 +132,18 @@ export default class UploaderComponent extends React.Component {
                 id="filesToUpload"
                 name="filesToUpload"
                 onDrop={this.onDrophandler}
-                onDropRejected={(file, event) =>
-                  alert(
-                    'File not accepted, must be an image file less than 10MB ' +
-                      `${event && event}` +
-                      `${file && file}`,
-                  )
-                }
+                onDropRejected={(file, event) => {
+                  this.props.dispatch({
+                    type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+                    payload: {
+                      toastDetails: {
+                        type: 'error',
+                        msg: `File not accepted, must be an image file less than 10MB ${event &&
+                          event} ${file && file}`,
+                      },
+                    },
+                  });
+                }}
               >
                 <React.Fragment>
                   <div className="section VerticalAligner bdb-img-upload-placeholder">
@@ -195,3 +203,5 @@ export default class UploaderComponent extends React.Component {
     );
   }
 }
+
+export default connect(null, null)(UploaderComponent);

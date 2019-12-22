@@ -47,7 +47,9 @@ const ReviewAwardedBidPage = lazy(() => import('./tasker-flow/ReviewAwardedBidPa
 const ReviewBidAndRequestPage = lazy(() => import('./tasker-flow/ReviewOpenBidAndRequestPage.jsx'));
 const BidOnRequestPage = lazy(() => import('./tasker-flow/BidOnRequestPage.jsx'));
 const TaskerRootPage = lazy(() => import('./tasker-flow/TaskerRootPage.jsx'));
-const ReviewRequestAndBidsPage = lazy(() => import('./requester-flow/ReviewRequestAndBidsPage.jsx'));
+const ReviewRequestAndBidsPage = lazy(() =>
+  import('./requester-flow/ReviewRequestAndBidsPage.jsx'),
+);
 const ReviewMyAwardedRequestAndWinningBidPage = lazy(() =>
   import('./requester-flow/ReviewMyAwardedRequestAndWinningBidPage.jsx'),
 );
@@ -58,33 +60,6 @@ class App extends React.Component {
     this.state = { hasError: false };
   }
 
-  // componentDidMount() {
-  //   // https://github.com/osano/cookieconsent/tree/dev/src
-  //   window.cookieconsent.initialise({
-  //     container: document.getElementById('bidorboo-root-cookieconsent'),
-  //     palette: {
-  //       popup: { background: '#1aa3ff' },
-  //       button: { background: '#e0e0e0' },
-  //     },
-  //     revokable: true,
-  //     onStatusChange: function(status) {
-  //       console.log(this.hasConsented() ? 'enable cookies' : 'disable cookies');
-  //     },
-  //     theme: 'edgeless',
-  //     content: {
-  //       header: 'Cookies used on the website!',
-  //       message: 'This website uses cookies to improve your experience.',
-  //       dismiss: 'Got it!',
-  //       allow: 'Allow cookies',
-  //       deny: 'Decline',
-  //       link: 'Learn more',
-  //       href: 'https://www.cookiesandyou.com',
-  //       close: '&#x274c;',
-  //       policy: 'Cookie Policy',
-  //       target: '_blank',
-  //     },
-  //   });
-  // }
   componentDidCatch(error, info) {
     console.error('bdb error details ' + error);
     console.error('failure info ' + info);
@@ -168,7 +143,11 @@ class App extends React.Component {
                 component={CreateARequestPage}
               />
               <Route exact path={ROUTES.CLIENT.TASKER.root} component={TaskerRootPage} />
-              <Route exact path={ROUTES.CLIENT.TASKER.bidOnRequestPage} component={BidOnRequestPage} />
+              <Route
+                exact
+                path={ROUTES.CLIENT.TASKER.bidOnRequestPage}
+                component={BidOnRequestPage}
+              />
               <Route
                 exact
                 path={`${ROUTES.CLIENT.USER_ROFILE_FOR_REVIEW}`}

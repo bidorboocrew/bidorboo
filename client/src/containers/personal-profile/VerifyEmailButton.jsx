@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import * as A from '../../app-state/actionTypes';
 
 import axios from 'axios';
 
@@ -31,20 +32,35 @@ class VerifyEmailButton extends React.Component {
           ROUTES.API.USER.POST.resendVerificationEmail,
         );
         if (resendVerificationReq && resendVerificationReq.success) {
-          alert('you should recieve an email shortly , please give 10-15 minutes');
+          this.props.dispatch({
+            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+            payload: {
+              toastDetails: {
+                type: 'success',
+                msg: 'you should recieve an email shortly , please give 1-2 minutes',
+              },
+            },
+          });
         }
       } catch (e) {
-        // some alert
-        alert(
-          'Unable to verify your email, please click the chat button on the right bottom corner of your creend or contact us bidorboo@bidorboo.ca to resolve this',
-        );
+        this.props.dispatch({
+          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          payload: {
+            toastDetails: {
+              type: 'error',
+              msg:
+                'Unable to verify your email, please click the chat button on the right bottom corner of your creend or contact us bidorboo@bidorboo.ca to resolve this',
+            },
+          },
+        });
+
         this.setState({ isResendingVCode: false, inputCodeContent: '' });
       }
     });
   };
   render() {
     const { isResendingVCode, inputCodeContent, showEnterPinDialog } = this.state;
-    const { verifyEmail, verifyingEmailInProgress } = this.props;
+    const { verifyEmail, verifyingEmailInProgress, dispatch } = this.props;
 
     return (
       <React.Fragment>
@@ -93,8 +109,7 @@ class VerifyEmailButton extends React.Component {
                           />
                         </div>
                         <div className="help">
-                          * Check your email inbox/junk folders for emails from
-                          bidorboo@bidorboo.ca
+                          * Check your email inbox/junk folders for emails from bidorboo@bidorboo.ca
                         </div>
                         <br></br>
 
@@ -110,14 +125,29 @@ class VerifyEmailButton extends React.Component {
                           onClick={() => {
                             if (!isResendingVCode || !verifyingEmailInProgress) {
                               if (!inputCodeContent) {
-                                alert('Please use the 6 digits code we sent to your email');
+                                dispatch({
+                                  type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+                                  payload: {
+                                    toastDetails: {
+                                      type: 'error',
+                                      msg: 'Please use the 6 digits code we sent to your email',
+                                    },
+                                  },
+                                });
                               } else if (inputCodeContent.length === 6) {
                                 verifyEmail(`${inputCodeContent}`);
                                 this.toggleEnterPinDialog();
                               } else {
-                                alert(
-                                  "you've entered an invalid code. code is a 6 digit sent to your email",
-                                );
+                                dispatch({
+                                  type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+                                  payload: {
+                                    toastDetails: {
+                                      type: 'error',
+                                      msg:
+                                        "you've entered an invalid code. code is a 6 digit sent to your email",
+                                    },
+                                  },
+                                });
                               }
                             }
                           }}
@@ -164,7 +194,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(VerifyEmailButton);
+export default connect(mapStateToProps, mapDispatchToProps)(VerifyEmailButton);

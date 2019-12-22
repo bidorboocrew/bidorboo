@@ -37,15 +37,12 @@ class ReviewRequestAndBidsPage extends React.Component {
   }
 
   fetchMostRecentBids = () => {
-    if (document.visibilityState == 'hidden') {
+    if (document.visibilityState === 'hidden') {
       //  do nothing
-    } else {
-      if (this.numberOfFetches > 0) {
-        const { selectedRequestWithBids } = this.props;
-        this.props.getPostedRequestAndBidsForRequester(selectedRequestWithBids._id);
-        console.log('fetched more bids');
-        this.numberOfFetches--;
-      }
+    } else if (this.numberOfFetches > 0) {
+      const { selectedRequestWithBids } = this.props;
+      this.props.getPostedRequestAndBidsForRequester(selectedRequestWithBids._id);
+      this.numberOfFetches--;
     }
   };
 
@@ -65,7 +62,6 @@ class ReviewRequestAndBidsPage extends React.Component {
 
   componentWillUnmount() {
     clearInterval(this.getMoreBids);
-    console.log('interval cleared');
   }
 
   showBidReviewModal = (bid) => {
@@ -78,11 +74,10 @@ class ReviewRequestAndBidsPage extends React.Component {
   render() {
     const { selectedRequestWithBids, markBidAsSeen, paymentIsInProgress } = this.props;
 
-    // while fetching the request
     if (!selectedRequestWithBids || !selectedRequestWithBids._id) {
       return (
         <div className="container is-widescreen">
-          <Spinner renderLabel={'Loading Your request and Bids'} isLoading={true} size={'large'} />
+          <Spinner renderLabel={'Loading Your Request'} isLoading={true} size={'large'} />
         </div>
       );
     }

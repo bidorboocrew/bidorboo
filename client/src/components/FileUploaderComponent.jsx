@@ -1,4 +1,7 @@
 import React, { createRef } from 'react';
+import { connect } from 'react-redux';
+import * as A from '../app-state/actionTypes';
+
 import Dropzone from 'react-dropzone';
 import { withFormik } from 'formik';
 import Cropper from 'react-cropper';
@@ -137,8 +140,8 @@ class MyForm extends React.Component {
   };
 
   render() {
-    const { handleSubmit, values, closeDialog } = this.props;
-    const { showThumbNail, thumb, showCropper } = this.state;
+    const { handleSubmit, values } = this.props;
+    const { thumb, showCropper } = this.state;
 
     return (
       <form onSubmit={handleSubmit}>
@@ -159,13 +162,18 @@ class MyForm extends React.Component {
               id="filesToUpload"
               name="filesToUpload"
               onDrop={this.onDrophandler}
-              onDropRejected={(file, event) =>
-                alert(
-                  'File not accepted, must be an image file less than 10MB ' +
-                    `${event && event}` +
-                    `${file && file}`,
-                )
-              }
+              onDropRejected={(file, event) => {
+                this.props.dispatch({
+                  type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+                  payload: {
+                    toastDetails: {
+                      type: 'error',
+                      msg: `File not accepted, must be an image file less than 10MB ${event &&
+                        event} ${file && file}`,
+                    },
+                  },
+                });
+              }}
             >
               <React.Fragment>
                 <div className="section VerticalAligner bdb-img-upload-placeholder">
@@ -229,4 +237,4 @@ class MyForm extends React.Component {
   }
 }
 
-export default formikEnhancer(MyForm);
+export default connect(null, null)(formikEnhancer(MyForm));

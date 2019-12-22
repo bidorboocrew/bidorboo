@@ -94,7 +94,6 @@ class Cluster extends React.Component {
 
     if (requestsList && requestsList.length > 0) {
       const requestsMarkersOnTheMap = requestsList.map((request) => (
-
         <RequestMarker
           showInfoBox={this.showInfoBox}
           closeInfoBox={this.closeInfoBox}
@@ -106,7 +105,7 @@ class Cluster extends React.Component {
           showLoginDialog={showLoginDialog}
         />
       ));
-      return <>{ requestsMarkersOnTheMap }</>;
+      return <>{requestsMarkersOnTheMap}</>;
       //   <MarkerClusterer
       //     defaultMinimumClusterSize={10}
       //     averageCenter
@@ -137,14 +136,6 @@ class RequestMarker extends React.Component {
   render() {
     const { request, showInfoBoxForRequestId } = this.props;
 
-    // let imgurl = request && request._ownerRef ? request._ownerRef.profileImage.url : null;
-    // var image = {
-    //   url: imgurl,
-    //   size: new google.maps.Size(80, 80),
-    //   origin: new google.maps.Point(0, 0),
-    //   anchor: new google.maps.Point(17, 34),
-    //   scaledSize: new google.maps.Size(32, 32),
-    // };
     if (
       request &&
       request.reactMapClusterRef &&
@@ -152,7 +143,6 @@ class RequestMarker extends React.Component {
       request.location.coordinates &&
       request.location.coordinates.length === 2
     ) {
-      console.log(request.location.coordinates)
       const shouldShowInfoBox = showInfoBoxForRequestId === request._id;
       return (
         <Marker

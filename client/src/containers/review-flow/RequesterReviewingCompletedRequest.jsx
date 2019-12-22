@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactStars from 'react-stars';
 import { connect } from 'react-redux';
+import * as A from '../../app-state/actionTypes';
 
 import TextareaAutosize from 'react-autosize-textarea';
 import axios from 'axios';
-import * as A from '../../app-state/actionTypes';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { goBackToPreviousRoute, throwErrorNotification } from '../../utils';
@@ -154,19 +154,19 @@ export class RequesterReviewingCompletedRequest extends React.Component {
         })
         .then(() => {
           goBackToPreviousRoute();
-          dispatch &&
-            dispatch({
-              type: A.UI_ACTIONS.SHOW_TOAST_MSG,
-              payload: {
-                toastDetails: {
-                  type: 'success',
-                  msg: 'Thank you for submitting your review. Good luck BidOrBooing',
-                },
+
+          dispatch({
+            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+            payload: {
+              toastDetails: {
+                type: 'success',
+                msg: 'Thank you for submitting your review. Good luck BidOrBooing',
               },
-            });
+            },
+          });
         })
         .catch((error) => {
-          dispatch && throwErrorNotification(dispatch, error);
+          throwErrorNotification(dispatch, error);
         });
     }
   };

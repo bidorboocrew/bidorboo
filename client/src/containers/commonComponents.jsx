@@ -367,7 +367,7 @@ export class LocationLabelAndValue extends React.Component {
           if (status === window.google.maps.GeocoderStatus.OK) {
             let address = results[0].formatted_address;
             if (address && !address.toLowerCase().includes('canada')) {
-              alert('Sorry! Bid or Boo is only available in Canada.');
+              alert('Sorry! BidOrBoo is currently available in Canada. We will be expanding soon.');
             } else {
               //xxx find a way to unsubscribe from geocoding async call if component unmounted
 

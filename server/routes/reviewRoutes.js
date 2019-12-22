@@ -69,6 +69,7 @@ module.exports = (app) => {
           updatedReviewModel.taskerReview.personalComment
         ) {
           await requestDataAccess.updateState(requestId, 'ARCHIVE');
+          // XXX email both to tell them rating is avilable
         }
         const taskerRatingDetails = request._awardedBidRef._taskerRef.rating;
 
@@ -91,8 +92,6 @@ module.exports = (app) => {
           newTotalOfAllRatings,
           personalComment
         );
-
-        // XXX email both to tell them rating is avilable
 
         return res.send({ success: true, message: 'Requester Review submitted successfully' });
       } catch (e) {

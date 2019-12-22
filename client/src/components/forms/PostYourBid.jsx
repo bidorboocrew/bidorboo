@@ -19,16 +19,9 @@ export default class PostYourBid extends React.Component {
 
     if (!isLoggedIn) {
       showLoginDialog(true);
-    }
-    //  else if (!taskerCanBid) {
-    //   this.toggleShowTaskerOnBoardingDialog(true);
-
-    //   // alert('complete the tasker onBoarding before you can bid');
-    // }
-    else {
+    } else {
       this.setState({ showBidDialog: true });
     }
-    // this.setState({ showBidDialog: true });
   };
 
   toggleShowTaskerOnBoardingDialog = (val) => {

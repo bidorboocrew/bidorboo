@@ -8,6 +8,8 @@
  */
 
 import React from 'react';
+import { connect } from 'react-redux';
+import * as A from '../../app-state/actionTypes';
 
 import TASKS_DEFINITIONS from '../../bdb-tasks/tasksDefinitions';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
@@ -15,8 +17,7 @@ import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-au
 // for reverse geocoding , get addressText from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
 // https://stackoverflow.com/questions/6478914/reverse-geocoding-code
-
-export default class TaskerRootLocationFilter extends React.Component {
+class TaskerRootLocationFilter extends React.Component {
   constructor(props) {
     super(props);
     this.google = window.google;
@@ -50,13 +51,29 @@ export default class TaskerRootLocationFilter extends React.Component {
   successfullGeoCoding = (results, status, pos) => {
     // xxx handle the various error (api over limit ...etc)
     if (status !== this.google.maps.GeocoderStatus.OK) {
-      alert(status);
+      this.props.dispatch({
+        type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+        payload: {
+          toastDetails: {
+            type: 'error',
+            msg: 'Google Geocoding failed ' + status,
+          },
+        },
+      });
     }
     // This is checking to see if the Geoeode Status is OK before proceeding
     if (status === this.google.maps.GeocoderStatus.OK) {
       let addressText = results[0].formatted_address;
       if (addressText && !addressText.toLowerCase().includes('canada')) {
-        alert('Sorry! Bid or Boo is only available in Canada.');
+        this.props.dispatch({
+          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          payload: {
+            toastDetails: {
+              type: 'warn',
+              msg: 'Sorry! BidOrBoo is currently available in Canada. We will be expanding soon.',
+            },
+          },
+        });
       } else {
         this.handleChange(addressText, { ...pos });
       }
@@ -98,7 +115,15 @@ export default class TaskerRootLocationFilter extends React.Component {
         getCurrentPositionOptions,
       );
     } else {
-      console.error('no html 5 geo location');
+      this.props.dispatch({
+        type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+        payload: {
+          toastDetails: {
+            type: 'error',
+            msg: 'no geocoding support on ur device, please use manual input',
+          },
+        },
+      });
     }
   };
 
@@ -107,7 +132,7 @@ export default class TaskerRootLocationFilter extends React.Component {
     let msg = '';
     if (err.code === 3) {
       // Timed out
-      msg = "<p>Can't get your location (high accuracy attempt). Error = ";
+      msg = "Can't get your location (high accuracy attempt). ";
     }
     if (err.code === 1) {
       // Access denied by user
@@ -120,7 +145,15 @@ export default class TaskerRootLocationFilter extends React.Component {
       // Unknown error
       msg = ', msg = ' + err.message;
     }
-    // alert(msg);
+    this.props.dispatch({
+      type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+      payload: {
+        toastDetails: {
+          type: 'error',
+          msg,
+        },
+      },
+    });
   };
 
   handleSubmit = (e) => {
@@ -199,6 +232,7 @@ export default class TaskerRootLocationFilter extends React.Component {
     );
   }
 }
+export default connect(null, null)(TaskerRootLocationFilter);
 
 class GeoSearch extends React.Component {
   render() {

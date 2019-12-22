@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import * as A from '../../app-state/actionTypes';
 
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
@@ -59,7 +61,6 @@ const EnhancedForms = withFormik({
       let fileData = new FormData();
       fileData.append('file', fileFront, fileFront.name);
       fileData.append('purpose', 'customer_signature');
-      // fileData.append('file_link_data', JSON.stringify({ create: true }));
 
       const config = {
         headers: {
@@ -71,8 +72,17 @@ const EnhancedForms = withFormik({
       try {
         frontSideResp = await axios.post(`https://files.stripe.com/v1/files`, fileData, config);
       } catch (e) {
-        alert('Error processing id img' + e);
+        props.dispatch({
+          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          payload: {
+            toastDetails: {
+              type: 'error',
+              msg: 'Error processing id img' + e,
+            },
+          },
+        });
         setSubmitting(false);
+        return;
       }
     }
 
@@ -93,8 +103,17 @@ const EnhancedForms = withFormik({
       try {
         backSideResp = await axios.post(`https://files.stripe.com/v1/files`, fileData, config);
       } catch (e) {
-        alert('Error processing id img' + e);
+        props.dispatch({
+          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          payload: {
+            toastDetails: {
+              type: 'error',
+              msg: 'Error processing id img' + e,
+            },
+          },
+        });
         setSubmitting(false);
+        return;
       }
     }
 
@@ -113,7 +132,6 @@ const EnhancedForms = withFormik({
         phone: { phoneNumber: values.phoneNumber },
         personalParagraph: values.personalParagraph,
         picId,
-        // autoDetectlocation: values.autoDetectlocation,
       });
     } else {
       props.onSubmit({
@@ -121,8 +139,6 @@ const EnhancedForms = withFormik({
         email: { emailAddress: values.email },
         phone: { phoneNumber: values.phoneNumber },
         personalParagraph: values.personalParagraph,
-
-        // autoDetectlocation: values.autoDetectlocation,
       });
     }
     setSubmitting(false);
@@ -135,8 +151,6 @@ const ProfileForm = (props) => {
     values,
     touched,
     errors,
-    setFieldValue,
-    // dirty,
     handleChange,
     handleBlur,
     handleSubmit,
@@ -144,27 +158,6 @@ const ProfileForm = (props) => {
     isValid,
     isSubmitting,
   } = props;
-
-  // const toggleIsAutoDetectEnabled = (val) => {
-  //   if (val && navigator && navigator.geolocation) {
-  //     const getCurrentPositionOptions = {
-  //       maximumAge: 10000,
-  //       timeout: 5000,
-  //       enableHighAccuracy: true,
-  //     };
-  //     const errorHandling = (err) => {
-  //       console.error('BidOrBoo Could Not Auto Detect Address ' + err);
-  //     };
-  //     const successfulRetrieval = () => {};
-
-  //     //get the current location
-  //     navigator.geolocation.getCurrentPosition(
-  //       successfulRetrieval,
-  //       errorHandling,
-  //       getCurrentPositionOptions,
-  //     );
-  //   }
-  // };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -178,30 +171,6 @@ const ProfileForm = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
       />
-      {/* <div className="group">
-        <div className="control">
-          <label className="label">Auto Detect Location</label>
-          <label className="checkbox">
-            <input
-              id="autoDetectlocation"
-              onChange={(e) => {
-                handleChange(e);
-                toggleIsAutoDetectEnabled(e.target.checked);
-              }}
-              type="checkbox"
-              name="autoDetectlocation"
-              checked={values.autoDetectlocation}
-            />
-
-            <span>{` Enable Auto detect`} </span>
-            <span className="has-text-grey has-text-weight-normal">
-              <span className="icon">
-                <i className="fas fa-globe-americas" />
-              </span>
-            </span>
-          </label>
-        </div>
-      </div> */}
 
       <TextInput
         id="email"
@@ -236,52 +205,6 @@ const ProfileForm = (props) => {
       />
       <br />
       <br />
-      {/* ID VERIFICATION XXXXXX  */}
-      {/* <input id="idFrontImg" className="input is-invisible" type="hidden" />
-      <label className="label">ID Verification (Optional)</label>
-      <Dropzone
-        className="file is-boxed idVerification"
-        onDrop={(files) => {
-          setFieldValue('idFrontImg', files[0], true);
-        }}
-        accept={['image/png', 'image/jpeg']}
-      >
-        <label className="file-label">
-          <span className="file-cta">
-            <span className="file-icon">
-              <i className="fas fa-upload" />
-            </span>
-            <span className="file-label">ID Image (front side)</span>
-          </span>
-          <span style={{ maxWidth: 'none' }} className="file-name has-text-centered">
-            {(values.idFrontImg && values.idFrontImg.name) || 'upload now'}
-          </span>
-        </label>
-      </Dropzone>
-      <br />
-      <input id="idBackImg" className="input is-invisible" type="hidden" />
-      <Dropzone
-        className="file is-boxed idVerification"
-        onDrop={(files) => {
-          setFieldValue('idBackImg', files[0], true);
-        }}
-        accept={['image/png', 'image/jpeg']}
-      >
-        <label className="file-label">
-          <span className="file-cta">
-            <span className="file-icon">
-              <i className="fas fa-upload" />
-            </span>
-            <span className="file-label">ID Image (back side)</span>
-          </span>
-          <span style={{ maxWidth: 'none' }} className="file-name has-text-centered">
-            {(values.idBackImg && values.idBackImg.name) || 'upload now'}
-          </span>
-        </label>
-      </Dropzone>
-      <div className="help">
-        {`* Accepted IDs: Passport, government-issued ID, or driver's license. `}
-      </div> */}
 
       <div className="field is-grouped">
         <div className="control">
@@ -311,4 +234,4 @@ const ProfileForm = (props) => {
   );
 };
 
-export default EnhancedForms(ProfileForm);
+export default connect(null, null)(EnhancedForms(ProfileForm));

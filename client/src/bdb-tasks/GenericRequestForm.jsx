@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+
 import { Collapse } from 'react-collapse';
 import axios from 'axios';
 import { withFormik } from 'formik';
@@ -19,6 +21,9 @@ import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 import TASKS_DEFINITIONS from './tasksDefinitions';
 import UploaderComponent from './UploaderComponent';
+
+import * as A from '../app-state/actionTypes';
+
 // for reverse geocoding , get address from lat lng
 // https://developer.mozilla.org/en-US/docs/Web/API/PositionOptions
 // https://stackoverflow.com/questions/6478914/reverse-geocoding-code
@@ -344,7 +349,6 @@ class GenericRequestForm extends React.Component {
                     .then((results) => getLatLng(results[0]))
                     .then((latLng) => {
                       setFieldValue('location', latLng, true);
-                      // console.log('Success', latLng);
                     })
                     .catch((error) => {
                       errors.addressText = 'error getting lat lng ' + error;
@@ -471,7 +475,6 @@ class GenericRequestForm extends React.Component {
                   <Recaptcha
                     ref={(ref) => (this.recaptcha = ref)}
                     sitekey={`${process.env.REACT_APP_RECAPTCHA_SITE_KEY}`}
-                    onLoaded={() => console.log('loaded')}
                     onResolved={this.onResolved}
                     onExpired={() => this.recaptcha.reset()}
                     badge={'inline'}
@@ -518,15 +521,30 @@ class GenericRequestForm extends React.Component {
   }
 
   successfullGeoCoding = (results, status) => {
-    // xxx handle the various error (api over limit ...etc)
     if (status !== this.google.maps.GeocoderStatus.OK) {
-      alert(status);
+      this.props.dispatch({
+        type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+        payload: {
+          toastDetails: {
+            type: 'error',
+            msg: `Issue while decoding address: ${status}`,
+          },
+        },
+      });
     }
     // This is checking to see if the Geoeode Status is OK before proceeding
     if (status === this.google.maps.GeocoderStatus.OK) {
       let address = results[0].formatted_address;
       if (address && !address.toLowerCase().includes('canada')) {
-        alert('Sorry! Bid or Boo is only available in Canada');
+        this.props.dispatch({
+          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          payload: {
+            toastDetails: {
+              type: 'warn',
+              msg: `Sorry! BidOrBoo is currently available in Canada only.`,
+            },
+          },
+        });
       } else {
         this.autoSetGeoLocation(address);
       }
@@ -536,13 +554,29 @@ class GenericRequestForm extends React.Component {
   successfullGeoCodingForDestination = (results, status) => {
     // xxx handle the various error (api over limit ...etc)
     if (status !== this.google.maps.GeocoderStatus.OK) {
-      alert(status);
+      this.props.dispatch({
+        type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+        payload: {
+          toastDetails: {
+            type: 'error',
+            msg: `Issue while decoding address: ${status}`,
+          },
+        },
+      });
     }
     // This is checking to see if the Geoeode Status is OK before proceeding
     if (status === this.google.maps.GeocoderStatus.OK) {
       let address = results[0].formatted_address;
       if (address && !address.toLowerCase().includes('canada')) {
-        alert('Sorry! Bid or Boo is only available in Canada');
+        this.props.dispatch({
+          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          payload: {
+            toastDetails: {
+              type: 'warn',
+              msg: `Sorry! BidOrBoo is currently available in Canada only.`,
+            },
+          },
+        });
       } else {
         this.autoSetGeoLocationForDestinationAddress(address);
       }
@@ -574,7 +608,15 @@ class GenericRequestForm extends React.Component {
           // Unknown error
           msg = ', msg = ' + err.message;
         }
-        alert(msg);
+        this.props.dispatch({
+          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          payload: {
+            toastDetails: {
+              type: 'warn',
+              msg,
+            },
+          },
+        });
       };
       const successfulRetrieval = (position) => {
         const pos = {
@@ -629,7 +671,15 @@ class GenericRequestForm extends React.Component {
           // Unknown error
           msg = ', msg = ' + err.message;
         }
-        alert(msg);
+        this.props.dispatch({
+          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          payload: {
+            toastDetails: {
+              type: 'warn',
+              msg,
+            },
+          },
+        });
       };
       const successfulRetrieval = (position) => {
         const pos = {
@@ -873,7 +923,7 @@ const EnhancedForms = withFormik({
   displayName: 'GenericRequestForm',
 });
 
-export default EnhancedForms(GenericRequestForm);
+export default connect(null, null)(EnhancedForms(GenericRequestForm));
 
 export const HelpText = ({ helpText }) => (helpText ? <p className="help">{helpText}</p> : null);
 

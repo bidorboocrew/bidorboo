@@ -24,7 +24,6 @@ class BidModal extends React.Component {
     const { resetForm, setFieldValue } = this.props;
     setFieldValue('bidAmountField', '', false);
     resetForm();
-    console.log('unmounting');
   }
 
   onResolved = () => {
@@ -130,7 +129,6 @@ class BidModal extends React.Component {
                 <Recaptcha
                   ref={(ref) => (this.recaptcha = ref)}
                   sitekey={`${process.env.REACT_APP_RECAPTCHA_SITE_KEY}`}
-                  onLoaded={() => console.log('loaded')}
                   onResolved={this.onResolved}
                   onExpired={() => this.recaptcha.reset()}
                   badge={'inline'}

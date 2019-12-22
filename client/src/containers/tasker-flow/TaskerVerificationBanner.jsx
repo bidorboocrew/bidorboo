@@ -31,7 +31,7 @@ class TaskerVerificationBanner extends React.Component {
           window.location = data.accountLinkUrl;
         }
       } catch (e) {
-        alert(`sorry we couldn't establish connection with stripe`);
+        console.error(`sorry we couldn't establish connection with stripe`);
       }
     });
   };
@@ -46,7 +46,7 @@ class TaskerVerificationBanner extends React.Component {
           window.location = data.accountLinkUrl;
         }
       } catch (e) {
-        alert(`sorry we couldn't establish connection with stripe`);
+        console.error(`sorry we couldn't establish connection with stripe`);
       }
     });
   };

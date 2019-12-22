@@ -41,7 +41,6 @@ class TaskerArchiveDetails extends RequestBaseContainer {
       requestTitle,
       completionDate,
     } = selectedArchivedBid._requestRef;
-    console.log(selectedArchivedBid);
     const { taskerPayout } = selectedArchivedBid;
     const { value: taskerPayoutAmount } = taskerPayout;
 
