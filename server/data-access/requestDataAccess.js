@@ -1693,38 +1693,66 @@ exports.requestDataAccess = {
   // all items below this line is optimal and final -----------------------------
 
   getMyRequestsSummary: async (_id) => {
-    return RequestModel.find(
-      { _ownerRef: { $eq: _id } },
-      {
-        _bidsListRef: 1,
-        _awardedBidRef: 1,
-        state: 1,
-        templateId: 1,
-        _reviewRef: 1,
-        taskerConfirmedCompletion: 1,
-        requestTitle: 1,
-        startingDateAndTime: 1,
-        taskImages: 1,
-        dispute: 1,
-        completionDate: 1,
-      },
-      { limit: 500, sort: { startingDateAndTime: 1 } }
-    )
-      .populate({
-        path: '_reviewRef',
-        select: {
-          requesterReview: 0,
-          taskerReview: 0,
+    try {
+      const myRequests = await RequestModel.find(
+        { _ownerRef: { $eq: _id } },
+        {
+          _bidsListRef: 1,
+          _awardedBidRef: 1,
+          state: 1,
+          templateId: 1,
+          _reviewRef: 1,
+          taskerConfirmedCompletion: 1,
+          requestTitle: 1,
+          startingDateAndTime: 1,
+          taskImages: 1,
+          dispute: 1,
+          completionDate: 1,
         },
-      })
-      .populate({
-        path: '_awardedBidRef',
-        select: {
-          isNewBid: 1,
-        },
-      })
-      .lean({ virtuals: true })
-      .exec();
+        { limit: 500, sort: { startingDateAndTime: 1 } }
+      )
+        .populate({
+          path: '_reviewRef',
+        })
+        .populate({
+          path: '_awardedBidRef',
+          select: {
+            isNewBid: 1,
+          },
+        })
+        .lean({ virtuals: true })
+        .exec();
+
+      if (myRequests && myRequests.length > 0) {
+        let augmentedReq = myRequests.map((request) => {
+          if (['DONE', 'DONE_SEEN'].includes(request.state)) {
+            const reviewRef = request._reviewRef;
+
+            const revealToBoth = !!(
+              reviewRef &&
+              reviewRef.requesterReview &&
+              reviewRef.taskerReview
+            );
+
+            const requiresRequesterReview = !reviewRef || (reviewRef && !reviewRef.requesterReview);
+
+            const requiresTaskerReview = !reviewRef || (reviewRef && !reviewRef.taskerReview);
+            request._reviewRef = {
+              revealToBoth,
+              requiresRequesterReview,
+              requiresTaskerReview,
+            };
+          }
+          return request;
+        });
+
+        return augmentedReq;
+      }
+
+      return [];
+    } catch (e) {
+      throw e;
+    }
   },
 
   // everything below this line is great --------------------
