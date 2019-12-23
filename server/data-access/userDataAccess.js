@@ -358,18 +358,6 @@ exports.createNewUser = async (userDetails) => {
         this.resetAndSendPhoneVerificationPin(newUser.userId, newUser.phone.phoneNumber);
       }
 
-      // intentionally did not await on this to speed up login
-      // const newStripeConnectAcc = stripeServiceUtil.initializeConnectedAccount(
-      //   {
-      //     _id: newUser._id.toString(),
-      //     email: newUser.email.emailAddress,
-      //     userId: newUser.userId,
-      //     displayName: newUser.displayName,
-      //   }
-      // );
-
-      // do this behind the scene  ^
-
       resolve(newUser.toObject());
     } catch (e) {
       reject(e);

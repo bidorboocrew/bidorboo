@@ -11,6 +11,7 @@ import Toast from '../components/Toast';
 import LoadingBar from 'react-redux-loading-bar';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
+import CookieConsent from 'react-cookie-consent';
 
 import { getCurrentUser } from '../app-state/actions/authActions';
 import logoImg from '../assets/images/android-chrome-192x192.png';
@@ -75,7 +76,6 @@ class App extends React.Component {
       // You can render any custom fallback UI
       return (
         <div id="bidorboo-root-view">
-          <div id="bidorboo-root-cookieconsent" />
           <Header id="bidorboo-header" />
           <section className="hero is-fullheight">
             <div className="hero-body">
@@ -103,11 +103,6 @@ class App extends React.Component {
     }
 
     const { s_toastDetails } = this.props;
-    // if (authIsInProgress) {
-    //   return (
-    //     <Spinner renderLabel="Authenticating..." isLoading={authIsInProgress} size={'large'} />
-    //   );
-    // }
 
     return (
       <div id="bidorboo-root-view">
@@ -115,7 +110,42 @@ class App extends React.Component {
         <div id="bidorboo-root-modals" />
         {/* this sill be where action sheets mount */}
         <div id="bidorboo-root-action-sheet" />
-        {/* <ShareButtons></ShareButtons> */}
+        <CookieConsent
+          location="bottom"
+          buttonText="I Accept"
+          declineButtonText="Decline"
+          cookieName="BidOrBooCookieConsent"
+          style={{ background: '#494949' }}
+          contentStyle={{ marginBottom: 0 }}
+          declineButtonClasses={'button is-danger is-small'}
+          buttonClasses={'button is-success is-small'}
+          buttonStyle={{
+            background: '#26ca70',
+            color: 'white',
+          }}
+          expires={365}
+          enableDeclineButton
+          onAccept={() => {
+            // google analytics
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+              window.dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+            gtag('config', 'UA-142687351-1');
+            window['ga-disable-UA-142687351-1'] = false;
+          }}
+          onDecline={() => {
+            window['ga-disable-UA-142687351-1'] = true;
+          }}
+        >
+          <div className="help has-text-light">
+            {`This website uses cookies to enhance the user experience `}
+            <a style={{ color: '#72a4f7' }} onClick={() => switchRoute(ROUTES.CLIENT.TOS)}>
+              {`BidOrBoo Service Terms | Privacy`}
+            </a>
+          </div>
+        </CookieConsent>
         <Toast toastDetails={s_toastDetails} />
         <ShowSpecialMomentModal />
         <LoadingBar
@@ -251,7 +281,11 @@ class App extends React.Component {
             <nav className="container help has-text-centered">
               <div className="has-text-light">
                 {`To get in touch via email:`}
-                <a className="has-text-link" href={`mailto:bidorboo@bidorboo.ca`}>
+                <a
+                  style={{ color: '#72a4f7' }}
+                  className="has-text-link"
+                  href={`mailto:bidorboo@bidorboo.ca`}
+                >
                   <span className="icon">
                     <i className="far fa-envelope" />
                   </span>
@@ -259,7 +293,11 @@ class App extends React.Component {
                 </a>
               </div>
               <div className="has-text-light">
-                <a className="has-text-link" onClick={() => switchRoute(ROUTES.CLIENT.TOS)}>
+                <a
+                  style={{ color: '#72a4f7' }}
+                  className="has-text-link"
+                  onClick={() => switchRoute(ROUTES.CLIENT.TOS)}
+                >
                   {`BidOrBoo Service Terms | Privacy`}
                 </a>
                 {' and '}
@@ -268,17 +306,26 @@ class App extends React.Component {
                   rel="noopener noreferrer"
                   href="https://stripe.com/connect-account/legal"
                   className="has-text-link"
+                  style={{ color: '#72a4f7' }}
                 >
                   {`Stripe Terms of use`}
                 </a>
               </div>
               <div className="help has-text-light">
                 {`This site is protected by reCAPTCHA and the Google `}
-                <a className="has-text-link" href="https://policies.google.com/privacy">
+                <a
+                  style={{ color: '#72a4f7' }}
+                  className="has-text-link"
+                  href="https://policies.google.com/privacy"
+                >
                   Privacy Policy
                 </a>
                 {` and `}
-                <a className="has-text-link" href="https://policies.google.com/terms">
+                <a
+                  style={{ color: '#72a4f7' }}
+                  className="has-text-link"
+                  href="https://policies.google.com/terms"
+                >
                   Terms of Service
                 </a>
                 {` apply.`}
