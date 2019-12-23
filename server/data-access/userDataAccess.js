@@ -53,101 +53,13 @@ exports.updateOnboardingDetails = (mongoUser_id, onBoardingDetails) => {
   this.updateUserProfileDetails(mongoUser_id, onBoardingDetails);
 };
 
-exports.getMyPastRequestedServices = (mongoUser_id) => {
-  return User.findOne(
-    { _id: mongoUser_id },
-    {
-      _id: 0,
-      _asProposerReviewsRef: 1,
-    }
-  )
-    .populate({
-      path: '_asProposerReviewsRef',
-      select: {
-        _id: 1,
-        jobId: 1,
-        bidderReview: 1,
-        bidderId: 1,
-      },
-      populate: [
-        {
-          path: 'bidderId',
-          select: {
-            displayName: 1,
-            profileImage: 1,
-            rating: 1,
-            _awardedBidRef: 1,
-          },
-        },
-        {
-          path: 'jobId',
-          select: {
-            processedPayment: 1,
-            state: 1,
-            jobCompletion: 1,
-            location: 1,
-            jobTitle: 1,
-            startingDateAndTime: 1,
-            templateId: 1,
-            _ownerRef: 1,
-          },
-        },
-      ],
-    })
-    .lean(true)
-    .exec();
-};
-
-exports.getMyPastProvidedServices = (mongoUser_id) => {
-  return User.findOne(
-    { _id: mongoUser_id },
-    {
-      _id: 0,
-      _asBidderReviewsRef: 1,
-    }
-  )
-    .populate({
-      path: '_asBidderReviewsRef',
-      select: {
-        _id: 1,
-        jobId: 1,
-        proposerReview: 1,
-        proposerId: 1,
-      },
-      populate: [
-        {
-          path: 'proposerId',
-          select: {
-            displayName: 1,
-            profileImage: 1,
-            rating: 1,
-          },
-        },
-        {
-          path: 'jobId',
-          select: {
-            processedPayment: 1,
-            state: 1,
-            jobCompletion: 1,
-            location: 1,
-            jobTitle: 1,
-            startingDateAndTime: 1,
-            templateId: 1,
-            _awardedBidRef: 1,
-          },
-        },
-      ],
-    })
-    .lean(true)
-    .exec();
-};
-
 exports.findUserPublicDetails = (mongoUser_id) => {
   return new Promise(async (resolve, reject) => {
     try {
       const otherUserDetails = await User.findOne(
         { _id: mongoUser_id },
         {
+          appView: 0,
           pushSubscription: 0,
           userRole: 0,
           settings: 0,
@@ -156,19 +68,22 @@ exports.findUserPublicDetails = (mongoUser_id) => {
           addressText: 0,
           verification: 0,
           password: 0,
-          _postedJobsRef: 0,
+          _postedRequestsRef: 0,
           _postedBidsRef: 0,
+          lastSearch: 0,
+          stripeCustomerAccId: 0,
         }
       )
         .populate({
-          path: '_asBidderReviewsRef',
+          path: '_asTaskerReviewsRef',
           select: {
             _id: 1,
-            proposerReview: 1,
-            proposerId: 1,
+            requesterReview: 1,
+            requesterId: 1,
+            createdAt: 1,
           },
           populate: {
-            path: 'proposerId',
+            path: 'requesterId',
             select: {
               displayName: 1,
               profileImage: 1,
@@ -176,14 +91,15 @@ exports.findUserPublicDetails = (mongoUser_id) => {
           },
         })
         .populate({
-          path: '_asProposerReviewsRef',
+          path: '_asRequesterReviewsRef',
           select: {
             _id: 1,
-            bidderReview: 1,
-            bidderId: 1,
+            taskerReview: 1,
+            taskerId: 1,
+            createdAt: 1,
           },
           populate: {
-            path: 'bidderId',
+            path: 'taskerId',
             select: {
               displayName: 1,
               profileImage: 1,
@@ -239,9 +155,9 @@ exports.checkIfUserEmailAlreadyExist = (registrationEmail) =>
     .lean(true)
     .exec();
 
-exports.findByIdAndGetPopulatedJobs = (userId) =>
+exports.findByIdAndGetPopulatedRequests = (userId) =>
   User.findOne({ userId })
-    .populate({ path: '_postedJobsRef' })
+    .populate({ path: '_postedRequestsRef' })
     .lean(true)
     .exec();
 
@@ -255,52 +171,34 @@ exports.findUserAndAllNewNotifications = async (mongoUserId) => {
   return new Promise(async (resolve, reject) => {
     try {
       // xxxxx maybe we should notify of canceled by tasker
-      const unseenBids = [
+      const requestStatesWhereTaskerNeedsToBeNotified = [
         'AWARDED',
-        'DISPUTED',
-        'AWARDED_BID_CANCELED_BY_TASKER',
-        'AWARDED_BID_CANCELED_BY_REQUESTER',
+        'AWARDED_REQUEST_CANCELED_BY_REQUESTER',
+        'DONE',
+        'DISPUTE_RESOLVED',
       ];
-      const seenBids = ['AWARDED_SEEN'];
 
-      const unseenRequests = [
+      const requestStatesWhereRequesterNeedsToBeNotified = [
         'OPEN',
-        'DISPUTED',
-        'AWARDED_BID_CANCELED_BY_TASKER',
-        'AWARDED_BID_CANCELED_BY_REQUESTER',
+        'AWARDED_REQUEST_CANCELED_BY_TASKER',
+        'DISPUTE_RESOLVED',
       ];
 
       const user = await User.findById(mongoUserId, {
-        rating: 1,
-        _postedJobsRef: 1,
-        _postedBidsRef: 1,
-        appView: 1,
-        isGmailUser: 1,
-        isFbUser: 1,
-        notifications: 1,
-        tasksICanDo: 1,
-        rating: 1,
-        userId: 1,
-        email: 1,
-        phone: 1,
-        lastSearch: 1,
-        displayName: 1,
-        profileImage: 1,
-        addressText: 1,
-        personalParagraph: 1,
-        membershipStatus: 1,
-        tos_acceptance: 1,
-        // we only really need this for payment page
-        stripeConnect: 1,
+        password: 0,
+        pushSubscription: 0,
+        userRole: 0,
+        picId: 0,
+        stripeCustomerAccId: 0,
+        verification: 0,
       })
         .populate({
-          path: '_postedJobsRef',
-          match: { state: { $in: unseenRequests } },
+          path: '_postedRequestsRef',
+          match: { state: { $in: requestStatesWhereRequesterNeedsToBeNotified } },
           select: {
             _bidsListRef: 1,
             state: 1,
             templateId: 1,
-            startingDateAndTime: 1,
           },
           populate: {
             path: '_bidsListRef',
@@ -310,117 +208,58 @@ exports.findUserAndAllNewNotifications = async (mongoUserId) => {
         })
         .populate({
           path: '_postedBidsRef',
-          match: { state: { $in: [...unseenBids, ...seenBids] } },
-          select: { _jobRef: 1, state: 1 },
+          select: { _requestRef: 1 },
           populate: {
-            path: '_jobRef',
+            path: '_requestRef',
+            match: { state: { $in: requestStatesWhereTaskerNeedsToBeNotified } },
             select: {
-              startingDateAndTime: 1,
               templateId: 1,
+              state: 1,
+              _awardedBidRef: 1,
+            },
+            populate: {
+              path: '_awardedBidRef',
+              select: { _taskerRef: 1 },
             },
           },
         })
-        .lean({ virtuals: true })
+        .lean(true)
         .exec();
 
-      let z_notify_jobsWithNewUnseenState =
-        user._postedJobsRef &&
-        user._postedJobsRef.filter((job) => {
-          const jobWithNewUnseenBid =
-            job.state === 'OPEN' && job._bidsListRef && job._bidsListRef.length > 0;
-          const jobWithNewStates = job.state === 'AWARDED_JOB_CANCELED_BY_BIDDER';
-          return jobWithNewUnseenBid || jobWithNewStates;
+      console.log(user._postedBidsRef);
+      let z_notify_requestsWithNewUnseenState =
+        user._postedRequestsRef &&
+        user._postedRequestsRef.filter((request) => {
+          // special case
+          if (request.state === 'OPEN') {
+            const requestWithNewUnseenBid = request._bidsListRef && request._bidsListRef.length > 0;
+            return requestWithNewUnseenBid;
+          } else {
+            return true;
+          }
         });
 
       let z_notify_myBidsWithNewStatus =
         user._postedBidsRef &&
         user._postedBidsRef.filter((myBid) => {
-          return unseenBids.includes(myBid.state);
+          const requestAssociatedWithMyBid = myBid._requestRef;
+          if (requestAssociatedWithMyBid && requestAssociatedWithMyBid._awardedBidRef) {
+            return (
+              requestAssociatedWithMyBid._awardedBidRef._taskerRef.toString() ===
+              mongoUserId.toString()
+            );
+          } else if (!!requestAssociatedWithMyBid) {
+            return true;
+          }
+          return false;
         });
 
-      // let z_track_workToDo =
-      //   user._postedBidsRef &&
-      //   user._postedBidsRef.filter((myBid) => {
-      //     return myBid.state === 'AWARDED' || myBid.state === 'AWARDED_SEEN';
-      //   });
-
-      // let reviewsOnFullfilledJobs =
-      //   user._postedJobsRef &&
-      //   user._postedJobsRef.filter((job) => {
-      //     return job._reviewRef && job._reviewRef;
-      //   });
-
-      // let reviewsOnFullfilledBids =
-      //   user._postedBidsRef &&
-      //   user._postedBidsRef.filter((mybids) => {
-      //     return mybids._jobRef && mybids._jobRef._reviewRef;
-      //   });
-
-      // let z_track_reviewsToBeFilled = [...reviewsOnFullfilledBids, ...reviewsOnFullfilledJobs];
-
-      // const startOfToday = moment()
-      //   .tz('America/Toronto')
-      //   .startOf('day')
-      //   .toISOString();
-
-      // const endOfToday = moment()
-      //   .tz('America/Toronto')
-      //   .endOf('day')
-      //   .toISOString();
-
-      // const z_jobsHappeningToday =
-      //   user._postedJobsRef &&
-      //   user._postedJobsRef
-      //     .filter((job) => {
-      //       return job.state === 'AWARDED';
-      //     })
-      //     .filter((job) => {
-      //       const jobStartDate = job.startingDateAndTime;
-
-      //       // normalize the start date to the same timezone to comapre
-      //       const normalizedStartDate = moment(jobStartDate)
-      //         .tz('America/Toronto')
-      //         .toISOString();
-
-      //       const isJobHappeningAfterToday = moment(normalizedStartDate).isAfter(startOfToday);
-      //       const isJobHappeningBeforeTomorrow = moment(normalizedStartDate).isSameOrBefore(
-      //         endOfToday
-      //       );
-      //       return isJobHappeningAfterToday && isJobHappeningBeforeTomorrow;
-      //     });
-
-      // let z_bidsHappeningToday =
-      //   user._postedBidsRef &&
-      //   user._postedBidsRef
-      //     .filter((myBid) => {
-      //       return myBid.state === 'AWARDED';
-      //     })
-      //     .filter((myBid) => {
-      //       const referenceJob = myBid._jobRef;
-
-      //       const jobStartDate = referenceJob.startingDateAndTime;
-
-      //       // normalize the start date to the same timezone to comapre
-      //       const normalizedStartDate = moment(jobStartDate)
-      //         .tz('America/Toronto')
-      //         .toISOString();
-
-      //       const isJobHappeningAfterToday = moment(normalizedStartDate).isAfter(startOfToday);
-      //       const isJobHappeningBeforeTomorrow = moment(normalizedStartDate).isSameOrBefore(
-      //         endOfToday
-      //       );
-      //       return isJobHappeningAfterToday && isJobHappeningBeforeTomorrow;
-      //     });
       user._postedBidsRef = [];
-      user._postedJobsRef = [];
+      user._postedRequestsRef = [];
       resolve({
         ...user,
-        z_notify_jobsWithNewUnseenState,
+        z_notify_requestsWithNewUnseenState,
         z_notify_myBidsWithNewStatus,
-        // z_track_reviewsToBeFilled,
-        // z_track_workToDo,
-        // z_jobsHappeningToday,
-        // z_bidsHappeningToday,
       });
     } catch (e) {
       reject(e);
@@ -557,38 +396,23 @@ exports.updateUserProfilePic = (userId, imgUrl, imgPublicId) =>
     .exec();
 
 exports.updateUserAppView = (userId, appView) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      await User.findOneAndUpdate(
-        { userId },
-        {
-          $set: { appView: `${appView}` },
-        }
-      );
-      resolve({ success: true });
-    } catch (e) {
-      reject(e);
+  return User.findOneAndUpdate(
+    { userId },
+    {
+      $set: { appView: `${appView}` },
     }
-  });
+  );
 };
 
 exports.updateNotificationSettings = (userId, notificationSettings) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      let updatedUser = await User.findOneAndUpdate(
-        { userId },
-        {
-          $set: { notifications: { ...notificationSettings } },
-        }
-      )
-        .lean(true)
-        .exec();
-
-      resolve(updatedUser);
-    } catch (e) {
-      reject(e);
+  return User.findOneAndUpdate(
+    { userId },
+    {
+      $set: { notifications: { ...notificationSettings } },
     }
-  });
+  )
+    .lean(true)
+    .exec();
 };
 
 exports.updateUserLastSearchDetails = (
@@ -694,20 +518,20 @@ exports.findByUserIdAndUpdate = (userId, userDetails) => {
     .exec();
 };
 
-exports.proposerPushesAReview = async (
+exports.requesterPushesAReview = async (
   reviewId,
-  proposerId,
-  newFulfilledJobId,
-  bidderId,
-  newBidderGlobalRating,
+  requesterId,
+  newFulfilledRequestId,
+  taskerId,
+  newTaskerGlobalRating,
   newTotalOfAllRatings,
   personalComment
 ) => {
   return await Promise.all([
     User.findOneAndUpdate(
-      { _id: proposerId },
+      { _id: requesterId },
       {
-        $push: { 'rating.fulfilledJobs': newFulfilledJobId },
+        $push: { 'rating.fulfilledRequests': newFulfilledRequestId },
       },
       {
         new: true,
@@ -716,11 +540,11 @@ exports.proposerPushesAReview = async (
       .lean(true)
       .exec(),
     User.findOneAndUpdate(
-      { _id: bidderId },
+      { _id: taskerId },
       {
-        $push: { _asBidderReviewsRef: reviewId },
+        $push: { _asTaskerReviewsRef: reviewId },
         $set: {
-          'rating.globalRating': newBidderGlobalRating,
+          'rating.globalRating': newTaskerGlobalRating,
           'rating.totalOfAllRatings': newTotalOfAllRatings,
           'rating.latestComment': personalComment,
         },
@@ -735,18 +559,18 @@ exports.proposerPushesAReview = async (
   ]);
 };
 
-exports.bidderPushesAReview = async (
+exports.taskerPushesAReview = async (
   reviewId,
-  bidderId,
+  taskerId,
   newFulfilledBidId,
-  proposerId,
-  newProposerGlobalRating,
+  requesterId,
+  newRequesterGlobalRating,
   newTotalOfAllRatings,
   personalComment
 ) => {
   return await Promise.all([
     await User.findOneAndUpdate(
-      { _id: bidderId },
+      { _id: taskerId },
       {
         $push: {
           'rating.fulfilledBids': newFulfilledBidId,
@@ -759,11 +583,11 @@ exports.bidderPushesAReview = async (
       .lean(true)
       .exec(),
     await User.findOneAndUpdate(
-      { _id: proposerId },
+      { _id: requesterId },
       {
-        $push: { _asProposerReviewsRef: reviewId },
+        $push: { _asRequesterReviewsRef: reviewId },
         $set: {
-          'rating.globalRating': newProposerGlobalRating,
+          'rating.globalRating': newRequesterGlobalRating,
           'rating.totalOfAllRatings': newTotalOfAllRatings,
           'rating.latestComment': personalComment,
         },

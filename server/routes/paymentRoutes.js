@@ -1,11 +1,10 @@
 const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
-const requireBidorBooHost = require('../middleware/requireBidorBooHost');
-// const requiresCheckPayBidderDetails = require('../middleware/requiresCheckPayBidderDetails');
-const requireJobOwner = require('../middleware/requireJobOwner');
-const requireNoPaymentProcessedForThisJobBefore = require('../middleware/requireNoPaymentProcessedForThisJobBefore');
 
-const requireJobIsNotAwarded = require('../middleware/requireJobIsNotAwarded');
+const requireRequestOwner = require('../middleware/requireRequestOwner');
+const requireNoPaymentProcessedForThisRequestBefore = require('../middleware/requireNoPaymentProcessedForThisRequestBefore');
+
+const requireRequestIsNotAwarded = require('../middleware/requireRequestIsNotAwarded');
 const userDataAccess = require('../data-access/userDataAccess');
 
 const sendGridEmailing = require('../services/sendGrid').EmailService;
@@ -16,13 +15,13 @@ const stripeServiceUtil = require('../services/stripeService').util;
 const requireUserHasAStripeAccountOrInitalizeOne = require('../middleware/requireUserHasAStripeAccountOrInitalizeOne');
 
 // const { paymentDataAccess } = require('../data-access/paymentDataAccess');
-const { jobDataAccess } = require('../data-access/jobDataAccess');
+const { requestDataAccess } = require('../data-access/requestDataAccess');
 const { bidDataAccess } = require('../data-access/bidDataAccess');
 
 const { getChargeDistributionDetails } = require('../utils/chargesCalculatorUtil');
 
 const getAllContactDetails = require('../utils/commonDataUtils')
-  .getAwardedJobOwnerBidderAndRelevantNotificationDetails;
+  .getAwardedRequestOwnerTaskerAndRelevantNotificationDetails;
 
 const keys = require('../config/keys');
 
@@ -30,61 +29,60 @@ module.exports = (app) => {
   app.post(
     ROUTES.API.PAYMENT.POST.payment,
     requireLogin,
-    requireJobOwner,
-    requireJobIsNotAwarded,
-    requireNoPaymentProcessedForThisJobBefore,
-    // requiresCheckPayBidderDetails,
+    requireRequestOwner,
+    requireRequestIsNotAwarded,
+    requireNoPaymentProcessedForThisRequestBefore,
     async (req, res, next) => {
       try {
         const mongoUser_id = req.user._id.toString();
 
-        const { jobId, bidId } = req.body.data;
+        const { requestId, bidId } = req.body.data;
 
         const theBid = await bidDataAccess.getBidById(bidId);
-        const theJob = await jobDataAccess.getJobWithOwnerDetails(jobId);
+        const theRequest = await requestDataAccess.getRequestWithOwnerDetails(requestId);
 
-        if (!theBid || !theBid._id || !theJob || !theJob._id) {
+        if (!theBid || !theBid._id || !theRequest || !theRequest._id) {
           return res.status(403).send({
             errorMsg:
-              "Couldn't locate the job and corresponding Bid. Your card was NOT charged, reload the page and try again.",
+              "Couldn't locate the request and corresponding Bid. Your card was NOT charged, reload the page and try again.",
           });
         }
 
-        const { _bidderRef, bidAmount } = theBid;
+        const { _taskerRef, bidAmount } = theBid;
         const {
-          email: bidderEmailObject,
-          _id: bidderIdObject,
-          userId: bidderUserId,
-          displayName: bidderDisplayName,
-        } = _bidderRef;
-        const bidderEmail = bidderEmailObject.emailAddress;
-        const bidderId = bidderIdObject.toString();
+          email: taskerEmailObject,
+          _id: taskerIdObject,
+          userId: taskerUserId,
+          displayName: taskerDisplayName,
+        } = _taskerRef;
+        const taskerEmail = taskerEmailObject.emailAddress;
+        const taskerId = taskerIdObject.toString();
 
-        const requesterEmail = theJob._ownerRef.email.emailAddress;
-        const requesterId = theJob._ownerRef._id.toString();
-        const requesterCustomerId = theJob._ownerRef.stripeCustomerAccId;
+        const requesterEmail = theRequest._ownerRef.email.emailAddress;
+        const requesterId = theRequest._ownerRef._id.toString();
+        const requesterCustomerId = theRequest._ownerRef.stripeCustomerAccId;
         const taskImages =
-          theJob.taskImages && theJob.taskImages.length > 0
-            ? theJob.taskImages.map((image) => image.url)
+          theRequest.taskImages && theRequest.taskImages.length > 0
+            ? theRequest.taskImages.map((image) => image.url)
             : [];
 
         // confirm award and pay
-        const { requesterTotalPayment, bidOrBooPlatformFee } = getChargeDistributionDetails(
+        const { requesterPaymentAmount, bidOrBooPlatformFee } = getChargeDistributionDetails(
           bidAmount.value
         );
 
-        let stripeAccDetails = await userDataAccess.getUserStripeAccount(bidderId);
+        let stripeAccDetails = await userDataAccess.getUserStripeAccount(taskerId);
 
         if (!stripeAccDetails.accId) {
           // user does not have a stripe account , we must establish one
           const newStripeConnectAcc = await stripeServiceUtil.initializeConnectedAccount({
-            _id: bidderId,
-            userId: bidderUserId,
-            displayName: bidderDisplayName,
-            email: bidderEmail,
+            _id: taskerId,
+            userId: taskerUserId,
+            displayName: taskerDisplayName,
+            email: taskerEmail,
           });
           if (newStripeConnectAcc.id) {
-            const updateUser = await userDataAccess.findByUserIdAndUpdate(bidderUserId, {
+            const updateUser = await userDataAccess.findByUserIdAndUpdate(taskerUserId, {
               stripeConnect: {
                 accId: newStripeConnectAcc.id,
               },
@@ -93,7 +91,7 @@ module.exports = (app) => {
           } else {
             return res.status(400).send({
               errorMsg:
-                'The bidder does not have a stripe account with us. Sorry we can not process your payment for this bidder',
+                'The tasker does not have a stripe account with us. Sorry we can not process your payment for this tasker',
             });
           }
         }
@@ -103,26 +101,30 @@ module.exports = (app) => {
           const { id: sessionClientId } = await stripeServiceUtil.createChargeForSessionId({
             taskImages,
             metadata: {
-              bidderId,
-              bidderEmail,
-              proposerId: req.user._id.toString(),
+              taskerId,
+              taskerEmail,
+              requesterId: req.user._id.toString(),
               requesterEmail,
-              jobId,
+              requestId,
               bidId,
-              note: `Requester Paid for ${theJob.jobTitle || theJob.templateId}`,
+              note: `Requester Paid for ${theRequest.requestTemplateDisplayTitle} ${theRequest.requestTitle}`,
             },
-            bidderDisplayName: bidderDisplayName || bidderEmail,
-            taskId: jobId,
-            taskName: theJob.jobTitle,
+            taskerDisplayName: taskerDisplayName || taskerEmail,
+            taskId: requestId,
+            taskName: `${theRequest.requestTemplateDisplayTitle} ${theRequest.requestTitle}`,
             requesterEmail,
-            totalCharge: requesterTotalPayment,
-            bidOrBooServiceFee: bidOrBooPlatformFee,
+            totalCharge: requesterPaymentAmount * 100, //in cents
+            bidOrBooServiceFee: bidOrBooPlatformFee * 100, //in cents
             requesterId,
             taskerAccId: stripeAccDetails.accId,
             requesterCustomerId,
           });
 
-          await jobDataAccess.updateLatestCheckoutSession(jobId, mongoUser_id, sessionClientId);
+          await requestDataAccess.updateLatestCheckoutSession(
+            requestId,
+            mongoUser_id,
+            sessionClientId
+          );
 
           return res.status(200).send({ sessionClientId });
         }
@@ -133,19 +135,8 @@ module.exports = (app) => {
     }
   );
 
-  // app.get(ROUTES.API.PAYMENT.GET.payment, requireLogin, async (req, res) => {
-  //   try {
-  //     const paymentsDetails = await paymentDataAccess.getAllPaymentsDetails();
-
-  //     res.send({ paymentsDetails });
-  //   } catch (e) {
-  //     return res.status(400).send({ errorMsg: 'Failed To create charge', details: `${e}` });
-  //   }
-  // });
-
   app.put(
     ROUTES.API.PAYMENT.PUT.setupPaymentDetails,
-    requireBidorBooHost,
     requireLogin,
     requireUserHasAStripeAccountOrInitalizeOne,
     async (req, res) => {
@@ -160,20 +151,24 @@ module.exports = (app) => {
           connectedAccountDetails
         );
         if (last4BankAcc) {
-          const updatedUser = await userDataAccess.updateUserProfileDetails(userId, {
+          const userAfterUpdate = await userDataAccess.updateUserProfileDetails(userId, {
             'stripeConnect.last4BankAcc': last4BankAcc,
           });
+          return res.send({ success: true, updatedUser: userAfterUpdate });
         }
-        return res.send({ success: true, updatedUser: updatedUser });
+        return res.status(400).send({
+          errorMsg: `couldn't register your bank account please use the chat button to talk to our customer support`,
+        });
       } catch (e) {
-        return res.status(400).send({ errorMsg: e });
+        return res.status(400).send({
+          errorMsg: `couldn't register your bank account please use the chat button to talk to our customer support`,
+        });
       }
     }
   );
 
   app.get(
     ROUTES.API.PAYMENT.GET.accountLinkForSetupAndVerification,
-    requireBidorBooHost,
     requireLogin,
     requireUserHasAStripeAccountOrInitalizeOne,
     async (req, res) => {
@@ -201,7 +196,6 @@ module.exports = (app) => {
 
   app.get(
     ROUTES.API.PAYMENT.GET.accountLinkForUpdatingVerification,
-    requireBidorBooHost,
     requireLogin,
     requireUserHasAStripeAccountOrInitalizeOne,
     async (req, res) => {
@@ -227,60 +221,55 @@ module.exports = (app) => {
     }
   );
 
-  app.get(
-    ROUTES.API.PAYMENT.GET.myStripeAccountDetails,
-    requireBidorBooHost,
-    requireLogin,
-    async (req, res) => {
-      try {
-        const mongoUser_id = req.user._id.toString();
+  app.get(ROUTES.API.PAYMENT.GET.myStripeAccountDetails, requireLogin, async (req, res) => {
+    try {
+      const mongoUser_id = req.user._id.toString();
 
-        let accDetails = [];
-        const paymentsDetails = await userDataAccess.getUserStripeAccount(mongoUser_id);
+      let accDetails = [];
+      const paymentsDetails = await userDataAccess.getUserStripeAccount(mongoUser_id);
 
-        if (paymentsDetails && paymentsDetails.accId) {
-          accDetails = await stripeServiceUtil.getConnectedAccountBalance(paymentsDetails.accId);
-        }
-        let verifiedAmount = 0;
-        let pendingVerificationAmount = 0;
-        let paidoutAmount = 0;
-
-        if (accDetails && accDetails.length === 2) {
-          const accountBalance = accDetails[0];
-          const accountPayouts = accDetails[1];
-
-          accountBalance.available &&
-            accountBalance.available.forEach((availableCash) => {
-              verifiedAmount += availableCash.amount;
-            });
-
-          accountBalance.pending &&
-            accountBalance.pending.forEach((pendingCash) => {
-              pendingVerificationAmount += pendingCash.amount;
-            });
-
-          accountPayouts.data &&
-            accountPayouts.data.forEach((paidoutCash) => {
-              paidoutAmount += paidoutCash.amount;
-            });
-        }
-
-        return res.send({
-          balanceDetails: {
-            verifiedAmount: verifiedAmount / 100,
-            pendingVerificationAmount: pendingVerificationAmount / 100,
-            potentialFuturePayouts: (verifiedAmount + pendingVerificationAmount) / 100,
-            pastEarnings: paidoutAmount / 100,
-          },
-        });
-      } catch (e) {
-        return res.status(400).send({
-          errorMsg: 'Failed To retrieve your connected stripe account details',
-          details: `${e}`,
-        });
+      if (paymentsDetails && paymentsDetails.accId) {
+        accDetails = await stripeServiceUtil.getConnectedAccountBalance(paymentsDetails.accId);
       }
+      let verifiedAmount = 0;
+      let pendingVerificationAmount = 0;
+      let paidoutAmount = 0;
+
+      if (accDetails && accDetails.length === 2) {
+        const accountBalance = accDetails[0];
+        const accountPayouts = accDetails[1];
+
+        accountBalance.available &&
+          accountBalance.available.forEach((availableCash) => {
+            verifiedAmount += availableCash.amount;
+          });
+
+        accountBalance.pending &&
+          accountBalance.pending.forEach((pendingCash) => {
+            pendingVerificationAmount += pendingCash.amount;
+          });
+
+        accountPayouts.data &&
+          accountPayouts.data.forEach((paidoutCash) => {
+            paidoutAmount += paidoutCash.amount;
+          });
+      }
+
+      return res.send({
+        balanceDetails: {
+          verifiedAmount: verifiedAmount / 100,
+          pendingVerificationAmount: pendingVerificationAmount / 100,
+          potentialFuturePayouts: (verifiedAmount + pendingVerificationAmount) / 100,
+          pastEarnings: paidoutAmount / 100,
+        },
+      });
+    } catch (e) {
+      return res.status(400).send({
+        errorMsg: 'Failed To retrieve your connected stripe account details',
+        details: `${e}`,
+      });
     }
-  );
+  });
   // /**
   //  * user verification
   //  * verification issues with image
@@ -352,50 +341,55 @@ module.exports = (app) => {
       let sig = req.headers['stripe-signature'];
       let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
       if (event) {
-        const { id, account, type, data } = event;
+        const { type, data } = event;
         const { status, metadata } = data;
-        const { jobId } = metadata;
+        const { requestId } = metadata;
 
         switch (type) {
           case 'payout.paid':
             console.log('payoutsWebhook payout.paid');
-            console.log({ jobId });
+            console.log({ requestId });
 
-            // update the job about this
-            jobDataAccess.updateJobById(jobId, {
+            // update the request about this
+            requestDataAccess.updateRequestById(requestId, {
               $set: {
-                state: 'ARCHIVE',
-                'payoutDetails.status': { status, id },
+                'payoutDetails.status': { status },
               },
             });
             //xxx inform user that it is paid via msg email..etc
             break;
           case 'payout.failed':
             console.log('payoutsWebhook payout.failed');
-            console.log({ jobId });
-            jobDataAccess.updateJobById(jobId, {
+            console.log({ requestId });
+            requestDataAccess.updateRequestById(requestId, {
               $set: {
-                state: 'PAYMENT_TO_BANK_FAILED',
-                'payoutDetails.status': { status, id },
+                'payoutDetails.status': { status },
               },
             });
-            sendGridEmailing.informBobCrewAboutFailedPayment({ jobId, data });
+            sendGridEmailing.informBobCrewAboutFailedPayment({ requestId, data });
+            break;
+          default:
+            requestDataAccess.updateRequestById(requestId, {
+              $set: {
+                'payoutDetails.status': { status },
+              },
+            });
+            sendGridEmailing.informBobCrewAboutFailedPayment({ requestId, data });
             break;
         }
       }
       return res.status(200).send();
     } catch (e) {
-      return res.status(400).send({ errorMsg: 'payoutsWebhook failured', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'payouts Webhook failed', details: `${e}` });
     }
   });
 
   app.post(ROUTES.API.PAYMENT.POST.chargeSucceededWebhook, async (req, res, next) => {
     try {
-      console.log('chargesucceeded is triggered');
-
       // sign key by strip
       let endpointSecret = keys.stripeWebhookChargesSig;
       let sig = req.headers['stripe-signature'];
+
       let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
       if (event) {
         const {
@@ -411,7 +405,7 @@ module.exports = (app) => {
           payment_intent: paymentIntentId,
           payment_method: paymentMethodId,
           destination: destinationStripeAcc,
-          metadata: { bidId, jobId },
+          metadata: { bidId, requestId },
         } = chargeObject;
 
         if (!captured || !paid) {
@@ -420,17 +414,13 @@ module.exports = (app) => {
 
         console.log('BIDORBOOLOGGING - PAYMENT - process charge');
 
-        const theJob = await jobDataAccess.getJobById(jobId);
+        const theRequest = await requestDataAccess.getRequestById(requestId);
 
-        if (theJob && theJob.processedPayment && theJob.processedPayment.chargeId) {
-          // we already reported this , dont do anything
+        if (theRequest && theRequest.processedPayment && theRequest.processedPayment.chargeId) {
           return res.status(200).send();
         }
-        // console.log('-------BidOrBooLogging----------------------');
-        // console.log('BidOrBooPayment - charge Succeeded');
-        // console.log('-------BidOrBooLogging----------------------');
-        // update the job and bidder with the chosen awarded bid
-        await jobDataAccess.updateJobWithAwardedBidAndPaymentDetails(jobId, bidId, {
+
+        await requestDataAccess.updateRequestWithAwardedBidAndPaymentDetails(requestId, bidId, {
           amount,
           chargeId,
           applicationFeeAmount,
@@ -441,7 +431,7 @@ module.exports = (app) => {
         const {
           requesterDisplayName,
           taskerDisplayName,
-          jobDisplayName,
+          requestDisplayName,
           requestLinkForRequester,
           requestLinkForTasker,
           requesterEmailAddress,
@@ -452,11 +442,11 @@ module.exports = (app) => {
           allowedToTextTasker,
           allowedToPushNotifyTasker,
           taskerPushNotSubscription,
-        } = await getAllContactDetails(jobId);
+        } = await getAllContactDetails(requestId);
         if (allowedToEmailRequester) {
           sendGridEmailing.tellRequesterThanksforPaymentAndTaskerIsRevealed({
             to: requesterEmailAddress,
-            requestTitle: jobDisplayName,
+            requestTitle: requestDisplayName,
             toDisplayName: requesterDisplayName,
             linkForOwner: requestLinkForRequester,
           });
@@ -464,15 +454,15 @@ module.exports = (app) => {
         if (allowedToEmailTasker) {
           sendGridEmailing.tellTaskerThatTheyWereAwarded({
             to: taskerEmailAddress,
-            requestTitle: jobDisplayName,
+            requestTitle: requestDisplayName,
             toDisplayName: taskerDisplayName,
-            linkForBidder: requestLinkForTasker,
+            linkForTasker: requestLinkForTasker,
           });
         }
         if (allowedToTextTasker) {
-          sendTextService.sendJobIsAwardedText(
+          sendTextService.sendRequestIsAwardedText(
             taskerPhoneNumber,
-            jobDisplayName,
+            requestDisplayName,
             requestLinkForTasker
           );
         }
@@ -485,7 +475,7 @@ module.exports = (app) => {
       }
       return res.status(200).send();
     } catch (e) {
-      return res.status(400).send({ errorMsg: 'chargesucceeded failured', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'charge succeeded failed', details: `${e}` });
     }
   });
 
@@ -510,9 +500,9 @@ module.exports = (app) => {
       //     const paymentIntentDetails = await stripeServiceUtil.getPaymentIntents(payment_intent);
       //     const { metadata, id } = paymentIntentDetails;
 
-      //     const { jobId, bidId, amount } = metadata;
+      //     const { requestId, bidId, amount } = metadata;
 
-      //     const updateJobAndBid = await jobDataAccess.updateJobAwardedBid(jobId, bidId, {
+      //     const updateRequestAndBid = await requestDataAccess.updateRequestAwardedBid(requestId, bidId, {
       //       paymentIntentId: id,
       //       amount,
       //     });
@@ -524,7 +514,7 @@ module.exports = (app) => {
       //   safeMsg: 'something went wrong handling payment, our crew wil be in touch with you',
       // });
     } catch (e) {
-      return res.status(400).send({ errorMsg: 'payoutsWebhook failured', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'checkoutFulfillment failed', details: `${e}` });
     }
   });
 };

@@ -47,28 +47,7 @@ export class LoginOrRegisterPage extends React.Component {
 
     if (isLoggedIn || storeIsLoggedIn) {
       // your logged in, why are you here?
-
-      return (
-        <section className="hero is-fullheight">
-          <div className="hero-body">
-            <div className="container">
-              <div className="subtitle has-text-info has-font-weight-bold">
-                You are logged in already!
-              </div>
-
-              <a
-                onClick={(e) => {
-                  switchRoute(ROUTES.CLIENT.HOME);
-                  // xxxx update without reload
-                }}
-                className="button is-success is-medium"
-              >
-                Go to Home Page
-              </a>
-            </div>
-          </div>
-        </section>
-      );
+      switchRoute(redirectedFromUrl);
     }
 
     return (

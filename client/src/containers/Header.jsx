@@ -83,7 +83,7 @@ class Header extends React.Component {
           return { activeNavBarMenuId: HREF_TO_TABID.PROVIDE_A_SERVICE };
         }
       }
-      if (nextProp.history.location.pathname.includes('my-open-jobs')) {
+      if (nextProp.history.location.pathname.includes('my-open-requests')) {
         if (prevState.activeNavBarMenuId !== HREF_TO_TABID.MY_REQUESTS) {
           return { activeNavBarMenuId: HREF_TO_TABID.MY_REQUESTS };
         }
@@ -144,23 +144,23 @@ class Header extends React.Component {
     } = this.state;
 
     const {
-      jobIdsWithNewBids,
+      requestIdsWithNewBids,
       myBidsWithNewStatus,
-      jobsHappeningToday,
+      requestsHappeningToday,
       bidsHappeningToday,
     } = notificationFeed;
 
-    const isThereJobsHappeningToday = jobsHappeningToday && jobsHappeningToday.length > 0;
+    const isThereRequestsHappeningToday = requestsHappeningToday && requestsHappeningToday.length > 0;
     const isThereBidsHappeningToday = bidsHappeningToday && bidsHappeningToday.length > 0;
-    const isAnythingHappeningToday = isThereJobsHappeningToday || isThereBidsHappeningToday;
+    const isAnythingHappeningToday = isThereRequestsHappeningToday || isThereBidsHappeningToday;
 
-    const jobRecievedNewBids = jobIdsWithNewBids && jobIdsWithNewBids.length > 0;
+    const requestRecievedNewBids = requestIdsWithNewBids && requestIdsWithNewBids.length > 0;
     const bidsGotAwardedToMe = myBidsWithNewStatus && myBidsWithNewStatus.length > 0;
 
     const showNotificationButton =
-      isAnythingHappeningToday || jobRecievedNewBids || bidsGotAwardedToMe;
+      isAnythingHappeningToday || requestRecievedNewBids || bidsGotAwardedToMe;
     const isOnLoginPage = location.pathname === ROUTES.CLIENT.LOGIN_OR_REGISTER;
-    const isActingAsBidder = userAppView === 'BIDDER';
+    const isActingAsTasker = userAppView === 'TASKER';
 
     let onlyShowReqAndBidButtons =
       window.location.href.includes('BidOrBoo') ||
@@ -170,7 +170,7 @@ class Header extends React.Component {
     const loggedOutView = (
       <nav
         id="BID_OR_BOO_APP_HEADER"
-        className={`navbar is-fixed-top ${isActingAsBidder ? 'bidderAppBar' : ''}  `}
+        className={`navbar is-fixed-top ${isActingAsTasker ? 'taskerAppBar' : ''}  `}
       >
         <LoginOrRegisterModal
           isActive={shouldShowLoginDialog && !isOnLoginPage}
@@ -200,7 +200,7 @@ class Header extends React.Component {
                   switchRoute(ROUTES.CLIENT.HOME);
                 });
               }}
-              className={`${isActingAsBidder ? 'has-text-white' : 'has-text-dark'}`}
+              className={`${isActingAsTasker ? 'has-text-white' : 'has-text-dark'}`}
             >
               <div
                 onClick={() => {
@@ -226,7 +226,7 @@ class Header extends React.Component {
               }`}
               onClick={(e) => {
                 this.closeMenuThenExecute(() => {
-                  switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                  switchRoute(ROUTES.CLIENT.REQUESTER.root);
                 });
               }}
             >
@@ -241,7 +241,7 @@ class Header extends React.Component {
               }`}
               onClick={(e) => {
                 this.closeMenuThenExecute(() => {
-                  switchRoute(ROUTES.CLIENT.BIDDER.root);
+                  switchRoute(ROUTES.CLIENT.TASKER.root);
                 });
               }}
             >
@@ -290,7 +290,7 @@ class Header extends React.Component {
         {/* is-spaced is a good prop to add  */}
         <nav
           id="BID_OR_BOO_APP_HEADER"
-          className={`navbar is-fixed-top ${isActingAsBidder ? 'bidderAppBar' : ''}  `}
+          className={`navbar is-fixed-top ${isActingAsTasker ? 'taskerAppBar' : ''}  `}
         >
           <LoginOrRegisterModal
             isActive={shouldShowLoginDialog}
@@ -332,7 +332,7 @@ class Header extends React.Component {
                     switchRoute(ROUTES.CLIENT.HOME);
                   });
                 }}
-                className={`${isActingAsBidder ? 'has-text-white' : 'has-text-dark'}`}
+                className={`${isActingAsTasker ? 'has-text-white' : 'has-text-dark'}`}
               >
                 <div
                   onClick={(e) => {
@@ -359,13 +359,13 @@ class Header extends React.Component {
                   }`}
                   onClick={(e) => {
                     this.closeMenuThenExecute(() => {
-                      switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                      switchRoute(ROUTES.CLIENT.REQUESTER.root);
                     });
                   }}
                 >
                   <span style={{ position: 'relative' }} className="icon">
                     <i className="far fa-plus-square" />
-                    {jobRecievedNewBids && (
+                    {requestRecievedNewBids && (
                       <span
                         style={{
                           fontSize: 8,
@@ -389,7 +389,7 @@ class Header extends React.Component {
                   }`}
                   onClick={(e) => {
                     this.closeMenuThenExecute(() => {
-                      switchRoute(ROUTES.CLIENT.BIDDER.root);
+                      switchRoute(ROUTES.CLIENT.TASKER.root);
                     });
                   }}
                 >
@@ -418,7 +418,7 @@ class Header extends React.Component {
 
             {!onlyShowReqAndBidButtons && (
               <div className="navbar-item is-hidden-desktop">
-                {!isActingAsBidder && (
+                {!isActingAsTasker && (
                   <React.Fragment>
                     <a
                       id={'viewDependentNavBarItems'}
@@ -427,7 +427,7 @@ class Header extends React.Component {
                       }`}
                       onClick={(e) => {
                         this.closeMenuThenExecute(() => {
-                          switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                          switchRoute(ROUTES.CLIENT.REQUESTER.root);
                         });
                       }}
                     >
@@ -444,13 +444,13 @@ class Header extends React.Component {
                       }`}
                       onClick={(e) => {
                         this.closeMenuThenExecute(() => {
-                          switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
+                          switchRoute(ROUTES.CLIENT.REQUESTER.myRequestsPage);
                         });
                       }}
                     >
                       <span style={{ position: 'relative' }} className="icon">
                         <i className="fas fa-list" />
-                        {jobRecievedNewBids && (
+                        {requestRecievedNewBids && (
                           <span
                             style={{
                               fontSize: 8,
@@ -471,7 +471,7 @@ class Header extends React.Component {
                   </React.Fragment>
                 )}
 
-                {isActingAsBidder && (
+                {isActingAsTasker && (
                   <React.Fragment>
                     <a
                       className={`navbar-item ${
@@ -479,7 +479,7 @@ class Header extends React.Component {
                       }`}
                       onClick={(e) => {
                         this.closeMenuThenExecute(() => {
-                          switchRoute(ROUTES.CLIENT.BIDDER.root);
+                          switchRoute(ROUTES.CLIENT.TASKER.root);
                         });
                       }}
                     >
@@ -492,7 +492,7 @@ class Header extends React.Component {
                     <a
                       onClick={(e) => {
                         this.closeMenuThenExecute(() => {
-                          return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+                          return switchRoute(ROUTES.CLIENT.TASKER.mybids);
                         });
                       }}
                       className={`navbar-item ${
@@ -559,7 +559,7 @@ class Header extends React.Component {
               aria-expanded={isHamburgerOpen}
             >
               <span style={{ position: 'relative' }} aria-hidden="true">
-                {(jobRecievedNewBids || bidsGotAwardedToMe) && (
+                {(requestRecievedNewBids || bidsGotAwardedToMe) && (
                   <i
                     style={{ position: 'absolute', top: -5, right: -5, fontSize: 8 }}
                     className="has-text-danger fas fa-circle"
@@ -581,7 +581,7 @@ class Header extends React.Component {
             <div className="navbar-end">
               {!onlyShowReqAndBidButtons && (
                 <div className="navbar-item is-hidden-touch">
-                  {!isActingAsBidder && (
+                  {!isActingAsTasker && (
                     <>
                       <a
                         id={'viewDependentNavBarItems'}
@@ -590,7 +590,7 @@ class Header extends React.Component {
                         }`}
                         onClick={(e) => {
                           this.closeMenuThenExecute(() => {
-                            switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                            switchRoute(ROUTES.CLIENT.REQUESTER.root);
                           });
                         }}
                       >
@@ -606,13 +606,13 @@ class Header extends React.Component {
                         }`}
                         onClick={(e) => {
                           this.closeMenuThenExecute(() => {
-                            switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
+                            switchRoute(ROUTES.CLIENT.REQUESTER.myRequestsPage);
                           });
                         }}
                       >
                         <span style={{ position: 'relative' }} className="icon">
                           <i className="fas fa-list" />
-                          {jobRecievedNewBids && (
+                          {requestRecievedNewBids && (
                             <span
                               style={{
                                 fontSize: 8,
@@ -633,7 +633,7 @@ class Header extends React.Component {
                     </>
                   )}
 
-                  {isActingAsBidder && (
+                  {isActingAsTasker && (
                     <>
                       <a
                         className={`navbar-item ${
@@ -641,7 +641,7 @@ class Header extends React.Component {
                         }`}
                         onClick={(e) => {
                           this.closeMenuThenExecute(() => {
-                            switchRoute(ROUTES.CLIENT.BIDDER.root);
+                            switchRoute(ROUTES.CLIENT.TASKER.root);
                           });
                         }}
                       >
@@ -653,7 +653,7 @@ class Header extends React.Component {
                       <a
                         onClick={(e) => {
                           this.closeMenuThenExecute(() => {
-                            return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
+                            return switchRoute(ROUTES.CLIENT.TASKER.mybids);
                           });
                         }}
                         className={`navbar-item ${
@@ -716,19 +716,19 @@ class Header extends React.Component {
                     >
                       {isLoggedIn && (
                         <React.Fragment>
-                          {isActingAsBidder ? (
+                          {isActingAsTasker ? (
                             <a
                               id="switch-role-step"
                               onClick={(e) =>
                                 this.closeMenuThenExecute(() => {
-                                  switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                                  switchRoute(ROUTES.CLIENT.REQUESTER.root);
                                 })
                               }
                               className="navbar-item"
                             >
                               <span style={{ position: 'relative' }} className="icon">
                                 <i className="fab fa-nintendo-switch" />
-                                {jobRecievedNewBids && (
+                                {requestRecievedNewBids && (
                                   <span
                                     style={{
                                       fontSize: 8,
@@ -751,7 +751,7 @@ class Header extends React.Component {
                               id="switch-role-step"
                               onClick={(e) =>
                                 this.closeMenuThenExecute(() => {
-                                  switchRoute(ROUTES.CLIENT.BIDDER.root);
+                                  switchRoute(ROUTES.CLIENT.TASKER.root);
                                 })
                               }
                               className="navbar-item"

@@ -4,85 +4,40 @@ import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import {
   UserGivenTitle,
-  JobCardTitle,
+  RequestCardTitle,
   TaskImagesCarousel,
   SummaryStartDateAndTime,
   DisputedBy,
   TaskerWillEarn,
 } from '../../containers/commonComponents';
-import { getChargeDistributionDetails } from '../../containers/commonUtils';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 export default class TaskerMyDisputedBidSummary extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      showDeleteDialog: false,
-      showMoreOptionsContextMenu: false,
-      showMore: false,
-    };
-  }
-
   render() {
-    const { bid, job } = this.props;
+    const { bid, request } = this.props;
 
-    if (!bid || !job) {
-      return <div>TaskerMyDisputedBidSummary is missing properties</div>;
-    }
-    const {
-      _ownerRef,
-      startingDateAndTime,
-      addressText,
-      isPastDue,
-      isHappeningSoon,
-      isHappeningToday,
-      taskImages = [],
-      jobTitle,
-      dispute,
-    } = job;
-    if (
-      !startingDateAndTime ||
-      !addressText ||
-      isHappeningSoon === 'undefined' ||
-      isHappeningToday === 'undefined' ||
-      isPastDue === 'undefined' ||
-      !dispute
-    ) {
-      return <div>TaskerMyDisputedBidSummary is missing properties</div>;
-    }
-    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE) {
-      return <div>TaskerMyDisputedBidSummary is missing properties</div>;
-    }
-    const { displayStatus, bidAmount, _id } = bid;
-    if (!displayStatus || !bidAmount || !_id) {
-      return <div>TaskerMyDisputedBidSummary is missing properties</div>;
-    }
-    // xxx get currency from processed payment
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    if (!bidValue || !bidCurrency) {
-      return <div>TaskerMyDisputedBidSummary is missing properties</div>;
-    }
+    const { startingDateAndTime, taskImages = [], requestTitle, dispute } = request;
+
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
+
+    const { taskerPayout } = bid;
+    const { value: taskerTotalPayoutAmount } = taskerPayout;
 
     let whoDisputed = '';
-    const { displayName } = _ownerRef;
-    const { proposerDispute } = dispute;
-    if (proposerDispute && proposerDispute.reason) {
+    const { requesterDispute } = dispute;
+    if (requesterDispute && requesterDispute.reason) {
       whoDisputed = 'Requester';
     } else {
       whoDisputed = 'You';
     }
 
-    const { taskerTotalPayoutAmount } = getChargeDistributionDetails(bidValue);
-
     return (
       <div className={`card has-text-centered disputeOnlyView cardWithButton`}>
         <div className="card-content">
           <div className="content">
-            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-            <UserGivenTitle userGivenTitle={jobTitle} />
+            <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <UserGivenTitle userGivenTitle={requestTitle} />
 
             <TaskImagesCarousel taskImages={taskImages} />
 
@@ -98,12 +53,12 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
             style={{ position: 'relative' }}
             onClick={() => {
               switchRoute(
-                ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
+                ROUTES.CLIENT.TASKER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
               );
             }}
             className="button is-fullwidth is-danger"
           >
-            VIEW DETAILS
+            View Details
           </a>
         </div>
       </div>

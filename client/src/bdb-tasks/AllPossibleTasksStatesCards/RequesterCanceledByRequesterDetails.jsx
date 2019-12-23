@@ -5,62 +5,27 @@ import { switchRoute } from '../../utils';
 import {
   CountDownComponent,
   SummaryStartDateAndTime,
-  JobCardTitle,
+  RequestCardTitle,
   CancelledBy,
   TaskImagesCarousel,
   UserGivenTitle,
+  TaskCost,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 export default class RequesterCanceledByRequesterDetails extends React.Component {
   render() {
-    const { job } = this.props;
-    if (!job) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
+    const { request } = this.props;
 
-    const {
-      startingDateAndTime,
-      addressText,
-      _awardedBidRef,
-      displayStatus,
-      state,
-      extras,
-      _ownerRef,
-      detailedDescription,
-      processedPayment,
-      templateId,
-      taskImages = [],
-      jobTitle,
-    } = job;
-    if (
-      !startingDateAndTime ||
-      !addressText ||
-      !_awardedBidRef ||
-      !displayStatus ||
-      !state ||
-      !extras ||
-      !_ownerRef ||
-      !detailedDescription ||
-      !templateId ||
-      !processedPayment
-    ) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
+    const { startingDateAndTime, taskImages = [], requestTitle, _awardedBidRef } = request;
 
-    const { bidAmount, _bidderRef } = _awardedBidRef;
-    if (!bidAmount || !_bidderRef) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
-    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE || !ID) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
+    const { requesterPartialRefund, requesterPayment } = _awardedBidRef;
+    const { value: requesterPartialRefundAmount } = requesterPartialRefund;
 
-    const { amount } = processedPayment;
-    const refundAmount = Math.floor((amount / 100) * 0.8);
+    const { value: requesterPaymentAmount } = requesterPayment;
 
     return (
       <div
@@ -69,36 +34,34 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
       >
         <div className="card-content">
           <div className="content">
-            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-            <UserGivenTitle userGivenTitle={jobTitle} />
+            <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <UserGivenTitle userGivenTitle={requestTitle} />
 
             <TaskImagesCarousel taskImages={taskImages} isLarge />
             <SummaryStartDateAndTime
               date={startingDateAndTime}
-              renderHelpComponent={() => (
-                <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
-              )}
+              renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
+            <TaskCost cost={requesterPaymentAmount}></TaskCost>
 
-            <CancelledBy name={'You'} refundAmount={75} />
+            <CancelledBy name={'You'} />
             <div className="group has-text-left">
               <label className="label has-text-danger">What you need to know:</label>
               <ul>
+                <li>At BidOrBoo we takes cancellations seriously.</li>
                 <li>
-                  We Are sorry to see this cancellation as BidOrBoo Crew Takes cancellations
-                  seriously
-                </li>
-                <li>
-                  <strong>20% was deducted</strong> from the original full payment because you
+                  <strong>10% was deducted</strong> from the original full payment because you
                   cancelled.
                 </li>
                 <li>
-                  <strong>{` $${refundAmount}`} was refunded </strong> back to you.
+                  <strong>{` $${requesterPartialRefundAmount}`} was refunded </strong> back to your
+                  payment card.
                 </li>
-
                 <li>Your global rating will be negatively impacted</li>
+                <li>Cancelling frequently will put a ban on your account.</li>
                 <li>
-                  Cancelling after booking will put a ban on your account if is done frequently.
+                  You can always review the details of this task in your inbox under "Past Requests"
+                  Tab
                 </li>
               </ul>
             </div>
@@ -107,7 +70,7 @@ export default class RequesterCanceledByRequesterDetails extends React.Component
 
         <a
           onClick={() => {
-            switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
+            switchRoute(ROUTES.CLIENT.REQUESTER.myRequestsPage);
           }}
           className="button firstButtonInCard"
         >

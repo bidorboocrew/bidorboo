@@ -5,7 +5,7 @@ const twilio = require('twilio');
 const client = new twilio(keys.twilioAccountSid, keys.twilioAuthToken);
 
 exports.TxtMsgingService = {
-  sendJobAwaitingRequesterConfirmCompletionText: (
+  sendRequestAwaitingRequesterConfirmCompletionText: (
     mobileNumber,
     requestTitle,
     urlLink,
@@ -16,19 +16,19 @@ exports.TxtMsgingService = {
     } for details`;
     return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
-  sendJobIsCancelledText: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
+  sendRequestIsCancelledText: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
     const msgContent = `BidOrBoo: ${requestTitle} was cancelled! ${
       urlLink ? urlLink : 'https://www.bidorboo.ca'
     } for details`;
     return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
-  sendYouAreAwardedJob: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
+  sendYouAreAwardedRequest: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
     const msgContent = `BidOrBoo: ${requestTitle} is awarded to you! ${
       urlLink ? urlLink : 'https://www.bidorboo.ca'
     } for details`;
     return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
-  sendJobIsHappeningSoonText: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
+  sendRequestIsHappeningSoonText: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
     const msgContent = `BidOrBoo: ${requestTitle} is happening soon! ${
       urlLink ? urlLink : 'https://www.bidorboo.ca'
     } for details`;
@@ -39,26 +39,26 @@ exports.TxtMsgingService = {
     return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
 
-  sendJobIsCompletedText: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
+  sendRequestIsCompletedText: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
     const msgContent = `BidOrBoo: ${requestTitle} is Completed! go to ${
       urlLink ? urlLink : 'https://www.bidorboo.ca'
     } to Rate it.`;
     return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
-  tellRequesterToConfirmJob: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
+  tellRequesterToConfirmRequest: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
     const msgContent = `BidOrBoo: Please Confirm that ${requestTitle} is Completed! go to ${
       urlLink ? urlLink : 'https://www.bidorboo.ca'
     } to confirm and Rate your Tasker.`;
     return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
-  tellRequesterThatWeMarkedJobDone: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
+  tellRequesterThatWeMarkedRequestDone: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
     const msgContent = `BidOrBoo Marked ${requestTitle} as Complete because you did not act in 3 days. go to ${
       urlLink ? urlLink : 'https://www.bidorboo.ca'
     } to Rate your Tasker.`;
     return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
 
-  sendJobIsAwardedText: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
+  sendRequestIsAwardedText: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
     const msgContent = `BidOrBoo: Your Bid Won and ${requestTitle} is Assigned to you! go to ${
       urlLink ? urlLink : 'https://www.bidorboo.ca'
     } to View it.`;
@@ -74,7 +74,7 @@ exports.TxtMsgingService = {
         // from: '+16137022661', // From a valid Twilio number
       })
       .then((message) => {
-        console.log(`BIDORBOOLOGS======== twilio send msg succeeded ${message.sid}`);
+        // console.log(`BIDORBOOLOGS======== twilio send msg succeeded ${message.sid}`);
       })
       .catch((e) => {
         console.log(`BIDORBOOLOGS======== twilio send msg issue ${e}`);

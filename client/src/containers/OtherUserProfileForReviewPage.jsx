@@ -9,10 +9,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getOtherUserProfileInfo } from '../app-state/actions/userModelActions';
 import * as ROUTES from '../constants/frontend-route-consts';
-import { switchRoute, goBackToPreviousRoute } from '../utils';
+import { switchRoute } from '../utils';
 import { Spinner } from '../components/Spinner';
 import { VerifiedVia } from './commonComponents';
 import * as Constants from '../constants/enumConstants';
+import { RenderBackButton, ReviewComments } from './commonComponents.jsx';
 
 class OtherUserProfileForReviewPage extends React.Component {
   constructor(props) {
@@ -33,9 +34,14 @@ class OtherUserProfileForReviewPage extends React.Component {
     this.setState({ reviewsSelectedButton: val });
   };
   componentDidMount() {
+    document.querySelector('body').setAttribute('style', 'background:white');
     if (this.userIdUnderReview) {
       this.props.getOtherUserProfileInfo(this.userIdUnderReview);
     }
+  }
+
+  componentWillUnmount() {
+    document.querySelector('body').setAttribute('style', 'background:#eeeeee');
   }
 
   render() {
@@ -43,7 +49,7 @@ class OtherUserProfileForReviewPage extends React.Component {
       isLoadingAnotherUserProfile,
       otherUserProfileInfo,
       isMyPersonalProfile = false,
-      renderBeforeComments = () => null,
+      nextAction = null,
     } = this.props;
     if (!this.userIdUnderReview) {
       return null;
@@ -59,84 +65,91 @@ class OtherUserProfileForReviewPage extends React.Component {
     const {
       rating,
       createdAt,
-      _asBidderReviewsRef,
-      _asProposerReviewsRef,
+      _asTaskerReviewsRef,
+      _asRequesterReviewsRef,
       membershipStatus,
       personalParagraph,
     } = otherUserProfileInfo;
     const membershipStatusDisplay = Constants.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
 
     const {
-      numberOfTimesBeenRated,
       globalRating,
       fulfilledBids,
       canceledBids,
-      fulfilledJobs,
-      canceledJobs,
-      // lastComment
+      fulfilledRequests,
+      canceledRequests,
     } = rating;
 
-    let asABidderReviews = null;
-    if (_asBidderReviewsRef && _asBidderReviewsRef.length > 0) {
-      asABidderReviews = _asBidderReviewsRef.map(({ _id, proposerId, proposerReview }) => {
-        if (!proposerId) {
-          return null;
-        }
-        const { displayName, profileImage } = proposerId;
+    let asATaskerReviews = null;
+    if (_asTaskerReviewsRef && _asTaskerReviewsRef.length > 0) {
+      asATaskerReviews = _asTaskerReviewsRef.map(
+        ({ _id, requesterId, requesterReview, createdAt }) => {
+          if (!requesterId) {
+            return null;
+          }
+          const { displayName, profileImage } = requesterId;
 
-        return (
-          <ReviewComments
-            key={_id}
-            commenterDisplayName={displayName}
-            commenterProfilePicUrl={profileImage.url}
-            comment={proposerReview.personalComment}
-          />
-        );
-      });
+          return (
+            <ReviewComments
+              key={_id}
+              commenterDisplayName={displayName}
+              commenterProfilePicUrl={profileImage.url}
+              comment={requesterReview.personalComment}
+              createdAt={createdAt}
+            />
+          );
+        },
+      );
     }
 
-    let asAProposerReviewsRef = null;
-    if (_asProposerReviewsRef && _asProposerReviewsRef.length > 0) {
-      asAProposerReviewsRef = _asProposerReviewsRef.map(({ _id, bidderId, bidderReview }) => {
-        if (!bidderId) {
-          return null;
-        }
-        const { displayName, profileImage } = bidderId;
+    let asARequesterReviewsRef = null;
+    if (_asRequesterReviewsRef && _asRequesterReviewsRef.length > 0) {
+      asARequesterReviewsRef = _asRequesterReviewsRef.map(
+        ({ _id, taskerId, taskerReview, createdAt }) => {
+          if (!taskerId) {
+            return null;
+          }
+          const { displayName, profileImage } = taskerId;
 
-        return (
-          <ReviewComments
-            key={_id}
-            commenterDisplayName={displayName}
-            commenterProfilePicUrl={profileImage.url}
-            comment={bidderReview.personalComment}
-          />
-        );
-      });
+          return (
+            <ReviewComments
+              key={_id}
+              commenterDisplayName={displayName}
+              commenterProfilePicUrl={profileImage.url}
+              comment={taskerReview.personalComment}
+              createdAt={createdAt}
+            />
+          );
+        },
+      );
     }
 
     return (
-      <>
-        <br></br>
-        <div className="container is-widescreen">
+      <div className="columns is-centered is-mobile">
+        <div className="column limitLargeMaxWidth slide-in-right">
           {!isMyPersonalProfile && (
-            <section className="hero is-white is-small">
-              <div className="hero-body">
-                <h1 className="title">
-                  <span className="icon">
-                    <i className="far fa-user" />
-                  </span>
-                  <span>{` ${otherUserProfileInfo.displayName}'s Profile`}</span>
-                </h1>
-                <h2>
-                  <a className="button is-link" onClick={() => goBackToPreviousRoute()}>
-                    <span className="icon">
-                      <i className="far fa-arrow-alt-circle-left" />
-                    </span>
-                    <span>Go Back</span>
-                  </a>
-                </h2>
+            <>
+              <div style={{ margin: '1rem 0.5rem 1rem 0.5rem', height: 52 }}>
+                <div className="is-pulled-left">
+                  <RenderBackButton></RenderBackButton>
+                </div>
+
+                {nextAction && nextAction.text && nextAction.clickHandler && (
+                  <div className="is-pulled-right">
+                    <button
+                      onClick={nextAction.clickHandler}
+                      style={{ margin: '0px 0px 1rem' }}
+                      className="button is-success"
+                    >
+                      <span style={{ meaginRight: 2 }}>{nextAction.text}</span>
+                      <span className="icon is-large">
+                        <i className="fas fa-chevron-right" />
+                      </span>
+                    </button>
+                  </div>
+                )}
               </div>
-            </section>
+            </>
           )}
 
           <div className="card noBordered">
@@ -165,14 +178,14 @@ class OtherUserProfileForReviewPage extends React.Component {
                     </label>
                     {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
                       <div className="has-text-grey" style={{ lineHeight: '52px', fontSize: 18 }}>
-                        <span className="icon">
+                        <span className="icon has-text-warning">
                           <i className="far fa-star" />
                         </span>
                         <span>--</span>
                       </div>
                     ) : (
                       <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 18 }}>
-                        <span className="icon">
+                        <span className="icon has-text-warning">
                           <i className="fas fa-star" />
                         </span>
                         <span>{globalRating}</span>
@@ -228,10 +241,10 @@ class OtherUserProfileForReviewPage extends React.Component {
                       <p
                         style={{ marginBottom: 4 }}
                         className={`title has-text-weight-bold ${
-                          fulfilledJobs.length > 0 ? 'has-text-success' : ''
+                          fulfilledRequests.length > 0 ? 'has-text-success' : ''
                         }`}
                       >
-                        {fulfilledJobs.length}
+                        {fulfilledRequests.length}
                       </p>
                     </article>
                   </div>
@@ -242,30 +255,29 @@ class OtherUserProfileForReviewPage extends React.Component {
                       <p
                         style={{ marginBottom: 4 }}
                         className={`title has-text-weight-bold${
-                          canceledJobs.length > 0 ? 'has-text-danger' : ''
+                          canceledRequests.length > 0 ? 'has-text-danger' : ''
                         }`}
                       >
-                        {canceledJobs.length}
+                        {canceledRequests.length}
                       </p>
                     </article>
                   </div>
                 </div>
 
-                <div style={{ background: 'transparent' }} className="tabs is-centered">
+                <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
                   <ul style={{ marginLeft: 0 }}>
                     <li className="is-active">
                       <a>
-                        <span>{`${
-                          numberOfTimesBeenRated === 1
-                            ? `1 Review`
-                            : `${numberOfTimesBeenRated} Reviews`
-                        } `}</span>
+                        <span className="icon">
+                          <i className="fas fa-book"></i>
+                        </span>
+                        <span>Reviews</span>
                       </a>
                     </li>
                   </ul>
                 </div>
 
-                {(asABidderReviews || asAProposerReviewsRef) && (
+                {(asATaskerReviews || asARequesterReviewsRef) && (
                   <div className="field has-addons">
                     <p className="control">
                       <button
@@ -277,7 +289,9 @@ class OtherUserProfileForReviewPage extends React.Component {
                             : ''
                         } `}
                       >
-                        <span>From Requesters</span>
+                        <span>{`From Requesters (${
+                          asATaskerReviews ? asATaskerReviews.length : 0
+                        })`}</span>
                       </button>
                     </p>
 
@@ -291,24 +305,26 @@ class OtherUserProfileForReviewPage extends React.Component {
                             : ''
                         } `}
                       >
-                        <span>From Taskers</span>
+                        <span>{`From Taskers (${
+                          asARequesterReviewsRef ? asARequesterReviewsRef.length : 0
+                        })`}</span>
                       </button>
                     </p>
                   </div>
                 )}
 
-                {asABidderReviews && this.state.reviewsSelectedButton === 'fromRequesters' && (
-                  <React.Fragment>{asABidderReviews}</React.Fragment>
+                {asATaskerReviews && this.state.reviewsSelectedButton === 'fromRequesters' && (
+                  <React.Fragment>{asATaskerReviews}</React.Fragment>
                 )}
 
-                {asAProposerReviewsRef && this.state.reviewsSelectedButton === 'fromTaskers' && (
-                  <React.Fragment>{asAProposerReviewsRef}</React.Fragment>
+                {asARequesterReviewsRef && this.state.reviewsSelectedButton === 'fromTaskers' && (
+                  <React.Fragment>{asARequesterReviewsRef}</React.Fragment>
                 )}
               </div>
             </div>
           </div>
         </div>
-      </>
+      </div>
     );
   }
 }
@@ -326,24 +342,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(OtherUserProfileForReviewPage);
-
-const ReviewComments = ({ commenterDisplayName, commenterProfilePicUrl, comment }) => {
-  return (
-    <article
-      style={{ cursor: 'default', border: '1px solid #ededed', padding: 2 }}
-      className="media"
-    >
-      <figure style={{ margin: '0.5rem' }} className="media-left">
-        <p className="image is-64x64">
-          <img src={commenterProfilePicUrl} />
-        </p>
-      </figure>
-      <div style={{ padding: '0.5rem' }} className="media-content">
-        <div className="content">
-          <div>{commenterDisplayName} wrote:</div>
-          <p>{comment}</p>
-        </div>
-      </div>
-    </article>
-  );
-};

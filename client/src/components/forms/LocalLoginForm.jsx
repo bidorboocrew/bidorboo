@@ -117,7 +117,7 @@ class LocalLoginForm extends React.Component {
             }}
             disabled={isSubmitting}
           >
-            reset your credentials ?
+            forgot your password ?
           </button>
         </div>
         <br></br>
@@ -133,7 +133,6 @@ class LocalLoginForm extends React.Component {
             <Recaptcha
               ref={(ref) => (this.recaptcha = ref)}
               sitekey={`${process.env.REACT_APP_RECAPTCHA_SITE_KEY}`}
-              onLoaded={() => console.log('loaded')}
               onResolved={this.onResolved}
               onExpired={() => this.recaptcha.reset()}
               badge={'inline'}

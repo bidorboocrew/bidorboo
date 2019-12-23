@@ -29,27 +29,29 @@ const MyNotifications = lazy(() => import('./personal-profile/MyNotifications.js
 const MyProfile = lazy(() => import('./personal-profile/MyProfile.jsx'));
 const PaymentSettings = lazy(() => import('./personal-profile/PaymentSettings.jsx'));
 
-const ProposerRootPage = lazy(() => import('./proposer-flow/ProposerRootPage.jsx'));
-const CreateAJobPage = lazy(() => import('./proposer-flow/CreateAJobPage.jsx'));
+const RequesterRootPage = lazy(() => import('./requester-flow/RequesterRootPage.jsx'));
+const CreateARequestPage = lazy(() => import('./requester-flow/CreateARequestPage.jsx'));
 
-const MyRequestsPage = lazy(() => import('./proposer-flow/MyRequestsPage.jsx'));
+const MyRequestsPage = lazy(() => import('./requester-flow/MyRequestsPage.jsx'));
 
 const TermsOfService = lazy(() => import('./onboarding-flow/TermsOfService.jsx'));
 const OtherUserProfileForReviewPage = lazy(() => import('./OtherUserProfileForReviewPage.jsx'));
-const BidderReviewingCompletedJob = lazy(() =>
-  import('./review-flow/BidderReviewingCompletedJob.jsx'),
+const TaskerReviewingCompletedRequest = lazy(() =>
+  import('./review-flow/TaskerReviewingCompletedRequest.jsx'),
 );
-const ProposerReviewingCompletedJob = lazy(() =>
-  import('./review-flow/ProposerReviewingCompletedJob.jsx'),
+const RequesterReviewingCompletedRequest = lazy(() =>
+  import('./review-flow/RequesterReviewingCompletedRequest.jsx'),
 );
-const MyBidsPage = lazy(() => import('./bidder-flow/MyBidsPage.jsx'));
-const ReviewAwardedBidPage = lazy(() => import('./bidder-flow/ReviewAwardedBidPage.jsx'));
-const ReviewBidAndRequestPage = lazy(() => import('./bidder-flow/ReviewOpenBidAndRequestPage.jsx'));
-const BidOnJobPage = lazy(() => import('./bidder-flow/BidOnJobPage.jsx'));
-const BidderRootPage = lazy(() => import('./bidder-flow/BidderRootPage.jsx'));
-const ReviewRequestAndBidsPage = lazy(() => import('./proposer-flow/ReviewRequestAndBidsPage.jsx'));
-const ReviewMyAwardedJobAndWinningBidPage = lazy(() =>
-  import('./proposer-flow/ReviewMyAwardedJobAndWinningBidPage.jsx'),
+const MyBidsPage = lazy(() => import('./tasker-flow/MyBidsPage.jsx'));
+const ReviewAwardedBidPage = lazy(() => import('./tasker-flow/ReviewAwardedBidPage.jsx'));
+const ReviewBidAndRequestPage = lazy(() => import('./tasker-flow/ReviewOpenBidAndRequestPage.jsx'));
+const BidOnRequestPage = lazy(() => import('./tasker-flow/BidOnRequestPage.jsx'));
+const TaskerRootPage = lazy(() => import('./tasker-flow/TaskerRootPage.jsx'));
+const ReviewRequestAndBidsPage = lazy(() =>
+  import('./requester-flow/ReviewRequestAndBidsPage.jsx'),
+);
+const ReviewMyAwardedRequestAndWinningBidPage = lazy(() =>
+  import('./requester-flow/ReviewMyAwardedRequestAndWinningBidPage.jsx'),
 );
 
 class App extends React.Component {
@@ -58,33 +60,6 @@ class App extends React.Component {
     this.state = { hasError: false };
   }
 
-  // componentDidMount() {
-  //   // https://github.com/osano/cookieconsent/tree/dev/src
-  //   window.cookieconsent.initialise({
-  //     container: document.getElementById('bidorboo-root-cookieconsent'),
-  //     palette: {
-  //       popup: { background: '#1aa3ff' },
-  //       button: { background: '#e0e0e0' },
-  //     },
-  //     revokable: true,
-  //     onStatusChange: function(status) {
-  //       console.log(this.hasConsented() ? 'enable cookies' : 'disable cookies');
-  //     },
-  //     theme: 'edgeless',
-  //     content: {
-  //       header: 'Cookies used on the website!',
-  //       message: 'This website uses cookies to improve your experience.',
-  //       dismiss: 'Got it!',
-  //       allow: 'Allow cookies',
-  //       deny: 'Decline',
-  //       link: 'Learn more',
-  //       href: 'https://www.cookiesandyou.com',
-  //       close: '&#x274c;',
-  //       policy: 'Cookie Policy',
-  //       target: '_blank',
-  //     },
-  //   });
-  // }
   componentDidCatch(error, info) {
     console.error('bdb error details ' + error);
     console.error('failure info ' + info);
@@ -105,11 +80,11 @@ class App extends React.Component {
           <section className="hero is-fullheight">
             <div className="hero-body">
               <div className="container">
-                <h1 className="title has-text-info">Sorry! We've encountered an error</h1>
+                <label className="subtitle has-text-info">Sorry! We've encountered an error</label>
                 <br />
-                <h1 className="sub-title">
+                <label className="is-size-7">
                   Apologies for the inconvenience, We will track the issue and fix it asap.
-                </h1>
+                </label>
                 <br />
                 <a
                   onClick={(e) => {
@@ -161,14 +136,18 @@ class App extends React.Component {
           <Suspense fallback={<Spinner renderLabel="loading..."></Spinner>}>
             <Switch>
               <Route exact path={ROUTES.CLIENT.HOME} component={HomePage} />
-              <Route exact path={ROUTES.CLIENT.PROPOSER.root} component={ProposerRootPage} />
+              <Route exact path={ROUTES.CLIENT.REQUESTER.root} component={RequesterRootPage} />
               <Route
                 exact
-                path={`${ROUTES.CLIENT.PROPOSER.createjob}`}
-                component={CreateAJobPage}
+                path={`${ROUTES.CLIENT.REQUESTER.createrequest}`}
+                component={CreateARequestPage}
               />
-              <Route exact path={ROUTES.CLIENT.BIDDER.root} component={BidderRootPage} />
-              <Route exact path={ROUTES.CLIENT.BIDDER.bidOnJobPage} component={BidOnJobPage} />
+              <Route exact path={ROUTES.CLIENT.TASKER.root} component={TaskerRootPage} />
+              <Route
+                exact
+                path={ROUTES.CLIENT.TASKER.bidOnRequestPage}
+                component={BidOnRequestPage}
+              />
               <Route
                 exact
                 path={`${ROUTES.CLIENT.USER_ROFILE_FOR_REVIEW}`}
@@ -181,29 +160,30 @@ class App extends React.Component {
 
               <Route
                 exact
-                path={`${ROUTES.CLIENT.PROPOSER.myRequestsPage}`}
+                path={`${ROUTES.CLIENT.REQUESTER.myRequestsPage}`}
                 component={MyRequestsPage}
               />
 
               <Route
                 exact
-                path={`${ROUTES.CLIENT.PROPOSER.reviewRequestAndBidsPage}`}
+                path={`${ROUTES.CLIENT.REQUESTER.reviewRequestAndBidsPage}`}
                 component={ReviewRequestAndBidsPage}
               />
               <Route
                 exact
-                path={`${ROUTES.CLIENT.PROPOSER.selectedAwardedJobPage}`}
-                component={ReviewMyAwardedJobAndWinningBidPage}
+                path={`${ROUTES.CLIENT.REQUESTER.selectedAwardedRequestPage}`}
+                component={ReviewMyAwardedRequestAndWinningBidPage}
               />
-              <Route exact path={ROUTES.CLIENT.BIDDER.mybids} component={MyBidsPage} />
+
+              <Route exact path={ROUTES.CLIENT.TASKER.mybids} component={MyBidsPage} />
               <Route
                 exact
-                path={`${ROUTES.CLIENT.BIDDER.reviewMyOpenBidAndTheRequestDetails}`}
+                path={`${ROUTES.CLIENT.TASKER.reviewMyOpenBidAndTheRequestDetails}`}
                 component={ReviewBidAndRequestPage}
               />
               <Route
                 exact
-                path={`${ROUTES.CLIENT.BIDDER.awardedBidDetailsPage}`}
+                path={`${ROUTES.CLIENT.TASKER.awardedBidDetailsPage}`}
                 component={ReviewAwardedBidPage}
               />
               <Route exact path={ROUTES.CLIENT.MY_PROFILE.basicSettings} component={MyProfile} />
@@ -219,13 +199,13 @@ class App extends React.Component {
               />
               <Route
                 exact
-                path={`${ROUTES.CLIENT.REVIEW.proposerJobReview}`}
-                component={ProposerReviewingCompletedJob}
+                path={`${ROUTES.CLIENT.REVIEW.requesterRequestReview}`}
+                component={RequesterReviewingCompletedRequest}
               />
               <Route
                 exact
-                path={`${ROUTES.CLIENT.REVIEW.bidderJobReview}`}
-                component={BidderReviewingCompletedJob}
+                path={`${ROUTES.CLIENT.REVIEW.taskerRequestReview}`}
+                component={TaskerReviewingCompletedRequest}
               />
 
               <Route exact path={ROUTES.CLIENT.TOS} component={TermsOfService} />

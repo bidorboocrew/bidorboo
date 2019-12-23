@@ -10,4 +10,5 @@ const TASKS_DEFINITIONS = {
   [`${carDetailing.ID}`]: { ...carDetailing },
 };
 
+
 export default TASKS_DEFINITIONS;

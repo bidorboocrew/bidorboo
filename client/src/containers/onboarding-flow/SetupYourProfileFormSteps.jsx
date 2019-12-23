@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
-// import { updateOnBoardingDetails } from '../../app-state/actions/userModelActions';
 import VerifyEmailField from './VerifyEmailField';
 import VerifyPhoneField from './VerifyPhoneField';
 import UpdatePhoneNumberField from './UpdatePhoneNumberField';
@@ -124,6 +123,7 @@ class Step4 extends React.Component {
               agreedToTOS: this.state.hasAgreedToTOS,
             },
             () => {
+
               if (shouldRedirect && location.state.redirectUrl !== ROUTES.CLIENT.ONBOARDING) {
                 return switchRoute(location.state.redirectUrl);
               } else {
@@ -231,6 +231,21 @@ class SetupYourProfileFormSteps extends React.Component {
     this.setState(() => ({ currentStep: 4 }));
   };
 
+  componentDidUpdate() {
+    const { isLoggedIn, userDetails, location } = this.props;
+
+    if (!isLoggedIn || !userDetails) {
+      switchRoute(`${ROUTES.CLIENT.HOME}`);
+    } else if (userDetails.membershipStatus !== 'NEW_MEMBER') {
+      const shouldRedirect = location && location.state && location.state.redirectUrl;
+
+      if (shouldRedirect && location.state.redirectUrl !== ROUTES.CLIENT.ONBOARDING) {
+        return switchRoute(location.state.redirectUrl);
+      } else {
+        return switchRoute(ROUTES.CLIENT.HOME);
+      }
+    }
+  }
   componentDidMount() {
     const { isLoggedIn, userDetails } = this.props;
 

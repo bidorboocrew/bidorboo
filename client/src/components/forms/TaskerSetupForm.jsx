@@ -1,25 +1,32 @@
 import React from 'react';
 import axios from 'axios';
-import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
+import * as A from '../../app-state/actionTypes';
 
 import Dropzone from 'react-dropzone';
-import moment from 'moment';
 import { withFormik } from 'formik';
 
-import { TextInput } from './FormsHelpers';
-
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { Spinner } from '../../components/Spinner';
 
 const MAX_FILE_SIZE_IN_MB = 1000000 * 10; //10MB
 
 const EnhancedForms = withFormik({
   handleSubmit: async (values, { setSubmitting, props }) => {
+    const { dispatch } = props;
     const { idFrontImg, idBackImg } = values;
 
     if (!idFrontImg || !idBackImg) {
       setSubmitting(false);
-      alert('*you must upload both front and back side of a government issued ID');
+      dispatch({
+        type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+        payload: {
+          toastDetails: {
+            type: 'error',
+            msg: 'you must upload both front and back side of a government issued ID',
+          },
+        },
+      });
+
       return;
     }
 
@@ -41,7 +48,15 @@ const EnhancedForms = withFormik({
       try {
         frontSideResp = await axios.post(`https://files.stripe.com/v1/files`, fileData, config);
       } catch (e) {
-        alert('Error processing id img' + JSON.stringify(e));
+        dispatch({
+          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          payload: {
+            toastDetails: {
+              type: 'error',
+              msg: 'Error processing id img' + JSON.stringify(e),
+            },
+          },
+        });
         setSubmitting(false);
       }
     }
@@ -63,7 +78,15 @@ const EnhancedForms = withFormik({
       try {
         backSideResp = await axios.post(`https://files.stripe.com/v1/files`, fileData, config);
       } catch (e) {
-        alert('Error processing id img' + JSON.stringify(e));
+        dispatch({
+          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          payload: {
+            toastDetails: {
+              type: 'error',
+              msg: 'Error processing id img' + JSON.stringify(e),
+            },
+          },
+        });
         setSubmitting(false);
       }
     }
@@ -96,7 +119,15 @@ const EnhancedForms = withFormik({
       ) {
         msg = e.response.data.errorMsg.message;
       }
-      alert(msg);
+      dispatch({
+        type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+        payload: {
+          toastDetails: {
+            type: 'error',
+            msg,
+          },
+        },
+      });
       setSubmitting(false);
       console.error(e);
     }
@@ -107,7 +138,16 @@ const EnhancedForms = withFormik({
 });
 
 const PaymentSetupForm = (props) => {
-  const { values, touched, errors, handleSubmit, isValid, setFieldValue, isSubmitting } = props;
+  const {
+    values,
+    touched,
+    errors,
+    handleSubmit,
+    isValid,
+    setFieldValue,
+    isSubmitting,
+    dispatch,
+  } = props;
 
   let errorsList = null;
   if (errors && Object.keys(errors).length > 0) {
@@ -145,8 +185,16 @@ const PaymentSetupForm = (props) => {
                 setFieldValue('idFrontImg', files[0], true);
               }}
               accept={'image/*'}
-              onDropRejected={(e) => {
-                alert('this file is not accepted must be an img file less than 10MB');
+              onDropRejected={() => {
+                dispatch({
+                  type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+                  payload: {
+                    toastDetails: {
+                      type: 'error',
+                      msg: 'this file is not accepted must be an img file less than 5MB',
+                    },
+                  },
+                });
               }}
               maxSize={MAX_FILE_SIZE_IN_MB}
             >
@@ -171,8 +219,16 @@ const PaymentSetupForm = (props) => {
                 setFieldValue('idBackImg', files[0], true);
               }}
               accept={'image/*'}
-              onDropRejected={(e) => {
-                alert('this file is not accepted must be an img file less than 10MB');
+              onDropRejected={() => {
+                dispatch({
+                  type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+                  payload: {
+                    toastDetails: {
+                      type: 'error',
+                      msg: 'this file is not accepted must be an img file less than 5MB',
+                    },
+                  },
+                });
               }}
             >
               <label className="file-label">
@@ -221,20 +277,4 @@ const PaymentSetupForm = (props) => {
   );
 };
 
-export default EnhancedForms(PaymentSetupForm);
-
-const HeaderTitle = (props) => {
-  const { title, specialMarginVal } = props;
-  return (
-    <h2
-      style={{
-        marginTop: specialMarginVal || 0,
-        marginBottom: 4,
-        fontSize: 20,
-        borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-      }}
-    >
-      {title}
-    </h2>
-  );
-};
+export default connect(null, null)(EnhancedForms(PaymentSetupForm));

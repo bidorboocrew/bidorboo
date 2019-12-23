@@ -5,112 +5,59 @@ import { Collapse } from 'react-collapse';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { bidderConfirmsJobCompletion, taskerDisputesJob } from '../../app-state/actions/jobActions';
-import { showLoginDialog } from '../../app-state/actions/uiActions';
+import {
+  taskerConfirmsRequestCompletion,
+  taskerDisputesRequest,
+} from '../../app-state/actions/requestActions';
 import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import {
   CountDownComponent,
-  AddAwardedJobToCalendarForTasker,
   TaskSpecificExtras,
   SummaryStartDateAndTime,
   BSTaskerAwarded,
-  JobCardTitle,
+  RequestCardTitle,
   BidAmount,
   BSWaitingOnRequesterToConfirm,
   CenteredUserImageAndRating,
   TaskImagesCarousel,
   UserGivenTitle,
   TaskerWillEarn,
+  AddAwardedRequestToCalendarForTasker,
 } from '../../containers/commonComponents';
 
-import { getChargeDistributionDetails } from '../../containers/commonUtils';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import RequestBaseContainer from './RequestBaseContainer';
 
 class TaskerMyAwardedBidDetails extends RequestBaseContainer {
   render() {
     const { bid, cancelAwardedBid } = this.props;
-    if (!bid) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
-    const { _jobRef: job } = bid;
-    if (!job) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
+
+    const { _requestRef: request } = bid;
 
     const {
       startingDateAndTime,
       addressText,
       extras,
       detailedDescription,
-      displayStatus,
-      isHappeningSoon,
-      isHappeningToday,
-      isPastDue,
       _ownerRef,
-      _id: jobId,
-      jobCompletion = {
-        proposerConfirmed: false,
-        bidderConfirmed: false,
-      },
+      taskerConfirmedCompletion,
       taskImages = [],
-      jobTitle,
+      requestTitle,
       _reviewRef,
-    } = job;
-    // const { requiresBidderReview } = _reviewRef;
+    } = request;
 
-    if (
-      !startingDateAndTime ||
-      !addressText ||
-      !extras ||
-      !detailedDescription ||
-      !displayStatus ||
-      !_ownerRef ||
-      isHappeningSoon === 'undefined' ||
-      isHappeningToday === 'undefined' ||
-      isPastDue === 'undefined'
-    ) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
+    const { bidAmount, taskerPayout, _id: bidId } = bid;
 
-    const { bidAmount } = bid;
-    if (!bidAmount) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
+    const { value: bidValue } = bidAmount;
+    const { value: taskerPayoutAmount } = taskerPayout;
 
-    // xxx get currency from processed payment
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    if (!bidValue || !bidCurrency) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
-
-    const { taskerTotalPayoutAmount } = getChargeDistributionDetails(bidValue);
-
-    const { phone, email } = _ownerRef;
-    if (!phone || !email) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
-    const { phoneNumber = 'not specified' } = phone;
-    if (!phoneNumber) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
-    const { emailAddress } = email;
-    if (!emailAddress) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
-
-    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE || !ID) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
-
-    const { proposerConfirmed, bidderConfirmed } = jobCompletion;
-
+    const requiresTaskerReview = _reviewRef.requiresTaskerReview;
     return (
       <React.Fragment>
         {showDeleteDialog &&
@@ -119,7 +66,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
               <div onClick={this.toggleDeleteConfirmationDialog} className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <div className="modal-card-title">Cancel This Agreement</div>
+                  <div className="modal-card-title">Cancel Booking?</div>
                   <button
                     onClick={this.toggleDeleteConfirmationDialog}
                     className="delete"
@@ -128,12 +75,14 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                 </header>
                 <section className="modal-card-body">
                   <div className="content">
-                    <div>Cancelling on the requester is considered a Boo</div>
+                    <div className="has-text-danger">
+                      Cancelling your booking is taken seriously as it will cause inconvenience for
+                      the requester
+                    </div>
                     <br />
                     <div>
-                      We understand that life "happens" but to keep things fair for you and the
-                      Tasker we encourage you to reach out and try to reschedule this task to avoid
-                      cancellation
+                      We understand that life happens, but to keep things fair we encourage you to
+                      reach out and try to reschedule this task to avoid cancellation
                     </div>
                     <br />
                     <div className="group">
@@ -143,7 +92,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                       <ul>
                         <li>Your global rating will be negatively impacted</li>
                         <li>This cancellation will show up on your profile</li>
-                        <li>If many cancellations happen in a row you will be ban from BidOrBoo</li>
+                        <li>Cancelling often will put a ban on your account</li>
                       </ul>
                     </div>
                   </div>
@@ -170,7 +119,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                     <span className="icon">
                       <i className="far fa-trash-alt" />
                     </span>
-                    <span>Cancel Appointment</span>
+                    <span>Cancel Booking</span>
                   </button>
                 </footer>
               </div>
@@ -188,65 +137,67 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
         >
           <div style={{ borderBottom: 0 }} className="card-content">
             <div className="content">
-              <JobCardTitle
+              <RequestCardTitle
                 icon={ICON}
                 title={TITLE}
                 img={IMG}
-                meatballMenu={() => (
-                  <div
-                    ref={(node) => (this.node = node)}
-                    className={`dropdown is-right is-pulled-right ${
-                      showMoreOptionsContextMenu ? 'is-active' : ''
-                    }`}
-                  >
-                    <div className="dropdown-trigger">
-                      <button
-                        onClick={this.toggleShowMoreOptionsContextMenu}
-                        className="button"
-                        aria-haspopup="true"
-                        aria-controls="dropdown-menu"
-                        style={{ border: 'none', boxShadow: 'none' }}
-                      >
-                        <div style={{ padding: 6 }} className="icon">
-                          <i className="fas fa-ellipsis-v" />
-                        </div>
-                      </button>
-                    </div>
-                    {!bidderConfirmed && !proposerConfirmed && (
-                      <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                        <div className="dropdown-content">
-                          <TaskerDisputes {...this.props} />
-
-                          <hr className="dropdown-divider" />
-                          <a
-                            onClick={this.toggleDeleteConfirmationDialog}
-                            className="dropdown-item has-text-danger"
-                          >
-                            <span className="icon">
-                              <i className="far fa-trash-alt" aria-hidden="true" />
-                            </span>
-                            <span>Cancel Request</span>
-                          </a>
-                        </div>
+                meatballMenu={() =>
+                  taskerConfirmedCompletion ? null : (
+                    <div
+                      ref={(node) => (this.node = node)}
+                      className={`dropdown is-right is-pulled-right ${
+                        showMoreOptionsContextMenu ? 'is-active' : ''
+                      }`}
+                    >
+                      <div className="dropdown-trigger">
+                        <button
+                          onClick={this.toggleShowMoreOptionsContextMenu}
+                          className="button"
+                          aria-haspopup="true"
+                          aria-controls="dropdown-menu"
+                          style={{ border: 'none', boxShadow: 'none' }}
+                        >
+                          <div style={{ padding: 6 }} className="icon">
+                            <i className="fas fa-ellipsis-v" />
+                          </div>
+                        </button>
                       </div>
-                    )}
-                  </div>
-                )}
+                      {!taskerConfirmedCompletion && (
+                        <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                          <div className="dropdown-content">
+                            <TaskerDisputes {...this.props} />
+
+                            <hr className="dropdown-divider" />
+                            <a
+                              onClick={this.toggleDeleteConfirmationDialog}
+                              className="dropdown-item has-text-danger"
+                            >
+                              <span className="icon">
+                                <i className="far fa-trash-alt" aria-hidden="true" />
+                              </span>
+                              <span>Cancel Request</span>
+                            </a>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )
+                }
               />
-              <UserGivenTitle userGivenTitle={jobTitle} />
+              <UserGivenTitle userGivenTitle={requestTitle} />
 
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
-                  <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+                  <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
+              <TaskerWillEarn earningAmount={taskerPayoutAmount}></TaskerWillEarn>
 
-              {bidderConfirmed && !proposerConfirmed && <BSWaitingOnRequesterToConfirm />}
+              {taskerConfirmedCompletion && <BSWaitingOnRequesterToConfirm />}
 
-              {!bidderConfirmed && !proposerConfirmed && <BSTaskerAwarded isPastDue={isPastDue} />}
+              {!taskerConfirmedCompletion && <BSTaskerAwarded />}
 
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
@@ -292,34 +243,49 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
           </div>
         </div>
 
-        {!proposerConfirmed && !bidderConfirmed && (
+        {!taskerConfirmedCompletion && (
           <ContactTheRequester
+            requestTitle={requestTitle}
             otherUserProfileInfo={_ownerRef}
             renderActionButton={() => <TaskerConfirmsCompletion {...this.props} />}
-          />
-        )}
-        {bidderConfirmed && (!_reviewRef || _reviewRef.requiresBidderReview) && (
-          <ReviewTheRequester
-            otherUserProfileInfo={_ownerRef}
-            renderActionButton={() => (
-              <a
-                onClick={() => {
-                  switchRoute(ROUTES.CLIENT.REVIEW.getBidderJobReview({ jobId }));
-                }}
-                className={`button  is-success`}
-              >
-                <span className="icon">
-                  <i className="fas fa-user-check" />
-                </span>
-                <span>Review The Requester</span>
-              </a>
+            renderAddToCalendar={() => (
+              <AddAwardedRequestToCalendarForTasker request={request} extraClassName={'is-small'} />
             )}
           />
         )}
-        {bidderConfirmed && _reviewRef && !_reviewRef.requiresBidderReview && (
+        {taskerConfirmedCompletion && requiresTaskerReview && (
+          <>
+            <ReviewTheRequester
+              otherUserProfileInfo={_ownerRef}
+              renderActionButton={() => (
+                <a
+                  onClick={() => {
+                    switchRoute(ROUTES.CLIENT.REVIEW.getTaskerRequestReview({ bidId }));
+                  }}
+                  className={`button  is-success`}
+                >
+                  <span className="icon">
+                    <i className="fas fa-user-check" />
+                  </span>
+                  <span>Review Requester</span>
+                </a>
+              )}
+            />
+          </>
+        )}
+        {taskerConfirmedCompletion && !requiresTaskerReview && (
           <ReviewTheRequester
             otherUserProfileInfo={_ownerRef}
-            renderActionButton={() => <p>You have submitted your review.</p>}
+            renderActionButton={() => (
+              <ul className="has-text-left">
+                <li>You have submitted your review already</li>
+                <li>
+                  will automatically confirm it after 3 days if we don't hear back from the
+                  Requester
+                </li>
+                <li>Your earnings will be automaticaly released after that</li>
+              </ul>
+            )}
           />
         )}
       </React.Fragment>
@@ -327,25 +293,15 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
   }
 }
 
-const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
-  return {
-    isLoggedIn: userReducer.isLoggedIn,
-    selectedAwardedJob: jobsReducer.selectedAwardedJob,
-    userDetails: userReducer.userDetails,
-    notificationFeed: uiReducer.notificationFeed,
-  };
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    bidderConfirmsJobCompletion: bindActionCreators(bidderConfirmsJobCompletion, dispatch),
-    taskerDisputesJob: bindActionCreators(taskerDisputesJob, dispatch),
+    taskerConfirmsRequestCompletion: bindActionCreators(taskerConfirmsRequestCompletion, dispatch),
+    taskerDisputesRequest: bindActionCreators(taskerDisputesRequest, dispatch),
     cancelAwardedBid: bindActionCreators(cancelAwardedBid, dispatch),
-    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TaskerMyAwardedBidDetails);
+export default connect(null, mapDispatchToProps)(TaskerMyAwardedBidDetails);
 
 class TaskerConfirmsCompletion extends React.Component {
   constructor(props) {
@@ -360,10 +316,10 @@ class TaskerConfirmsCompletion extends React.Component {
   };
 
   submitConfirmation = () => {
-    const { bidderConfirmsJobCompletion, job } = this.props;
+    const { taskerConfirmsRequestCompletion, request } = this.props;
 
     this.setState({ showConfirmationModal: false }, () => {
-      bidderConfirmsJobCompletion(job._id);
+      taskerConfirmsRequestCompletion(request._id);
     });
   };
 
@@ -381,22 +337,20 @@ class TaskerConfirmsCompletion extends React.Component {
                   <div className="modal-card-title">Completed This Request?</div>
                 </header>
                 <section className="modal-card-body">
-                  <p>BidOrBoo Crew is proud of you!</p>
-                  <br />
-                  <p>If you are done please confirm that you finished this request.</p>
-                  <br />
+                  <div className="content">
+                    <label className="has-text-weight-semibold">BidOrBoo is proud of you!</label>
+                    <p>If you are done please confirm that you finished this request.</p>
 
-                  <div className="group">
-                    <label className="label">What will happen next?</label>
-                    <div className="help">
-                      * The Requester will confirm that you have completed this job
-                    </div>
-                    <div className="help">
-                      * Your payment will be released to your bank and should be available within
-                      3-5 business days
-                    </div>
-                    <div className="help">
-                      * The Requester and yourself will be prompted to Rate your experience
+                    <div className="group">
+                      <label className="label">What will happen next?</label>
+                      <ul>
+                        <li>You will be prompted to review the Tasker</li>
+                        <li>The Requester will be notified to confirm the task completion</li>
+                        <li>
+                          Once they confirm your payment will be released to your payout banking
+                          account
+                        </li>
+                      </ul>
                     </div>
                   </div>
                 </section>
@@ -434,22 +388,22 @@ class TaskerDisputes extends React.Component {
     };
   }
   submitDispute = (taskerDispute) => {
-    const { taskerDisputesJob } = this.props;
-    taskerDisputesJob(taskerDispute);
+    const { taskerDisputesRequest } = this.props;
+    taskerDisputesRequest(taskerDispute);
   };
   toggleModal = () => {
     this.setState({ showConfirmationModal: !this.state.showConfirmationModal });
   };
   submitConfirmation = () => {
-    const { bidderConfirmsJobCompletion, job } = this.props;
+    const { taskerConfirmsRequestCompletion, request } = this.props;
 
     this.setState({ showConfirmationModal: false }, () => {
-      bidderConfirmsJobCompletion(job._id);
+      taskerConfirmsRequestCompletion(request._id);
     });
   };
   render() {
-    const { job } = this.props;
-    const jobId = job._id;
+    const { request } = this.props;
+    const requestId = request._id;
     const { showConfirmationModal, selectedDispute, disputeText } = this.state;
     return (
       <React.Fragment>
@@ -463,8 +417,8 @@ class TaskerDisputes extends React.Component {
                 </header>
                 <section className="modal-card-body">
                   <div>
-                    BidOrBoo Crew is sorry to hear that you are not happy. We will work on resolving
-                    the issue asap.
+                    BidOrBoo is sorry to hear that you are not happy. We will work on resolving the
+                    issue asap.
                   </div>
 
                   <br />
@@ -587,7 +541,7 @@ class TaskerDisputes extends React.Component {
                         taskerDispute: {
                           reason: selectedDispute,
                           details: disputeText,
-                          jobId: jobId,
+                          requestId: requestId,
                         },
                       })
                     }
@@ -614,7 +568,12 @@ class TaskerDisputes extends React.Component {
 
 class ContactTheRequester extends React.Component {
   render() {
-    const { otherUserProfileInfo, renderAddToCalendar, renderActionButton } = this.props;
+    const {
+      otherUserProfileInfo,
+      renderAddToCalendar,
+      renderActionButton,
+      requestTitle,
+    } = this.props;
 
     if (!otherUserProfileInfo) {
       return null;
@@ -634,7 +593,7 @@ class ContactTheRequester extends React.Component {
       >
         <div style={{ paddingTop: 0 }} className="card-content">
           <div className="content has-text-left">
-            <div style={{ background: 'transparent' }} className="tabs is-centered">
+            <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
               <ul style={{ marginLeft: 0 }}>
                 <li className="is-active">
                   <a>
@@ -653,12 +612,11 @@ class ContactTheRequester extends React.Component {
               <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large isCentered />
 
               <div style={{ marginBottom: '2rem' }}>
-                <div className="field">
-                  <label className="has-text-grey">Contact Details</label>
-                  <div style={{ fontWeight: 500, fontSize: 18 }}>
+                <div className="group">
+                  <div style={{ display: 'inline-block', textAlign: 'left', lineHeight: '28px' }}>
                     <div>
                       <a
-                        href={`mailto:${emailAddress}?subject=BidOrBoo - I am your tasker and reaching out to agree on meeting time and details`}
+                        href={`mailto:${emailAddress}?subject=BidOrBoo - Reaching out to finalize time and location details&body=Iam assigned for your ${requestTitle} request. I'm reaching out to agree on meeting time and details`}
                       >
                         <span className="icon">
                           <i className="far fa-envelope" />
@@ -689,9 +647,8 @@ class ContactTheRequester extends React.Component {
               </div>
               {renderAddToCalendar && renderAddToCalendar()}
             </div>
-            <br />
           </div>
-          <div style={{ background: 'transparent' }} className="tabs is-centered">
+          <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
             <ul style={{ marginLeft: 0 }}>
               <li className="is-active">
                 <a>
@@ -704,6 +661,7 @@ class ContactTheRequester extends React.Component {
             </ul>
           </div>
           <div style={{ textAlign: 'center' }}>{renderActionButton && renderActionButton()}</div>
+          <br />
         </div>
       </div>
     );
@@ -712,14 +670,12 @@ class ContactTheRequester extends React.Component {
 
 class ReviewTheRequester extends React.Component {
   render() {
-    const { otherUserProfileInfo, renderAddToCalendar, renderActionButton } = this.props;
+    const { otherUserProfileInfo, renderActionButton } = this.props;
 
     if (!otherUserProfileInfo) {
       return null;
     }
 
-    const emailAddress = otherUserProfileInfo.email && otherUserProfileInfo.email.emailAddress;
-    const phoneNumber = otherUserProfileInfo.phone && otherUserProfileInfo.phone.phoneNumber;
     return (
       <div
         style={{
@@ -732,7 +688,7 @@ class ReviewTheRequester extends React.Component {
       >
         <div style={{ paddingTop: 0 }} className="card-content">
           <div className="content has-text-left">
-            <div style={{ background: 'transparent' }} className="tabs is-centered">
+            <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
               <ul style={{ marginLeft: 0 }}>
                 <li className="is-active">
                   <a>

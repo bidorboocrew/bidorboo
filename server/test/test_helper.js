@@ -6,7 +6,7 @@ const keys = require('../config/keys');
 require('../models/bidModel');
 require('../models/userModel');
 require('../models/reviewModel');
-require('../models/jobModel');
+require('../models/requestModel');
 // require('../models/paymentModel');
 
 mongoose.Promise = global.Promise;

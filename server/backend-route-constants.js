@@ -19,15 +19,10 @@ module.exports = {
       LOCAL_LOGIN: '/api/auth/bidorboo/login',
       LOGOUT: '/api/auth/logout',
     },
-    UTILS: {
-      GET: {
-        signCloudinaryRequest: '/api/user/paramstosign',
-      },
-    },
+
     PAYMENT: {
       POST: {
         payment: '/api/payment',
-        personsWebhook: '/api/stripewebhook/persons',
         connectedAccountsWebhook: '/api/stripewebhook/connectedAccounts',
         payoutsWebhook: '/api/stripewebhook/payoutsWebhook',
         checkoutFulfillment: '/api/stripewebhook/checkoutFulfillment',
@@ -46,8 +41,6 @@ module.exports = {
       GET: {
         currentUser: '/api/user/currentUser',
         otherUserProfileInfo: '/api/user/otherUserProfileInfo',
-        getMyPastRequestedServices: '/api/user/getMyPastRequestedServices',
-        getMyPastProvidedServices: '/api/user/getMyPastProvidedServices',
       },
       PUT: {
         userDetails: '/api/user/updateProfileDetails',
@@ -67,53 +60,51 @@ module.exports = {
     },
     REVIEW: {
       PUT: {
-        proposerSubmitReview: '/api/review/proposerSubmitReview',
-        bidderSubmitReview: '/api/review/bidderSubmitReview',
+        requesterSubmitReview: '/api/review/requesterSubmitReview',
+        taskerSubmitReview: '/api/review/taskerSubmitReview',
       },
     },
-    JOB: {
+    REQUEST: {
       GET: {
-        myOpenJobs: '/api/job/myOpenJobs',
-        alljobsToBidOn: '/api/job/alljobsToBidOn',
-        myJobById: '/api/job',
-        jobToBidDetailsById: '/api/job/jobToBidDetailsById',
-        myAwardedJobs: '/api/job/myAwardedJobs',
-        jobFullDetailsById: '/api/job/fullDetails',
-        getAllMyRequests: '/api/job/getAllMyRequests',
+        myRequestsSummary: '/api/request/myRequestsSummary',
+        postedRequestAndBidsForRequester: '/api/postedRequestAndBidsForRequester',
+        awardedRequestFullDetailsForRequester: '/api/request/awardedRequestFullDetailsForRequester',
+        achivedTaskDetailsForRequester: '/api/request/achivedTaskDetailsForRequester',
+
+        allrequestsToBidOn: '/api/request/allrequestsToBidOn',
+        requestToBidOnDetailsForTasker: '/api/request/requestToBidOnDetailsForTasker',
       },
       POST: {
-        jobImage: '/api/job/uploadImages',
-        searchJobs: '/api/job/search',
-        newJob: '/api/job/createJob',
-        updateSearchThenSearchJobs: '/api/user/updateSearchThenSearchJobs',
+        requestImage: '/api/request/uploadImages',
+        createNewRequest: '/api/request/createNewRequest',
+        updateSearchThenSearchRequests: '/api/user/updateSearchThenSearchRequests',
       },
       PUT: {
-        updateViewedBy: '/api/job/updateViewedBy',
-        updateBooedBy: '/api/job/updateBooedBy',
-        proposerConfirmsJobCompleted: '/api/job/proposerConfirmsJobCompleted',
-        bidderConfirmsJobCompleted: '/api/job/bidderConfirmsJobCompleted',
-        proposerDisputeJob: '/api/job/proposerDisputeJob',
-        bidderDisputeJob: '/api/job/bidderDisputeJob',
-        updateJobState: '/api/job/updateJobState',
+        updateViewedBy: '/api/request/updateViewedBy',
+        updateBooedBy: '/api/request/updateBooedBy',
+        requesterConfirmsRequestCompleted: '/api/request/requesterConfirmsRequestCompleted',
+        taskerConfirmsRequestCompleted: '/api/request/taskerConfirmsRequestCompleted',
+        requesterDisputeRequest: '/api/request/requesterDisputeRequest',
+        taskerDisputeRequest: '/api/request/taskerDisputeRequest',
+        updateRequestState: '/api/request/updateRequestState',
       },
       DELETE: {
-        myJobById: '/api/job',
+        postedRequestAndBidsForRequester: '/api/postedRequestAndBidsForRequester',
       },
     },
     BID: {
       POST: {
-        bid: '/api/bids/postABid',
+        createNewBid: '/api/bids/createNewBid',
       },
       GET: {
-        allMyPostedBids: '/api/bids/allMyPostedBids',
-        myAwardedBids: '/api/bids/myAwardedBids',
+        myPostedBidsSummary: '/api/bids/myPostedBidsSummary',
         openBidDetails: '/api/bids/openBidDetails',
-        awardedBidDetails: '/api/bids/awardedBidDetails',
+        awardedBidDetailsForTasker: '/api/bids/awardedBidDetailsForTasker',
+        achivedBidDetailsForTasker: '/api/bids/achivedBidDetailsForTasker',
       },
       PUT: {
         updateMyBid: '/api/bids/updateMyBid',
         markBidAsSeen: '/api/bids/markBidAsSeen',
-        updateBidState: '/api/bids/updateBidState',
       },
       DELETE: {
         deleteOpenBid: '/api/bids/deleteOpenBid',
@@ -127,25 +118,27 @@ module.exports = {
     USER_ROFILE_FOR_REVIEW: 'https://www.bidorboo.ca/user-profile/:userId',
     dynamicUserProfileForReview: (userId) => `https://www.bidorboo.ca/user-profile/${userId}`,
     dynamicVerification: (field, code) => `https://www.bidorboo.ca/verification/${field}/${code}`,
-    MYAGENDA: 'https://www.bidorboo.ca/my-agenda',
-    PROPOSER: {
+    REQUESTER: {
       root: 'https://www.bidorboo.ca/bdb-request',
-      createjob: 'https://www.bidorboo.ca/bdb-request/create-job/:templateId',
-      dynamicCreateJob: (templateId) =>
-        `https://www.bidorboo.ca/bdb-request/create-job/${templateId}`,
-      myOpenJobs: 'https://www.bidorboo.ca/my-open-jobs/:tabId',
-      dynamicMyOpenJobs: (tabId) => `https://www.bidorboo.ca/my-open-jobs/${tabId}`,
-      reviewRequestAndBidsPage: 'https://www.bidorboo.ca/my-request/review-request-details/:jobId',
-      dynamicReviewRequestAndBidsPage: (jobId) =>
-        `https://www.bidorboo.ca/my-request/review-request-details/${jobId}`,
-      selectedAwardedJobPage: 'https://www.bidorboo.ca/my-request/awarded-job-details/:jobId',
-      dynamicSelectedAwardedJobPage: (jobId) =>
-        `https://www.bidorboo.ca/my-request/awarded-job-details/${jobId}`,
+      createrequest: 'https://www.bidorboo.ca/bdb-request/create-request/:templateId',
+      dynamicCreateRequest: (templateId) =>
+        `https://www.bidorboo.ca/bdb-request/create-request/${templateId}`,
+      myOpenRequests: 'https://www.bidorboo.ca/my-open-requests/:tabId',
+      dynamicMyOpenRequests: (tabId) => `https://www.bidorboo.ca/my-open-requests/${tabId}`,
+      reviewRequestAndBidsPage:
+        'https://www.bidorboo.ca/my-request/review-request-details/:requestId',
+      dynamicReviewRequestAndBidsPage: (requestId) =>
+        `https://www.bidorboo.ca/my-request/review-request-details/${requestId}`,
+      selectedAwardedRequestPage:
+        'https://www.bidorboo.ca/my-request/awarded-request-details/:requestId',
+      dynamicSelectedAwardedRequestPage: (requestId) =>
+        `https://www.bidorboo.ca/my-request/awarded-request-details/${requestId}`,
     },
-    BIDDER: {
+    TASKER: {
       root: 'https://www.bidorboo.ca/bdb-offer',
-      bidOnJobPage: 'https://www.bidorboo.ca/bdb-offer/bid-on-job/:jobId',
-      getDynamicBidOnJobPage: (jobId) => `https://www.bidorboo.ca/bdb-offer/bid-on-job/${jobId}`,
+      bidOnRequestPage: 'https://www.bidorboo.ca/bdb-offer/bid-on-request/:requestId',
+      getDynamicBidOnRequestPage: (requestId) =>
+        `https://www.bidorboo.ca/bdb-offer/bid-on-request/${requestId}`,
       mybids: 'https://www.bidorboo.ca/my-bids',
       reviewMyBidAndTheRequestDetails: 'https://www.bidorboo.ca/review-my-bid-details/:bidId',
       dynamicReviewMyBidAndTheRequestDetails: (bidId) =>
@@ -154,12 +147,11 @@ module.exports = {
       dynamicCurrentAwardedBid: (bidId) => `https://www.bidorboo.ca/awarded-bid-details/${bidId}`,
     },
     REVIEW: {
-      proposerJobReview: `https://www.bidorboo.ca/bdb-request/review/:proposerId/job/:jobId/bidder/:bidderId`,
-      bidderJobReview: `https://www.bidorboo.ca/bdb-offer/review/:bidderId/bid/:bidId/proposer/:proposerId/job/:jobId`,
-      getProposerJobReview: (proposerId, jobId, bidderId) =>
-        `https://www.bidorboo.ca/bdb-request/review/${proposerId}/job/${jobId}/bidder/${bidderId}`,
-      getBidderJobReview: (bidderId, bidId, proposerId, jobId) =>
-        `https://www.bidorboo.ca/bdb-offer/review/${bidderId}/bid/${bidId}/proposer/${proposerId}/job/${jobId}`,
+      requesterRequestReview: `https://www.bidorboo.ca/bdb-request/review/:requestId`,
+      taskerRequestReview: `https://www.bidorboo.ca/bdb-offer/review/:bidId`,
+      getRequesterRequestReview: ({ requestId }) =>
+        `https://www.bidorboo.ca/bdb-request/review/${requestId}`,
+      getTaskerRequestReview: ({ bidId }) => `https://www.bidorboo.ca/bdb-offer/review/${bidId}`,
     },
     MY_PROFILE: {
       myNotifications: '/my-profile/notification-settings',

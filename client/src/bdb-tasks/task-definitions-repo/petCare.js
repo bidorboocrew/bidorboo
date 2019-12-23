@@ -4,6 +4,8 @@ import TextareaAutosize from 'react-autosize-textarea';
 import * as Yup from 'yup';
 import dogWalking_img from '../../assets/images/dogWalking_img.png';
 import { TextAreaInput, TextInput } from '../../components/forms/FormsHelpers';
+import { switchRoute } from './../../utils';
+import * as ROUTES from '../../constants/frontend-route-consts';
 
 export default {
   ID: 'bdbPetSittingWalking',
@@ -63,6 +65,18 @@ Q2) Anything else you want to highlight for the Tasker?
       dogWalking_img,
       setShowModal,
       subText: 'The Requester Will Be notified. Good Luck',
+      renderExtraAction: () => (
+        <a
+          style={{ minWidth: 200 }}
+          className="button is-dark"
+          onClick={() => switchRoute(ROUTES.CLIENT.TASKER.root)}
+        >
+          <span style={{ marginRight: 2 }}>Continue Bidding</span>
+          <span className="icon">
+            <i className="fas fa-arrow-right" />
+          </span>
+        </a>
+      ),
     });
   },
   renderThankYouForEditingBid: function(setShowModal) {
@@ -71,6 +85,18 @@ Q2) Anything else you want to highlight for the Tasker?
       setShowModal,
       mainText: 'Bid Was Updated!',
       subText: 'The Requester Will Be notified. Good Luck',
+      renderExtraAction: () => (
+        <a
+          style={{ minWidth: 200 }}
+          className="button is-dark"
+          onClick={() => switchRoute(ROUTES.CLIENT.TASKER.root)}
+        >
+          <span style={{ marginRight: 2 }}>Continue Bidding</span>
+          <span className="icon">
+            <i className="fas fa-arrow-right" />
+          </span>
+        </a>
+      ),
     });
   },
 
@@ -163,9 +189,7 @@ Q2) Anything else you want to highlight for the Tasker?
                     : ''
                 }`}
               >
-                <label className={isRequesterHostingClass}>
-                  Where will the pet stay?
-                </label>
+                <label className={isRequesterHostingClass}>Where will the pet stay?</label>
                 <div>
                   <div id="isRequesterHosting" className={`select ${isRequesterHostingClass} `}>
                     <select
@@ -289,6 +313,7 @@ Q2) Anything else you want to highlight for the Tasker?
           return (
             <React.Fragment key={'extras-dietryRestrictions'}>
               <TextAreaInput
+                textAreaStyle={{ minHeight: 50 }}
                 id="dietaryRestrictions"
                 type="text"
                 label="Any dietary restrictions, medical, or special needs?"
@@ -330,6 +355,7 @@ const renderThankyouMoment = ({
   setShowModal,
   mainText = 'Thank You!',
   subText,
+  renderExtraAction = () => null,
 }) => {
   return (
     <div style={{ padding: '1.5rem', background: 'white' }}>
@@ -341,11 +367,20 @@ const renderThankyouMoment = ({
       </h1>
 
       <p style={{ fontSize: 18, fontWeight: 500, paddingBottom: '1rem' }}>{subText}</p>
-      <a className="button is-large is-success" onClick={() => setShowModal(false)}>
-        <span className="icon is-large">
-          <i className="fas fa-arrow-right" />
-        </span>
-      </a>
+      <div>
+        <a
+          style={{ minWidth: 200 }}
+          className="button is-success"
+          onClick={() => setShowModal(false)}
+        >
+          <span style={{ marginRight: 2 }}>View Inbox</span>
+          <span className="icon">
+            <i className="fas fa-arrow-right" />
+          </span>
+        </a>
+      </div>
+      <br></br>
+      <div>{renderExtraAction()}</div>
     </div>
   );
 };

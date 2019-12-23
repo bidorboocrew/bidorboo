@@ -14,7 +14,9 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 
 class PaymentSettings extends React.Component {
   componentDidMount() {
-    this.props.getMyStripeAccountDetails();
+    const { isLoggedIn } = this.props;
+
+    isLoggedIn && this.props.getMyStripeAccountDetails();
   }
 
   render() {
@@ -123,11 +125,10 @@ const HeaderTitle = (props) => {
 };
 
 const InitialAccountSetupView = (props) => {
-  const { showAddPaymentDetails, userDetails, myStripeAccountDetails } = props;
+  const { userDetails } = props;
 
   const [isNinteenPlus, setNinteenPlus] = useState(false);
   const [isCanadian, setCanadian] = useState(false);
-  // const [isValidBankAcc, setValidBankAcc] = useState(false);
   const [hasAgreedToTOS, setHasAgreedToTos] = useState(false);
 
   const userMeetsTaskerRequirements = isNinteenPlus && isCanadian && hasAgreedToTOS;
@@ -276,7 +277,7 @@ const EstablishedAccountView = (props) => {
                     and perform tasks.
                   </div>
                   <div>
-                    {' '}
+
                     All your payments will be paid immediately once we verify your account.
                   </div>
                   <div className="help">
@@ -331,9 +332,8 @@ const EstablishedAccountView = (props) => {
 };
 
 const ShowEarningsOnly = (props) => {
-  const { userDetails, myStripeAccountDetails } = props;
+  const { myStripeAccountDetails } = props;
 
-  let { stripeConnect } = userDetails;
   let istherePaymentDetails = myStripeAccountDetails && myStripeAccountDetails.balanceDetails;
 
   return (

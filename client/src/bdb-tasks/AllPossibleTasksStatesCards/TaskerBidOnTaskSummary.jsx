@@ -8,39 +8,26 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 import {
   SummaryStartDateAndTime,
   CardTitleAndActionsInfo,
-  JobCardTitle,
+  RequestCardTitle,
   CountDownComponent,
   TaskImagesCarousel,
   CenteredUserImageAndRating,
   UserGivenTitle,
 } from '../../containers/commonComponents';
 
-import { getUserExistingBid, didUserAlreadyView } from '../../containers/commonUtils';
+import { didUserAlreadyView } from '../../containers/commonUtils';
 
 import RequestBaseContainer from './RequestBaseContainer';
 
 export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
-  toggleRegisterAsTasker = () => {
-    this.setState({ showRegisterAsTaskerModal: !this.state.showRegisterAsTaskerModal });
-  };
-
   render() {
-    const { job, otherArgs = {} } = this.props;
+    const { request, otherArgs = {} } = this.props;
     const { showRegisterAsTaskerModal } = this.state;
     const { showMapView, isLoggedIn, userDetails, updateViewedBy } = otherArgs;
-    if (!job || !job._id || !otherArgs || isLoggedIn === 'undefined' || !userDetails) {
-      return <div>TaskerBidOnTaskSummary is missing properties</div>;
-    }
 
     const { _id: currentUserId } = userDetails;
-    if (!currentUserId) {
-      return <div>TaskerBidOnTaskSummary is missing properties</div>;
-    }
 
     const { onCloseHandler = () => null, isOnMapView = false } = otherArgs;
-    if (!onCloseHandler || isOnMapView === 'undefined') {
-      return <div>TaskerBidOnTaskSummary is missing properties</div>;
-    }
 
     const {
       reactMapClusterRef,
@@ -49,20 +36,13 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
       _bidsListRef,
       _ownerRef,
       state,
-      extras,
       taskImages = [],
-      jobTitle,
-    } = job;
-    if (!startingDateAndTime || !templateId || !_ownerRef || !state || !extras) {
-      return <div>TaskerBidOnTaskSummary is missing properties</div>;
-    }
+      requestTitle,
+    } = request;
 
-    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE || !ID) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.root);
-    }
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
-    const userAlreadyView = didUserAlreadyView(job, currentUserId);
+    const userAlreadyView = didUserAlreadyView(request, currentUserId);
 
     const specialStyle = isOnMapView ? { padding: '0.25rem' } : {};
     const specialStyleCard = isOnMapView ? { width: 300 } : {};
@@ -72,15 +52,15 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
         <div style={{ ...specialStyleCard }} className="card has-text-centered cardWithButton">
           <div style={{ ...specialStyle }} className="card-content">
             <div className="content">
-              <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-              <UserGivenTitle userGivenTitle={jobTitle} />
+              <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <UserGivenTitle userGivenTitle={requestTitle} />
 
               {!isOnMapView && <TaskImagesCarousel taskImages={taskImages} />}
 
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
-                  <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+                  <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
               <div className="group">
@@ -97,11 +77,11 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                   {/* <label className="label">Task Info</label> */}
                   <CardTitleAndActionsInfo
                     isOnMapView={isOnMapView}
-                    jobState={state}
+                    requestState={state}
                     templateId={templateId}
                     bidsList={_bidsListRef}
                     userAlreadyView={userAlreadyView}
-                    job={job}
+                    request={request}
                   />
                 </div>
               )}
@@ -113,7 +93,7 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                     <a
                       style={{ flexGrow: 1 }}
                       onClick={(e) => {
-                        switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
+                        switchRoute(ROUTES.CLIENT.TASKER.getDynamicBidOnRequestPage(request._id));
                       }}
                       className="button is-success firstButtonInCard"
                     >
@@ -124,15 +104,7 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                         style={{ marginLeft: 12 }}
                         onClick={(e) => {
                           const markerRef = reactMapClusterRef;
-                          if (
-                            markerRef &&
-                            markerRef.current &&
-                            markerRef.current.props &&
-                            markerRef.current.props.onClick &&
-                            typeof markerRef.current.props.onClick === 'function'
-                          ) {
-                            markerRef.current.props.onClick();
-                          }
+                          markerRef.current.props.onClick();
                         }}
                         className="button secondButtonInCard "
                       >
@@ -153,11 +125,11 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                   </div>
                   <div style={{ display: 'inline-block', marginTop: -12 }}>
                     <a
-                      onClick={(e) => {
+                      onClick={() => {
                         if (isLoggedIn) {
-                          updateViewedBy(job);
+                          updateViewedBy(request);
                         }
-                        switchRoute(ROUTES.CLIENT.BIDDER.getDynamicBidOnJobPage(job._id));
+                        switchRoute(ROUTES.CLIENT.TASKER.getDynamicBidOnRequestPage(request._id));
                       }}
                       className="button is-success is-small"
                     >
@@ -169,58 +141,7 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
             </div>
           </div>
         </div>
-
-        {showRegisterAsTaskerModal && (
-          <ShowRegisterAsTaskerModal handleClose={this.toggleRegisterAsTasker} />
-        )}
       </React.Fragment>
     );
   }
 }
-
-const ShowRegisterAsTaskerModal = ({ handleClose }) => {
-  return (
-    <React.Fragment>
-      {ReactDOM.createPortal(
-        <div className="modal is-active">
-          <div onClick={handleClose} className="modal-background" />
-          <div className="modal-card">
-            <header className="modal-card-head">
-              <div className="modal-card-title">Setup your payout info</div>
-            </header>
-            <section className="modal-card-body">
-              <div className="group">
-                <label className="label">In order to bid on jobs you must :</label>
-              </div>
-              <ul>
-                <li>- Be at least 19 years of old</li>
-                <li>
-                  <a onClick={() => switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings)}>
-                    - Verify your email and phone info
-                  </a>
-                </li>
-                <li>
-                  <a onClick={() => switchRoute(ROUTES.CLIENT.MY_PROFILE.paymentSettings)}>
-                    - Setup your banking payout details
-                  </a>
-                </li>
-              </ul>
-            </section>
-            <footer className="modal-card-foot">
-              <button onClick={handleClose} className="button is-outline">
-                Close
-              </button>
-              <button
-                onClick={() => switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings)}
-                className="button is-success"
-              >
-                go to my profile
-              </button>
-            </footer>
-          </div>
-        </div>,
-        document.querySelector('#bidorboo-root-modals'),
-      )}
-    </React.Fragment>
-  );
-};

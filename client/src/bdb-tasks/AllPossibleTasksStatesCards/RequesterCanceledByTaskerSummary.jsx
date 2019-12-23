@@ -2,62 +2,33 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { updateRequestState } from '../../app-state/actions/requestActions';
 
 import {
   CountDownComponent,
   SummaryStartDateAndTime,
-  JobCardTitle,
+  RequestCardTitle,
   CancelledBy,
   TaskImagesCarousel,
   UserGivenTitle,
 } from '../../containers/commonComponents';
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
-import { updateJobState } from '../../app-state/actions/jobActions';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 class RequesterCanceledByTaskerSummary extends React.Component {
   render() {
-    const { job, updateJobState, notificationFeed } = this.props;
+    const { request, updateRequestState, notificationFeed } = this.props;
 
-    if (!job) {
-      return <div>RequesterCanceledByTaskerSummary is missing properties</div>;
-    }
+    const { startingDateAndTime, taskImages = [], requestTitle } = request;
 
-    const {
-      startingDateAndTime,
-      addressText,
-      _awardedBidRef,
-      displayStatus,
-      state,
-      _ownerRef,
-      taskImages = [],
-      jobTitle,
-    } = job;
-    if (
-      !startingDateAndTime ||
-      !addressText ||
-      !_awardedBidRef ||
-      !displayStatus ||
-      !state ||
-      !_ownerRef
-    ) {
-      return <div>RequesterCanceledByTaskerSummary is missing properties</div>;
-    }
-    const { _bidderRef } = _awardedBidRef;
-    if (!_bidderRef) {
-      return <div>RequesterCanceledByTaskerSummary is missing properties</div>;
-    }
-    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE) {
-      return <div>RequesterCanceledByTaskerSummary is missing properties</div>;
-    }
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     let newUnseenState = false;
-    if (notificationFeed && notificationFeed.jobIdsWithNewBids) {
-      for (let i = 0; i < notificationFeed.jobIdsWithNewBids.length; i++) {
-        if (notificationFeed.jobIdsWithNewBids[i]._id === job._id) {
+    if (notificationFeed && notificationFeed.requestIdsWithNewBids) {
+      for (let i = 0; i < notificationFeed.requestIdsWithNewBids.length; i++) {
+        if (notificationFeed.requestIdsWithNewBids[i]._id === request._id) {
           newUnseenState = true;
           break;
         }
@@ -71,18 +42,18 @@ class RequesterCanceledByTaskerSummary extends React.Component {
       >
         <div className="card-content">
           <div className="content">
-            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-            <UserGivenTitle userGivenTitle={jobTitle} />
+            <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <UserGivenTitle userGivenTitle={requestTitle} />
 
             <TaskImagesCarousel taskImages={taskImages} />
             <SummaryStartDateAndTime
               date={startingDateAndTime}
               renderHelpComponent={() => (
-                <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+                <CountDownComponent startingDate={startingDateAndTime} />
               )}
             />
 
-            <CancelledBy name={'Tasker'} refundAmount={100} />
+            <CancelledBy name={'Tasker'} />
           </div>
         </div>
 
@@ -92,9 +63,9 @@ class RequesterCanceledByTaskerSummary extends React.Component {
               style={{ position: 'relative' }}
               onClick={(e) => {
                 e.preventDefault();
-                newUnseenState && updateJobState(job._id, 'AWARDED_JOB_CANCELED_BY_BIDDER_SEEN');
+                newUnseenState && updateRequestState(request._id, 'AWARDED_REQUEST_CANCELED_BY_TASKER_SEEN');
 
-                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
+                switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(request._id));
               }}
               className="button is-danger"
             >
@@ -106,7 +77,7 @@ class RequesterCanceledByTaskerSummary extends React.Component {
                   <i className="fas fa-circle" />
                 </div>
               )}
-              VIEW DETAILS
+              View Details
             </a>
           </div>
         </React.Fragment>
@@ -115,7 +86,7 @@ class RequesterCanceledByTaskerSummary extends React.Component {
   }
 }
 
-const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
+const mapStateToProps = ({ uiReducer }) => {
   return {
     notificationFeed: uiReducer.notificationFeed,
   };
@@ -123,7 +94,7 @@ const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateJobState: bindActionCreators(updateJobState, dispatch),
+    updateRequestState: bindActionCreators(updateRequestState, dispatch),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(RequesterCanceledByTaskerSummary);

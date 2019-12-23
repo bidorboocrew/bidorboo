@@ -10,10 +10,8 @@ export default class AddToMobileHomeScreenBanner extends React.Component {
     this.installPrompt = null;
 
     this.beforeInstallPromptFunc = (e) => {
-
       // For older browsers
       e.preventDefault();
-      // console.log('Install Prompt fired');
       this.installPrompt = e;
       // See if the app is already installed, in that case, do nothing
       if (
@@ -33,11 +31,11 @@ export default class AddToMobileHomeScreenBanner extends React.Component {
     }
     this.installPrompt.prompt();
     let outcome = await this.installPrompt.userChoice;
-    if (outcome.outcome == 'accepted') {
-      console.log('App Installed');
-    } else {
-      console.log('App not installed');
-    }
+    // if (outcome.outcome == 'accepted') {
+    //   console.log('App Installed');
+    // } else {
+    //   console.log('App not installed');
+    // }
     // Remove the event reference
     this.installPrompt = null;
     // Hide the button

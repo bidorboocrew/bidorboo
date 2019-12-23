@@ -7,10 +7,9 @@ module.exports = (app) => {
   // instantiate app routes
   require('../routes/authRoutes')(app);
   require('../routes/userRoutes')(app);
-  require('../routes/jobRoutes')(app);
+  require('../routes/requestRoutes')(app);
   require('../routes/reviewRoutes')(app);
   require('../routes/bidRoutes')(app);
   require('../routes/paymentRoutes')(app);
-  require('../routes/utilityRoutes')(app);
   require('../routes/pushNotificationRoutes')(app);
 };

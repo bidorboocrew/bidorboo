@@ -1,18 +1,13 @@
-const { jobDataAccess } = require('../data-access/jobDataAccess');
+const { requestDataAccess } = require('../data-access/requestDataAccess');
 
 module.exports = async (req, res, next) => {
   try {
     //in the future redirect to login page
-    const { jobId } = req.body.data;
-    if (!jobId) {
-      return res.status(403).send({
-        errorMsg: 'missing paramerters jobId ',
-      });
-    }
+    const { requestId } = req.body.data;
 
     const userId = req.user._id.toString();
-    const jobOwner = await jobDataAccess.isJobOwner(userId, jobId);
-    if (jobOwner && jobOwner._id) {
+    const requestOwner = await requestDataAccess.isRequestOwner(userId, requestId);
+    if (requestOwner && requestOwner._id) {
       return res.status(403).send({ errorMsg: "You can't bid on your own request." });
     } else {
       next();

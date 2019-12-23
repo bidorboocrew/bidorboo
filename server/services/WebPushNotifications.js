@@ -10,7 +10,7 @@ webpush.setVapidDetails(
 );
 
 exports.WebPushNotifications = {
-  sendJobAwaitingRequesterConfirmCompletionText: async (
+  sendRequestAwaitingRequesterConfirmCompletionText: async (
     targetUserPushSubscription,
     { requestTitle, icon, urlToLaunch }
   ) => {
@@ -20,8 +20,8 @@ exports.WebPushNotifications = {
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
-          title: `BidOrBoo: ${requestTitle} awaiting your confirmation!`,
-          body: `Tasker is done ! Click for more details`,
+          title: `${requestTitle} awaiting your confirmation!`,
+          body: `Tasker is done! Click for more details`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
           tag: urlToLaunch,
@@ -37,7 +37,7 @@ exports.WebPushNotifications = {
       return e;
     }
   },
-  pushAwardedJobWasCancelled: async (
+  pushAwardedRequestWasCancelled: async (
     targetUserPushSubscription,
     { requestTitle, icon, urlToLaunch }
   ) => {
@@ -47,7 +47,7 @@ exports.WebPushNotifications = {
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
-          title: `BidOrBoo: ${requestTitle} Was Cancelled!`,
+          title: `${requestTitle} was cancelled!`,
           body: `It is cancelled! Click for more details`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
@@ -64,7 +64,7 @@ exports.WebPushNotifications = {
       return e;
     }
   },
-  pushNewJobInYourArea: async (targetUserPushSubscription, { requestTitle, urlToLaunch }) => {
+  pushNewRequestInYourArea: async (targetUserPushSubscription, { requestTitle, urlToLaunch }) => {
     // if (process.env.NODE_ENV !== 'production') {
     //   return;
     // }
@@ -87,7 +87,7 @@ exports.WebPushNotifications = {
       return e;
     }
   },
-  pushAwardedJobWasCompleted: async (
+  pushAwardedRequestWasCompleted: async (
     targetUserPushSubscription,
     { requestTitle, icon, urlToLaunch }
   ) => {
@@ -97,7 +97,7 @@ exports.WebPushNotifications = {
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
-          title: `BidOrBoo: ${requestTitle} is Completed!`,
+          title: `${requestTitle} is completed!`,
           body: `It is DONE! Click to Rate it`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
@@ -114,7 +114,7 @@ exports.WebPushNotifications = {
       return e;
     }
   },
-  tellRequesterThatWeMarkedJobDone: async (
+  tellRequesterThatWeMarkedRequestDone: async (
     targetUserPushSubscription,
     { requestTitle, icon, urlToLaunch }
   ) => {
@@ -124,7 +124,7 @@ exports.WebPushNotifications = {
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
-          title: `BidOrBoo Marked ${requestTitle} as Complete because you did not act in 3 days.`,
+          title: `BidOrBoo marked ${requestTitle} as Complete because you did not act in 3 days.`,
           body: `Click to rate the tasker`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
@@ -141,7 +141,7 @@ exports.WebPushNotifications = {
       return e;
     }
   },
-  tellRequesterToConfirmJob: async (
+  tellRequesterToConfirmRequest: async (
     targetUserPushSubscription,
     { requestTitle, icon, urlToLaunch }
   ) => {
@@ -151,7 +151,7 @@ exports.WebPushNotifications = {
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
-          title: `BidOrBoo: Confirm that ${requestTitle} is Completed!`,
+          title: `Confirm that ${requestTitle} is Completed!`,
           body: `Click to confirm completion and Rate the tasker`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
@@ -169,7 +169,7 @@ exports.WebPushNotifications = {
       return e;
     }
   },
-  pushJobIsHappeningSoon: async (
+  pushRequestIsHappeningSoon: async (
     targetUserPushSubscription,
     { requestTitle, icon, urlToLaunch }
   ) => {
@@ -179,7 +179,7 @@ exports.WebPushNotifications = {
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
-          title: `BidOrBoo: ${requestTitle} is Happening Soon!`,
+          title: `${requestTitle} is Happening Soon!`,
           body: `It is happening soon! Click for more details`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
@@ -206,8 +206,8 @@ exports.WebPushNotifications = {
     try {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
-          title: `Good News ${taskerDisplayName} !`,
-          body: `You have been awarded a job. click for details`,
+          title: `Good News ${taskerDisplayName}`,
+          body: `Your Bid WON! click for details`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
           tag: urlToLaunch,

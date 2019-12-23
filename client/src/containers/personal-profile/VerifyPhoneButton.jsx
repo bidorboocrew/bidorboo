@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { connect } from 'react-redux';
+import * as A from '../../app-state/actionTypes';
+
 import { bindActionCreators } from 'redux';
 import axios from 'axios';
 
@@ -24,24 +26,39 @@ class VerifyPhoneButton extends React.Component {
   };
 
   handleSendNewCode = async () => {
+    const { dispatch } = this.props;
     this.setState({ isResendingVCode: true }, async () => {
       try {
         const resendVerificationReq = await axios.post(ROUTES.API.USER.POST.resendVerificationMsg);
         if (resendVerificationReq && resendVerificationReq.success) {
-          alert('you should recieve a text shortly , please give 10-15 minutes');
+          dispatch({
+            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+            payload: {
+              toastDetails: {
+                type: 'success',
+                msg: 'you should recieve a text shortly , please give 1-2 minutes',
+              },
+            },
+          });
         }
       } catch (e) {
-        // some alert
-        alert(
-          'we are unable to send the verification text, please contact bidorboo@bidorboo.ca',
-        );
+        dispatch({
+          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          payload: {
+            toastDetails: {
+              type: 'error',
+              msg:
+                'we are unable to send the verification text, please use the chat button in the footer to talk with our support',
+            },
+          },
+        });
         this.setState({ isResendingVCode: false, inputCodeContent: '' });
       }
     });
   };
   render() {
     const { isResendingVCode, inputCodeContent, showEnterPinDialog } = this.state;
-    const { verifyPhone, verifyingPhoneInProgress } = this.props;
+    const { verifyPhone, verifyingPhoneInProgress, dispatch } = this.props;
     this.rootModal = document.querySelector('#bidorboo-root-modals');
 
     return (
@@ -106,13 +123,27 @@ class VerifyPhoneButton extends React.Component {
                           onClick={() => {
                             if (!isResendingVCode || !verifyingPhoneInProgress) {
                               if (!inputCodeContent) {
-                                alert('Please use the 6 digits code we sent to your phone');
+                                dispatch({
+                                  type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+                                  payload: {
+                                    toastDetails: {
+                                      type: 'error',
+                                      msg: 'Please use the 6 digits code we sent to your phone',
+                                    },
+                                  },
+                                });
                               } else if (inputCodeContent.length === 6) {
                                 verifyPhone(`${inputCodeContent}`, this.toggleEnterPinDialog);
                               } else {
-                                alert(
-                                  "you've entered an invalid code. code is a 6 digit sent to your phone",
-                                );
+                                dispatch({
+                                  type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+                                  payload: {
+                                    toastDetails: {
+                                      type: 'error',
+                                      msg: "you've entered an invalid code.",
+                                    },
+                                  },
+                                });
                               }
                             }
                           }}
@@ -159,7 +190,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(VerifyPhoneButton);
+export default connect(mapStateToProps, mapDispatchToProps)(VerifyPhoneButton);

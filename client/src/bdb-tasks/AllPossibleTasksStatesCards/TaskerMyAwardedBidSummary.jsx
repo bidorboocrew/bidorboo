@@ -2,9 +2,9 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { proposerConfirmsJobCompletion } from '../../app-state/actions/jobActions';
-import { showLoginDialog } from '../../app-state/actions/uiActions';
-import { updateBidState } from '../../app-state/actions/bidsActions';
+import { updateRequestState } from '../../app-state/actions/requestActions';
+
+import { REQUEST_STATES } from '../index';
 
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -12,60 +12,25 @@ import {
   CountDownComponent,
   SummaryStartDateAndTime,
   BSTaskerAwarded,
-  JobCardTitle,
+  RequestCardTitle,
   TaskImagesCarousel,
   UserGivenTitle,
   TaskerWillEarn,
   BSWaitingOnRequesterToConfirm,
+  BSAwardedToSomeoneElse,
 } from '../../containers/commonComponents';
-import { getChargeDistributionDetails } from '../../containers/commonUtils';
-
-import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 class TaskerMyAwardedBidSummary extends React.Component {
   render() {
-    const { bid, job, cancelAwardedBid, notificationFeed, updateBidState } = this.props;
+    const { bid, request, notificationFeed, updateRequestState } = this.props;
 
-    if (!bid || !job || !cancelAwardedBid) {
-      return <div>TaskerMyAwardedBidSummary is missing properties</div>;
-    }
+    const { startingDateAndTime, taskerConfirmedCompletion, taskImages = [], requestTitle } = request;
 
-    const {
-      startingDateAndTime,
-      addressText,
-      isPastDue,
-      isHappeningSoon,
-      isHappeningToday,
-      jobCompletion = {
-        proposerConfirmed: false,
-        bidderConfirmed: false,
-      },
-      taskImages = [],
-      jobTitle,
-    } = job;
-    if (
-      !startingDateAndTime ||
-      !addressText ||
-      isHappeningSoon === 'undefined' ||
-      isHappeningToday === 'undefined' ||
-      isPastDue === 'undefined'
-    ) {
-      return <div>TaskerMyAwardedBidSummary is missing properties</div>;
-    }
-    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE) {
-      return <div>TaskerMyAwardedBidSummary is missing properties</div>;
-    }
-    const { displayStatus, bidAmount, _id } = bid;
-    if (!displayStatus || !bidAmount || !_id) {
-      return <div>TaskerMyAwardedBidSummary is missing properties</div>;
-    }
-
-    const { proposerConfirmed, bidderConfirmed } = jobCompletion;
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    const { taskerTotalPayoutAmount } = getChargeDistributionDetails(bidValue);
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
+    const { taskerPayout, isAwardedToMe } = bid;
+    const { value: taskerTotalPayoutAmount } = taskerPayout;
 
     return (
       <React.Fragment>
@@ -75,51 +40,62 @@ class TaskerMyAwardedBidSummary extends React.Component {
         >
           <div className="card-content">
             <div className="content">
-              <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-              <UserGivenTitle userGivenTitle={jobTitle} />
-
+              <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <UserGivenTitle userGivenTitle={requestTitle} />
               <TaskImagesCarousel taskImages={taskImages} />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
-                  <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+                  <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
+              {isAwardedToMe && (
+                <>
+                  <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
+                  {taskerConfirmedCompletion && <BSWaitingOnRequesterToConfirm />}
 
-              {bidderConfirmed && !proposerConfirmed && <BSWaitingOnRequesterToConfirm />}
-
-              {!bidderConfirmed && !proposerConfirmed && <BSTaskerAwarded isPastDue={isPastDue} />}
+                  {!taskerConfirmedCompletion && <BSTaskerAwarded />}
+                </>
+              )}
+              {!isAwardedToMe && <BSAwardedToSomeoneElse />}
             </div>
           </div>
-          {renderFooter({ bid, isPastDue, jobCompletion, notificationFeed, updateBidState })}
+          {isAwardedToMe &&
+            renderFooter({
+              isAwardedToMe,
+              request,
+              bid,
+              notificationFeed,
+              updateRequestState,
+              taskerConfirmedCompletion,
+            })}
         </div>
       </React.Fragment>
     );
   }
 }
 
-const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
+const mapStateToProps = ({ uiReducer }) => {
   return {
-    isLoggedIn: userReducer.isLoggedIn,
-    selectedAwardedJob: jobsReducer.selectedAwardedJob,
-    userDetails: userReducer.userDetails,
     notificationFeed: uiReducer.notificationFeed,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
-    cancelAwardedBid: bindActionCreators(cancelAwardedBid, dispatch),
-    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
-    updateBidState: bindActionCreators(updateBidState, dispatch),
+    updateRequestState: bindActionCreators(updateRequestState, dispatch),
   };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskerMyAwardedBidSummary);
 
-const renderFooter = ({ bid, notificationFeed, updateBidState }) => {
+const renderFooter = ({
+  request,
+  bid,
+  notificationFeed,
+  updateRequestState,
+  taskerConfirmedCompletion,
+}) => {
   let newUnseenState = false;
   if (notificationFeed && notificationFeed.myBidsWithNewStatus) {
     for (let i = 0; i < notificationFeed.myBidsWithNewStatus.length; i++) {
@@ -136,10 +112,10 @@ const renderFooter = ({ bid, notificationFeed, updateBidState }) => {
           style={{ position: 'relative' }}
           onClick={(e) => {
             e.preventDefault();
-            newUnseenState && updateBidState(bid._id, 'AWARDED_SEEN');
+            newUnseenState && updateRequestState(request._id, REQUEST_STATES.AWARDED_SEEN);
 
             switchRoute(
-              ROUTES.CLIENT.BIDDER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
+              ROUTES.CLIENT.TASKER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),
             );
           }}
           className="button is-success"
@@ -152,7 +128,7 @@ const renderFooter = ({ bid, notificationFeed, updateBidState }) => {
               <i className="fas fa-circle" />
             </div>
           )}
-          VIEW DETAILS
+          {`${taskerConfirmedCompletion ? 'Review Requester' : 'View Details'} `}
         </a>
       </div>
     </React.Fragment>

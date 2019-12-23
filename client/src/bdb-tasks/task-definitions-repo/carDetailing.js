@@ -2,9 +2,10 @@ import React from 'react';
 
 import * as Yup from 'yup';
 import carDetailing_img from '../../assets/images/carDetailing_img.png';
+import { switchRoute } from './../../utils';
+import * as ROUTES from '../../constants/frontend-route-consts';
 
 const NO_SELECTION = 'NO_SELECTION';
-
 export default {
   ID: 'bdbCarDetailing',
   TITLE: 'Car Detailing',
@@ -56,6 +57,18 @@ Q3) Any particular stains or dirt that you want to mention?
       carDetailing_img,
       setShowModal,
       subText: 'The Requester Will Be notified. Good Luck',
+      renderExtraAction: () => (
+        <a
+          style={{ minWidth: 200 }}
+          className="button is-dark"
+          onClick={() => switchRoute(ROUTES.CLIENT.TASKER.root)}
+        >
+          <span style={{ marginRight: 2 }}>Continue Bidding</span>
+          <span className="icon">
+            <i className="fas fa-arrow-right" />
+          </span>
+        </a>
+      ),
     });
   },
   renderThankYouForEditingBid: function(setShowModal) {
@@ -64,6 +77,18 @@ Q3) Any particular stains or dirt that you want to mention?
       setShowModal,
       mainText: 'Bid Was Updated!',
       subText: 'The Requester Will Be notified. Good Luck',
+      renderExtraAction: () => (
+        <a
+          style={{ minWidth: 200 }}
+          className="button is-dark"
+          onClick={() => switchRoute(ROUTES.CLIENT.TASKER.root)}
+        >
+          <span style={{ marginRight: 2 }}>Continue Bidding</span>
+          <span className="icon">
+            <i className="fas fa-arrow-right" />
+          </span>
+        </a>
+      ),
     });
   },
 
@@ -77,7 +102,7 @@ Q3) Any particular stains or dirt that you want to mention?
                 {/* <i className="fas fa-car-alt" style={{ fontSize: 68, color: '#ee2a36' }} /> */}
                 <img
                   src={carDetailing_img}
-                  alt="BidOrBoo task img"
+                  alt="BidOrBoo task"
                   style={{
                     height: 125,
                     width: 125,
@@ -311,13 +336,14 @@ const renderThankyouMoment = ({
   setShowModal,
   mainText = 'Thank You!',
   subText,
+  renderExtraAction = () => null,
 }) => {
   return (
     <div style={{ padding: '1.5rem', background: 'white' }}>
       <div>
         <img
           src={carDetailing_img}
-          alt="BidOrBoo task img"
+          alt="BidOrBoo Thank You"
           style={{ height: 125, width: 125, objectFit: 'cover' }}
         />
       </div>
@@ -326,11 +352,20 @@ const renderThankyouMoment = ({
       </h1>
 
       <p style={{ fontSize: 18, fontWeight: 500, paddingBottom: '1rem' }}>{subText}</p>
-      <a className="button is-large is-success" onClick={() => setShowModal(false)}>
-        <span className="icon is-large">
-          <i className="fas fa-arrow-right" />
-        </span>
-      </a>
+      <div>
+        <a
+          style={{ minWidth: 200 }}
+          className="button is-success"
+          onClick={() => setShowModal(false)}
+        >
+          <span style={{ marginRight: 2 }}>View Inbox</span>
+          <span className="icon">
+            <i className="fas fa-arrow-right" />
+          </span>
+        </a>
+      </div>
+      <br></br>
+      <div>{renderExtraAction()}</div>
     </div>
   );
 };

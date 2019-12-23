@@ -9,17 +9,10 @@ export const API = {
     LOCAL_LOGIN: '/api/auth/bidorboo/login',
     LOGOUT: '/api/auth/logout',
   },
-  UTILS: {
-    GET: {
-      signCloudinaryRequest: '/api/user/paramstosign',
-    },
-  },
   USER: {
     GET: {
       currentUser: '/api/user/currentUser',
       otherUserProfileInfo: '/api/user/otherUserProfileInfo',
-      getMyPastRequestedServices: '/api/user/getMyPastRequestedServices',
-      getMyPastProvidedServices: '/api/user/getMyPastProvidedServices',
     },
     PUT: {
       userDetails: '/api/user/updateProfileDetails',
@@ -40,8 +33,6 @@ export const API = {
   PAYMENT: {
     POST: {
       payment: '/api/payment',
-      myaccountWebhook: '/api/stripewebhook/myaccount',
-      connectedAccountsWebhook: '/api/stripewebhook/connectedAccounts',
     },
     GET: {
       accountLinkForSetupAndVerification: '/api/accountLinkForSetupAndVerification',
@@ -55,37 +46,36 @@ export const API = {
   },
   REVIEW: {
     PUT: {
-      proposerSubmitReview: '/api/review/proposerSubmitReview',
-      bidderSubmitReview: '/api/review/bidderSubmitReview',
+      requesterSubmitReview: '/api/review/requesterSubmitReview',
+      taskerSubmitReview: '/api/review/taskerSubmitReview',
     },
   },
-  JOB: {
+  REQUEST: {
     GET: {
-      myOpenJobs: '/api/job/myOpenJobs',
-      alljobsToBidOn: '/api/job/alljobsToBidOn',
-      myJobById: '/api/job',
-      jobToBidDetailsById: '/api/job/jobToBidDetailsById',
-      jobFullDetailsById: '/api/job/fullDetails',
-      myAwardedJobs: '/api/job/myAwardedJobs',
-      getAllMyRequests: '/api/job/getAllMyRequests',
+      myRequestsSummary: '/api/request/myRequestsSummary',
+      postedRequestAndBidsForRequester: '/api/postedRequestAndBidsForRequester',
+      awardedRequestFullDetailsForRequester: '/api/request/awardedRequestFullDetailsForRequester',
+      achivedTaskDetailsForRequester: '/api/request/achivedTaskDetailsForRequester',
+
+      allrequestsToBidOn: '/api/request/allrequestsToBidOn',
+      requestToBidOnDetailsForTasker: '/api/request/requestToBidOnDetailsForTasker',
     },
     POST: {
-      jobImage: '/api/job/uploadImages',
-      searchJobs: '/api/job/search',
-      newJob: '/api/job/createJob',
-      updateSearchThenSearchJobs: '/api/user/updateSearchThenSearchJobs',
+      requestImage: '/api/request/uploadImages',
+      createNewRequest: '/api/request/createNewRequest',
+      updateSearchThenSearchRequests: '/api/user/updateSearchThenSearchRequests',
     },
     PUT: {
-      updateViewedBy: '/api/job/updateViewedBy',
-      updateBooedBy: '/api/job/updateBooedBy',
-      proposerConfirmsJobCompleted: '/api/job/proposerConfirmsJobCompleted',
-      bidderConfirmsJobCompleted: '/api/job/bidderConfirmsJobCompleted',
-      proposerDisputeJob: '/api/job/proposerDisputeJob',
-      bidderDisputeJob: '/api/job/bidderDisputeJob',
-      updateJobState: '/api/job/updateJobState',
+      updateViewedBy: '/api/request/updateViewedBy',
+      updateBooedBy: '/api/request/updateBooedBy',
+      requesterConfirmsRequestCompleted: '/api/request/requesterConfirmsRequestCompleted',
+      taskerConfirmsRequestCompleted: '/api/request/taskerConfirmsRequestCompleted',
+      requesterDisputeRequest: '/api/request/requesterDisputeRequest',
+      taskerDisputeRequest: '/api/request/taskerDisputeRequest',
+      updateRequestState: '/api/request/updateRequestState',
     },
     DELETE: {
-      myJobById: '/api/job',
+      postedRequestAndBidsForRequester: '/api/postedRequestAndBidsForRequester',
     },
   },
   BID: {
@@ -94,18 +84,17 @@ export const API = {
       cancelAwardedBid: '/api/bids/cancelAwardedBid',
     },
     POST: {
-      bid: '/api/bids/postABid',
+      createNewBid: '/api/bids/createNewBid',
     },
     GET: {
-      allMyPostedBids: '/api/bids/allMyPostedBids',
-      myAwardedBids: '/api/bids/myAwardedBids',
+      myPostedBidsSummary: '/api/bids/myPostedBidsSummary',
       openBidDetails: '/api/bids/openBidDetails',
-      awardedBidDetails: '/api/bids/awardedBidDetails',
+      awardedBidDetailsForTasker: '/api/bids/awardedBidDetailsForTasker',
+      achivedBidDetailsForTasker: '/api/bids/achivedBidDetailsForTasker',
     },
     PUT: {
       updateMyBid: '/api/bids/updateMyBid',
       markBidAsSeen: '/api/bids/markBidAsSeen',
-      updateBidState: '/api/bids/updateBidState',
     },
   },
 };
@@ -120,20 +109,22 @@ export const CLIENT = {
   USER_ROFILE_FOR_REVIEW: '/user-profile/:userId',
   dynamicUserProfileForReview: (userId) => `/user-profile/${userId}`,
   dynamicVerification: (field, code) => `/verification/${field}/${code}`,
-  PROPOSER: {
+  REQUESTER: {
     root: '/bdb-request/root',
-    createjob: '/bdb-request/create-job/:templateId',
-    dynamicCreateJob: (templateId) => `/bdb-request/create-job/${templateId}`,
-    myRequestsPage: '/my-open-jobs',
-    reviewRequestAndBidsPage: '/my-request/review-request-details/:jobId',
-    dynamicReviewRequestAndBidsPage: (jobId) => `/my-request/review-request-details/${jobId}`,
-    selectedAwardedJobPage: '/my-request/awarded-job-details/:jobId',
-    dynamicSelectedAwardedJobPage: (jobId) => `/my-request/awarded-job-details/${jobId}`,
+    createrequest: '/bdb-request/create-request/:templateId',
+    dynamicCreateRequest: (templateId) => `/bdb-request/create-request/${templateId}`,
+    myRequestsPage: '/my-open-requests',
+    reviewRequestAndBidsPage: '/my-request/review-request-details/:requestId',
+    dynamicReviewRequestAndBidsPage: (requestId) =>
+      `/my-request/review-request-details/${requestId}`,
+    selectedAwardedRequestPage: '/my-request/awarded-request-details/:requestId',
+    dynamicSelectedAwardedRequestPage: (requestId) =>
+      `/my-request/awarded-request-details/${requestId}`,
   },
-  BIDDER: {
+  TASKER: {
     root: '/bdb-offer/root',
-    bidOnJobPage: '/bdb-offer/bid-on-job/:jobId',
-    getDynamicBidOnJobPage: (jobId) => `/bdb-offer/bid-on-job/${jobId}`,
+    bidOnRequestPage: '/bdb-offer/bid-on-request/:requestId',
+    getDynamicBidOnRequestPage: (requestId) => `/bdb-offer/bid-on-request/${requestId}`,
     mybids: '/my-bids',
     reviewMyOpenBidAndTheRequestDetails: '/review-my-bid-details/:bidId',
     dynamicReviewMyOpenBidAndTheRequestDetails: (bidId) => `/review-my-bid-details/${bidId}`,
@@ -141,16 +132,14 @@ export const CLIENT = {
     dynamicReviewMyAwardedBidAndTheRequestDetails: (bidId) => `/awarded-bid-details/${bidId}`,
   },
   REVIEW: {
-    proposerJobReview: `/bdb-request/review/:jobId`,
-    bidderJobReview: `/bdb-offer/review/:jobId`,
-    getProposerJobReview: ({ jobId }) => `/bdb-request/review/${jobId}`,
-    getBidderJobReview: ({ jobId }) => `/bdb-offer/review/${jobId}`,
+    requesterRequestReview: `/bdb-request/review/:requestId`,
+    taskerRequestReview: `/bdb-offer/review/:bidId`,
+    getRequesterRequestReview: ({ requestId }) => `/bdb-request/review/${requestId}`,
+    getTaskerRequestReview: ({ bidId }) => `/bdb-offer/review/${bidId}`,
   },
   MY_PROFILE: {
     myNotifications: '/my-profile/notification-settings',
     basicSettings: '/my-profile/basic-settings',
     paymentSettings: '/my-profile/payment-settings',
-    pastRequestedServices: '/my-profile/past-requested-services',
-    pastProvidedServices: '/my-profile/past-provided-services',
   },
 };

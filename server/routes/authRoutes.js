@@ -66,10 +66,15 @@ module.exports = (app) => {
     async (req, res, next) => {
       return passport.authenticate('local-register', (err, user, info) => {
         if (err) {
-          return res.status(400).send({ errorMsg: 'Failed To Register user', details: err });
+          return res.status(400).send({
+            errorMsg: err.message ? err.message : 'Failed To Register user',
+            details: err,
+          });
         }
         if (!user) {
-          return res.status(400).send({ errorMsg: 'Failed To Register user' });
+          return res
+            .status(400)
+            .send({ errorMsg: "Failed To Register user, couldn't create user" });
         }
 
         // https://stackoverflow.com/questions/15711127/express-passport-node-js-error-handling

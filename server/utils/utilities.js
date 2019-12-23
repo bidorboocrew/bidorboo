@@ -6,7 +6,7 @@ const keys = require('../config/keys');
 
 const bcrypt = require('bcrypt');
 const SALT_WORK_FACTOR = 10;
-const jobTemplatesDefinitions = require('./bdb-job-templates-definitions');
+const requestTemplatesDefinitions = require('./bdb-request-templates-definitions');
 
 exports.encryptData = async (dataToEncrypt) => {
   try {
@@ -78,9 +78,9 @@ exports.detroyExistingImg = async (public_id) => {
 //   console.log(result, error);
 // });
 
-exports.jobTemplateIdToDefinitionObjectMapper = {
-  [`${jobTemplatesDefinitions.bdbHouseCleaning.ID}`]: jobTemplatesDefinitions.bdbHouseCleaning,
-  [`${jobTemplatesDefinitions.bdbCarDetailing.ID}`]: jobTemplatesDefinitions.bdbCarDetailing,
-  [`${jobTemplatesDefinitions.bdbPetSittingWalking.ID}`]: jobTemplatesDefinitions.bdbPetSittingWalking,
-  [`${jobTemplatesDefinitions.bdbMoving.ID}`]: jobTemplatesDefinitions.bdbMoving,
+exports.requestTemplateIdToDefinitionObjectMapper = {
+  [`${requestTemplatesDefinitions.bdbHouseCleaning.ID}`]: requestTemplatesDefinitions.bdbHouseCleaning,
+  [`${requestTemplatesDefinitions.bdbCarDetailing.ID}`]: requestTemplatesDefinitions.bdbCarDetailing,
+  [`${requestTemplatesDefinitions.bdbPetSittingWalking.ID}`]: requestTemplatesDefinitions.bdbPetSittingWalking,
+  [`${requestTemplatesDefinitions.bdbMoving.ID}`]: requestTemplatesDefinitions.bdbMoving,
 };

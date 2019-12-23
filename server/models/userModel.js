@@ -42,11 +42,11 @@ const ratingSchema = {
   canceledBids: {
     type: [{ type: Schema.Types.ObjectId, ref: 'BidModel' }],
   },
-  fulfilledJobs: {
-    type: [{ type: Schema.Types.ObjectId, ref: 'JobModel' }],
+  fulfilledRequests: {
+    type: [{ type: Schema.Types.ObjectId, ref: 'RequestModel' }],
   },
-  canceledJobs: {
-    type: [{ type: Schema.Types.ObjectId, ref: 'JobModel' }],
+  canceledRequests: {
+    type: [{ type: Schema.Types.ObjectId, ref: 'RequestModel' }],
   },
   latestComment: {
     type: String,
@@ -71,8 +71,8 @@ const UserSchema = new Schema(
   {
     appView: {
       type: String,
-      default: 'PROPOSER',
-      enum: ['PROPOSER', 'BIDDER'],
+      default: 'REQUESTER',
+      enum: ['REQUESTER', 'TASKER'],
     },
     isGmailUser: {
       type: Boolean,
@@ -97,16 +97,16 @@ const UserSchema = new Schema(
       },
       newPostedTasks: { type: Boolean, default: false },
     },
-    _postedJobsRef: {
-      type: [{ type: Schema.Types.ObjectId, ref: 'JobModel' }],
+    _postedRequestsRef: {
+      type: [{ type: Schema.Types.ObjectId, ref: 'RequestModel' }],
       index: true,
-    }, //list of all jobs you have posted
+    }, //list of all requests you have posted
     _postedBidsRef: {
       type: [{ type: Schema.Types.ObjectId, ref: 'BidModel' }],
       index: true,
     }, // list of all bids you made
-    _asBidderReviewsRef: [{ type: Schema.Types.ObjectId, ref: 'ReviewModel' }],
-    _asProposerReviewsRef: [{ type: Schema.Types.ObjectId, ref: 'ReviewModel' }],
+    _asTaskerReviewsRef: [{ type: Schema.Types.ObjectId, ref: 'ReviewModel' }],
+    _asRequesterReviewsRef: [{ type: Schema.Types.ObjectId, ref: 'ReviewModel' }],
     rating: ratingSchema,
     userId: {
       type: String,
@@ -156,7 +156,6 @@ const UserSchema = new Schema(
         },
       ],
     },
-
     password: {
       type: String,
       allowBlank: false,
@@ -307,16 +306,7 @@ UserSchema.virtual('canPost').get(function() {
 UserSchema.virtual('canBid').get(function() {
   // return this.email && this.email.isVerified;
 
-  return !!(
-    this.phone &&
-    this.phone.isVerified &&
-    this.email &&
-    this.email.isVerified &&
-    this.stripeConnect &&
-    this.stripeConnect.accId &&
-    this.stripeConnect.isVerified &&
-    this.stripeConnect.payoutsEnabled
-  );
+  return !!(this.phone && this.phone.isVerified && this.email && this.email.isVerified);
 });
 
 UserSchema.virtual('disabledReasonMsg').get(function() {

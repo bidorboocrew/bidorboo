@@ -164,7 +164,7 @@ export const templatesRepo = {
     imageUrl:
       'https://assets.vancouverisawesome.com/wp-content/uploads/2018/10/18103036/ikea-furniture-assembly-min.jpg',
     description:
-      'Sick of reading the manuals and following instructions? Get your furniture assembled by our hardworking Bidders',
+      'Sick of reading the manuals and following instructions? Get your furniture assembled by our hardworking Taskers',
     suggestedDetailsText: `*What type of furniture do you need help with?
 
 *Do you have the manuals and instructions handy to help build it?

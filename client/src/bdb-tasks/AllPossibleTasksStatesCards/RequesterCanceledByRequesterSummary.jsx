@@ -2,7 +2,7 @@ import React from 'react';
 import {
   CountDownComponent,
   SummaryStartDateAndTime,
-  JobCardTitle,
+  RequestCardTitle,
   CancelledBy,
   TaskImagesCarousel,
   UserGivenTitle,
@@ -12,44 +12,13 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
-import { REQUEST_STATES } from '../index';
-
 export default class RequesterCanceledByRequesterSummary extends React.Component {
   render() {
-    const { job } = this.props;
+    const { request } = this.props;
 
-    if (!job) {
-      return <div>RequesterCanceledByRequesterSummary is missing properties</div>;
-    }
+    const { startingDateAndTime, taskImages = [], requestTitle } = request;
 
-    const {
-      startingDateAndTime,
-      addressText,
-      _awardedBidRef,
-      displayStatus,
-      state,
-      _ownerRef,
-      taskImages = [],
-      jobTitle,
-    } = job;
-    if (
-      !startingDateAndTime ||
-      !addressText ||
-      !_awardedBidRef ||
-      !displayStatus ||
-      !state ||
-      !_ownerRef
-    ) {
-      return <div>RequesterCanceledByRequesterSummary is missing properties</div>;
-    }
-    const { _bidderRef } = _awardedBidRef;
-    if (!_bidderRef) {
-      return <div>RequesterCanceledByRequesterSummary is missing properties</div>;
-    }
-    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE) {
-      return <div>RequesterCanceledByRequesterSummary is missing properties</div>;
-    }
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     return (
       <div
@@ -58,29 +27,29 @@ export default class RequesterCanceledByRequesterSummary extends React.Component
       >
         <div className="card-content">
           <div className="content">
-            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-            <UserGivenTitle userGivenTitle={jobTitle} />
+            <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <UserGivenTitle userGivenTitle={requestTitle} />
 
             <TaskImagesCarousel taskImages={taskImages} />
             <SummaryStartDateAndTime
               date={startingDateAndTime}
               renderHelpComponent={() => (
-                <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+                <CountDownComponent startingDate={startingDateAndTime} />
               )}
             />
 
-            <CancelledBy name={'You'} refundAmount={75} />
+            <CancelledBy name={'You'} />
           </div>
         </div>
 
         <div className="centeredButtonInCard">
           <a
             onClick={() => {
-              switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
+              switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(request._id));
             }}
             className="button is-danger"
           >
-            VIEW DETAILS
+            View Details
           </a>
         </div>
       </div>

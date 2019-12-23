@@ -7,7 +7,7 @@ module.exports = (process) => {
   require('../models/bidModel');
   require('../models/userModel');
   require('../models/reviewModel');
-  require('../models/jobModel');
+  require('../models/requestModel');
   // require('../models/paymentModel');
 
   mongoose.Promise = global.Promise;

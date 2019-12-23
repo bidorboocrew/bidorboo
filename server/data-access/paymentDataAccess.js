@@ -7,8 +7,8 @@
 // exports.paymentDataAccess = {
 //   logPaymentInfo: ({
 //     mongoUser_id,
-//     jobId,
-//     awardedBidderId,
+//     requestId,
+//     awardedTaskerId,
 //     amount,
 //     stripeConfirmationId,
 //     currency,
@@ -22,15 +22,15 @@
 //       const stripeCommission = amount * STRIPE_TRANSACTION_RATE + STRIPE_TRAS_PROCESS_FEE;
 //       try {
 //         const paymentModel = await new PaymentModel({
-//           _jobRef: jobId,
+//           _requestRef: requestId,
 //           _from: mongoUser_id,
-//           _to: awardedBidderId,
+//           _to: awardedTaskerId,
 //           stripeConfirmationId: stripeConfirmationId,
 //           paymentDetails: {
-//             proposerPayment: amount,
+//             requesterPayment: amount,
 //             bidOrBooCommission: bidOrBooCommission,
 //             stripeCommission: stripeCommission,
-//             bidderEarns: amount - bidOrBooCommission - stripeCommission,
+//             taskerEarns: amount - bidOrBooCommission - stripeCommission,
 //             currency,
 //           },
 //         }).save();
@@ -41,7 +41,7 @@
 //       }
 //     });
 //   },
-//   // get jobs for a user and filter by a given state
+//   // get requests for a user and filter by a given state
 //   getAllPaymentsDetails: async () => {
 //     return new Promise(async (resolve, reject) => {
 //       try {
@@ -49,7 +49,7 @@
 //           sort: { createdAt: -1 },
 //         })
 //           .populate({
-//             path: '_jobRef',
+//             path: '_requestRef',
 //           })
 //           .populate({
 //             path: '_from',

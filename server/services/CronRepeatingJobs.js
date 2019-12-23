@@ -1,42 +1,23 @@
-// cron jobs . cleanup tasks to run on the server
-// https://scotch.io/tutorials/nodejs-cron-jobs-by-examples
+// cron requests . cleanup tasks to run on the server
+// https://scotch.io/tutorials/nodejs-cron-requests-by-examples
 // https://www.npmjs.com/package/cron-parser
 
-const { jobDataAccess } = require('../data-access/jobDataAccess');
+const { requestDataAccess } = require('../data-access/requestDataAccess');
 const CronJob = require('cron').CronJob;
 // http://pm2.keymetrics.io/docs/usage/environment/
 
 module.exports = () => {
-  /**
-   * Tasks that we would wana run
-   *
-   * - update expired jobs and all relevant details (Expired)
-   * - checkout any jobs that are scheduled for tomorrow and send reminder to owners about the jobs
-   * - payout any completed jobs that are approved and reviewed
-   * - backup the DB everynight
-   */
-
   if (process.env.NODE_ENV === 'production') {
-    console.log('CRON JOBS INITIATED');
-
     if (process.env.NODE_APP_INSTANCE === '0') {
       // *second (0 - 59, optional)    *minute (0 - 59)    *hour (0 - 23)    *day of month (1 - 31)    *month (1 - 12)    *day of week (0 - 7) (0 or 7 is Sun)
-      // clean jobs at midnight
+      // clean requests at midnight
       new CronJob(
         '00 00 00 * * *',
-        async () => {
-          try {
-            // SAEED you dealt with this
-            console.log('start running cron job: CleanUpAllExpiredNonAwardedJobs');
-            console.time('CleanUpAllExpiredNonAwardedJobs');
-            await jobDataAccess.BidOrBooAdmin.CleanUpAllExpiredNonAwardedJobs();
-            console.timeEnd('CleanUpAllExpiredNonAwardedJobs');
-            console.log('end running cron job: CleanUpAllExpiredNonAwardedJobs');
-          } catch (e) {
-            console.log('running cron job: CleanUpAllExpiredNonAwardedJobs ' + JSON.stringify(e));
-          }
+        () => {
+          console.log('start running cron request: CleanUpAllExpiredNonAwardedRequests');
+          requestDataAccess.BidOrBooAdmin.CleanUpAllExpiredNonAwardedRequests();
         },
-        () => console.log('end running cron job: CleanUpAllExpiredNonAwardedJobs'),
+        () => console.log('end running cron request: CleanUpAllExpiredNonAwardedRequests'),
         true,
         'America/Toronto'
       ).start();
@@ -45,19 +26,11 @@ module.exports = () => {
       // Notify anyone who is assigned a task via email and sms at 8pm
       new CronJob(
         '00 00 20 * * *',
-        async () => {
-          try {
-            // SAEED you dealt with this
-            console.log('start running cron job: SendRemindersForUpcomingJobs');
-            console.time('SendRemindersForUpcomingJobs');
-            await jobDataAccess.BidOrBooAdmin.SendRemindersForUpcomingJobs();
-            console.timeEnd('SendRemindersForUpcomingJobs');
-            console.log('end running cron job: SendRemindersForUpcomingJobs');
-          } catch (e) {
-            console.log('running cron job: SendRemindersForUpcomingJobs ' + JSON.stringify(e));
-          }
+        () => {
+          console.log('start running cron request: SendRemindersForUpcomingRequests');
+          requestDataAccess.BidOrBooAdmin.SendRemindersForUpcomingRequests();
         },
-        () => console.log('end running cron job: SendRemindersForUpcomingJobs'),
+        () => console.log('end running cron request: SendRemindersForUpcomingRequests'),
         true,
         'America/Toronto'
       ).start();
@@ -65,24 +38,13 @@ module.exports = () => {
     }
 
     if (process.env.NODE_APP_INSTANCE === '1') {
-      // *second (0 - 59, optional)    *minute (0 - 59)    *hour (0 - 23)    *day of month (1 - 31)    *month (1 - 12)    *day of week (0 - 7) (0 or 7 is Sun)
-
       new CronJob(
         '00 00 03 * * *',
-        async () => {
-          try {
-            // SAEED you dealt with this
-            console.log('start running cron job: CleanUpAllBidsAssociatedWithDoneJobs');
-            console.time('CleanUpAllBidsAssociatedWithDoneJobs');
-            await jobDataAccess.BidOrBooAdmin.CleanUpAllBidsAssociatedWithDoneJobs();
-            console.timeEnd('CleanUpAllBidsAssociatedWithDoneJobs');
-          } catch (e) {
-            console.log(
-              'running cron job: CleanUpAllBidsAssociatedWithDoneJobs ' + JSON.stringify(e)
-            );
-          }
+        () => {
+          console.log('start running cron request: CleanUpAllBidsAssociatedWithDoneRequests');
+          requestDataAccess.BidOrBooAdmin.CleanUpAllBidsAssociatedWithDoneRequests();
         },
-        () => console.log('end running cron job: CleanUpAllBidsAssociatedWithDoneJobs'),
+        () => console.log('end running cron request: CleanUpAllBidsAssociatedWithDoneRequests'),
         true,
         'America/Toronto'
       ).start();
@@ -91,26 +53,16 @@ module.exports = () => {
     if (process.env.NODE_APP_INSTANCE === '2') {
       new CronJob(
         '00 00 03 * * *',
-        async () => {
-          try {
-            // SAEED you dealt with this
-            console.log(
-              'start running cron job: InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct ' +
-                new Date()
-            );
-            console.time('InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct');
-            await jobDataAccess.BidOrBooAdmin.nagRequesterToConfirmJob();
-            console.timeEnd('InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct');
-          } catch (e) {
-            console.log(
-              'running cron job: InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct ' +
-                JSON.stringify(e)
-            );
-          }
+        () => {
+          console.log(
+            'start running cron request: InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct '
+          );
+
+          requestDataAccess.BidOrBooAdmin.nagRequesterToConfirmRequest();
         },
         () =>
           console.log(
-            'end running cron job: InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct ' +
+            'end running cron request: InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct ' +
               new Date()
           ),
         true,
@@ -120,17 +72,11 @@ module.exports = () => {
     if (process.env.NODE_APP_INSTANCE === '3') {
       new CronJob(
         '00 00 */6 * * *',
-        async () => {
-          try {
-            console.log('start running cron job: SendPayoutsToBanks');
-            console.time('SendPayoutsToBanks');
-            await jobDataAccess.BidOrBooAdmin.SendPayoutsToBanks();
-            console.timeEnd('SendPayoutsToBanks');
-          } catch (e) {
-            console.log('running cron job: SendPayoutsToBanks ' + JSON.stringify(e));
-          }
+        () => {
+          console.log('start running cron request: SendPayoutsToBanks');
+          requestDataAccess.BidOrBooAdmin.SendPayoutsToBanks();
         },
-        () => console.log('end running cron job: SendPayoutsToBanks'),
+        () => console.log('end running cron request: SendPayoutsToBanks'),
         true,
         'America/Toronto'
       ).start();

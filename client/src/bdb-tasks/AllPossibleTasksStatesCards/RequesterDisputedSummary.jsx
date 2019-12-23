@@ -3,7 +3,7 @@ import {
   CountDownComponent,
   DisputedBy,
   SummaryStartDateAndTime,
-  JobCardTitle,
+  RequestCardTitle,
   TaskImagesCarousel,
   UserGivenTitle,
 } from '../../containers/commonComponents';
@@ -14,46 +14,15 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 export default class RequesterDisputedSummary extends React.Component {
   render() {
-    const { job } = this.props;
-    if (!job) {
-      return <div>RequesterDisputedSummary is missing properties</div>;
-    }
+    const { request } = this.props;
 
-    const {
-      startingDateAndTime,
-      addressText,
-      _awardedBidRef,
-      displayStatus,
-      state,
-      _ownerRef,
-      taskImages = [],
-      jobTitle,
+    const { startingDateAndTime, taskImages = [], requestTitle, dispute } = request;
 
-      dispute,
-    } = job;
-    if (
-      !startingDateAndTime ||
-      !addressText ||
-      !_awardedBidRef ||
-      !displayStatus ||
-      !state ||
-      !_ownerRef ||
-      !dispute
-    ) {
-      return <div>RequesterDisputedSummary is missing properties</div>;
-    }
-    const { _bidderRef } = _awardedBidRef;
-    if (!_bidderRef) {
-      return <div>RequesterDisputedSummary is missing properties</div>;
-    }
-    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE) {
-      return <div>RequesterDisputedSummary is missing properties</div>;
-    }
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     let whoDisputed = '';
 
-    const { taskerDispute, proposerDispute } = dispute;
+    const { taskerDispute } = dispute;
     if (taskerDispute && taskerDispute.reason) {
       whoDisputed = 'Tasker';
     } else {
@@ -64,16 +33,14 @@ export default class RequesterDisputedSummary extends React.Component {
       <div className="card has-text-centered disputeOnlyView cardWithButton">
         <div className="card-content">
           <div className="content">
-            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-            <UserGivenTitle userGivenTitle={jobTitle} />
+            <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <UserGivenTitle userGivenTitle={requestTitle} />
 
             <TaskImagesCarousel taskImages={taskImages} />
 
             <SummaryStartDateAndTime
               date={startingDateAndTime}
-              renderHelpComponent={() => (
-                <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
-              )}
+              renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
             <DisputedBy name={whoDisputed} />
           </div>
@@ -83,11 +50,11 @@ export default class RequesterDisputedSummary extends React.Component {
           <div className="centeredButtonInCard">
             <a
               onClick={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(job._id));
+                switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(request._id));
               }}
               className="button is-fullwidth is-danger"
             >
-              VIEW DETAILS
+              View Details
             </a>
           </div>
         </React.Fragment>

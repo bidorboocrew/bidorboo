@@ -6,7 +6,7 @@ const initialState = {
   specialMomentContent: null,
   authIsInProgress: true,
   shouldShowLoginDialog: false,
-  userAppView: 'PROPOSER', //or BIDDER
+  userAppView: 'REQUESTER', //or TASKER
   /**
    * toastDetails : {toastType : warning|successful|error , Msg: string, toastId: uuid}
    */
@@ -35,22 +35,21 @@ const showSpecialMoment = (state = initialState, { payload }) => {
 };
 const updateNotificationFeed = (state = initialState, { payload }) => {
   if (payload) {
-    // const
-    const jobIdsWithNewBids = payload.z_notify_jobsWithNewUnseenState || [];
+    const requestIdsWithNewBids = payload.z_notify_requestsWithNewUnseenState || [];
     const myBidsWithNewStatus = payload.z_notify_myBidsWithNewStatus || [];
     const reviewsToBeFilled = payload.z_track_reviewsToBeFilled || [];
     const workTodo = payload.z_track_workToDo || [];
-    const jobsHappeningToday = payload.z_jobsHappeningToday || [];
+    const requestsHappeningToday = payload.z_requestsHappeningToday || [];
     const bidsHappeningToday = payload.z_bidsHappeningToday || [];
 
     return {
       ...state,
       notificationFeed: {
-        jobIdsWithNewBids,
+        requestIdsWithNewBids,
         myBidsWithNewStatus,
         reviewsToBeFilled,
         workTodo,
-        jobsHappeningToday,
+        requestsHappeningToday,
         bidsHappeningToday,
       },
     };
@@ -69,11 +68,11 @@ export default handleActions(
     [`${A.UI_ACTIONS.SHOW_SPECIAL_MOMENT}`]: showSpecialMoment,
     [`${A.AUTH_ACTIONS.USER_IS_LOGGED_OUT}`]: setLoggedOutState,
 
-    [`${A.UI_ACTIONS.SET_APP_BIDDER_VIEW}`]: (state = initialState) => {
-      return { ...state, userAppView: 'BIDDER' };
+    [`${A.UI_ACTIONS.SET_APP_TASKER_VIEW}`]: (state = initialState) => {
+      return { ...state, userAppView: 'TASKER' };
     },
-    [`${A.UI_ACTIONS.SET_APP_PROPOSER_VIEW}`]: (state = initialState) => {
-      return { ...state, userAppView: 'PROPOSER' };
+    [`${A.UI_ACTIONS.SET_APP_REQUESTER_VIEW}`]: (state = initialState) => {
+      return { ...state, userAppView: 'REQUESTER' };
     },
     [`${A.AUTH_ACTIONS.LOGIN_FLOW_INITIATED}${A._PENDING}`]: (state = initialState) => {
       return { ...state, authIsInProgress: true };
@@ -84,17 +83,17 @@ export default handleActions(
     [`${A.AUTH_ACTIONS.LOGIN_FLOW_INITIATED}${A._REJECTED}`]: (state = initialState) => {
       return { ...state, authIsInProgress: false };
     },
-    [`${A.PROPOSER_ACTIONS.AWARD_BIDDER_AND_MAKE_A_PAYMENT}${A._PENDING}`]: (
+    [`${A.REQUESTER_ACTIONS.AWARD_TASKER_AND_MAKE_A_PAYMENT}${A._PENDING}`]: (
       state = initialState,
     ) => {
       return { ...state, paymentIsInProgress: true };
     },
-    [`${A.PROPOSER_ACTIONS.AWARD_BIDDER_AND_MAKE_A_PAYMENT}${A._FULFILLED}`]: (
+    [`${A.REQUESTER_ACTIONS.AWARD_TASKER_AND_MAKE_A_PAYMENT}${A._FULFILLED}`]: (
       state = initialState,
     ) => {
       return { ...state, paymentIsInProgress: false };
     },
-    [`${A.PROPOSER_ACTIONS.AWARD_BIDDER_AND_MAKE_A_PAYMENT}${A._REJECTED}`]: (
+    [`${A.REQUESTER_ACTIONS.AWARD_TASKER_AND_MAKE_A_PAYMENT}${A._REJECTED}`]: (
       state = initialState,
     ) => {
       return { ...state, paymentIsInProgress: false };

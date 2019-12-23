@@ -1,12 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TextareaAutosize from 'react-autosize-textarea';
-import * as ROUTES from '../../constants/frontend-route-consts';
-import { switchRoute } from '../../utils';
 import { Collapse } from 'react-collapse';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
-import { REQUEST_STATES } from '../index';
 
 import {
   CountDownComponent,
@@ -17,16 +14,13 @@ import {
   TaskSpecificExtras,
   SummaryStartDateAndTime,
   BSawaitingOnRequester,
-  BSPastDueExpired,
-  JobCardTitle,
-  BSAwardedToSomeoneElse,
+  RequestCardTitle,
   TaskImagesCarousel,
   UserGivenTitle,
   BidAmount,
   TaskerWillEarn,
 } from '../../containers/commonComponents';
-import { getChargeDistributionDetails } from '../../containers/commonUtils';
-import TaskerEditOrUpdateBid from '../../containers/bidder-flow/components/TaskerEditOrUpdateBid';
+import TaskerEditOrUpdateBid from '../../containers/tasker-flow/components/TaskerEditOrUpdateBid';
 
 export default class TaskerMyOpenBidDetails extends React.Component {
   constructor(props) {
@@ -69,62 +63,28 @@ export default class TaskerMyOpenBidDetails extends React.Component {
   };
 
   render() {
-    const { bid, job, otherArgs } = this.props;
-    if (!bid || !otherArgs || !job) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
+    const { bid, request, otherArgs } = this.props;
+
     const {
       startingDateAndTime,
-      _bidsListRef, // not mandatory
       _ownerRef,
       detailedDescription,
       location,
       extras,
-      isPastDue,
-      state,
       taskImages = [],
-      jobTitle,
-    } = job;
-    if (
-      !startingDateAndTime ||
-      !_ownerRef ||
-      !detailedDescription ||
-      !location ||
-      !extras ||
-      !state ||
-      isPastDue === 'undefined'
-    ) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
+      requestTitle,
+    } = request;
 
-    const { bidAmount, isNewBid } = bid;
-    if (!bidAmount) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    if (!bidValue || !bidCurrency) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
+    const { taskerPayout, bidAmount } = bid;
 
-    const { taskerTotalPayoutAmount } = getChargeDistributionDetails(bidValue);
+    const { value: taskerPayoutAmount } = taskerPayout;
+    const { value: bidValue } = bidAmount;
+
     const { updateBid, deleteOpenBid } = otherArgs;
-    if (!updateBid || !deleteOpenBid) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
-    const { displayStatus } = bid;
-    if (!displayStatus) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
 
-    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE || !ID) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.mybids);
-    }
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     const { showMore, showDeleteDialog, showMoreOptionsContextMenu } = this.state;
-
-    const isAwardedToSomeoneElse =
-      state === REQUEST_STATES.AWARDED && bid._id !== job._awardedBidRef;
 
     return (
       <React.Fragment>
@@ -181,7 +141,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
         <div className={`card has-text-centered cardWithButton nofixedwidth`}>
           <div className="card-content">
             <div className="content">
-              <JobCardTitle
+              <RequestCardTitle
                 icon={ICON}
                 title={TITLE}
                 img={IMG}
@@ -221,26 +181,16 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                   </div>
                 )}
               />
-              <UserGivenTitle userGivenTitle={jobTitle} />
-
+              <UserGivenTitle userGivenTitle={requestTitle} />
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
-                  <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+                  <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
-
-              {isAwardedToSomeoneElse && <BSAwardedToSomeoneElse />}
-
-              {!isAwardedToSomeoneElse && (
-                <React.Fragment>
-                  {isPastDue && <BSPastDueExpired />}
-                  {!isPastDue && <BSawaitingOnRequester />}
-                </React.Fragment>
-              )}
-
+              <TaskerWillEarn earningAmount={taskerPayoutAmount}></TaskerWillEarn>
+              <BSawaitingOnRequester />
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
                   <BidAmount bidAmount={bidValue}></BidAmount>
@@ -255,7 +205,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                       destionationAddress={extras.destinationText}
                     ></DestinationAddressValue>
                   )}
-                  <AvgBidDisplayLabelAndValue bidsList={_bidsListRef} />
+                  <AvgBidDisplayLabelAndValue avgBid={request.avgBid} />
 
                   <div className="group">
                     <label className="label hasSelectedValue">Detailed Description</label>
@@ -290,12 +240,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                 )}
               </div>
               <br />
-              <TaskerEditOrUpdateBid
-                bid={bid}
-                job={job}
-                updateBidAction={updateBid}
-                isAwardedToSomeoneElse={isAwardedToSomeoneElse}
-              />
+              <TaskerEditOrUpdateBid bid={bid} request={request} updateBidAction={updateBid} />
             </div>
           </div>
         </div>

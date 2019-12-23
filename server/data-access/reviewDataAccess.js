@@ -9,7 +9,8 @@ exports.reviewDataAccess = {
       { _id: reviewId },
       {
         $set: { ...updateData },
-      }
+      },
+      { new: true }
     )
       .lean(true)
       .exec();

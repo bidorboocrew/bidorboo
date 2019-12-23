@@ -19,23 +19,22 @@ import GetNotificationsAndScroll from './GetNotificationsAndScroll';
 import { registerServiceWorker } from './registerServiceWorker';
 import { registerPushNotification } from './registerPushNotification';
 
-window.BidorBoo = window.BidorBoo || {};
+window.BidOrBoo = window.BidOrBoo || {};
 
 if (process.env.NODE_ENV === 'production') {
-  console.log('production add bugsnag');
   const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_API_KEY}`);
   bugsnagClient.use(bugsnagReact, React);
   const ErrorBoundary = bugsnagClient.getPlugin('react');
   ReactDOM.render(
-    <ErrorBoundary>
-      <Provider store={store}>
-        <Router history={appHistory}>
+    <Provider store={store}>
+      <Router history={appHistory}>
+        <ErrorBoundary>
           <GetNotificationsAndScroll>
             <App />
           </GetNotificationsAndScroll>
-        </Router>
-      </Provider>
-    </ErrorBoundary>,
+        </ErrorBoundary>
+      </Router>
+    </Provider>,
     document.getElementById('BidOrBoo-app'),
   );
 

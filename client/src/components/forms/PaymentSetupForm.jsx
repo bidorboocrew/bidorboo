@@ -1,9 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import * as A from '../../app-state/actionTypes';
+
 import axios from 'axios';
 import ReactDOM from 'react-dom';
-
-import Dropzone from 'react-dropzone';
-import moment from 'moment';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -11,17 +11,8 @@ import { TextInput } from './FormsHelpers';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { Spinner } from '../../components/Spinner';
-import { onLogout } from './../../app-state/actions/authActions';
-const MAX_FILE_SIZE_IN_MB = 1000000 * 10; //10MB
-const NO_SELECTION = 'NO_SELECTION';
 const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
-    // phone_number: Yup.string()
-    //   .ensure()
-    //   .trim()
-    //   .test('phone_number', 'invalid format. an example would be 9053334444', (inputText) => {
-    //     return phoneNumber(inputText);
-    //   }),
     full_name: Yup.string()
       .ensure()
       .trim()
@@ -57,7 +48,33 @@ const EnhancedForms = withFormik({
         account_holder_name: full_name,
       });
     if (tokenizedBankAccountError) {
-      alert(JSON.stringify(tokenizedBankAccountError));
+      let issue = 'issue encountered, please use chat button in the footer if you need help';
+      switch (tokenizedBankAccountError.code) {
+        case 'account_number_invalid':
+          issue = 'The bank account number provided is invalid (e.g., missing digits)';
+          break;
+        case 'bank_account_unusable':
+          issue =
+            'The bank account provided cannot be used for payouts. A different bank account must be used.';
+          break;
+        case 'routing_number_invalid':
+          issue =
+            'The bank routing number provided is invalid. Make sure to check institution # and transit #';
+
+          break;
+        default:
+          break;
+      }
+
+      props.dispatch({
+        type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+        payload: {
+          toastDetails: {
+            type: 'error',
+            msg: issue,
+          },
+        },
+      });
       setSubmitting(false);
       return;
     }
@@ -76,7 +93,6 @@ const EnhancedForms = withFormik({
           last4BankAcc: tokenizedBankAccount.bank_account.last4,
         },
       });
-      // xxxx update without reload
       window.location.reload();
     } catch (e) {
       let msg = 'failed To Create Account please email us at bidorboo@bidorboo.ca';
@@ -89,9 +105,17 @@ const EnhancedForms = withFormik({
       ) {
         msg = e.response.data.errorMsg.message;
       }
-      alert(msg);
+
+      props.dispatch({
+        type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+        payload: {
+          toastDetails: {
+            type: 'error',
+            msg,
+          },
+        },
+      });
       setSubmitting(false);
-      console.error(e);
     }
     setSubmitting(false);
   },
@@ -253,7 +277,7 @@ const PaymentSetupForm = (props) => {
   );
 };
 
-export default EnhancedForms(PaymentSetupForm);
+export default connect(null, null)(EnhancedForms(PaymentSetupForm));
 
 const HeaderTitle = (props) => {
   const { title, specialMarginVal } = props;

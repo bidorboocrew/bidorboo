@@ -3,15 +3,15 @@
 
 // const PaymentSchema = new Schema(
 //   {
-//     _jobRef: { type: Schema.Types.ObjectId, ref: 'JobModel', required: true },
+//     _requestRef: { type: Schema.Types.ObjectId, ref: 'RequestModel', required: true },
 //     _from: { type: Schema.Types.ObjectId, ref: 'UserModel', required: true },
 //     _to: { type: Schema.Types.ObjectId, ref: 'UserModel', required: true },
 //     stripeTransId: String,
 //     state: String,
 //     paymentDetails: {
-//       proposerPayment: { type: Number, required: true },
+//       requesterPayment: { type: Number, required: true },
 //       bidOrBooCommission: { type: Number, required: true },
-//       bidderEarns: { type: Number, required: true },
+//       taskerEarns: { type: Number, required: true },
 //       stripeCommission: { type: Number, required: true },
 //       currency: String,
 //     },

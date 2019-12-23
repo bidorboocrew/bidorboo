@@ -50,8 +50,8 @@ module.exports = (app) => {
       const noPushWasSentBefore = !!currentUser.pushSubscription;
       if (!noPushWasSentBefore) {
         const payload = JSON.stringify({
-          title: 'BidOrBoo Push Enabled.',
-          body: ' Welcome to BidOrBoo , You Can Control Notification settings in your profile',
+          title: 'BidOrBoo enabled push notifications.',
+          body: 'You Can Control Notification settings by clicking here',
           icon:
             'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1545981752/BidOrBoo/android-chrome-192x192.png',
           urlToLaunch: 'https://www.bidorboo.ca/my-profile/notification-settings',

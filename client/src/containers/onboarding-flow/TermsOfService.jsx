@@ -17,7 +17,7 @@ export default class TermsOfService extends React.Component {
               <p>
                 These Terms of Service constitute a legally binding agreement between you and
                 BidOrBoo, Inc. (“Company” or “BidOrBoo”) governing your use of the BidOrBoo Platform
-                (as defined below), Company’s website (https://www.BidOrBoo.com or the “Site”) and
+                (as defined below), Company’s website (https://www.bidorboo.ca or the “Site”) and
                 mobile applications (the “Apps”). The BidOrBoo Platform and related services
                 provided by Company, the Site, and Apps, including without limitation communications
                 and information (whether in writing, orally, or otherwise howsoever) provided by
@@ -346,7 +346,7 @@ export default class TermsOfService extends React.Component {
               <br></br>
               <p>
                 6. Public Areas; Acceptable Use The BidOrBoo Platform may contain profiles, email
-                systems, blogs, message boards, reviews, ratings, applications, job postings, chat
+                systems, blogs, message boards, reviews, ratings, applications, request postings, chat
                 areas, news groups, forums, communities and/or other message or communication
                 facilities (“Public Areas”) that allow Users to communicate with other Users. You
                 may only use such community areas to send and receive messages and materials that
@@ -495,9 +495,9 @@ export default class TermsOfService extends React.Component {
                 message, data or other charges from your wireless carrier may apply. You may opt-out
                 of receiving texts messages from us by modifying your account settings on the Site
                 or Apps, texting “STOP” in response to any texts, or by emailing
-                opt-out-texts@BidOrBoo.com and specifying you want to opt-out of texts. You may
+                opt-out-texts@bidorboo.ca and specifying you want to opt-out of texts. You may
                 opt-out of receiving calls from us by stating that you no longer wish to receive
-                calls during any call with us, or by emailing opt-out-texts@BidOrBoo.com and
+                calls during any call with us, or by emailing opt-out-texts@bidorboo.ca and
                 specifying you want to opt-out of calls. You understand that we may send you a text
                 confirming any opt-out by you.
               </p>

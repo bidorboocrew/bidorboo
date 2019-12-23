@@ -3,7 +3,7 @@ import logoImg from '../assets/images/android-chrome-192x192.png';
 
 import moment from 'moment';
 import AddToCalendar from 'react-add-to-calendar';
-import { REQUEST_STATES, BID_STATES } from '../bdb-tasks/index';
+import { REQUEST_STATES } from '../bdb-tasks/index';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import * as ROUTES from '../constants/frontend-route-consts';
@@ -27,26 +27,12 @@ export const getDaysSinceCreated = (createdAt) => {
   return daysSinceCreated;
 };
 
-export const findAvgBidInBidList = (bidsList) => {
-  let hasBids = bidsList && bidsList.length > 0;
-
-  if (hasBids) {
-    const bidsTotal = bidsList
-      .map((bid) => bid.bidAmount.value)
-      .reduce((accumulator, bidAmount) => accumulator + bidAmount);
-    return Math.ceil(bidsTotal / bidsList.length);
-  }
-  return null;
-};
-
-export const AvgBidDisplayLabelAndValue = ({ bidsList }) => {
-  let minBid = findAvgBidInBidList(bidsList);
-  let avgBidLabel = minBid ? (
-    <DisplayLabelValue labelText="Avg Bid" labelValue={`${minBid}$ (CAD)`} />
+export const AvgBidDisplayLabelAndValue = ({ avgBid }) => {
+  return avgBid === '--' ? (
+    <DisplayLabelValue labelText="Avg Bid" labelValue={`Be the first tasker!`} />
   ) : (
-    <DisplayLabelValue labelText="Avg Bid" labelValue={`Be the first bidder!`} />
+    <DisplayLabelValue labelText="Avg Bid" labelValue={`$${avgBid} (CAD)`} />
   );
-  return avgBidLabel;
 };
 
 export const DisplayLabelValue = ({ labelText, labelValue, renderHelpComponent = () => null }) => {
@@ -64,7 +50,7 @@ export const CountDownComponent = (props) => {
   return <div className="help">{`* ${moment(startingDate).fromNow()}`}</div>;
 };
 
-export const JobTitleText = ({ title, iconClass }) => {
+export const RequestTitleText = ({ title, iconClass }) => {
   return (
     <div style={{ flexGrow: 1 }} className="title">
       <span className="icon">
@@ -108,7 +94,7 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false, large = 
             boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
           }}
           src={profileImage.url}
-          alt="image"
+          alt="profile image"
         />
       </figure>
 
@@ -125,7 +111,7 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false, large = 
             </div>
           ) : (
             <div className="has-text-dark" style={{ lineHeight: '52px', fontSize: 16 }}>
-              <span className="icon">
+              <span className="icon has-text-warning">
                 <i className="fas fa-star" />
               </span>
               <span>{rating.globalRating}</span>
@@ -137,12 +123,35 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false, large = 
   );
 };
 
+const CATEGORY_TO_DISPLAY_NAME = {
+  QUALITY_OF_WORK: 'Quality',
+  PUNCTUALITY: 'Punctuality',
+  COMMUNICATION: 'Communication',
+  MANNERS: 'Manners',
+};
+
+export const RatingPerCategoryView = ({ ratingCategories }) => {
+  return (
+    ratingCategories &&
+    ratingCategories.map(({ category, rating }) => (
+      <div key={`${category}-${category}`}>
+        <label>{CATEGORY_TO_DISPLAY_NAME[category]}</label>
+        <div className="has-text-warning" style={{ fontSize: 16 }}>
+          <span className="icon has-text-warning">
+            <i className="fas fa-star " />
+          </span>
+          <span className="has-text-dark">{rating}</span>
+        </div>
+      </div>
+    ))
+  );
+};
 export const CenteredUserImageAndRating = ({
   userDetails,
   clipUserName = false,
   large = false,
   isCentered = true,
-  labelOnTop = ()=> null
+  labelOnTop = () => null,
 }) => {
   let temp = userDetails
     ? userDetails
@@ -187,13 +196,13 @@ export const CenteredUserImageAndRating = ({
               boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
             }}
             src={profileImage.url}
-            alt="image"
+            alt="profile image"
           />
         </figure>
 
-        <div className="content">
+        <div className="content has-text-left">
           {labelOnTop && labelOnTop()}
-          <div className={`${large ? 'is-size-5' : 'is-size-6'}`}>{trimmedDisplayName}</div>
+          <div className={`${large ? 'is-size-6' : 'is-size-6'}`}>{trimmedDisplayName}</div>
 
           {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
             <div className="has-text-warning" style={{ lineHeight: '52px', fontSize: 16 }}>
@@ -203,8 +212,8 @@ export const CenteredUserImageAndRating = ({
               <span className="has-text-dark">--</span>
             </div>
           ) : (
-            <div className="has-text-warning" style={{ lineHeight: '52px', fontSize: 16 }}>
-              <span className="icon">
+            <div style={{ lineHeight: '52px', fontSize: 16 }}>
+              <span className="icon has-text-warning">
                 <i className="fas fa-star" />
               </span>
               <span className="has-text-dark">{rating.globalRating}</span>
@@ -216,14 +225,9 @@ export const CenteredUserImageAndRating = ({
   );
 };
 
-export const CardTitleAndActionsInfo = ({
-  jobState,
-  templateId,
-  bidsList = [],
-  userAlreadyView = false,
-  job,
-}) => {
-  const viewCount = !job || !job.viewedBy || !job.viewedBy.length > 0 ? 0 : job.viewedBy.length;
+export const CardTitleAndActionsInfo = ({ bidsList = [], userAlreadyView = false, request }) => {
+  const viewCount =
+    !request || !request.viewedBy || !request.viewedBy.length > 0 ? 0 : request.viewedBy.length;
 
   let bidsCountLabel = 'No bids';
   if (bidsList.length === 1) {
@@ -233,7 +237,7 @@ export const CardTitleAndActionsInfo = ({
     bidsCountLabel = `${bidsList.length} bids`;
   }
 
-  const avgBid = findAvgBidInBidList(bidsList);
+  const { avgBid } = request;
 
   return (
     <div style={{ textAlign: 'center', marginBottom: '0.5rem' }}>
@@ -338,11 +342,11 @@ export class LocationLabelAndValue extends React.Component {
     }
 
     let geocoder;
-    if (!window.BidorBoo.geocoder) {
+    if (!window.BidOrBoo.geocoder) {
       geocoder = new window.google.maps.Geocoder();
-      window.BidorBoo.geocoder = Object.freeze(geocoder);
+      window.BidOrBoo.geocoder = Object.freeze(geocoder);
     } else {
-      geocoder = window.BidorBoo.geocoder;
+      geocoder = window.BidOrBoo.geocoder;
     }
 
     if (window.google && geocoder && location && location.length === 2) {
@@ -363,7 +367,7 @@ export class LocationLabelAndValue extends React.Component {
           if (status === window.google.maps.GeocoderStatus.OK) {
             let address = results[0].formatted_address;
             if (address && !address.toLowerCase().includes('canada')) {
-              alert('Sorry! Bid or Boo is only available in Canada.');
+              alert('Sorry! BidOrBoo is currently available in Canada. We will be expanding soon.');
             } else {
               //xxx find a way to unsubscribe from geocoding async call if component unmounted
 
@@ -429,20 +433,20 @@ export const DisplayShortAddress = ({ addressText, renderHelpComponent = () => n
   return null;
 };
 
-export const AddAwardedJobToCalendarForTasker = ({ job, extraClassName = '' }) => {
-  if (!job) {
+export const AddAwardedRequestToCalendarForTasker = ({ request, extraClassName = '' }) => {
+  if (!request) {
     return null;
   }
 
-  const { startingDateAndTime, addressText, templateId } = job;
+  const { startingDateAndTime, addressText, templateId, requestTitle } = request;
 
-  const { email, phone, displayName } = job._ownerRef;
+  const { email, phone, displayName } = request._ownerRef;
 
   const emailContact = email && email.emailAddress ? `${email.emailAddress}` : '';
   const phoneContactNumber = phone && phone.phoneNumber ? ` or ${phone.phoneNumber}` : '';
 
-  const title = `${TASKS_DEFINITIONS[templateId] && TASKS_DEFINITIONS[templateId].TITLE}`;
-  const description = `BidOrBoo appointment: You are going to help ${displayName} fulfill a ${title} request. To get in touch contact them at ${emailContact} ${phoneContactNumber}`;
+  const title = `${TASKS_DEFINITIONS[templateId].TITLE} - ${requestTitle}`;
+  const description = `BidOrBoo Booking: You are going to help ${displayName} fulfill a ${title} request. To get in touch contact them at ${emailContact} ${phoneContactNumber}`;
 
   const selectedTime = `${moment(startingDateAndTime).get('hour')}`;
   let startTime = moment(startingDateAndTime).startOf('day');
@@ -488,21 +492,21 @@ export const AddAwardedJobToCalendarForTasker = ({ job, extraClassName = '' }) =
   );
 };
 
-export const AddAwardedJobToCalendarForRequester = ({ job, extraClassName = '' }) => {
-  if (!job) {
+export const AddAwardedRequestToCalendarForRequester = ({ request, extraClassName = '' }) => {
+  if (!request) {
     return null;
   }
 
-  const { startingDateAndTime, addressText, templateId, _awardedBidRef } = job;
-  const { _bidderRef } = _awardedBidRef;
+  const { startingDateAndTime, addressText, templateId, _awardedBidRef, requestTitle } = request;
+  const { _taskerRef } = _awardedBidRef;
 
-  const { email, phone, displayName } = _bidderRef;
+  const { email, phone, displayName } = _taskerRef;
 
   const emailContact = email && email.emailAddress ? `${email.emailAddress}` : '';
   const phoneContactNumber = phone && phone.phoneNumber ? ` or ${phone.phoneNumber}` : '';
 
-  const title = `${TASKS_DEFINITIONS[templateId] && TASKS_DEFINITIONS[templateId].TITLE}`;
-  const description = `BidOrBoo appointment: You requested a ${title} and assigned ${displayName} as the tasker. To get in touch contact them at ${emailContact} ${phoneContactNumber}`;
+  const title = `${TASKS_DEFINITIONS[templateId].TITLE} - ${requestTitle}`;
+  const description = `BidOrBoo Booking: You requested a ${title} and assigned ${displayName} as the tasker. To get in touch contact them at ${emailContact} ${phoneContactNumber}`;
 
   const selectedTime = `${moment(startingDateAndTime).get('hour')}`;
   let startTime = moment(startingDateAndTime).startOf('day');
@@ -733,10 +737,10 @@ export const AwaitingOnTasker = () => {
             fontSize: 16,
           }}
         >
-          Waiting For Taskers
+          Waiting For Bids
         </div>
 
-        {/* <div className="help">*Check Back soon!</div> */}
+        <div className="help">*Check Back soon!</div>
       </div>
     </div>
   );
@@ -825,11 +829,7 @@ export const TaskersAvailable = ({ numberOfAvailableTaskers }) => {
   );
 };
 
-export const AssignedTasker = ({ displayName }) => {
-  // let taskerName = displayName;
-  // if (taskerName && taskerName.length > 8) {
-  //   taskerName = taskerName.substring(0, 7) + '..';
-  // }
+export const AssignedTasker = () => {
   return (
     <div className="group">
       <div
@@ -863,9 +863,6 @@ export const AssignedTasker = ({ displayName }) => {
         >
           Tasker is Assigned
         </div>
-        {/* <div>
-          <div className="help">*Contact Tasker To finalize details</div>
-        </div> */}
       </div>
     </div>
   );
@@ -879,7 +876,7 @@ export const UserGivenTitle = ({ userGivenTitle }) => {
   );
 };
 
-export const JobCardTitle = ({ img, icon, title, meatballMenu }) => {
+export const RequestCardTitle = ({ img, icon, title, meatballMenu }) => {
   return (
     <div style={{ display: 'flex', alignItems: 'center', width: '100%', marginBottom: 0 }}>
       <div
@@ -916,7 +913,7 @@ export const JobCardTitle = ({ img, icon, title, meatballMenu }) => {
   // );
 };
 
-export const CancelledBy = ({ name, refundAmount }) => {
+export const CancelledBy = ({ name }) => {
   return (
     <div className="group">
       <div
@@ -953,9 +950,6 @@ export const CancelledBy = ({ name, refundAmount }) => {
           {`Cancelled by ${name}`}
         </div>
       </div>
-      {/* <div>
-        <div className="help">*BidorBoo will refund you ${refundAmount}%</div>
-      </div> */}
     </div>
   );
 };
@@ -995,7 +989,7 @@ export const DisputedBy = ({ name }) => {
           {`Disputed by ${name}`}
         </div>
         <div>
-          <div className="help is-danger">*BidorBooCrew will resolve this ASAP</div>
+          <div className="help is-danger">*BidOrBoo support crew will resolve this ASAP</div>
         </div>
       </div>
     </div>
@@ -1031,7 +1025,7 @@ export const BidAmount = ({ renderHelp, bidAmount }) => {
   );
 };
 
-export const TaskIsFulfilled = () => {
+export const TaskIsFulfilled = ({ renderHelp = () => null }) => {
   return (
     <div className="group">
       <div
@@ -1066,15 +1060,13 @@ export const TaskIsFulfilled = () => {
         >
           {`Task is Fullfilled`}
         </div>
+        {renderHelp()}
       </div>
-      {/* <div>
-      <div className="help">*BidorBoo will refund you ${refundAmount}%</div>
-    </div> */}
     </div>
   );
 };
 
-export const ArchiveTask = ({ displayName = '' }) => {
+export const ArchiveTask = () => {
   return (
     <div className="group">
       <div
@@ -1109,9 +1101,6 @@ export const ArchiveTask = ({ displayName = '' }) => {
           Past Task
         </div>
       </div>
-      {/* <div>
-      <div className="help">*BidorBoo will refund you ${refundAmount}%</div>
-    </div> */}
     </div>
   );
 };
@@ -1300,13 +1289,15 @@ export const BSAwardedToSomeoneElse = () => {
         >
           Bid Rejected
         </div>
-        <div className="help">*Task Was awarded to someone else</div>
+
+        <div className="help">*Task was awarded to someone else</div>
+        <div className="help">*This will be removed in 24 hours</div>
       </div>
     </div>
   );
 };
 
-export const BSTaskerAwarded = ({ isPastDue }) => {
+export const BSTaskerAwarded = () => {
   return (
     <div className="group">
       <div
@@ -1338,17 +1329,15 @@ export const BSTaskerAwarded = ({ isPastDue }) => {
             display: 'inline-block',
           }}
         >
-          Your Bid Won
+          Winning Bid
         </div>
-        <div className="help">{`${
-          !isPastDue ? 'Contact Requester To finalize details' : 'Confirm completion'
-        }`}</div>
+        <div className="help">Contact Requester To finalize details</div>
       </div>
     </div>
   );
 };
 
-export const BSWaitingOnRequesterToConfirm = ({ isPastDue }) => {
+export const BSWaitingOnRequesterToConfirm = () => {
   return (
     <div className="group">
       <div
@@ -1382,7 +1371,7 @@ export const BSWaitingOnRequesterToConfirm = ({ isPastDue }) => {
         >
           Awaiting Confirmation
         </div>
-        <div className="help">We contacted the Requester to confirm completion</div>
+        <div className="help">we've contacted the Requester to confirm</div>
       </div>
     </div>
   );
@@ -1461,39 +1450,25 @@ export const RenderBackButton = () => {
     </a>
   );
 };
-// https://github.com/FormidableLabs/nuka-carousel
-// export const TaskImagesCarousel = ({ taskImages }) => {
 
-//   if (taskImages && taskImages.length > 0) {
-//     let carouselImg = taskImages.map((taskImage) => <img src={taskImage.url} />);
-
-//     return (
-//       <Carousel
-//         renderCenterLeftControls={({ previousSlide }) => (
-//           <button className="button is-danger is-outlined" onClick={previousSlide}>
-//             <i className="fas fa-arrow-left" />
-//           </button>
-//         )}
-//         renderCenterRightControls={({ nextSlide }) => (
-//           <button className="button is-danger is-outlined" onClick={nextSlide}>
-//             <i className="fas fa-arrow-right" />
-//           </button>
-//         )}
-//       >
-//         {carouselImg}
-//       </Carousel>
-//     );
-//   }
-//   return null;
-// };
-
-export const redirectBasedOnJobState = ({ state, _id: jobId }) => {
+export const requesterViewRerouteBasedOnRequestState = ({ state, _id: requestId }) => {
   switch (state) {
     case REQUEST_STATES.OPEN:
-      switchRoute(ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(jobId));
+      switchRoute(ROUTES.CLIENT.REQUESTER.dynamicReviewRequestAndBidsPage(requestId));
       break;
     default:
-      switchRoute(ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId));
+      switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(requestId));
+      break;
+  }
+};
+
+export const taskerViewRerouteBasedOnRequestState = ({ jobState, bidId }) => {
+  switch (jobState) {
+    case REQUEST_STATES.OPEN:
+      switchRoute(ROUTES.CLIENT.TASKER.dynamicReviewMyOpenBidAndTheRequestDetails(bidId));
+      break;
+    default:
+      switchRoute(ROUTES.CLIENT.TASKER.dynamicReviewMyAwardedBidAndTheRequestDetails(bidId));
       break;
   }
 };
@@ -1546,3 +1521,60 @@ export const CoolBidOrBooTitle = () => (
     </div>
   </section>
 );
+
+export const ReviewComments = ({
+  commenterDisplayName,
+  commenterProfilePicUrl,
+  comment,
+  commenterId = null,
+  ratingCategories = null,
+  createdAt,
+}) => {
+  return (
+    <>
+      <article
+        style={{ cursor: 'default', border: '1px solid #ededed', padding: 2 }}
+        className="media"
+      >
+        <figure
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            commenterId && switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(commenterId));
+          }}
+          style={{ margin: '0.5rem', cursor: 'pointer' }}
+          className="media-left"
+        >
+          <p className="image is-64x64">
+            <img
+              style={{
+                borderRadius: '100%',
+                width: 64,
+                height: 64,
+                boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
+              }}
+              src={commenterProfilePicUrl}
+            />
+          </p>
+        </figure>
+        <div style={{ padding: '0.5rem' }} className="media-content">
+          <div className="content">
+            <div>
+              <span>{commenterDisplayName}</span>
+              {createdAt && (
+                <span style={{ fontSize: 12 }} className="has-text-grey">
+                  {` - (${moment.utc(createdAt).format('DD-MMM-YYYY')})`}
+                </span>
+              )}
+            </div>
+
+            <p>{comment}</p>
+          </div>
+        </div>
+      </article>
+      {ratingCategories && (
+        <RatingPerCategoryView ratingCategories={ratingCategories}></RatingPerCategoryView>
+      )}
+    </>
+  );
+};

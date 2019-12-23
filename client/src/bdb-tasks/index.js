@@ -1,32 +1,23 @@
 export const REQUEST_STATES = {
-  OPEN: 'OPEN',
-  AWARDED: 'AWARDED',
-  DISPUTED: 'DISPUTED',
-  AWARDED_JOB_CANCELED_BY_BIDDER: 'AWARDED_JOB_CANCELED_BY_BIDDER',
-  AWARDED_JOB_CANCELED_BY_REQUESTER: 'AWARDED_JOB_CANCELED_BY_REQUESTER',
-  AWARDED_JOB_CANCELED_BY_BIDDER_SEEN: 'AWARDED_JOB_CANCELED_BY_BIDDER_SEEN',
-  CANCELED_OPEN: 'CANCELED_OPEN',
-  DONE: 'DONE',
+  // delete
   PAIDOUT: 'PAIDOUT',
   PAYMENT_RELEASED: 'PAYMENT_RELEASED',
   PAYMENT_TO_BANK_FAILED: 'PAYMENT_TO_BANK_FAILED',
-  ARCHIVE: 'ARCHIVE',
-  DISPUTE_RESOLVED: 'DISPUTE_RESOLVED',
-};
+  //------delete above
 
-export const BID_STATES = {
+  // real ones
   OPEN: 'OPEN',
-  AWARDED: 'AWARDED',
+  AWARDED: 'AWARDED', //
   AWARDED_SEEN: 'AWARDED_SEEN',
-  AWARDED_BID_CANCELED_BY_TASKER: 'AWARDED_BID_CANCELED_BY_TASKER',
-  DISPUTED: 'DISPUTED',
-  AWARDED_BID_CANCELED_BY_REQUESTER: 'AWARDED_BID_CANCELED_BY_REQUESTER',
-  AWARDED_BID_CANCELED_BY_REQUESTER_SEEN: 'AWARDED_BID_CANCELED_BY_REQUESTER_SEEN',
-  DONE: 'DONE',
-  PAYMENT_RELEASED: 'PAYMENT_RELEASED',
-  PAYMENT_TO_BANK_FAILED: 'PAYMENT_TO_BANK_FAILED',
-  ARCHIVE: 'ARCHIVE',
+  DISPUTED: 'DISPUTED', // disputed request
+  AWARDED_REQUEST_CANCELED_BY_TASKER: 'AWARDED_REQUEST_CANCELED_BY_TASKER',
+  AWARDED_REQUEST_CANCELED_BY_TASKER_SEEN: 'AWARDED_REQUEST_CANCELED_BY_TASKER_SEEN',
+  AWARDED_REQUEST_CANCELED_BY_REQUESTER: 'AWARDED_REQUEST_CANCELED_BY_REQUESTER',
+  AWARDED_REQUEST_CANCELED_BY_REQUESTER_SEEN: 'AWARDED_REQUEST_CANCELED_BY_REQUESTER_SEEN',
+  DONE: 'DONE', //when Tasker confirms we set it to Payout , later a cron request will pay the account
+  DONE_SEEN: 'DONE_SEEN',
   DISPUTE_RESOLVED: 'DISPUTE_RESOLVED',
+  ARCHIVE: 'ARCHIVE', //For historical record
 };
 
 export const POINT_OF_VIEW = {
@@ -43,6 +34,8 @@ export { default as RequesterRequestSummary } from './AllPossibleTasksStatesCard
 export { default as RequesterAwardedDetails } from './AllPossibleTasksStatesCards/RequesterAwardedDetails';
 
 export { default as RequesterAwardedSummary } from './AllPossibleTasksStatesCards/RequesterAwardedSummary';
+export { default as RequesterArchiveSummary } from './AllPossibleTasksStatesCards/RequesterArchiveSummary';
+export { default as RequesterArchiveDetails } from './AllPossibleTasksStatesCards/RequesterArchiveDetails';
 
 export { default as RequesterCanceledByRequesterSummary } from './AllPossibleTasksStatesCards/RequesterCanceledByRequesterSummary';
 
@@ -51,9 +44,6 @@ export { default as RequesterCanceledByRequesterDetails } from './AllPossibleTas
 export { default as RequesterCanceledByTaskerSummary } from './AllPossibleTasksStatesCards/RequesterCanceledByTaskerSummary';
 
 export { default as RequesterCanceledByTaskerDetails } from './AllPossibleTasksStatesCards/RequesterCanceledByTaskerDetails';
-
-export { default as RequesterOpenCanceledSummary } from './AllPossibleTasksStatesCards/RequesterOpenCanceledSummary';
-export { default as RequesterOpenCanceledDetails } from './AllPossibleTasksStatesCards/RequesterOpenCanceledDetails';
 
 export { default as TaskerBidOnTaskSummary } from './AllPossibleTasksStatesCards/TaskerBidOnTaskSummary';
 
@@ -79,9 +69,9 @@ export { default as RequesterDoneSummary } from './AllPossibleTasksStatesCards/R
 
 export { default as RequesterDoneDetails } from './AllPossibleTasksStatesCards/RequesterDoneDetails';
 
-export { default as TaskerMyAwardedDoneBidDetails } from './AllPossibleTasksStatesCards/TaskerMyAwardedDoneBidDetails';
+export { default as TaskerBidDoneDetails } from './AllPossibleTasksStatesCards/TaskerBidDoneDetails';
 
-export { default as TaskerMyAwardedDoneBidSummary } from './AllPossibleTasksStatesCards/TaskerMyAwardedDoneBidSummary';
+export { default as TaskerBidDoneSummary } from './AllPossibleTasksStatesCards/TaskerBidDoneSummary';
 
 export { default as RequesterDisputedSummary } from './AllPossibleTasksStatesCards/RequesterDisputedSummary';
 
@@ -90,3 +80,5 @@ export { default as RequesterDisputedDetails } from './AllPossibleTasksStatesCar
 export { default as TaskerMyDisputedBidDetails } from './AllPossibleTasksStatesCards/TaskerMyDisputedBidDetails';
 
 export { default as TaskerMyDisputedBidSummary } from './AllPossibleTasksStatesCards/TaskerMyDisputedBidSummary';
+export { default as TaskerArchiveSummary } from './AllPossibleTasksStatesCards/TaskerArchiveSummary';
+export { default as TaskerArchiveDetails } from './AllPossibleTasksStatesCards/TaskerArchiveDetails';

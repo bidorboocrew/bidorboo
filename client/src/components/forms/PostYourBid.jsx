@@ -2,8 +2,6 @@ import React from 'react';
 
 import BidModal from './BidModal';
 
-// import { AnytimeQuickModal } from '../../containers/commonComponents.jsx';
-// import TaskerVerificationBanner from '../../containers/bidder-flow/TaskerVerificationBanner.jsx';
 export default class PostYourBid extends React.Component {
   constructor(props) {
     super(props);
@@ -21,16 +19,9 @@ export default class PostYourBid extends React.Component {
 
     if (!isLoggedIn) {
       showLoginDialog(true);
-    }
-    //  else if (!taskerCanBid) {
-    //   this.toggleShowTaskerOnBoardingDialog(true);
-
-    //   // alert('complete the tasker onBoarding before you can bid');
-    // }
-    else {
+    } else {
       this.setState({ showBidDialog: true });
     }
-    // this.setState({ showBidDialog: true });
   };
 
   toggleShowTaskerOnBoardingDialog = (val) => {

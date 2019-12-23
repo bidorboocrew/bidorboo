@@ -3,13 +3,13 @@ import { loadingBarReducer } from 'react-redux-loading-bar';
 
 import uiReducer from './uiReducer';
 import userReducer from './userReducer';
-import jobsReducer from './jobsReducer';
+import requestsReducer from './requestsReducer';
 import bidsReducer from './bidsReducer';
 
 export default combineReducers({
   uiReducer: uiReducer,
   userReducer: userReducer,
-  jobsReducer: jobsReducer,
+  requestsReducer: requestsReducer,
   bidsReducer: bidsReducer,
   loadingBar: loadingBarReducer,
 });

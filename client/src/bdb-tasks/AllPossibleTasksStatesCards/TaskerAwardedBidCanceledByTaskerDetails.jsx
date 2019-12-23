@@ -1,48 +1,24 @@
 import React from 'react';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { proposerConfirmsJobCompletion } from '../../app-state/actions/jobActions';
-import { showLoginDialog } from '../../app-state/actions/uiActions';
-
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import {
   CountDownComponent,
-  JobCardTitle,
+  RequestCardTitle,
   SummaryStartDateAndTime,
   CancelledBy,
   TaskImagesCarousel,
   UserGivenTitle,
 } from '../../containers/commonComponents';
-import { cancelAwardedBid } from '../../app-state/actions/bidsActions';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
-class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
+export default class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
   render() {
-    const { bid, job } = this.props;
-    if (!bid || !job) {
-      return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
-    }
+    const { bid, request } = this.props;
 
-    const { startingDateAndTime, taskImages = [], jobTitle } = job;
-    if (!startingDateAndTime) {
-      return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
-    }
-    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE) {
-      return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
-    }
-    const { displayStatus, bidAmount, _id } = bid;
-    if (!displayStatus || !bidAmount || !_id) {
-      return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
-    }
-
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    if (!bidValue || !bidCurrency) {
-      return <div>TaskerAwardedBidCanceledByTaskerDetails is missing properties</div>;
-    }
+    const { startingDateAndTime, taskImages = [], requestTitle } = request;
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     return (
       <div
@@ -51,36 +27,24 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
       >
         <div className="card-content">
           <div className="content">
-            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-            <UserGivenTitle userGivenTitle={jobTitle} />
+            <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <UserGivenTitle userGivenTitle={requestTitle} />
 
             <TaskImagesCarousel taskImages={taskImages} isLarge />
             <SummaryStartDateAndTime
               date={startingDateAndTime}
-              renderHelpComponent={() => (
-                <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
-              )}
+              renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
             <CancelledBy name="You" />
             <div className="group has-text-left">
               <label className="label has-text-danger">What you need to know:</label>
               <ul>
                 <li>
-                  We are sorry to see this cancellation as BidOrBoo Crew Takes cancellations
-                  seriously
+                  <strong>Requester was notified and will NOT be expecting you to show up.</strong>
                 </li>
-                <li>
-                  <strong>Requester was notified about this</strong> and will NOT be expecting you
-                  to show up.
-                </li>
-                <li>
-                  You will <strong>Not</strong> receive any payout for this task.
-                </li>
+                <li>You will not receive any payout for this task.</li>
                 <li>Your global rating will be negatively impacted</li>
-                <li>
-                  If many cancellations happen in a row you will be <strong>banned</strong> from
-                  BidOrBoo
-                </li>
+                <li>Cancelling often will put a ban on your account</li>
               </ul>
             </div>
           </div>
@@ -88,7 +52,7 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
 
         <a
           className="button firstButtonInCard"
-          onClick={() => switchRoute(ROUTES.CLIENT.BIDDER.mybids)}
+          onClick={() => switchRoute(ROUTES.CLIENT.TASKER.mybids)}
         >
           <span className="icon">
             <i className="far fa-arrow-alt-circle-left" />
@@ -99,25 +63,3 @@ class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
     );
   }
 }
-
-const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
-  return {
-    isLoggedIn: userReducer.isLoggedIn,
-    selectedAwardedJob: jobsReducer.selectedAwardedJob,
-    userDetails: userReducer.userDetails,
-    notificationFeed: uiReducer.notificationFeed,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
-    cancelAwardedBid: bindActionCreators(cancelAwardedBid, dispatch),
-    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(TaskerAwardedBidCanceledByTaskerDetails);

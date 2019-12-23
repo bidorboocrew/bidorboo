@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 const UserModel = mongoose.model('UserModel');
-const JobModel = mongoose.model('JobModel');
+const RequestModel = mongoose.model('RequestModel');
 const BidModel = mongoose.model('BidModel');
 const ROUTES = require('../backend-route-constants');
 const utils = require('../utils/utilities');
@@ -10,13 +10,9 @@ const stripeServiceUtil = require('../services/stripeService').util;
 const sendGridEmailing = require('../services/sendGrid').EmailService;
 const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
 const WebPushNotifications = require('../services/WebPushNotifications').WebPushNotifications;
+const { getChargeDistributionDetails } = require('../utils/chargesCalculatorUtil');
 
 exports.bidDataAccess = {
-  confirmBidBelongsToOwner: (mongoUser_id, bidId) => {
-    return BidModel.findOne({ _bidderRef: mongoUser_id, _id: bidId })
-      .lean(true)
-      .exec();
-  },
   cancelAwardedBid: async (mongoUser_id, bidId) => {
     /**
      *
@@ -29,7 +25,7 @@ exports.bidDataAccess = {
      *        cancel task set status as will be deleted in 48
      * - if Task is NOT PAST DUE:
      *        Remove awarded bid
-     *        Update status to have bidders
+     *        Update status to have taskers
      *
      * - push notify to both informing them of this change
      * especially the case of not past due emphasizethat user can
@@ -39,217 +35,169 @@ exports.bidDataAccess = {
     return new Promise(async (resolve, reject) => {
       try {
         const bidDetails = await BidModel.findOne({
-          _bidderRef: mongoUser_id,
+          _taskerRef: mongoUser_id,
           _id: bidId,
-          state: { $in: ['AWARDED', 'AWARDED_SEEN'] },
         })
           .populate([
             {
-              path: '_bidderRef',
+              path: '_taskerRef',
               select: {
                 rating: 1,
                 _id: 1,
               },
             },
             {
-              path: '_jobRef',
-              select: { _id: 1, _ownerRef: 1, processedPayment: 1, startingDateAndTime: 1 },
+              path: '_requestRef',
+              select: { _id: 1, _ownerRef: 1, startingDateAndTime: 1, processedPayment: 1 },
             },
           ])
           .lean(true)
           .exec();
 
-        if (
-          !bidDetails ||
-          !bidDetails._id ||
-          !bidDetails._jobRef ||
-          !bidDetails._jobRef._id ||
-          !bidDetails._jobRef._ownerRef ||
-          !bidDetails._jobRef.processedPayment ||
-          !bidDetails._jobRef.startingDateAndTime ||
-          !bidDetails._bidderRef
-        ) {
-          return reject(
-            'Error while canceling the awarded bid, contact us at bidorboo@bidorboo.ca'
-          );
-        } else {
-          const requesterId = bidDetails._jobRef._ownerRef;
-          const paymentDetails = bidDetails._jobRef.processedPayment;
+        const requesterId = bidDetails._requestRef._ownerRef;
+        const paymentDetails = bidDetails._requestRef.processedPayment;
 
-          const requestedJobId = bidDetails._jobRef._id;
-          const taskerId = bidDetails._bidderRef;
-          const {
-            requesterDisplayName,
-            taskerDisplayName,
-            jobDisplayName,
-            requestLinkForRequester,
-            requestLinkForTasker,
+        const requestedRequestId = bidDetails._requestRef._id;
+        const taskerId = bidDetails._taskerRef;
+        const taskerRating = bidDetails._taskerRef.rating;
+        const {
+          requesterDisplayName,
+          taskerDisplayName,
+          requestDisplayName,
+          requestLinkForRequester,
+          requestLinkForTasker,
+          requesterEmailAddress,
+          requesterPhoneNumber,
+          taskerEmailAddress,
+          taskerPhoneNumber,
+          allowedToEmailRequester,
+          allowedToEmailTasker,
+          allowedToTextRequester,
+          allowedToTextTasker,
+          allowedToPushNotifyRequester,
+          allowedToPushNotifyTasker,
+          requesterPushNotSubscription,
+          taskerPushNotSubscription,
+        } = await exports.bidDataAccess._getAwardedRequestOwnerTaskerAndRelevantNotificationDetails(
+          requestedRequestId
+        );
+
+        const newTotalOfAllRatings = taskerRating.totalOfAllRatings + 1.25;
+        const newTotalOfAllTimesBeenRated = taskerRating.numberOfTimesBeenRated + 1;
+        const newGlobalRating = parseFloat(
+          Math.max(newTotalOfAllRatings / newTotalOfAllTimesBeenRated, 0).toFixed(1)
+        );
+
+        // xxx critical
+        const refundCharge = await stripeServiceUtil.fullRefundTransaction({
+          ...paymentDetails,
+          metadata: {
+            requesterId: requesterId.toString(),
             requesterEmailAddress,
-            requesterPhoneNumber,
+            taskerId: taskerId.toString(),
             taskerEmailAddress,
-            taskerPhoneNumber,
-            allowedToEmailRequester,
-            allowedToEmailTasker,
-            allowedToTextRequester,
-            allowedToTextTasker,
-            allowedToPushNotifyRequester,
-            allowedToPushNotifyTasker,
-            requesterPushNotSubscription,
-            taskerPushNotSubscription,
-            ownerRating,
-            taskerRating,
-          } = await exports.bidDataAccess._getAwardedJobOwnerBidderAndRelevantNotificationDetails(
-            requestedJobId
-          );
+            requestedRequestId: requestedRequestId.toString(),
+            awardedBidId: bidDetails._id.toString(),
+            note: 'Tasker cancelled an awarded request',
+          },
+        });
 
-          const newTotalOfAllRatings = taskerRating.totalOfAllRatings + 1.25;
-          const newTotalOfAllTimesBeenRated = taskerRating.numberOfTimesBeenRated + 1;
-          const newGlobalRating = Math.max(newTotalOfAllRatings / newTotalOfAllTimesBeenRated, 0);
-
-          // xxx critical
-          const refundCharge = await stripeServiceUtil.fullRefundTransaction({
-            ...paymentDetails,
-            metadata: {
-              requesterId: requesterId.toString(),
-              requesterEmailAddress,
-              taskerId: taskerId.toString(),
-              taskerEmailAddress,
-              requestedJobId: requestedJobId.toString(),
-              awardedBidId: bidDetails._id.toString(),
-              note: 'Tasker cancelled an awarded request',
-            },
-          });
-
-          if (refundCharge.status === 'succeeded') {
-            const [updatedJob, updatedBid, updatedTasker] = await Promise.all([
-              JobModel.findOneAndUpdate(
-                { _id: requestedJobId, _ownerRef: requesterId },
-                {
-                  $set: {
-                    state: 'AWARDED_JOB_CANCELED_BY_BIDDER',
-                    'processedPayment.refund': {
-                      amount: refundCharge.amount,
-                      charge: refundCharge.charge,
-                      id: refundCharge.id,
-                      status: refundCharge.status,
-                    },
-                  },
-                  $push: { hideFrom: taskerId },
-                  $pull: { _bidsListRef: bidDetails._id },
-                },
-                { new: true }
-              )
-                .lean(true)
-                .exec(),
-              BidModel.findByIdAndUpdate(
-                bidId,
-                {
-                  $set: { state: 'AWARDED_BID_CANCELED_BY_TASKER' },
-                },
-                { new: true }
-              )
-                .lean(true)
-                .exec(),
-              UserModel.findByIdAndUpdate(
-                taskerId,
-                {
-                  $set: {
-                    'rating.latestComment':
-                      'BidOrBoo Auto Review: Cancelled Their Request After booking was confirmed with the requester',
-                    'rating.globalRating': newGlobalRating,
-                    'rating.numberOfTimesBeenRated': newTotalOfAllTimesBeenRated,
-                    'rating.totalOfAllRatings': newTotalOfAllRatings,
-                  },
-                  $push: {
-                    'rating.canceledBids': bidId,
+        if (refundCharge.status === 'succeeded') {
+          const [updatedRequest, updatedBid, updatedTasker] = await Promise.all([
+            RequestModel.findOneAndUpdate(
+              { _id: requestedRequestId, _ownerRef: requesterId },
+              {
+                $set: {
+                  state: 'AWARDED_REQUEST_CANCELED_BY_TASKER',
+                  'processedPayment.refund': {
+                    amount: refundCharge.amount,
+                    charge: refundCharge.charge,
+                    id: refundCharge.id,
+                    status: refundCharge.status,
                   },
                 },
-                { new: true }
-              )
-                .lean(true)
-                .exec(),
-            ]);
+                $push: { hideFrom: taskerId },
+                $pull: { _bidsListRef: bidDetails._id },
+              },
+              { new: true }
+            )
+              .lean(true)
+              .exec(),
 
-            if (allowedToEmailRequester) {
-              // send communication to both about the cancellation
-              sendGridEmailing.tellRequeterThatTheTaskerHaveCancelledAnAwardedJob({
-                to: requesterEmailAddress,
-                requestTitle: jobDisplayName,
-                toDisplayName: requesterDisplayName,
-                linkForOwner: requestLinkForRequester,
-              });
-            }
-            if (allowedToEmailTasker) {
-              sendGridEmailing.tellTaskerThatTheyCancelledJob({
-                to: taskerEmailAddress,
-                requestTitle: jobDisplayName,
-                toDisplayName: taskerDisplayName,
-                linkForBidder: requestLinkForTasker,
-              });
-            }
+            UserModel.findByIdAndUpdate(
+              taskerId,
+              {
+                $set: {
+                  'rating.latestComment':
+                    'BidOrBoo Auto Review: Cancelled Their Request After booking was confirmed with the requester',
+                  'rating.globalRating': newGlobalRating,
+                  'rating.numberOfTimesBeenRated': newTotalOfAllTimesBeenRated,
+                  'rating.totalOfAllRatings': newTotalOfAllRatings,
+                },
+                $push: {
+                  'rating.canceledBids': bidId,
+                },
+              },
+              { new: true }
+            )
+              .lean(true)
+              .exec(),
+          ]);
 
-            if (allowedToTextRequester) {
-              sendTextService.sendJobIsCancelledText(
-                requesterPhoneNumber,
-                jobDisplayName,
-                requestLinkForRequester
-              );
-            }
-            if (allowedToTextTasker) {
-              sendTextService.sendJobIsCancelledText(
-                taskerPhoneNumber,
-                jobDisplayName,
-                requestLinkForTasker
-              );
-            }
-
-            if (allowedToPushNotifyRequester) {
-              WebPushNotifications.pushAwardedJobWasCancelled(requesterPushNotSubscription, {
-                requestTitle: jobDisplayName,
-                urlToLaunch: requestLinkForRequester,
-              });
-            }
-            if (allowedToPushNotifyTasker) {
-              WebPushNotifications.pushAwardedJobWasCancelled(taskerPushNotSubscription, {
-                requestTitle: requestLinkForRequester,
-                urlToLaunch: requestLinkForTasker,
-              });
-            }
-            // -------------notify
-
-            // -------------------------------- assert things sxxxxx
-            if (!updatedJob._id || !updatedJob.processedPayment.refund) {
-              return reject({ success: false, ErrorMsg: 'failed to update the associated job' });
-            }
-            if (!updatedBid._id || updatedBid.state !== 'AWARDED_BID_CANCELED_BY_TASKER') {
-              return reject({ success: false, ErrorMsg: 'failed to update the associated bid' });
-            }
-            if (
-              !updatedTasker._id ||
-              !updatedTasker.rating ||
-              !updatedTasker.rating.canceledBids ||
-              !updatedTasker.rating.canceledBids.length > 0
-            ) {
-              const addedThisToCanceledBids = updatedTasker.rating.canceledBids.some(
-                (canceledBid) => {
-                  return canceledBid.toString() === bidId;
-                }
-              );
-              if (!addedThisToCanceledBids) {
-                return reject({
-                  success: false,
-                  ErrorMsg: 'failed to update the associated Tasker',
-                });
-              }
-            }
-            return resolve({ success: true, bidId });
-            // ^-------- assert things xxxxxxxxxxxxxxxxxxxxxxxxx
-          } else {
-            return reject({
-              refund: refundCharge,
-              errorMsg: 'refund status failed we will get in touch with you shortly',
+          if (allowedToEmailRequester) {
+            // send communication to both about the cancellation
+            sendGridEmailing.tellRequeterThatTheTaskerHaveCancelledAnAwardedRequest({
+              to: requesterEmailAddress,
+              requestTitle: requestDisplayName,
+              toDisplayName: requesterDisplayName,
+              linkForOwner: requestLinkForRequester,
             });
           }
+          if (allowedToEmailTasker) {
+            sendGridEmailing.tellTaskerThatTheyCancelledRequest({
+              to: taskerEmailAddress,
+              requestTitle: requestDisplayName,
+              toDisplayName: taskerDisplayName,
+              linkForTasker: requestLinkForTasker,
+            });
+          }
+
+          if (allowedToTextRequester) {
+            sendTextService.sendRequestIsCancelledText(
+              requesterPhoneNumber,
+              requestDisplayName,
+              requestLinkForRequester
+            );
+          }
+          if (allowedToTextTasker) {
+            sendTextService.sendRequestIsCancelledText(
+              taskerPhoneNumber,
+              requestDisplayName,
+              requestLinkForTasker
+            );
+          }
+
+          if (allowedToPushNotifyRequester) {
+            WebPushNotifications.pushAwardedRequestWasCancelled(requesterPushNotSubscription, {
+              requestTitle: requestDisplayName,
+              urlToLaunch: requestLinkForRequester,
+            });
+          }
+          if (allowedToPushNotifyTasker) {
+            WebPushNotifications.pushAwardedRequestWasCancelled(taskerPushNotSubscription, {
+              requestTitle: requestLinkForRequester,
+              urlToLaunch: requestLinkForTasker,
+            });
+          }
+          // -------------notify
+
+          // -------------------------------- assert things sxxxxx
+          return resolve({ success: true, bidId });
+        } else {
+          return reject({
+            refund: refundCharge,
+            errorMsg: 'refund status failed we will get in touch with you shortly',
+          });
         }
       } catch (e) {
         reject(e);
@@ -257,20 +205,19 @@ exports.bidDataAccess = {
     });
   },
 
-  _getAwardedJobOwnerBidderAndRelevantNotificationDetails: async (jobId) => {
-    const awardedJob = await JobModel.findById(jobId)
+  _getAwardedRequestOwnerTaskerAndRelevantNotificationDetails: async (requestId) => {
+    const awardedRequest = await RequestModel.findById(requestId)
       .populate({
         path: '_awardedBidRef',
         select: {
-          _bidderRef: 1,
+          _taskerRef: 1,
           isNewBid: 1,
-          state: 1,
           bidAmount: 1,
           createdAt: 1,
           updatedAt: 1,
         },
         populate: {
-          path: '_bidderRef',
+          path: '_taskerRef',
           select: {
             _id: 1,
             email: 1,
@@ -292,28 +239,30 @@ exports.bidDataAccess = {
           notifications: 1,
         },
       })
-      .lean({ virtuals: true })
+      .lean(true)
       .exec();
 
-    const { _ownerRef, _awardedBidRef, processedPayment } = awardedJob;
+    const { _ownerRef, _awardedBidRef, processedPayment } = awardedRequest;
     const awardedBidId = _awardedBidRef._id.toString();
-    const requestedJobId = awardedJob._id.toString();
+    const requestedRequestId = awardedRequest._id.toString();
 
     const ownerDetails = _ownerRef;
-    const awardedBidderDetails = _awardedBidRef._bidderRef;
+    const awardedTaskerDetails = _awardedBidRef._taskerRef;
 
     const requesterId = _ownerRef._id.toString();
-    const taskerId = awardedBidderDetails._id.toString();
+    const taskerId = awardedTaskerDetails._id.toString();
 
     const requesterDisplayName = ownerDetails.displayName;
-    const taskerDisplayName = awardedBidderDetails.displayName;
-    const jobDisplayName = awardedJob.jobTitle || awardedJob.templateId;
+    const taskerDisplayName = awardedTaskerDetails.displayName;
+    const requestDisplayName = `${awardedRequest.requestTemplateDisplayTitle} - ${awardedRequest.requestTitle}`;
 
-    const requestLinkForRequester = ROUTES.CLIENT.PROPOSER.dynamicSelectedAwardedJobPage(jobId);
-    const requestLinkForTasker = ROUTES.CLIENT.BIDDER.dynamicCurrentAwardedBid(awardedBidId);
+    const requestLinkForRequester = ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(
+      requestId
+    );
+    const requestLinkForTasker = ROUTES.CLIENT.TASKER.dynamicCurrentAwardedBid(awardedBidId);
 
     const requesterPushNotSubscription = ownerDetails.pushSubscription;
-    const taskerPushNotSubscription = awardedBidderDetails.pushSubscription;
+    const taskerPushNotSubscription = awardedTaskerDetails.pushSubscription;
 
     const requesterEmailAddress =
       ownerDetails.email && ownerDetails.email.emailAddress ? ownerDetails.email.emailAddress : '';
@@ -321,35 +270,35 @@ exports.bidDataAccess = {
       ownerDetails.phone && ownerDetails.phone.phoneNumber ? ownerDetails.phone.phoneNumber : '';
 
     const taskerEmailAddress =
-      awardedBidderDetails.email && awardedBidderDetails.email.emailAddress
-        ? awardedBidderDetails.email.emailAddress
+      awardedTaskerDetails.email && awardedTaskerDetails.email.emailAddress
+        ? awardedTaskerDetails.email.emailAddress
         : '';
     const taskerPhoneNumber =
-      awardedBidderDetails.phone && awardedBidderDetails.phone.phoneNumber
-        ? awardedBidderDetails.phone.phoneNumber
+      awardedTaskerDetails.phone && awardedTaskerDetails.phone.phoneNumber
+        ? awardedTaskerDetails.phone.phoneNumber
         : '';
 
     const allowedToEmailRequester = ownerDetails.notifications && ownerDetails.notifications.email;
     const allowedToEmailTasker =
-      awardedBidderDetails.notifications && awardedBidderDetails.notifications.email;
+      awardedTaskerDetails.notifications && awardedTaskerDetails.notifications.email;
 
     const allowedToTextRequester = ownerDetails.notifications && ownerDetails.notifications.text;
     const allowedToTextTasker =
-      awardedBidderDetails.notifications && awardedBidderDetails.notifications.text;
+      awardedTaskerDetails.notifications && awardedTaskerDetails.notifications.text;
 
     const allowedToPushNotifyRequester =
       ownerDetails.notifications && ownerDetails.notifications.push;
     const allowedToPushNotifyTasker =
-      awardedBidderDetails.notifications && awardedBidderDetails.notifications.push;
+      awardedTaskerDetails.notifications && awardedTaskerDetails.notifications.push;
 
     return {
-      requestedJobId,
+      requestedRequestId,
       awardedBidId,
       requesterId,
       taskerId,
       requesterDisplayName,
       taskerDisplayName,
-      jobDisplayName,
+      requestDisplayName,
       requestLinkForRequester,
       requestLinkForTasker,
       requesterEmailAddress,
@@ -372,19 +321,19 @@ exports.bidDataAccess = {
       try {
         const bidDetails = await BidModel.findById(bidId)
           .populate({
-            path: '_jobRef',
+            path: '_requestRef',
             select: {
               _id: 1,
             },
           })
           .lean(true)
           .exec();
-        if (!bidDetails || !bidDetails._jobRef || !bidDetails._jobRef._id) {
+        if (!bidDetails || !bidDetails._requestRef || !bidDetails._requestRef._id) {
           reject('Error while deleting bid, Bid reference Not Found.');
         } else {
           await Promise.all([
-            JobModel.findOneAndUpdate(
-              { _id: bidDetails._jobRef._id },
+            RequestModel.findOneAndUpdate(
+              { _id: bidDetails._requestRef._id },
               { $pull: { _bidsListRef: bidDetails._id } }
             )
               .lean(true)
@@ -409,11 +358,11 @@ exports.bidDataAccess = {
   getBidById: (bidId) => {
     return BidModel.findById(bidId)
       .populate({
-        path: '_bidderRef',
+        path: '_taskerRef',
         select: {
           notifications: 1,
-          _asBidderReviewsRef: 1,
-          _asProposerReviewsRef: 1,
+          _asTaskerReviewsRef: 1,
+          _asRequesterReviewsRef: 1,
           rating: 1,
           userId: 1,
           displayName: 1,
@@ -425,19 +374,18 @@ exports.bidDataAccess = {
         },
       })
       .populate({
-        path: '_jobRef',
+        path: '_requestRef',
         select: {
           _ownerRef: 1,
           title: 1,
           state: 1,
           detailedDescription: 1,
-          jobTitle: 1,
-          jobCompletion: 1,
+          requestTitle: 1,
           location: 1,
           stats: 1,
           addressText: 1,
           startingDateAndTime: 1,
-          durationOfJob: 1,
+          durationOfRequest: 1,
           templateId: 1,
           reported: 1,
           createdAt: 1,
@@ -458,259 +406,126 @@ exports.bidDataAccess = {
       .lean(true)
       .exec();
   },
-  getUserAwardedBids: async (mongoUser_id) => {
+
+  // get requests for a user and filter by a given state
+  getMyPostedBidsSummary: async (mongoUser_id) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const user = await UserModel.findById(mongoUser_id.toString(), { _postedBidsRef: 1 })
+        const { _postedBidsRef } = await UserModel.findById(mongoUser_id, { _postedBidsRef: 1 })
           .populate({
             path: '_postedBidsRef',
-            match: { state: { $in: ['AWARDED', 'AWARDED_SEEN'] } },
+            select: {
+              requesterPayment: 0,
+              requesterPartialRefund: 0,
+            },
             populate: {
-              path: '_jobRef',
+              path: '_requestRef',
               select: {
-                _ownerRef: 1,
-                title: 1,
+                _awardedBidRef: 1,
                 state: 1,
-                detailedDescription: 1,
-                jobTitle: 1,
-                jobCompletion: 1,
-                location: 1,
-                stats: 1,
-                addressText: 1,
+                requestTitle: 1,
                 startingDateAndTime: 1,
-                durationOfJob: 1,
                 templateId: 1,
-                createdAt: 1,
-                updatedAt: 1,
-              },
-              match: {
-                $or: [
-                  { _reviewRef: { $exists: false } },
-                  { '_reviewRef.requiresBidderReview': { $eq: true } },
-                ],
+                taskerConfirmedCompletion: 1,
+                dispute: 1,
+                _reviewRef: 1,
               },
               populate: [
                 {
-                  path: '_ownerRef',
-                  select: {
-                    _id: 1,
-                    displayName: 1,
-                    rating: 1,
-                    profileImage: 1,
-                    notifications: 1,
-                  },
+                  path: '_reviewRef',
                 },
                 {
-                  path: '_reviewRef',
+                  path: '_awardedBidRef',
+                  select: {
+                    _taskerRef: 1,
+                  },
                 },
               ],
             },
           })
           .lean({ virtuals: true })
-          .exec((err, res) => {
-            if (err) {
-              reject(err);
-            } else {
-              let results = [];
-              if (res._postedBidsRef && res._postedBidsRef.length > 0) {
-                results = res._postedBidsRef
-                  .filter((postedBid) => {
-                    return postedBid && postedBid._jobRef;
-                  })
-                  .sort((a, b) => {
-                    return moment(a._jobRef.startingDateAndTime).isSameOrAfter(
-                      moment(b._jobRef.startingDateAndTime)
-                    )
-                      ? 1
-                      : -1;
-                  });
+          .exec();
+
+        let results = [];
+        if (_postedBidsRef && _postedBidsRef.length > 0) {
+          results = _postedBidsRef
+            .sort((a, b) => {
+              return moment(a._requestRef.startingDateAndTime).isSameOrAfter(
+                moment(b._requestRef.startingDateAndTime)
+              )
+                ? 1
+                : -1;
+            })
+            .map((postedBid) => {
+              const requestRef = postedBid._requestRef;
+              if (
+                requestRef._awardedBidRef &&
+                requestRef._awardedBidRef._taskerRef.toString() === mongoUser_id.toString()
+              ) {
+                postedBid.isAwardedToMe = true;
+              } else {
+                postedBid.isAwardedToMe = false;
+                requestRef._awardedBidRef = {};
               }
-              resolve({ _postedBidsRef: results });
-            }
-          });
+
+              if (['DONE', 'DONE_SEEN'].includes(requestRef.state)) {
+                const reviewRef = requestRef._reviewRef;
+
+                const revealToBoth = !!(
+                  reviewRef &&
+                  reviewRef.requesterReview &&
+                  reviewRef.taskerReview
+                );
+
+                const requiresRequesterReview =
+                  !reviewRef || (reviewRef && !reviewRef.requesterReview);
+
+                const requiresTaskerReview = !reviewRef || (reviewRef && !reviewRef.taskerReview);
+                requestRef._reviewRef = {
+                  revealToBoth,
+                  requiresRequesterReview,
+                  requiresTaskerReview,
+                };
+              }
+              return postedBid;
+            });
+        }
+        resolve(results);
       } catch (e) {
         reject(e);
       }
     });
   },
-  // get jobs for a user and filter by a given state
-  getAllUserBids: async (mongoUser_id) => {
+  getAwardedBidDetailsForTasker: async (mongoUser_id, bidId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const [openBids, allOtherBids] = await Promise.all([
-          new Promise(async (resolve, reject) => {
-            UserModel.findById(mongoUser_id, { _postedBidsRef: 1 })
-              .populate({
-                path: '_postedBidsRef',
-                match: {
-                  state: {
-                    $in: ['OPEN'],
-                  },
-                },
-                populate: {
-                  path: '_jobRef',
-                  select: {
-                    _awardedBidRef: 1,
-                    _ownerRef: 1,
-                    state: 1,
-                    detailedDescription: 1,
-                    jobTitle: 1,
-                    location: 1,
-                    stats: 1,
-                    startingDateAndTime: 1,
-                    durationOfJob: 1,
-                    templateId: 1,
-                    dispute: 1,
-                  },
-                  populate: {
-                    path: '_ownerRef',
-                    select: {
-                      _id: 1,
-                      displayName: 1,
-                      rating: 1,
-                      profileImage: 1,
-                    },
-                  },
-                },
-              })
-              .lean({ virtuals: true })
-              .exec((err, res) => {
-                if (err) {
-                  reject(err);
-                } else {
-                  let results = [];
-                  if (res._postedBidsRef && res._postedBidsRef.length > 0) {
-                    results = res._postedBidsRef
-                      .filter((postedBid) => {
-                        return postedBid && postedBid._jobRef;
-                      })
-                      .sort((a, b) => {
-                        return moment(a._jobRef.startingDateAndTime).isSameOrAfter(
-                          moment(b._jobRef.startingDateAndTime)
-                        )
-                          ? 1
-                          : -1;
-                      });
-                  }
-
-                  resolve(results);
-                }
-              });
-          }),
-          new Promise(async (resolve, reject) => {
-            UserModel.findById(mongoUser_id, { _postedBidsRef: 1 })
-              .populate({
-                path: '_postedBidsRef',
-                match: {
-                  state: {
-                    $in: [
-                      'AWARDED_BID_CANCELED_BY_TASKER',
-                      'AWARDED_BID_CANCELED_BY_REQUESTER',
-                      'AWARDED',
-                      'AWARDED_SEEN',
-                      'DONE',
-                      'PAYMENT_RELEASED',
-                    ],
-                  },
-                },
-                populate: {
-                  path: '_jobRef',
-                  select: {
-                    _awardedBidRef: 1,
-                    _ownerRef: 1,
-                    title: 1,
-                    state: 1,
-                    detailedDescription: 1,
-                    jobTitle: 1,
-                    jobCompletion: 1,
-                    location: 1,
-                    stats: 1,
-                    addressText: 1,
-                    startingDateAndTime: 1,
-                    durationOfJob: 1,
-                    templateId: 1,
-                    _reviewRef: 1,
-                    dispute: 1,
-                  },
-                  populate: [
-                    {
-                      path: '_reviewRef',
-                      select: {
-                        proposerReview: 1,
-                        bidderReview: 1,
-                        revealToBoth: 1,
-                        requiresProposerReview: 1,
-                        requiresBidderReview: 1,
-                      },
-                    },
-                    {
-                      path: '_ownerRef',
-                      select: {
-                        _id: 1,
-                        displayName: 1,
-                        rating: 1,
-                        profileImage: 1,
-                      },
-                    },
-                    {
-                      path: '_awardedBidRef',
-                      select: { _bidderRef: 1 },
-                      populate: { path: '_bidderRef', select: { userId: 1 } },
-                    },
-                  ],
-                },
-              })
-              .lean({ virtuals: true })
-              .exec((err, res) => {
-                if (err) {
-                  reject(err);
-                } else {
-                  let results = [];
-                  if (res._postedBidsRef && res._postedBidsRef.length > 0) {
-                    results = res._postedBidsRef
-                      .filter((postedBid) => {
-                        return postedBid && postedBid._jobRef;
-                      })
-                      .sort((a, b) => {
-                        return moment(a._jobRef.startingDateAndTime).isSameOrAfter(
-                          moment(b._jobRef.startingDateAndTime)
-                        )
-                          ? 1
-                          : -1;
-                      });
-                  }
-                  resolve(results);
-                }
-              });
-          }),
-        ]);
-
-        resolve({ postedBids: [...openBids, ...allOtherBids] });
-      } catch (e) {
-        reject(e);
-      }
-    });
-  },
-
-  getAwardedBidDetails: async (mongoUser_id, bidId) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const user = await UserModel.findById({ _id: mongoUser_id }, { _postedBidsRef: 1 })
+        const user = await UserModel.findOne({ _id: mongoUser_id }, { _postedBidsRef: 1 })
           .populate({
             path: '_postedBidsRef',
             match: { _id: { $eq: bidId } },
+            select: {
+              _id: 1,
+              bidAmount: 1,
+              taskerPayout: 1,
+              taskerPartialPayout: 1,
+              taskerActualPayoutInBank: 1,
+            },
             populate: [
               {
-                path: '_jobRef',
+                path: '_requestRef',
+                select: {
+                  _bidsListRef: 0,
+                  hideFrom: 0,
+                  viewedBy: 0,
+                  latestCheckoutSession: 0,
+                  processedPayment: 0,
+                },
                 populate: [
                   {
                     path: '_reviewRef',
                     select: {
-                      proposerReview: 1,
-                      bidderReview: 1,
-                      revealToBoth: 1,
-                      requiresProposerReview: 1,
-                      requiresBidderReview: 1,
+                      requesterReview: 1,
+                      taskerReview: 1,
                     },
                   },
                   {
@@ -726,13 +541,109 @@ exports.bidDataAccess = {
                   },
                   {
                     path: '_awardedBidRef',
-                    select: { _bidderRef: 1 },
-                    populate: { path: '_bidderRef', select: { userId: 1 } },
+                    select: { _taskerRef: 1 },
+                    populate: { path: '_taskerRef', select: { userId: 1 } },
                   },
                 ],
               },
               {
-                path: '_bidderRef',
+                path: '_taskerRef',
+                select: {
+                  _id: 1,
+                  displayName: 1,
+                  rating: 1,
+                  profileImage: 1,
+                  email: 1,
+                  phone: 1,
+                },
+              },
+            ],
+          })
+          .lean(true)
+          .exec();
+
+        const theBid =
+          user && user._postedBidsRef && user._postedBidsRef.length === 1
+            ? user._postedBidsRef[0]
+            : {};
+
+        if (
+          theBid &&
+          (theBid._requestRef.state === 'AWARDED' || theBid._requestRef.state === 'AWARDED_SEEN')
+        ) {
+          if (
+            theBid._requestRef._awardedBidRef._taskerRef._id.toString() === mongoUser_id.toString()
+          ) {
+            theBid.isAwardedToMe = true;
+          } else {
+            // you are not the awarded bidder
+            return resolve({});
+          }
+        }
+
+        if (['DONE', 'DONE_SEEN', 'AWARDED', 'AWARDED_SEEN'].includes(theBid._requestRef.state)) {
+          const reviewRef = theBid._requestRef._reviewRef;
+
+          const revealToBoth = !!(reviewRef && reviewRef.requesterReview && reviewRef.taskerReview);
+
+          const requiresRequesterReview = !reviewRef || (reviewRef && !reviewRef.requesterReview);
+
+          const requiresTaskerReview = !reviewRef || (reviewRef && !reviewRef.taskerReview);
+          theBid._requestRef._reviewRef = {
+            revealToBoth,
+            requiresRequesterReview,
+            requiresTaskerReview,
+          };
+        }
+
+        return resolve(theBid);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+
+  getAwardedBidDetails: async (mongoUser_id, bidId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const user = await UserModel.findById({ _id: mongoUser_id }, { _postedBidsRef: 1 })
+          .populate({
+            path: '_postedBidsRef',
+            match: { _id: { $eq: bidId } },
+            select: {
+              _id: 1,
+              bidAmount: 1,
+              taskerPayout: 1,
+              taskerPartialPayout: 1,
+              taskerActualPayoutInBank: 1,
+            },
+            populate: [
+              {
+                path: '_requestRef',
+                populate: [
+                  {
+                    path: '_reviewRef',
+                  },
+                  {
+                    path: '_ownerRef',
+                    select: {
+                      _id: 1,
+                      displayName: 1,
+                      rating: 1,
+                      profileImage: 1,
+                      email: 1,
+                      phone: 1,
+                    },
+                  },
+                  {
+                    path: '_awardedBidRef',
+                    select: { _taskerRef: 1 },
+                    populate: { path: '_taskerRef', select: { userId: 1 } },
+                  },
+                ],
+              },
+              {
+                path: '_taskerRef',
                 select: {
                   _id: 1,
                   displayName: 1,
@@ -758,7 +669,7 @@ exports.bidDataAccess = {
     });
   },
 
-  // get jobs for a user and filter by a given state
+  // get requests for a user and filter by a given state
   getBidDetails: async (mongoUser_id, bidId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -767,16 +678,16 @@ exports.bidDataAccess = {
             path: '_postedBidsRef',
             match: { _id: { $eq: bidId } },
             populate: {
-              path: '_jobRef',
+              path: '_requestRef',
               select: {
                 _ownerRef: 1,
                 state: 1,
                 detailedDescription: 1,
-                jobTitle: 1,
+                requestTitle: 1,
                 location: 1,
                 stats: 1,
                 startingDateAndTime: 1,
-                durationOfJob: 1,
+                durationOfRequest: 1,
                 templateId: 1,
                 extras: 1,
               },
@@ -816,39 +727,73 @@ exports.bidDataAccess = {
       .exec();
     return !!isSuccessful;
   },
-  updateBidState: async (bidId, newState) => {
-    const isSuccessful = await BidModel.findOneAndUpdate(
-      { _id: bidId },
-      {
-        $set: { state: newState },
-      }
-    )
-      .lean(true)
-      .exec();
-    return !!isSuccessful;
-  },
+
   updateBidValue: ({ mongoUser_id, bidId, bidAmount }) => {
+    const {
+      requesterPaymentAmount,
+      taskerPayoutAmount,
+      requesterPartialRefundAmount,
+      taskerPartialPayoutAmount,
+      taskerActualPayoutInBank,
+    } = getChargeDistributionDetails(bidAmount);
+
     return BidModel.findOneAndUpdate(
-      { _id: bidId, _bidderRef: mongoUser_id },
+      { _id: bidId, _taskerRef: mongoUser_id },
       {
-        $set: { 'bidAmount.value': bidAmount, isNewBid: true },
+        $set: {
+          'bidAmount.value': bidAmount,
+          isNewBid: true,
+          'requesterPayment.value': requesterPaymentAmount,
+          'taskerPayout.value': taskerPayoutAmount,
+          'taskerPartialPayout.value': taskerPartialPayoutAmount,
+          'requesterPartialRefund.value': requesterPartialRefundAmount,
+          'taskerActualPayoutInBank.value': taskerActualPayoutInBank,
+        },
       },
       { new: true }
     )
       .lean(true)
       .exec();
   },
-  postNewBid: ({ mongoUser_id, jobId, bidAmount }) => {
+  postNewBid: ({ mongoUser_id, requestId, bidAmount }) => {
     return new Promise(async (resolve, reject) => {
       try {
+        const {
+          requesterPaymentAmount,
+          taskerPayoutAmount,
+          requesterPartialRefundAmount,
+          taskerPartialPayoutAmount,
+          taskerActualPayoutInBank,
+        } = getChargeDistributionDetails(bidAmount);
+
         const newBid = await new BidModel({
-          _bidderRef: mongoUser_id,
-          _jobRef: jobId,
+          _taskerRef: mongoUser_id,
+          _requestRef: requestId,
           bidAmount: { value: bidAmount, currency: bidAmount.currency || 'CAD' },
+          requesterPayment: {
+            value: requesterPaymentAmount,
+            currency: bidAmount.currency || 'CAD',
+          },
+          requesterPartialRefund: {
+            value: requesterPartialRefundAmount,
+            currency: bidAmount.currency || 'CAD',
+          },
+          taskerPayout: {
+            value: taskerPayoutAmount,
+            currency: bidAmount.currency || 'CAD',
+          },
+          taskerPartialPayout: {
+            value: taskerPartialPayoutAmount,
+            currency: bidAmount.currency || 'CAD',
+          },
+          taskerActualPayoutInBank: {
+            value: taskerActualPayoutInBank,
+            currency: bidAmount.currency || 'CAD',
+          },
         }).save();
 
-        //update the user and job model with this new bid
-        const updateRelativeModels = await Promise.all([
+        //update the user and request model with this new bid
+        await Promise.all([
           UserModel.findOneAndUpdate(
             { _id: mongoUser_id },
             {
@@ -857,8 +802,8 @@ exports.bidDataAccess = {
           )
             .lean(true)
             .exec(),
-          JobModel.updateOne(
-            { _id: jobId },
+          RequestModel.updateOne(
+            { _id: requestId },
             {
               $push: { _bidsListRef: newBid._id },
             }
@@ -867,35 +812,35 @@ exports.bidDataAccess = {
             .exec(),
         ]);
 
-        const jobDetails = await JobModel.findById(jobId)
+        const requestDetails = await RequestModel.findById(requestId)
           .populate({
             path: '_ownerRef',
             select: {
               _id: 1,
               email: 1,
               phone: 1,
-              _bidderRef: 1,
+              _taskerRef: 1,
               pushSubscription: 1,
               notifications: 1,
             },
           })
           .lean()
           .exec();
-        const ownerDetails = jobDetails._ownerRef;
+        const ownerDetails = requestDetails._ownerRef;
         if (ownerDetails) {
           const ownerEmailAddress =
             ownerDetails.email && ownerDetails.email.emailAddress
               ? ownerDetails.email.emailAddress
               : '';
 
-          const jobTemplate =
-            utils.jobTemplateIdToDefinitionObjectMapper[`${jobDetails.templateId}`];
-          const jobTitle = jobDetails.jobTitle || jobTemplate.TITLE || '';
+          const requestTemplate =
+            utils.requestTemplateIdToDefinitionObjectMapper[`${requestDetails.templateId}`];
+          const requestTitle = `${requestTemplate.TITLE} - ${requestDetails.requestTitle}`;
           sendGridEmailing.sendNewBidRecievedEmail({
             to: ownerEmailAddress,
             toDisplayName: ownerDetails.displayName,
-            taskName: jobTitle,
-            clickLink: `${ROUTES.CLIENT.PROPOSER.dynamicReviewRequestAndBidsPage(jobId)}`,
+            taskName: requestTitle,
+            clickLink: `${ROUTES.CLIENT.REQUESTER.dynamicReviewRequestAndBidsPage(requestId)}`,
           });
         }
 
@@ -904,5 +849,114 @@ exports.bidDataAccess = {
         reject(e);
       }
     });
+  },
+
+  getAchivedBidDetailsForTasker: ({ mongoUser_id, bidId }) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const archivedBidDetails = await BidModel.findOne(
+          {
+            _id: bidId,
+            _taskerRef: mongoUser_id,
+          },
+          { requesterPayment: 0, requesterPartialRefund: 0, addressText: 0 }
+        )
+          .populate({
+            path: '_requestRef',
+            select: { processedPayment: 0, payoutDetails: 0 },
+            populate: [
+              {
+                path: '_ownerRef',
+                select: {
+                  displayName: 1,
+                  profileImage: 1,
+                  rating: 1,
+                  membershipStatus: 1,
+                },
+              },
+              {
+                path: '_awardedBidRef',
+                select: {
+                  _taskerRef: 1,
+                  isNewBid: 1,
+                  requesterPayment: 1,
+                  requesterPartialRefund: 1,
+                },
+                populate: {
+                  path: '_taskerRef',
+                  select: {
+                    displayName: 1,
+                    profileImage: 1,
+                    rating: 1,
+                    membershipStatus: 1,
+                  },
+                },
+              },
+              {
+                path: '_reviewRef',
+              },
+              {
+                path: '_ownerRef',
+                select: {
+                  displayName: 1,
+                  email: 1,
+                  phone: 1,
+                  profileImage: 1,
+                  rating: 1,
+                },
+              },
+            ],
+          })
+          .lean()
+          .exec();
+
+        if (archivedBidDetails && archivedBidDetails._id) {
+          const requestDetails = archivedBidDetails._requestRef;
+          if (
+            !(
+              requestDetails._reviewRef &&
+              requestDetails._reviewRef.requesterReview &&
+              requestDetails._reviewRef.taskerReview
+            )
+          ) {
+            requestDetails._reviewRef.requesterReview = null;
+          }
+          return resolve(archivedBidDetails);
+        }
+        reject('cant find the specified Bid');
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+
+  findBidByOwner: async (mongoUser_id, bidId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const theBid = await BidModel.findOne({ _taskerRef: mongoUser_id, _id: bidId })
+          .lean(true)
+          .exec();
+
+        resolve(theBid);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+  confirm: (mongoUser_id, bidId) => {
+    return BidModel.findOne({ _id: bidId }, { _awardedBidRef: 1 })
+      .populate({
+        path: '_awardedBidRef',
+        select: {
+          _taskerRef: 1,
+        },
+        populate: {
+          path: '_taskerRef',
+          match: { _id: mongoUser_id },
+          select: { _id: 1 },
+        },
+      })
+      .lean()
+      .exec();
   },
 };

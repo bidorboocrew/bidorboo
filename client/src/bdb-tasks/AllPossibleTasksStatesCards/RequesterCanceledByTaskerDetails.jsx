@@ -1,71 +1,38 @@
 import React from 'react';
-import TextareaAutosize from 'react-autosize-textarea';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import {
   CountDownComponent,
   SummaryStartDateAndTime,
-  JobCardTitle,
+  RequestCardTitle,
   CancelledBy,
   TaskImagesCarousel,
   UserGivenTitle,
 } from '../../containers/commonComponents';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
+import { updateRequestState } from '../../app-state/actions/requestActions';
+import { REQUEST_STATES } from '../index';
 
-export default class RequesterCanceledByTaskerDetails extends React.Component {
+class RequesterCanceledByTaskerDetails extends React.Component {
+  componentDidMount() {
+    const { updateRequestState, request } = this.props;
+    updateRequestState(request._id, REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_TASKER_SEEN);
+  }
   render() {
-    const { job } = this.props;
+    const { request } = this.props;
 
-    if (!job) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
+    const { startingDateAndTime, _awardedBidRef, taskImages = [], requestTitle } = request;
 
-    const {
-      startingDateAndTime,
-      addressText,
-      _awardedBidRef,
-      displayStatus,
-      state,
-      extras,
-      _ownerRef,
-      detailedDescription,
-      processedPayment,
-      templateId,
-      taskImages = [],
-      jobTitle,
-    } = job;
-    if (
-      !startingDateAndTime ||
-      !addressText ||
-      !_awardedBidRef ||
-      !displayStatus ||
-      !state ||
-      !extras ||
-      !_ownerRef ||
-      !detailedDescription ||
-      !templateId ||
-      !processedPayment
-    ) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
+    const { _taskerRef, requesterPayment } = _awardedBidRef;
 
-    const { _bidderRef } = _awardedBidRef;
-    if (!_bidderRef) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
+    const { displayName: taskerDisplayName } = _taskerRef;
 
-    // xxxx get currency from processed payment
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
-    const { displayName: taskerDisplayName } = _bidderRef;
-    if (!taskerDisplayName) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-
-    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE || !ID) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-    const { amount: requesterPaid } = processedPayment;
+    const { value: requesterPaymentAmount } = requesterPayment;
 
     return (
       <div
@@ -74,41 +41,36 @@ export default class RequesterCanceledByTaskerDetails extends React.Component {
       >
         <div className="card-content">
           <div className="content">
-            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-            <UserGivenTitle userGivenTitle={jobTitle} />
+            <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <UserGivenTitle userGivenTitle={requestTitle} />
 
             <TaskImagesCarousel taskImages={taskImages} isLarge />
             <SummaryStartDateAndTime
               date={startingDateAndTime}
-              renderHelpComponent={() => (
-                <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
-              )}
+              renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
 
-            <CancelledBy name={`Tasker ${taskerDisplayName}`} refundAmount={100} />
+            <CancelledBy name={`Tasker ${taskerDisplayName}`} />
             <div className="group has-text-left">
               <label className="label">What you need to know:</label>
               <ul>
                 <li>
-                  We Are sorry to see this cancellation as BidOrBoo Crew Takes cancellations
-                  seriously
+                  <strong>
+                    100% refund for the amount of {` $${requesterPaymentAmount}`} was issued back to
+                    your card.
+                  </strong>
                 </li>
-                <li>
-                  <strong>100% refund for the amount of {` $${requesterPaid / 100}`}</strong> was
-                  issued back to your card.
-                </li>
-                <li>
-                  <strong>The Tasker's rating has been negatively</strong> impacted for their
-                  cancellation
-                </li>
+                <li>The Tasker's rating has been negatively impacted for their cancellation</li>
+                <li>We Are sorry for the inconvenience, post a new request :) </li>
               </ul>
+              <br></br>
             </div>
           </div>
         </div>
 
         <a
           onClick={() => {
-            switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
+            switchRoute(ROUTES.CLIENT.REQUESTER.myRequestsPage);
           }}
           className="button firstButtonInCard"
         >
@@ -121,3 +83,10 @@ export default class RequesterCanceledByTaskerDetails extends React.Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateRequestState: bindActionCreators(updateRequestState, dispatch),
+  };
+};
+export default connect(null, mapDispatchToProps)(RequesterCanceledByTaskerDetails);

@@ -4,7 +4,7 @@ import TextareaAutosize from 'react-autosize-textarea';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
-import TaskerVerificationBanner from '../../containers/bidder-flow/TaskerVerificationBanner.jsx';
+import TaskerVerificationBanner from '../../containers/tasker-flow/TaskerVerificationBanner.jsx';
 import {
   CountDownComponent,
   SummaryStartDateAndTime,
@@ -13,25 +13,19 @@ import {
   DestinationAddressValue,
   CardTitleAndActionsInfo,
   TaskSpecificExtras,
-  JobCardTitle,
+  RequestCardTitle,
   TaskImagesCarousel,
   UserGivenTitle,
 } from '../../containers/commonComponents';
 import PostYourBid from '../../components/forms/PostYourBid';
 
-import {
-  getUserExistingBid,
-  didUserAlreadyView,
-  findAvgBidInBidList,
-} from '../../containers/commonUtils';
+import { getUserExistingBid, didUserAlreadyView } from '../../containers/commonUtils';
 
 export default class TaskerBidOnTaskDetails extends React.Component {
   render() {
-    const { job, otherArgs } = this.props;
+    const { request, otherArgs } = this.props;
     const { showLoginDialog, isLoggedIn } = otherArgs;
-    if (!job) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.root);
-    }
+
     const {
       startingDateAndTime,
       _bidsListRef,
@@ -41,47 +35,20 @@ export default class TaskerBidOnTaskDetails extends React.Component {
       location,
       extras,
       templateId,
-      jobTitle,
+      requestTitle,
       taskImages = [],
-    } = job;
-    if (
-      !startingDateAndTime ||
-      !_ownerRef ||
-      !state ||
-      !detailedDescription ||
-      !location ||
-      !extras ||
-      !templateId
-    ) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.root);
-    }
+      avgBid,
+    } = request;
 
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${templateId}`];
-    if (!TITLE || !ID) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.root);
-    }
 
     const { coordinates } = location;
-    if (!coordinates) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.root);
-    }
 
     const { submitBid, renderTaskerBidInfo, userDetails } = otherArgs;
-    if (!submitBid || !userDetails) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.root);
-    }
     const { _id: currentUserId } = userDetails;
-    if (!currentUserId) {
-      return switchRoute(ROUTES.CLIENT.BIDDER.root);
-    }
 
-    const userAlreadyView = didUserAlreadyView(job, currentUserId);
-    const { userAlreadyBid } = getUserExistingBid(job, currentUserId);
-
-    let avgBid = 0;
-    if (job && job._bidsListRef && job._bidsListRef.length > 0) {
-      avgBid = findAvgBidInBidList(job._bidsListRef);
-    }
+    const userAlreadyView = didUserAlreadyView(request, currentUserId);
+    const { userAlreadyBid } = getUserExistingBid(request, currentUserId);
 
     const taskerCanBid = userDetails && userDetails.canBid;
 
@@ -115,14 +82,14 @@ export default class TaskerBidOnTaskDetails extends React.Component {
         >
           <div className="card-content">
             <div className="content">
-              <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-              <UserGivenTitle userGivenTitle={jobTitle} />
+              <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <UserGivenTitle userGivenTitle={requestTitle} />
 
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
-                  <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+                  <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
 
@@ -161,11 +128,11 @@ export default class TaskerBidOnTaskDetails extends React.Component {
                 {/* <label className="label hasSelectedValue">Task Info</label> */}
                 <CardTitleAndActionsInfo
                   userAlreadyBid={userAlreadyBid}
-                  jobState={state}
+                  requestState={state}
                   templateId={templateId}
                   bidsList={_bidsListRef}
                   userAlreadyView={userAlreadyView}
-                  job={job}
+                  request={request}
                 />
               </div>
 
@@ -179,17 +146,17 @@ export default class TaskerBidOnTaskDetails extends React.Component {
                   taskerCanBid={taskerCanBid}
                   showLoginDialog={showLoginDialog}
                   isLoggedIn={isLoggedIn}
-                  avgBid={avgBid}
+                  avgBid={avgBid === '--' ? 0 : avgBid}
                   onSubmit={(values) => {
                     submitBid({
                       recaptchaField: values.recaptchaField,
-                      job,
+                      request,
                       bidAmount: values.bidAmountField,
                     });
                   }}
                   onCancel={() => {
-                    // updateBooedBy(job);
-                    switchRoute(ROUTES.CLIENT.BIDDER.root);
+                    // updateBooedBy(request);
+                    switchRoute(ROUTES.CLIENT.TASKER.root);
                   }}
                 />
               )}

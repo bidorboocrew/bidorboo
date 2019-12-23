@@ -5,109 +5,69 @@ import {
   CountDownComponent,
   DisputedBy,
   SummaryStartDateAndTime,
-  JobCardTitle,
+  RequestCardTitle,
   TaskImagesCarousel,
   UserGivenTitle,
+  TaskCost,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
 export default class RequesterDisputedDetails extends React.Component {
   render() {
-    const { job } = this.props;
-    if (!job) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
+    const { request } = this.props;
 
-    const {
-      startingDateAndTime,
-      addressText,
-      _awardedBidRef,
-      displayStatus,
-      state,
-      extras,
-      _ownerRef,
-      detailedDescription,
-      processedPayment,
-      taskImages = [],
-      jobTitle,
-      dispute,
-    } = job;
-    if (
-      !startingDateAndTime ||
-      !addressText ||
-      !_awardedBidRef ||
-      !displayStatus ||
-      !state ||
-      !extras ||
-      !_ownerRef ||
-      !detailedDescription ||
-      !processedPayment ||
-      !dispute
-    ) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-    if (!extras.effort) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-    const { bidAmount, _bidderRef } = _awardedBidRef;
-    if (!bidAmount || !_bidderRef) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
+    const { _awardedBidRef, startingDateAndTime, taskImages = [], requestTitle, dispute } = request;
 
-    const { displayName: taskerDisplayName } = _bidderRef;
-    if (!taskerDisplayName) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-
-    const { displayName: ownerDisplayName } = _ownerRef;
-    if (!ownerDisplayName) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE || !ID) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
+    const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     let whoDisputed = '';
-    const { taskerDispute, proposerDispute } = dispute;
+    const { taskerDispute } = dispute;
     if (taskerDispute && taskerDispute.reason) {
       whoDisputed = 'Tasker';
     } else {
       whoDisputed = 'You';
     }
+
+    const { requesterPayment } = _awardedBidRef;
+    const { value: requesterPaymentAmount } = requesterPayment;
     return (
       <div className="card has-text-centered disputeOnlyView cardWithButton nofixedwidth">
         <div className="card-content">
           <div className="content">
-            <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-            <UserGivenTitle userGivenTitle={jobTitle} />
+            <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <UserGivenTitle userGivenTitle={requestTitle} />
 
             <TaskImagesCarousel taskImages={taskImages} isLarge />
             <SummaryStartDateAndTime
               date={startingDateAndTime}
-              renderHelpComponent={() => (
-                <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
-              )}
+              renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
+            <TaskCost cost={requesterPaymentAmount}></TaskCost>
+
             <DisputedBy name={whoDisputed} />
             <div className="group has-text-left">
               <label className="label has-text-danger">What you need to know:</label>
               <ul>
-                <li>BidorBooCrew will assess the dispute asap to ensure your satisfaction</li>
                 <li>
-                  Our customer relation team will be in touch with tasker and requester to gather
-                  facts
+                  <strong>
+                    Your payment ${requesterPaymentAmount} will be on hold until we resolve the
+                    dispute
+                  </strong>
                 </li>
-                <li>We will get in touch with you to update you regularly with the status</li>
+                <li>
+                  BidOrBoo support crew will assess the dispute asap to ensure your satisfaction
+                </li>
+
+                <li>We will get in touch with you to update you regularly with the progress</li>
               </ul>
             </div>
           </div>
         </div>
-
+        <br></br>
         <a
           onClick={() => {
-            switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
+            switchRoute(ROUTES.CLIENT.REQUESTER.myRequestsPage);
           }}
           className="button firstButtonInCard"
         >

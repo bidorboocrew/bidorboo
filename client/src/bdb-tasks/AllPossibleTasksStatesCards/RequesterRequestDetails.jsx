@@ -5,8 +5,7 @@ import { Collapse } from 'react-collapse';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
-import { showLoginDialog } from '../../app-state/actions/uiActions';
+import { cancelRequestById } from '../../app-state/actions/requestActions';
 
 import {
   DisplayLabelValue,
@@ -16,14 +15,11 @@ import {
   SummaryStartDateAndTime,
   AwaitingOnTasker,
   PastdueExpired,
-  JobCardTitle,
+  RequestCardTitle,
   TaskersAvailable,
   TaskImagesCarousel,
   UserGivenTitle,
 } from '../../containers/commonComponents';
-
-import { switchRoute } from '../../utils';
-import * as ROUTES from '../../constants/frontend-route-consts';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 
@@ -70,41 +66,20 @@ class RequesterRequestDetails extends React.Component {
     }
   };
   render() {
-    const { job, cancelJobById } = this.props;
-    if (!job || !cancelJobById) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
+    const { request, cancelRequestById } = this.props;
 
     const {
-      _id: jobId,
       startingDateAndTime,
       addressText,
       extras,
       detailedDescription,
-      isHappeningSoon,
-      isHappeningToday,
-      isPastDue,
       taskImages = [],
-      jobTitle,
-    } = job;
-    if (
-      !jobId ||
-      !startingDateAndTime ||
-      !addressText ||
-      !extras ||
-      !detailedDescription ||
-      isHappeningSoon === 'undefined' ||
-      isHappeningToday === 'undefined' ||
-      isPastDue === 'undefined'
-    ) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE || !ID) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
+      requestTitle,
+    } = request;
 
-    let areThereAnyBidders = job._bidsListRef && job._bidsListRef.length > 0;
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
+
+    let areThereAnyTaskers = request._bidsListRef && request._bidsListRef.length > 0;
 
     const { showDeleteDialog, showMoreOptionsContextMenu, showMore } = this.state;
 
@@ -146,7 +121,7 @@ class RequesterRequestDetails extends React.Component {
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault();
-                      cancelJobById(job._id);
+                      cancelRequestById(request._id);
                       this.toggleDeleteConfirmationDialog();
                     }}
                     className="button is-danger"
@@ -164,7 +139,7 @@ class RequesterRequestDetails extends React.Component {
         <div className={`card has-text-centered cardWithButton nofixedwidth`}>
           <div className="card-content">
             <div className="content">
-              <JobCardTitle
+              <RequestCardTitle
                 icon={ICON}
                 title={TITLE}
                 img={IMG}
@@ -204,24 +179,19 @@ class RequesterRequestDetails extends React.Component {
                   </div>
                 )}
               />
-              <UserGivenTitle userGivenTitle={jobTitle} />
+              <UserGivenTitle userGivenTitle={requestTitle} />
 
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
-                  <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+                  <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              {isPastDue && <PastdueExpired />}
 
-              {!isPastDue && (
-                <React.Fragment>
-                  {!areThereAnyBidders && <AwaitingOnTasker />}
-                  {areThereAnyBidders && (
-                    <TaskersAvailable numberOfAvailableTaskers={job._bidsListRef.length} />
-                  )}
-                </React.Fragment>
+              {!areThereAnyTaskers && <AwaitingOnTasker />}
+              {areThereAnyTaskers && (
+                <TaskersAvailable numberOfAvailableTaskers={request._bidsListRef.length} />
               )}
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
@@ -272,24 +242,10 @@ class RequesterRequestDetails extends React.Component {
   }
 }
 
-const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
-  return {
-    isLoggedIn: userReducer.isLoggedIn,
-    selectedAwardedJob: jobsReducer.selectedAwardedJob,
-    userDetails: userReducer.userDetails,
-    notificationFeed: uiReducer.notificationFeed,
-  };
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
-    cancelJobById: bindActionCreators(cancelJobById, dispatch),
-    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
+    cancelRequestById: bindActionCreators(cancelRequestById, dispatch),
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(RequesterRequestDetails);
+export default connect(null, mapDispatchToProps)(RequesterRequestDetails);

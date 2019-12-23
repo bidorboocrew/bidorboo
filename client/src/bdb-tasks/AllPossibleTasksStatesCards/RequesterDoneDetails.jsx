@@ -5,127 +5,87 @@ import { Collapse } from 'react-collapse';
 import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { proposerConfirmsJobCompletion, cancelJobById } from '../../app-state/actions/jobActions';
-import { showLoginDialog } from '../../app-state/actions/uiActions';
-
 import {
   CountDownComponent,
   DisplayLabelValue,
   TaskCost,
   TaskSpecificExtras,
-  ArchiveTask,
   DestinationAddressValue,
-  JobCardTitle,
+  RequestCardTitle,
   SummaryStartDateAndTime,
   TaskIsFulfilled,
+  CenteredUserImageAndRating,
   TaskImagesCarousel,
   UserGivenTitle,
 } from '../../containers/commonComponents';
-import { getChargeDistributionDetails } from '../../containers/commonUtils';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import RequestBaseContainer from './RequestBaseContainer';
 
-class RequesterDoneDetails extends RequestBaseContainer {
+export default class RequesterDoneDetails extends RequestBaseContainer {
   render() {
-    const { job, cancelJobById, currentUserDetails } = this.props;
-    const { _id: currentUserId } = currentUserDetails;
+    const { request } = this.props;
 
-    if (!cancelJobById || !job || !currentUserDetails || !currentUserId) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
     const {
-      _id: jobId,
+      _id: requestId,
       startingDateAndTime,
       addressText,
       _awardedBidRef,
       extras,
       detailedDescription,
-      displayStatus,
-      isHappeningSoon,
-      isHappeningToday,
-      isPastDue,
-      _reviewRef = {
-        revealToBoth: false,
-        requiresProposerReview: true,
-        requiresBidderReview: true,
-      },
-      jobCompletion = {
-        proposerConfirmed: false,
-        bidderConfirmed: false,
-      },
+      _reviewRef,
       taskImages = [],
-      jobTitle,
-    } = job;
-    if (
-      !jobId ||
-      !startingDateAndTime ||
-      !addressText ||
-      !_awardedBidRef ||
-      !displayStatus ||
-      !extras ||
-      !detailedDescription ||
-      isHappeningSoon === 'undefined' ||
-      isHappeningToday === 'undefined' ||
-      isPastDue === 'undefined'
-    ) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-    const { bidAmount, _bidderRef } = _awardedBidRef;
-    if (!bidAmount || !_bidderRef) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-    const { proposerConfirmed, bidderConfirmed } = jobCompletion;
+      requestTitle,
+    } = request;
 
-    // xxxx get currency from processed payment
-    const { value: bidValue, currency: bidCurrency } = bidAmount;
-    if (!bidValue || !bidCurrency) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-    const { requesterTotalPayment: requesterPayAmount } = getChargeDistributionDetails(bidValue);
+    const { requesterPayment, _taskerRef } = _awardedBidRef;
+    const { value: requesterPaymentAmount } = requesterPayment;
 
-    const { phone, email, _id: bidderId } = _bidderRef;
-    if (!phone || !email || !bidderId) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
-    const { phoneNumber = 'not specified' } = phone;
-    if (!phoneNumber) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
+    const { phone, email } = _taskerRef;
+    const { phoneNumber } = phone;
+
     const { emailAddress } = email;
-    if (!emailAddress) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
 
-    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${job.templateId}`];
-    if (!TITLE || !ID) {
-      return switchRoute(ROUTES.CLIENT.PROPOSER.myRequestsPage);
-    }
+    const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     const { showMore } = this.state;
-    const { revealToBoth, requiresProposerReview, requiresBidderReview } = _reviewRef;
 
+    const requiresRequesterReview = _reviewRef.requiresRequesterReview;
     return (
       <>
-        <div style={{ height: 'auto' }} className="card cardWithButton nofixedwidth">
-          <div className="card-content">
-            <div className="content has-text-centered">
-              <JobCardTitle icon={ICON} title={TITLE} img={IMG} />
-              <UserGivenTitle userGivenTitle={jobTitle} />
+        <div
+          style={{
+            boxShadow: 'none',
+            borderLeft: '1px solid rgba(10,10,10,0.2)',
+            borderTop: '1px solid rgba(10,10,10,0.2)',
+            borderRight: '1px solid rgba(10,10,10,0.2)',
+          }}
+          className="card has-text-centered"
+        >
+          <div style={{ borderBottom: 0 }} className="card-content">
+            <div className="content">
+              <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <UserGivenTitle userGivenTitle={requestTitle} />
 
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
-                  <CountDownComponent startingDate={startingDateAndTime} isJobStart={false} />
+                  <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              {!requiresProposerReview && <ArchiveTask />}
 
-              {requiresProposerReview && <TaskIsFulfilled />}
-              <TaskCost cost={requesterPayAmount} />
+              <TaskIsFulfilled
+                renderHelp={() => {
+                  if (requiresRequesterReview) {
+                    return <div className="help">Waiting on your review</div>;
+                  }
+                  if (!requiresRequesterReview) {
+                    return <div className="help">Waiting on Tasker's review</div>;
+                  }
+                }}
+              />
+              <TaskCost cost={requesterPaymentAmount} />
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
@@ -169,74 +129,45 @@ class RequesterDoneDetails extends RequestBaseContainer {
               </div>
             </div>
           </div>
+          <AssignedTaskerDetails
+            otherUserProfileInfo={_taskerRef}
+            emailAddress={emailAddress}
+            phoneNumber={phoneNumber}
+            renderActionButton={() => (
+              <>
+                {requiresRequesterReview && (
+                  <a
+                    onClick={() => {
+                      switchRoute(ROUTES.CLIENT.REVIEW.getRequesterRequestReview({ requestId }));
+                    }}
+                    className={`button is-primary`}
+                  >
+                    <span className="icon">
+                      <i className="fas fa-user-check" />
+                    </span>
+                    <span>Review Tasker</span>
+                  </a>
+                )}
+                {!requiresRequesterReview && (
+                  <div style={{ textAlign: 'center' }}>
+                    <ul className="has-text-left">
+                      <li>You have submitted your review already</li>
+                      <li>We've contacted the Tasker to submit their review</li>
+                      <li>
+                        After that, this task will be archived under (Past Requests) for your
+                        reference
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </>
+            )}
+          />
         </div>
-
-        <br />
-        <div style={{ background: 'transparent', marginBottom: 0 }} className="tabs is-centered">
-          <ul>
-            <li className="is-active">
-              <a>
-                <span className="icon is-small">
-                  <i className="fas fa-user-tie" aria-hidden="true" />
-                </span>
-                <span>Your Tasker</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        <AssignedTaskerDetails
-          otherUserProfileInfo={_bidderRef}
-          emailAddress={emailAddress}
-          phoneNumber={phoneNumber}
-          renderActionButton={() => (
-            <>
-              {requiresProposerReview && (
-                <a
-                  onClick={() => {
-                    switchRoute(ROUTES.CLIENT.REVIEW.getProposerJobReview({ jobId }));
-                  }}
-                  className={`button firstButtonInCard is-primary`}
-                >
-                  Review Tasker
-                </a>
-              )}
-              {!requiresProposerReview && (
-                <a
-                  onClick={() => {
-                    alert('Archive not implemented yet, will take you to archieve');
-                  }}
-                  className={`button firstButtonInCard is-dark`}
-                >
-                  View In Archive
-                </a>
-              )}
-            </>
-          )}
-        />
       </>
     );
   }
 }
-
-const mapStateToProps = ({ jobsReducer, userReducer, uiReducer }) => {
-  return {
-    isLoggedIn: userReducer.isLoggedIn,
-    selectedAwardedJob: jobsReducer.selectedAwardedJob,
-    currentUserDetails: userReducer.userDetails,
-    notificationFeed: uiReducer.notificationFeed,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    proposerConfirmsJobCompletion: bindActionCreators(proposerConfirmsJobCompletion, dispatch),
-    cancelJobById: bindActionCreators(cancelJobById, dispatch),
-    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(RequesterDoneDetails);
 
 class AssignedTaskerDetails extends React.Component {
   render() {
@@ -246,40 +177,35 @@ class AssignedTaskerDetails extends React.Component {
       return null;
     }
 
-    const { _id } = otherUserProfileInfo;
-
     return (
-      <div className="card cardWithButton nofixedwidth">
-        <div className="card-content">
-          <div className="content ">
-            <div className="has-text-centered">
-              <figure
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(_id));
-                }}
-                style={{ margin: 'auto', width: 90 }}
-                className="image"
-              >
-                <img
-                  style={{
-                    borderRadius: '100%',
-                    cursor: 'pointer',
-                    boxShadow:
-                      '0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.3)',
-                  }}
-                  src={otherUserProfileInfo.profileImage.url}
-                />
-              </figure>
-              <div style={{ marginBottom: 0 }} className={`title`}>
-                <span>{otherUserProfileInfo.displayName}</span>
-              </div>
-              <br />
+      <div
+        style={{
+          boxShadow: 'none',
+          border: 'none',
+          borderBottom: '1px solid rgba(10,10,10,0.2)',
+        }}
+        className="card cardWithButton nofixedwidth"
+      >
+        <div style={{ paddingTop: 0 }} className="card-content">
+          <div className="content">
+            <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
+              <ul style={{ marginLeft: 0 }}>
+                <li className="is-active">
+                  <a>
+                    <span className="icon is-small">
+                      <i className="fas fa-user-tie" aria-hidden="true" />
+                    </span>
+                    <span>Assigned Tasker</span>
+                  </a>
+                </li>
+              </ul>
             </div>
+            <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large isCentered />
+            <br></br>
+            {renderActionButton && renderActionButton()}
+            <br />
           </div>
         </div>
-        {renderActionButton && renderActionButton()}
       </div>
     );
   }

@@ -26,6 +26,13 @@ class MyProfile extends React.Component {
       showImageUploadDialog: false,
     };
   }
+  componentDidMount() {
+    document.querySelector('body').setAttribute('style', 'background:white');
+  }
+
+  componentWillUnmount() {
+    document.querySelector('body').setAttribute('style', 'background:#eeeeee');
+  }
 
   toggleEditProfile = () => {
     this.setState({ isEditProfile: !this.state.isEditProfile });
@@ -55,8 +62,6 @@ class MyProfile extends React.Component {
       membershipStatus,
       phone,
       rating,
-      picId,
-      // autoDetectlocation,
     } = userDetails;
 
     personalParagraph = personalParagraph || 'not provided';
@@ -66,9 +71,6 @@ class MyProfile extends React.Component {
     const shouldShowPhoneVerification = phone.phoneNumber && !phone.isVerified;
     // email is provided but it is not verified
     const shouldShowEmailVerification = email.emailAddress && !email.isVerified;
-
-    const didUserProvidePicId = !!picId && picId.front && picId.back;
-    const isPictureIdVerified = didUserProvidePicId && picId.isVerified;
 
     const membershipStatusDisplay = C.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
 
@@ -238,7 +240,7 @@ class MyProfile extends React.Component {
             </div>
 
             <br></br>
-            <div style={{ background: 'transparent' }} className="tabs is-centered">
+            <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
               <ul style={{ marginLeft: 0 }}>
                 <li className="is-active">
                   <a>
@@ -344,6 +346,7 @@ const userImageAndStats = (
                     </span>
                   </div>
                   <img
+                    alt="user profile"
                     style={{
                       borderRadius: '100%',
                       cursor: 'pointer',

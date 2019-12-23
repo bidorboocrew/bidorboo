@@ -1,8 +1,8 @@
 import React from 'react';
-
-import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import * as A from '../../app-state/actionTypes';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 
@@ -20,13 +20,19 @@ class VerifyPhoneField extends React.Component {
   handleSendNewCode = async () => {
     this.setState({ isResendingVCode: true }, async () => {
       try {
-        const resendVerificationReq = await axios.post(ROUTES.API.USER.POST.resendVerificationMsg);
+        await axios.post(ROUTES.API.USER.POST.resendVerificationMsg);
         this.setState({ isResendingVCode: false, inputCodeContent: '' });
       } catch (e) {
-        // some alert
-        alert(
-          'we are unable to send the verification text, please contact bidorboo@bidorboo.ca',
-        );
+        this.props.dispatch({
+          type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+          payload: {
+            toastDetails: {
+              type: 'error',
+              msg:
+                'we are unable to send the verification text, please contact bidorboo@bidorboo.ca',
+            },
+          },
+        });
         this.setState({ isResendingVCode: false, inputCodeContent: '' });
       }
     });
@@ -38,7 +44,7 @@ class VerifyPhoneField extends React.Component {
   };
   render() {
     const { isResendingVCode, inputCodeContent } = this.state;
-    const { verifyingPhoneInProgress, showTosStep } = this.props;
+    const { verifyingPhoneInProgress, dispatch } = this.props;
     this.rootModal = document.querySelector('#bidorboo-root-modals');
 
     return (
@@ -74,11 +80,27 @@ class VerifyPhoneField extends React.Component {
             onClick={() => {
               if (!isResendingVCode || !verifyingPhoneInProgress) {
                 if (!inputCodeContent) {
-                  alert('Please use the 6 digits code we sent to your phone');
+                  dispatch({
+                    type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+                    payload: {
+                      toastDetails: {
+                        type: 'error',
+                        msg: 'Please use the 6 digits code we sent to your phone',
+                      },
+                    },
+                  });
                 } else if (inputCodeContent.length === 6) {
                   this.submitPhone(`${inputCodeContent}`);
                 } else {
-                  alert("you've entered an invalid code. code is a 6 digit sent to your phone");
+                  dispatch({
+                    type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+                    payload: {
+                      toastDetails: {
+                        type: 'error',
+                        msg: "you've entered an invalid code. code is a 6 digit sent to your phone",
+                      },
+                    },
+                  });
                 }
               }
             }}
@@ -108,7 +130,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(VerifyPhoneField);
+export default connect(mapStateToProps, mapDispatchToProps)(VerifyPhoneField);

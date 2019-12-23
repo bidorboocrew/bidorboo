@@ -2,9 +2,8 @@ import React from 'react';
 import ReactPlayer from 'react-player';
 
 import * as ROUTES from '../constants/frontend-route-consts';
-import ProposerRoot from './proposer-flow/ProposerRootPage';
+import RequesterRoot from './requester-flow/RequesterRootPage';
 import { switchRoute } from '../utils';
-import HOW_IT_WORKS from '../assets/images/HOW_IT_WORKS.png';
 import MainBanner from '../assets/images/MainBanner.png';
 import REQUESTER_MAINPAGE from '../assets/images/REQUESTER_MAINPAGE.png';
 import TASKER_MAINPAGE from '../assets/images/TASKER_MAINPAGE.png';
@@ -40,7 +39,7 @@ export default class HomePage extends React.Component {
                   boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
                 }}
                 onClick={(e) => {
-                  switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                  switchRoute(ROUTES.CLIENT.REQUESTER.root);
                 }}
                 className="button is-medium is-white"
               >
@@ -55,7 +54,7 @@ export default class HomePage extends React.Component {
                   boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
                 }}
                 onClick={(e) => {
-                  switchRoute(ROUTES.CLIENT.BIDDER.root);
+                  switchRoute(ROUTES.CLIENT.TASKER.root);
                 }}
                 className="button is-medium is-dark"
               >
@@ -115,14 +114,14 @@ export default class HomePage extends React.Component {
           <div style={{ maxWidth: '21rem', marginBottom: '1.5rem' }} className="column">
             <RequestAService
               onClickHandler={() => {
-                switchRoute(ROUTES.CLIENT.PROPOSER.root);
+                switchRoute(ROUTES.CLIENT.REQUESTER.root);
               }}
             />
           </div>
           <div style={{ maxWidth: '21rem', marginBottom: '1.5rem' }} className="column">
             <ProvideAService
               onClickHandler={() => {
-                switchRoute(ROUTES.CLIENT.BIDDER.root);
+                switchRoute(ROUTES.CLIENT.TASKER.root);
               }}
             />
           </div>
@@ -149,7 +148,7 @@ export default class HomePage extends React.Component {
           }}
         /> */}
         {/* <div className="container"> */}
-        <ProposerRoot />
+        <RequesterRoot />
         {/* </div> */}
       </div>
     );
@@ -160,14 +159,14 @@ const RequestAService = (props) => {
   return (
     <div
       onClick={() => {
-        switchRoute(ROUTES.CLIENT.PROPOSER.root);
+        switchRoute(ROUTES.CLIENT.REQUESTER.root);
       }}
       style={{ cursor: 'pointer' }}
       className="card cardWithButton"
     >
       <div className="card-image">
         <figure className="image">
-          <img src={REQUESTER_MAINPAGE} alt="Placeholder image" />
+          <img src={REQUESTER_MAINPAGE} alt="Placeholder" />
         </figure>
       </div>
       <div className="card-content">
@@ -178,7 +177,7 @@ const RequestAService = (props) => {
       {/* <div className="centeredButtonInCard">
         <button
           onClick={() => {
-            switchRoute(ROUTES.CLIENT.PROPOSER.root);
+            switchRoute(ROUTES.CLIENT.REQUESTER.root);
           }}
           className="button is-fullwidth is-white"
         >
@@ -196,14 +195,14 @@ const ProvideAService = () => {
   return (
     <div
       onClick={(e) => {
-        switchRoute(ROUTES.CLIENT.BIDDER.root);
+        switchRoute(ROUTES.CLIENT.TASKER.root);
       }}
       style={{ cursor: 'pointer' }}
       className="card cardWithButton"
     >
       <div className="card-image">
         <figure className="image">
-          <img src={TASKER_MAINPAGE} alt="Placeholder image" />
+          <img src={TASKER_MAINPAGE} alt="Placeholder" />
         </figure>
       </div>
       <div className="card-content">
@@ -214,7 +213,7 @@ const ProvideAService = () => {
       {/* <div className="centeredButtonInCard">
         <button
           onClick={(e) => {
-            switchRoute(ROUTES.CLIENT.BIDDER.root);
+            switchRoute(ROUTES.CLIENT.TASKER.root);
           }}
           className="button is-fullwidth is-dark"
         >
@@ -262,32 +261,6 @@ const HowItWorksProvideService = () => {
           <p className="is-size-5">{`Do it & get paid`}</p>
         </li>
       </ul>
-    </div>
-  );
-};
-
-const VideoExplanation = () => {
-  return (
-    <div style={{ height: 'unset' }} className="card">
-      <div className="card-image">
-        <figure className="image">
-          <img src={HOW_IT_WORKS} alt="Placeholder image" />
-        </figure>
-      </div>
-      <div className="card-content">
-        <div className="content has-text-centered">
-          <div style={{ marginBottom: 0, color: '#ee2a36' }} className="title is-size-4">
-            <a
-              className="button is-text"
-              href="https://youtu.be/YHh9JbJAyf0"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              See how it works
-            </a>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

@@ -5,29 +5,22 @@ export { default as MyProfile } from './personal-profile/MyProfile';
 export { default as PaymentSettings } from './personal-profile/PaymentSettings';
 export { default as NotificationSettings } from './personal-profile/MyNotifications';
 
+// requester flow
+export { default as RequesterRootPage } from './requester-flow/RequesterRootPage';
+export { default as CreateARequestPage } from './requester-flow/CreateARequestPage';
+export { default as MyRequestsPage } from './requester-flow/MyRequestsPage';
+export { default as ReviewMyAwardedRequestAndWinningBidPage } from './requester-flow/ReviewMyAwardedRequestAndWinningBidPage';
+export { default as ReviewRequestAndBidsPage } from './requester-flow/ReviewRequestAndBidsPage';
 
-// proposer flow
-export { default as ProposerRootPage } from './proposer-flow/ProposerRootPage';
-export { default as CreateAJobPage } from './proposer-flow/CreateAJobPage';
-export { default as MyRequestsPage } from './proposer-flow/MyRequestsPage';
-export {
-  default as ReviewMyAwardedJobAndWinningBidPage,
-} from './proposer-flow/ReviewMyAwardedJobAndWinningBidPage';
-export { default as ReviewRequestAndBidsPage } from './proposer-flow/ReviewRequestAndBidsPage';
+// tasker flow
+export { default as TaskerRootPage } from './tasker-flow/TaskerRootPage';
+export { default as BidOnRequestPage } from './tasker-flow/BidOnRequestPage';
+export { default as ReviewBidAndRequestPage } from './tasker-flow/ReviewOpenBidAndRequestPage';
+export { default as ReviewAwardedBidPage } from './tasker-flow/ReviewAwardedBidPage';
+export { default as MyBidsPage } from './tasker-flow/MyBidsPage';
 
-// bidder flow
-export { default as BidderRootPage } from './bidder-flow/BidderRootPage';
-export { default as BidOnJobPage } from './bidder-flow/BidOnJobPage';
-export { default as ReviewBidAndRequestPage } from './bidder-flow/ReviewOpenBidAndRequestPage';
-export { default as ReviewAwardedBidPage } from './bidder-flow/ReviewAwardedBidPage';
-export { default as MyBidsPage } from './bidder-flow/MyBidsPage';
-
-export { default as NotificationsModal } from './NotificationsModal';
-
-export {
-  default as ProposerReviewingCompletedJob,
-} from './review-flow/ProposerReviewingCompletedJob';
-export { default as BidderReviewingCompletedJob } from './review-flow/BidderReviewingCompletedJob';
+export { default as RequesterReviewingCompletedRequest } from './review-flow/RequesterReviewingCompletedRequest';
+export { default as TaskerReviewingCompletedRequest } from './review-flow/TaskerReviewingCompletedRequest';
 
 export { default as OtherUserProfileForReviewPage } from './OtherUserProfileForReviewPage';
 

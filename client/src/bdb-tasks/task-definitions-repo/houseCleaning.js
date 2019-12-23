@@ -2,6 +2,8 @@ import React from 'react';
 
 import * as Yup from 'yup';
 import houseCleaning_img from '../../assets/images/houseCleaning_img.png';
+import { switchRoute } from './../../utils';
+import * as ROUTES from '../../constants/frontend-route-consts';
 
 export default {
   ID: 'bdbHouseCleaning',
@@ -71,6 +73,18 @@ Q3) Anything else you want to highlight for the Tasker?
       houseCleaning_img,
       setShowModal,
       subText: 'The Requester Will Be notified. Good Luck',
+      renderExtraAction: () => (
+        <a
+          style={{ minWidth: 200 }}
+          className="button is-dark"
+          onClick={() => switchRoute(ROUTES.CLIENT.TASKER.root)}
+        >
+          <span style={{ marginRight: 2 }}>Continue Bidding</span>
+          <span className="icon">
+            <i className="fas fa-arrow-right" />
+          </span>
+        </a>
+      ),
     });
   },
   renderThankYouForEditingBid: function(setShowModal) {
@@ -79,6 +93,18 @@ Q3) Anything else you want to highlight for the Tasker?
       setShowModal,
       mainText: 'Bid Was Updated!',
       subText: 'The Requester Will Be notified. Good Luck',
+      renderExtraAction: () => (
+        <a
+          style={{ minWidth: 200 }}
+          className="button is-dark"
+          onClick={() => switchRoute(ROUTES.CLIENT.TASKER.root)}
+        >
+          <span style={{ marginRight: 2 }}>Continue Bidding</span>
+          <span className="icon">
+            <i className="fas fa-arrow-right" />
+          </span>
+        </a>
+      ),
     });
   },
 
@@ -111,8 +137,8 @@ Q3) Anything else you want to highlight for the Tasker?
                 )}
                 {!withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
-                    Taskers will bring all-purpose cleaning products required
-                    to clean your house thoroughly.
+                    Taskers will bring all-purpose cleaning products required to clean your house
+                    thoroughly.
                   </p>
                 )}
               </div>
@@ -372,7 +398,9 @@ Q3) Anything else you want to highlight for the Tasker?
           }
           return (
             <div key={'extras-equipmentProvider'} className="group">
-              <label className="label hasSelectedValue">Who will provide cleaning equipments?</label>
+              <label className="label hasSelectedValue">
+                Who will provide cleaning equipments?
+              </label>
               <div className="control">{valueOfField}</div>
             </div>
           );
@@ -387,6 +415,7 @@ const renderThankyouMoment = ({
   setShowModal,
   mainText = 'Thank You!',
   subText,
+  renderExtraAction = () => null,
 }) => {
   return (
     <div style={{ padding: '1.5rem', background: 'white' }}>
@@ -398,11 +427,20 @@ const renderThankyouMoment = ({
       </h1>
 
       <p style={{ fontSize: 18, fontWeight: 500, paddingBottom: '1rem' }}>{subText}</p>
-      <a className="button is-large is-success" onClick={() => setShowModal(false)}>
-        <span className="icon is-large">
-          <i className="fas fa-arrow-right" />
-        </span>
-      </a>
+      <div>
+        <a
+          style={{ minWidth: 200 }}
+          className="button is-success"
+          onClick={() => setShowModal(false)}
+        >
+          <span style={{ marginRight: 2 }}>View Inbox</span>
+          <span className="icon">
+            <i className="fas fa-arrow-right" />
+          </span>
+        </a>
+      </div>
+      <br></br>
+      <div>{renderExtraAction()}</div>
     </div>
   );
 };

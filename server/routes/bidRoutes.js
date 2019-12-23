@@ -1,5 +1,18 @@
+const { celebrate } = require('celebrate');
+
+const {
+  deleteOpenBid,
+  cancelAwardedBid,
+  openBidDetails,
+  awardedBidDetailsForTasker,
+  createNewBid,
+  updateMyBid,
+  markBidAsSeen,
+  achivedBidDetailsForTasker,
+} = require('../routeSchemas/bidRoutesSchema');
+
 const { bidDataAccess } = require('../data-access/bidDataAccess');
-const requireUserHasNotAlreadyBidOnJob = require('../middleware/requireUserHasNotAlreadyBidOnJob');
+const requireUserHasNotAlreadyBidOnRequest = require('../middleware/requireUserHasNotAlreadyBidOnRequest');
 const requireUserCanBid = require('../middleware/requireUserCanBid');
 const requireBidAmountIsNotLocked = require('../middleware/requireBidAmountIsNotLocked');
 
@@ -7,36 +20,17 @@ const requireBidOwner = require('../middleware/requireBidOwner');
 
 const requirePassYouCantBidOnYouOwnRequest = require('../middleware/requirePassYouCantBidOnYouOwnRequest');
 const requirePassesRecaptcha = require('../middleware/requirePassesRecaptcha');
-const requireJobIsNotAwarded = require('../middleware/requireJobIsNotAwarded');
+const requireRequestIsNotAwarded = require('../middleware/requireRequestIsNotAwarded');
 const ROUTES = require('../backend-route-constants');
 
 const requireLogin = require('../middleware/requireLogin');
 const requirePassDeleteBidChecks = require('../middleware/requirePassDeleteBidChecks');
 
 module.exports = (app) => {
-  app.get(ROUTES.API.BID.GET.allMyPostedBids, requireLogin, async (req, res, done) => {
-    try {
-      const mongoUser_id = req.user._id;
-      const userBidsList = await bidDataAccess.getAllUserBids(mongoUser_id);
-      return res.send(userBidsList);
-    } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To get my open bids', details: `${e}` });
-    }
-  });
-  app.get(ROUTES.API.BID.GET.myAwardedBids, requireLogin, async (req, res) => {
-    try {
-      const mongoUser_id = req.user._id;
-      const userBidsList = await bidDataAccess.getUserAwardedBids(mongoUser_id);
-      return res.send(userBidsList);
-    } catch (e) {
-      return res
-        .status(400)
-        .send({ errorMsg: 'Failed To get my all My PostedBids bids', details: `${e}` });
-    }
-  });
   app.delete(
     ROUTES.API.BID.DELETE.deleteOpenBid,
     requireLogin,
+    celebrate(deleteOpenBid),
     requirePassDeleteBidChecks,
     async (req, res) => {
       try {
@@ -54,6 +48,7 @@ module.exports = (app) => {
   app.delete(
     ROUTES.API.BID.DELETE.cancelAwardedBid,
     requireLogin,
+    celebrate(cancelAwardedBid),
     requirePassDeleteBidChecks,
     async (req, res) => {
       try {
@@ -67,73 +62,65 @@ module.exports = (app) => {
       }
     }
   );
-  app.get(ROUTES.API.BID.GET.openBidDetails, requireLogin, async (req, res, done) => {
-    try {
-      if (req.query && req.query.openBidId) {
+  app.get(
+    ROUTES.API.BID.GET.openBidDetails,
+    requireLogin,
+    celebrate(openBidDetails),
+    async (req, res, done) => {
+      try {
         const { openBidId } = req.query;
         const mongoUser_id = req.user._id;
         const userBid = await bidDataAccess.getBidDetails(mongoUser_id, openBidId);
         return res.send(userBid);
-      } else {
-        return res.status(400).send({
-          errorMsg: 'Bad Request for get open Bid Details, openBidId param was Not Specified',
-        });
+      } catch (e) {
+        return res
+          .status(400)
+          .send({ errorMsg: 'Failed To get my open bid details', details: `${e}` });
       }
-    } catch (e) {
-      return res
-        .status(400)
-        .send({ errorMsg: 'Failed To get my open bid details', details: `${e}` });
     }
-  });
+  );
 
-  app.get(ROUTES.API.BID.GET.awardedBidDetails, requireLogin, async (req, res, done) => {
-    try {
-      if (req.query && req.query.awardedBidId) {
+  app.get(
+    ROUTES.API.BID.GET.awardedBidDetailsForTasker,
+    requireLogin,
+    celebrate(awardedBidDetailsForTasker),
+    async (req, res, done) => {
+      try {
         const { awardedBidId } = req.query;
         const mongoUser_id = req.user._id;
-        const userBid = await bidDataAccess.getAwardedBidDetails(mongoUser_id, awardedBidId);
+        const userBid = await bidDataAccess.getAwardedBidDetailsForTasker(
+          mongoUser_id,
+          awardedBidId
+        );
         return res.send(userBid);
-      } else {
-        return res.status(400).send({
-          errorMsg: 'Bad Request for get awarded Bid Details, openBidId param was Not Specified',
-        });
+      } catch (e) {
+        return res
+          .status(400)
+          .send({ errorMsg: 'Failed To get my awarded bid details', details: `${e}` });
       }
-    } catch (e) {
-      return res
-        .status(400)
-        .send({ errorMsg: 'Failed To get my awarded bid details', details: `${e}` });
     }
-  });
+  );
 
   app.post(
-    ROUTES.API.BID.POST.bid,
+    ROUTES.API.BID.POST.createNewBid,
     requireLogin,
+    celebrate(createNewBid),
     requirePassesRecaptcha,
     requirePassYouCantBidOnYouOwnRequest,
     requireUserCanBid,
-    requireJobIsNotAwarded,
-    requireUserHasNotAlreadyBidOnJob,
+    requireRequestIsNotAwarded,
+    requireUserHasNotAlreadyBidOnRequest,
     async (req, res) => {
       try {
-        // create new job for this user
         const { data } = req.body;
-
-        if (data && data.bidAmount && data.jobId) {
-          const { jobId, bidAmount } = data;
-
-          const mongoUser_id = req.user._id;
-
-          const newBid = await bidDataAccess.postNewBid({
-            mongoUser_id,
-            jobId,
-            bidAmount,
-          });
-          return res.send(newBid);
-        } else {
-          return res.status(400).send({
-            errorMsg: 'Bad Request post new Bid, missing param',
-          });
-        }
+        const { requestId, bidAmount } = data;
+        const mongoUser_id = req.user._id;
+        const newBid = await bidDataAccess.postNewBid({
+          mongoUser_id,
+          requestId,
+          bidAmount,
+        });
+        return res.send(newBid);
       } catch (e) {
         return res.status(400).send({ errorMsg: 'Failed To post a new bid', details: `${e}` });
       }
@@ -143,70 +130,73 @@ module.exports = (app) => {
   app.post(
     ROUTES.API.BID.PUT.updateMyBid,
     requireLogin,
+    celebrate(updateMyBid),
     requireUserCanBid,
     requireBidOwner,
     requireBidAmountIsNotLocked,
     async (req, res, done) => {
       try {
-        // create new job for this user
         const { data } = req.body;
-
-        if (data && data.bidAmount && data.bidId) {
-          const { bidId, bidAmount } = data;
-
-          const mongoUser_id = req.user._id.toString();
-
-          const newBid = await bidDataAccess.updateBidValue({
-            mongoUser_id,
-            bidId,
-            bidAmount,
-          });
-          return res.send(newBid);
-        } else {
-          return res.status(400).send({
-            errorMsg: 'Bad Request post new Bid, missing param',
-          });
-        }
+        const { bidId, bidAmount } = data;
+        const mongoUser_id = req.user._id.toString();
+        const newBid = await bidDataAccess.updateBidValue({
+          mongoUser_id,
+          bidId,
+          bidAmount,
+        });
+        return res.send(newBid);
       } catch (e) {
         return res.status(400).send({ errorMsg: 'Failed To update your bid', details: `${e}` });
       }
     }
   );
 
-  app.put(ROUTES.API.BID.PUT.markBidAsSeen, requireLogin, async (req, res, done) => {
-    try {
-      // create new job for this user
-      const data = req.body.data;
-      const { bidId } = data;
+  app.put(
+    ROUTES.API.BID.PUT.markBidAsSeen,
+    requireLogin,
+    celebrate(markBidAsSeen),
+    async (req, res, done) => {
+      try {
+        // create new request for this user
+        const data = req.body.data;
+        const { bidId } = data;
 
-      if (bidId) {
-        const newBid = await bidDataAccess.markBidAsSeen(bidId);
+        await bidDataAccess.markBidAsSeen(bidId);
         return res.send({ bidId, success: true });
-      } else {
-        return res.status(400).send({
-          errorMsg: 'Bad Request param bidId was Not Specified',
-        });
+      } catch (e) {
+        return res.status(400).send({ errorMsg: 'Failed To post a new bid', details: `${e}` });
       }
+    }
+  );
+
+  // everything below this line is optimal--------------------------------------------
+  app.get(ROUTES.API.BID.GET.myPostedBidsSummary, requireLogin, async (req, res, done) => {
+    try {
+      const mongoUser_id = req.user._id;
+      const postedBidsSummary = await bidDataAccess.getMyPostedBidsSummary(mongoUser_id);
+      return res.send({ postedBidsSummary });
     } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To post a new bid', details: `${e}` });
+      return res.status(400).send({ errorMsg: 'Failed To get my open bids', details: `${e}` });
     }
   });
-  app.put(ROUTES.API.BID.PUT.updateBidState, requireLogin, async (req, res, done) => {
-    try {
-      // create new job for this user
-      const data = req.body.data;
-      const { bidId, newState } = data;
 
-      if (bidId && newState) {
-        const newBid = await bidDataAccess.updateBidState(bidId, newState);
-        return res.send({ bidId, success: true });
-      } else {
-        return res.status(400).send({
-          errorMsg: 'Bad Request param bidId was Not Specified',
+  app.get(
+    ROUTES.API.BID.GET.achivedBidDetailsForTasker,
+    requireLogin,
+    celebrate(achivedBidDetailsForTasker),
+    requireBidOwner,
+    async (req, res) => {
+      try {
+        const mongoUser_id = req.user._id;
+        const { bidId } = req.query;
+        const archivedRequestDetails = await bidDataAccess.getAchivedBidDetailsForTasker({
+          bidId,
+          mongoUser_id,
         });
+        return res.send(archivedRequestDetails);
+      } catch (e) {
+        return res.status(400).send({ errorMsg: 'Failed To get Bid details', details: `${e}` });
       }
-    } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To update Bid State', details: `${e}` });
     }
-  });
+  );
 };
