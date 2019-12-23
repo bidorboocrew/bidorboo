@@ -277,7 +277,7 @@ const EstablishedAccountView = (props) => {
                     and perform tasks.
                   </div>
                   <div>
-                    {' '}
+
                     All your payments will be paid immediately once we verify your account.
                   </div>
                   <div className="help">

@@ -123,10 +123,7 @@ class RequesterArchiveDetails extends RequestBaseContainer {
               </div>
             </div>
           </div>
-          <AssignedTaskerDetails
-            otherUserProfileInfo={_taskerRef}
-            {...this.props}
-          />
+          <AssignedTaskerDetails otherUserProfileInfo={_taskerRef} {...this.props} />
         </div>
       </>
     );
@@ -195,7 +192,10 @@ class AssignedTaskerDetails extends React.Component {
                 }}
                 className={`button firstButtonInCard is-primary`}
               >
-                Review Tasker
+                <span className="icon">
+                  <i className="fas fa-user-check" />
+                </span>
+                <span>Review Tasker</span>
               </a>
             )}
             <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">

@@ -307,7 +307,10 @@ export class RequesterReviewingCompletedRequest extends React.Component {
                 className="button is-success"
                 onClick={this.submitReview}
               >
-                Submit Review
+                <span className="icon">
+                  <i className="fas fa-check"></i>
+                </span>
+                <span>Submit Review</span>
               </button>
 
               <button
@@ -317,7 +320,10 @@ export class RequesterReviewingCompletedRequest extends React.Component {
                   goBackToPreviousRoute();
                 }}
               >
-                Remind Me Later
+                <span className="icon">
+                  <i className=" far fa-clock"></i>
+                </span>
+                <span>Remind Me Later</span>
               </button>
             </div>
           </>

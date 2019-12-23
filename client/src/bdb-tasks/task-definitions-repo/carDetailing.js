@@ -58,7 +58,11 @@ Q3) Any particular stains or dirt that you want to mention?
       setShowModal,
       subText: 'The Requester Will Be notified. Good Luck',
       renderExtraAction: () => (
-        <a className="button is-dark" onClick={() => switchRoute(ROUTES.CLIENT.TASKER.root)}>
+        <a
+          style={{ minWidth: 200 }}
+          className="button is-dark"
+          onClick={() => switchRoute(ROUTES.CLIENT.TASKER.root)}
+        >
           <span style={{ marginRight: 2 }}>Continue Bidding</span>
           <span className="icon">
             <i className="fas fa-arrow-right" />
@@ -74,7 +78,11 @@ Q3) Any particular stains or dirt that you want to mention?
       mainText: 'Bid Was Updated!',
       subText: 'The Requester Will Be notified. Good Luck',
       renderExtraAction: () => (
-        <a className="button is-dark" onClick={() => switchRoute(ROUTES.CLIENT.TASKER.root)}>
+        <a
+          style={{ minWidth: 200 }}
+          className="button is-dark"
+          onClick={() => switchRoute(ROUTES.CLIENT.TASKER.root)}
+        >
           <span style={{ marginRight: 2 }}>Continue Bidding</span>
           <span className="icon">
             <i className="fas fa-arrow-right" />
@@ -345,7 +353,11 @@ const renderThankyouMoment = ({
 
       <p style={{ fontSize: 18, fontWeight: 500, paddingBottom: '1rem' }}>{subText}</p>
       <div>
-        <a className="button is-success" onClick={() => setShowModal(false)}>
+        <a
+          style={{ minWidth: 200 }}
+          className="button is-success"
+          onClick={() => setShowModal(false)}
+        >
           <span style={{ marginRight: 2 }}>View Inbox</span>
           <span className="icon">
             <i className="fas fa-arrow-right" />

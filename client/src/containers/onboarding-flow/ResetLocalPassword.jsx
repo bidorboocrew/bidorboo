@@ -153,7 +153,7 @@ export class ResetLocalPassword extends React.Component {
                     </p>
                     <div>
                       please click the
-                      <span className="has-text-success has-text-weight-bold">{` Login`}</span>{' '}
+                      <span className="has-text-success has-text-weight-bold">{` Login`}</span>
                       button in our application bar and use your new credentials to login
                     </div>
                   </>

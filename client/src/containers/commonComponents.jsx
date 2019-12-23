@@ -200,9 +200,9 @@ export const CenteredUserImageAndRating = ({
           />
         </figure>
 
-        <div className="content">
+        <div className="content has-text-left">
           {labelOnTop && labelOnTop()}
-          <div className={`${large ? 'is-size-5' : 'is-size-6'}`}>{trimmedDisplayName}</div>
+          <div className={`${large ? 'is-size-6' : 'is-size-6'}`}>{trimmedDisplayName}</div>
 
           {rating.globalRating === 'No Ratings Yet' || rating.globalRating === 0 ? (
             <div className="has-text-warning" style={{ lineHeight: '52px', fontSize: 16 }}>

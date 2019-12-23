@@ -118,7 +118,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                           {'which is ~ 90% of your original payment'}
                         </li>
                         <li>Your global rating will be negatively impacted</li>
-                        <li>This cancellation will show up on your profile</li>{' '}
+                        <li>This cancellation will show up on your profile</li>
                         <li>Cancelling often will put a ban on your account</li>
                       </ul>
                     </div>

@@ -142,7 +142,10 @@ export default class RequesterDoneDetails extends RequestBaseContainer {
                     }}
                     className={`button is-primary`}
                   >
-                    Review Tasker
+                    <span className="icon">
+                      <i className="fas fa-user-check" />
+                    </span>
+                    <span>Review Tasker</span>
                   </a>
                 )}
                 {!requiresRequesterReview && (

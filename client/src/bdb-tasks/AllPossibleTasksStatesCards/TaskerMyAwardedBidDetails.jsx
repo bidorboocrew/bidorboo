@@ -245,6 +245,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
 
         {!taskerConfirmedCompletion && (
           <ContactTheRequester
+            requestTitle={requestTitle}
             otherUserProfileInfo={_ownerRef}
             renderActionButton={() => <TaskerConfirmsCompletion {...this.props} />}
             renderAddToCalendar={() => (
@@ -254,7 +255,6 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
         )}
         {taskerConfirmedCompletion && requiresTaskerReview && (
           <>
-            <br></br>
             <ReviewTheRequester
               otherUserProfileInfo={_ownerRef}
               renderActionButton={() => (
@@ -335,7 +335,7 @@ class TaskerConfirmsCompletion extends React.Component {
                 </header>
                 <section className="modal-card-body">
                   <div className="content">
-                    <p className="has-text-success">BidOrBoo is proud of you!</p>
+                    <label className="has-text-weight-semibold">BidOrBoo is proud of you!</label>
                     <p>If you are done please confirm that you finished this request.</p>
 
                     <div className="group">
@@ -565,7 +565,12 @@ class TaskerDisputes extends React.Component {
 
 class ContactTheRequester extends React.Component {
   render() {
-    const { otherUserProfileInfo, renderAddToCalendar, renderActionButton } = this.props;
+    const {
+      otherUserProfileInfo,
+      renderAddToCalendar,
+      renderActionButton,
+      requestTitle,
+    } = this.props;
 
     if (!otherUserProfileInfo) {
       return null;
@@ -604,12 +609,11 @@ class ContactTheRequester extends React.Component {
               <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large isCentered />
 
               <div style={{ marginBottom: '2rem' }}>
-                <div className="field">
-                  <label className="has-text-grey">Contact Details</label>
-                  <div style={{ fontWeight: 500, fontSize: 18 }}>
+                <div className="group">
+                  <div style={{ display: 'inline-block', textAlign: 'left', lineHeight: '28px' }}>
                     <div>
                       <a
-                        href={`mailto:${emailAddress}?subject=BidOrBoo - I am your tasker and reaching out to agree on meeting time and details`}
+                        href={`mailto:${emailAddress}?subject=BidOrBoo - Reaching out to finalize time and location details&body=Iam assigned for your ${requestTitle} request. I'm reaching out to agree on meeting time and details`}
                       >
                         <span className="icon">
                           <i className="far fa-envelope" />
@@ -663,7 +667,7 @@ class ContactTheRequester extends React.Component {
 
 class ReviewTheRequester extends React.Component {
   render() {
-    const { otherUserProfileInfo, renderAddToCalendar, renderActionButton } = this.props;
+    const { otherUserProfileInfo, renderActionButton } = this.props;
 
     if (!otherUserProfileInfo) {
       return null;
