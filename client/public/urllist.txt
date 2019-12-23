@@ -1,6 +1,6 @@
 https://www.bidorboo.ca/
 https://www.bidorboo.ca/BidOrBoo
 https://www.bidorboo.ca/bdb-request/root
-https://www.bidorboo.ca/bdb-offer/root
+https://www.bidorboo.ca/bdb-bidder/root
 https://www.bidorboo.ca/login-and-registration
 https://www.bidorboo.ca/terms-of-service

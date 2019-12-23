@@ -77,7 +77,7 @@ class GetNotificationsAndScroll extends React.Component {
 
         if (currentUrlPathname.indexOf('bdb-request') > -1) {
           setServerAppRequesterView();
-        } else if (currentUrlPathname.indexOf('bdb-offer') > -1) {
+        } else if (currentUrlPathname.indexOf('bdb-bidder') > -1) {
           setServerAppTaskerView();
         }
       }

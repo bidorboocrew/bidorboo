@@ -135,23 +135,23 @@ module.exports = {
         `https://www.bidorboo.ca/my-request/awarded-request-details/${requestId}`,
     },
     TASKER: {
-      root: 'https://www.bidorboo.ca/bdb-offer',
-      bidOnRequestPage: 'https://www.bidorboo.ca/bdb-offer/bid-on-request/:requestId',
+      root: 'https://www.bidorboo.ca/bdb-bidder',
+      bidOnRequestPage: 'https://www.bidorboo.ca/bdb-bidder/bid-on-request/:requestId',
       getDynamicBidOnRequestPage: (requestId) =>
-        `https://www.bidorboo.ca/bdb-offer/bid-on-request/${requestId}`,
-      mybids: 'https://www.bidorboo.ca/my-bids',
-      reviewMyBidAndTheRequestDetails: 'https://www.bidorboo.ca/review-my-bid-details/:bidId',
+        `https://www.bidorboo.ca/bdb-bidder/bid-on-request/${requestId}`,
+      mybids: 'https://www.bidorboo.ca/bdb-bidder/my-bids',
+      reviewMyBidAndTheRequestDetails: 'https://www.bidorboo.cabdb-bidder/review-my-bid-details/:bidId',
       dynamicReviewMyBidAndTheRequestDetails: (bidId) =>
-        `https://www.bidorboo.ca/review-my-bid-details/${bidId}`,
-      currentAwardedBid: 'https://www.bidorboo.ca/awarded-bid-details/:bidId',
-      dynamicCurrentAwardedBid: (bidId) => `https://www.bidorboo.ca/awarded-bid-details/${bidId}`,
+        `https://www.bidorboo.cabdb-bidder/review-my-bid-details/${bidId}`,
+      currentAwardedBid: 'https://www.bidorboo.ca/bdb-bidder/awarded-bid-details/:bidId',
+      dynamicCurrentAwardedBid: (bidId) => `https://www.bidorboo.ca/bdb-bidder/awarded-bid-details/${bidId}`,
     },
     REVIEW: {
       requesterRequestReview: `https://www.bidorboo.ca/bdb-request/review/:requestId`,
-      taskerRequestReview: `https://www.bidorboo.ca/bdb-offer/review/:bidId`,
+      taskerRequestReview: `https://www.bidorboo.ca/bdb-bidder/review/:bidId`,
       getRequesterRequestReview: ({ requestId }) =>
         `https://www.bidorboo.ca/bdb-request/review/${requestId}`,
-      getTaskerRequestReview: ({ bidId }) => `https://www.bidorboo.ca/bdb-offer/review/${bidId}`,
+      getTaskerRequestReview: ({ bidId }) => `https://www.bidorboo.ca/bdb-bidder/review/${bidId}`,
     },
     MY_PROFILE: {
       myNotifications: '/my-profile/notification-settings',

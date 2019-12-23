@@ -78,7 +78,7 @@ class Header extends React.Component {
           return { activeNavBarMenuId: HREF_TO_TABID.REQUEST_A_SERVICE };
         }
       }
-      if (nextProp.history.location.pathname.includes('bdb-offer')) {
+      if (nextProp.history.location.pathname.includes('bdb-bidder')) {
         if (prevState.activeNavBarMenuId !== HREF_TO_TABID.PROVIDE_A_SERVICE) {
           return { activeNavBarMenuId: HREF_TO_TABID.PROVIDE_A_SERVICE };
         }
