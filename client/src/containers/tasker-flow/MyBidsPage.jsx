@@ -72,6 +72,7 @@ class MyBidsPage extends React.Component {
               REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_REQUESTER,
               REQUEST_STATES.DISPUTED,
               REQUEST_STATES.DONE,
+              REQUEST_STATES.DONE_SEEN,
             ].includes(request.state);
           })
           .map((bid) => {
