@@ -73,7 +73,7 @@ class AcceptBidAndTaskerModal extends React.Component {
               </div>
             </div>
 
-            <div
+            {/* <div
               style={{
                 backgroundColor: ' whitesmoke',
                 border: 'none',
@@ -83,7 +83,7 @@ class AcceptBidAndTaskerModal extends React.Component {
               }}
               className="navbar-divider"
             />
-            {/* <div className="help">
+             <div className="help">
               * By proceeding you confirm that you agree with all
               <a target="_blank" rel="noopener noreferrer" href={`${ROUTES.CLIENT.TOS}`}>
                 {` BidOrBoo Service Agreement Terms`}
