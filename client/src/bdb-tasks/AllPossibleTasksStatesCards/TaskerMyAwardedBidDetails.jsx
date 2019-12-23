@@ -279,8 +279,11 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
             renderActionButton={() => (
               <ul className="has-text-left">
                 <li>You have submitted your review already</li>
-                <li>We've contacted the Requester to confirm task completion</li>
-                <li>This will be marked as completed if they don't respond within 3 days</li>
+                <li>
+                  will automatically confirm it after 3 days if we don't hear back from the
+                  Requester
+                </li>
+                <li>Your earnings will be automaticaly released after that</li>
               </ul>
             )}
           />

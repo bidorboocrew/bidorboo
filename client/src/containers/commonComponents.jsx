@@ -1371,7 +1371,7 @@ export const BSWaitingOnRequesterToConfirm = () => {
         >
           Awaiting Confirmation
         </div>
-        <div className="help">We contacted the Requester to confirm completion</div>
+        <div className="help">we've contacted the Requester to confirm</div>
       </div>
     </div>
   );
