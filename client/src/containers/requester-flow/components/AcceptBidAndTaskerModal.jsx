@@ -66,7 +66,7 @@ class AcceptBidAndTaskerModal extends React.Component {
             <br></br>
             <div className="has-text-centered">
               <div style={{ marginBottom: 0, marginTop: 4 }}>
-                Offered to do this task for a total price of
+                Offered to do this request for a total price of
               </div>
               <div className="control is-size-5 has-text-weight-semibold has-text-success">
                 {`${Math.ceil(totalCharge)} $CAD`}

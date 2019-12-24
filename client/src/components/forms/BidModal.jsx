@@ -46,7 +46,7 @@ class BidModal extends React.Component {
     } = this.props;
 
     const autoBidOptions =
-      avgBid < 10 ? (
+      !avgBid || avgBid < 20 ? (
         <div className="buttons">
           <span onClick={() => this.onAutoBid(25)} className="button is-success is-small">
             25$
@@ -67,20 +67,35 @@ class BidModal extends React.Component {
       ) : (
         <div className="buttons">
           <span style={{ marginRight: 6 }} className="has-text-grey">{`Smart Bid `}</span>
-          <span onClick={() => this.onAutoBid(avgBid - 10)} className="button is-success is-small">
-            {`${avgBid - 10}$`}
+          <span
+            onClick={() => this.onAutoBid(ParseInt(avgBid) - 10)}
+            className="button is-success is-small"
+          >
+            {`${ParseInt(avgBid) - 10}$`}
           </span>
-          <span onClick={() => this.onAutoBid(avgBid - 5)} className="button is-success is-small">
-            {`${avgBid - 5}$`}
+          <span
+            onClick={() => this.onAutoBid(ParseInt(avgBid) - 5)}
+            className="button is-success is-small"
+          >
+            {`${ParseInt(avgBid) - 5}$`}
           </span>
-          <span onClick={() => this.onAutoBid(avgBid)} className="button is-success is-small">
-            {`${avgBid}$`}
+          <span
+            onClick={() => this.onAutoBid(ParseInt(avgBid))}
+            className="button is-success is-small"
+          >
+            {`${ParseInt(avgBid)}$`}
           </span>
-          <span onClick={() => this.onAutoBid(avgBid + 5)} className="button is-success is-small">
-            {`${avgBid + 5}$`}
+          <span
+            onClick={() => this.onAutoBid(ParseInt(avgBid) + 5)}
+            className="button is-success is-small"
+          >
+            {`${ParseInt(avgBid) + 5}$`}
           </span>
-          <span onClick={() => this.onAutoBid(avgBid + 10)} className="button is-success is-small">
-            {`${avgBid + 10}$`}
+          <span
+            onClick={() => this.onAutoBid(ParseInt(avgBid) + 10)}
+            className="button is-success is-small"
+          >
+            {`${ParseInt(avgBid) + 10}$`}
           </span>
         </div>
       );
