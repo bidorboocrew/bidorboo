@@ -105,7 +105,10 @@ Q2)Any items that require extreme caution or care ?
         <a
           style={{ minWidth: 200 }}
           className="button is-dark"
-          onClick={() => switchRoute(ROUTES.CLIENT.TASKER.root)}
+          onClick={() => {
+            setShowModal(false);
+            switchRoute(ROUTES.CLIENT.TASKER.root);
+          }}
         >
           <span style={{ marginRight: 2 }}>Continue Bidding</span>
           <span className="icon">

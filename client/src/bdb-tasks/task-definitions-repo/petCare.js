@@ -69,7 +69,10 @@ Q2) Anything else you want to highlight for the Tasker?
         <a
           style={{ minWidth: 200 }}
           className="button is-dark"
-          onClick={() => switchRoute(ROUTES.CLIENT.TASKER.root)}
+          onClick={() => {
+            setShowModal(false);
+            switchRoute(ROUTES.CLIENT.TASKER.root);
+          }}
         >
           <span style={{ marginRight: 2 }}>Continue Bidding</span>
           <span className="icon">
@@ -89,7 +92,10 @@ Q2) Anything else you want to highlight for the Tasker?
         <a
           style={{ minWidth: 200 }}
           className="button is-dark"
-          onClick={() => switchRoute(ROUTES.CLIENT.TASKER.root)}
+          onClick={() => {
+            setShowModal(false);
+            switchRoute(ROUTES.CLIENT.TASKER.root);
+          }}
         >
           <span style={{ marginRight: 2 }}>Continue Bidding</span>
           <span className="icon">

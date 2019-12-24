@@ -61,7 +61,10 @@ Q3) Any particular stains or dirt that you want to mention?
         <a
           style={{ minWidth: 200 }}
           className="button is-dark"
-          onClick={() => switchRoute(ROUTES.CLIENT.TASKER.root)}
+          onClick={() => {
+            setShowModal(false);
+            switchRoute(ROUTES.CLIENT.TASKER.root);
+          }}
         >
           <span style={{ marginRight: 2 }}>Continue Bidding</span>
           <span className="icon">
@@ -81,7 +84,10 @@ Q3) Any particular stains or dirt that you want to mention?
         <a
           style={{ minWidth: 200 }}
           className="button is-dark"
-          onClick={() => switchRoute(ROUTES.CLIENT.TASKER.root)}
+          onClick={() => {
+            setShowModal(false);
+            switchRoute(ROUTES.CLIENT.TASKER.root);
+          }}
         >
           <span style={{ marginRight: 2 }}>Continue Bidding</span>
           <span className="icon">
