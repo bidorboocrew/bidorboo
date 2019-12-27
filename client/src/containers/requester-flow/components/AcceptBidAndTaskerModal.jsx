@@ -7,8 +7,26 @@ import { submitPayment } from '../../../app-state/actions/paymentActions';
 import * as Constants from '../../../constants/enumConstants';
 
 class AcceptBidAndTaskerModal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      submitClicked: false,
+    };
+  }
+
+  submitBid() {
+    const { bid, submitPayment } = this.props;
+
+    this.setState(
+      () => ({ submitClicked: true }),
+      () => {
+        submitPayment({ requestId: bid._requestRef, bidId: bid._id });
+      },
+    );
+  }
   render() {
-    const { bid, closeModal, submitPayment } = this.props;
+    const { bid, closeModal } = this.props;
+    const { submitClicked } = this.state;
 
     if (!bid || !bid._id || !bid._taskerRef || !bid._requestRef) {
       return null;
@@ -103,10 +121,8 @@ class AcceptBidAndTaskerModal extends React.Component {
               <span>Close</span>
             </button>
             <button
-              onClick={() => {
-                submitPayment({ requestId: bid._requestRef, bidId: bid._id });
-              }}
-              className="button is-success"
+              onClick={this.submitBid}
+              className={`button is-success ${submitClicked ? 'is-loading' : null}`}
             >
               <span>Book Now</span>
               <span className="icon">
