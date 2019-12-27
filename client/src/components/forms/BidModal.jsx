@@ -68,34 +68,34 @@ class BidModal extends React.Component {
         <div className="buttons">
           <span style={{ marginRight: 6 }} className="has-text-grey">{`Smart Bid `}</span>
           <span
-            onClick={() => this.onAutoBid(ParseInt(avgBid) - 10)}
+            onClick={() => this.onAutoBid(parseInt(avgBid) - 10)}
             className="button is-success is-small"
           >
-            {`${ParseInt(avgBid) - 10}$`}
+            {`${parseInt(avgBid) - 10}$`}
           </span>
           <span
-            onClick={() => this.onAutoBid(ParseInt(avgBid) - 5)}
+            onClick={() => this.onAutoBid(parseInt(avgBid) - 5)}
             className="button is-success is-small"
           >
-            {`${ParseInt(avgBid) - 5}$`}
+            {`${parseInt(avgBid) - 5}$`}
           </span>
           <span
-            onClick={() => this.onAutoBid(ParseInt(avgBid))}
+            onClick={() => this.onAutoBid(parseInt(avgBid))}
             className="button is-success is-small"
           >
-            {`${ParseInt(avgBid)}$`}
+            {`${parseInt(avgBid)}$`}
           </span>
           <span
-            onClick={() => this.onAutoBid(ParseInt(avgBid) + 5)}
+            onClick={() => this.onAutoBid(parseInt(avgBid) + 5)}
             className="button is-success is-small"
           >
-            {`${ParseInt(avgBid) + 5}$`}
+            {`${parseInt(avgBid) + 5}$`}
           </span>
           <span
-            onClick={() => this.onAutoBid(ParseInt(avgBid) + 10)}
+            onClick={() => this.onAutoBid(parseInt(avgBid) + 10)}
             className="button is-success is-small"
           >
-            {`${ParseInt(avgBid) + 10}$`}
+            {`${parseInt(avgBid) + 10}$`}
           </span>
         </div>
       );
@@ -114,6 +114,7 @@ class BidModal extends React.Component {
             </p>
 
             <TextInput
+              type="number"
               // setFocusImmediately={true}
               label="Enter Your Bid Amount"
               id="bidAmountField"
