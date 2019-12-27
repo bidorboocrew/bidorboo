@@ -6,7 +6,7 @@ const { celebrate } = require('celebrate');
 const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 const utils = require('../utils/utilities');
-// const { requestDataAccess } = require('../data-access/requestDataAccess');
+const { requestDataAccess } = require('../data-access/requestDataAccess');
 const {
   resetPasswordReqSchema,
   verifyViaCode,
@@ -217,6 +217,7 @@ module.exports = (app) => {
 
   app.get(ROUTES.API.USER.GET.currentUser, async (req, res, next) => {
     try {
+      // requestDataAccess.BidOrBooAdmin.CleanUpAllExpiredNonAwardedRequests()
       let existingUser = null;
       if (req.user) {
         existingUser = await userDataAccess.findUserAndAllNewNotifications(req.user._id);

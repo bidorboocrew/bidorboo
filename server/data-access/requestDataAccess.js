@@ -183,12 +183,12 @@ exports.requestDataAccess = {
         if (requests && requests.length > 0) {
           requests.forEach((request) => {
             try {
-
               const { _id: requestId, isPastDue, startingDateAndTime } = request;
-              console.log(
-                `BIDORBOO_LOGGING === deleting request ${requestId} which was planned for ${startingDateAndTime}`
-              );
+
               if (isPastDue) {
+                console.log(
+                  `BIDORBOO_LOGGING === deleting request ${requestId} which was planned for ${startingDateAndTime}`
+                );
                 request.remove().catch((deleteError) => {
                   console.log('BIDORBOO_ERROR: CleanUpAllExpiredNonAwardedRequests ' + deleteError);
                 });
