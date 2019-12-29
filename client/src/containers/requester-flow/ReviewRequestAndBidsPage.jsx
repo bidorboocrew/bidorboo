@@ -48,20 +48,20 @@ class ReviewRequestAndBidsPage extends React.Component {
 
   componentDidMount() {
     // if route changed reload the request
-    const { selectedRequestWithBids } = this.props;
+    const { selectedRequestWithBids, getPostedRequestAndBidsForRequester, match } = this.props;
 
-    let newRequestId = this.props.match.params.requestId;
+    let newRequestId = match.params.requestId;
     if (!selectedRequestWithBids) {
-      this.props.getPostedRequestAndBidsForRequester(newRequestId);
+      getPostedRequestAndBidsForRequester(newRequestId);
     } else if (selectedRequestWithBids._id !== newRequestId) {
       // fetch it
-      this.props.getPostedRequestAndBidsForRequester(newRequestId);
+      getPostedRequestAndBidsForRequester(newRequestId);
     }
     this.getMoreBids = setInterval(this.fetchMostRecentBids, FETCH_INTERVAL);
   }
 
   componentWillUnmount() {
-    clearInterval(this.getMoreBids);
+    this.getMoreBids && clearInterval(this.getMoreBids);
   }
 
   showBidReviewModal = (bid) => {

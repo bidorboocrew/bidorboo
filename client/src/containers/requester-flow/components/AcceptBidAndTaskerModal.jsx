@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import * as ROUTES from '../../../constants/frontend-route-consts';
+
 import { submitPayment } from '../../../app-state/actions/paymentActions';
 import * as Constants from '../../../constants/enumConstants';
 
@@ -24,6 +24,7 @@ class AcceptBidAndTaskerModal extends React.Component {
       },
     );
   }
+
   render() {
     const { bid, closeModal } = this.props;
     const { submitClicked } = this.state;
@@ -36,7 +37,7 @@ class AcceptBidAndTaskerModal extends React.Component {
     const otherUserProfileInfo = bid._taskerRef;
     const { rating, membershipStatus } = otherUserProfileInfo;
 
-    const membershipStatusDisplay = Constants.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
+    // const membershipStatusDisplay = Constants.USER_MEMBERSHIP_TO_DISPLAY[membershipStatus];
     const { globalRating } = rating;
     return (
       <div className="modal is-active">
