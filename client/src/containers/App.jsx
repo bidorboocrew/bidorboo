@@ -268,8 +268,6 @@ class App extends React.Component {
 
               <div className="level-item has-text-centered">
                 <div>
-                  <p className="has-text-white is-size-7">Chat With Us</p>
-
                   <div style={{ marginBottom: '0.5rem' }}>
                     <Suspense fallback={<Spinner renderLabel="loading..."></Spinner>}>
                       <FreshdeskChat isFooter />

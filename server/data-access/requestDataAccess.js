@@ -187,13 +187,20 @@ exports.requestDataAccess = {
         if (requests && requests.length > 0) {
           requests.forEach((request) => {
             try {
-              const { _id: requestId, isPastDue, startingDateAndTime, templateId } = request;
+              const {
+                _id: requestId,
+                isPastDue,
+                startingDateAndTime,
+                templateId,
+                requestTemplateDisplayTitle,
+                requestTitle,
+              } = request;
               const ownerDetails = request._ownerRef;
               const ownerEmailAddress =
                 ownerDetails.email && ownerDetails.email.emailAddress
                   ? ownerDetails.email.emailAddress
                   : '';
-              const requestDisplayName = `${request.requestTemplateDisplayTitle} - ${request.requestTitle}`;
+              const requestDisplayName = `${requestTemplateDisplayTitle} - ${requestTitle}`;
 
               if (isPastDue) {
                 sendGridEmailing.tellRequesterThatWeAutoDeletedTheirJob({
