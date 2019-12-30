@@ -66,6 +66,7 @@ exports.requestDataAccess = {
           requests.forEach(async (request) => {
             try {
               const { isHappeningSoon } = request;
+              const requestDisplayName = `${request.requestTemplateDisplayTitle} - ${request.requestTitle}`;
 
               if (isHappeningSoon) {
                 const requestId = request._id.toString();
@@ -95,7 +96,7 @@ exports.requestDataAccess = {
                 if (ownerDetails.notifications && ownerDetails.notifications.email) {
                   sendGridEmailing.sendRequestIsHappeningSoonToRequesterEmail({
                     to: ownerEmailAddress,
-                    requestTitle: request.templateId,
+                    requestTitle: requestDisplayName,
                     toDisplayName: `${ownerDetails.displayName}`,
                     taskerEmailAddress,
                     taskerPhoneNumber,
@@ -108,7 +109,7 @@ exports.requestDataAccess = {
                 ) {
                   sendGridEmailing.sendRequestIsHappeningSoonToTaskerEmail({
                     to: taskerEmailAddress,
-                    requestTitle: request.templateId,
+                    requestTitle: requestDisplayName,
                     toDisplayName: `${awardedTaskerDetails.displayName}`,
                     ownerEmailAddress,
                     ownerPhoneNumber,
@@ -123,7 +124,7 @@ exports.requestDataAccess = {
                 ) {
                   sendTextService.sendRequestIsHappeningSoonText(
                     ownerPhoneNumber,
-                    request.templateId,
+                    requestDisplayName,
                     linkForOwner
                   );
                 }
@@ -134,14 +135,14 @@ exports.requestDataAccess = {
                 ) {
                   sendTextService.sendRequestIsHappeningSoonText(
                     taskerPhoneNumber,
-                    request.templateId,
+                    requestDisplayName,
                     linkForTasker
                   );
                 }
 
                 if (ownerDetails.notifications && ownerDetails.notifications.push) {
                   WebPushNotifications.pushRequestIsHappeningSoon(ownerDetails.pushSubscription, {
-                    requestTitle: request.templateId,
+                    requestTitle: requestDisplayName,
                     urlToLaunch: linkForOwner,
                   });
                 }
@@ -149,7 +150,7 @@ exports.requestDataAccess = {
                   WebPushNotifications.pushRequestIsHappeningSoon(
                     awardedTaskerDetails.pushSubscription,
                     {
-                      requestTitle: request.templateId,
+                      requestTitle: requestDisplayName,
                       urlToLaunch: linkForTasker,
                     }
                   );
@@ -170,22 +171,37 @@ exports.requestDataAccess = {
           startingDateAndTime: { $exists: true },
           _awardedBidRef: { $exists: false },
         })
-          .populate({
-            path: '_bidsListRef',
-            select: { _id: 1, _taskerRef: 1 },
-            populate: {
-              path: '_taskerRef',
+          .populate([
+            { path: '_ownerRef' },
+            {
+              path: '_bidsListRef',
+              select: { _id: 1, _taskerRef: 1 },
+              populate: {
+                path: '_taskerRef',
+              },
             },
-          })
+          ])
           .lean({ virtuals: true })
           .exec();
 
         if (requests && requests.length > 0) {
           requests.forEach((request) => {
             try {
-              const { _id: requestId, isPastDue, startingDateAndTime } = request;
+              const { _id: requestId, isPastDue, startingDateAndTime, templateId } = request;
+              const ownerDetails = request._ownerRef;
+              const ownerEmailAddress =
+                ownerDetails.email && ownerDetails.email.emailAddress
+                  ? ownerDetails.email.emailAddress
+                  : '';
+              const requestDisplayName = `${request.requestTemplateDisplayTitle} - ${request.requestTitle}`;
 
               if (isPastDue) {
+                sendGridEmailing.tellRequesterThatWeAutoDeletedTheirJob({
+                  to: ownerEmailAddress,
+                  requestTitle: requestDisplayName,
+                  toDisplayName: `${ownerDetails.displayName}`,
+                });
+
                 console.log(
                   `BIDORBOO_LOGGING === deleting request ${requestId} which was planned for ${startingDateAndTime}`
                 );

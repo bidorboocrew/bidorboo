@@ -204,6 +204,28 @@ exports.EmailService = {
     });
   },
 
+  tellRequesterThatWeAutoDeletedTheirJob: ({ to, requestTitle, toDisplayName }) => {
+    const msg = {
+      to,
+      from: 'bidorboo@bidorboo.ca',
+      subject: `${requestTitle} - was auto deleted`,
+      text: `Auto deleted one of your requests ${requestTitle}
+     `,
+      html: populateRequestUpdates({
+        toDisplayName: toDisplayName || to,
+        contentHtml: `<p>This request ${requestTitle} did not recieve any bids and it is Past due so we automatically deleted it.</p>
+        <p>Feel free to post a new Request</p>
+        `,
+        clickLink: `https://www.bidorboo.ca/bdb-request/root`,
+        clickDisplayName: 'Post A Request',
+      }),
+    };
+
+    sgMail.send(msg).catch((e) => {
+      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+    });
+  },
+
   tellRequeterThatTheTaskerHaveCancelledAnAwardedRequest: ({
     to,
     requestTitle,
