@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logoImg from '../assets/images/android-chrome-192x192.png';
+import ReactDOM from 'react-dom';
 
 import moment from 'moment';
 import AddToCalendar from 'react-add-to-calendar';
@@ -589,98 +590,125 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
     govId = { isVerified: false },
   } = userDetails;
 
+  const [showGmailVerification, setShowGmailVerification] = useState(false);
+  const [showFbVerification, setShowFbVerification] = useState(false);
+  const [showPhoneVerification, setShowPhoneVerification] = useState(false);
+  const [showBankInfoVerification, setShowBankInfoVerification] = useState(false);
+  const [showPictureIdVerification, setShowPictureIdVerification] = useState(false);
+
   return (
-    <div
-      style={{ width, margin: isCentered ? 'auto' : '' }}
-      className={`${isCentered ? 'has-text-centered' : ''}`}
-    >
-      <label className="label">verifications</label>
+    <>
+      {showGmailVerification && (
+        <AnytimeQuickModal
+          title="Gmail Verification"
+          renderContentFunc={() => <div>login using gmail to get this badge</div>}
+          setShowModal={setShowGmailVerification}
+          showModal={showGmailVerification}
+        ></AnytimeQuickModal>
+      )}
+      {showGmailVerification && (
+        <AnytimeQuickModal
+          title="Gmail Verification"
+          renderContentFunc={() => <div>login using gmail to get this badge</div>}
+          setShowModal={setShowGmailVerification}
+          showModal={showGmailVerification}
+        ></AnytimeQuickModal>
+      )}
+      <div
+        style={{ width, margin: isCentered ? 'auto' : '' }}
+        className={`${isCentered ? 'has-text-centered' : ''}`}
+      >
+        <label className="label">verifications</label>
 
-      {isFbUser && (
-        <div className="verificationBadge isActive">
-          <span title="Verified by facebook" className="icon">
-            <i className="fab fa-facebook has-text-success" />
-          </span>
-        </div>
-      )}
-      {isGmailUser && (
-        <div className="verificationBadge isActive">
-          <span title="Verified by gmail" className="icon">
-            <i className="fab fa-google has-text-success" />
-          </span>
-        </div>
-      )}
-      {phone.isVerified && (
-        <div className="verificationBadge isActive">
-          <span title="Verified by phone" className="icon">
-            <i className="fas fa-mobile-alt has-text-success" />
-          </span>
-        </div>
-      )}
-      {email.isVerified && (
-        <div className="verificationBadge isActive">
-          <span title="Verified by email" className="icon">
-            <i className="far fa-envelope has-text-success" />
-          </span>
-        </div>
-      )}
+        {isFbUser && (
+          <div className="verificationBadge isActive">
+            <span title="Verified by facebook" className="icon">
+              <i className="fab fa-facebook has-text-success" />
+            </span>
+          </div>
+        )}
+        {isGmailUser && (
+          <div
+            onClick={() => setShowGmailVerification(!showGmailVerification)}
+            className="verificationBadge isActive"
+          >
+            <span title="Verified by gmail" className="icon">
+              <i className="fab fa-google has-text-success" />
+            </span>
+          </div>
+        )}
+        {phone.isVerified && (
+          <div className="verificationBadge isActive">
+            <span title="Verified by phone" className="icon">
+              <i className="fas fa-mobile-alt has-text-success" />
+            </span>
+          </div>
+        )}
+        {email.isVerified && (
+          <div className="verificationBadge isActive">
+            <span title="Verified by email" className="icon">
+              <i className="far fa-envelope has-text-success" />
+            </span>
+          </div>
+        )}
 
-      {govId && govId.isVerified && (
-        <div className="verificationBadge isActive">
-          <span title="Verified government ID" className="icon">
-            <i className="fas fa-id-card has-text-success" />
-          </span>
-        </div>
-      )}
-      {stripeConnect.isVerified && (
-        <div className="verificationBadge isActive">
-          <span title="Verified by bank account" className="icon">
-            <i className="fas fa-dollar-sign has-text-success" />
-          </span>
-        </div>
-      )}
+        {govId && govId.isVerified && (
+          <div className="verificationBadge isActive">
+            <span title="Verified government ID" className="icon">
+              <i className="fas fa-id-card has-text-success" />
+            </span>
+          </div>
+        )}
+        {stripeConnect.isVerified && (
+          <div className="verificationBadge isActive">
+            <span title="Verified by bank account" className="icon">
+              <i className="fas fa-dollar-sign has-text-success" />
+            </span>
+          </div>
+        )}
 
-      {showAll && (
-        <>
-          {!phone.isVerified && (
-            <div className="verificationBadge notActive">
-              <span title="Verified by phone" className="icon">
-                <i className="fas fa-mobile-alt has-text-grey" />
-              </span>
-            </div>
-          )}
-          {!email.isVerified && (
-            <div className="verificationBadge notActive">
-              <span title="Verified by email" className="icon">
-                <i className="far fa-envelope has-text-grey" />
-              </span>
-            </div>
-          )}
-          {!govId ||
-            (!govId.isVerified && (
+        {showAll && (
+          <>
+            {!phone.isVerified && (
               <div className="verificationBadge notActive">
-                <span title="Verified government ID" className="icon">
-                  <i className="fas fa-id-card has-text-grey" />
+                <span title="Verified by phone" className="icon">
+                  <i className="fas fa-mobile-alt has-text-grey" />
                 </span>
               </div>
-            ))}
-          {!stripeConnect.isVerified && (
-            <div className="verificationBadge notActive">
-              <span title="Verified by bank account" className="icon">
-                <i className="fas fa-dollar-sign has-text-grey" />
-              </span>
-            </div>
-          )}
-          {/* {!clearCriminalHistory && (
+            )}
+            {!email.isVerified && (
+              <div className="verificationBadge notActive">
+                <span title="Verified by email" className="icon">
+                  <i className="far fa-envelope has-text-grey" />
+                </span>
+              </div>
+            )}
+            {!govId ||
+              (!govId.isVerified && (
+                <div className="verificationBadge notActive">
+                  <span title="Verified government ID" className="icon">
+                    <i className="fas fa-id-card has-text-grey" />
+                  </span>
+                </div>
+              ))}
+            {!stripeConnect.isVerified && (
+              <div className="verificationBadge notActive">
+                <span title="Verified by bank account" className="icon">
+                  <i className="fas fa-dollar-sign has-text-grey" />
+                </span>
+              </div>
+            )}
+            {/* {!clearCriminalHistory && (
             <div className="verificationBadge notActive">
               <span title="Verified by criminal check" className="icon">
                 <i className="fas fa-gavel has-text-grey" />
               </span>
             </div>
           )} */}
-        </>
-      )}
-    </div>
+          </>
+        )}
+      </div>
+    </>
   );
 };
 
@@ -1474,7 +1502,7 @@ export const taskerViewRerouteBasedOnRequestState = ({ jobState, bidId }) => {
 };
 
 export const AnytimeQuickModal = ({ title, renderContentFunc, setShowModal, showModal }) => {
-  return (
+  return ReactDOM.createPortal(
     <div className={`has-text-left modal ${showModal ? 'is-active' : ''}`}>
       <div onClick={() => setShowModal(false)} className="modal-background"></div>
       <div className="modal-card">
@@ -1493,7 +1521,8 @@ export const AnytimeQuickModal = ({ title, renderContentFunc, setShowModal, show
           </button>
         </footer>
       </div>
-    </div>
+    </div>,
+    document.querySelector('body'),
   );
 };
 
