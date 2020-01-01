@@ -21,6 +21,9 @@ const requireBidOwner = require('../middleware/requireBidOwner');
 const requirePassYouCantBidOnYouOwnRequest = require('../middleware/requirePassYouCantBidOnYouOwnRequest');
 const requirePassesRecaptcha = require('../middleware/requirePassesRecaptcha');
 const requireRequestIsNotAwarded = require('../middleware/requireRequestIsNotAwarded');
+
+const requireRequestOwner = require('../middleware/requireRequestOwner');
+
 const ROUTES = require('../backend-route-constants');
 
 const requireLogin = require('../middleware/requireLogin');
@@ -155,6 +158,7 @@ module.exports = (app) => {
     ROUTES.API.BID.PUT.markBidAsSeen,
     requireLogin,
     celebrate(markBidAsSeen),
+    requireRequestOwner,
     async (req, res, done) => {
       try {
         // create new request for this user

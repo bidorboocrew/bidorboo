@@ -125,6 +125,14 @@ exports.updateMyBid = {
 exports.markBidAsSeen = {
   body: Joi.object({
     data: Joi.object({
+      requestId: Joi.string()
+        .trim()
+        .error(() => {
+          return {
+            message: 'Invalid Request, missing request Id',
+          };
+        })
+        .required(),
       bidId: Joi.string()
         .trim()
         .error(() => {
