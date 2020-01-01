@@ -7,7 +7,7 @@ import {
 export default class BidsTable extends React.Component {
   openBidDetailsModal = (bid) => {
     const { markBidAsSeen, requestId, showBidReviewModal } = this.props;
-debugger
+
     if (bid.isNewBid) {
       markBidAsSeen(requestId, bid._id);
     }
