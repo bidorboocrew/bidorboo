@@ -236,6 +236,7 @@ const UserSchema = new Schema(
       ],
       default: 'NEW_MEMBER',
     },
+    clearCriminalHistory: { type: Boolean, default: false },
     pushSubscription: { type: String },
     userRole: {
       type: String,

@@ -586,32 +586,131 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
     email = { isVerified: false },
     isGmailUser = false,
     isFbUser = false,
-    // clearCriminalHistory = false,
+    clearCriminalHistory = false,
     govId = { isVerified: false },
   } = userDetails;
 
-  const [showGmailVerification, setShowGmailVerification] = useState(false);
+  const [showEmailVerification, setShowEmailVerification] = useState(false);
   const [showFbVerification, setShowFbVerification] = useState(false);
   const [showPhoneVerification, setShowPhoneVerification] = useState(false);
-  const [showBankInfoVerification, setShowBankInfoVerification] = useState(false);
+  const [showStripeVerification, setShowStripeVerification] = useState(false);
   const [showPictureIdVerification, setShowPictureIdVerification] = useState(false);
+  const [showCriminialHistoryVerification, setShowCriminialHistoryVerification] = useState(false);
 
   return (
     <>
-      {showGmailVerification && (
+      {showCriminialHistoryVerification && (
         <AnytimeQuickModal
-          title="Gmail Verification"
-          renderContentFunc={() => <div>login using gmail to get this badge</div>}
-          setShowModal={setShowGmailVerification}
-          showModal={showGmailVerification}
+          title="Email Verification"
+          renderContentFunc={() => (
+            <>
+              <div className="has-text-centered">
+                <span title="Verified by criminal check" className="icon is-large">
+                  <i style={{ fontSize: 32 }} className="fas fa-gavel has-text-dark" />
+                </span>
+              </div>
+              <div>
+                This badge indicates that this user has submitted a clear criminal history record
+                and been verified by our BidOrBoo crew.
+              </div>
+            </>
+          )}
+          setShowModal={setShowCriminialHistoryVerification}
+          showModal={showCriminialHistoryVerification}
         ></AnytimeQuickModal>
       )}
-      {showGmailVerification && (
+      {showEmailVerification && (
         <AnytimeQuickModal
-          title="Gmail Verification"
-          renderContentFunc={() => <div>login using gmail to get this badge</div>}
-          setShowModal={setShowGmailVerification}
-          showModal={showGmailVerification}
+          title="Email Verification"
+          renderContentFunc={() => (
+            <>
+              <div className="has-text-centered">
+                <span title="Verified by email" className="icon is-large">
+                  <i style={{ fontSize: 32 }} className="far fa-envelope has-text-dark" />
+                </span>
+              </div>
+              <div>This badge indicates that this user has a verified email account</div>
+            </>
+          )}
+          setShowModal={setShowEmailVerification}
+          showModal={showEmailVerification}
+        ></AnytimeQuickModal>
+      )}
+      {showFbVerification && (
+        <AnytimeQuickModal
+          title="facebook Verification"
+          renderContentFunc={() => (
+            <>
+              <div className="has-text-centered">
+                <span title="Verified by facebook" className="icon is-large">
+                  <i style={{ fontSize: 32 }} className="fab fa-facebook has-text-dark" />
+                </span>
+              </div>
+              <div>
+                This badge indicates that this user is verified by linking thier facebook account
+              </div>
+            </>
+          )}
+          setShowModal={setShowFbVerification}
+          showModal={showFbVerification}
+        ></AnytimeQuickModal>
+      )}
+      {showPhoneVerification && (
+        <AnytimeQuickModal
+          title="Phone Verification"
+          renderContentFunc={() => (
+            <>
+              <div className="has-text-centered">
+                <span title="Verified by phone" className="icon is-large">
+                  <i style={{ fontSize: 32 }} className="fas fa-mobile-alt has-text-dark" />
+                </span>
+              </div>
+              <div>This badge indicates that this user is verified via their phone number</div>
+            </>
+          )}
+          setShowModal={setShowPhoneVerification}
+          showModal={showPhoneVerification}
+        ></AnytimeQuickModal>
+      )}
+      {showStripeVerification && (
+        <AnytimeQuickModal
+          title="Srtipe Account Verification"
+          renderContentFunc={() => (
+            <>
+              <div className="has-text-centered">
+                <span title="Verified by bank account" className="icon is-large">
+                  <i style={{ fontSize: 32 }} className="fas fa-dollar-sign has-text-dark" />
+                </span>
+              </div>
+              <div>
+                This badge indicates that Stripe has verified this user by collecting many data
+                points like thier Full name, bank account info, address and others. This is a great
+                indicator to trust this user
+              </div>
+            </>
+          )}
+          setShowModal={setShowStripeVerification}
+          showModal={showStripeVerification}
+        ></AnytimeQuickModal>
+      )}
+      {showPictureIdVerification && (
+        <AnytimeQuickModal
+          title="Picture ID Verification"
+          renderContentFunc={() => (
+            <>
+              <div className="has-text-centered">
+                <span title="Verified government ID" className="icon is-large">
+                  <i style={{ fontSize: 32 }} className="fas fa-id-card  has-text-dark" />
+                </span>
+              </div>
+              <div>
+                This badge indicates that this user had submit a valid Goverment issued ID and it
+                has been verified by BidOrBoo crew
+              </div>
+            </>
+          )}
+          setShowModal={setShowPictureIdVerification}
+          showModal={showPictureIdVerification}
         ></AnytimeQuickModal>
       )}
       <div
@@ -621,31 +720,30 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
         <label className="label">verifications</label>
 
         {isFbUser && (
-          <div className="verificationBadge isActive">
+          <div
+            onClick={() => setShowFbVerification(!showFbVerification)}
+            className="verificationBadge isActive"
+          >
             <span title="Verified by facebook" className="icon">
               <i className="fab fa-facebook has-text-success" />
             </span>
           </div>
         )}
-        {isGmailUser && (
+        {phone.isVerified && (
           <div
-            onClick={() => setShowGmailVerification(!showGmailVerification)}
+            onClick={() => setShowPhoneVerification(!showPhoneVerification)}
             className="verificationBadge isActive"
           >
-            <span title="Verified by gmail" className="icon">
-              <i className="fab fa-google has-text-success" />
-            </span>
-          </div>
-        )}
-        {phone.isVerified && (
-          <div className="verificationBadge isActive">
             <span title="Verified by phone" className="icon">
               <i className="fas fa-mobile-alt has-text-success" />
             </span>
           </div>
         )}
-        {email.isVerified && (
-          <div className="verificationBadge isActive">
+        {(email.isVerified || isGmailUser) && (
+          <div
+            onClick={() => setShowEmailVerification(!showEmailVerification)}
+            className="verificationBadge isActive"
+          >
             <span title="Verified by email" className="icon">
               <i className="far fa-envelope has-text-success" />
             </span>
@@ -653,14 +751,20 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
         )}
 
         {govId && govId.isVerified && (
-          <div className="verificationBadge isActive">
+          <div
+            onClick={() => setShowPictureIdVerification(!showPictureIdVerification)}
+            className="verificationBadge isActive"
+          >
             <span title="Verified government ID" className="icon">
               <i className="fas fa-id-card has-text-success" />
             </span>
           </div>
         )}
         {stripeConnect.isVerified && (
-          <div className="verificationBadge isActive">
+          <div
+            onClick={() => setShowStripeVerification(!showStripeVerification)}
+            className="verificationBadge isActive"
+          >
             <span title="Verified by bank account" className="icon">
               <i className="fas fa-dollar-sign has-text-success" />
             </span>
@@ -669,42 +773,52 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
 
         {showAll && (
           <>
-            {!phone.isVerified && (
+            {/* {!phone.isVerified && (
               <div className="verificationBadge notActive">
                 <span title="Verified by phone" className="icon">
                   <i className="fas fa-mobile-alt has-text-grey" />
                 </span>
               </div>
             )}
-            {!email.isVerified && (
+            {!(email.isVerified || isGmailUser) && (
               <div className="verificationBadge notActive">
                 <span title="Verified by email" className="icon">
                   <i className="far fa-envelope has-text-grey" />
                 </span>
               </div>
+            )} */}
+            {(!govId || !govId.isVerified) && (
+              <div
+                onClick={() => setShowPictureIdVerification(!showPictureIdVerification)}
+                className="verificationBadge notActive"
+              >
+                <span title="Verified government ID" className="icon">
+                  <i className="fas fa-id-card has-text-grey" />
+                </span>
+              </div>
             )}
-            {!govId ||
-              (!govId.isVerified && (
-                <div className="verificationBadge notActive">
-                  <span title="Verified government ID" className="icon">
-                    <i className="fas fa-id-card has-text-grey" />
-                  </span>
-                </div>
-              ))}
             {!stripeConnect.isVerified && (
-              <div className="verificationBadge notActive">
+              <div
+                onClick={() => setShowStripeVerification(!showStripeVerification)}
+                className="verificationBadge notActive"
+              >
                 <span title="Verified by bank account" className="icon">
                   <i className="fas fa-dollar-sign has-text-grey" />
                 </span>
               </div>
             )}
-            {/* {!clearCriminalHistory && (
-            <div className="verificationBadge notActive">
-              <span title="Verified by criminal check" className="icon">
-                <i className="fas fa-gavel has-text-grey" />
-              </span>
-            </div>
-          )} */}
+            {!clearCriminalHistory && (
+              <div
+                onClick={() =>
+                  setShowCriminialHistoryVerification(!showCriminialHistoryVerification)
+                }
+                className="verificationBadge notActive"
+              >
+                <span title="Verified by criminal check" className="icon">
+                  <i className="fas fa-gavel has-text-grey" />
+                </span>
+              </div>
+            )}
           </>
         )}
       </div>
@@ -1140,13 +1254,17 @@ export const BidsTableVerifiedVia = ({ userDetails }) => {
     email = { isVerified: false },
     isGmailUser = false,
     isFbUser = false,
-    // clearCriminalHistory = false,
+    clearCriminalHistory = false,
     govId = { isVerified: false },
   } = userDetails;
 
   const atLeastOneVerification =
-    isFbUser || isGmailUser || phone.isVerified || email.isVerified || stripeConnect.isVerified;
-  // clearCriminalHistory;
+    isFbUser ||
+    isGmailUser ||
+    phone.isVerified ||
+    email.isVerified ||
+    stripeConnect.isVerified ||
+    clearCriminalHistory;
 
   return (
     <div>
@@ -1158,13 +1276,6 @@ export const BidsTableVerifiedVia = ({ userDetails }) => {
           </span>
         </div>
       )}
-      {isGmailUser && (
-        <div className="verificationBadge isActive small">
-          <span title="Verified by gmail" className="icon">
-            <i className="fab fa-google has-text-success" />
-          </span>
-        </div>
-      )}
       {phone.isVerified && (
         <div className="verificationBadge isActive small">
           <span title="Verified by phone" className="icon">
@@ -1172,7 +1283,7 @@ export const BidsTableVerifiedVia = ({ userDetails }) => {
           </span>
         </div>
       )}
-      {email.isVerified && (
+      {(email.isVerified || isGmailUser) && (
         <div className="verificationBadge isActive small">
           <span title="Verified by email" className="icon">
             <i className="far fa-envelope has-text-success" />
@@ -1195,13 +1306,13 @@ export const BidsTableVerifiedVia = ({ userDetails }) => {
         </div>
       )}
 
-      {/* {clearCriminalHistory && (
+      {clearCriminalHistory && (
         <div className="verificationBadge isActive small">
           <span title="Verified by criminal check" className="icon">
             <i className="fas fa-gavel has-text-success" />
           </span>
         </div>
-      )} */}
+      )}
     </div>
   );
 };
