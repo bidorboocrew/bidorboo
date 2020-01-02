@@ -121,13 +121,12 @@ class MyNotifications extends React.Component {
                       You will be notified about key events like:
                     </label>
                     <ul style={{ marginLeft: '1.5rem' }}>
-                      <li>Task or Request status changes</li>
+                      <li>Request status changes</li>
                       <li>Payment receipts and payouts</li>
-                      <li>Automated reminders about upcoming</li>
+                      <li>Reminders about upcoming bookings</li>
                     </ul>
                   </div>
-                  <br></br>
-                  <hr className="navbar-divider" />
+
                   <br></br>
                   <div className="group">
                     <input
