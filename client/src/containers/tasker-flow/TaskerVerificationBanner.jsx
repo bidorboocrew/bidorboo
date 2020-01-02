@@ -243,7 +243,7 @@ class TaskerVerificationBanner extends React.Component {
                 <span className="icon">
                   <i className="far fa-comment-dots" />
                 </span>
-                <span>CHAT WITH SUPPORT</span>
+                <span>Chat with Support</span>
               </button>
             </div>
           </div>

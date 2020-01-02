@@ -123,7 +123,6 @@ class Step4 extends React.Component {
               agreedToTOS: this.state.hasAgreedToTOS,
             },
             () => {
-
               if (shouldRedirect && location.state.redirectUrl !== ROUTES.CLIENT.ONBOARDING) {
                 return switchRoute(location.state.redirectUrl);
               } else {

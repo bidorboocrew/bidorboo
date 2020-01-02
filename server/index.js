@@ -65,7 +65,7 @@ app.use((err, req, res, next) => {
     err.statusCode = 400;
   } // If err has no specified error code, set error code to 'Internal Server Error (500)'
   if (err.message) {
-    err.safeMsg = err.message;
+    err.safeMsg = err.safeMsg || err.message;
   }
   if (!err.safeMsg) {
     err.safeMsg =
