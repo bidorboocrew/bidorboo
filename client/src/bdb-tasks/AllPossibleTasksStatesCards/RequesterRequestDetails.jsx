@@ -244,6 +244,7 @@ class RequesterRequestDetails extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     cancelRequestById: bindActionCreators(cancelRequestById, dispatch),
   };
 };

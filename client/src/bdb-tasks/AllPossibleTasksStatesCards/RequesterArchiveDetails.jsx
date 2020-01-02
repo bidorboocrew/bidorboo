@@ -139,6 +139,7 @@ const mapStateToProps = ({ requestsReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     getArchivedTaskDetailsForRequester: bindActionCreators(
       getArchivedTaskDetailsForRequester,
       dispatch,

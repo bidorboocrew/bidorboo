@@ -200,6 +200,21 @@ exports.verifyViaCode = {
     }),
   }),
 };
+exports.verifyPhoneViaCode = {
+  body: Joi.object({
+    data: Joi.object({
+      code: Joi.string()
+        .trim()
+        .min(6)
+        .error(() => {
+          return {
+            message: '"verification code" must be valid code',
+          };
+        })
+        .required(),
+    }),
+  }),
+};
 
 exports.updateAppViewReq = {
   body: Joi.object({

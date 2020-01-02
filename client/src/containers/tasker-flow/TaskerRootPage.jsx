@@ -368,6 +368,7 @@ const mapStateToProps = ({ requestsReducer, userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     searchRequestsToBidOn: bindActionCreators(searchRequestsToBidOn, dispatch),
     getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),

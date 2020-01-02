@@ -64,12 +64,10 @@ const mapStateToProps = ({ userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
     updateViewedBy: bindActionCreators(updateViewedBy, dispatch),
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(RequestInfoBox);
+export default connect(mapStateToProps, mapDispatchToProps)(RequestInfoBox);

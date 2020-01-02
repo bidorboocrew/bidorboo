@@ -169,6 +169,7 @@ const mapStateToProps = ({ requestsReducer, userReducer, uiReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     getPostedRequestAndBidsForRequester: bindActionCreators(
       getPostedRequestAndBidsForRequester,
       dispatch,

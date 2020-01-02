@@ -23,12 +23,12 @@ const Step1 = ({ userDetails, showSetupPhoneStep }) => {
         <VerifyEmailField {...{ userDetails, showSetupPhoneStep }} />
       </div>
 
-      <button onClick={showSetupPhoneStep} className="button is-white firstButtonInCard">
+      {/* <button onClick={showSetupPhoneStep} className="button is-white firstButtonInCard">
         <span>SKIP</span>
         <span className="icon">
           <i className="fas fa-chevron-right" />
         </span>
-      </button>
+      </button> */}
     </div>
   );
 };
@@ -66,12 +66,12 @@ const Step2 = ({
         </div>
       )}
 
-      <button onClick={showTosStep} className="button is-white is-pulled-right">
+      {/* <button onClick={showTosStep} className="button is-white is-pulled-right">
         <span>SKIP</span>
         <span className="icon">
           <i className="fas fa-chevron-right" />
         </span>
-      </button>
+      </button> */}
       {!isEmailAlreadyVerified && (
         <button onClick={showEmailVerificationStep} className="button is-pulled-left">
           <span className="icon">
@@ -380,6 +380,7 @@ const mapStateToProps = ({ userReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     updateProfileDetails: bindActionCreators(updateProfileDetails, dispatch),
   };
 };

@@ -143,6 +143,7 @@ class TaskerBidDoneDetails extends RequestBaseContainer {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     updateRequestState: bindActionCreators(updateRequestState, dispatch),
   };
 };

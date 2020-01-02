@@ -193,6 +193,7 @@ const mapStateToProps = ({ userReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     updateNotificationSettings: bindActionCreators(updateNotificationSettings, dispatch),
   };
 };

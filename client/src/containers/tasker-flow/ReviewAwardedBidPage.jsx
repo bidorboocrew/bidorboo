@@ -13,7 +13,11 @@ import {
 import { RenderBackButton, taskerViewRerouteBasedOnRequestState } from '../commonComponents';
 import { Spinner } from '../../components/Spinner';
 
-import { getMeTheRightBidCard, POINT_OF_VIEW,REQUEST_STATES } from '../../bdb-tasks/getMeTheRightCard';
+import {
+  getMeTheRightBidCard,
+  POINT_OF_VIEW,
+  REQUEST_STATES,
+} from '../../bdb-tasks/getMeTheRightCard';
 
 class ReviewAwardedBidPage extends React.Component {
   constructor(props) {
@@ -110,6 +114,7 @@ const mapStateToProps = ({ bidsReducer, userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     deleteOpenBid: bindActionCreators(deleteOpenBid, dispatch),
     getAwardedBidDetails: bindActionCreators(getAwardedBidDetails, dispatch),
     updateBid: bindActionCreators(updateBid, dispatch),

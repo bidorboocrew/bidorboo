@@ -189,9 +189,7 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
   };
 };
 const mapDispatchToProps = (dispatch) => {
-  return {
-    verifyEmail: bindActionCreators(verifyEmail, dispatch),
-  };
+  return { dispatch, verifyEmail: bindActionCreators(verifyEmail, dispatch) };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(VerifyEmailButton);

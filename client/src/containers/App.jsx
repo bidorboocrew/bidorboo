@@ -243,94 +243,93 @@ class App extends React.Component {
             </Switch>
           </Suspense>
         </div>
-        {!(window.location.pathname.indexOf('/on-boarding') > -1) && (
-          <footer id="mainFooter" className="footer">
-            <nav className="level">
-              <div className="level-item has-text-centered">
-                <div>
-                  <p className="has-text-white is-size-7">Availability</p>
-                  <div className="is-size-7">
-                    <img width={21} height={21} alt="Canada" src={canadaFlag} />
-                  </div>
-                </div>
-              </div>
-              <div className="level-item has-text-centered">
-                <div>
-                  <div className="has-text-white is-size-7">
-                    <img src={logoImg} alt="BidOrBoo" width={21} height={21} />
-                    {` BidOrBoo Inc`}
-                  </div>
-                  <div style={{ marginTop: 6 }}>
-                    <AddToMobileHomeScreenBanner />
-                  </div>
-                </div>
-              </div>
 
-              <div className="level-item has-text-centered">
-                <div>
-                  <div style={{ marginBottom: '0.5rem' }}>
-                    <Suspense fallback={<Spinner renderLabel="loading..."></Spinner>}>
-                      <FreshdeskChat isFooter />
-                    </Suspense>
-                  </div>
+        <footer id="mainFooter" className="footer">
+          <nav className="level">
+            <div className="level-item has-text-centered">
+              <div>
+                <p className="has-text-white is-size-7">Availability</p>
+                <div className="is-size-7">
+                  <img width={21} height={21} alt="Canada" src={canadaFlag} />
                 </div>
               </div>
-            </nav>
-            <nav className="container help has-text-centered">
-              <div className="has-text-light">
-                {`To get in touch via email:`}
-                <a
-                  style={{ color: '#72a4f7' }}
-                  className="has-text-link"
-                  href={`mailto:bidorboo@bidorboo.ca`}
-                >
-                  <span className="icon">
-                    <i className="far fa-envelope" />
-                  </span>
-                  <span>bidorboo@bidorboo.ca</span>
-                </a>
+            </div>
+            <div className="level-item has-text-centered">
+              <div>
+                <div className="has-text-white is-size-7">
+                  <img src={logoImg} alt="BidOrBoo" width={21} height={21} />
+                  {` BidOrBoo Inc`}
+                </div>
+                <div style={{ marginTop: 6 }}>
+                  <AddToMobileHomeScreenBanner />
+                </div>
               </div>
-              <div className="has-text-light">
-                <a
-                  style={{ color: '#72a4f7' }}
-                  className="has-text-link"
-                  onClick={() => switchRoute(ROUTES.CLIENT.TOS)}
-                >
-                  {`BidOrBoo Service Terms | Privacy`}
-                </a>
-                {' and '}
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://stripe.com/connect-account/legal"
-                  className="has-text-link"
-                  style={{ color: '#72a4f7' }}
-                >
-                  {`Stripe Terms of use`}
-                </a>
+            </div>
+
+            <div className="level-item has-text-centered">
+              <div>
+                <div style={{ marginBottom: '0.5rem' }}>
+                  <Suspense fallback={<Spinner renderLabel="loading..."></Spinner>}>
+                    <FreshdeskChat isFooter />
+                  </Suspense>
+                </div>
               </div>
-              <div className="help has-text-light">
-                {`This site is protected by reCAPTCHA and the Google `}
-                <a
-                  style={{ color: '#72a4f7' }}
-                  className="has-text-link"
-                  href="https://policies.google.com/privacy"
-                >
-                  Privacy Policy
-                </a>
-                {` and `}
-                <a
-                  style={{ color: '#72a4f7' }}
-                  className="has-text-link"
-                  href="https://policies.google.com/terms"
-                >
-                  Terms of Service
-                </a>
-                {` apply.`}
-              </div>
-            </nav>
-          </footer>
-        )}
+            </div>
+          </nav>
+          <nav className="container help has-text-centered">
+            <div className="has-text-light">
+              {`To get in touch via email:`}
+              <a
+                style={{ color: '#72a4f7' }}
+                className="has-text-link"
+                href={`mailto:bidorboo@bidorboo.ca`}
+              >
+                <span className="icon">
+                  <i className="far fa-envelope" />
+                </span>
+                <span>bidorboo@bidorboo.ca</span>
+              </a>
+            </div>
+            <div className="has-text-light">
+              <a
+                style={{ color: '#72a4f7' }}
+                className="has-text-link"
+                onClick={() => switchRoute(ROUTES.CLIENT.TOS)}
+              >
+                {`BidOrBoo Service Terms | Privacy`}
+              </a>
+              {' and '}
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://stripe.com/connect-account/legal"
+                className="has-text-link"
+                style={{ color: '#72a4f7' }}
+              >
+                {`Stripe Terms of use`}
+              </a>
+            </div>
+            <div className="help has-text-light">
+              {`This site is protected by reCAPTCHA and the Google `}
+              <a
+                style={{ color: '#72a4f7' }}
+                className="has-text-link"
+                href="https://policies.google.com/privacy"
+              >
+                Privacy Policy
+              </a>
+              {` and `}
+              <a
+                style={{ color: '#72a4f7' }}
+                className="has-text-link"
+                href="https://policies.google.com/terms"
+              >
+                Terms of Service
+              </a>
+              {` apply.`}
+            </div>
+          </nav>
+        </footer>
       </div>
     );
   }
@@ -347,6 +346,7 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
   };
 };

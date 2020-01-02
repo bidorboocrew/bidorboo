@@ -10,6 +10,7 @@ const { requestDataAccess } = require('../data-access/requestDataAccess');
 const {
   resetPasswordReqSchema,
   verifyViaCode,
+  verifyPhoneViaCode,
   loggedoutEmailVerificationReq,
   notificationSettingsUpdateReq,
   agreeToTosReq,
@@ -91,7 +92,7 @@ module.exports = (app) => {
   );
   app.post(
     ROUTES.API.USER.POST.verifyPhone,
-    celebrate(verifyViaCode),
+    celebrate(verifyPhoneViaCode),
     requireLogin,
     async (req, res, next) => {
       try {
@@ -99,7 +100,7 @@ module.exports = (app) => {
         const { code } = req.body.data;
 
         const user = await userDataAccess.findOneByUserId(req.user.userId);
-        const { status } = await sendTextService.verifyPhoneCode(user.phone.phoneNumber, code);
+        const { status } = await sendTextService.verifyPhoneCode(user.phone.phoneNumber, 122354);
 
         if (status === 'approved') {
           const userData = {

@@ -99,6 +99,7 @@ const mapStateToProps = ({ requestsReducer, userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     getAwardedRequestFullDetailsforRequester: bindActionCreators(
       getAwardedRequestFullDetailsforRequester,
       dispatch,

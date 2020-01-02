@@ -264,7 +264,10 @@ const mapStateToProps = ({ userReducer }) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return { getMyStripeAccountDetails: bindActionCreators(getMyStripeAccountDetails, dispatch) };
+  return {
+    dispatch,
+    getMyStripeAccountDetails: bindActionCreators(getMyStripeAccountDetails, dispatch),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskerVerificationBanner);

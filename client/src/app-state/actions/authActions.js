@@ -8,7 +8,7 @@ export const verifyPhone = (code, onSuccessCallback = () => null) => (dispatch) 
     type: A.UI_ACTIONS.VERIFY_USER_PHONE,
     payload: axios
       .post(ROUTES.API.USER.POST.verifyPhone, {
-        data: { code },
+        data: { code: `${code}` },
       })
       .then((verifyReq) => {
         if (verifyReq && verifyReq.data && verifyReq.data.success) {

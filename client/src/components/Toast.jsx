@@ -110,8 +110,8 @@ class Toast extends React.Component {
           {msg && typeof msg === 'string' ? msg : JSON.stringify(msg)}
           {displayToast && type === 'error' && (
             <>
-              <button
-                style={{ marginLeft: 6 }}
+              {/* <button
+                style={{ margin: 6 }}
                 className="button is-small is-dark"
                 onClick={() => window.location.reload()}
               >
@@ -119,9 +119,9 @@ class Toast extends React.Component {
                   <i className="fas fa-redo" />
                 </span>
                 <span>Reload</span>
-              </button>
+              </button> */}
               <button
-                style={{ marginLeft: 8 }}
+                style={{ margin: 6 }}
                 className="button is-info is-small"
                 onClick={() => {
                   if (window.fcWidget && !window.fcWidget.isOpen()) {
@@ -132,13 +132,13 @@ class Toast extends React.Component {
                 <span className="icon">
                   <i className="far fa-comment-dots" />
                 </span>
-                <span>Support</span>
+                <span>Chat with Support</span>
               </button>
             </>
           )}
-          {displayToast && type === 'error' && (
+          {/* {displayToast && type === 'error' && (
             <button
-              style={{ marginLeft: 6 }}
+              style={{ margin: 6 }}
               className="button is-small"
               onClick={() => this.userCloseToast()}
             >
@@ -147,7 +147,7 @@ class Toast extends React.Component {
               </span>
               <span>Close</span>
             </button>
-          )}
+          )} */}
         </div>
       )
     );

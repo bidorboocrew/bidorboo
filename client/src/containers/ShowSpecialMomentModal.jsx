@@ -34,12 +34,7 @@ const mapStateToProps = ({ uiReducer }) => {
   };
 };
 const mapDispatchToProps = (dispatch) => {
-  return {
-    showSpecialMoment: bindActionCreators(showSpecialMoment, dispatch),
-  };
+  return { dispatch, showSpecialMoment: bindActionCreators(showSpecialMoment, dispatch) };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ShowSpecialMomentModal);
+export default connect(mapStateToProps, mapDispatchToProps)(ShowSpecialMomentModal);

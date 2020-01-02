@@ -138,6 +138,7 @@ const mapStateToProps = ({ bidsReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     getArchivedBidDetailsForTasker: bindActionCreators(getArchivedBidDetailsForTasker, dispatch),
   };
 };

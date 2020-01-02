@@ -21,7 +21,13 @@ class BidOnRequestPage extends React.Component {
     }
   }
   render() {
-    const { submitBid, requestDetails, currentUserDetails, isLoggedIn, showLoginDialog } = this.props;
+    const {
+      submitBid,
+      requestDetails,
+      currentUserDetails,
+      isLoggedIn,
+      showLoginDialog,
+    } = this.props;
     let dontShowThisPage = !requestDetails || !requestDetails._id || !requestDetails._ownerRef;
     if (dontShowThisPage) {
       return (
@@ -64,13 +70,11 @@ const mapStateToProps = ({ bidsReducer, userReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     submitBid: bindActionCreators(submitBid, dispatch),
     getRequestToBidOnDetails: bindActionCreators(getRequestToBidOnDetails, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(BidOnRequestPage);
+export default connect(mapStateToProps, mapDispatchToProps)(BidOnRequestPage);

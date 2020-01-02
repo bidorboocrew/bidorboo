@@ -77,6 +77,7 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     updateOnBoardingDetails: bindActionCreators(updateOnBoardingDetails, dispatch),
   };
 };

@@ -271,6 +271,7 @@ const mapStateToProps = ({ userReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     updateProfileDetails: bindActionCreators(updateProfileDetails, dispatch),
     updateProfileImage: bindActionCreators(updateProfileImage, dispatch),
     getCurrentUser: bindActionCreators(getCurrentUser, dispatch),

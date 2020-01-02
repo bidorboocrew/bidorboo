@@ -61,7 +61,9 @@ class SubscribeToSearchResultsToggle extends React.Component {
         <label style={{ fontWeight: 500 }} htmlFor="notifyMeAboutNewTasks">
           Subscribe to search results
         </label>
-        <p className="help has-text-light">*Get notified when newly posted requests matches your search criteria</p>
+        <p className="help has-text-light">
+          *Get notified when newly posted requests matches your search criteria
+        </p>
       </div>
     );
   }
@@ -82,11 +84,9 @@ const mapStateToProps = ({ userReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     updateNotificationSettings: bindActionCreators(updateNotificationSettings, dispatch),
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SubscribeToSearchResultsToggle);
+export default connect(mapStateToProps, mapDispatchToProps)(SubscribeToSearchResultsToggle);
