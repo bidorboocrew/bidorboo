@@ -82,11 +82,11 @@ exports.bidDataAccess = {
           requestedRequestId
         );
 
-        const newTotalOfAllRatings = taskerRating.totalOfAllRatings + 1.25;
+        const currentRating = taskerRating.globalRating;
+        const desiredRatingAfterPenalty = Math.max(currentRating - 0.25, 0).toFixed(2);
         const newTotalOfAllTimesBeenRated = taskerRating.numberOfTimesBeenRated + 1;
-        const newGlobalRating = parseFloat(
-          Math.max(newTotalOfAllRatings / newTotalOfAllTimesBeenRated, 0).toFixed(1)
-        );
+
+        const theNewTotalOfAllRating = newTotalOfAllTimesBeenRated * desiredRatingAfterPenalty;
 
         // xxx critical
         const refundCharge = await stripeServiceUtil.fullRefundTransaction({
@@ -130,9 +130,9 @@ exports.bidDataAccess = {
                 $set: {
                   'rating.latestComment':
                     'BidOrBoo Auto Review: Cancelled Their Request After booking was confirmed with the requester',
-                  'rating.globalRating': newGlobalRating,
+                  'rating.globalRating': desiredRatingAfterPenalty,
                   'rating.numberOfTimesBeenRated': newTotalOfAllTimesBeenRated,
-                  'rating.totalOfAllRatings': newTotalOfAllRatings,
+                  'rating.totalOfAllRatings': theNewTotalOfAllRating,
                 },
                 $push: {
                   'rating.canceledBids': bidId,

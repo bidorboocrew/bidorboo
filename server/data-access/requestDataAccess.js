@@ -1434,11 +1434,11 @@ exports.requestDataAccess = {
             ownerRating,
           } = await getAllContactDetails(requestId);
 
-          const newTotalOfAllRatings = ownerRating.totalOfAllRatings + 1.25;
+          const currentRating = ownerRating.globalRating;
+          const desiredRatingAfterPenalty = Math.max(currentRating - 0.25, 0).toFixed(2);
           const newTotalOfAllTimesBeenRated = ownerRating.numberOfTimesBeenRated + 1;
-          const newGlobalRating = parseFloat(
-            Math.max(newTotalOfAllRatings / newTotalOfAllTimesBeenRated, 0).toFixed(1)
-          );
+
+          const theNewTotalOfAllRating = newTotalOfAllTimesBeenRated * desiredRatingAfterPenalty;
 
           const paymentIntent = await stripeServiceUtil.getPaymentIntents(
             processedPayment.paymentIntentId
@@ -1486,9 +1486,9 @@ exports.requestDataAccess = {
                   $set: {
                     'rating.latestComment':
                       'BidOrBoo Auto Review: Cancelled their request after booking with the tasker',
-                    'rating.globalRating': newGlobalRating,
+                    'rating.globalRating': desiredRatingAfterPenalty,
                     'rating.numberOfTimesBeenRated': newTotalOfAllTimesBeenRated,
-                    'rating.totalOfAllRatings': newTotalOfAllRatings,
+                    'rating.totalOfAllRatings': theNewTotalOfAllRating,
                   },
                   $push: {
                     'rating.canceledRequests': requestId,
