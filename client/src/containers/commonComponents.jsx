@@ -605,7 +605,7 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
           renderContentFunc={() => (
             <>
               <div className="has-text-centered">
-                <span title="Verified by criminal check" className="icon is-large">
+                <span title="Verified clear criminal record" className="icon is-large">
                   <i style={{ fontSize: 32 }} className="fas fa-gavel has-text-dark" />
                 </span>
               </div>
@@ -625,7 +625,7 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
           renderContentFunc={() => (
             <>
               <div className="has-text-centered">
-                <span title="Verified by email" className="icon is-large">
+                <span title="Verified email" className="icon is-large">
                   <i style={{ fontSize: 32 }} className="far fa-envelope has-text-dark" />
                 </span>
               </div>
@@ -642,7 +642,7 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
           renderContentFunc={() => (
             <>
               <div className="has-text-centered">
-                <span title="Verified by facebook" className="icon is-large">
+                <span title="Verified facebook user" className="icon is-large">
                   <i style={{ fontSize: 32 }} className="fab fa-facebook has-text-dark" />
                 </span>
               </div>
@@ -661,7 +661,7 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
           renderContentFunc={() => (
             <>
               <div className="has-text-centered">
-                <span title="Verified by phone" className="icon is-large">
+                <span title="Verified phone" className="icon is-large">
                   <i style={{ fontSize: 32 }} className="fas fa-mobile-alt has-text-dark" />
                 </span>
               </div>
@@ -678,7 +678,7 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
           renderContentFunc={() => (
             <>
               <div className="has-text-centered">
-                <span title="Verified by bank account" className="icon is-large">
+                <span title="Verified bank account" className="icon is-large">
                   <i style={{ fontSize: 32 }} className="fas fa-dollar-sign has-text-dark" />
                 </span>
               </div>
@@ -724,7 +724,7 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
             onClick={() => setShowFbVerification(!showFbVerification)}
             className="verificationBadge isActive"
           >
-            <span title="Verified by facebook" className="icon">
+            <span title="Verified facebook user" className="icon">
               <i className="fab fa-facebook has-text-success" />
             </span>
           </div>
@@ -734,7 +734,7 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
             onClick={() => setShowPhoneVerification(!showPhoneVerification)}
             className="verificationBadge isActive"
           >
-            <span title="Verified by phone" className="icon">
+            <span title="Verified phone" className="icon">
               <i className="fas fa-mobile-alt has-text-success" />
             </span>
           </div>
@@ -744,7 +744,7 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
             onClick={() => setShowEmailVerification(!showEmailVerification)}
             className="verificationBadge isActive"
           >
-            <span title="Verified by email" className="icon">
+            <span title="Verified email" className="icon">
               <i className="far fa-envelope has-text-success" />
             </span>
           </div>
@@ -765,7 +765,7 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
             onClick={() => setShowStripeVerification(!showStripeVerification)}
             className="verificationBadge isActive"
           >
-            <span title="Verified by bank account" className="icon">
+            <span title="Verified bank account" className="icon">
               <i className="fas fa-dollar-sign has-text-success" />
             </span>
           </div>
@@ -775,14 +775,14 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
           <>
             {/* {!phone.isVerified && (
               <div className="verificationBadge notActive">
-                <span title="Verified by phone" className="icon">
+                <span title="Verified phone" className="icon">
                   <i className="fas fa-mobile-alt has-text-grey" />
                 </span>
               </div>
             )}
             {!(email.isVerified || isGmailUser) && (
               <div className="verificationBadge notActive">
-                <span title="Verified by email" className="icon">
+                <span title="Verified email" className="icon">
                   <i className="far fa-envelope has-text-grey" />
                 </span>
               </div>
@@ -802,7 +802,7 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
                 onClick={() => setShowStripeVerification(!showStripeVerification)}
                 className="verificationBadge notActive"
               >
-                <span title="Verified by bank account" className="icon">
+                <span title="Verified bank account" className="icon">
                   <i className="fas fa-dollar-sign has-text-grey" />
                 </span>
               </div>
@@ -814,7 +814,7 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
                 }
                 className="verificationBadge notActive"
               >
-                <span title="Verified by criminal check" className="icon">
+                <span title="Verified clear criminal record" className="icon">
                   <i className="fas fa-gavel has-text-grey" />
                 </span>
               </div>
@@ -1271,21 +1271,21 @@ export const BidsTableVerifiedVia = ({ userDetails }) => {
       {!atLeastOneVerification && <label className="has-text-grey">Unverified User</label>}
       {isFbUser && (
         <div className="verificationBadge isActive small">
-          <span title="Verified by facebook" className="icon">
+          <span title="Verified facebook user" className="icon">
             <i className="fab fa-facebook has-text-success" />
           </span>
         </div>
       )}
       {phone.isVerified && (
         <div className="verificationBadge isActive small">
-          <span title="Verified by phone" className="icon">
+          <span title="Verified phone" className="icon">
             <i className="fas fa-mobile-alt has-text-success" />
           </span>
         </div>
       )}
       {(email.isVerified || isGmailUser) && (
         <div className="verificationBadge isActive small">
-          <span title="Verified by email" className="icon">
+          <span title="Verified email" className="icon">
             <i className="far fa-envelope has-text-success" />
           </span>
         </div>
@@ -1300,7 +1300,7 @@ export const BidsTableVerifiedVia = ({ userDetails }) => {
       )}
       {stripeConnect.isVerified && (
         <div className="verificationBadge isActive small">
-          <span title="Verified by bank account" className="icon">
+          <span title="Verified bank account" className="icon">
             <i className="fas fa-dollar-sign has-text-success" />
           </span>
         </div>
@@ -1308,7 +1308,7 @@ export const BidsTableVerifiedVia = ({ userDetails }) => {
 
       {clearCriminalHistory && (
         <div className="verificationBadge isActive small">
-          <span title="Verified by criminal check" className="icon">
+          <span title="Verified clear criminal record" className="icon">
             <i className="fas fa-gavel has-text-success" />
           </span>
         </div>

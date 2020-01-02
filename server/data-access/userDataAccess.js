@@ -82,6 +82,7 @@ exports.findUserPublicDetails = (mongoUser_id) => {
             requesterId: 1,
             createdAt: 1,
           },
+          options: { sort: { createdAt: -1 } },
           populate: {
             path: 'requesterId',
             select: {
@@ -98,6 +99,7 @@ exports.findUserPublicDetails = (mongoUser_id) => {
             taskerId: 1,
             createdAt: 1,
           },
+          options: { sort: { createdAt: -1 } },
           populate: {
             path: 'taskerId',
             select: {
