@@ -57,21 +57,25 @@ const Step2 = ({
       )}
 
       {renderVerificationSection && (
-        <div className="slide-in-right field">
-          <div className="group">
-            <label className="label hasSelectedValue">{`We've sent the Code to: `}</label>
-            <div>{`${userDetails.phone.phoneNumber}`}</div>
+        <>
+          <div className="slide-in-right field">
+            <div className="group">
+              <label className="label hasSelectedValue">{`We've sent the Code to: `}</label>
+              <div>{`${userDetails.phone.phoneNumber}`}</div>
+            </div>
+            <VerifyPhoneField {...{ userDetails, showTosStep, showSetupPhoneStep }} />
           </div>
-          <VerifyPhoneField {...{ userDetails, showTosStep, showSetupPhoneStep }} />
-        </div>
+          <br></br>
+          <br></br>
+          <button onClick={showSetupPhoneStep} className="button is-white is-pulled-left">
+            <span className="icon">
+              <i className="fas fa-chevron-left" />
+            </span>
+            <span>Go Back</span>
+          </button>
+        </>
       )}
 
-      {/* <button onClick={showTosStep} className="button is-white is-pulled-right">
-        <span>SKIP</span>
-        <span className="icon">
-          <i className="fas fa-chevron-right" />
-        </span>
-      </button> */}
       {!isEmailAlreadyVerified && (
         <button onClick={showEmailVerificationStep} className="button is-pulled-left">
           <span className="icon">

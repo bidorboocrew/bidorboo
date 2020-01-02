@@ -121,7 +121,7 @@ class Toast extends React.Component {
                 <span>Reload</span>
               </button> */}
               <button
-                style={{ margin: 6 }}
+                style={{ marginLeft: 6 }}
                 className="button is-info is-small"
                 onClick={() => {
                   if (window.fcWidget && !window.fcWidget.isOpen()) {
