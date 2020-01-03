@@ -220,9 +220,9 @@ module.exports = (app) => {
     requireRequestOwner,
     async (req, res) => {
       try {
-        const { requestId, completionDate } = req.body.data;
+        const { requestId } = req.body.data;
 
-        await requestDataAccess.requesterConfirmsRequestCompletion(requestId, completionDate);
+        await requestDataAccess.requesterConfirmsRequestCompletion(requestId);
 
         return res.send({ success: true });
       } catch (e) {

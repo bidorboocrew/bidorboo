@@ -117,7 +117,6 @@ export const requesterConfirmsRequestCompletion = (requestId) => (dispatch) => {
   const postData = JSON.stringify({
     data: {
       requestId,
-      completionDate: moment.utc(new Date()).toISOString(),
     },
   });
 

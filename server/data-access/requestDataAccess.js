@@ -278,6 +278,7 @@ exports.requestDataAccess = {
                   {
                     $set: {
                       state: 'DONE',
+                      completionDate: moment.utc().toISOString(),
                     },
                   }
                 )
@@ -1033,14 +1034,14 @@ exports.requestDataAccess = {
       .exec();
   },
 
-  requesterConfirmsRequestCompletion: async (requestId, completionDate) => {
+  requesterConfirmsRequestCompletion: async (requestId) => {
     // if tasker didnt
     return new Promise(async (resolve, reject) => {
       try {
         await RequestModel.findOneAndUpdate(
           { _id: requestId },
           {
-            $set: { state: 'DONE', completionDate: completionDate },
+            $set: { state: 'DONE', completionDate: moment.utc().toISOString() },
           }
         )
           .lean(true)
