@@ -613,6 +613,30 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
                 This badge indicates that this user has submitted a clear criminal history record
                 and been verified by our BidOrBoo crew.
               </div>
+              {showAll && (
+                <>
+                  <br></br>
+                  <div className="help">
+                    Chat with us for instructions on how to obtain this badge
+                  </div>
+                  <div>
+                    <button
+                      className="button is-success is-small"
+                      onClick={() => {
+                        if (!window.fcWidget.isOpen()) {
+                          this.toggleModal();
+                          window.fcWidget.open();
+                        }
+                      }}
+                    >
+                      <span className="icon">
+                        <i className="far fa-comment-dots" />
+                      </span>
+                      <span>Chat / FAQs</span>
+                    </button>
+                  </div>
+                </>
+              )}
             </>
           )}
           setShowModal={setShowCriminialHistoryVerification}
@@ -630,6 +654,30 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
                 </span>
               </div>
               <div>This badge indicates that this user has a verified email account</div>
+              {showAll && !(email.isVerified || isGmailUser) && (
+                <>
+                  <br></br>
+                  <div className="help">
+                    Chat with us for instructions on how to obtain this badge
+                  </div>
+                  <div>
+                    <button
+                      className="button is-success is-small"
+                      onClick={() => {
+                        if (!window.fcWidget.isOpen()) {
+                          this.toggleModal();
+                          window.fcWidget.open();
+                        }
+                      }}
+                    >
+                      <span className="icon">
+                        <i className="far fa-comment-dots" />
+                      </span>
+                      <span>Chat / FAQs</span>
+                    </button>
+                  </div>
+                </>
+              )}
             </>
           )}
           setShowModal={setShowEmailVerification}
@@ -649,6 +697,30 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
               <div>
                 This badge indicates that this user is verified by linking thier facebook account
               </div>
+              {showAll && (
+                <>
+                  <br></br>
+                  <div className="help">
+                    Chat with us for instructions on how to obtain this badge
+                  </div>
+                  <div>
+                    <button
+                      className="button is-success is-small"
+                      onClick={() => {
+                        if (!window.fcWidget.isOpen()) {
+                          this.toggleModal();
+                          window.fcWidget.open();
+                        }
+                      }}
+                    >
+                      <span className="icon">
+                        <i className="far fa-comment-dots" />
+                      </span>
+                      <span>Chat / FAQs</span>
+                    </button>
+                  </div>
+                </>
+              )}
             </>
           )}
           setShowModal={setShowFbVerification}
@@ -666,6 +738,30 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
                 </span>
               </div>
               <div>This badge indicates that this user is verified via their phone number</div>
+              {showAll && !phone.isVerified && (
+                <>
+                  <br></br>
+                  <div className="help">
+                    Chat with us for instructions on how to obtain this badge
+                  </div>
+                  <div>
+                    <button
+                      className="button is-success is-small"
+                      onClick={() => {
+                        if (!window.fcWidget.isOpen()) {
+                          this.toggleModal();
+                          window.fcWidget.open();
+                        }
+                      }}
+                    >
+                      <span className="icon">
+                        <i className="far fa-comment-dots" />
+                      </span>
+                      <span>Chat / FAQs</span>
+                    </button>
+                  </div>
+                </>
+              )}
             </>
           )}
           setShowModal={setShowPhoneVerification}
@@ -687,6 +783,30 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
                 points like thier Full name, bank account info, address and others. This is a great
                 indicator to trust this user
               </div>
+              {showAll && !stripeConnect.isVerified && (
+                <>
+                  <br></br>
+                  <div className="help">
+                    Chat with us for instructions on how to obtain this badge
+                  </div>
+                  <div>
+                    <button
+                      className="button is-success is-small"
+                      onClick={() => {
+                        if (!window.fcWidget.isOpen()) {
+                          this.toggleModal();
+                          window.fcWidget.open();
+                        }
+                      }}
+                    >
+                      <span className="icon">
+                        <i className="far fa-comment-dots" />
+                      </span>
+                      <span>Chat / FAQs</span>
+                    </button>
+                  </div>
+                </>
+              )}
             </>
           )}
           setShowModal={setShowStripeVerification}
@@ -707,6 +827,30 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
                 This badge indicates that this user had submit a valid Goverment issued ID and it
                 has been verified by BidOrBoo crew
               </div>
+              {showAll && (!govId || !govId.isVerified) && (
+                <>
+                  <br></br>
+                  <div className="help">
+                    Chat with us for instructions on how to obtain this badge
+                  </div>
+                  <div>
+                    <button
+                      className="button is-success is-small"
+                      onClick={() => {
+                        if (!window.fcWidget.isOpen()) {
+                          this.toggleModal();
+                          window.fcWidget.open();
+                        }
+                      }}
+                    >
+                      <span className="icon">
+                        <i className="far fa-comment-dots" />
+                      </span>
+                      <span>Chat / FAQs</span>
+                    </button>
+                  </div>
+                </>
+              )}
             </>
           )}
           setShowModal={setShowPictureIdVerification}
@@ -773,20 +917,26 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
 
         {showAll && (
           <>
-            {/* {!phone.isVerified && (
-              <div className="verificationBadge notActive">
+            {!phone.isVerified && (
+              <div
+                onClick={() => setShowPhoneVerification(!showPictureIdVerification)}
+                className="verificationBadge notActive"
+              >
                 <span title="Verified phone" className="icon">
                   <i className="fas fa-mobile-alt has-text-grey" />
                 </span>
               </div>
             )}
             {!(email.isVerified || isGmailUser) && (
-              <div className="verificationBadge notActive">
+              <div
+                onClick={() => setShowEmailVerification(!showPictureIdVerification)}
+                className="verificationBadge notActive"
+              >
                 <span title="Verified email" className="icon">
                   <i className="far fa-envelope has-text-grey" />
                 </span>
               </div>
-            )} */}
+            )}
             {(!govId || !govId.isVerified) && (
               <div
                 onClick={() => setShowPictureIdVerification(!showPictureIdVerification)}
@@ -1247,75 +1397,75 @@ export const ArchiveTask = () => {
   );
 };
 
-export const BidsTableVerifiedVia = ({ userDetails }) => {
-  const {
-    stripeConnect = { isVerified: false },
-    phone = { isVerified: false },
-    email = { isVerified: false },
-    isGmailUser = false,
-    isFbUser = false,
-    clearCriminalHistory = false,
-    govId = { isVerified: false },
-  } = userDetails;
+// export const BidsTableVerifiedVia = ({ userDetails }) => {
+//   const {
+//     stripeConnect = { isVerified: false },
+//     phone = { isVerified: false },
+//     email = { isVerified: false },
+//     isGmailUser = false,
+//     isFbUser = false,
+//     clearCriminalHistory = false,
+//     govId = { isVerified: false },
+//   } = userDetails;
 
-  const atLeastOneVerification =
-    isFbUser ||
-    isGmailUser ||
-    phone.isVerified ||
-    email.isVerified ||
-    stripeConnect.isVerified ||
-    clearCriminalHistory;
+//   const atLeastOneVerification =
+//     isFbUser ||
+//     isGmailUser ||
+//     phone.isVerified ||
+//     email.isVerified ||
+//     stripeConnect.isVerified ||
+//     clearCriminalHistory;
 
-  return (
-    <div>
-      {!atLeastOneVerification && <label className="has-text-grey">Unverified User</label>}
-      {isFbUser && (
-        <div className="verificationBadge isActive small">
-          <span title="Verified facebook user" className="icon">
-            <i className="fab fa-facebook has-text-success" />
-          </span>
-        </div>
-      )}
-      {phone.isVerified && (
-        <div className="verificationBadge isActive small">
-          <span title="Verified phone" className="icon">
-            <i className="fas fa-mobile-alt has-text-success" />
-          </span>
-        </div>
-      )}
-      {(email.isVerified || isGmailUser) && (
-        <div className="verificationBadge isActive small">
-          <span title="Verified email" className="icon">
-            <i className="far fa-envelope has-text-success" />
-          </span>
-        </div>
-      )}
+//   return (
+//     <div>
+//       {!atLeastOneVerification && <label className="has-text-grey">Unverified User</label>}
+//       {isFbUser && (
+//         <div className="verificationBadge isActive small">
+//           <span title="Verified facebook user" className="icon">
+//             <i className="fab fa-facebook has-text-success" />
+//           </span>
+//         </div>
+//       )}
+//       {phone.isVerified && (
+//         <div className="verificationBadge isActive small">
+//           <span title="Verified phone" className="icon">
+//             <i className="fas fa-mobile-alt has-text-success" />
+//           </span>
+//         </div>
+//       )}
+//       {(email.isVerified || isGmailUser) && (
+//         <div className="verificationBadge isActive small">
+//           <span title="Verified email" className="icon">
+//             <i className="far fa-envelope has-text-success" />
+//           </span>
+//         </div>
+//       )}
 
-      {govId && govId.isVerified && (
-        <div className="verificationBadge isActive small">
-          <span title="Verified government ID" className="icon">
-            <i className="fas fa-id-card has-text-success" />
-          </span>
-        </div>
-      )}
-      {stripeConnect.isVerified && (
-        <div className="verificationBadge isActive small">
-          <span title="Verified bank account" className="icon">
-            <i className="fas fa-dollar-sign has-text-success" />
-          </span>
-        </div>
-      )}
+//       {govId && govId.isVerified && (
+//         <div className="verificationBadge isActive small">
+//           <span title="Verified government ID" className="icon">
+//             <i className="fas fa-id-card has-text-success" />
+//           </span>
+//         </div>
+//       )}
+//       {stripeConnect.isVerified && (
+//         <div className="verificationBadge isActive small">
+//           <span title="Verified bank account" className="icon">
+//             <i className="fas fa-dollar-sign has-text-success" />
+//           </span>
+//         </div>
+//       )}
 
-      {clearCriminalHistory && (
-        <div className="verificationBadge isActive small">
-          <span title="Verified clear criminal record" className="icon">
-            <i className="fas fa-gavel has-text-success" />
-          </span>
-        </div>
-      )}
-    </div>
-  );
-};
+//       {clearCriminalHistory && (
+//         <div className="verificationBadge isActive small">
+//           <span title="Verified clear criminal record" className="icon">
+//             <i className="fas fa-gavel has-text-success" />
+//           </span>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
 
 export const BSawaitingOnRequester = () => {
   return (
