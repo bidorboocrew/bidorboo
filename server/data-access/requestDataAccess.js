@@ -168,7 +168,6 @@ exports.requestDataAccess = {
     CleanUpAllExpiredNonAwardedRequests: async () => {
       try {
         const requests = await RequestModel.find({
-          startingDateAndTime: { $exists: true },
           _awardedBidRef: { $exists: false },
         })
           .populate([
@@ -191,7 +190,6 @@ exports.requestDataAccess = {
                 _id: requestId,
                 isPastDue,
                 startingDateAndTime,
-                templateId,
                 requestTemplateDisplayTitle,
                 requestTitle,
               } = request;
@@ -214,6 +212,19 @@ exports.requestDataAccess = {
                 );
                 request.remove().catch((deleteError) => {
                   console.log('BIDORBOO_ERROR: CleanUpAllExpiredNonAwardedRequests ' + deleteError);
+                });
+              } else if (
+                isHappeningSoon &&
+                request._bidsListRef &&
+                request._bidsListRef.length > 0
+              ) {
+                sendGridEmailing.tellRequesterToHurryUpAndAwardAbidder({
+                  to: ownerEmailAddress,
+                  requestTitle: requestDisplayName,
+                  toDisplayName: `${ownerDetails.displayName}`,
+                  clickLink: `${ROUTES.CLIENT.REQUESTER.dynamicReviewRequestAndBidsPage(
+                    requestId
+                  )}`,
                 });
               }
             } catch (innerError) {
@@ -385,7 +396,6 @@ exports.requestDataAccess = {
               'ARCHIVE',
               'AWARDED_REQUEST_CANCELED_BY_REQUESTER',
               'AWARDED_REQUEST_CANCELED_BY_REQUESTER_SEEN',
-              'ARCHIVE',
             ],
           },
           paymentToBank: { $exists: false },
