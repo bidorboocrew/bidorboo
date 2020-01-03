@@ -383,6 +383,47 @@ exports.requestDataAccess = {
         console.log('BIDORBOO_ERROR: nagRequesterToConfirmRequest_Error ' + e);
       }
     },
+    archiveAfter5Days: async () => {
+      try {
+        const requests = await RequestModel.find({
+          state: { $in: ['DONE', 'DONE_SEEN'] },
+        })
+          .populate({ path: '_reviewRef' })
+          .lean(true)
+          .exec();
+
+        const fiveDaysAgo = moment.utc().subtract(5, 'days');
+
+        if (requests && requests.length > 0) {
+          requests.forEach(async (request) => {
+            const requestCompletionDate = request.completionDate;
+            const isCompletedMoreThan5DaysAgo = moment(requestCompletionDate).isBefore(fiveDaysAgo);
+
+            if (isCompletedMoreThan5DaysAgo) {
+              RequestModel.findOneAndUpdate(
+                { _id: request._id },
+                {
+                  $set: {
+                    state: 'ARCHIVE',
+                  },
+                }
+              )
+                .lean(true)
+                .exec()
+                .catch((fail) =>
+                  console.log(
+                    'BIDORBOO_ERROR: archiveAfter5Days User.findOneAndUpdate ' +
+                      JSON.stringify(fail)
+                  )
+                );
+            }
+          });
+        }
+        return;
+      } catch (e) {
+        console.log('BIDORBOO_ERROR: nagRequesterToConfirmRequest_Error ' + e);
+      }
+    },
     SendPayoutsToBanks: async () => {
       try {
         // find all requests that are done and does not have payment to bank on the way
