@@ -192,6 +192,7 @@ exports.requestDataAccess = {
                 startingDateAndTime,
                 requestTemplateDisplayTitle,
                 requestTitle,
+                isHappeningSoon,
               } = request;
               const ownerDetails = request._ownerRef;
               const ownerEmailAddress =
@@ -210,9 +211,13 @@ exports.requestDataAccess = {
                 console.log(
                   `BIDORBOO_LOGGING === deleting request ${requestId} which was planned for ${startingDateAndTime}`
                 );
-                request.remove().catch((deleteError) => {
-                  console.log('BIDORBOO_ERROR: CleanUpAllExpiredNonAwardedRequests ' + deleteError);
-                });
+                RequestModel.findById(requestId)
+                  .remove()
+                  .catch((deleteError) => {
+                    console.log(
+                      'BIDORBOO_ERROR: CleanUpAllExpiredNonAwardedRequests ' + deleteError
+                    );
+                  });
               } else if (
                 isHappeningSoon &&
                 request._bidsListRef &&
