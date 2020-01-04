@@ -184,7 +184,7 @@ exports.requestDataAccess = {
           .exec();
 
         if (requests && requests.length > 0) {
-          requests.forEach((request) => {
+          requests.forEach(async (request) => {
             try {
               const {
                 _id: requestId,
@@ -211,13 +211,20 @@ exports.requestDataAccess = {
                 console.log(
                   `BIDORBOO_LOGGING === deleting request ${requestId} which was planned for ${startingDateAndTime}`
                 );
-                RequestModel.findById(requestId)
-                  .remove()
+
+                const requestToBeDeleted = await RequestModel.findById(requestId)
+                  .exec()
                   .catch((deleteError) => {
                     console.log(
-                      'BIDORBOO_ERROR: CleanUpAllExpiredNonAwardedRequests ' + deleteError
+                      'BIDORBOO_ERROR: CleanUpAllExpiredNonAwardedRequests deleteError' +
+                        deleteError
                     );
                   });
+                requestToBeDeleted.remove().catch((removeError) => {
+                  console.log(
+                    'BIDORBOO_ERROR: CleanUpAllExpiredNonAwardedRequests removeError' + removeError
+                  );
+                });
               } else if (
                 isHappeningSoon &&
                 request._bidsListRef &&
