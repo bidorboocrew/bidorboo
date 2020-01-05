@@ -2,7 +2,7 @@ import React from 'react';
 
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
-import { TextInput } from '../../components/forms/FormsHelpers';
+import { PhoneNumberInput } from '../../components/forms/FormsHelpers';
 import { phoneNumber } from '../../components/forms/FormsValidators';
 
 const EnhancedForms = withFormik({
@@ -10,9 +10,14 @@ const EnhancedForms = withFormik({
     phoneNumber: Yup.string()
       .ensure()
       .trim()
-      .test('phoneNumber', 'invalid format. an example would be 9053334444', (inputText) => {
-        return phoneNumber(inputText);
-      }),
+      .test(
+        'phoneNumber',
+        'invalid format. Must be a canadian number and follow This format : (613) 333-4444',
+        (inputText) => {
+          debugger;
+          return phoneNumber(inputText);
+        },
+      ),
   }),
   mapPropsToValues: ({ userDetails }) => {
     const { phone } = userDetails;
@@ -33,21 +38,21 @@ const EnhancedForms = withFormik({
 });
 
 const UpdatePhoneNumberField = (props) => {
-  const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
+  const { values, touched, errors, handleChange, handleBlur, handleSubmit, setFieldValue } = props;
 
   return (
     <form onSubmit={handleSubmit}>
-      <TextInput
+      <PhoneNumberInput
         id="phoneNumber"
-        type="tel"
-        style={{ borderRadius: 0 }}
+        defaultCountry="CA"
+        country="CA"
         label="Enter Your Phone Number"
-        placeholder="Enter your phone number"
-        helpText="Must Follow This format : 6133334444"
+        placeholder="Enter phone number starting with area code"
         error={touched.phoneNumber && errors.phoneNumber}
-        value={values.phoneNumber}
-        onChange={handleChange}
+        value={values.phoneNumber || ''}
+        onChange={(val) => setFieldValue('phoneNumber', val)}
         onBlur={handleBlur}
+        helpText="Must be a canadian number and follow This format : (613) 333-4444"
       />
 
       <button style={{ borderRadius: 0 }} className="button is-success" type="submit">

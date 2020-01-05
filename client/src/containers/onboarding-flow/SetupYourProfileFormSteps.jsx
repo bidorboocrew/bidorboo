@@ -12,24 +12,25 @@ import { updateProfileDetails } from '../../app-state/actions/userModelActions';
 
 const Step1 = ({ userDetails, showSetupPhoneStep }) => {
   return (
-    <div>
-      <div className="subtitle">EMAIL VERIFICATION</div>
-      <div className="slide-in-right field">
-        <div className="group">
-          <label className="label hasSelectedValue">{`We've sent the Code to: `}</label>
-          <div>{`${userDetails.email.emailAddress}`}</div>
+    <>
+      <div>
+        <div className="subtitle">EMAIL VERIFICATION</div>
+        <div className="slide-in-right field">
+          <div className="group">
+            <label className="label hasSelectedValue">{`We've sent the Code to: `}</label>
+            <div>{`${userDetails.email.emailAddress}`}</div>
+          </div>
+
+          <VerifyEmailField {...{ userDetails, showSetupPhoneStep }} />
         </div>
-
-        <VerifyEmailField {...{ userDetails, showSetupPhoneStep }} />
       </div>
-
-      {/* <button onClick={showSetupPhoneStep} className="button is-white firstButtonInCard">
+      <button onClick={showSetupPhoneStep} className="button is-white firstButtonInCard">
         <span>SKIP</span>
         <span className="icon">
           <i className="fas fa-chevron-right" />
         </span>
-      </button> */}
-    </div>
+      </button>
+    </>
   );
 };
 
@@ -44,47 +45,55 @@ const Step2 = ({
   renderVerificationSection = false,
 }) => {
   return (
-    <div style={{ position: 'relative' }}>
-      <div className="subtitle has-text-weight-bold">PHONE VERIFICATION</div>
-      {!renderVerificationSection && (
-        <div className="slide-in-right field" style={{ height: '10rem' }}>
-          <UpdatePhoneNumberField
-            showPhoneVerificationStep={showPhoneVerificationStep}
-            userDetails={userDetails}
-            onSubmit={onSubmit}
-          />
-        </div>
-      )}
-
-      {renderVerificationSection && (
-        <>
-          <div className="slide-in-right field">
-            <div className="group">
-              <label className="label hasSelectedValue">{`We've sent the Code to: `}</label>
-              <div>{`${userDetails.phone.phoneNumber}`}</div>
-            </div>
-            <VerifyPhoneField {...{ userDetails, showTosStep, showSetupPhoneStep }} />
+    <>
+      <div style={{ position: 'relative' }}>
+        <div className="subtitle has-text-weight-bold">PHONE VERIFICATION</div>
+        {!renderVerificationSection && (
+          <div className="slide-in-right field" style={{ height: '10rem' }}>
+            <UpdatePhoneNumberField
+              showPhoneVerificationStep={showPhoneVerificationStep}
+              userDetails={userDetails}
+              onSubmit={onSubmit}
+            />
           </div>
-          <br></br>
-          <br></br>
-          <button onClick={showSetupPhoneStep} className="button is-white is-pulled-left">
+        )}
+
+        {renderVerificationSection && (
+          <>
+            <div className="slide-in-right field">
+              <div className="group">
+                <label className="label hasSelectedValue">{`We've sent the Code to: `}</label>
+                <div>{`${userDetails.phone.phoneNumber}`}</div>
+              </div>
+              <VerifyPhoneField {...{ userDetails, showTosStep, showSetupPhoneStep }} />
+            </div>
+            <br></br>
+            <br></br>
+            <button onClick={showSetupPhoneStep} className="button is-white is-pulled-left">
+              <span className="icon">
+                <i className="fas fa-chevron-left" />
+              </span>
+              <span>Go Back</span>
+            </button>
+          </>
+        )}
+
+        {!isEmailAlreadyVerified && (
+          <button onClick={showEmailVerificationStep} className="button is-pulled-left">
             <span className="icon">
               <i className="fas fa-chevron-left" />
             </span>
-            <span>Go Back</span>
+            <span>Back</span>
           </button>
-        </>
-      )}
-
-      {!isEmailAlreadyVerified && (
-        <button onClick={showEmailVerificationStep} className="button is-pulled-left">
-          <span className="icon">
-            <i className="fas fa-chevron-left" />
-          </span>
-          <span>Back</span>
-        </button>
-      )}
-    </div>
+        )}
+      </div>
+      <button onClick={showTosStep} className="button is-white firstButtonInCard">
+        <span>SKIP</span>
+        <span className="icon">
+          <i className="fas fa-chevron-right" />
+        </span>
+      </button>
+    </>
   );
 };
 

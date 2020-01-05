@@ -5,6 +5,8 @@ const { encryptData, compareEncryptedWithClearData } = require('../utils/utiliti
 require('mongoose-type-email');
 const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
 
+const validatePhoneNumber = require('validate-phone-number-node-js');
+
 const MAX_COMMENT_LENGTH = 500;
 const MIN_COMMENT_LENGTH = 10;
 const MAX_PARAGRAPH_LENGTH = 255;
@@ -171,8 +173,8 @@ const UserSchema = new Schema(
         allowBlank: false,
         trim: true,
         validate: {
-          validator: (phoneNumber) => phoneNumber.length == 10 && /^[0-9]*$/.test(phoneNumber),
-          message: 'Phone number must be 10 digits without area code and of the format 0003334444',
+          validator: (phoneNumber) => phoneNumber && validatePhoneNumber.validate(phoneNumber),
+          message: 'Phone number Must be a canadian number and follow This format : (613) 333-4444',
         },
       },
       isVerified: {
