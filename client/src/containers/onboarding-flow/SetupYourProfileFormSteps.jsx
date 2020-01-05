@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -44,21 +44,25 @@ const Step2 = ({
   showSetupPhoneStep,
   renderVerificationSection = false,
 }) => {
+  const [editPhoneNumber, setEditPhoneNumber] = useState(false);
   return (
     <>
       <div style={{ position: 'relative' }}>
         <div className="subtitle has-text-weight-bold">PHONE VERIFICATION</div>
-        {!renderVerificationSection && (
+        {(!renderVerificationSection || editPhoneNumber) && (
           <div className="slide-in-right field" style={{ height: '10rem' }}>
             <UpdatePhoneNumberField
               showPhoneVerificationStep={showPhoneVerificationStep}
               userDetails={userDetails}
-              onSubmit={onSubmit}
+              onSubmit={(vals) => {
+                onSubmit(vals);
+                setEditPhoneNumber(false);
+              }}
             />
           </div>
         )}
 
-        {renderVerificationSection && (
+        {renderVerificationSection && !editPhoneNumber && (
           <>
             <div className="slide-in-right field">
               <div className="group">
@@ -69,7 +73,10 @@ const Step2 = ({
             </div>
             <br></br>
             <br></br>
-            <button onClick={showSetupPhoneStep} className="button is-white is-pulled-left">
+            <button
+              onClick={() => setEditPhoneNumber(true)}
+              className="button is-white is-pulled-left"
+            >
               <span className="icon">
                 <i className="fas fa-chevron-left" />
               </span>
