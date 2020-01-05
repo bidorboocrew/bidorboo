@@ -74,7 +74,7 @@ exports.TxtMsgingService = {
     client.messages
       .create({
         body: `${msgContent}`,
-        to: `+1${mobileNumber}`, // Text this number
+        to: `${mobileNumber}`, // Text this number
         messagingServiceSid: keys.twilioMsgingServiceSid,
         // from: '+16137022661', // From a valid Twilio number
       })
@@ -91,7 +91,7 @@ exports.TxtMsgingService = {
     try {
       await client.verify
         .services(keys.twilioVerificationServiceSid)
-        .verifications.create({ to: `+1${mobileNumber}`, channel: 'sms' });
+        .verifications.create({ to: `${mobileNumber}`, channel: 'sms' });
     } catch (e) {
       console.log(`BIDORBOOLOGS======== twilio send verifyPhone issue ${e}`);
     }
@@ -101,7 +101,7 @@ exports.TxtMsgingService = {
     try {
       const resp = await client.verify
         .services(keys.twilioVerificationServiceSid)
-        .verificationChecks.create({ code, to: `+1${mobileNumber}` });
+        .verificationChecks.create({ code, to: `${mobileNumber}` });
       return resp;
     } catch (e) {
       console.log(`BIDORBOOLOGS======== twilio verfy code issue ${e}`);

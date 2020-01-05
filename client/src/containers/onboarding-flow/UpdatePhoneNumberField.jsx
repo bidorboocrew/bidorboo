@@ -14,7 +14,6 @@ const EnhancedForms = withFormik({
         'phoneNumber',
         'invalid format. Must be a canadian number and follow This format : (613) 333-4444',
         (inputText) => {
-          debugger;
           return phoneNumber(inputText);
         },
       ),
