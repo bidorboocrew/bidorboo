@@ -295,6 +295,7 @@ exports.util = {
           country: 'CA', //HARD CODED
           type: 'custom', //HARD CODED
           default_currency: 'CAD', //HARD CODED
+          requested_capabilities: ['card_payments', 'transfers'],
           email: email || '',
           business_type: 'individual',
           metadata: { email, userId, displayName, phone },

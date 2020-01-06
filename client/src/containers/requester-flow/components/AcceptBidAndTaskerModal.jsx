@@ -13,7 +13,7 @@ class AcceptBidAndTaskerModal extends React.Component {
     };
   }
 
-  submitBid() {
+  submitBid = () => {
     const { bid, submitPayment } = this.props;
 
     this.setState(
@@ -22,7 +22,7 @@ class AcceptBidAndTaskerModal extends React.Component {
         submitPayment({ requestId: bid._requestRef, bidId: bid._id });
       },
     );
-  }
+  };
 
   render() {
     const { bid, closeModal } = this.props;
