@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { submitPayment } from '../../../app-state/actions/paymentActions';
-import * as Constants from '../../../constants/enumConstants';
 
 class AcceptBidAndTaskerModal extends React.Component {
   constructor(props) {
