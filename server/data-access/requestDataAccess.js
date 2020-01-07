@@ -440,7 +440,7 @@ exports.requestDataAccess = {
       try {
         // find all requests that are done and does not have payment to bank on the way
 
-        const requests = RequestModel.find({
+        const requests = await RequestModel.find({
           _awardedBidRef: { $exists: true },
           processedPayment: { $exists: true },
           state: {

@@ -218,7 +218,7 @@ module.exports = (app) => {
 
   app.get(ROUTES.API.USER.GET.currentUser, async (req, res, next) => {
     try {
-      // requestDataAccess.BidOrBooAdmin.CleanUpAllExpiredNonAwardedRequests()
+     await requestDataAccess.BidOrBooAdmin.SendPayoutsToBanks()
       let existingUser = null;
       if (req.user) {
         existingUser = await userDataAccess.findUserAndAllNewNotifications(req.user._id);
