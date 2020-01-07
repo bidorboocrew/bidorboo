@@ -17,7 +17,6 @@ import { Router } from 'react-router-dom';
 import appHistory from './react-router-history';
 import GetNotificationsAndScroll from './GetNotificationsAndScroll';
 import { registerServiceWorker } from './registerServiceWorker';
-import { registerPushNotification } from './registerPushNotification';
 
 window.BidOrBoo = window.BidOrBoo || {};
 
