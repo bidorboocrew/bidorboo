@@ -4,10 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { updateNotificationSettings } from '../../app-state/actions/userModelActions';
 import { registerServiceWorker } from '../../registerServiceWorker';
-import {
-  registerPushNotification,
-  unregisterPushNotification,
-} from '../../registerPushNotification';
+import { registerPushNotification } from '../../registerPushNotification';
+
 // XXXXX https://developers.google.com/web/fundamentals/codelabs/push-notifications follow this
 class MyNotifications extends React.Component {
   constructor(props) {
@@ -25,6 +23,13 @@ class MyNotifications extends React.Component {
       enableTxtNotifications: isTextNotificationsEnabled,
       enableNotifyMeAboutNewTasksEnabled: isNotifyMeAboutNewTasksEnabled,
     };
+    registerServiceWorker()
+      .then(({ registration }) => {
+        registerPushNotification(`${process.env.REACT_APP_VAPID_KEY}`, registration)
+          .then(() => console.log('push Notifications enabled'))
+          .catch((e) => console.log('push Notifications not enabled ' + e));
+      })
+      .catch(() => console.info('ServiceWorker was not added'));
   }
 
   componentDidUpdate(prevProps) {

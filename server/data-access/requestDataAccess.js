@@ -452,7 +452,7 @@ exports.requestDataAccess = {
               'AWARDED_REQUEST_CANCELED_BY_REQUESTER_SEEN',
             ],
           },
-          paymentToBank: { $exists: false },
+          payoutDetails: { $exists: false },
         })
           .lean(true)
           .exec();
