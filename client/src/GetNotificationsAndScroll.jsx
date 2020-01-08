@@ -51,6 +51,18 @@ class GetNotificationsAndScroll extends React.Component {
       setServerAppTaskerView,
     } = this.props;
 
+    // if (
+    //   prevProps.authIsInProgress &&
+    //   !this.props.authIsInProgress &&
+    //   isLoggedIn &&
+    //   userDetails.notifications &&
+    //   userDetails.notifications.push
+    // ) {
+    //   console.log(
+    //     'userDetails.notifications.push = true and we should register the push notification on this client',
+    //   );
+    // }
+
     const currentUrlPathname = window.location.pathname;
 
     if (currentUrlPathname.indexOf('termsAndPrivacy') > -1) {

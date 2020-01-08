@@ -371,6 +371,7 @@ exports.bidDataAccess = {
           membershipStatus: 1,
           createdAt: 1,
           email: 1,
+          tos_acceptance: 1,
         },
       })
       .populate({
@@ -817,7 +818,7 @@ exports.bidDataAccess = {
             path: '_ownerRef',
             select: {
               _id: 1,
-              displayName:1,
+              displayName: 1,
               email: 1,
               phone: 1,
               _taskerRef: 1,

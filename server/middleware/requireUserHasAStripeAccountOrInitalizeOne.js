@@ -19,6 +19,10 @@ module.exports = async (req, res, next) => {
           user_id: currentUser._id.toString(),
           userId: currentUser.userId,
           displayName: currentUser.displayName,
+          tosAcceptance: {
+            date: currentUser.tos_acceptance.date,
+            ip: currentUser.tos_acceptance.ip,
+          },
           email:
             currentUser.email && currentUser.email.isVerified ? currentUser.email.emailAddress : '',
           phone:

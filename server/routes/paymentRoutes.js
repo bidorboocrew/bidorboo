@@ -54,6 +54,7 @@ module.exports = (app) => {
           _id: taskerIdObject,
           userId: taskerUserId,
           displayName: taskerDisplayName,
+          tos_acceptance,
         } = _taskerRef;
         const taskerEmail = taskerEmailObject.emailAddress;
         const taskerId = taskerIdObject.toString();
@@ -80,6 +81,10 @@ module.exports = (app) => {
             userId: taskerUserId,
             displayName: taskerDisplayName,
             email: taskerEmail,
+            tosAcceptance: {
+              date: tos_acceptance.date,
+              ip: tos_acceptance.ip,
+            },
           });
           if (newStripeConnectAcc.id) {
             const updateUser = await userDataAccess.findByUserIdAndUpdate(taskerUserId, {

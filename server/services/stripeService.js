@@ -288,7 +288,7 @@ exports.util = {
     });
   },
 
-  initializeConnectedAccount: async ({ userId, displayName, email, phone }) => {
+  initializeConnectedAccount: async ({ userId, displayName, email, phone, tosAcceptance }) => {
     return new Promise(async (resolve, reject) => {
       try {
         const account = await stripe.accounts.create({
@@ -299,6 +299,7 @@ exports.util = {
           email: email || '',
           business_type: 'individual',
           metadata: { email, userId, displayName, phone },
+          tos_acceptance: tosAcceptance,
           settings: {
             payments: {
               statement_descriptor: 'BidOrBoo Charge',

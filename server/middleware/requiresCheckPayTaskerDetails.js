@@ -47,6 +47,7 @@ module.exports = async (req, res, next) => {
         userId: _taskerRef.userId,
         displayName: _taskerRef.displayName,
         email: _taskerRef.email.emailAddress,
+        tosAcceptance: { date: _taskerRef.tos_acceptance.date, ip: _taskerRef.tos_acceptance.ip },
       });
       if (newStripeConnectAcc.id) {
         const updateUser = await userDataAccess.findByUserIdAndUpdate(_taskerRef.userId, {
