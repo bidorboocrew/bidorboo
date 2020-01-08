@@ -7,11 +7,7 @@ module.exports = (app) => {
   let subscription;
   let pushIntervalID;
 
-  webpush.setVapidDetails(
-    'mailto:bidorboo@bidorboo.ca',
-    keys.vapidPublicApiKey,
-    keys.vapidPrivateApiKey
-  );
+  webpush.setVapidDetails('BidOrBoo', keys.vapidPublicApiKey, keys.vapidPrivateApiKey);
 
   // app.post(ROUTES.API.PUSH.POST.pushNotification, async (req, res) => {
   //   try {
@@ -64,9 +60,8 @@ module.exports = (app) => {
       });
       return res.status(201).json({ success: true });
     } catch (e) {
-      return res
-        .status(400)
-        .send({ errorMsg: 'Failed To register push notifications', details: `${e}` });
+      e.safeMsg = 'Failed To register push notifications';
+      return next(e);
     }
   });
 };

@@ -55,9 +55,9 @@ require('./services/CronRepeatingJobs')(app);
 
 // error handling
 app.use((err, req, res, next) => {
-  console.log('BIDORBOOLOGS ======== error handler BEGIN==========');
-  console.log(err); // Log error message in our server's console
+  console.log('BIDORBOOLOGS - ERROR ======== error handler BEGIN==========');
   if (err.joi) {
+    console.log(err); // Log error message in our server's console
     return res.status(400).send({ safeMsg: err.joi.message });
   }
 
@@ -114,6 +114,8 @@ app.use((err, req, res, next) => {
     err.safeMsg =
       "Sorry, something didn't work. Try again or chat with us using the chat bottom in the footer of this page.";
   }
+  console.log(err); // Log error message in our server's console
+
   console.log('BIDORBOOLOGS ======== error handler END ==========');
 
   res.status(err.statusCode).send(err.safeMsg); // All HTTP requests must have a response, so let's send back an error with its status code and message

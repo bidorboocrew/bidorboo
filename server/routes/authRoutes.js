@@ -128,7 +128,6 @@ module.exports = (app) => {
     },
     async (req, res, done) => {
       const redirectUrl = req.body.originPath ? req.body.originPath : '/';
-
       return res.send({ user: req.user, redirectUrl });
     }
   );
