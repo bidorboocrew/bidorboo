@@ -226,7 +226,7 @@ exports.requestDataAccess = {
                   );
                 });
               } else if (
-                isHappeningSoon &&
+                request.isHappeningSoon &&
                 request._bidsListRef &&
                 request._bidsListRef.length > 0
               ) {
