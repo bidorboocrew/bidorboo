@@ -111,13 +111,6 @@ exports.taskerConfirmsRequestCompleted = {
 exports.requesterConfirmsRequestCompleted = {
   body: Joi.object({
     data: Joi.object({
-      completionDate: Joi.date()
-        .error(() => {
-          return {
-            message: 'Invalid Request, missing completion date',
-          };
-        })
-        .required(),
       requestId: Joi.string()
         .trim()
         .error(() => {

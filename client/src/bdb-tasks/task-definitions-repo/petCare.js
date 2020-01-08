@@ -76,7 +76,7 @@ Q2) Anything else you want to highlight for the Tasker?
         >
           <span style={{ marginRight: 2 }}>Continue Bidding</span>
           <span className="icon">
-            <i className="fas fa-arrow-right" />
+            <i className="fas fa-chevron-right" />
           </span>
         </a>
       ),
@@ -99,7 +99,7 @@ Q2) Anything else you want to highlight for the Tasker?
         >
           <span style={{ marginRight: 2 }}>Continue Bidding</span>
           <span className="icon">
-            <i className="fas fa-arrow-right" />
+            <i className="fas fa-chevron-right" />
           </span>
         </a>
       ),
@@ -381,7 +381,7 @@ const renderThankyouMoment = ({
         >
           <span style={{ marginRight: 2 }}>View Inbox</span>
           <span className="icon">
-            <i className="fas fa-arrow-right" />
+            <i className="fas fa-chevron-right" />
           </span>
         </a>
       </div>

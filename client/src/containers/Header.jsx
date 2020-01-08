@@ -884,6 +884,7 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     onLogout: bindActionCreators(onLogout, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };

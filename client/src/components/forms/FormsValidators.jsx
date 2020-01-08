@@ -3,6 +3,7 @@
 //   // geocodeByPlaceId,
 //   getLatLng
 // } from 'react-places-autocomplete';
+import { isValidPhoneNumber } from 'react-phone-number-input';
 
 export const requiredField = (value) => {
   return value && value.trim && value.trim() && value.length > 0
@@ -48,6 +49,10 @@ export const enforceNumericField = (value, previousValue) => {
 };
 
 export const phoneNumber = (value) => {
-  const isValid = /^[0-9]\d{2}\d{3}\d{4}$/g.test(value);
+  if (!value) {
+    return value;
+  }
+  // const isValid = /^[0-9]\d{2}\d{3}\d{4}$/g.test(value);
+  const isValid = value && isValidPhoneNumber(value);
   return isValid;
 };

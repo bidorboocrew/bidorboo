@@ -16,14 +16,13 @@ module.exports = async (req, res, next) => {
         return next();
       } else {
         return res.status(400).send({
-          errorMsg:
+          safeMsg:
             'Sorry, you can not change the bid amount because the requester had seen it or is currently viewing it',
         });
       }
     }
   } catch (e) {
-    return res.status(400).send({
-      errorMsg: 'Bad Request post new Bid, missing param',
-    });
+    e.safeMsg = 'Bad Request post new Bid, missing param';
+    return next(e);
   }
 };

@@ -5,7 +5,7 @@ import * as A from '../../app-state/actionTypes';
 
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
-import { TextInput, TextAreaInput } from './FormsHelpers';
+import { TextInput, TextAreaInput, PhoneNumberInput } from './FormsHelpers';
 import { alphanumericField, phoneNumber } from './FormsValidators';
 
 const MAX_PARAGRAPH_LENGTH = 255;
@@ -31,9 +31,13 @@ const EnhancedForms = withFormik({
     phoneNumber: Yup.string()
       .ensure()
       .trim()
-      .test('phoneNumber', 'invalid format. an example would be 9053334444', (inputText) => {
-        return phoneNumber(inputText);
-      }),
+      .test(
+        'phoneNumber',
+        'Must be a canadian number and follow This format : (613) 333-4444',
+        (inputText) => {
+          return phoneNumber(inputText);
+        },
+      ),
     personalParagraph: Yup.string().max(
       MAX_PARAGRAPH_LENGTH,
       `can not be more than ${MAX_PARAGRAPH_LENGTH} characters long`,
@@ -157,6 +161,7 @@ const ProfileForm = (props) => {
     onCancel,
     isValid,
     isSubmitting,
+    setFieldValue,
   } = props;
 
   return (
@@ -182,16 +187,17 @@ const ProfileForm = (props) => {
         onChange={handleChange}
         onBlur={handleBlur}
       />
-      <TextInput
+      <PhoneNumberInput
         id="phoneNumber"
-        type="text"
-        label="Phone Number"
-        placeholder="Enter Your Phone Number"
-        helpText="Must Follow This format : 9053334444"
+        defaultCountry="CA"
+        country="CA"
+        label="Enter Your Phone Number"
+        placeholder="Enter phone number starting with area code"
         error={touched.phoneNumber && errors.phoneNumber}
-        value={values.phoneNumber}
-        onChange={handleChange}
+        value={values.phoneNumber || ''}
+        onChange={(val) => setFieldValue('phoneNumber', val)}
         onBlur={handleBlur}
+        helpText="Must be a canadian number and follow This format : (613) 333-4444"
       />
       <TextAreaInput
         id="personalParagraph"

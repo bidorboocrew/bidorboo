@@ -69,6 +69,21 @@ module.exports = () => {
         'America/Toronto'
       ).start();
     }
+
+    if (process.env.NODE_APP_INSTANCE === '2') {
+      new CronJob(
+        '00 00 05 * * *',
+        () => {
+          console.log('start running cron request: archiveAfter5Days ');
+
+          requestDataAccess.BidOrBooAdmin.archiveAfter5Days();
+        },
+        () => console.log('end running cron request: archiveAfter5Days ' + new Date()),
+        true,
+        'America/Toronto'
+      ).start();
+    }
+
     if (process.env.NODE_APP_INSTANCE === '3') {
       new CronJob(
         '00 00 */6 * * *',

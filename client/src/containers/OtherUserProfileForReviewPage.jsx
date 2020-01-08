@@ -337,6 +337,7 @@ const mapStateToProps = ({ userReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     getOtherUserProfileInfo: bindActionCreators(getOtherUserProfileInfo, dispatch),
   };
 };

@@ -14,7 +14,7 @@ module.exports = async (req, res, next) => {
     const { requestId } = req.body.data;
     if (!requestId) {
       return res.status(403).send({
-        errorMsg: 'missing paramerters. can not confirm that you are the request owner.',
+        safeMsg: 'missing paramerters. can not confirm that you are the request owner.',
       });
     }
 
@@ -106,7 +106,7 @@ module.exports = async (req, res, next) => {
           }
 
           return res.status(400).send({
-            errorMsg:
+            safeMsg:
               'You have already awarded and made a payment to book this service, please refresh the page to see the latest state.',
           });
         } else {
@@ -116,14 +116,11 @@ module.exports = async (req, res, next) => {
         next();
       }
     } else {
-      return res.status(403).send({ errorMsg: 'could not locate this request.' });
+      return res.status(403).send({ safeMsg: 'could not locate this request.' });
     }
   } catch (e) {
-    return res.status(400).send({
-      errorMsg:
-        'failed to validate if there is a payment already for this request, use the chat button at the bottom of the screen to reachout to our customer support team',
-      details: `${e}`,
-    });
+    e.safeMsg =
+      'failed to validate if there is a payment already for this request, use the chat button at the bottom of the screen to reachout to our customer support team';
+    return next(e);
   }
 };
-

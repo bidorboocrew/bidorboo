@@ -25,7 +25,7 @@ import { updateRequestState } from '../../app-state/actions/requestActions';
 
 class TaskerBidDoneDetails extends RequestBaseContainer {
   componentDidMount() {
-    debugger;
+
     const { updateRequestState, request } = this.props;
     updateRequestState(request._id, REQUEST_STATES.DONE_SEEN);
   }
@@ -143,6 +143,7 @@ class TaskerBidDoneDetails extends RequestBaseContainer {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     updateRequestState: bindActionCreators(updateRequestState, dispatch),
   };
 };

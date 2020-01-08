@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -12,24 +12,25 @@ import { updateProfileDetails } from '../../app-state/actions/userModelActions';
 
 const Step1 = ({ userDetails, showSetupPhoneStep }) => {
   return (
-    <div>
-      <div className="subtitle">EMAIL VERIFICATION</div>
-      <div className="slide-in-right field">
-        <div className="group">
-          <label className="label hasSelectedValue">{`We've sent the Code to: `}</label>
-          <div>{`${userDetails.email.emailAddress}`}</div>
+    <>
+      <div>
+        <div className="subtitle">EMAIL VERIFICATION</div>
+        <div className="slide-in-right field">
+          <div className="group">
+            <label className="label hasSelectedValue">{`We've sent the Code to: `}</label>
+            <div>{`${userDetails.email.emailAddress}`}</div>
+          </div>
+
+          <VerifyEmailField {...{ userDetails, showSetupPhoneStep }} />
         </div>
-
-        <VerifyEmailField {...{ userDetails, showSetupPhoneStep }} />
       </div>
-
       <button onClick={showSetupPhoneStep} className="button is-white firstButtonInCard">
         <span>SKIP</span>
         <span className="icon">
           <i className="fas fa-chevron-right" />
         </span>
       </button>
-    </div>
+    </>
   );
 };
 
@@ -43,44 +44,63 @@ const Step2 = ({
   showSetupPhoneStep,
   renderVerificationSection = false,
 }) => {
+  const [editPhoneNumber, setEditPhoneNumber] = useState(false);
   return (
-    <div style={{ position: 'relative' }}>
-      <div className="subtitle has-text-weight-bold">PHONE VERIFICATION</div>
-      {!renderVerificationSection && (
-        <div className="slide-in-right field" style={{ height: '10rem' }}>
-          <UpdatePhoneNumberField
-            showPhoneVerificationStep={showPhoneVerificationStep}
-            userDetails={userDetails}
-            onSubmit={onSubmit}
-          />
-        </div>
-      )}
-
-      {renderVerificationSection && (
-        <div className="slide-in-right field">
-          <div className="group">
-            <label className="label hasSelectedValue">{`We've sent the Code to: `}</label>
-            <div>{`${userDetails.phone.phoneNumber}`}</div>
+    <>
+      <div style={{ position: 'relative' }}>
+        <div className="subtitle has-text-weight-bold">PHONE VERIFICATION</div>
+        {(!renderVerificationSection || editPhoneNumber) && (
+          <div className="slide-in-right field" style={{ height: '10rem' }}>
+            <UpdatePhoneNumberField
+              showPhoneVerificationStep={showPhoneVerificationStep}
+              userDetails={userDetails}
+              onSubmit={(vals) => {
+                onSubmit(vals);
+                setEditPhoneNumber(false);
+              }}
+            />
           </div>
-          <VerifyPhoneField {...{ userDetails, showTosStep, showSetupPhoneStep }} />
-        </div>
-      )}
+        )}
 
-      <button onClick={showTosStep} className="button is-white is-pulled-right">
+        {renderVerificationSection && !editPhoneNumber && (
+          <>
+            <div className="slide-in-right field">
+              <div className="group">
+                <label className="label hasSelectedValue">{`We've sent the Code to: `}</label>
+                <div>{`${userDetails.phone.phoneNumber}`}</div>
+              </div>
+              <VerifyPhoneField {...{ userDetails, showTosStep, showSetupPhoneStep }} />
+            </div>
+            <br></br>
+            <br></br>
+            <button
+              onClick={() => setEditPhoneNumber(true)}
+              className="button is-white is-pulled-left"
+            >
+              <span className="icon">
+                <i className="fas fa-chevron-left" />
+              </span>
+              <span>Go Back</span>
+            </button>
+          </>
+        )}
+
+        {!isEmailAlreadyVerified && (
+          <button onClick={showEmailVerificationStep} className="button is-pulled-left">
+            <span className="icon">
+              <i className="fas fa-chevron-left" />
+            </span>
+            <span>Back</span>
+          </button>
+        )}
+      </div>
+      <button onClick={showTosStep} className="button is-white firstButtonInCard">
         <span>SKIP</span>
         <span className="icon">
           <i className="fas fa-chevron-right" />
         </span>
       </button>
-      {!isEmailAlreadyVerified && (
-        <button onClick={showEmailVerificationStep} className="button is-pulled-left">
-          <span className="icon">
-            <i className="fas fa-chevron-left" />
-          </span>
-          <span>Back</span>
-        </button>
-      )}
-    </div>
+    </>
   );
 };
 
@@ -123,7 +143,6 @@ class Step4 extends React.Component {
               agreedToTOS: this.state.hasAgreedToTOS,
             },
             () => {
-
               if (shouldRedirect && location.state.redirectUrl !== ROUTES.CLIENT.ONBOARDING) {
                 return switchRoute(location.state.redirectUrl);
               } else {
@@ -380,6 +399,7 @@ const mapStateToProps = ({ userReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     updateProfileDetails: bindActionCreators(updateProfileDetails, dispatch),
   };
 };

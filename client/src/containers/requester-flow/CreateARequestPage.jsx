@@ -60,13 +60,11 @@ const mapStateToProps = ({ userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     postNewRequest: bindActionCreators(postNewRequest, dispatch),
     uploadTaskImages: bindActionCreators(uploadTaskImages, dispatch),
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CreateARequestPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateARequestPage);

@@ -55,22 +55,67 @@ require('./services/CronRepeatingJobs')(app);
 
 // error handling
 app.use((err, req, res, next) => {
-  console.log('BIDORBOOLOGS ======== error handler BEGIN==========');
-  console.log(err); // Log error message in our server's console
+  console.log('BIDORBOOLOGS - ERROR ======== error handler BEGIN==========');
   if (err.joi) {
+    console.log(err); // Log error message in our server's console
     return res.status(400).send({ safeMsg: err.joi.message });
+  }
+
+  switch (err.type) {
+    case 'StripeCardError':
+      // A declined card error
+      err.safeMsg = err.message; // => e.g. "Your card's expiration year is invalid."
+      break;
+    case 'StripeInvalidRequestError':
+      err.safeMsg = "Invalid parameters were supplied to Stripe's API";
+      // Invalid parameters were supplied to Stripe's API
+      break;
+    case 'StripeAPIError':
+      err.safeMsg = "An error occurred internally with Stripe's API";
+      // An error occurred internally with Stripe's API
+      break;
+    case 'StripeConnectionError':
+      err.safeMsg = 'Some kind of error occurred during the HTTPS communication';
+      // Some kind of error occurred during the HTTPS communication
+      break;
+    case 'StripeAuthenticationError':
+      err.safeMsg = 'Stripe Auth Error';
+      // You probably used an incorrect API key
+      break;
+    case 'StripeRateLimitError':
+      err.safeMsg = 'Stripe Too many requests hit the API too quickly';
+      // Too many requests hit the API too quickly
+      break;
+    case 'StripePermissionError':
+      err.safeMsg = 'Stripe Access to a resource is not allowed';
+
+      // Access to a resource is not allowed
+      break;
+    case 'StripeIdempotencyError':
+      err.safeMsg = 'Stripe An idempotency key was used improperly';
+
+      // An idempotency key was used improperly
+      break;
+    case 'StripeInvalidGrantError':
+      // InvalidGrantError is raised when a specified code doesn't exist, is
+      // expired, has been used, or doesn't belong to you; a refresh token doesn't
+      // exist, or doesn't belong to you; or if an API key's mode (live or test)
+      // doesn't match the mode of a code or refresh token.
+      break;
   }
 
   if (!err.statusCode) {
     err.statusCode = 400;
   } // If err has no specified error code, set error code to 'Internal Server Error (500)'
   if (err.message) {
-    err.safeMsg = err.message;
+    err.safeMsg = err.safeMsg || err.message;
   }
   if (!err.safeMsg) {
     err.safeMsg =
       "Sorry, something didn't work. Try again or chat with us using the chat bottom in the footer of this page.";
   }
+  console.log(err); // Log error message in our server's console
+
   console.log('BIDORBOOLOGS ======== error handler END ==========');
 
   res.status(err.statusCode).send(err.safeMsg); // All HTTP requests must have a response, so let's send back an error with its status code and message

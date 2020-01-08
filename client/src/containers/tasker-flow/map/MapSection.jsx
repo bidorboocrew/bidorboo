@@ -37,12 +37,7 @@ const mapStateToProps = ({ userReducer }) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
-  };
+  return { dispatch, showLoginDialog: bindActionCreators(showLoginDialog, dispatch) };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(MapSection);
+export default connect(mapStateToProps, mapDispatchToProps)(MapSection);

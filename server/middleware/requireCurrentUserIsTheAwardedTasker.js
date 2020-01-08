@@ -19,11 +19,10 @@ module.exports = async (req, res, next) => {
     } else {
       return res
         .status(403)
-        .send({ errorMsg: 'only the awarded Tasker can perform this operation.' });
+        .send({ safeMsg: 'only the awarded Tasker can perform this operation.' });
     }
   } catch (e) {
-    return res
-      .status(400)
-      .send({ errorMsg: 'failed to validate is awarded Tasker', details: `${e}` });
+    e.safeMsg = 'failed to validate is awarded Tasker';
+    return next(e);
   }
 };

@@ -7,45 +7,6 @@ const MAX_PARAGRAPH_LENGTH = 255;
 const MAX_NAME_LENGTH = 25;
 const MIN_NAME_LENGTH = 3;
 
-exports.updateUserProfileReq = {
-  body: Joi.object({
-    data: Joi.object({
-      displayName: Joi.bool()
-        .strict()
-        .error(() => {
-          return {
-            message: 'User must agree to terms of service',
-          };
-        })
-        .required(),
-      displayName: Joi.bool()
-        .strict()
-        .error(() => {
-          return {
-            message: 'User must agree to terms of service',
-          };
-        })
-        .required(),
-      displayName: Joi.bool()
-        .strict()
-        .error(() => {
-          return {
-            message: 'User must agree to terms of service',
-          };
-        })
-        .required(),
-      displayName: Joi.bool()
-        .strict()
-        .error(() => {
-          return {
-            message: 'User must agree to terms of service',
-          };
-        })
-        .required(),
-    }),
-  }),
-};
-
 exports.notificationSettingsUpdateReq = {
   body: Joi.object({
     data: Joi.object({
@@ -200,6 +161,21 @@ exports.verifyViaCode = {
     }),
   }),
 };
+exports.verifyPhoneViaCode = {
+  body: Joi.object({
+    data: Joi.object({
+      code: Joi.string()
+        .trim()
+        .min(6)
+        .error(() => {
+          return {
+            message: '"verification code" must be valid code',
+          };
+        })
+        .required(),
+    }),
+  }),
+};
 
 exports.updateAppViewReq = {
   body: Joi.object({
@@ -255,7 +231,9 @@ exports.userDetailsReqSchema = {
       phone: Joi.object({
         phoneNumber: Joi.string()
           .trim()
-          .regex(/^\d{10}$/)
+          .regex(
+            /^\+{0,2}([\-\. ])?(\(?\d{0,3}\))?([\-\. ])?\(?\d{0,3}\)?([\-\. ])?\d{3}([\-\. ])?\d{4}/
+          )
           .required()
           .error(() => {
             return { message: '"phone number" must be a valid format for example 9053334444' };

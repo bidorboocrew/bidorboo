@@ -95,7 +95,8 @@ module.exports = (app) => {
 
         return res.send({ success: true, message: 'Requester Review submitted successfully' });
       } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To submit review', details: `${e}` });
+        e.safeMsg = 'Failed To submit review';
+        return next(e);
       }
     }
   );
@@ -176,7 +177,8 @@ module.exports = (app) => {
 
         return res.send({ success: true, message: "Tasker's Review submitted successfully" });
       } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To taskerSubmitReview', details: `${e}` });
+        e.safeMsg = 'Failed To submit  review';
+        return next(e);
       }
     }
   );

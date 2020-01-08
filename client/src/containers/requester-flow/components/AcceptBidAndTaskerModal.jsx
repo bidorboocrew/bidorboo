@@ -2,9 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-
 import { submitPayment } from '../../../app-state/actions/paymentActions';
-import * as Constants from '../../../constants/enumConstants';
 
 class AcceptBidAndTaskerModal extends React.Component {
   constructor(props) {
@@ -14,7 +12,7 @@ class AcceptBidAndTaskerModal extends React.Component {
     };
   }
 
-  submitBid() {
+  submitBid = () => {
     const { bid, submitPayment } = this.props;
 
     this.setState(
@@ -23,7 +21,7 @@ class AcceptBidAndTaskerModal extends React.Component {
         submitPayment({ requestId: bid._requestRef, bidId: bid._id });
       },
     );
-  }
+  };
 
   render() {
     const { bid, closeModal } = this.props;
@@ -138,9 +136,7 @@ class AcceptBidAndTaskerModal extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    submitPayment: bindActionCreators(submitPayment, dispatch),
-  };
+  return { dispatch, submitPayment: bindActionCreators(submitPayment, dispatch) };
 };
 
 export default connect(null, mapDispatchToProps)(AcceptBidAndTaskerModal);

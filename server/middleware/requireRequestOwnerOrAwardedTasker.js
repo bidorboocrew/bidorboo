@@ -7,7 +7,7 @@ module.exports = async (req, res, next) => {
       const { requestId } = req.body.data;
       if (!requestId) {
         return res.status(403).send({
-          errorMsg: 'Bad Request. missing params',
+          safeMsg: 'Bad Request. missing params',
         });
       }
 
@@ -19,17 +19,15 @@ module.exports = async (req, res, next) => {
       } else {
         return res
           .status(403)
-          .send({ errorMsg: 'only users relevant to the request can change its state.' });
+          .send({ safeMsg: 'only users relevant to the request can change its state.' });
       }
     } else {
       return res
         .status(403)
-        .send({ errorMsg: 'only users relevant to the request can change its state' });
+        .send({ safeMsg: 'only users relevant to the request can change its state' });
     }
   } catch (e) {
-    return res.status(400).send({
-      errorMsg: "failed to verify that you are relevant to the request. Couldn't change state",
-      details: `${e}`,
-    });
+    e.safeMsg = `failed to verify that you are relevant to the request. Couldn't change state`;
+    return next(e);
   }
 };

@@ -109,7 +109,7 @@ export default class HomePage extends React.Component {
             </div>
           </div>
         </section>
-        <br></br> <br></br>
+        <br></br> <br></br> <br></br>
         <div className="columns is-mobile is-multiline is-centered">
           <div style={{ maxWidth: '21rem', marginBottom: '1.5rem' }} className="column">
             <RequestAService
@@ -148,6 +148,9 @@ export default class HomePage extends React.Component {
           }}
         /> */}
         {/* <div className="container"> */}
+        <br></br>
+        <br></br>
+        <br></br>
         <RequesterRoot />
         {/* </div> */}
       </div>

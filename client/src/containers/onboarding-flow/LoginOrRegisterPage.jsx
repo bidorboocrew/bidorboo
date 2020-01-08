@@ -204,6 +204,7 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     bidOrBooLogin: bindActionCreators(bidOrBooLogin, dispatch),
     registerNewUser: bindActionCreators(registerNewUser, dispatch),
   };

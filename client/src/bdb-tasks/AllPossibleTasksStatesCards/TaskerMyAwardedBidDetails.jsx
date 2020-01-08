@@ -295,6 +295,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     taskerConfirmsRequestCompletion: bindActionCreators(taskerConfirmsRequestCompletion, dispatch),
     taskerDisputesRequest: bindActionCreators(taskerDisputesRequest, dispatch),
     cancelAwardedBid: bindActionCreators(cancelAwardedBid, dispatch),

@@ -21,6 +21,9 @@ const requireBidOwner = require('../middleware/requireBidOwner');
 const requirePassYouCantBidOnYouOwnRequest = require('../middleware/requirePassYouCantBidOnYouOwnRequest');
 const requirePassesRecaptcha = require('../middleware/requirePassesRecaptcha');
 const requireRequestIsNotAwarded = require('../middleware/requireRequestIsNotAwarded');
+
+const requireRequestOwner = require('../middleware/requireRequestOwner');
+
 const ROUTES = require('../backend-route-constants');
 
 const requireLogin = require('../middleware/requireLogin');
@@ -40,7 +43,8 @@ module.exports = (app) => {
         const deleteResults = await bidDataAccess.deleteOpenBid(mongoUser_id, bidId);
         return res.send(deleteResults);
       } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To delete Open Bid', details: `${e}` });
+        e.safeMsg = 'Failed To delete Open Bid';
+        return next(e);
       }
     }
   );
@@ -58,7 +62,8 @@ module.exports = (app) => {
         const deleteResults = await bidDataAccess.cancelAwardedBid(mongoUser_id, bidId);
         return res.send(deleteResults);
       } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To cancel Awarded Bid', details: `${e}` });
+        e.safeMsg = 'Failed To cancel awarded bid';
+        return next(e);
       }
     }
   );
@@ -73,9 +78,8 @@ module.exports = (app) => {
         const userBid = await bidDataAccess.getBidDetails(mongoUser_id, openBidId);
         return res.send(userBid);
       } catch (e) {
-        return res
-          .status(400)
-          .send({ errorMsg: 'Failed To get my open bid details', details: `${e}` });
+        e.safeMsg = 'Failed To get my open bid details';
+        return next(e);
       }
     }
   );
@@ -94,9 +98,8 @@ module.exports = (app) => {
         );
         return res.send(userBid);
       } catch (e) {
-        return res
-          .status(400)
-          .send({ errorMsg: 'Failed To get my awarded bid details', details: `${e}` });
+        e.safeMsg = 'Failed To get my awarded bid details';
+        return next(e);
       }
     }
   );
@@ -122,7 +125,8 @@ module.exports = (app) => {
         });
         return res.send(newBid);
       } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To post a new bid', details: `${e}` });
+        e.safeMsg = 'Failed To post a new bid';
+        return next(e);
       }
     }
   );
@@ -146,7 +150,8 @@ module.exports = (app) => {
         });
         return res.send(newBid);
       } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To update your bid', details: `${e}` });
+        e.safeMsg = 'Failed To update your bid';
+        return next(e);
       }
     }
   );
@@ -155,6 +160,7 @@ module.exports = (app) => {
     ROUTES.API.BID.PUT.markBidAsSeen,
     requireLogin,
     celebrate(markBidAsSeen),
+    requireRequestOwner,
     async (req, res, done) => {
       try {
         // create new request for this user
@@ -164,7 +170,8 @@ module.exports = (app) => {
         await bidDataAccess.markBidAsSeen(bidId);
         return res.send({ bidId, success: true });
       } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To post a new bid', details: `${e}` });
+        e.safeMsg = 'Failed To post a new bid';
+        return next(e);
       }
     }
   );
@@ -176,7 +183,8 @@ module.exports = (app) => {
       const postedBidsSummary = await bidDataAccess.getMyPostedBidsSummary(mongoUser_id);
       return res.send({ postedBidsSummary });
     } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To get my open bids', details: `${e}` });
+      e.safeMsg = 'Failed To get my open bids';
+      return next(e);
     }
   });
 
@@ -195,7 +203,8 @@ module.exports = (app) => {
         });
         return res.send(archivedRequestDetails);
       } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To get Bid details', details: `${e}` });
+        e.safeMsg = 'Failed To get bid details';
+        return next(e);
       }
     }
   );

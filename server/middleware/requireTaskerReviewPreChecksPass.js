@@ -8,12 +8,12 @@ module.exports = async (req, res, next) => {
     const { bidId } = res.locals.bidOrBoo;
     if (!bidId) {
       return res.status(403).send({
-        errorMsg: 'could not locate your bid. try again later',
+        safeMsg: 'could not locate your bid. try again later',
       });
     }
     const bid = await bidDataAccess.getAwardedBidDetails(taskerId, bidId);
     if (!bid || !bid._id || !bid._requestRef || !bid._requestRef._id) {
-      return res.status(403).send({ errorMsg: 'Could not find the specified bid.' });
+      return res.status(403).send({ safeMsg: 'Could not find the specified bid.' });
     }
     const request = bid._requestRef;
 
@@ -24,7 +24,7 @@ module.exports = async (req, res, next) => {
     if (request._reviewRef) {
       if (request._reviewRef.taskerReview && request._reviewRef.taskerReview.personalComment) {
         return res.status(403).send({
-          errorMsg: 'You have already submit a review.',
+          safeMsg: 'You have already submit a review.',
         });
       } else {
         next();
@@ -38,9 +38,7 @@ module.exports = async (req, res, next) => {
       next();
     }
   } catch (e) {
-    return res.status(400).send({
-      errorMsg: 'failed to pass requireTaskerReviewPreChecksPass',
-      details: `${e}`,
-    });
+    e.safeMsg = `failed to pass Tasker Review Pre-Checks`;
+    return next(e);
   }
 };

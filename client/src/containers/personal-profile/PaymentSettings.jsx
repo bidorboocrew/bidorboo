@@ -99,6 +99,7 @@ const mapStateToProps = ({ userReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     updateProfileDetails: bindActionCreators(updateProfileDetails, dispatch),
     updateProfileImage: bindActionCreators(updateProfileImage, dispatch),
     getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
@@ -276,10 +277,7 @@ const EstablishedAccountView = (props) => {
                     The verification process may takes 5-10 days, however you are still able to bid
                     and perform tasks.
                   </div>
-                  <div>
-
-                    All your payments will be paid immediately once we verify your account.
-                  </div>
+                  <div>All your payments will be paid immediately once we verify your account.</div>
                   <div className="help">
                     *To change your primary payout bank account click the chat button at the bottom
                     of the page

@@ -10,6 +10,7 @@ const { requestDataAccess } = require('../data-access/requestDataAccess');
 const {
   resetPasswordReqSchema,
   verifyViaCode,
+  verifyPhoneViaCode,
   loggedoutEmailVerificationReq,
   notificationSettingsUpdateReq,
   agreeToTosReq,
@@ -91,7 +92,7 @@ module.exports = (app) => {
   );
   app.post(
     ROUTES.API.USER.POST.verifyPhone,
-    celebrate(verifyViaCode),
+    celebrate(verifyPhoneViaCode),
     requireLogin,
     async (req, res, next) => {
       try {
@@ -217,7 +218,6 @@ module.exports = (app) => {
 
   app.get(ROUTES.API.USER.GET.currentUser, async (req, res, next) => {
     try {
-      // requestDataAccess.BidOrBooAdmin.CleanUpAllExpiredNonAwardedRequests()
       let existingUser = null;
       if (req.user) {
         existingUser = await userDataAccess.findUserAndAllNewNotifications(req.user._id);

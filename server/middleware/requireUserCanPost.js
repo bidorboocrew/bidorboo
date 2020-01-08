@@ -18,8 +18,7 @@ module.exports = async (req, res, next) => {
     //   return res.status(401).send({ errorMsg: 'You must be logged in to perform this action' });
     // }
   } catch (e) {
-    return res
-      .status(400)
-      .send({ errorMsg: 'failed to validate is uesr ability to post', details: `${e}` });
+    e.safeMsg = 'failed to validate is uesr ability to post requests';
+    return next(e);
   }
 };

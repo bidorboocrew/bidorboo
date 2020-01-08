@@ -35,7 +35,8 @@ module.exports = (app) => {
         const requestDetails = await requestDataAccess.requestToBidOnDetailsForTasker(requestId);
         return res.send(requestDetails);
       } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To get request by id', details: `${e}` });
+        e.safeMsg = 'Failed To get request by id';
+        return next(e);
       }
     }
   );
@@ -52,8 +53,8 @@ module.exports = (app) => {
         await requestDataAccess.cancelRequest(requestId, mongoUser_id);
         return res.send(requestId);
       } catch (e) {
-        next(e);
-        // return res.status(400).send({ errorMsg: 'Failed To delete request', details: `${e}` });
+        e.safeMsg = 'Failed To delete request';
+        return next(e);
       }
     }
   );
@@ -71,9 +72,8 @@ module.exports = (app) => {
         );
         return res.send(requestFullDetails);
       } catch (e) {
-        return res
-          .status(400)
-          .send({ errorMsg: 'Failed To get requestFullDetailsById', details: `${e}` });
+        e.safeMsg = 'Failed To get request details';
+        return next(e);
       }
     }
   );
@@ -94,7 +94,8 @@ module.exports = (app) => {
         });
         return res.send(archivedRequestDetails);
       } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To get request details', details: `${e}` });
+        e.safeMsg = 'Failed To get request details';
+        return next(e);
       }
     }
   );
@@ -112,9 +113,8 @@ module.exports = (app) => {
         await requestDataAccess.updateState(requestId, newState);
         return res.send({ requestId, success: true });
       } catch (e) {
-        return res
-          .status(400)
-          .send({ errorMsg: 'Failed To update request state', details: `${e}` });
+        e.safeMsg = 'Failed To update request state';
+        return next(e);
       }
     }
   );
@@ -134,7 +134,8 @@ module.exports = (app) => {
 
         return res.send(newRequest);
       } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To create new request', details: `${e}` });
+        e.safeMsg = 'Failed To create new request';
+        return next(e);
       }
     }
   );
@@ -175,7 +176,8 @@ module.exports = (app) => {
         });
       }
     } catch (e) {
-      return res.status(400).send({ errorMsg: 'Failed To upload request image', details: `${e}` });
+      e.safeMsg = 'Failed To upload request image';
+      return next(e);
     }
   });
 
@@ -190,7 +192,8 @@ module.exports = (app) => {
         await requestDataAccess.updateViewedBy(requestId, mongoUser_id);
         return res.send({ success: true });
       } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To updateViewedBy', details: `${e}` });
+        e.safeMsg = 'Failed To update viewed by';
+        return next(e);
       }
     }
   );
@@ -208,7 +211,8 @@ module.exports = (app) => {
         await requestDataAccess.updateBooedBy(requestId, mongoUser_id);
         return res.send({ success: true });
       } catch (e) {
-        return res.status(400).send({ errorMsg: 'Failed To updateBooedBy', details: `${e}` });
+        e.safeMsg = 'Failed To update booed by';
+        return next(e);
       }
     }
   );
@@ -220,15 +224,14 @@ module.exports = (app) => {
     requireRequestOwner,
     async (req, res) => {
       try {
-        const { requestId, completionDate } = req.body.data;
+        const { requestId } = req.body.data;
 
-        await requestDataAccess.requesterConfirmsRequestCompletion(requestId, completionDate);
+        await requestDataAccess.requesterConfirmsRequestCompletion(requestId);
 
         return res.send({ success: true });
       } catch (e) {
-        return res
-          .status(400)
-          .send({ errorMsg: 'Failed To requesterConfirmsRequestCompletion', details: `${e}` });
+        e.safeMsg = 'Failed To confirms request completion';
+        return next(e);
       }
     }
   );
@@ -262,9 +265,8 @@ module.exports = (app) => {
 
         return res.send(requestsAroundMe);
       } catch (e) {
-        return res
-          .status(400)
-          .send({ errorMsg: 'Failed To search for requests Settings', details: `${e}` });
+        e.safeMsg = 'Failed To search for requests';
+        return next(e);
       }
     }
   );
@@ -281,9 +283,8 @@ module.exports = (app) => {
         await requestDataAccess.taskerConfirmsRequestCompletion(requestId);
         return res.send({ success: true });
       } catch (e) {
-        return res
-          .status(400)
-          .send({ errorMsg: 'Failed To taskerConfirmsRequestCompleted', details: `${e}` });
+        e.safeMsg = 'Failed To confirm completion';
+        return next(e);
       }
     }
   );
@@ -302,9 +303,8 @@ module.exports = (app) => {
 
         return res.send({ success: true });
       } catch (e) {
-        return res
-          .status(400)
-          .send({ errorMsg: 'Failed To requesterDisputeRequest', details: `${e}` });
+        e.safeMsg = 'Failed To file dispute request';
+        return next(e);
       }
     }
   );
@@ -322,9 +322,8 @@ module.exports = (app) => {
         await requestDataAccess.taskerDisputesRequest({ requestId, reason, details });
         return res.send({ success: true });
       } catch (e) {
-        return res
-          .status(400)
-          .send({ errorMsg: 'Failed To taskerDisputeRequest', details: `${e}` });
+        e.safeMsg = 'Failed To file dispute request';
+        return next(e);
       }
     }
   );
@@ -336,9 +335,8 @@ module.exports = (app) => {
 
       return res.send({ myRequestsSummary: userRequestsList || [] });
     } catch (e) {
-      console.log('BIDORBOO_ERROR: ROUTES.API.REQUEST.GET.getMyRequestsSummary ' + e);
-
-      return res.status(400).send({ errorMsg: 'Failed To get requests summary' });
+      e.safeMsg = 'Failed To get requests summary';
+      return next(e);
     }
   });
   app.get(
@@ -356,9 +354,8 @@ module.exports = (app) => {
         );
         return res.send(requestDetails);
       } catch (e) {
-        console.log('BIDORBOO_ERROR: ROUTES.API.REQUEST.GET.myRequestById ' + e);
-
-        return res.status(400).send({ errorMsg: 'Failed To get request by id', details: `${e}` });
+        e.safeMsg = 'Failed To get requests by id';
+        return next(e);
       }
     }
   );

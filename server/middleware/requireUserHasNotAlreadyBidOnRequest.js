@@ -6,7 +6,7 @@ module.exports = async (req, res, next) => {
 
     const request = await requestDataAccess.getBidsList(requestId);
     if (!request || !request._id) {
-      return res.status(403).send({ errorMsg: 'We could not locate the request.' });
+      return res.status(403).send({ safeMsg: 'We could not locate the request.' });
     }
 
     if (!request._bidsListRef || !request._bidsListRef.length > 0) {
@@ -16,15 +16,13 @@ module.exports = async (req, res, next) => {
         return bid._taskerRef._id.toString() === req.user._id.toString();
       });
       if (hasUserAlreadyBid) {
-        return res.status(403).send({ errorMsg: 'You Already Bid on this request.' });
+        return res.status(403).send({ safeMsg: 'You Already Bid on this request.' });
       } else {
         next();
       }
     }
   } catch (e) {
-    return res.status(400).send({
-      errorMsg: 'Sorry , try to refresh the page and place your bid again.',
-      details: `${e}`,
-    });
+    e.safeMsg = 'Sorry , try to refresh the page and place your bid again.';
+    return next(e);
   }
 };

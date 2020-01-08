@@ -168,7 +168,6 @@ exports.requestDataAccess = {
     CleanUpAllExpiredNonAwardedRequests: async () => {
       try {
         const requests = await RequestModel.find({
-          startingDateAndTime: { $exists: true },
           _awardedBidRef: { $exists: false },
         })
           .populate([
@@ -185,15 +184,15 @@ exports.requestDataAccess = {
           .exec();
 
         if (requests && requests.length > 0) {
-          requests.forEach((request) => {
+          requests.forEach(async (request) => {
             try {
               const {
                 _id: requestId,
                 isPastDue,
                 startingDateAndTime,
-                templateId,
                 requestTemplateDisplayTitle,
                 requestTitle,
+                isHappeningSoon,
               } = request;
               const ownerDetails = request._ownerRef;
               const ownerEmailAddress =
@@ -212,8 +211,32 @@ exports.requestDataAccess = {
                 console.log(
                   `BIDORBOO_LOGGING === deleting request ${requestId} which was planned for ${startingDateAndTime}`
                 );
-                request.remove().catch((deleteError) => {
-                  console.log('BIDORBOO_ERROR: CleanUpAllExpiredNonAwardedRequests ' + deleteError);
+
+                const requestToBeDeleted = await RequestModel.findById(requestId)
+                  .exec()
+                  .catch((deleteError) => {
+                    console.log(
+                      'BIDORBOO_ERROR: CleanUpAllExpiredNonAwardedRequests deleteError' +
+                        deleteError
+                    );
+                  });
+                requestToBeDeleted.remove().catch((removeError) => {
+                  console.log(
+                    'BIDORBOO_ERROR: CleanUpAllExpiredNonAwardedRequests removeError' + removeError
+                  );
+                });
+              } else if (
+                isHappeningSoon &&
+                request._bidsListRef &&
+                request._bidsListRef.length > 0
+              ) {
+                sendGridEmailing.tellRequesterToHurryUpAndAwardAbidder({
+                  to: ownerEmailAddress,
+                  requestTitle: requestDisplayName,
+                  toDisplayName: `${ownerDetails.displayName}`,
+                  clickLink: `${ROUTES.CLIENT.REQUESTER.dynamicReviewRequestAndBidsPage(
+                    requestId
+                  )}`,
                 });
               }
             } catch (innerError) {
@@ -267,6 +290,7 @@ exports.requestDataAccess = {
                   {
                     $set: {
                       state: 'DONE',
+                      completionDate: moment.utc().toISOString(),
                     },
                   }
                 )
@@ -371,11 +395,52 @@ exports.requestDataAccess = {
         console.log('BIDORBOO_ERROR: nagRequesterToConfirmRequest_Error ' + e);
       }
     },
+    archiveAfter5Days: async () => {
+      try {
+        const requests = await RequestModel.find({
+          state: { $in: ['DONE', 'DONE_SEEN'] },
+        })
+          .populate({ path: '_reviewRef' })
+          .lean(true)
+          .exec();
+
+        const fiveDaysAgo = moment.utc().subtract(5, 'days');
+
+        if (requests && requests.length > 0) {
+          requests.forEach(async (request) => {
+            const requestCompletionDate = request.completionDate;
+            const isCompletedMoreThan5DaysAgo = moment(requestCompletionDate).isBefore(fiveDaysAgo);
+
+            if (isCompletedMoreThan5DaysAgo) {
+              RequestModel.findOneAndUpdate(
+                { _id: request._id },
+                {
+                  $set: {
+                    state: 'ARCHIVE',
+                  },
+                }
+              )
+                .lean(true)
+                .exec()
+                .catch((fail) =>
+                  console.log(
+                    'BIDORBOO_ERROR: archiveAfter5Days User.findOneAndUpdate ' +
+                      JSON.stringify(fail)
+                  )
+                );
+            }
+          });
+        }
+        return;
+      } catch (e) {
+        console.log('BIDORBOO_ERROR: nagRequesterToConfirmRequest_Error ' + e);
+      }
+    },
     SendPayoutsToBanks: async () => {
       try {
         // find all requests that are done and does not have payment to bank on the way
 
-        const requests = RequestModel.find({
+        const requests = await RequestModel.find({
           _awardedBidRef: { $exists: true },
           processedPayment: { $exists: true },
           state: {
@@ -385,10 +450,9 @@ exports.requestDataAccess = {
               'ARCHIVE',
               'AWARDED_REQUEST_CANCELED_BY_REQUESTER',
               'AWARDED_REQUEST_CANCELED_BY_REQUESTER_SEEN',
-              'ARCHIVE',
             ],
           },
-          paymentToBank: { $exists: false },
+          payoutDetails: { $exists: false },
         })
           .lean(true)
           .exec();
@@ -1023,14 +1087,14 @@ exports.requestDataAccess = {
       .exec();
   },
 
-  requesterConfirmsRequestCompletion: async (requestId, completionDate) => {
+  requesterConfirmsRequestCompletion: async (requestId) => {
     // if tasker didnt
     return new Promise(async (resolve, reject) => {
       try {
         await RequestModel.findOneAndUpdate(
           { _id: requestId },
           {
-            $set: { state: 'DONE', completionDate: completionDate },
+            $set: { state: 'DONE', completionDate: moment.utc().toISOString() },
           }
         )
           .lean(true)
@@ -1434,11 +1498,11 @@ exports.requestDataAccess = {
             ownerRating,
           } = await getAllContactDetails(requestId);
 
-          const newTotalOfAllRatings = ownerRating.totalOfAllRatings + 1.25;
+          const currentRating = ownerRating.globalRating;
+          const desiredRatingAfterPenalty = Math.max(currentRating - 0.25, 0).toFixed(2);
           const newTotalOfAllTimesBeenRated = ownerRating.numberOfTimesBeenRated + 1;
-          const newGlobalRating = parseFloat(
-            Math.max(newTotalOfAllRatings / newTotalOfAllTimesBeenRated, 0).toFixed(1)
-          );
+
+          const theNewTotalOfAllRating = newTotalOfAllTimesBeenRated * desiredRatingAfterPenalty;
 
           const paymentIntent = await stripeServiceUtil.getPaymentIntents(
             processedPayment.paymentIntentId
@@ -1486,9 +1550,9 @@ exports.requestDataAccess = {
                   $set: {
                     'rating.latestComment':
                       'BidOrBoo Auto Review: Cancelled their request after booking with the tasker',
-                    'rating.globalRating': newGlobalRating,
+                    'rating.globalRating': desiredRatingAfterPenalty,
                     'rating.numberOfTimesBeenRated': newTotalOfAllTimesBeenRated,
-                    'rating.totalOfAllRatings': newTotalOfAllRatings,
+                    'rating.totalOfAllRatings': theNewTotalOfAllRating,
                   },
                   $push: {
                     'rating.canceledRequests': requestId,

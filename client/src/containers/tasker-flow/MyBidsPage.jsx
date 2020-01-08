@@ -155,6 +155,7 @@ const mapStateToProps = ({ bidsReducer, uiReducer, userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     getMyPostedBidsSummary: bindActionCreators(getMyPostedBidsSummary, dispatch),
     deleteOpenBid: bindActionCreators(deleteOpenBid, dispatch),
     updateBid: bindActionCreators(updateBid, dispatch),

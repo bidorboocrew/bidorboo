@@ -274,7 +274,7 @@ RequestSchema.pre('remove', async function(next) {
     next();
   } catch (e) {
     e.safeMsg = 'Encountered an error while deleting this request';
-    next(e);
+    return next(e);
   }
 });
 

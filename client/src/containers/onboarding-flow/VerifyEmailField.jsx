@@ -72,14 +72,6 @@ class VerifyEmailField extends React.Component {
         </div>
         <div style={{ display: 'flex' }}>
           <button
-            style={{ borderRadius: 0, boxShadow: 'none' }}
-            onClick={this.handleSendNewCode}
-            className="button is-text"
-            disabled={isResendingVCode || verifyingEmailInProgress}
-          >
-            {`${isResendingVCode ? 'Code Was Sent' : 'Resend My Code'}`}
-          </button>
-          <button
             style={{ marginLeft: 8, borderRadius: 0 }}
             onClick={() => {
               if (!isResendingVCode || !verifyingEmailInProgress) {
@@ -115,7 +107,16 @@ class VerifyEmailField extends React.Component {
             Verify Email
           </button>
         </div>
+        <br></br>
         <div className="help">*Check inbox/junk folders for an email from bidorboo@bidorboo.ca</div>
+        <button
+          style={{ borderRadius: 0, padding: 0, boxShadow: 'none' }}
+          onClick={this.handleSendNewCode}
+          className="button is-text is-small"
+          disabled={isResendingVCode || verifyingEmailInProgress}
+        >
+          {`${isResendingVCode ? '*A new code was sent' : '*Click to request a new code'}`}
+        </button>
         <br />
       </div>
     );
@@ -131,6 +132,7 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     verifyEmail: bindActionCreators(verifyEmail, dispatch),
   };
 };

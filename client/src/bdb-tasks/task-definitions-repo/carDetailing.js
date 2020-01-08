@@ -68,7 +68,7 @@ Q3) Any particular stains or dirt that you want to mention?
         >
           <span style={{ marginRight: 2 }}>Continue Bidding</span>
           <span className="icon">
-            <i className="fas fa-arrow-right" />
+            <i className="fas fa-chevron-right" />
           </span>
         </a>
       ),
@@ -91,7 +91,7 @@ Q3) Any particular stains or dirt that you want to mention?
         >
           <span style={{ marginRight: 2 }}>Continue Bidding</span>
           <span className="icon">
-            <i className="fas fa-arrow-right" />
+            <i className="fas fa-chevron-right" />
           </span>
         </a>
       ),
@@ -366,7 +366,7 @@ const renderThankyouMoment = ({
         >
           <span style={{ marginRight: 2 }}>View Inbox</span>
           <span className="icon">
-            <i className="fas fa-arrow-right" />
+            <i className="fas fa-chevron-right" />
           </span>
         </a>
       </div>

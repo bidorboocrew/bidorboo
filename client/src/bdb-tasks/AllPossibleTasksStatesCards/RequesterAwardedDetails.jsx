@@ -295,6 +295,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     requesterConfirmsRequestCompletion: bindActionCreators(
       requesterConfirmsRequestCompletion,
       dispatch,

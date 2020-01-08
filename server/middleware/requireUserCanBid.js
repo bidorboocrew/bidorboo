@@ -14,8 +14,7 @@ module.exports = async (req, res, next) => {
     //     });
     //   }
   } catch (e) {
-    return res
-      .status(400)
-      .send({ errorMsg: 'failed to validate is uesr ability to bid', details: `${e}` });
+    e.safeMsg = 'failed to validate is uesr ability to bid';
+    return next(e);
   }
 };

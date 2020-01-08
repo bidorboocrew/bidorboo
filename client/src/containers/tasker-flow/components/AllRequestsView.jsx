@@ -30,15 +30,13 @@ const mapStateToProps = ({ userReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     showLoginDialog: bindActionCreators(showLoginDialog, dispatch),
     updateViewedBy: bindActionCreators(updateViewedBy, dispatch),
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AllRequestsView);
+export default connect(mapStateToProps, mapDispatchToProps)(AllRequestsView);
 
 const EmptyStateComponent = () => {
   return (
@@ -64,7 +62,14 @@ const EmptyStateComponent = () => {
 };
 
 const OtherPeoplesRequests = (props) => {
-  const { requestsList, showMapView, isLoggedIn, userDetails, showLoginDialog, updateViewedBy } = props;
+  const {
+    requestsList,
+    showMapView,
+    isLoggedIn,
+    userDetails,
+    showLoginDialog,
+    updateViewedBy,
+  } = props;
 
   const currentUserId = userDetails && userDetails._id ? userDetails._id : '';
   const components = requestsList

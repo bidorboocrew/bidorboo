@@ -1,9 +1,6 @@
 import React from 'react';
 
-import {
-  BidsTableVerifiedVia,
-  CenteredUserImageAndRating,
-} from '../../../containers/commonComponents';
+import { VerifiedVia, CenteredUserImageAndRating } from '../../../containers/commonComponents';
 export default class BidsTable extends React.Component {
   openBidDetailsModal = (bid) => {
     const { markBidAsSeen, requestId, showBidReviewModal } = this.props;
@@ -153,8 +150,7 @@ class TaskerBidCard extends React.Component {
           <CenteredUserImageAndRating userDetails={otherUserProfileInfo} />
 
           <div className="group">
-            <label className="label">Verifications</label>
-            <BidsTableVerifiedVia userDetails={otherUserProfileInfo} />
+            <VerifiedVia userDetails={otherUserProfileInfo} />
           </div>
         </div>
 

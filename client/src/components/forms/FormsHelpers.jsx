@@ -1,8 +1,11 @@
 import React from 'react';
 import GeoSearch from './GeoSearch';
 import DatePickerInput from '../forms/DatePickerInput';
+
 // import moment from 'moment';
 import TimePickerInput from '../forms/TimePickerInput';
+import PhoneInput from 'react-phone-number-input/input';
+import 'react-phone-number-input/style.css';
 
 const InputFeedback = ({ error }) =>
   error ? (
@@ -60,6 +63,64 @@ export const Checkbox = ({
     </div>
   );
 };
+
+export const PhoneNumberInput = ({
+  type,
+  id,
+  label,
+  error,
+  value,
+  onChange,
+  className,
+  labelClassName,
+  helpText,
+  iconLeft,
+  touched,
+  setFocusImmediately,
+  placeholder,
+  suggestButton,
+  onBlur,
+  ...props
+}) => {
+  let inputClassName = className || 'input';
+  let labelClass = '';
+
+  if (error) {
+    inputClassName += ' is-danger';
+  }
+  if (iconLeft) {
+    inputClassName += ' has-icons-left';
+  }
+  if (placeholder) {
+    labelClass += ' withPlaceholder';
+  }
+  if (value) {
+    labelClass += ' hasSelectedValue';
+  }
+
+  return (
+    <div className={`group ${touched && id && touched[id] && error ? 'isError' : ''}`}>
+      <label className={labelClass}>{label}</label>
+
+      <div>
+        <PhoneInput
+          id={id}
+          className={inputClassName}
+          type={type}
+          value={value || ''}
+          placeholder={placeholder}
+          onChange={onChange}
+          onBlur={onBlur}
+          {...props}
+        />
+      </div>
+
+      {!error && <HelpText helpText={helpText} />}
+      {error && <InputFeedback error={error} />}
+    </div>
+  );
+};
+
 export const TextInput = ({
   type,
   id,

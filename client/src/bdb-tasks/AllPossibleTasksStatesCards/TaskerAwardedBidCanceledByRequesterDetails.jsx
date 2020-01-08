@@ -86,6 +86,7 @@ class TaskerAwardedBidCanceledByRequesterDetails extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     updateRequestState: bindActionCreators(updateRequestState, dispatch),
   };
 };

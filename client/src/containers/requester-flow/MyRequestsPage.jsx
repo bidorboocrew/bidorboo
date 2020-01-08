@@ -140,6 +140,7 @@ const mapStateToProps = ({ requestsReducer, userReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     getMyRequestsSummary: bindActionCreators(getMyRequestsSummary, dispatch),
     cancelRequestById: bindActionCreators(cancelRequestById, dispatch),
   };

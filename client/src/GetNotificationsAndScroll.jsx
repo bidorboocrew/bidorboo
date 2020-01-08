@@ -189,6 +189,7 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     getCurrentUserNotifications: bindActionCreators(getCurrentUserNotifications, dispatch),
     getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
     setAppViewUIToTasker: bindActionCreators(setAppViewUIToTasker, dispatch),

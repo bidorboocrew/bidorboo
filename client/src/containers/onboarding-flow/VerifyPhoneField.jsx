@@ -68,14 +68,6 @@ class VerifyPhoneField extends React.Component {
         </div>
         <div>
           <button
-            style={{ borderRadius: 0, boxShadow: 'none' }}
-            onClick={this.handleSendNewCode}
-            className="button is-text"
-            disabled={isResendingVCode || verifyingPhoneInProgress}
-          >
-            {`${isResendingVCode ? 'Code Was Sent' : 'Resend My Code'}`}
-          </button>
-          <button
             style={{ marginLeft: 6, borderRadius: 0 }}
             onClick={() => {
               if (!isResendingVCode || !verifyingPhoneInProgress) {
@@ -110,7 +102,16 @@ class VerifyPhoneField extends React.Component {
             Verify Phone
           </button>
         </div>
-        <div className="help">* Check your phone text msgs</div>
+        <br></br>
+        <div className="help">*Check your phone text msgs</div>
+        <button
+          style={{ borderRadius: 0, padding: 0, boxShadow: 'none' }}
+          onClick={this.handleSendNewCode}
+          className="button is-text is-small"
+          disabled={isResendingVCode || verifyingPhoneInProgress}
+        >
+          {`${isResendingVCode ? '*A new code was sent' : '*Click to request a new code'}`}
+        </button>
         <br />
       </div>
     );
@@ -126,6 +127,7 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     verifyPhone: bindActionCreators(verifyPhone, dispatch),
   };
 };

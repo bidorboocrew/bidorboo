@@ -225,6 +225,25 @@ exports.EmailService = {
       console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
     });
   },
+  tellRequesterToHurryUpAndAwardAbidder: ({ to, requestTitle, toDisplayName, clickLink }) => {
+    const msg = {
+      to,
+      from: 'bidorboo@bidorboo.ca',
+      subject: `${requestTitle} - has bids, Hurry up award it to a Tasker`,
+      text: `Hurry up and award a tasker`,
+      html: populateRequestUpdates({
+        toDisplayName: toDisplayName || to,
+        contentHtml: `<p>This request ${requestTitle} is happening soon and has Bids, Hurry up award it to a Tasker before the due date</p>
+        `,
+        clickLink,
+        clickDisplayName: 'View Bids',
+      }),
+    };
+
+    sgMail.send(msg).catch((e) => {
+      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+    });
+  },
 
   tellRequeterThatTheTaskerHaveCancelledAnAwardedRequest: ({
     to,

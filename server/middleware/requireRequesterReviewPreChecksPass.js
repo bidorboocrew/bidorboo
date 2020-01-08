@@ -17,7 +17,7 @@ module.exports = async (req, res, next) => {
       requestDetails._awardedBidRef && requestDetails._awardedBidRef._taskerRef._id;
     if (!awardedTasker) {
       return res.status(403).send({
-        errorMsg: 'Only the Tasker who fulfilled the request can perform this action',
+        safeMsg: 'Only the Tasker who fulfilled the request can perform this action',
       });
     }
     if (!requestDetails._reviewRef) {
@@ -34,7 +34,7 @@ module.exports = async (req, res, next) => {
       requestDetails._reviewRef.requesterReview.personalComment
     ) {
       return res.status(403).send({
-        errorMsg: 'You have already submit a review.',
+        safeMsg: 'You have already submit a review.',
       });
     }
 
@@ -51,11 +51,8 @@ module.exports = async (req, res, next) => {
     };
     next();
   } catch (e) {
-    return res.status(400).send({
-      safeMsg:
-        'some error occurred, please chat with our customer support using the chat button at the bottom of the page',
-      errorMsg: 'failed to pass require requesterReview checks',
-      details: `${e}`,
-    });
+    e.safeMsg =
+      'some error occurred, please chat with our customer support using the chat button at the bottom of the page';
+    return next(e);
   }
 };

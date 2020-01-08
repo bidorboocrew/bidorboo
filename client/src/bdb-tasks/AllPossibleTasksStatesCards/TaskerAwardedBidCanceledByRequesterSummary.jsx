@@ -103,6 +103,7 @@ const mapStateToProps = ({ uiReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     updateRequestState: bindActionCreators(updateRequestState, dispatch),
   };
 };

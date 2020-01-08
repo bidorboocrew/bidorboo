@@ -8,14 +8,12 @@ module.exports = async (req, res, next) => {
     } else if (req.query && req.query.requestId) {
       requestId = req.query.requestId;
     } else {
-      return res
-        .status(400)
-        .send({ errorMsg: 'failed to validate request owner', details: `${e}` });
+      return res.status(400).send({ safeMsg: 'failed to validate request owner', details: `${e}` });
     }
 
     if (!requestId) {
       return res.status(403).send({
-        errorMsg: 'missing paramerters requestId . can not confirm that you are the request Owner.',
+        safeMsg: 'missing paramerters requestId . can not confirm that you are the request Owner.',
       });
     }
 
@@ -26,11 +24,10 @@ module.exports = async (req, res, next) => {
     } else {
       return res
         .status(403)
-        .send({ errorMsg: 'only the request Owner can perform this operation.' });
+        .send({ safeMsg: 'only the request Owner can perform this operation.' });
     }
   } catch (e) {
-    return res
-      .status(400)
-      .send({ errorMsg: 'failed to validate is request owner', details: `${e}` });
+    e.safeMsg = 'failed to validate is request owner';
+    return next(e);
   }
 };

@@ -90,7 +90,7 @@ module.exports = (app) => {
             stripeAccDetails = updateUser.stripeConnect;
           } else {
             return res.status(400).send({
-              errorMsg:
+              safeMsg:
                 'The tasker does not have a stripe account with us. Sorry we can not process your payment for this tasker',
             });
           }
@@ -130,7 +130,7 @@ module.exports = (app) => {
         }
       } catch (e) {
         e.safeMsg = "We couldn't confirm the charge details. NO charge was applied to your card";
-        next(e);
+        return next(e);
       }
     }
   );
@@ -160,9 +160,8 @@ module.exports = (app) => {
           errorMsg: `couldn't register your bank account please use the chat button to talk to our customer support`,
         });
       } catch (e) {
-        return res.status(400).send({
-          errorMsg: `couldn't register your bank account please use the chat button to talk to our customer support`,
-        });
+        e.safeMsg = `couldn't register your bank account please use the chat button to talk to our customer support`;
+        return next(e);
       }
     }
   );
@@ -189,7 +188,8 @@ module.exports = (app) => {
 
         return res.send({ success: true, accountLinkUrl: url });
       } catch (e) {
-        return res.status(400).send({ errorMsg: e });
+        e.safeMsg = `couldn't get account link for setup and verification from stripe`;
+        return next(e);
       }
     }
   );
@@ -216,7 +216,8 @@ module.exports = (app) => {
 
         return res.send({ success: true, accountLinkUrl: url });
       } catch (e) {
-        return res.status(400).send({ errorMsg: e });
+        e.safeMsg = `couldn't get account link update for setup and verification from stripe`;
+        return next(e);
       }
     }
   );
@@ -264,10 +265,8 @@ module.exports = (app) => {
         },
       });
     } catch (e) {
-      return res.status(400).send({
-        errorMsg: 'Failed To retrieve your connected stripe account details',
-        details: `${e}`,
-      });
+      e.safeMsg = 'Failed To retrieve your connected stripe account details';
+      return next(e);
     }
   });
   // /**
@@ -326,9 +325,8 @@ module.exports = (app) => {
       }
       return res.status(200).send();
     } catch (e) {
-      return res
-        .status(400)
-        .send({ errorMsg: 'connectedAccountsWebhook failured', details: `${e}` });
+      e.safeMsg = 'connected Accounts Webhook failure';
+      return next(e);
     }
   });
 
@@ -380,7 +378,8 @@ module.exports = (app) => {
       }
       return res.status(200).send();
     } catch (e) {
-      return res.status(400).send({ errorMsg: 'payouts Webhook failed', details: `${e}` });
+      e.safeMsg = 'payouts Webhook failed';
+      return next(e);
     }
   });
 
@@ -475,7 +474,8 @@ module.exports = (app) => {
       }
       return res.status(200).send();
     } catch (e) {
-      return res.status(400).send({ errorMsg: 'charge succeeded failed', details: `${e}` });
+      e.safeMsg = 'charge succeeded failed';
+      return next(e);
     }
   });
 
@@ -514,7 +514,8 @@ module.exports = (app) => {
       //   safeMsg: 'something went wrong handling payment, our crew wil be in touch with you',
       // });
     } catch (e) {
-      return res.status(400).send({ errorMsg: 'checkoutFulfillment failed', details: `${e}` });
+      e.safeMsg = 'checkout Fulfillment failed';
+      return next(e);
     }
   });
 };

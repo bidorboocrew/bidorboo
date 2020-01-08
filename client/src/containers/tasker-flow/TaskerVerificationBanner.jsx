@@ -243,7 +243,7 @@ class TaskerVerificationBanner extends React.Component {
                 <span className="icon">
                   <i className="far fa-comment-dots" />
                 </span>
-                <span>CHAT WITH SUPPORT</span>
+                <span>Chat with Support</span>
               </button>
             </div>
           </div>
@@ -264,7 +264,10 @@ const mapStateToProps = ({ userReducer }) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return { getMyStripeAccountDetails: bindActionCreators(getMyStripeAccountDetails, dispatch) };
+  return {
+    dispatch,
+    getMyStripeAccountDetails: bindActionCreators(getMyStripeAccountDetails, dispatch),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskerVerificationBanner);

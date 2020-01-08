@@ -185,9 +185,7 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
   };
 };
 const mapDispatchToProps = (dispatch) => {
-  return {
-    verifyPhone: bindActionCreators(verifyPhone, dispatch),
-  };
+  return { dispatch, verifyPhone: bindActionCreators(verifyPhone, dispatch) };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(VerifyPhoneButton);

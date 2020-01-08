@@ -17,7 +17,6 @@ import { Router } from 'react-router-dom';
 import appHistory from './react-router-history';
 import GetNotificationsAndScroll from './GetNotificationsAndScroll';
 import { registerServiceWorker } from './registerServiceWorker';
-import { registerPushNotification } from './registerPushNotification';
 
 window.BidOrBoo = window.BidOrBoo || {};
 
@@ -38,13 +37,7 @@ if (process.env.NODE_ENV === 'production') {
     document.getElementById('BidOrBoo-app'),
   );
 
-  registerServiceWorker()
-    .then(({ registration }) => {
-      registerPushNotification(`${process.env.REACT_APP_VAPID_KEY}`, registration)
-        .then(() => console.log('push Notifications enabled'))
-        .catch((e) => console.log('push Notifications not enabled ' + e));
-    })
-    .catch(() => console.info('ServiceWorker was not added'));
+  registerServiceWorker().catch(() => console.info('ServiceWorker was not added'));
 } else {
   ReactDOM.render(
     <Provider store={store}>
