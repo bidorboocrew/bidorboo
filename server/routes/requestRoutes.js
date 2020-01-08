@@ -29,7 +29,7 @@ module.exports = (app) => {
   app.get(
     ROUTES.API.REQUEST.GET.requestToBidOnDetailsForTasker,
     celebrate(requiresRequestId),
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         const { requestId } = req.query;
         const requestDetails = await requestDataAccess.requestToBidOnDetailsForTasker(requestId);
@@ -64,7 +64,7 @@ module.exports = (app) => {
     celebrate(requiresRequestId),
     requireLogin,
     requireRequestOwner,
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         const { requestId } = req.query;
         const requestFullDetails = await requestDataAccess.getAwardedRequestFullDetailsForRequester(
@@ -83,7 +83,7 @@ module.exports = (app) => {
     celebrate(requiresRequestId),
     requireLogin,
     requireRequestOwner,
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         const mongoUser_id = req.user._id;
 
@@ -123,7 +123,7 @@ module.exports = (app) => {
     ROUTES.API.REQUEST.POST.createNewRequest,
     requireLogin,
     requireUserCanPost,
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         const { requestDetails } = req.body.data;
         const mongoUser_id = req.user._id;
@@ -139,7 +139,7 @@ module.exports = (app) => {
       }
     }
   );
-  app.post(ROUTES.API.REQUEST.POST.requestImage, requireLogin, async (req, res) => {
+  app.post(ROUTES.API.REQUEST.POST.requestImage, requireLogin, async (req, res, next) => {
     try {
       const filesList = req.files;
 
@@ -185,7 +185,7 @@ module.exports = (app) => {
     ROUTES.API.REQUEST.PUT.updateViewedBy,
     celebrate(updateViewedBy),
     requireLogin,
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         const { requestId } = req.body.data;
         const mongoUser_id = req.user._id;
@@ -202,7 +202,7 @@ module.exports = (app) => {
     ROUTES.API.REQUEST.PUT.updateBooedBy,
     celebrate(updateBooedBy),
     requireLogin,
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         const { requestId } = req.body.data;
 
@@ -222,7 +222,7 @@ module.exports = (app) => {
     celebrate(requesterConfirmsRequestCompleted),
     requireLogin,
     requireRequestOwner,
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         const { requestId } = req.body.data;
 
@@ -276,7 +276,7 @@ module.exports = (app) => {
     celebrate(taskerConfirmsRequestCompleted),
     requireLogin,
     requireCurrentUserIsTheAwardedTasker,
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         const { requestId } = req.body.data;
 
@@ -294,10 +294,9 @@ module.exports = (app) => {
     celebrate(requesterDisputeRequest),
     requireLogin,
     requireRequestOwner,
-    async (req, res) => {
+    async (req, res, next) => {
       try {
-        const { requestId, requesterDispute } = req.body.data;
-        const { reason, details } = requesterDispute;
+        const { requestId, reason, details } = req.body.data;
 
         await requestDataAccess.requesterDisputesRequest({ requestId, reason, details });
 
@@ -313,11 +312,9 @@ module.exports = (app) => {
     celebrate(taskerDisputeRequest),
     requireLogin,
     requireCurrentUserIsTheAwardedTasker,
-    async (req, res) => {
+    async (req, res, next) => {
       try {
-        const { requestId, taskerDispute } = req.body.data;
-
-        const { reason, details } = taskerDispute;
+        const { requestId, reason, details } = req.body.data;
 
         await requestDataAccess.taskerDisputesRequest({ requestId, reason, details });
         return res.send({ success: true });
@@ -329,7 +326,7 @@ module.exports = (app) => {
   );
 
   // everything below this is reviewed and optimal
-  app.get(ROUTES.API.REQUEST.GET.myRequestsSummary, requireLogin, async (req, res) => {
+  app.get(ROUTES.API.REQUEST.GET.myRequestsSummary, requireLogin, async (req, res, next) => {
     try {
       const userRequestsList = await requestDataAccess.getMyRequestsSummary(req.user._id);
 
@@ -343,7 +340,7 @@ module.exports = (app) => {
     ROUTES.API.REQUEST.GET.postedRequestAndBidsForRequester,
     celebrate(requiresRequestId),
     requireLogin,
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         const { requestId } = req.query;
         const mongoUser_id = req.user._id;

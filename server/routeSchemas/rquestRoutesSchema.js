@@ -134,31 +134,23 @@ exports.requesterDisputeRequest = {
           };
         })
         .required(),
-      requesterDispute: Joi.object({
-        reason: Joi.string()
-          .trim()
-          .min(2)
-          .max(500)
-          .error(() => {
-            return {
-              message: 'Invalid Request, missing request Id',
-            };
-          })
-          .required(),
-        details: Joi.string()
-          .trim()
-          .min(10)
-          .max(1000)
-          .error(() => {
-            return {
-              message: 'Invalid Request, missing request Id',
-            };
-          })
-          .required(),
-      })
+      reason: Joi.string()
+        .trim()
+        .min(2)
+        .max(500)
         .error(() => {
           return {
-            message: 'Invalid Request, missing requester Dispute',
+            message: 'Invalid Request, missing reason',
+          };
+        })
+        .required(),
+      details: Joi.string()
+        .trim()
+        .min(10)
+        .max(1000)
+        .error(() => {
+          return {
+            message: 'Invalid Request, missing details',
           };
         })
         .required(),
@@ -177,31 +169,23 @@ exports.taskerDisputeRequest = {
           };
         })
         .required(),
-      taskerDispute: Joi.object({
-        reason: Joi.string()
-          .trim()
-          .min(2)
-          .max(500)
-          .error(() => {
-            return {
-              message: 'Invalid Request, missing request Id',
-            };
-          })
-          .required(),
-        details: Joi.string()
-          .trim()
-          .min(10)
-          .max(1000)
-          .error(() => {
-            return {
-              message: 'Invalid Request, missing request Id',
-            };
-          })
-          .required(),
-      })
+      reason: Joi.string()
+        .trim()
+        .min(2)
+        .max(500)
         .error(() => {
           return {
-            message: 'Invalid Request, missing requester Dispute',
+            message: 'Invalid Request, missing reason',
+          };
+        })
+        .required(),
+      details: Joi.string()
+        .trim()
+        .min(10)
+        .max(1000)
+        .error(() => {
+          return {
+            message: 'Invalid Request, missing details',
           };
         })
         .required(),

@@ -22,13 +22,13 @@ module.exports = (app) => {
   // performance
   app.use(
     compression({
-      filter: (req, res) => {
+      filter: (req, res, next) => {
         if (req.headers['x-no-compression']) {
           // don't compress responses with this request header
           return false;
         }
         // fallback to standard filter function
-        return compression.filter(req, res);
+        return compression.filter(req, res, next);
       },
     })
   );

@@ -139,7 +139,7 @@ if (process.env.NODE_ENV === 'production') {
 
   // Express will serve up the index.html file
   // if it doesn't recognize the route
-  app.get('/*', (req, res) => {
+  app.get('/*', (req, res, next) => {
     console.log('serving dirname ' + path.resolve(__dirname, '../client', './build', 'index.html'));
     res.sendFile(path.resolve(__dirname, '../client', './build', 'index.html'));
   });

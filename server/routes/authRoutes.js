@@ -54,7 +54,7 @@ module.exports = (app) => {
     })(req, res, next);
   });
 
-  app.get(ROUTES.API.AUTH.LOGOUT, (req, res) => {
+  app.get(ROUTES.API.AUTH.LOGOUT, (req, res, next) => {
     req.logout(() => (req.session = null));
 
     res.send({ success: 'logout successfully' });
@@ -92,7 +92,7 @@ module.exports = (app) => {
         });
       })(req, res, next);
     },
-    (req, res) => {
+    (req, res, next) => {
       const redirectUrl = req.body.originPath ? req.body.originPath : '/';
 
       return res.send({ user: req.user, redirectUrl });

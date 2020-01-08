@@ -35,7 +35,7 @@ module.exports = (app) => {
     requireLogin,
     celebrate(deleteOpenBid),
     requirePassDeleteBidChecks,
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         const mongoUser_id = req.user._id.toString();
         const { bidId } = req.body;
@@ -54,7 +54,7 @@ module.exports = (app) => {
     requireLogin,
     celebrate(cancelAwardedBid),
     requirePassDeleteBidChecks,
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         const mongoUser_id = req.user._id.toString();
         const { bidId } = req.body;
@@ -113,7 +113,7 @@ module.exports = (app) => {
     requireUserCanBid,
     requireRequestIsNotAwarded,
     requireUserHasNotAlreadyBidOnRequest,
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         const { data } = req.body;
         const { requestId, bidAmount } = data;
@@ -193,7 +193,7 @@ module.exports = (app) => {
     requireLogin,
     celebrate(achivedBidDetailsForTasker),
     requireBidOwner,
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         const mongoUser_id = req.user._id;
         const { bidId } = req.query;

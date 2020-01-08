@@ -9,7 +9,7 @@ module.exports = (app) => {
 
   webpush.setVapidDetails('mailto:bidorboo@bidorboo.ca', keys.vapidPublicApiKey, keys.vapidPrivateApiKey);
 
-  // app.post(ROUTES.API.PUSH.POST.pushNotification, async (req, res) => {
+  // app.post(ROUTES.API.PUSH.POST.pushNotification, async (req, res, next) => {
   //   try {
   //     subscription = JSON.parse(req.body.data);
   //     const data = {

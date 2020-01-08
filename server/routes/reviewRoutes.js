@@ -23,7 +23,7 @@ module.exports = (app) => {
     requireLogin,
     requireRequestOwner,
     requireRequesterReviewPreChecksPass,
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         const {
           requestId,
@@ -107,7 +107,7 @@ module.exports = (app) => {
     requireLogin,
     requireCurrentUserIsTheAwardedTasker,
     requireTaskerReviewPreChecksPass,
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         const {
           requestId,

@@ -144,7 +144,7 @@ module.exports = (app) => {
     ROUTES.API.PAYMENT.PUT.setupPaymentDetails,
     requireLogin,
     requireUserHasAStripeAccountOrInitalizeOne,
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         const userId = req.user.userId;
 
@@ -175,7 +175,7 @@ module.exports = (app) => {
     ROUTES.API.PAYMENT.GET.accountLinkForSetupAndVerification,
     requireLogin,
     requireUserHasAStripeAccountOrInitalizeOne,
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         if (!req.query || !req.query.redirectUrl) {
           return res.status(403).send({
@@ -203,7 +203,7 @@ module.exports = (app) => {
     ROUTES.API.PAYMENT.GET.accountLinkForUpdatingVerification,
     requireLogin,
     requireUserHasAStripeAccountOrInitalizeOne,
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         if (!req.query || !req.query.redirectUrl) {
           return res.status(403).send({
@@ -227,7 +227,7 @@ module.exports = (app) => {
     }
   );
 
-  app.get(ROUTES.API.PAYMENT.GET.myStripeAccountDetails, requireLogin, async (req, res) => {
+  app.get(ROUTES.API.PAYMENT.GET.myStripeAccountDetails, requireLogin, async (req, res, next) => {
     try {
       const mongoUser_id = req.user._id.toString();
 

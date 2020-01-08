@@ -136,13 +136,13 @@ export const requesterConfirmsRequestCompletion = (requestId) => (dispatch) => {
 };
 
 export const requesterDisputesRequest = ({ requesterDispute }) => (dispatch) => {
+  debugger;
   const config = {
     headers: { 'Content-Type': 'application/json' },
   };
   const postData = JSON.stringify({
     data: {
-      requestId: requesterDispute.requestId,
-      requesterDispute,
+      ...requesterDispute,
     },
   });
 
@@ -162,13 +162,13 @@ export const requesterDisputesRequest = ({ requesterDispute }) => (dispatch) => 
 };
 
 export const taskerDisputesRequest = ({ taskerDispute }) => (dispatch) => {
+  debugger;
   const config = {
     headers: { 'Content-Type': 'application/json' },
   };
   const postData = JSON.stringify({
     data: {
-      requestId: taskerDispute.requestId,
-      taskerDispute,
+      ...taskerDispute,
     },
   });
 
