@@ -107,11 +107,11 @@ module.exports = (app) => {
               requesterEmail,
               requestId,
               bidId,
-              note: `Requester Paid for ${theRequest.requestTemplateDisplayTitle} ${theRequest.requestTitle}`,
+              note: `Requester Paid for Request Type: ${theRequest.requestTemplateDisplayTitle}, Titled: ${theRequest.requestTitle}`,
             },
             taskerDisplayName: taskerDisplayName || taskerEmail,
             taskId: requestId,
-            taskName: `${theRequest.requestTemplateDisplayTitle} ${theRequest.requestTitle}`,
+            taskName: `Request Type: ${theRequest.requestTemplateDisplayTitle}, Titled: ${theRequest.requestTitle}`,
             requesterEmail,
             totalCharge: requesterPaymentAmount * 100, //in cents
             bidOrBooServiceFee: bidOrBooPlatformFee * 100, //in cents

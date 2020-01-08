@@ -653,7 +653,7 @@ exports.requestDataAccess = {
           taskImages: 1,
         },
       })
-      .lean()
+      .lean({virtuals: true})
       .exec();
   },
   getRequestWithReviewModel: async (requestId, ownerId) => {

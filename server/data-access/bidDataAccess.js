@@ -817,6 +817,7 @@ exports.bidDataAccess = {
             path: '_ownerRef',
             select: {
               _id: 1,
+              displayName:1,
               email: 1,
               phone: 1,
               _taskerRef: 1,
