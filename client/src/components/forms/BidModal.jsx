@@ -177,7 +177,7 @@ const EnhancedForms = withFormik({
   validationSchema: Yup.object().shape({
     bidAmountField: Yup.number()
       .positive('Can only have positive integers')
-      .max(9999, 'The maximum amout is 9999')
+      .max(5000, 'The maximum amount is 5000')
       .required('amount is required.'),
     recaptchaField: Yup.string()
       .ensure()
