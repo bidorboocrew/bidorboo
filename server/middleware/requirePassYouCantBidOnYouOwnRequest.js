@@ -8,13 +8,12 @@ module.exports = async (req, res, next) => {
     const userId = req.user._id.toString();
     const requestOwner = await requestDataAccess.isRequestOwner(userId, requestId);
     if (requestOwner && requestOwner._id) {
-      return res.status(403).send({ errorMsg: "You can't bid on your own request." });
+      return res.status(403).send({ safeMsg: "You can't bid on your own request." });
     } else {
       next();
     }
   } catch (e) {
-    return res
-      .status(400)
-      .send({ errorMsg: 'failed to validate request owner details', details: `${e}` });
+    e.safeMsg = 'failed to validate request owner details';
+    return next(e);
   }
 };

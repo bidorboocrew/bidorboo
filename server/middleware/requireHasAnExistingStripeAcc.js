@@ -13,16 +13,15 @@ module.exports = async (req, res, next) => {
         next();
       } else {
         return res.status(200).send({
-          errorMsg:
+          safeMsg:
             'you do not hasve an existing stripe account with us. Setup your account or email us at bidorboo@bidorboo.ca',
         });
       }
     } else {
-      return res.status(401).send({ errorMsg: 'you gotta sign in first.' });
+      return res.status(401).send({ safeMsg: 'you gotta sign in first.' });
     }
   } catch (e) {
-    return res
-      .status(400)
-      .send({ errorMsg: 'failed to check for existing account', details: `${e}` });
+    e.safeMsg = 'failed to check for existing account';
+    return next(e);
   }
 };

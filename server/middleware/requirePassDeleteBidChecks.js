@@ -5,15 +5,12 @@ module.exports = async (req, res, next) => {
     const bidDetails = await bidDataAccess.findBidByOwner(req.user._id, bidId);
 
     if (!bidDetails || !bidDetails._id) {
-      return res
-        .status(403)
-        .send({ errorMsg: 'We could not locate the bid. No changes were made' });
+      return res.status(403).send({ safeMsg: 'We could not locate the bid. No changes were made' });
     }
 
     next();
   } catch (e) {
-    return res
-      .status(400)
-      .send({ errorMsg: 'failed to validate requirePassDeleteBidChecks ', details: `${e}` });
+    e.safeMsg = 'failed to pass delete bid checks';
+    return next(e);
   }
 };

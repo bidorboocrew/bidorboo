@@ -18,11 +18,10 @@ module.exports = async (req, res, next) => {
     }
 
     return res.status(400).send({
-      errorMsg: 'Missing parameters, we can not complete this request',
+      safeMsg: 'Missing parameters, we can not complete this request',
     });
   } catch (e) {
-    return res.status(400).send({
-      errorMsg: 'you must be the bid owner to change its value',
-    });
+    e.safeMsg = 'you must be the bid owner to change its value';
+    return next(e);
   }
 };

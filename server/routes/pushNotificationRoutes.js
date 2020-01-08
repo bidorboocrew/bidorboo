@@ -7,7 +7,7 @@ module.exports = (app) => {
   let subscription;
   let pushIntervalID;
 
-  webpush.setVapidDetails('BidOrBoo', keys.vapidPublicApiKey, keys.vapidPrivateApiKey);
+  webpush.setVapidDetails('mailto:bidorboo@bidorboo.ca', keys.vapidPublicApiKey, keys.vapidPrivateApiKey);
 
   // app.post(ROUTES.API.PUSH.POST.pushNotification, async (req, res) => {
   //   try {

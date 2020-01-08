@@ -9,14 +9,12 @@ module.exports = async (req, res, next) => {
   try {
     const { stripeTransactionToken, bidId, chargeAmount, requestId } = req.body.data;
     if (!stripeTransactionToken || !bidId || !chargeAmount) {
-      return res.status(403).send({ errorMsg: 'We did NOT process the payment. missing params' });
+      return res.status(403).send({ safeMsg: 'We did NOT process the payment. missing params' });
     }
 
     const theBid = await bidDataAccess.getBidById(bidId);
     if (!theBid || !theBid._id) {
-      return res
-        .status(403)
-        .send({ errorMsg: 'Bid can not be found did NOT process the payment.' });
+      return res.status(403).send({ safeMsg: 'Bid can not be found did NOT process the payment.' });
     }
     const { _taskerRef, bidAmount } = theBid;
 
@@ -30,12 +28,12 @@ module.exports = async (req, res, next) => {
     if (totalAmount !== chargeAmount) {
       return res
         .status(403)
-        .send({ errorMsg: 'payment amount mismatch. we did NOT process the payment.' });
+        .send({ safeMsg: 'payment amount mismatch. we did NOT process the payment.' });
     }
 
     if (theBid._requestRef._id.toString() !== requestId) {
       return res.status(403).send({
-        errorMsg:
+        safeMsg:
           'payment can not be processed as the request field does not match the selected request. we did NOT process the payment.',
       });
     }
@@ -59,7 +57,7 @@ module.exports = async (req, res, next) => {
         stripeAccDetails = updateUser.stripeConnect;
       } else {
         return res.status(400).send({
-          errorMsg:
+          safeMsg:
             'The tasker does not have a stripe accoutn with us. Sorry we can not process yoru payment for this tasker',
         });
       }
@@ -73,14 +71,12 @@ module.exports = async (req, res, next) => {
       next();
     } else {
       return res.status(400).send({
-        errorMsg:
+        safeMsg:
           'The tasker does not have a stripe accoutn with us. Sorry we can not process yoru payment for this tasker',
       });
     }
   } catch (e) {
-    return res.status(400).send({
-      errorMsg: 'We did NOT process the payment. failed to meet requirements to process payment',
-      details: e,
-    });
+    e.safeMsg = `We did NOT process the payment. failed to meet requirements to process payment`;
+    return next(e);
   }
 };

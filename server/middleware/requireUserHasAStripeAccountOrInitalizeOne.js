@@ -36,17 +36,16 @@ module.exports = async (req, res, next) => {
           next();
         } else {
           return res.status(400).send({
-            errorMsg:
+            safeMsg:
               'we could not create a stripe accoutn fo you. Please email us at bidorboo@bidorboo.ca',
           });
         }
       }
     } else {
-      return res.status(401).send({ errorMsg: 'you gotta sign in first.' });
+      return res.status(401).send({ safeMsg: 'you gotta sign in first.' });
     }
   } catch (e) {
-    return res
-      .status(400)
-      .send({ errorMsg: 'failed to check for existing account', details: `${e}` });
+    e.safeMsg = 'failed to check for existing stripe account';
+    return next(e);
   }
 };

@@ -14,23 +14,22 @@ module.exports = async (req, res, next) => {
     }
     const recpatchaAssesmentResponse = (error, response) => {
       if (error) {
-        return res
-          .status(400)
-          .send({ errorMsg: 'Failed To evaluate recaptcha ', details: `${error}` });
+        console.log('BIDORBOOLOGS - ERROR - RECAPTCHA + error : ' + error);
+
+        return res.status(400).send({ safeMsg: 'Failed To evaluate recaptcha ' });
       }
       if (response.success) {
         next();
       } else {
         return res.status(401).send({
-          errorMsg:
+          safeMsg:
             'For security reasons we can not process your response. RECAPTCHA had assessed this as a Bot Like Request. refresh the page before trying again',
         });
       }
     };
     await recaptcha.checkResponse(req.body.recaptchaField, recpatchaAssesmentResponse);
   } catch (e) {
-    return res
-      .status(400)
-      .send({ errorMsg: 'Failed To evaluate recaptcha from server ', details: `${e}` });
+    e.safeMsg = 'Failed To evaluate recaptcha from server';
+    return next(e);
   }
 };
