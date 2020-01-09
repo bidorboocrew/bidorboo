@@ -4,6 +4,9 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getCurrentUserNotifications, getCurrentUser } from './app-state/actions/authActions';
+import { registerServiceWorker } from './registerServiceWorker';
+import { registerPushNotification } from './registerPushNotification';
+
 import {
   setAppViewUIToRequester,
   setAppViewUIToTasker,
@@ -60,9 +63,13 @@ class GetNotificationsAndScroll extends React.Component {
       userDetails.notifications &&
       userDetails.notifications.push
     ) {
-      console.log(
-        'userDetails.notifications.push = true and we should register the push notification on this client',
-      );
+      registerServiceWorker()
+        .then(({ registration }) => {
+          registerPushNotification(`${process.env.REACT_APP_VAPID_KEY}`, registration)
+            .then(() => console.log('push Notifications enabled'))
+            .catch((e) => console.log('push Notifications not enabled ' + e));
+        })
+        .catch(() => console.info('ServiceWorker was not added'));
     }
 
     const currentUrlPathname = window.location.pathname;
