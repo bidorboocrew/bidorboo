@@ -55,6 +55,16 @@ const ReviewMyAwardedRequestAndWinningBidPage = lazy(() =>
   import('./requester-flow/ReviewMyAwardedRequestAndWinningBidPage.jsx'),
 );
 
+const getCookieByName = (name) => {
+  var value = '; ' + document.cookie;
+  var parts = value.split('; ' + name + '=');
+  if (parts.length == 2)
+    return parts
+      .pop()
+      .split(';')
+      .shift();
+};
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -69,6 +79,19 @@ class App extends React.Component {
   static getDerivedStateFromError(error) {
     // Update state so the next render will show the fallback UI.
     return { hasError: true };
+  }
+
+  componentDidMount() {
+    if (getCookieByName('BidOrBooCookieConsent') === 'true') {
+      // google analytics
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        window.dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'UA-142687351-1');
+      window['ga-disable-UA-142687351-1'] = false;
+    }
   }
 
   render() {
