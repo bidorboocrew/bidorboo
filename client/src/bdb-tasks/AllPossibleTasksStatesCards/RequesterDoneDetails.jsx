@@ -151,7 +151,7 @@ export default class RequesterDoneDetails extends RequestBaseContainer {
                 {!requiresRequesterReview && (
                   <div style={{ textAlign: 'center' }}>
                     <ul className="has-text-left">
-                      <li>You have submitted your review already</li>
+                      <li>You have submitted your review successfully</li>
                       <li>We've contacted the Tasker to submit their review</li>
                       <li>
                         After that, this task will be archived under (Past Requests) for your

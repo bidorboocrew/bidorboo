@@ -279,7 +279,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
             otherUserProfileInfo={_ownerRef}
             renderActionButton={() => (
               <ul className="has-text-left">
-                <li>You have submitted your review already</li>
+                <li>You have submitted your review successfully</li>
                 <li>
                   will automatically confirm it after 3 days if we don't hear back from the
                   Requester

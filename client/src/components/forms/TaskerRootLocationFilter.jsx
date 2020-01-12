@@ -375,7 +375,7 @@ class TaskTypeFilter extends React.Component {
       .filter((key) => !TASKS_DEFINITIONS[key].isComingSoon)
       .map((key) => {
         // let controlClass = `tag is-rounded ${taskTypesIds[key] ? 'is-link' : ''}`;
-        let controlClass = `tag is-rounded ${currentFilters.indexOf(key) > -1 && 'is-info'}`;
+        let controlClass = `button is-small ${currentFilters.indexOf(key) > -1 && 'is-info'}`;
         return (
           <span
             style={{ cursor: 'pointer', minWidth: 165 }}
@@ -397,6 +397,7 @@ class TaskTypeFilter extends React.Component {
               }
               updateTaskTypesFilter(currentActiveFilters);
             }}
+            style={{ borderRadius: 25, margin: '4px 8px 0 0' }}
             className={controlClass}
           >
             <span className="icon">
