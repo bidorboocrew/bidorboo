@@ -411,7 +411,7 @@ class GenericRequestForm extends React.Component {
                 touched={touched.startingDateAndTime}
               />
               <div className={`group ${touched.timeOfDay && errors.timeOfDay ? 'isError' : ''}`}>
-                <label className={timeOfDayClass}>{'Preferred time'}</label>
+                <label className={timeOfDayClass}>{'Time of day'}</label>
                 <div>
                   <div className={`select ${timeOfDayClass}`}>
                     <select

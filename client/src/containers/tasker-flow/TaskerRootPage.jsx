@@ -216,7 +216,7 @@ class TaskerRootPage extends React.Component {
                   style={{ marginBottom: '0.5rem', paddingLeft: 10 }}
                   className="subtitle has-text-weight-semibold"
                 >
-                  Search For Requests Near
+                  Search For Requests:
                 </h1>
 
                 <TaskerRootLocationFilter

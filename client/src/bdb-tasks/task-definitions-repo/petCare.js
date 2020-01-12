@@ -108,7 +108,7 @@ Q2) Anything else you want to highlight for the Tasker?
 
   renderSummaryCard: function({ withDetails = true }) {
     return (
-      <div style={{ padding: `${!withDetails ? '0 0 1.5rem 0' : '1.5rem'}` }}>
+      <div className="fade-in" style={{ padding: `${!withDetails ? '0 0 1.5rem 0' : '1.5rem'}` }}>
         <nav className="level">
           <div className="level-left">
             <div className="level-item">

@@ -174,7 +174,7 @@ Q3) Anything else you want to highlight for the Tasker?
           return (
             <React.Fragment key={'extras-effort'}>
               <div className={`group ${isTouched && errors.effort ? 'isError' : ''}`}>
-                <label className={effortClass}>{'Approximate duration'}</label>
+                <label className={effortClass}>{'Duration (approximate)'}</label>
                 <div>
                   <div id="effort" className={`select ${effortClass} `}>
                     <select
@@ -212,7 +212,7 @@ Q3) Anything else you want to highlight for the Tasker?
           }
           return (
             <div key={'extras-effort'} className="group">
-              <label className="label hasSelectedValue">Approximate duration</label>
+              <label className="label hasSelectedValue">Duration (approximate)</label>
               <div className="control">{selectedValue}</div>
             </div>
           );
@@ -424,7 +424,7 @@ const renderThankyouMoment = ({
   renderExtraAction = () => null,
 }) => {
   return (
-    <div style={{ padding: '1.5rem', background: 'white' }}>
+    <div className="fade-in" style={{ padding: '1.5rem', background: 'white' }}>
       <div>
         <img src={houseCleaning_img} style={{ height: 125, width: 125, objectFit: 'cover' }} />
       </div>

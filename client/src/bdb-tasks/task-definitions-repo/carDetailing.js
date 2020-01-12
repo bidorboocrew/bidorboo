@@ -345,7 +345,7 @@ const renderThankyouMoment = ({
   renderExtraAction = () => null,
 }) => {
   return (
-    <div style={{ padding: '1.5rem', background: 'white' }}>
+    <div className="fade-in" style={{ padding: '1.5rem', background: 'white' }}>
       <div>
         <img
           src={carDetailing_img}

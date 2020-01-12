@@ -141,7 +141,7 @@ Q2)Any items that require extreme caution or care ?
 
   renderSummaryCard: function({ withDetails = true }) {
     return (
-      <div style={{ padding: `${!withDetails ? '0 0 1.5rem 0' : '1.5rem'}` }}>
+      <div className="fade-in" style={{ padding: `${!withDetails ? '0 0 1.5rem 0' : '1.5rem'}` }}>
         <nav className="level">
           <div className="level-left">
             <div className="level-item">

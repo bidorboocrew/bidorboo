@@ -160,7 +160,6 @@ class TaskerRootLocationFilter extends React.Component {
     e.preventDefault();
     const { activeSearchParams, submitSearchLocationParams } = this.props;
 
-
     submitSearchLocationParams({
       ...activeSearchParams,
     });
@@ -393,6 +392,14 @@ class TaskTypeFilter extends React.Component {
             }}
             className={controlClass}
           >
+            <span className="icon">
+              {currentFilters.indexOf(key) > -1 ? (
+                <i class="far fa-check-square"></i>
+              ) : (
+                <i class="far fa-square"></i>
+              )}
+            </span>
+            <span></span>
             {TASKS_DEFINITIONS[key].TITLE}
           </span>
         );
