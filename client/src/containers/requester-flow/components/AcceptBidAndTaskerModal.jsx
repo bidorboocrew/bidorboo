@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import * as ROUTES from '../../../constants/frontend-route-consts';
+import { switchRoute } from '../../../utils';
 
 import { submitPayment } from '../../../app-state/actions/paymentActions';
 
@@ -48,6 +50,11 @@ class AcceptBidAndTaskerModal extends React.Component {
           <section className="modal-card-body">
             <div style={{ marginBottom: 10 }} className="has-text-centered">
               <figure
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(otherUserProfileInfo._id));
+                }}
                 style={{ marginBottom: 6, display: 'inline-block' }}
                 className="image is-128x128"
               >

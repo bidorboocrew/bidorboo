@@ -1,7 +1,7 @@
 // emailing services
 const keys = require('../config/keys');
 const stripe = require('stripe')(keys.stripeSecretKey);
-
+const moment = require('moment');
 // // XXXXXX RELEASE THE FUNDS
 // const payoutConfirmation = await stripeServiceUtil.payoutToBank('acct_1DxRCzFZom4pltNY', {
 //   amount: requestDetails.processedPayment.taskerPayout,
@@ -299,7 +299,7 @@ exports.util = {
           email: email || '',
           business_type: 'individual',
           metadata: { email, userId, displayName, phone },
-          tos_acceptance: tosAcceptance,
+          tos_acceptance: { ip: tosAcceptance.ip, date: moment(tosAcceptance.date).valueOf() },
           settings: {
             payments: {
               statement_descriptor: 'BidOrBoo Charge',
