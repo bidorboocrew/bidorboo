@@ -380,11 +380,18 @@ class TaskTypeFilter extends React.Component {
           <span
             style={{ cursor: 'pointer', minWidth: 165 }}
             key={`key-${key}`}
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
+
               const { updateTaskTypesFilter } = this.props;
               let currentActiveFilters = [...currentFilters];
+
               if (currentActiveFilters.indexOf(key) > -1) {
-                currentActiveFilters.splice(currentActiveFilters.indexOf(key), 1);
+                if (currentActiveFilters && Object.keys(currentActiveFilters).length === 1) {
+                  alert('One service type filter must be selected.');
+                } else {
+                  currentActiveFilters.splice(currentActiveFilters.indexOf(key), 1);
+                }
               } else {
                 currentActiveFilters.push(key);
               }

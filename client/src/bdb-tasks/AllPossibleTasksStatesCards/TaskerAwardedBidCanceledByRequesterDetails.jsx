@@ -30,6 +30,7 @@ class TaskerAwardedBidCanceledByRequesterDetails extends React.Component {
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
     const { taskerPartialPayout } = bid;
+
     const { value: taskerPartialPayoutAmount } = taskerPartialPayout;
 
     return (

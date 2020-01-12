@@ -18,6 +18,7 @@ import {
   TaskerWillEarn,
   BSWaitingOnRequesterToConfirm,
   BSAwardedToSomeoneElse,
+  BidAmount,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -26,10 +27,17 @@ class TaskerMyAwardedBidSummary extends React.Component {
   render() {
     const { bid, request, notificationFeed, updateRequestState } = this.props;
 
-    const { startingDateAndTime, taskerConfirmedCompletion, taskImages = [], requestTitle } = request;
+    const {
+      startingDateAndTime,
+      taskerConfirmedCompletion,
+      taskImages = [],
+      requestTitle,
+    } = request;
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
-    const { taskerPayout, isAwardedToMe } = bid;
+    const { taskerPayout, isAwardedToMe, bidAmount } = bid;
+    const { value: bidValue } = bidAmount;
+
     const { value: taskerTotalPayoutAmount } = taskerPayout;
 
     return (
@@ -49,6 +57,8 @@ class TaskerMyAwardedBidSummary extends React.Component {
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
+              <BidAmount bidAmount={bidValue} />
+
               {isAwardedToMe && (
                 <>
                   <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>

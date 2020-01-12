@@ -10,6 +10,7 @@ import {
   TaskImagesCarousel,
   UserGivenTitle,
   TaskerWillEarn,
+  BidAmount,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -20,7 +21,9 @@ export default class TaskerMyOpenBidSummary extends React.Component {
 
     const { startingDateAndTime, taskImages = [], requestTitle } = request;
 
-    const { taskerPayout, isNewBid } = bid;
+    const { taskerPayout, isNewBid, bidAmount } = bid;
+
+    const { value: bidValue } = bidAmount;
 
     const taskerTotalPayoutAmount = taskerPayout.value;
 
@@ -39,6 +42,8 @@ export default class TaskerMyOpenBidSummary extends React.Component {
               date={startingDateAndTime}
               renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
+            <BidAmount bidAmount={bidValue}></BidAmount>
+
             <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
 
             <BSawaitingOnRequester />

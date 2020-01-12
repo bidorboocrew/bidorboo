@@ -11,6 +11,7 @@ import {
   TaskImagesCarousel,
   UserGivenTitle,
   TaskerWillEarn,
+  BidAmount,
 } from '../../containers/commonComponents';
 import { REQUEST_STATES } from '../index';
 
@@ -24,7 +25,9 @@ export default class TaskerBidDoneSummary extends React.Component {
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
-    const { taskerPayout, isAwardedToMe } = bid;
+    const { taskerPayout, isAwardedToMe, bidAmount } = bid;
+    const { value: bidValue } = bidAmount;
+
     const { value: taskerTotalPayoutAmount } = taskerPayout;
     const requiresTaskerReview = _reviewRef.requiresTaskerReview;
 
@@ -40,6 +43,8 @@ export default class TaskerBidDoneSummary extends React.Component {
               date={startingDateAndTime}
               renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
+            <BidAmount bidAmount={bidValue} />
+
             {isAwardedToMe && (
               <>
                 <TaskerWillEarn earningAmount={taskerTotalPayoutAmount} />

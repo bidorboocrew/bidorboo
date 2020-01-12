@@ -76,9 +76,9 @@ export default class TaskerMyOpenBidDetails extends React.Component {
     } = request;
 
     const { taskerPayout, bidAmount } = bid;
+    const { value: bidValue } = bidAmount;
 
     const { value: taskerPayoutAmount } = taskerPayout;
-    const { value: bidValue } = bidAmount;
 
     const { updateBid, deleteOpenBid } = otherArgs;
 
@@ -189,11 +189,12 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
+              <BidAmount bidAmount={bidValue}></BidAmount>
+
               <TaskerWillEarn earningAmount={taskerPayoutAmount}></TaskerWillEarn>
               <BSawaitingOnRequester />
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
-                  <BidAmount bidAmount={bidValue}></BidAmount>
                   <div className="group">
                     <label className="label hasSelectedValue">Requester</label>
                     <CenteredUserImageAndRating userDetails={_ownerRef} isCentered={false} />

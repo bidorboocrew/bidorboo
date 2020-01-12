@@ -22,7 +22,7 @@ import RequestBaseContainer from './RequestBaseContainer';
 export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
   render() {
     const { request, otherArgs = {} } = this.props;
-    const { showRegisterAsTaskerModal } = this.state;
+    // const { showRegisterAsTaskerModal } = this.state;
     const { showMapView, isLoggedIn, userDetails, updateViewedBy } = otherArgs;
 
     const { _id: currentUserId } = userDetails;

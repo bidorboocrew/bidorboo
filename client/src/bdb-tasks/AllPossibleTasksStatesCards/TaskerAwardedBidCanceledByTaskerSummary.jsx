@@ -9,6 +9,7 @@ import {
   SummaryStartDateAndTime,
   TaskImagesCarousel,
   UserGivenTitle,
+  BidAmount,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -16,7 +17,8 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 export default class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
   render() {
     const { bid, request } = this.props;
-
+    const { bidAmount } = bid;
+    const { value: bidValue } = bidAmount;
     const { startingDateAndTime, taskImages = [], requestTitle } = request;
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
@@ -38,6 +40,8 @@ export default class TaskerAwardedBidCanceledByTaskerSummary extends React.Compo
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
+              <BidAmount bidAmount={bidValue} />
+
               <CancelledBy name="You" />
             </div>
           </div>

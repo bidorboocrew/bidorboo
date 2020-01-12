@@ -9,6 +9,7 @@ import {
   CancelledBy,
   TaskImagesCarousel,
   UserGivenTitle,
+  BidAmount,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -16,7 +17,8 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 export default class TaskerAwardedBidCanceledByTaskerDetails extends React.Component {
   render() {
     const { bid, request } = this.props;
-
+    const { bidAmount } = bid;
+    const { value: bidValue } = bidAmount;
     const { startingDateAndTime, taskImages = [], requestTitle } = request;
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
@@ -35,6 +37,8 @@ export default class TaskerAwardedBidCanceledByTaskerDetails extends React.Compo
               date={startingDateAndTime}
               renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
+            <BidAmount bidAmount={bidValue} />
+
             <CancelledBy name="You" />
             <div className="group has-text-left">
               <label className="label has-text-danger">What you need to know:</label>

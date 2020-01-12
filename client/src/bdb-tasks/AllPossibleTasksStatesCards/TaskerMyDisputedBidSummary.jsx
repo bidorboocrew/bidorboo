@@ -9,6 +9,7 @@ import {
   SummaryStartDateAndTime,
   DisputedBy,
   TaskerWillEarn,
+  BidAmount,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -21,7 +22,8 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
-    const { taskerPayout } = bid;
+    const { taskerPayout, bidAmount } = bid;
+    const { value: bidValue } = bidAmount;
     const { value: taskerTotalPayoutAmount } = taskerPayout;
 
     let whoDisputed = '';
@@ -42,6 +44,8 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
             <TaskImagesCarousel taskImages={taskImages} />
 
             <SummaryStartDateAndTime date={startingDateAndTime} />
+            <BidAmount bidAmount={bidValue} />
+
             <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
 
             <DisputedBy name={whoDisputed} />

@@ -25,7 +25,6 @@ import { updateRequestState } from '../../app-state/actions/requestActions';
 
 class TaskerBidDoneDetails extends RequestBaseContainer {
   componentDidMount() {
-
     const { updateRequestState, request } = this.props;
     updateRequestState(request._id, REQUEST_STATES.DONE_SEEN);
   }
@@ -46,9 +45,9 @@ class TaskerBidDoneDetails extends RequestBaseContainer {
     } = request;
 
     const { taskerPayout, bidAmount, _id: bidId } = bid;
+    const { value: bidValue } = bidAmount;
 
     const { value: taskerPayoutAmount } = taskerPayout;
-    const { value: bidValue } = bidAmount;
 
     const { TITLE, ID, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
@@ -78,6 +77,8 @@ class TaskerBidDoneDetails extends RequestBaseContainer {
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
+              <BidAmount bidAmount={bidValue} />
+
               <TaskerWillEarn earningAmount={taskerPayoutAmount} />
 
               <TaskIsFulfilled
@@ -93,7 +94,6 @@ class TaskerBidDoneDetails extends RequestBaseContainer {
 
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
-                  <BidAmount bidAmount={bidValue} />
                   <div className="group">
                     <label className="label hasSelectedValue">Task Address</label>
                     <div className="control">{addressText}</div>

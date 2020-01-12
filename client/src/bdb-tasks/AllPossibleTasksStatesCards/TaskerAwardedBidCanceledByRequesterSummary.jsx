@@ -16,6 +16,7 @@ import {
   TaskImagesCarousel,
   UserGivenTitle,
   TaskerWillEarn,
+  BidAmount,
 } from '../../containers/commonComponents';
 
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -28,7 +29,8 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
-    const { taskerPartialPayout } = bid;
+    const { taskerPartialPayout, bidAmount } = bid;
+    const { value: bidValue } = bidAmount;
     const { value: taskerPartialPayoutAmount } = taskerPartialPayout;
 
     let newUnseenState = false;
@@ -59,6 +61,8 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
+              <BidAmount bidAmount={bidValue} />
+
               <TaskerWillEarn earningAmount={taskerPartialPayoutAmount}></TaskerWillEarn>
 
               <CancelledBy name="Requester" />
@@ -70,7 +74,10 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
               onClick={(e) => {
                 e.preventDefault();
                 newUnseenState &&
-                  updateRequestState(request._id, REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_REQUESTER_SEEN);
+                  updateRequestState(
+                    request._id,
+                    REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_REQUESTER_SEEN,
+                  );
 
                 switchRoute(
                   ROUTES.CLIENT.TASKER.dynamicReviewMyAwardedBidAndTheRequestDetails(bid._id),

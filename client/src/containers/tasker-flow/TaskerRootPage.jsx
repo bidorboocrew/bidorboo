@@ -8,7 +8,6 @@ import { getCurrentUser } from '../../app-state/actions/authActions';
 
 import { searchRequestsToBidOn } from '../../app-state/actions/requestActions';
 
-import TaskerRootFilterWrapper from '../../components/forms/TaskerRootFilterWrapper';
 import TaskerRootLocationFilter from '../../components/forms/TaskerRootLocationFilter';
 
 import { Spinner } from '../../components/Spinner';
@@ -209,7 +208,7 @@ class TaskerRootPage extends React.Component {
         <TaskerVerificationBanner></TaskerVerificationBanner>
 
         <div>
-          <section className="hero is-small is-dark is-bold">
+          <section className="hero is-small is-bold">
             <div className="hero-body">
               <div className="container">
                 <h1
@@ -227,31 +226,25 @@ class TaskerRootPage extends React.Component {
                   {...this.props}
                 />
                 <br></br>
-
                 {isLoggedIn && (
-                  <div className="columns is-centered is-mobile is-multiline">
-                    <div className="column has-text-left">
-                      <SubscribeToSearchResultsToggle />
-                    </div>
+                  <div className="has-text-left">
+                    <SubscribeToSearchResultsToggle />
                   </div>
                 )}
-                <div className="columns is-centered is-mobile is-multiline">
-                  <div className="column has-text-left">
-                    <div
-                      style={{ marginBottom: '0.75rem', textAlign: 'left', marginTop: '0.75rem' }}
-                    >
-                      <input
-                        id="togglemapView"
-                        type="checkbox"
-                        name="togglemapView"
-                        className="switch is-rounded is-success"
-                        onChange={this.toggleMapView}
-                        checked={showMapView}
-                      />
-                      <label style={{ fontWeight: 500 }} htmlFor="togglemapView">
-                        Toggle map view
-                      </label>
-                    </div>
+
+                <div className="has-text-left">
+                  <div style={{ marginBottom: '0.75rem', textAlign: 'left', marginTop: '0.75rem' }}>
+                    <input
+                      id="togglemapView"
+                      type="checkbox"
+                      name="togglemapView"
+                      className="switch is-rounded is-success"
+                      onChange={this.toggleMapView}
+                      checked={showMapView}
+                    />
+                    <label style={{ fontWeight: 500 }} htmlFor="togglemapView">
+                      Toggle map view
+                    </label>
                   </div>
                 </div>
               </div>
@@ -284,16 +277,6 @@ class TaskerRootPage extends React.Component {
                   />
                 </div>
               </Collapse>
-
-              {anyVisibleRequests && (
-                <TaskerRootFilterWrapper
-                  submitSearchLocationParams={this.submitSearchLocationParams}
-                  updateSearchLocationState={this.updateSearchLocationState}
-                  activeSearchParams={activeSearchParams}
-                  userLastStoredSearchParams={userLastStoredSearchParams}
-                  {...this.props}
-                />
-              )}
 
               {currentRequestsList && currentRequestsList.length > 0 && (
                 <>
