@@ -278,6 +278,10 @@ const UserSchema = new Schema(
       payoutsEnabled: { type: Boolean },
       chargesEnabled: { type: Boolean },
       processedWebhookEventIds: [{ type: String }],
+      capabilities: {
+        card_payments: { type: String, enum: ['active', 'inactive'] },
+        transfers: { type: String, enum: ['active', 'inactive'] },
+      },
       accRequirements: {
         disabled_reason: { type: String },
         current_deadline: { type: Number },
@@ -309,7 +313,17 @@ UserSchema.virtual('canPost').get(function() {
 UserSchema.virtual('canBid').get(function() {
   // return this.email && this.email.isVerified;
 
-  return !!(this.phone && this.phone.isVerified && this.email && this.email.isVerified);
+  return !!(
+    this.phone &&
+    this.phone.isVerified &&
+    this.email &&
+    this.email.isVerified &&
+    this.stripeConnect &&
+    this.stripeConnect.chargesEnabled &&
+    this.stripeConnect.capabilities &&
+    this.stripeConnect.capabilities.transfers === 'active' &&
+    (!this.stripeConnect.accRequirements || !!!this.stripeConnect.accRequirements.disabled_reason)
+  );
 });
 
 UserSchema.virtual('disabledReasonMsg').get(function() {

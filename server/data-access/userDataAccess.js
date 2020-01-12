@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const User = mongoose.model('UserModel');
 const sendGridEmailing = require('../services/sendGrid').EmailService;
 const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
-const moment = require('moment');
+// const moment = require('moment');
 const stripeServiceUtil = require('../services/stripeService').util;
 
 exports.updateStripeAccountRequirementsDetails = ({
@@ -13,6 +13,7 @@ exports.updateStripeAccountRequirementsDetails = ({
   chargesEnabled,
   payoutsEnabled,
   accRequirements,
+  capabilities,
 }) => {
   const {
     disabled_reason,
@@ -31,6 +32,7 @@ exports.updateStripeAccountRequirementsDetails = ({
     {
       $set: {
         payoutsEnabled,
+        'stripeConnect.capabilities': capabilities,
         'stripeConnect.isVerified': payoutsEnabled && chargesEnabled,
         'stripeConnect.payoutsEnabled': payoutsEnabled,
         'stripeConnect.chargesEnabled': chargesEnabled,

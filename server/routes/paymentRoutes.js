@@ -301,6 +301,7 @@ module.exports = (app) => {
               charges_enabled,
               requirements: accRequirements,
               metadata,
+              capabilities: { transfers, card_payments },
             } = customerAcc;
 
             const { userId } = metadata;
@@ -313,6 +314,10 @@ module.exports = (app) => {
               chargesEnabled: charges_enabled,
               payoutsEnabled: payouts_enabled,
               accRequirements,
+              capabilities: {
+                card_payments,
+                transfers,
+              },
             });
 
             await userDataAccess.updateStripeAccountRequirementsDetails({
@@ -321,6 +326,10 @@ module.exports = (app) => {
               accId,
               chargesEnabled: charges_enabled,
               payoutsEnabled: payouts_enabled,
+              capabilities: {
+                card_payments,
+                transfers,
+              },
               accRequirements,
             });
             console.log('updateStripeAccountRequirementsDetails done');
