@@ -17,8 +17,10 @@ module.exports = (process) => {
     useCreateIndex: true,
     useFindAndModify: false,
     useNewUrlParser: true,
-    poolSize: 12,
+    poolSize: 10,
     keepAlive: true,
+    reconnectTries: 10,
+    reconnectInterval: 3000,
     useUnifiedTopology: true,
     retryWrites: false,
     // config: { autoIndex: false }// avoid performance hit due to schema level indexing

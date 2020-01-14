@@ -85,7 +85,7 @@ export default class HomePage extends React.Component {
         <section className="hero has-text-centered ">
           <div style={{ position: 'relative' }}>
             <div style={{ margin: 'auto', maxWidth: 800, padding: '0.5rem' }}>
-              <div className="player-wrapper fade-in ">
+              <div className="player-wrapper fade-in">
                 <ReactPlayer
                   className="react-player"
                   url="https://youtu.be/YHh9JbJAyf0?mode=opaque"
@@ -93,14 +93,8 @@ export default class HomePage extends React.Component {
                   height="100%"
                   config={{
                     youtube: {
-                      controls: 0,
                       widget_referrer: 'https://www.bidorboo.ca',
                       modestbranding: 1,
-                      playerVars: {
-                        controls: 0,
-                        modestbranding: 1,
-                        widget_referrer: 'https://www.bidorboo.ca',
-                      },
                       preload: true,
                     },
                   }}
