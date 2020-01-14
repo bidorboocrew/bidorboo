@@ -18,12 +18,9 @@ module.exports = (process) => {
     useFindAndModify: false,
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    // poolSize: 10,
-    // keepAlive: true,
-    // reconnectTries: 10,
-    // reconnectInterval: 3000,
-    // retryWrites: false,
-    // config: { autoIndex: false }// avoid performance hit due to schema level indexing
+    poolSize: 12,
+    keepAlive: true,
+    config: { autoIndex: false }// avoid performance hit due to schema level indexing
   };
   mongoose.set('debug', process.env.NODE_ENV === 'production' ? false : true);
 
