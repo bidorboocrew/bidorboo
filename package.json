@@ -6,8 +6,8 @@
   "description": "Get Services Done For the Price you desire. Offer Services and earn money.",
   "author": "Said Madi",
   "engines": {
-    "node": "10.15.3",
-    "npm": "6.4.1",
+    "node": "10.18.0",
+    "npm": "6.13.4",
     "yarn": "1.16.0"
   },
   "cacheDirectories": [

@@ -6,6 +6,11 @@
   "description": "Get Services Done For the Price you desire. Offer Services and earn money.",
   "author": "Said Madi",
   "main": "index.js",
+  "engines": {
+    "node": "10.18.0",
+    "npm": "6.13.4",
+    "yarn": "1.16.0"
+  },
   "scripts": {
     "start": "node index.js",
     "startwithpm2": "pm2-runtime start ecosystem.config.js --env production",
