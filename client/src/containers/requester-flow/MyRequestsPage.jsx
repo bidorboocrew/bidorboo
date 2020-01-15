@@ -102,7 +102,7 @@ class MyRequestsPage extends React.Component {
           <div className="hero-body  has-text-centered">
             <div className="container">
               <h1 style={{ marginBottom: 0 }} className="has-text-dark title">
-                Requests Inbox
+                My Requests
               </h1>
             </div>
           </div>

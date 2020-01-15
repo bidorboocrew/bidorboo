@@ -133,7 +133,7 @@ exports.util = {
     taskImages,
   }) => {
     const title = `${taskName} Request Booking`;
-    const description = `*amount will be held till the tasker (${taskerDisplayName}) completes this service`;
+    const description = `*After you confirm service completion, payment will be released to tasker: (${taskerDisplayName})`;
 
     // const BIDORBOO_SERVICECHARGE = 0.06;
 

@@ -2,7 +2,6 @@ import appHistory from './react-router-history';
 import * as A from './app-state/actionTypes';
 
 export const switchRoute = (routeAndParams, stateContent = null) => {
-
   setTimeout(() => {
     //
     if (stateContent) {
@@ -20,8 +19,7 @@ export const switchRoute = (routeAndParams, stateContent = null) => {
 };
 
 export const delayedReload = (routeAndParams) => {
-  console.error(routeAndParams);
-  setTimeout(() => window.location.reload(), 3000);
+  setTimeout(() => window.location.reload(), 1000);
 };
 
 export const goBackToPreviousRoute = () => {

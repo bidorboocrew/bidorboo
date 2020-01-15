@@ -278,6 +278,11 @@ $button-disabled-opacity: 0.85;
   transform: translateY(0);
 }
 
+div.bdb-carousel {
+  > div > div > ul > li.slide.selected {
+    background: #353535;
+  }
+}
 .VerticalAligner {
   display: flex;
   align-items: center;

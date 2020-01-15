@@ -466,7 +466,7 @@ class Header extends React.Component {
                           </span>
                         )}
                       </span>
-                      <span>INBOX</span>
+                      <span>MY REQS.</span>
                     </a>
                   </React.Fragment>
                 )}
@@ -518,7 +518,7 @@ class Header extends React.Component {
                           </span>
                         )}
                       </span>
-                      <span>INBOX</span>
+                      <span>MY BIDS</span>
                     </a>
                   </React.Fragment>
                 )}
@@ -628,7 +628,7 @@ class Header extends React.Component {
                             </span>
                           )}
                         </span>
-                        <span>REQUESTS INBOX</span>
+                        <span>MY REQUESTS</span>
                       </a>
                     </>
                   )}
@@ -679,7 +679,7 @@ class Header extends React.Component {
                             </span>
                           )}
                         </span>
-                        <span>BIDS INBOX</span>
+                        <span>MY BIDS</span>
                       </a>
                     </>
                   )}

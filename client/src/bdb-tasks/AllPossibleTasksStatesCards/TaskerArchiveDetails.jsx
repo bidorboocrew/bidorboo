@@ -185,7 +185,7 @@ class AssignedTaskerDetails extends React.Component {
                     ROUTES.CLIENT.REVIEW.getTaskerRequestReview({ bidId: _awardedBidRef._id }),
                   );
                 }}
-                className={`button firstButtonInCard is-primary`}
+                className={`button is-primary`}
               >
                 Review Requester
               </a>
@@ -216,14 +216,14 @@ class AssignedTaskerDetails extends React.Component {
             )}
 
             <br></br>
-            <hr className="dropdown-divider" />
-            <br></br>
-            <button onClick={goBackToPreviousRoute} className="button is-outline">
+            {/* <hr className="dropdown-divider" />
+            <br></br> */}
+            {/* <button onClick={goBackToPreviousRoute} className="button is-outline">
               <span className="icon">
                 <i className="far fa-arrow-alt-circle-left" />
               </span>
               <span>Go Back</span>
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

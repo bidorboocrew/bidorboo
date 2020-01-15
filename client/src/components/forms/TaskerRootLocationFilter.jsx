@@ -402,9 +402,9 @@ class TaskTypeFilter extends React.Component {
           >
             <span className="icon">
               {currentFilters.indexOf(key) > -1 ? (
-                <i class="far fa-check-square"></i>
+                <i className="far fa-check-square"></i>
               ) : (
-                <i class="far fa-square"></i>
+                <i className="far fa-square"></i>
               )}
             </span>
             <span></span>

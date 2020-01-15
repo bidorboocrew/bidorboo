@@ -39,7 +39,6 @@ export const getRequestToBidOnDetails = (requestId, isLoggedIn = false) => (disp
   });
 
 export const submitBid = ({ bidAmount, request, recaptchaField }) => (dispatch) => {
-
   const { _id: requestId, templateId } = request;
   dispatch({
     type: A.TASKER_ACTIONS.POST_A_BID,
@@ -137,15 +136,6 @@ export const updateBid = ({ bidId, bidAmount, request }) => (dispatch) => {
       })
       .then((resp) => {
         if (resp.data && resp.data._id) {
-
-          const taskDefinition = TASKS_DEFINITIONS[templateId];
-          dispatch({
-            type: A.UI_ACTIONS.SHOW_SPECIAL_MOMENT,
-            payload: {
-              specialMomentContent: taskDefinition.renderThankYouForEditingBid,
-            },
-          });
-
           delayedReload(
             ROUTES.CLIENT.TASKER.dynamicReviewMyOpenBidAndTheRequestDetails(resp.data._id),
           );

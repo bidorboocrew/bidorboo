@@ -915,11 +915,8 @@ exports.bidDataAccess = {
         if (archivedBidDetails && archivedBidDetails._id) {
           const requestDetails = archivedBidDetails._requestRef;
           if (
-            !(
-              requestDetails._reviewRef &&
-              requestDetails._reviewRef.requesterReview &&
-              requestDetails._reviewRef.taskerReview
-            )
+            requestDetails._reviewRef &&
+            !(requestDetails._reviewRef.requesterReview && requestDetails._reviewRef.taskerReview)
           ) {
             requestDetails._reviewRef.requesterReview = null;
           }

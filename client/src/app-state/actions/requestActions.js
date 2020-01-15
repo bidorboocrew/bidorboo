@@ -136,7 +136,6 @@ export const requesterConfirmsRequestCompletion = (requestId) => (dispatch) => {
 };
 
 export const requesterDisputesRequest = ({ requesterDispute }) => (dispatch) => {
-  debugger;
   const config = {
     headers: { 'Content-Type': 'application/json' },
   };
@@ -162,7 +161,7 @@ export const requesterDisputesRequest = ({ requesterDispute }) => (dispatch) => 
 };
 
 export const taskerDisputesRequest = ({ taskerDispute }) => (dispatch) => {
-  debugger;
+
   const config = {
     headers: { 'Content-Type': 'application/json' },
   };

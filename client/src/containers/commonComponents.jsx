@@ -1718,9 +1718,11 @@ export const TaskImagesCarousel = ({ taskImages, isLarge = false }) => {
 
     return (
       <Carousel
+        className="bdb-carousel"
         showThumbs={false}
         showArrows={true}
         infiniteLoop
+        swipeable
         // centerMode
       >
         {taskImages}

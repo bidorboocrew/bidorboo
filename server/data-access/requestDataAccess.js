@@ -653,7 +653,7 @@ exports.requestDataAccess = {
           taskImages: 1,
         },
       })
-      .lean({virtuals: true})
+      .lean({ virtuals: true })
       .exec();
   },
   getRequestWithReviewModel: async (requestId, ownerId) => {
@@ -1940,8 +1940,8 @@ exports.requestDataAccess = {
 
         if (archivedRequestDetails && archivedRequestDetails._id) {
           if (
+            archivedRequestDetails._reviewRef &&
             !(
-              archivedRequestDetails._reviewRef &&
               archivedRequestDetails._reviewRef.requesterReview &&
               archivedRequestDetails._reviewRef.taskerReview
             )
