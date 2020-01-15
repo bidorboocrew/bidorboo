@@ -140,9 +140,9 @@ module.exports = {
       getDynamicBidOnRequestPage: (requestId) =>
         `https://www.bidorboo.ca/bdb-bidder/bid-on-request/${requestId}`,
       mybids: 'https://www.bidorboo.ca/bdb-bidder/my-bids',
-      reviewMyBidAndTheRequestDetails: 'https://www.bidorboo.cabdb-bidder/review-my-bid-details/:bidId',
+      reviewMyBidAndTheRequestDetails: 'https://www.bidorboo.ca/bdb-bidder/review-my-bid-details/:bidId',
       dynamicReviewMyBidAndTheRequestDetails: (bidId) =>
-        `https://www.bidorboo.cabdb-bidder/review-my-bid-details/${bidId}`,
+        `https://www.bidorboo.cab/db-bidder/review-my-bid-details/${bidId}`,
       currentAwardedBid: 'https://www.bidorboo.ca/bdb-bidder/awarded-bid-details/:bidId',
       dynamicCurrentAwardedBid: (bidId) => `https://www.bidorboo.ca/bdb-bidder/awarded-bid-details/${bidId}`,
     },
