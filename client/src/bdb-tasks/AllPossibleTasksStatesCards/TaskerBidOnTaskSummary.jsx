@@ -53,9 +53,12 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
           <div style={{ ...specialStyle }} className="card-content">
             <div className="content">
               <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <div className="group">
+                {!isOnMapView && (
+                  <CenteredUserImageAndRating clipUserName userDetails={_ownerRef} />
+                )}
+              </div>
               <UserGivenTitle userGivenTitle={requestTitle} />
-
-              {!isOnMapView && <TaskImagesCarousel taskImages={taskImages} />}
 
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
@@ -63,15 +66,7 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              <div className="group">
-                {!isOnMapView && (
-                  <CenteredUserImageAndRating
-                    labelOnTop={() => <label className="label hasSelectedValue">Requester</label>}
-                    clipUserName
-                    userDetails={_ownerRef}
-                  />
-                )}
-              </div>
+
               {!isOnMapView && (
                 <div className="group">
                   {/* <label className="label">Task Info</label> */}
@@ -85,32 +80,39 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                   />
                 </div>
               )}
+              {/* {!isOnMapView && (
+                <>
+                  <TaskImagesCarousel taskImages={taskImages} /> <br></br>
+                </>
+              )} */}
 
               {!isOnMapView && (
                 <>
                   <br></br>
                   <div style={{ display: 'flex' }}>
                     <a
-                      style={{ flexGrow: 1 }}
                       onClick={(e) => {
                         switchRoute(ROUTES.CLIENT.TASKER.getDynamicBidOnRequestPage(request._id));
                       }}
                       className="button is-success firstButtonInCard"
                     >
-                      Enter Your Bid
+                      <span className="icon">
+                        <i className="fas fa-hand-paper"></i>
+                      </span>
+                      <span>Bid Now</span>
                     </a>
                     {showMapView && (
                       <a
-                        style={{ marginLeft: 12 }}
                         onClick={(e) => {
                           const markerRef = reactMapClusterRef;
                           markerRef.current.props.onClick();
                         }}
-                        className="button secondButtonInCard "
+                        className="button secondButtonInCard"
                       >
                         <span className="icon">
-                          <i className="fas fa-map-marked-alt" />
+                          <i className="fas fa-map-marker-alt"></i>
                         </span>
+                        <span>Locate</span>
                       </a>
                     )}
                   </div>
@@ -133,7 +135,7 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                       }}
                       className="button is-success is-small"
                     >
-                      Enter Your Bid
+                      Bid Now
                     </a>
                   </div>
                 </div>

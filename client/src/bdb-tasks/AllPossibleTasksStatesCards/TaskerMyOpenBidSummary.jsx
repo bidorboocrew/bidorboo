@@ -36,17 +36,16 @@ export default class TaskerMyOpenBidSummary extends React.Component {
             <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
             <UserGivenTitle userGivenTitle={requestTitle} />
 
-            <TaskImagesCarousel taskImages={taskImages} />
-
             <SummaryStartDateAndTime
               date={startingDateAndTime}
               renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
-            <BidAmount bidAmount={bidValue}></BidAmount>
 
-            <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
+            {/* <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn> */}
 
             <BSawaitingOnRequester />
+            <BidAmount bidAmount={bidValue}></BidAmount>
+            {/* <TaskImagesCarousel taskImages={taskImages} /> */}
           </div>
         </div>
         {renderFooter({ bid, isNewBid })}
@@ -65,7 +64,7 @@ const renderFooter = ({ bid, isNewBid }) => {
           }}
           className={`button is-fullwidth is-info`}
         >
-          <span>CHANGE BID</span>
+          <span>Change Bid</span>
         </a>
       </div>
     );

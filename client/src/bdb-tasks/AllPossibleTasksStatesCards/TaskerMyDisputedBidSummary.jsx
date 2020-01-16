@@ -44,11 +44,11 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
             <TaskImagesCarousel taskImages={taskImages} />
 
             <SummaryStartDateAndTime date={startingDateAndTime} />
-            <BidAmount bidAmount={bidValue} />
 
-            <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
+            {/* <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn> */}
 
             <DisputedBy name={whoDisputed} />
+            <BidAmount bidAmount={bidValue} />
           </div>
         </div>
 

@@ -43,11 +43,11 @@ export default class TaskerMyDisputedBidDetails extends React.Component {
             <TaskImagesCarousel taskImages={taskImages} />
 
             <SummaryStartDateAndTime date={startingDateAndTime} />
-            <BidAmount bidAmount={bidValue} />
-
-            <TaskerWillEarn earningAmount={taskerPayoutAmount}></TaskerWillEarn>
 
             <DisputedBy name={whoDisputed} />
+
+            <BidAmount bidAmount={bidValue} />
+            {/* <TaskerWillEarn earningAmount={taskerPayoutAmount}></TaskerWillEarn> */}
 
             <div className="group has-text-left">
               <label className="label has-text-danger">What you need to know:</label>

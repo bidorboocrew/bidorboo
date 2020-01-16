@@ -258,15 +258,6 @@ class TaskerRootPage extends React.Component {
           )}
           {!isLoading && (
             <React.Fragment>
-              {isThereAnActiveSearch && (
-                <div
-                  style={{ marginBottom: 6 }}
-                  className="help container is-widescreen has-text-grey has-text-centered"
-                >
-                  {` ${(currentRequestsList && currentRequestsList.length) ||
-                    0} tasks available in the search area`}
-                </div>
-              )}
               <Collapse isOpened={showMapView}>
                 <div style={{ marginTop: '1.25rem' }} className="container slide-in-bottom-small">
                   <MapSection
@@ -277,7 +268,15 @@ class TaskerRootPage extends React.Component {
                   />
                 </div>
               </Collapse>
-
+              {isThereAnActiveSearch && (
+                <div
+                  style={{ marginTop: 2 }}
+                  className="help container is-widescreen has-text-grey has-text-centered"
+                >
+                  {` ${(currentRequestsList && currentRequestsList.length) ||
+                    0} tasks available in the search area`}
+                </div>
+              )}
               {currentRequestsList && currentRequestsList.length > 0 && (
                 <>
                   <AllRequestsView

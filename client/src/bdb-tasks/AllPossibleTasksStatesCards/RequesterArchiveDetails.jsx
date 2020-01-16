@@ -69,8 +69,8 @@ class RequesterArchiveDetails extends RequestBaseContainer {
             <div className="content">
               <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
               <UserGivenTitle userGivenTitle={requestTitle} />
-
-              <TaskImagesCarousel taskImages={taskImages} isLarge />
+ m
+               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={completionDate}
                 renderHelpComponent={() => (

@@ -57,17 +57,17 @@ class TaskerMyAwardedBidSummary extends React.Component {
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              <BidAmount bidAmount={bidValue} />
 
               {isAwardedToMe && (
                 <>
-                  <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn>
+                  {/* <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn> */}
                   {taskerConfirmedCompletion && <BSWaitingOnRequesterToConfirm />}
 
                   {!taskerConfirmedCompletion && <BSTaskerAwarded />}
                 </>
               )}
               {!isAwardedToMe && <BSAwardedToSomeoneElse />}
+              <BidAmount bidAmount={bidValue} />
             </div>
           </div>
           {isAwardedToMe &&

@@ -33,16 +33,17 @@ export default class TaskerAwardedBidCanceledByTaskerSummary extends React.Compo
               <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
               <UserGivenTitle userGivenTitle={requestTitle} />
 
-              <TaskImagesCarousel taskImages={taskImages} />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              <BidAmount bidAmount={bidValue} />
 
               <CancelledBy name="You" />
+              <BidAmount bidAmount={bidValue} />
+
+              {/* <TaskImagesCarousel taskImages={taskImages} /> */}
             </div>
           </div>
           <div className="centeredButtonInCard">

@@ -43,11 +43,9 @@ export default class TaskerBidDoneSummary extends React.Component {
               date={startingDateAndTime}
               renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
-            <BidAmount bidAmount={bidValue} />
 
             {isAwardedToMe && (
               <>
-                <TaskerWillEarn earningAmount={taskerTotalPayoutAmount} />
                 <TaskIsFulfilled
                   renderHelp={() => {
                     if (requiresTaskerReview) {
@@ -58,9 +56,11 @@ export default class TaskerBidDoneSummary extends React.Component {
                     }
                   }}
                 />
+                {/* <TaskerWillEarn earningAmount={taskerTotalPayoutAmount} /> */}
               </>
             )}
             {!isAwardedToMe && <BSAwardedToSomeoneElse />}
+            <BidAmount bidAmount={bidValue} />
           </div>
         </div>
         <div className="centeredButtonInCard">

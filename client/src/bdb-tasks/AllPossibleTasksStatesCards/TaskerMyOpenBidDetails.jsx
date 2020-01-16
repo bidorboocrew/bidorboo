@@ -189,15 +189,18 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
+
+              <BSawaitingOnRequester />
+
               <BidAmount bidAmount={bidValue}></BidAmount>
 
-              <TaskerWillEarn earningAmount={taskerPayoutAmount}></TaskerWillEarn>
-              <BSawaitingOnRequester />
               <Collapse isOpened={showMore}>
-                <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
+                <div style={{ maxWidth: 300, margin: 'auto' }}>
+                  <TaskerWillEarn earningAmount={taskerPayoutAmount}></TaskerWillEarn>
+
                   <div className="group">
                     <label className="label hasSelectedValue">Requester</label>
-                    <CenteredUserImageAndRating userDetails={_ownerRef} isCentered={false} />
+                    <CenteredUserImageAndRating userDetails={_ownerRef} isCentered />
                   </div>
                   <TaskSpecificExtras templateId={ID} extras={extras} />
                   <LocationLabelAndValue location={location.coordinates} />

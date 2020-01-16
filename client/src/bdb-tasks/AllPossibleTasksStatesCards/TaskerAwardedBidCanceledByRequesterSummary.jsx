@@ -54,18 +54,19 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
               <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
               <UserGivenTitle userGivenTitle={requestTitle} />
 
-              <TaskImagesCarousel taskImages={taskImages} />
               <SummaryStartDateAndTime
                 date={startingDateAndTime}
                 renderHelpComponent={() => (
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              <BidAmount bidAmount={bidValue} />
 
-              <TaskerWillEarn earningAmount={taskerPartialPayoutAmount}></TaskerWillEarn>
+              {/* <TaskerWillEarn earningAmount={taskerPartialPayoutAmount}></TaskerWillEarn> */}
 
               <CancelledBy name="Requester" />
+              <BidAmount bidAmount={bidValue} />
+
+              {/* <TaskImagesCarousel taskImages={taskImages} /> */}
             </div>
           </div>
           <div className="centeredButtonInCard">

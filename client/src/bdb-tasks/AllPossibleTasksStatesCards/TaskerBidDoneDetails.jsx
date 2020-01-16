@@ -56,15 +56,7 @@ class TaskerBidDoneDetails extends RequestBaseContainer {
 
     return (
       <React.Fragment>
-        <div
-          style={{
-            boxShadow: 'none',
-            borderLeft: '1px solid rgba(10,10,10,0.2)',
-            borderTop: '1px solid rgba(10,10,10,0.2)',
-            borderRight: '1px solid rgba(10,10,10,0.2)',
-          }}
-          className="card has-text-centered"
-        >
+        <div className="card has-text-centered">
           <div style={{ borderBottom: 0 }} className="card-content">
             <div className="content">
               <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
@@ -77,9 +69,6 @@ class TaskerBidDoneDetails extends RequestBaseContainer {
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              <BidAmount bidAmount={bidValue} />
-
-              <TaskerWillEarn earningAmount={taskerPayoutAmount} />
 
               <TaskIsFulfilled
                 renderHelp={() => {
@@ -91,9 +80,11 @@ class TaskerBidDoneDetails extends RequestBaseContainer {
                   }
                 }}
               />
+              <BidAmount bidAmount={bidValue} />
 
               <Collapse isOpened={showMore}>
-                <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
+                <div style={{ maxWidth: 300, margin: 'auto' }}>
+                  <TaskerWillEarn earningAmount={taskerPayoutAmount} />
                   <div className="group">
                     <label className="label hasSelectedValue">Task Address</label>
                     <div className="control">{addressText}</div>
@@ -133,9 +124,8 @@ class TaskerBidDoneDetails extends RequestBaseContainer {
               </div>
             </div>
           </div>
-
-          <RequesterDetails otherUserProfileInfo={_ownerRef} bidId={bidId} />
         </div>
+        <RequesterDetails otherUserProfileInfo={_ownerRef} bidId={bidId} />
       </React.Fragment>
     );
   }
@@ -158,42 +148,36 @@ class RequesterDetails extends React.Component {
     }
 
     return (
-      <div
-        style={{
-          boxShadow: 'none',
-          border: 'none',
-          borderBottom: '1px solid rgba(10,10,10,0.2)',
-        }}
-        className="card cardWithButton nofixedwidth"
-      >
-        <div style={{ paddingTop: 0 }} className="card-content">
-          <div className="content">
-            <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
-              <ul style={{ marginLeft: 0 }}>
-                <li className="is-active">
-                  <a>
-                    <span className="icon is-small">
-                      <i className="fas fa-user-tie" aria-hidden="true" />
-                    </span>
-                    <span>Requester</span>
-                  </a>
-                </li>
-              </ul>
+      <>
+        <div
+          style={{ marginTop: '1rem', background: 'transparent' }}
+          className="tabs is-centered is-medium"
+        >
+          <ul style={{ marginLeft: 0 }}>
+            <li className="is-active">
+              <a>
+                <span>Next Steps</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div className="card cardWithButton nofixedwidth">
+          <div style={{ paddingTop: 0 }} className="card-content">
+            <div className="content has-text-centered">
+              <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large isCentered />
+              <a
+                onClick={() => {
+                  switchRoute(ROUTES.CLIENT.REVIEW.getTaskerRequestReview({ bidId }));
+                }}
+                className={`button is-primary`}
+              >
+                <span>Review Requester</span>
+              </a>
+              <br />
             </div>
-            <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large isCentered />
-            <br />
-            <a
-              onClick={() => {
-                switchRoute(ROUTES.CLIENT.REVIEW.getTaskerRequestReview({ bidId }));
-              }}
-              className={`button is-primary`}
-            >
-              <span>Review Requester</span>
-            </a>
-            <br />
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }

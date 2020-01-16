@@ -430,6 +430,7 @@ exports.bidDataAccess = {
                 taskerConfirmedCompletion: 1,
                 dispute: 1,
                 _reviewRef: 1,
+                taskImages: 1,
               },
               populate: [
                 {

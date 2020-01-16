@@ -263,7 +263,7 @@ export const CardTitleAndActionsInfo = ({ bidsList = [], userAlreadyView = false
       <div style={{ width: 80, display: 'inline-block' }}>
         <div>
           <div />
-          <div className="has-text-weight-semibold">{avgBid > 0 ? avgBid : '--'}</div>
+          <div className="has-text-weight-semibold">{avgBid > 0 ? `$${avgBid}` : '--'}</div>
           <div className="help">Avg Bid</div>
         </div>
       </div>
@@ -1032,7 +1032,7 @@ export const AwaitingOnTasker = () => {
           Waiting For Bids
         </div>
 
-        <div className="help">*Check Back soon!</div>
+        <div className="help">Check back soon!</div>
       </div>
     </div>
   );
@@ -1281,7 +1281,7 @@ export const DisputedBy = ({ name }) => {
           {`Disputed by ${name}`}
         </div>
         <div>
-          <div className="help is-danger">*BidOrBoo support crew will resolve this ASAP</div>
+          <div className="help is-danger">Our support will resolve this asap</div>
         </div>
       </div>
     </div>
@@ -1499,7 +1499,7 @@ export const BSawaitingOnRequester = () => {
         >
           Awaiting On Requester
         </div>
-        <div className="help">*Check Back soon!</div>
+        <div className="help">You'll be notified if your bid won</div>
       </div>
     </div>
   );
@@ -1538,7 +1538,7 @@ export const BSPastDueExpired = () => {
         >
           Past Due - Expired
         </div>
-        <div className="help">* Task Was not awarded to anyone</div>
+        <div className="help">Task expired and  was not awarded</div>
       </div>
     </div>
   );
@@ -1579,8 +1579,8 @@ export const BSAwardedToSomeoneElse = () => {
           Bid Rejected
         </div>
 
-        <div className="help">*Task was awarded to someone else</div>
-        <div className="help">*This will be removed in 24 hours</div>
+        <div className="help">Task was awarded to someone else</div>
+        <div className="help">This bid will be auto deleted in 24 hours</div>
       </div>
     </div>
   );
@@ -1660,7 +1660,7 @@ export const BSWaitingOnRequesterToConfirm = () => {
         >
           Awaiting Confirmation
         </div>
-        <div className="help">we've contacted the Requester to confirm</div>
+        <div className="help">We've contacted the Requester to confirm</div>
       </div>
     </div>
   );
@@ -1699,7 +1699,7 @@ export const BSTaskIsDone = () => {
         >
           Task Is Done
         </div>
-        <div className="help">* You've completed This</div>
+        <div className="help">You've completed This task</div>
       </div>
     </div>
   );

@@ -193,16 +193,16 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              <BidAmount bidAmount={bidValue} />
-
-              <TaskerWillEarn earningAmount={taskerPayoutAmount}></TaskerWillEarn>
 
               {taskerConfirmedCompletion && <BSWaitingOnRequesterToConfirm />}
 
               {!taskerConfirmedCompletion && <BSTaskerAwarded />}
+              <BidAmount bidAmount={bidValue} />
 
               <Collapse isOpened={showMore}>
-                <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
+                <div style={{ maxWidth: 300, margin: 'auto' }}>
+                  <TaskerWillEarn earningAmount={taskerPayoutAmount}></TaskerWillEarn>
+
                   <div className="group">
                     <label className="label hasSelectedValue">Task Address</label>
                     <div className="control">{addressText}</div>
