@@ -77,7 +77,7 @@ class TaskerArchiveDetails extends RequestBaseContainer {
 
               <TaskerWillEarn earningAmount={taskerPayoutAmount} />
               <Collapse isOpened={showMore}>
-                <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
+                <div style={{ maxWidth: 300, margin: 'auto' }}>
                   {/*
                     we intentionally do not want to share address
 

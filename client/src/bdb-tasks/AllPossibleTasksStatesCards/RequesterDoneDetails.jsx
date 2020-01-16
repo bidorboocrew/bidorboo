@@ -87,7 +87,7 @@ export default class RequesterDoneDetails extends RequestBaseContainer {
               />
               <TaskCost cost={requesterPaymentAmount} />
               <Collapse isOpened={showMore}>
-                <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
+                <div style={{ maxWidth: 300, margin: 'auto' }}>
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
                   {extras && extras.destinationText && (
                     <DestinationAddressValue

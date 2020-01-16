@@ -194,7 +194,7 @@ class RequesterRequestDetails extends React.Component {
                 <TaskersAvailable numberOfAvailableTaskers={request._bidsListRef.length} />
               )}
               <Collapse isOpened={showMore}>
-                <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
+                <div style={{ maxWidth: 300, margin: 'auto' }}>
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
                   {extras && extras.destinationText && (
                     <DestinationAddressValue

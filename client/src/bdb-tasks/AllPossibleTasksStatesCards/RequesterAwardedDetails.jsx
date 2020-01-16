@@ -232,7 +232,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
               />
 
               <Collapse isOpened={showMore}>
-                <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
+                <div style={{ maxWidth: 300, margin: 'auto' }}>
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
 
                   <TaskSpecificExtras templateId={ID} extras={extras} />
