@@ -21,7 +21,14 @@ export default class TaskerBidDoneSummary extends React.Component {
   render() {
     const { bid, request } = this.props;
 
-    const { startingDateAndTime, taskImages = [], requestTitle, state, _reviewRef } = request;
+    const {
+      startingDateAndTime,
+      taskImages = [],
+      requestTitle,
+      state,
+      _reviewRef,
+      completionDate,
+    } = request;
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
@@ -40,8 +47,8 @@ export default class TaskerBidDoneSummary extends React.Component {
 
             <TaskImagesCarousel taskImages={taskImages} />
             <SummaryStartDateAndTime
-              date={startingDateAndTime}
-              renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
+              date={completionDate}
+              renderHelpComponent={() => <CountDownComponent startingDate={completionDate} />}
             />
 
             {isAwardedToMe && (

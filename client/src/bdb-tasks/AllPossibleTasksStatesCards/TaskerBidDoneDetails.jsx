@@ -42,6 +42,7 @@ class TaskerBidDoneDetails extends RequestBaseContainer {
       taskImages = [],
       requestTitle,
       _reviewRef,
+      completionDate,
     } = request;
 
     const { taskerPayout, bidAmount, _id: bidId } = bid;
@@ -64,10 +65,8 @@ class TaskerBidDoneDetails extends RequestBaseContainer {
 
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
-                date={startingDateAndTime}
-                renderHelpComponent={() => (
-                  <CountDownComponent startingDate={startingDateAndTime} />
-                )}
+                date={completionDate}
+                renderHelpComponent={() => <CountDownComponent startingDate={completionDate} />}
               />
 
               <TaskIsFulfilled

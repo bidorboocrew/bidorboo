@@ -24,6 +24,7 @@ export default class RequesterDoneSummary extends RequestBaseContainer {
       _reviewRef,
       taskImages = [],
       requestTitle,
+      completionDate,
     } = request;
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
@@ -39,8 +40,8 @@ export default class RequesterDoneSummary extends RequestBaseContainer {
             <TaskImagesCarousel taskImages={taskImages} />
 
             <SummaryStartDateAndTime
-              date={startingDateAndTime}
-              renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
+              date={completionDate}
+              renderHelpComponent={() => <CountDownComponent startingDate={completionDate} />}
             />
 
             <TaskIsFulfilled

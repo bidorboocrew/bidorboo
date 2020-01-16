@@ -1618,7 +1618,7 @@ export const BSTaskerAwarded = () => {
             display: 'inline-block',
           }}
         >
-          Winning Bid
+          Bid Won
         </div>
         <div className="help">Contact Requester To finalize details</div>
       </div>

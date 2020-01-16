@@ -391,6 +391,7 @@ exports.bidDataAccess = {
           reported: 1,
           createdAt: 1,
           updatedAt: 1,
+          completionDate: 1,
         },
         populate: {
           path: '_ownerRef',
@@ -431,6 +432,7 @@ exports.bidDataAccess = {
                 dispute: 1,
                 _reviewRef: 1,
                 taskImages: 1,
+                completionDate: 1,
               },
               populate: [
                 {
@@ -692,6 +694,7 @@ exports.bidDataAccess = {
                 durationOfRequest: 1,
                 templateId: 1,
                 extras: 1,
+                completionDate: 1,
               },
               populate: {
                 path: '_ownerRef',
