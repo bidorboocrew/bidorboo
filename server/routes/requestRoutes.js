@@ -48,7 +48,7 @@ module.exports = (app) => {
     async (req, res, next) => {
       try {
         const mongoUser_id = req.user._id;
-        const { requestId } = req.body.requestId;
+        const { requestId } = req.body;
 
         await requestDataAccess.cancelRequest(requestId, mongoUser_id);
         return res.send(requestId);
