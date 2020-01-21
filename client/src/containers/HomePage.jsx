@@ -239,6 +239,11 @@ const HowItWorksRequestService = () => {
           <p className="is-size-5">Choose a tasker</p>
         </li>
       </ul>
+      <br></br>
+      <br></br>
+      <div className="centeredButtonInCard">
+        <a className="button is-medium is-success">Post A Request</a>
+      </div>
     </div>
   );
 };
@@ -258,6 +263,11 @@ const HowItWorksProvideService = () => {
           <p className="is-size-5">{`Do it & get paid`}</p>
         </li>
       </ul>
+      <br></br>
+      <br></br>
+      <div className="centeredButtonInCard">
+        <a className="button is-medium is-dark">Start Bidding</a>
+      </div>
     </div>
   );
 };
