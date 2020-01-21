@@ -75,7 +75,7 @@ const renderFooter = ({ bid, isNewBid }) => {
           onClick={() => {
             switchRoute(ROUTES.CLIENT.TASKER.dynamicReviewMyOpenBidAndTheRequestDetails(bid._id));
           }}
-          className={`button is-fullwidth is-info`}
+          className="button is-info"
         >
           <span>View Details</span>
         </a>

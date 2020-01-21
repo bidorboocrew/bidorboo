@@ -52,7 +52,7 @@ export default class RequesterDisputedSummary extends React.Component {
               onClick={() => {
                 switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(request._id));
               }}
-              className="button is-fullwidth is-danger"
+              className="button is-danger"
             >
               View Details
             </a>
