@@ -4,6 +4,15 @@ import { withRouter } from 'react-router-dom';
 
 // https://developers.freshchat.com/web-sdk/#customisation-wgt
 
+const getCookieByName = (name) => {
+  var value = '; ' + document.cookie;
+  var parts = value.split('; ' + name + '=');
+  if (parts.length === 2)
+    return parts
+      .pop()
+      .split(';')
+      .shift();
+};
 class FreshdeskChat extends React.Component {
   componentDidMount() {
     if (window.fcWidget && !window.fcWidget.isInitialized()) {
@@ -11,7 +20,7 @@ class FreshdeskChat extends React.Component {
         token: `${process.env.REACT_APP_FRESHDESK_CHAT_KEY}`,
         host: 'https://wchat.freshchat.com',
         config: {
-          disableEvents: true,
+          disableEvents: getCookieByName('BidOrBooCookieConsent') === 'true' ? false : true,
           headerProperty: {
             //If you have multiple sites you can use the appName and appLogo to overwrite the values.
             appName: 'BidOrBoo',
