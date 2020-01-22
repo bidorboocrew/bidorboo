@@ -255,8 +255,8 @@ class Header extends React.Component {
           {!isOnLoginPage && (
             <div className=" navbar-item">
               <a
-                style={{ borderRadius: 2, fontWeight: 400 }}
-                className="button is-success is-small"
+                style={{ borderRadius: 2, fontWeight: 500, border: '1px solid #eee' }}
+                className="button is-link is-inverted is-small"
                 onClick={(e) => {
                   e.preventDefault();
                   switchRoute(ROUTES.CLIENT.LOGIN_OR_REGISTER, {

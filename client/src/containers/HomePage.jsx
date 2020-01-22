@@ -2,7 +2,7 @@ import React from 'react';
 import ReactPlayer from 'react-player';
 
 import * as ROUTES from '../constants/frontend-route-consts';
-import RequesterRoot from './requester-flow/RequesterRootPage';
+// import RequesterRoot from './requester-flow/RequesterRootPage';
 import { switchRoute } from '../utils';
 import MainBanner from '../assets/images/MainBanner.png';
 import REQUESTER_MAINPAGE from '../assets/images/REQUESTER_MAINPAGE.png';
@@ -41,7 +41,7 @@ export default class HomePage extends React.Component {
                 onClick={(e) => {
                   switchRoute(ROUTES.CLIENT.REQUESTER.root);
                 }}
-                className="button is-medium is-white"
+                className="button is-medium is-success"
               >
                 <span className="icon">
                   <i className="far fa-plus-square" />
@@ -242,7 +242,9 @@ const HowItWorksRequestService = () => {
       <br></br>
       <br></br>
       <div className="centeredButtonInCard">
-        <a className="button is-medium is-success">Post A Request</a>
+        <a style={{ width: 180 }} className="button is-medium is-success">
+          Post A Request
+        </a>
       </div>
     </div>
   );
@@ -266,7 +268,9 @@ const HowItWorksProvideService = () => {
       <br></br>
       <br></br>
       <div className="centeredButtonInCard">
-        <a className="button is-medium is-dark">Start Bidding</a>
+        <a style={{ width: 180 }} className="button is-medium is-dark">
+          Start Bidding
+        </a>
       </div>
     </div>
   );
