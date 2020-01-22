@@ -512,7 +512,9 @@ class TaskerDisputes extends React.Component {
                     onClick={() => {
                       if (!window.fcWidget.isOpen()) {
                         this.toggleModal();
-                        window.fcWidget.open();
+                        document.querySelector('#bob-ChatSupport') &&
+                          document.querySelector('#bob-ChatSupport').click();
+                        // window.fcWidget.open();
                       }
                     }}
                   >

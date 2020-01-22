@@ -625,7 +625,9 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
                       onClick={() => {
                         if (!window.fcWidget.isOpen()) {
                           this.toggleModal();
-                          window.fcWidget.open();
+                          document.querySelector('#bob-ChatSupport') &&
+                            document.querySelector('#bob-ChatSupport').click();
+                          // window.fcWidget.open();
                         }
                       }}
                     >
@@ -666,7 +668,9 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
                       onClick={() => {
                         if (!window.fcWidget.isOpen()) {
                           this.toggleModal();
-                          window.fcWidget.open();
+                          document.querySelector('#bob-ChatSupport') &&
+                            document.querySelector('#bob-ChatSupport').click();
+                          // window.fcWidget.open();
                         }
                       }}
                     >
@@ -709,7 +713,9 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
                       onClick={() => {
                         if (!window.fcWidget.isOpen()) {
                           this.toggleModal();
-                          window.fcWidget.open();
+                          document.querySelector('#bob-ChatSupport') &&
+                            document.querySelector('#bob-ChatSupport').click();
+                          // window.fcWidget.open();
                         }
                       }}
                     >
@@ -750,7 +756,9 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
                       onClick={() => {
                         if (!window.fcWidget.isOpen()) {
                           this.toggleModal();
-                          window.fcWidget.open();
+                          document.querySelector('#bob-ChatSupport') &&
+                            document.querySelector('#bob-ChatSupport').click();
+                          // window.fcWidget.open();
                         }
                       }}
                     >
@@ -795,7 +803,9 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
                       onClick={() => {
                         if (!window.fcWidget.isOpen()) {
                           this.toggleModal();
-                          window.fcWidget.open();
+                          document.querySelector('#bob-ChatSupport') &&
+                            document.querySelector('#bob-ChatSupport').click();
+                          // window.fcWidget.open();
                         }
                       }}
                     >
@@ -839,7 +849,9 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
                       onClick={() => {
                         if (!window.fcWidget.isOpen()) {
                           this.toggleModal();
-                          window.fcWidget.open();
+                          document.querySelector('#bob-ChatSupport') &&
+                            document.querySelector('#bob-ChatSupport').click();
+                          // window.fcWidget.open();
                         }
                       }}
                     >
@@ -1538,7 +1550,7 @@ export const BSPastDueExpired = () => {
         >
           Past Due - Expired
         </div>
-        <div className="help">Task expired and  was not awarded</div>
+        <div className="help">Task expired and was not awarded</div>
       </div>
     </div>
   );

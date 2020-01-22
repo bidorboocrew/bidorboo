@@ -57,7 +57,9 @@ class TaskerVerificationBanner extends React.Component {
 
   chatWithSupportNow = () => {
     if (window.fcWidget && !window.fcWidget.isOpen()) {
-      window.fcWidget.open();
+      document.querySelector('#bob-ChatSupport') &&
+        document.querySelector('#bob-ChatSupport').click();
+      // window.fcWidget.open();
     }
   };
 

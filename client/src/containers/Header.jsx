@@ -150,7 +150,8 @@ class Header extends React.Component {
       bidsHappeningToday,
     } = notificationFeed;
 
-    const isThereRequestsHappeningToday = requestsHappeningToday && requestsHappeningToday.length > 0;
+    const isThereRequestsHappeningToday =
+      requestsHappeningToday && requestsHappeningToday.length > 0;
     const isThereBidsHappeningToday = bidsHappeningToday && bidsHappeningToday.length > 0;
     const isAnythingHappeningToday = isThereRequestsHappeningToday || isThereBidsHappeningToday;
 
@@ -834,7 +835,9 @@ class Header extends React.Component {
                         onClick={(e) =>
                           this.closeMenuThenExecute(() => {
                             if (!window.fcWidget.isOpen()) {
-                              window.fcWidget.open();
+                              document.querySelector('#bob-ChatSupport') &&
+                                document.querySelector('#bob-ChatSupport').click();
+                              // window.fcWidget.open();
                             }
                           })
                         }

@@ -227,8 +227,8 @@ const ProvideAService = () => {
 const HowItWorksRequestService = () => {
   return (
     <div>
-      <h1 className="title">Request a service</h1>
-      <ul>
+      <h1 className="title has-text-centered">Request a service</h1>
+      <ul style={{ margin: 'auto', maxWidth: 220 }}>
         <li>
           <p className="is-size-5">Fill a request</p>
         </li>
@@ -251,8 +251,8 @@ const HowItWorksRequestService = () => {
 const HowItWorksProvideService = () => {
   return (
     <div>
-      <h1 className="title">Bid on requests</h1>
-      <ul>
+      <h1 className="title has-text-centered">Bid on requests</h1>
+      <ul style={{ margin: 'auto', maxWidth: 195 }}>
         <li>
           <p className="is-size-5">Browse tasks</p>
         </li>
