@@ -160,7 +160,10 @@ const RequestAService = (props) => {
       onClick={() => {
         switchRoute(ROUTES.CLIENT.REQUESTER.root);
       }}
-      style={{ cursor: 'pointer' }}
+      style={{
+        cursor: 'pointer',
+        boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
+      }}
       className="card cardWithButton"
     >
       <div className="card-image">
@@ -196,7 +199,10 @@ const ProvideAService = () => {
       onClick={(e) => {
         switchRoute(ROUTES.CLIENT.TASKER.root);
       }}
-      style={{ cursor: 'pointer' }}
+      style={{
+        cursor: 'pointer',
+        boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
+      }}
       className="card cardWithButton"
     >
       <div className="card-image">
@@ -242,12 +248,6 @@ const HowItWorksRequestService = () => {
         </li>
       </ul>
       <br></br>
-      <br></br>
-      <div className="centeredButtonInCard">
-        <a style={{ width: 180 }} className="button is-medium is-success">
-          Post A Request
-        </a>
-      </div>
     </div>
   );
 };
@@ -268,12 +268,6 @@ const HowItWorksProvideService = () => {
         </li>
       </ul>
       <br></br>
-      <br></br>
-      <div className="centeredButtonInCard">
-        <a style={{ width: 180 }} className="button is-medium is-dark">
-          Start Bidding
-        </a>
-      </div>
     </div>
   );
 };
