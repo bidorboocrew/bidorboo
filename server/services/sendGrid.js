@@ -3,9 +3,8 @@ const sgMail = require('@sendgrid/mail');
 
 const keys = require('../config/keys');
 const populateHtmlTemplate = require('./sendGrid-Htmltemplate').populateHtmlTemplate;
-const populateNewBidHtmlTemplate = require('./sendGrid-Htmltemplate-newBid').populateHtmlTemplate;
-const populateRequestUpdates = require('./sendGrid-Htmltemplate-requestUpdates')
-  .populateHtmlTemplate;
+const populateNewBidHtmlTemplate = populateHtmlTemplate; //require('./sendGrid-Htmltemplate-newBid').populateHtmlTemplate;
+const populateRequestUpdates = populateHtmlTemplate; //require('./sendGrid-Htmltemplate-requestUpdates').populateHtmlTemplate;
 
 sgMail.setApiKey(keys.sendGridKey);
 
