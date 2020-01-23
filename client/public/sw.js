@@ -4,7 +4,7 @@
 // very important
 // https://github.com/deanhume/pwa-update-available
 // https://developers.google.com/web/fundamentals/primers/service-workers/
-var CACHE_NAME = 'bob-app-cache-v1.3.0';
+var CACHE_NAME = 'bob-app-cache-v1.4.0';
 var THREE_MONTHS_IN_SECONDS = 7776000;
 
 var urlsToCache = [

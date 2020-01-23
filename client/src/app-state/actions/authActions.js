@@ -23,7 +23,7 @@ export const verifyPhone = (code, onSuccessCallback = () => null) => (dispatch) 
               },
             },
           });
-          await sleep(2000);
+          await sleep(3000);
           getCurrentUserNotifications()(dispatch);
 
           onSuccessCallback && onSuccessCallback();
@@ -57,7 +57,7 @@ export const verifyEmail = (code, onSuccessCallback = () => null) => (dispatch) 
               },
             },
           });
-          await sleep(2000);
+          await sleep(3000);
           getCurrentUserNotifications()(dispatch);
 
           onSuccessCallback && onSuccessCallback();

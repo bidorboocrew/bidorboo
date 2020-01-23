@@ -525,6 +525,9 @@ exports.requestDataAccess = {
                     .exec();
                 } catch (errorPayout) {
                   if (errorPayout) {
+                    console.log('BIDORBOO_ERROR: SendPayoutsToBanks_Error request details');
+                    console.log({ request });
+
                     console.log(
                       'BIDORBOO_ERROR: SendPayoutsToBanks_Error ' +
                         errorPayout +
@@ -537,7 +540,7 @@ exports.requestDataAccess = {
                 }
               } else {
                 console.log(
-                  'BIDORBOO_PAYMENTS: DANGER PAYOUT IS NOT ENABLED PLEASE INVESTIGATE WHY ' +
+                  'BIDORBOO_PAYMENTS_WARNIKNG: DANGER PAYOUT IS NOT ENABLED PLEASE INVESTIGATE WHY ' +
                     destinationStripeAcc
                 );
               }
