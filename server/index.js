@@ -60,7 +60,10 @@ app.use((err, req, res, next) => {
   console.log('BIDORBOOLOGS - ERROR ======== error handler BEGIN==========');
   if (err.joi) {
     console.log(err); // Log error message in our server's console
-    return res.status(400).send({ safeMsg: err.joi.message });
+    if (err.joi.details && err.joi.details.length > 0 && err.joi.details[0].message) {
+      userError.safeMsg = err.joi.details[0].message;
+    }
+    // return res.status(400).send({ safeMsg: err.joi.message });
   }
 
   switch (err.type) {
@@ -112,9 +115,8 @@ app.use((err, req, res, next) => {
   if (err.message) {
     userError.safeMsg = err.safeMsg || err.message;
   }
-  if (!err.safeMsg) {
-    userError.safeMsg =
-      "Sorry, something didn't work. Try again or chat with us using the chat bottom in the footer of this page.";
+  if (!err.safeMsg && !userError.safeMsg) {
+    userError.safeMsg = "Sorry, something didn't work.";
   }
   console.log(err); // Log error message in our server's console
 

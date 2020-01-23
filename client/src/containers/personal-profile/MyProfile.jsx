@@ -238,6 +238,7 @@ class MyProfile extends React.Component {
                 </div>
               </div>
             </div>
+            <br></br>
 
             <br></br>
             <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">

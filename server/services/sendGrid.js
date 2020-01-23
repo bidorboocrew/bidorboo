@@ -20,7 +20,7 @@ exports.EmailService = {
       html: populateHtmlTemplate({
         toDisplayName,
         contentHtml: `
-        <p>Email Verification Code</p>
+        <p>Your Email Verification Code is:</p>
         <p><strong>${emailVerificationCode}</strong></p>
         `,
         clickDisplayName: 'Verify Email',

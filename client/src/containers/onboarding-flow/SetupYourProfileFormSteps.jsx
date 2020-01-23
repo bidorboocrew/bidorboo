@@ -14,13 +14,15 @@ const Step1 = ({ userDetails, showSetupPhoneStep }) => {
   return (
     <>
       <div>
-        <div className="subtitle">EMAIL VERIFICATION</div>
+        <br></br>
+        <div className="has-text-centered has-text-grey">
+          <span className="icon">
+            <i className="far fa-envelope" style={{ fontSize: 62, fontWeight: 300 }}></i>
+          </span>
+        </div>
+        <div className="has-text-centered has-text-grey">Email Verification</div>
+        <br></br>
         <div className="slide-in-right field">
-          <div className="group">
-            <label className="label hasSelectedValue">{`We've sent the Code to: `}</label>
-            <div>{`${userDetails.email.emailAddress}`}</div>
-          </div>
-
           <VerifyEmailField {...{ userDetails, showSetupPhoneStep }} />
         </div>
       </div>
@@ -47,10 +49,17 @@ const Step2 = ({
   const [editPhoneNumber, setEditPhoneNumber] = useState(false);
   return (
     <>
-      <div style={{ position: 'relative' }}>
-        <div className="subtitle has-text-weight-bold">PHONE VERIFICATION</div>
+      <div>
+        <br></br>
+        <div className="has-text-centered has-text-grey">
+          <span className="icon">
+            <i className="fas fa-mobile-alt" style={{ fontSize: 40, fontWeight: 300 }}></i>
+          </span>
+        </div>
+        <div className="has-text-centered has-text-grey">Phone Verification</div>
+        <br></br>
         {(!renderVerificationSection || editPhoneNumber) && (
-          <div className="slide-in-right field" style={{ height: '10rem' }}>
+          <div className="slide-in-right field">
             <UpdatePhoneNumberField
               showPhoneVerificationStep={showPhoneVerificationStep}
               userDetails={userDetails}
@@ -59,16 +68,14 @@ const Step2 = ({
                 setEditPhoneNumber(false);
               }}
             />
+            <br></br>
+            <br></br>
           </div>
         )}
 
         {renderVerificationSection && !editPhoneNumber && (
           <>
-            <div className="slide-in-right field">
-              <div className="group">
-                <label className="label hasSelectedValue">{`We've sent the Code to: `}</label>
-                <div>{`${userDetails.phone.phoneNumber}`}</div>
-              </div>
+            <div className="fade-in field">
               <VerifyPhoneField {...{ userDetails, showTosStep, showSetupPhoneStep }} />
             </div>
             <br></br>
@@ -143,7 +150,11 @@ class Step4 extends React.Component {
               agreedToTOS: this.state.hasAgreedToTOS,
             },
             () => {
-              if (shouldRedirect && location.state.redirectUrl !== ROUTES.CLIENT.ONBOARDING) {
+              debugger;
+              if (
+                location.state.redirectUrl !== ROUTES.CLIENT.ONBOARDING &&
+                location.state.redirectUrl !== ROUTES.CLIENT.LOGIN_OR_REGISTER
+              ) {
                 return switchRoute(location.state.redirectUrl);
               } else {
                 return switchRoute(ROUTES.CLIENT.HOME);
@@ -199,6 +210,7 @@ class Step4 extends React.Component {
           </div>
         </div>
         <button
+          disabled={!hasAgreedToTOS || tosError}
           onClick={this.verifyAndSubmitOnBoarding}
           className="button is-success is-pulled-right"
         >
@@ -258,7 +270,11 @@ class SetupYourProfileFormSteps extends React.Component {
     } else if (userDetails.membershipStatus !== 'NEW_MEMBER') {
       const shouldRedirect = location && location.state && location.state.redirectUrl;
 
-      if (shouldRedirect && location.state.redirectUrl !== ROUTES.CLIENT.ONBOARDING) {
+      if (
+        shouldRedirect &&
+        location.state.redirectUrl !== ROUTES.CLIENT.ONBOARDING &&
+        location.state.redirectUrl !== ROUTES.CLIENT.LOGIN_OR_REGISTER
+      ) {
         return switchRoute(location.state.redirectUrl);
       } else {
         return switchRoute(ROUTES.CLIENT.HOME);

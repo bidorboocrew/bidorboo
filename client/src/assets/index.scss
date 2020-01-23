@@ -1041,3 +1041,8 @@ div.react-datepicker__input-container {
     word-break: break-word !important;
   }
 }
+
+.button[disabled] {
+  background: #999 !important;
+  cursor: not-allowed;
+}

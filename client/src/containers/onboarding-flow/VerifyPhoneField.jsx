@@ -44,13 +44,15 @@ class VerifyPhoneField extends React.Component {
   };
   render() {
     const { isResendingVCode, inputCodeContent } = this.state;
-    const { verifyingPhoneInProgress, dispatch } = this.props;
+    const { verifyingPhoneInProgress, dispatch, userDetails } = this.props;
     this.rootModal = document.querySelector('#bidorboo-root-modals');
 
     return (
       <div>
         <div className="group">
-          <label className="label">Enter Phone Verification code</label>
+          <label className="label">
+            We sent verification code to ({userDetails.phone.phoneNumber})
+          </label>
           <input
             value={inputCodeContent}
             onChange={(e) => {
@@ -61,10 +63,11 @@ class VerifyPhoneField extends React.Component {
               }
             }}
             disabled={isResendingVCode || verifyingPhoneInProgress}
-            style={{ flexGrow: 1, borderRadius: 0 }}
+            style={{ flexGrow: 1, borderRadius: 0, borderBottom: '2px solid #26ca70' }}
             className="input"
-            placeholder="Enter 6 digits Verification Code"
+            placeholder="Enter verification code..."
           />
+          <div className="help">*check your phone text messages inbox</div>
         </div>
         <div>
           <button
@@ -96,14 +99,14 @@ class VerifyPhoneField extends React.Component {
                 }
               }
             }}
-            disabled={isResendingVCode || verifyingPhoneInProgress}
+            disabled={isResendingVCode || verifyingPhoneInProgress || inputCodeContent.length !== 6}
             className="button is-success"
           >
             Verify Phone
           </button>
         </div>
         <br></br>
-        <div className="help">*Check your phone text msgs</div>
+        <div className="help">*This could take 1-2 minutes</div>
         <button
           style={{ borderRadius: 0, padding: 0, boxShadow: 'none' }}
           onClick={this.handleSendNewCode}

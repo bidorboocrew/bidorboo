@@ -27,10 +27,10 @@ class VerifyEmailField extends React.Component {
   handleSendNewCode = async () => {
     this.setState({ isResendingVCode: true }, async () => {
       try {
-        const resendVerificationReq = await axios.post(
-          ROUTES.API.USER.POST.resendVerificationEmail,
-        );
-        this.setState({ isResendingVCode: false, inputCodeContent: '' });
+        await axios.post(ROUTES.API.USER.POST.resendVerificationEmail);
+        setTimeout(() => {
+          this.setState({ isResendingVCode: false, inputCodeContent: '' });
+        }, 2000);
       } catch (e) {
         this.props.dispatch({
           type: A.UI_ACTIONS.SHOW_TOAST_MSG,
@@ -49,12 +49,14 @@ class VerifyEmailField extends React.Component {
   };
   render() {
     const { isResendingVCode, inputCodeContent } = this.state;
-    const { verifyEmail, verifyingEmailInProgress, dispatch } = this.props;
+    const { verifyEmail, verifyingEmailInProgress, dispatch, userDetails } = this.props;
 
     return (
       <div>
         <div className={`group`}>
-          <label className="label">Enter Email Verification code</label>
+          <label className="label">
+            We sent verification code to ({userDetails.email.emailAddress})
+          </label>
           <input
             value={inputCodeContent}
             onChange={(e) => {
@@ -65,11 +67,15 @@ class VerifyEmailField extends React.Component {
               }
             }}
             disabled={isResendingVCode || verifyingEmailInProgress}
-            style={{ flexGrow: 1, borderRadius: 0 }}
+            style={{ flexGrow: 1, borderRadius: 0, borderBottom: '2px solid #26ca70' }}
             className="input"
-            placeholder="Enter 6 digits Verification Code"
+            placeholder="Enter verification code..."
           />
+          <div className="help">
+            *Check inbox/junk folders for an email from bidorboo@bidorboo.ca
+          </div>
         </div>
+
         <div style={{ display: 'flex' }}>
           <button
             style={{ marginLeft: 8, borderRadius: 0 }}
@@ -101,14 +107,14 @@ class VerifyEmailField extends React.Component {
                 }
               }
             }}
-            disabled={isResendingVCode || verifyingEmailInProgress}
+            disabled={isResendingVCode || verifyingEmailInProgress || inputCodeContent.length !== 6}
             className="button is-success"
           >
             Verify Email
           </button>
         </div>
         <br></br>
-        <div className="help">*Check inbox/junk folders for an email from bidorboo@bidorboo.ca</div>
+        <div className="help">*this could take 1-2 minutes</div>
         <button
           style={{ borderRadius: 0, padding: 0, boxShadow: 'none' }}
           onClick={this.handleSendNewCode}

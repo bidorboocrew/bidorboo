@@ -4,7 +4,9 @@ import axios from 'axios';
 import { switchRoute, throwErrorNotification } from '../../utils';
 import moment from 'moment';
 import TASKS_DEFINITIONS from '../../bdb-tasks/tasksDefinitions';
-
+const sleep = (ms) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
 export const updateRequestState = (requestId, newState) => (dispatch) => {
   return dispatch({
     type: A.REQUEST_ACTIONS.UPDATE_STATE,
@@ -161,7 +163,6 @@ export const requesterDisputesRequest = ({ requesterDispute }) => (dispatch) => 
 };
 
 export const taskerDisputesRequest = ({ taskerDispute }) => (dispatch) => {
-
   const config = {
     headers: { 'Content-Type': 'application/json' },
   };
@@ -246,10 +247,10 @@ export const postNewRequest = ({ requestDetails, recaptchaField }) => (dispatch)
           requestDetails,
         },
       })
-      .then((resp) => {
+      .then(async (resp) => {
         if (resp.data && resp.data._id) {
           const { templateId } = resp.data;
-
+          await sleep(2000);
           switchRoute(ROUTES.CLIENT.REQUESTER.myRequestsPage);
 
           const taskDefinition = TASKS_DEFINITIONS[templateId];

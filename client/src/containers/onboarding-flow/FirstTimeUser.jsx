@@ -9,19 +9,18 @@ import { updateOnBoardingDetails } from '../../app-state/actions/userModelAction
 import logoImg from '../../assets/images/android-chrome-192x192.png';
 import SetupYourProfileFormSteps from './SetupYourProfileFormSteps';
 export class FirstTimeUser extends React.Component {
-  componentDidMount() {
-    const { isLoggedIn, userDetails } = this.props;
-
-    if (!isLoggedIn || !userDetails) {
-      switchRoute(`${ROUTES.CLIENT.HOME}`);
-    }
-  }
-
   render() {
     const { authIsInProgress } = this.props;
     if (authIsInProgress) {
       return null;
     }
+
+    const { isLoggedIn, userDetails } = this.props;
+
+    if (!isLoggedIn || !userDetails) {
+      return switchRoute(`${ROUTES.CLIENT.HOME}`);
+    }
+
     return (
       <div className="columns is-multiline is-centered is-mobile">
         <div className="column limitLargeMaxWidth">

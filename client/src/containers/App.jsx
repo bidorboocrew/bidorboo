@@ -110,9 +110,9 @@ class App extends React.Component {
                 </label>
                 <br />
                 <a
-                  onClick={(e) => {
-                    switchRoute(ROUTES.CLIENT.HOME);
-                    // xxxx update without reload
+                  onClick={() => {
+                    window.location.href = 'https://www.bidorboo.ca';
+                    return;
                   }}
                   className="button is-success is-medium"
                 >

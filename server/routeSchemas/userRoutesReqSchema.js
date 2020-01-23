@@ -216,16 +216,17 @@ exports.userDetailsReqSchema = {
         .max(MAX_NAME_LENGTH)
         .error(() => {
           return {
-            message: '"display name" must be alphanumeric and (5-30) characters long',
+            message: '[display name field] must be alphanumeric and (5-30) characters long',
           };
         }),
       personalParagraph: Joi.string()
-        .trim()
-        .min(MIN_NAME_LENGTH)
+        .valid('')
+        .optional()
         .max(MAX_PARAGRAPH_LENGTH)
         .error(() => {
           return {
-            message: '"personal paragraph" must be valid alphanumeric and (5-500) characters long',
+            message:
+              '[personal paragraph field] must be valid alphanumeric and less than 255 characters long',
           };
         }),
       phone: Joi.object({
@@ -236,7 +237,9 @@ exports.userDetailsReqSchema = {
           )
           .required()
           .error(() => {
-            return { message: '"phone number" must be a valid format for example 9053334444' };
+            return {
+              message: '[phone number field] must be a valid format for example (613) 333-4444',
+            };
           }),
       }),
       picId: Joi.object({
@@ -252,7 +255,7 @@ exports.userDetailsReqSchema = {
           .error(() => {
             return {
               message:
-                '"email address" must be a valid email and (5-100) characters long for example bidorboo@bidorboo.ca',
+                '[email address field] must be a valid email and (5-100) characters long for example bidorboo@bidorboo.ca',
             };
           }),
       }),

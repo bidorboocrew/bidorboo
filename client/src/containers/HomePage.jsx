@@ -91,12 +91,14 @@ export default class HomePage extends React.Component {
                   url="https://youtu.be/YHh9JbJAyf0?mode=opaque"
                   width="100%"
                   height="100%"
-                  config={{
-                    youtube: {
-                      widget_referrer: 'https://www.bidorboo.ca',
+                  youtubeConfig={{
+                    playerVars: {
+                      controls: 0,
                       modestbranding: 1,
-                      preload: true,
+                      origin: 'https://www.bidorboo.ca',
+                      widget_referrer: 'https://www.bidorboo.ca',
                     },
+                    preload: true,
                   }}
                 />
               </div>
