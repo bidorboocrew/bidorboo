@@ -728,7 +728,7 @@ class Header extends React.Component {
                               className="navbar-item"
                             >
                               <span style={{ position: 'relative' }} className="icon">
-                                <i className="fab fa-nintendo-switch" />
+                                <i className="fas fa-exchange-alt" />
                                 {requestRecievedNewBids && (
                                   <span
                                     style={{
