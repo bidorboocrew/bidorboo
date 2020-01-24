@@ -1222,7 +1222,6 @@ export const RequestCardTitleOnMap = ({ img, title }) => {
             width: 32,
             objectFit: 'cover',
             borderRadius: '100%',
-            boxShadow: '0 2px 1px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)',
           }}
           src={img}
           alt="task image"
@@ -1264,7 +1263,6 @@ export const RequestCardTitle = ({ img, icon, title, meatballMenu }) => {
             width: 48,
             objectFit: 'cover',
             borderRadius: '100%',
-            boxShadow: '0 2px 1px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)',
           }}
           src={img}
           alt="task image"

@@ -68,11 +68,7 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                   img={taskImages && taskImages.length > 0 ? taskImages[0].url : IMG}
                 />
               )}
-              {!isOnMapView && (
-                <div className="group">
-                  <CenteredUserImageAndRating clipUserName userDetails={_ownerRef} />
-                </div>
-              )}
+
               {isOnMapView ? (
                 <UserGivenTitleOnMap userGivenTitle={requestTitle} />
               ) : (
@@ -93,7 +89,11 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                   )}
                 />
               )}
-
+              {!isOnMapView && (
+                <div className="group">
+                  <CenteredUserImageAndRating clipUserName userDetails={_ownerRef} />
+                </div>
+              )}
               {!isOnMapView && (
                 <div className="group">
                   <CardTitleAndActionsInfo
