@@ -51,7 +51,11 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
         >
           <div className="card-content">
             <div className="content">
-              <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <RequestCardTitle
+                icon={ICON}
+                title={TITLE}
+                img={taskImages && taskImages.length > 0 ? taskImages[0].url : IMG}
+              />
               <UserGivenTitle userGivenTitle={requestTitle} />
 
               <SummaryStartDateAndTime
@@ -65,8 +69,6 @@ class TaskerAwardedBidCanceledByTaskerSummary extends React.Component {
 
               <CancelledBy name="Requester" />
               <BidAmount bidAmount={bidValue} />
-
-              {/* <TaskImagesCarousel taskImages={taskImages} /> */}
             </div>
           </div>
           <div className="centeredButtonInCard">

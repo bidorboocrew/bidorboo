@@ -48,7 +48,11 @@ class TaskerMyAwardedBidSummary extends React.Component {
         >
           <div className="card-content">
             <div className="content">
-              <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+              <RequestCardTitle
+                icon={ICON}
+                title={TITLE}
+                img={taskImages && taskImages.length > 0 ? taskImages[0].url : IMG}
+              />
               <UserGivenTitle userGivenTitle={requestTitle} />
               <TaskImagesCarousel taskImages={taskImages} />
               <SummaryStartDateAndTime
@@ -60,7 +64,6 @@ class TaskerMyAwardedBidSummary extends React.Component {
 
               {isAwardedToMe && (
                 <>
-                  {/* <TaskerWillEarn earningAmount={taskerTotalPayoutAmount}></TaskerWillEarn> */}
                   {taskerConfirmedCompletion && <BSWaitingOnRequesterToConfirm />}
 
                   {!taskerConfirmedCompletion && <BSTaskerAwarded />}

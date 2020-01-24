@@ -1181,6 +1181,17 @@ export const UserGivenTitle = ({ userGivenTitle }) => {
 };
 
 export const RequestCardTitle = ({ img, icon, title, meatballMenu }) => {
+  const imgSection =
+    typeof(img) === 'string' && img.includes('http') ? (
+      <figure style={{ margin: 4 }} className="media-left">
+        <img style={{ height: 48, width: 48, objectFit: 'cover', borderRadius: '100%', boxShadow:"0 2px 1px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)" }} src={img} alt="task image" />
+      </figure>
+    ) : (
+      <figure style={{ margin: 0 }} className="media-left">
+        <img style={{ height: 64, width: 64, objectFit: 'cover' }} src={img} alt="task image" />
+      </figure>
+    );
+
   return (
     <div style={{ display: 'flex', alignItems: 'center', width: '100%', marginBottom: 0 }}>
       <div
@@ -1192,10 +1203,7 @@ export const RequestCardTitle = ({ img, icon, title, meatballMenu }) => {
           margin: 'auto',
         }}
       >
-        <figure style={{ margin: 0 }} className="media-left">
-          <img style={{ height: 64, width: 64, objectFit: 'cover' }} src={img} alt="task image" />
-        </figure>
-
+      {imgSection}
         <div className="content">
           <span style={{ fontSize: 28 }}>{title}</span>
         </div>

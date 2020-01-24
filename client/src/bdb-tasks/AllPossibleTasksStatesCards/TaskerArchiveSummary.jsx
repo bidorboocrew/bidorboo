@@ -26,14 +26,17 @@ export default class TaskerArchiveSummary extends RequestBaseContainer {
       <div className="card has-text-centered cardWithButton">
         <div className="card-content">
           <div className="content">
-            <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <RequestCardTitle
+              icon={ICON}
+              title={TITLE}
+              img={taskImages && taskImages.length > 0 ? taskImages[0].url : IMG}
+            />
             <UserGivenTitle userGivenTitle={requestTitle} />
             <SummaryStartDateAndTime
               date={completionDate}
               renderHelpComponent={() => <CountDownComponent startingDate={completionDate} />}
             />
             <ArchiveTask />
-            {/* <TaskImagesCarousel taskImages={taskImages} /> */}
           </div>
         </div>
 

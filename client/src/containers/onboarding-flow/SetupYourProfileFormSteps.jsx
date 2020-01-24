@@ -150,7 +150,6 @@ class Step4 extends React.Component {
               agreedToTOS: this.state.hasAgreedToTOS,
             },
             () => {
-              debugger;
               if (
                 location.state.redirectUrl !== ROUTES.CLIENT.ONBOARDING &&
                 location.state.redirectUrl !== ROUTES.CLIENT.LOGIN_OR_REGISTER
