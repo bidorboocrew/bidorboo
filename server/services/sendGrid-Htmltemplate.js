@@ -126,13 +126,34 @@ img.max-width {
     <p></p>
   </td>
 </tr>
-</tbody></table><table class="wrapper" role="module" data-type="image" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="98ndJyAY9BSGjoVqrr6FYx">
-  <tbody><tr>
-    <td style="font-size:6px; line-height:10px; padding:18px 0px 18px 0px;" valign="top" align="center">
-      <img class="max-width" border="0" style="display:block; color:#000000; text-decoration:none; font-family:Helvetica, arial, sans-serif; font-size:16px; max-width:15% !important; width:15%; height:auto !important;" src="http://cdn.mcauto-images-production.sendgrid.net/812bfeff138deed7/f7a7f777-7250-4400-9ec1-eedac9d69bd4/512x512.png" alt="BidOrBoo" width="86" data-responsive="true" data-proportionally-constrained="false">
+</tbody></table><table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" role="module" data-type="columns" style="padding:0px 0px 0px 0px;" bgcolor="#FFFFFF">
+<tbody>
+  <tr role="module-content">
+    <td height="100%" valign="top">
+      <table class="column" width="550" style="width:550px; border-spacing:0; border-collapse:collapse; margin:0px 10px 0px 10px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="">
+        <tbody>
+          <tr>
+            <td style="padding:0px;margin:0px;border-spacing:0;"><table class="wrapper" role="module" data-type="image" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="3rJq2JNfCVswMX8uNtGfKd">
+<tbody>
+  <tr>
+    <td style="font-size:6px; line-height:10px; padding:4px 4px 4px 4px;" valign="top" align="center"><a href="https://www.bidorboo.ca/"><img class="max-width" border="0" style="display:block; color:#000000; text-decoration:none; font-family:Helvetica, arial, sans-serif; font-size:16px; max-width:20% !important; width:20%; height:auto !important;" width="110" alt="BidOrBoo Home Page" data-proportionally-constrained="true" data-responsive="true" src="http://cdn.mcauto-images-production.sendgrid.net/812bfeff138deed7/f7a7f777-7250-4400-9ec1-eedac9d69bd4/512x512.png"></a></td>
+  </tr>
+</tbody>
+</table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="i2A6UoT2ikeKVijcdbZiAP" data-mc-module-version="2019-10-22">
+<tbody>
+  <tr>
+    <td style="padding:8px 0px 8px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center"><span style="color: #ee2a36; font-size: 26px"><strong>B</strong></span><span style="color: #353535; font-size: 26px"><strong>id</strong></span><span style="color: #ee2a36; font-size: 26px"><strong>O</strong></span><span style="color: #353535; font-size: 26px"><strong>r</strong></span><span style="color: #ee2a36; font-size: 26px"><strong>B</strong></span><span style="color: #353535; font-size: 26px"><strong>oo</strong></span></div><div></div></div></td>
+  </tr>
+</tbody>
+</table></td>
+          </tr>
+        </tbody>
+      </table>
+
     </td>
   </tr>
-</tbody></table><table class="module" role="module" data-type="spacer" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="dd3d5c45-e8a9-479e-8699-bcd7090a002b">
+</tbody>
+</table><table class="module" role="module" data-type="spacer" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="dd3d5c45-e8a9-479e-8699-bcd7090a002b">
 <tbody>
   <tr>
     <td style="padding:0px 0px 6px 0px;" role="module-content" bgcolor="#EE2A36">
@@ -142,30 +163,23 @@ img.max-width {
 </table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="275bbbf1-32ee-42db-bd47-1e764c3f6932" data-mc-module-version="2019-10-22">
 <tbody>
   <tr>
-    <td style="padding:12px 0px 8px 0px; line-height:30px; text-align:inherit; background-color:white;" height="100%" valign="top" bgcolor="white" role="module-content"><div><h2 style="text-align: left"><span style="color: #ee2a36; font-weight: 300; font-size: 20px">Hello ${toDisplayName}</span></h2><div></div></div></td>
-  </tr>
-</tbody>
-</table><table class="module" role="module" data-type="spacer" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="dd3d5c45-e8a9-479e-8699-bcd7090a002b.1">
-<tbody>
-  <tr>
-    <td style="padding:0px 0px 20px 0px;" role="module-content" bgcolor="">
-    </td>
+    <td style="padding:8px 0px 8px 0px; line-height:21px; text-align:inherit; background-color:white;" height="100%" valign="top" bgcolor="white" role="module-content"><div><h2 style="text-align: left"><span style="color: #ee2a36; font-weight: 300; font-size: 20px">Hello </span><span style="font-weight: 300; font-size: 20px; color: #353535">${toDisplayName}</span></h2><div></div></div></td>
   </tr>
 </tbody>
 </table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="c8b34392-2468-4e31-8568-037a330507b2" data-mc-module-version="2019-10-22">
 <tbody>
   <tr>
-    <td style="padding:12px 0px 12px 0px; line-height:21px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: left"><span style="color: #353535">${contentHtml}</span></div><div></div></div></td>
+    <td style="padding:18px 0px 18px 0px; line-height:21px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: left"><span style="color: #353535; font-size: 16px">${contentHtml}</span></div><div></div></div></td>
   </tr>
 </tbody>
 </table><table border="0" cellpadding="0" cellspacing="0" class="module" data-role="module-button" data-type="button" role="module" style="table-layout:fixed;" width="100%" data-muid="2ca2ae39-1659-4456-8289-d729ad096bf4">
   <tbody>
     <tr>
-      <td align="left" bgcolor="" class="outer-td" style="padding:0px 0px 0px 0px;">
+      <td align="left" bgcolor="" class="outer-td" style="padding:4px 0px 4px 0px;">
         <table border="0" cellpadding="0" cellspacing="0" class="wrapper-mobile" style="text-align:center;">
           <tbody>
             <tr>
-            <td align="center" bgcolor="white" class="inner-td" style="border-radius:6px; font-size:16px; text-align:left; background-color:inherit;"><a href="${clickLink}" style="border:1px solid #EE2A36; border-color:#EE2A36; border-radius:6px; border-width:1px; color:#EE2A36; display:inline-block; font-size:16px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:12px 18px 12px 18px; text-align:center; text-decoration:none; border-style:solid; background-color:white; font-family:arial,helvetica,sans-serif;" target="_blank">${clickDisplayName}</a></td>
+            <td align="center" bgcolor="white" class="inner-td" style="border-radius:6px; font-size:16px; text-align:left; background-color:inherit;"><a href="${clickLink}" style="border:4px solid #EE2A36; border-color:#EE2A36; border-radius:4px; border-width:4px; color:#EE2A36; display:inline-block; font-size:16px; font-weight:normal; letter-spacing:1px; line-height:normal; padding:12px 18px 12px 18px; text-align:center; text-decoration:none; border-style:solid; background-color:white; font-family:helvetica,sans-serif;" target="_blank">${clickDisplayName}</a></td>
             </tr>
           </tbody>
         </table>
@@ -175,27 +189,34 @@ img.max-width {
 </table><table class="module" role="module" data-type="spacer" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="dd3d5c45-e8a9-479e-8699-bcd7090a002b.1.1">
 <tbody>
   <tr>
-    <td style="padding:0px 0px 64px 0px;" role="module-content" bgcolor="">
+    <td style="padding:0px 0px 60px 0px;" role="module-content" bgcolor="">
+    </td>
+  </tr>
+</tbody>
+</table><table class="module" role="module" data-type="spacer" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="dd3d5c45-e8a9-479e-8699-bcd7090a002b.2">
+<tbody>
+  <tr>
+    <td style="padding:0px 0px 6px 0px;" role="module-content" bgcolor="#EE2A36">
     </td>
   </tr>
 </tbody>
 </table><table class="module" role="module" data-type="social" align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="kTqJe3Ke2movtrLxSjKW3C">
   <tbody>
     <tr>
-      <td valign="top" style="padding:0px 0px 0px 0px; font-size:6px; line-height:10px; background-color:white;" align="center">
+      <td valign="top" style="padding:12px 0px 12px 0px; font-size:6px; line-height:10px; background-color:white;" align="center">
         <table align="center">
           <tbody>
             <tr><td style="padding: 0px 5px;">
-  <a role="social-icon-link" href="https://www.facebook.com/sendgrid/" target="_blank" alt="Facebook" title="Facebook" style="display:inline-block; background-color:#fe5d61; height:30px; width:30px; border-radius:2px; -webkit-border-radius:2px; -moz-border-radius:2px;">
-    <img role="social-icon" alt="Facebook" title="Facebook" src="https://marketing-image-production.s3.amazonaws.com/social/white/facebook.png" style="height:30px; width:30px;" height="30" width="30">
+  <a role="social-icon-link" href="https://business.facebook.com/bidorboo" target="_blank" alt="Facebook" title="Facebook" style="display:inline-block; background-color:#EE2A36; height:32px; width:32px; border-radius:4px; -webkit-border-radius:4px; -moz-border-radius:4px;">
+    <img role="social-icon" alt="Facebook" title="Facebook" src="https://marketing-image-production.s3.amazonaws.com/social/white/facebook.png" style="height:32px; width:32px;" height="32" width="32">
   </a>
 </td><td style="padding: 0px 5px;">
-  <a role="social-icon-link" href="https://twitter.com/bidorboo" target="_blank" alt="Twitter" title="Twitter" style="display:inline-block; background-color:#fe5d61; height:30px; width:30px; border-radius:2px; -webkit-border-radius:2px; -moz-border-radius:2px;">
-    <img role="social-icon" alt="Twitter" title="Twitter" src="https://marketing-image-production.s3.amazonaws.com/social/white/twitter.png" style="height:30px; width:30px;" height="30" width="30">
+  <a role="social-icon-link" href="https://twitter.com/bidorboo" target="_blank" alt="Twitter" title="Twitter" style="display:inline-block; background-color:#EE2A36; height:32px; width:32px; border-radius:4px; -webkit-border-radius:4px; -moz-border-radius:4px;">
+    <img role="social-icon" alt="Twitter" title="Twitter" src="https://marketing-image-production.s3.amazonaws.com/social/white/twitter.png" style="height:32px; width:32px;" height="32" width="32">
   </a>
 </td><td style="padding: 0px 5px;">
-  <a role="social-icon-link" href="https://www.instagram.com/bidorboo/" target="_blank" alt="Instagram" title="Instagram" style="display:inline-block; background-color:#fe5d61; height:30px; width:30px; border-radius:2px; -webkit-border-radius:2px; -moz-border-radius:2px;">
-    <img role="social-icon" alt="Instagram" title="Instagram" src="https://marketing-image-production.s3.amazonaws.com/social/white/instagram.png" style="height:30px; width:30px;" height="30" width="30">
+  <a role="social-icon-link" href="https://www.instagram.com/bidorboo/" target="_blank" alt="Instagram" title="Instagram" style="display:inline-block; background-color:#EE2A36; height:32px; width:32px; border-radius:4px; -webkit-border-radius:4px; -moz-border-radius:4px;">
+    <img role="social-icon" alt="Instagram" title="Instagram" src="https://marketing-image-production.s3.amazonaws.com/social/white/instagram.png" style="height:32px; width:32px;" height="32" width="32">
   </a>
 </td></tr>
           </tbody>
@@ -217,7 +238,7 @@ img.max-width {
           <tbody>
             <tr>
             <td align="center" bgcolor="white" class="inner-td" style="border-radius:6px; font-size:16px; text-align:center; background-color:inherit;">
-              <a href="https://bidorboo.ca/my-profile/notification-settings" style="background-color:white; border:0px solid #white; border-color:#white; border-radius:0px; border-width:0px; color:#bdbdbd; display:inline-block; font-size:10px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:0px 18px 12px 18px; text-align:center; text-decoration:none; border-style:solid;" target="_blank">Unsubscribe</a>
+              <a href="https://bidorboo.ca/my-profile/notification-settings" style="background-color:white; border:0px solid Auto; border-color:Auto; border-radius:0px; border-width:0px; color:#BDBDBD; display:inline-block; font-size:10px; font-weight:normal; letter-spacing:1px; line-height:normal; padding:0px 0px 0px 0px; text-align:center; text-decoration:none; border-style:solid; font-family:helvetica,sans-serif;" target="_blank">Unsubscribe</a>
             </td>
             </tr>
           </tbody>
