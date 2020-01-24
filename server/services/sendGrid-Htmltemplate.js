@@ -142,7 +142,7 @@ img.max-width {
 </table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="275bbbf1-32ee-42db-bd47-1e764c3f6932" data-mc-module-version="2019-10-22">
 <tbody>
   <tr>
-    <td style="padding:12px 0px 8px 0px; line-height:30px; text-align:inherit; background-color:white;" height="100%" valign="top" bgcolor="white" role="module-content"><div><h2 style="text-align: center"><span style="color: #ee2a36; font-weight: 300; font-size: 20px">Hello ${toDisplayName}</span></h2><div></div></div></td>
+    <td style="padding:12px 0px 8px 0px; line-height:30px; text-align:inherit; background-color:white;" height="100%" valign="top" bgcolor="white" role="module-content"><div><h2 style="text-align: left"><span style="color: #ee2a36; font-weight: 300; font-size: 20px">Hello ${toDisplayName}</span></h2><div></div></div></td>
   </tr>
 </tbody>
 </table><table class="module" role="module" data-type="spacer" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="dd3d5c45-e8a9-479e-8699-bcd7090a002b.1">
@@ -155,17 +155,17 @@ img.max-width {
 </table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="c8b34392-2468-4e31-8568-037a330507b2" data-mc-module-version="2019-10-22">
 <tbody>
   <tr>
-    <td style="padding:12px 0px 12px 0px; line-height:21px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center"><span style="color: #353535">${contentHtml}</span></div><div></div></div></td>
+    <td style="padding:12px 0px 12px 0px; line-height:21px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: left"><span style="color: #353535">${contentHtml}</span></div><div></div></div></td>
   </tr>
 </tbody>
 </table><table border="0" cellpadding="0" cellspacing="0" class="module" data-role="module-button" data-type="button" role="module" style="table-layout:fixed;" width="100%" data-muid="2ca2ae39-1659-4456-8289-d729ad096bf4">
   <tbody>
     <tr>
-      <td align="center" bgcolor="" class="outer-td" style="padding:0px 0px 0px 0px;">
+      <td align="left" bgcolor="" class="outer-td" style="padding:0px 0px 0px 0px;">
         <table border="0" cellpadding="0" cellspacing="0" class="wrapper-mobile" style="text-align:center;">
           <tbody>
             <tr>
-            <td align="center" bgcolor="white" class="inner-td" style="border-radius:6px; font-size:16px; text-align:center; background-color:inherit;"><a href="${clickLink}" style="border:1px solid #EE2A36; border-color:#EE2A36; border-radius:6px; border-width:1px; color:#EE2A36; display:inline-block; font-size:16px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:12px 18px 12px 18px; text-align:center; text-decoration:none; border-style:solid; background-color:white; font-family:arial,helvetica,sans-serif;" target="_blank">${clickDisplayName}</a></td>
+            <td align="center" bgcolor="white" class="inner-td" style="border-radius:6px; font-size:16px; text-align:left; background-color:inherit;"><a href="${clickLink}" style="border:1px solid #EE2A36; border-color:#EE2A36; border-radius:6px; border-width:1px; color:#EE2A36; display:inline-block; font-size:16px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:12px 18px 12px 18px; text-align:center; text-decoration:none; border-style:solid; background-color:white; font-family:arial,helvetica,sans-serif;" target="_blank">${clickDisplayName}</a></td>
             </tr>
           </tbody>
         </table>
@@ -186,7 +186,7 @@ img.max-width {
         <table align="center">
           <tbody>
             <tr><td style="padding: 0px 5px;">
-  <a role="social-icon-link" href="https://business.facebook.com/bidorboo/" target="_blank" alt="Facebook" title="Facebook" style="display:inline-block; background-color:#fe5d61; height:30px; width:30px; border-radius:2px; -webkit-border-radius:2px; -moz-border-radius:2px;">
+  <a role="social-icon-link" href="https://www.facebook.com/sendgrid/" target="_blank" alt="Facebook" title="Facebook" style="display:inline-block; background-color:#fe5d61; height:30px; width:30px; border-radius:2px; -webkit-border-radius:2px; -moz-border-radius:2px;">
     <img role="social-icon" alt="Facebook" title="Facebook" src="https://marketing-image-production.s3.amazonaws.com/social/white/facebook.png" style="height:30px; width:30px;" height="30" width="30">
   </a>
 </td><td style="padding: 0px 5px;">
@@ -206,7 +206,7 @@ img.max-width {
 </table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="1c6c1d84-726c-4688-9452-aea210af1c83" data-mc-module-version="2019-10-22">
 <tbody>
   <tr>
-    <td style="padding:18px 0px 0px 0px; line-height:16px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center"><span style="font-size: 12px; color: #bdbdbd">You can unsubscribe anytime by changing your notification settings</span></div><div></div></div></td>
+    <td style="padding:18px 0px 0px 0px; line-height:12px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center"><span style="color: #bdbdbd; font-size: 10px">You can unsubscribe anytime by changing your notification settings</span></div><div></div></div></td>
   </tr>
 </tbody>
 </table><table border="0" cellpadding="0" cellspacing="0" class="module" data-role="module-button" data-type="button" role="module" style="table-layout:fixed;" width="100%" data-muid="d6250d47-915f-416d-80ca-bc6736258fae">
