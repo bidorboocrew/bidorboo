@@ -44,6 +44,8 @@ export { default as RequesterCanceledByRequesterDetails } from './AllPossibleTas
 export { default as RequesterCanceledByTaskerSummary } from './AllPossibleTasksStatesCards/RequesterCanceledByTaskerSummary';
 
 export { default as RequesterCanceledByTaskerDetails } from './AllPossibleTasksStatesCards/RequesterCanceledByTaskerDetails';
+export { default as RequesterDisputedResolvedDetails } from './AllPossibleTasksStatesCards/RequesterDisputedResolvedDetails';
+export { default as RequesterDisputedResolvedSummary } from './AllPossibleTasksStatesCards/RequesterDisputedResolvedSummary';
 
 export { default as TaskerBidOnTaskSummary } from './AllPossibleTasksStatesCards/TaskerBidOnTaskSummary';
 
@@ -78,6 +80,8 @@ export { default as RequesterDisputedSummary } from './AllPossibleTasksStatesCar
 export { default as RequesterDisputedDetails } from './AllPossibleTasksStatesCards/RequesterDisputedDetails';
 
 export { default as TaskerMyDisputedBidDetails } from './AllPossibleTasksStatesCards/TaskerMyDisputedBidDetails';
+export { default as TaskerMyDisputedResolvedBidDetails } from './AllPossibleTasksStatesCards/TaskerMyDisputedResolvedBidDetails';
+export { default as TaskerMyDisputedResolvedBidSummary } from './AllPossibleTasksStatesCards/TaskerMyDisputedResolvedBidSummary';
 
 export { default as TaskerMyDisputedBidSummary } from './AllPossibleTasksStatesCards/TaskerMyDisputedBidSummary';
 export { default as TaskerArchiveSummary } from './AllPossibleTasksStatesCards/TaskerArchiveSummary';

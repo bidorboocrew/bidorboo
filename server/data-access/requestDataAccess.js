@@ -1796,7 +1796,8 @@ exports.requestDataAccess = {
           requestTitle: 1,
           startingDateAndTime: 1,
           taskImages: 1,
-          dispute: 1,
+          'dispute.requesterDispute': 1,
+          'dispute.bidOrBooCrewResolution.requesterResolution': 1,
           completionDate: 1,
         },
         { limit: 500, sort: { startingDateAndTime: 1 } }
@@ -1965,7 +1966,12 @@ exports.requestDataAccess = {
       try {
         const requestWithTaskerDetails = await RequestModel.findOne(
           { _id: requestId },
-          { processedPayment: 0, payoutDetails: 0 }
+          {
+            processedPayment: 0,
+            payoutDetails: 0,
+            'dispute.taskerDispute': 0,
+            'dispute.bidOrBooCrewResolution.taskerResolution': 0,
+          }
         )
           .populate([
             {

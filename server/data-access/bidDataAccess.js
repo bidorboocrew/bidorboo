@@ -429,7 +429,8 @@ exports.bidDataAccess = {
                 startingDateAndTime: 1,
                 templateId: 1,
                 taskerConfirmedCompletion: 1,
-                dispute: 1,
+                'dispute.taskerDispute': 1,
+                'dispute.bidOrBooCrewResolution.taskerResolution': 1,
                 _reviewRef: 1,
                 taskImages: 1,
                 completionDate: 1,
@@ -523,6 +524,8 @@ exports.bidDataAccess = {
                   viewedBy: 0,
                   latestCheckoutSession: 0,
                   processedPayment: 0,
+                  'dispute.requesterDispute': 0,
+                  'dispute.bidOrBooCrewResolution.requesterResolution': 0,
                 },
                 populate: [
                   {

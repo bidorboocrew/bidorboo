@@ -32,6 +32,10 @@ import {
   TaskerArchiveDetails,
   REQUEST_STATES,
   POINT_OF_VIEW,
+  RequesterDisputedResolvedSummary,
+  RequesterDisputedResolvedDetails,
+  TaskerMyDisputedResolvedBidDetails,
+  TaskerMyDisputedResolvedBidSummary,
 } from './index';
 
 export { POINT_OF_VIEW };
@@ -130,9 +134,9 @@ const requesterCardTemplates = {
   },
   [REQUEST_STATES.DISPUTE_RESOLVED]: ({ request, isSummaryView, pointOfView, ...otherArgs }) => {
     return isSummaryView ? (
-      <div>REQUEST_STATES.DISPUTE_RESOLVED summary not implemented yet</div>
+      <RequesterDisputedResolvedSummary request={request} {...otherArgs} />
     ) : (
-      <div>REQUEST_STATES.DISPUTE_RESOLVED details not implemented yet</div>
+      <RequesterDisputedResolvedDetails request={request} {...otherArgs} />
     );
   },
   [REQUEST_STATES.ARCHIVE]: ({ request, isSummaryView, pointOfView, ...otherArgs }) => {
@@ -229,6 +233,20 @@ const TaskerCardTemplates = {
       return <TaskerMyDisputedBidDetails request={request} {...otherArgs} />;
     }
   },
+  [REQUEST_STATES.DISPUTE_RESOLVED]: ({
+    request,
+    isSummaryView,
+    pointOfView,
+    withBidDetails,
+    ...otherArgs
+  }) => {
+    if (isSummaryView) {
+      return <TaskerMyDisputedResolvedBidSummary request={request} {...otherArgs} />;
+    } else {
+      return <TaskerMyDisputedResolvedBidDetails request={request} {...otherArgs} />;
+    }
+  },
+
   [REQUEST_STATES.ARCHIVE]: ({ request, isSummaryView, pointOfView, ...otherArgs }) => {
     return isSummaryView ? (
       <TaskerArchiveSummary request={request} {...otherArgs} />
