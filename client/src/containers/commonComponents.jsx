@@ -988,6 +988,30 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
   );
 };
 
+export const SummaryStartDateAndTimeOnMap = ({ date }) => {
+  const startingDate = moment(date).format('DD/MMM');
+
+  return (
+    <div className="group">
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          fontWeight: 500,
+          fontSize: 12,
+          maxWidth: 200,
+          margin: 'auto',
+        }}
+      >
+        <div style={{ borderRight: '1px solid lightgrey', padding: 10, flex: '1 1 0' }}>
+          {startingDate}
+        </div>
+        <div style={{ padding: 10, flex: '1 1 0' }}>{moment(date).fromNow()}</div>
+      </div>
+    </div>
+  );
+};
+
 export const SummaryStartDateAndTime = ({ date }) => {
   const startingDate = moment(date).format('DD/MMM');
 
@@ -1176,6 +1200,56 @@ export const UserGivenTitle = ({ userGivenTitle }) => {
   return (
     <div style={{ fontWeight: 300, fontSize: 16, color: '#363636', marginBottom: '1.25rem' }}>
       {`Title: ${userGivenTitle}`}
+    </div>
+  );
+};
+
+export const UserGivenTitleOnMap = ({ userGivenTitle = '--' }) => {
+  return (
+    <div style={{ fontWeight: 300, fontSize: 12, color: '#363636', marginBottom: '0.5rem' }}>
+      {`Title: ${userGivenTitle || '--'}`}
+    </div>
+  );
+};
+
+export const RequestCardTitleOnMap = ({ img, title }) => {
+  const imgSection =
+    typeof img === 'string' && img.includes('http') ? (
+      <figure style={{ margin: 4 }} className="media-left">
+        <img
+          style={{
+            height: 32,
+            width: 32,
+            objectFit: 'cover',
+            borderRadius: '100%',
+            boxShadow: '0 2px 1px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)',
+          }}
+          src={img}
+          alt="task image"
+        />
+      </figure>
+    ) : (
+      <figure style={{ margin: 0 }} className="media-left">
+        <img style={{ height: 36, width: 36, objectFit: 'cover' }} src={img} alt="task image" />
+      </figure>
+    );
+
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', width: '100%', marginBottom: 0 }}>
+      <div
+        style={{
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          overflow: 'hidden',
+          margin: 'auto',
+        }}
+      >
+        {imgSection}
+        <div className="content">
+          <span style={{ fontSize: 16 }}>{title}</span>
+        </div>
+      </div>
     </div>
   );
 };

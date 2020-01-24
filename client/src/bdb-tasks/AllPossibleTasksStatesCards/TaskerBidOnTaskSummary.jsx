@@ -13,6 +13,9 @@ import {
   TaskImagesCarousel,
   CenteredUserImageAndRating,
   UserGivenTitle,
+  RequestCardTitleOnMap,
+  UserGivenTitleOnMap,
+  SummaryStartDateAndTimeOnMap,
 } from '../../containers/commonComponents';
 
 import { didUserAlreadyView } from '../../containers/commonUtils';
@@ -44,32 +47,52 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
 
     const userAlreadyView = didUserAlreadyView(request, currentUserId);
 
-    const specialStyle = isOnMapView ? { padding: '0.25rem' } : {};
-    const specialStyleCard = isOnMapView ? { width: 300 } : {};
+    const specialStyle = isOnMapView ? { padding: '0.75rem' } : {};
+    const specialStyleCard = isOnMapView ? { maxWidth: 200 } : {};
 
     return (
       <React.Fragment>
         <div style={{ ...specialStyleCard }} className="card has-text-centered cardWithButton">
           <div style={{ ...specialStyle }} className="card-content">
             <div className="content">
-              <RequestCardTitle
-                icon={ICON}
-                title={TITLE}
-                img={taskImages && taskImages.length > 0 ? taskImages[0].url : IMG}
-              />
-              <div className="group">
-                {!isOnMapView && (
+              {isOnMapView ? (
+                <RequestCardTitleOnMap
+                  icon={ICON}
+                  title={TITLE}
+                  img={taskImages && taskImages.length > 0 ? taskImages[0].url : IMG}
+                />
+              ) : (
+                <RequestCardTitle
+                  icon={ICON}
+                  title={TITLE}
+                  img={taskImages && taskImages.length > 0 ? taskImages[0].url : IMG}
+                />
+              )}
+              {!isOnMapView && (
+                <div className="group">
                   <CenteredUserImageAndRating clipUserName userDetails={_ownerRef} />
-                )}
-              </div>
-              <UserGivenTitle userGivenTitle={requestTitle} />
-
-              <SummaryStartDateAndTime
-                date={startingDateAndTime}
-                renderHelpComponent={() => (
-                  <CountDownComponent startingDate={startingDateAndTime} />
-                )}
-              />
+                </div>
+              )}
+              {isOnMapView ? (
+                <UserGivenTitleOnMap userGivenTitle={requestTitle} />
+              ) : (
+                <UserGivenTitle userGivenTitle={requestTitle} />
+              )}
+              {isOnMapView ? (
+                <SummaryStartDateAndTimeOnMap
+                  date={startingDateAndTime}
+                  renderHelpComponent={() => (
+                    <CountDownComponent startingDate={startingDateAndTime} />
+                  )}
+                />
+              ) : (
+                <SummaryStartDateAndTime
+                  date={startingDateAndTime}
+                  renderHelpComponent={() => (
+                    <CountDownComponent startingDate={startingDateAndTime} />
+                  )}
+                />
+              )}
 
               {!isOnMapView && (
                 <div className="group">
