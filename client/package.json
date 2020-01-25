@@ -5,6 +5,11 @@
   "homepage": "https://www.bidorboo.ca",
   "description": "Get Services Done For the Price you desire. Offer Services and earn money.",
   "author": "Said Madi",
+  "engines": {
+    "node": "10.18.0",
+    "npm": "6.13.4",
+    "yarn": "1.16.0"
+  },
   "sideEffects": false,
   "proxy": "http://localhost:5000",
   "dependencies": {
@@ -18,7 +23,6 @@
     "bulma": "^0.8.0",
     "bulma-switch": "^2.0.0",
     "classnames": "^2.2.6",
-    "cloudinary-react": "^1.3.0",
     "cookieconsent": "^3.1.1",
     "core-js": "^3.2.1",
     "formik": "^1.5.8",

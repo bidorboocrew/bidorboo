@@ -391,6 +391,7 @@ exports.bidDataAccess = {
           reported: 1,
           createdAt: 1,
           updatedAt: 1,
+          completionDate: 1,
         },
         populate: {
           path: '_ownerRef',
@@ -428,8 +429,11 @@ exports.bidDataAccess = {
                 startingDateAndTime: 1,
                 templateId: 1,
                 taskerConfirmedCompletion: 1,
-                dispute: 1,
+                'dispute.taskerDispute': 1,
+                'dispute.bidOrBooCrewResolution.taskerResolution': 1,
                 _reviewRef: 1,
+                taskImages: 1,
+                completionDate: 1,
               },
               populate: [
                 {
@@ -520,6 +524,8 @@ exports.bidDataAccess = {
                   viewedBy: 0,
                   latestCheckoutSession: 0,
                   processedPayment: 0,
+                  'dispute.requesterDispute': 0,
+                  'dispute.bidOrBooCrewResolution.requesterResolution': 0,
                 },
                 populate: [
                   {
@@ -691,6 +697,7 @@ exports.bidDataAccess = {
                 durationOfRequest: 1,
                 templateId: 1,
                 extras: 1,
+                completionDate: 1,
               },
               populate: {
                 path: '_ownerRef',
@@ -915,11 +922,8 @@ exports.bidDataAccess = {
         if (archivedBidDetails && archivedBidDetails._id) {
           const requestDetails = archivedBidDetails._requestRef;
           if (
-            !(
-              requestDetails._reviewRef &&
-              requestDetails._reviewRef.requesterReview &&
-              requestDetails._reviewRef.taskerReview
-            )
+            requestDetails._reviewRef &&
+            !(requestDetails._reviewRef.requesterReview && requestDetails._reviewRef.taskerReview)
           ) {
             requestDetails._reviewRef.requesterReview = null;
           }

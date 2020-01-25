@@ -106,7 +106,7 @@ class TaskerEditOrUpdateBid extends React.Component {
 
         {showUpdateBidDialog &&
           ReactDOM.createPortal(
-            <div className="modal is-active  has-text-left">
+            <div className="modal is-active has-text-left">
               <div className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
@@ -162,8 +162,7 @@ class TaskerEditOrUpdateBid extends React.Component {
         <br></br>
 
         {isNewBid && (
-          <a
-            style={{ width: 'unset' }}
+          <div
             onClick={(e) => {
               e.preventDefault();
               this.showUpdateBidModal();
@@ -173,8 +172,8 @@ class TaskerEditOrUpdateBid extends React.Component {
             <span className="icon">
               <i className="far fa-edit" />
             </span>
-            <span>Change Bid Amount</span>
-          </a>
+            <span>Change Bid</span>
+          </div>
         )}
       </div>
     );

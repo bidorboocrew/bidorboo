@@ -2,7 +2,7 @@ import React from 'react';
 import ReactPlayer from 'react-player';
 
 import * as ROUTES from '../constants/frontend-route-consts';
-import RequesterRoot from './requester-flow/RequesterRootPage';
+// import RequesterRoot from './requester-flow/RequesterRootPage';
 import { switchRoute } from '../utils';
 import MainBanner from '../assets/images/MainBanner.png';
 import REQUESTER_MAINPAGE from '../assets/images/REQUESTER_MAINPAGE.png';
@@ -41,7 +41,7 @@ export default class HomePage extends React.Component {
                 onClick={(e) => {
                   switchRoute(ROUTES.CLIENT.REQUESTER.root);
                 }}
-                className="button is-medium is-white"
+                className="button is-medium is-success"
               >
                 <span className="icon">
                   <i className="far fa-plus-square" />
@@ -85,24 +85,19 @@ export default class HomePage extends React.Component {
         <section className="hero has-text-centered ">
           <div style={{ position: 'relative' }}>
             <div style={{ margin: 'auto', maxWidth: 800, padding: '0.5rem' }}>
-              <div className="player-wrapper fade-in ">
+              <div className="player-wrapper fade-in">
                 <ReactPlayer
                   className="react-player"
-                  url="https://youtu.be/YHh9JbJAyf0?mode=opaque"
+                  url="https://youtu.be/YHh9JbJAyf0"
                   width="100%"
                   height="100%"
-                  config={{
-                    youtube: {
-                      controls: 0,
-                      widget_referrer: 'https://www.bidorboo.ca',
+                  youtubeConfig={{
+                    playerVars: {
                       modestbranding: 1,
-                      playerVars: {
-                        controls: 0,
-                        modestbranding: 1,
-                        widget_referrer: 'https://www.bidorboo.ca',
-                      },
-                      preload: true,
+                      origin: 'https://www.bidorboo.ca',
+                      widget_referrer: 'https://www.bidorboo.ca',
                     },
+                    preload: true,
                   }}
                 />
               </div>
@@ -148,10 +143,10 @@ export default class HomePage extends React.Component {
           }}
         /> */}
         {/* <div className="container"> */}
+        {/* <br></br>
         <br></br>
         <br></br>
-        <br></br>
-        <RequesterRoot />
+        <RequesterRoot /> */}
         {/* </div> */}
       </div>
     );
@@ -164,7 +159,10 @@ const RequestAService = (props) => {
       onClick={() => {
         switchRoute(ROUTES.CLIENT.REQUESTER.root);
       }}
-      style={{ cursor: 'pointer' }}
+      style={{
+        cursor: 'pointer',
+        boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
+      }}
       className="card cardWithButton"
     >
       <div className="card-image">
@@ -200,7 +198,10 @@ const ProvideAService = () => {
       onClick={(e) => {
         switchRoute(ROUTES.CLIENT.TASKER.root);
       }}
-      style={{ cursor: 'pointer' }}
+      style={{
+        cursor: 'pointer',
+        boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
+      }}
       className="card cardWithButton"
     >
       <div className="card-image">
@@ -233,8 +234,8 @@ const ProvideAService = () => {
 const HowItWorksRequestService = () => {
   return (
     <div>
-      <h1 className="title">Request a service</h1>
-      <ul>
+      <h1 className="title has-text-centered">Request a service</h1>
+      <ul style={{ margin: 'auto', maxWidth: 220 }}>
         <li>
           <p className="is-size-5">Fill a request</p>
         </li>
@@ -245,6 +246,7 @@ const HowItWorksRequestService = () => {
           <p className="is-size-5">Choose a tasker</p>
         </li>
       </ul>
+      <br></br>
     </div>
   );
 };
@@ -252,8 +254,8 @@ const HowItWorksRequestService = () => {
 const HowItWorksProvideService = () => {
   return (
     <div>
-      <h1 className="title">Bid on requests</h1>
-      <ul>
+      <h1 className="title has-text-centered">Bid on requests</h1>
+      <ul style={{ margin: 'auto', maxWidth: 195 }}>
         <li>
           <p className="is-size-5">Browse tasks</p>
         </li>
@@ -264,6 +266,7 @@ const HowItWorksProvideService = () => {
           <p className="is-size-5">{`Do it & get paid`}</p>
         </li>
       </ul>
+      <br></br>
     </div>
   );
 };

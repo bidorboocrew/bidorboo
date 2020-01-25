@@ -525,6 +525,9 @@ exports.requestDataAccess = {
                     .exec();
                 } catch (errorPayout) {
                   if (errorPayout) {
+                    console.log('BIDORBOO_ERROR: SendPayoutsToBanks_Error request details');
+                    console.log({ request });
+
                     console.log(
                       'BIDORBOO_ERROR: SendPayoutsToBanks_Error ' +
                         errorPayout +
@@ -537,7 +540,7 @@ exports.requestDataAccess = {
                 }
               } else {
                 console.log(
-                  'BIDORBOO_PAYMENTS: DANGER PAYOUT IS NOT ENABLED PLEASE INVESTIGATE WHY ' +
+                  'BIDORBOO_PAYMENTS_WARNIKNG: DANGER PAYOUT IS NOT ENABLED PLEASE INVESTIGATE WHY ' +
                     destinationStripeAcc
                 );
               }
@@ -653,7 +656,7 @@ exports.requestDataAccess = {
           taskImages: 1,
         },
       })
-      .lean({virtuals: true})
+      .lean({ virtuals: true })
       .exec();
   },
   getRequestWithReviewModel: async (requestId, ownerId) => {
@@ -1793,7 +1796,8 @@ exports.requestDataAccess = {
           requestTitle: 1,
           startingDateAndTime: 1,
           taskImages: 1,
-          dispute: 1,
+          'dispute.requesterDispute': 1,
+          'dispute.bidOrBooCrewResolution.requesterResolution': 1,
           completionDate: 1,
         },
         { limit: 500, sort: { startingDateAndTime: 1 } }
@@ -1940,8 +1944,8 @@ exports.requestDataAccess = {
 
         if (archivedRequestDetails && archivedRequestDetails._id) {
           if (
+            archivedRequestDetails._reviewRef &&
             !(
-              archivedRequestDetails._reviewRef &&
               archivedRequestDetails._reviewRef.requesterReview &&
               archivedRequestDetails._reviewRef.taskerReview
             )
@@ -1962,7 +1966,12 @@ exports.requestDataAccess = {
       try {
         const requestWithTaskerDetails = await RequestModel.findOne(
           { _id: requestId },
-          { processedPayment: 0, payoutDetails: 0 }
+          {
+            processedPayment: 0,
+            payoutDetails: 0,
+            'dispute.taskerDispute': 0,
+            'dispute.bidOrBooCrewResolution.taskerResolution': 0,
+          }
         )
           .populate([
             {

@@ -12,6 +12,7 @@ import {
   TaskImagesCarousel,
   UserGivenTitle,
   TaskerWillEarn,
+  BidAmount,
 } from '../../containers/commonComponents';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
 import { updateRequestState } from '../../app-state/actions/requestActions';
@@ -29,7 +30,8 @@ class TaskerAwardedBidCanceledByRequesterDetails extends React.Component {
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
-    const { taskerPartialPayout } = bid;
+    const { taskerPartialPayout, bidAmount = {} } = bid;
+    const { value: bidValue } = bidAmount;
 
     const { value: taskerPartialPayoutAmount } = taskerPartialPayout;
 
@@ -48,9 +50,11 @@ class TaskerAwardedBidCanceledByRequesterDetails extends React.Component {
               date={startingDateAndTime}
               renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
-            <TaskerWillEarn earningAmount={taskerPartialPayoutAmount}></TaskerWillEarn>
 
             <CancelledBy name="Requester" />
+            <BidAmount bidAmount={bidValue} />
+            <TaskerWillEarn earningAmount={taskerPartialPayoutAmount}></TaskerWillEarn>
+
             <div className="group has-text-left">
               <label className="label has-text-danger">What you need to know:</label>
               <ul>

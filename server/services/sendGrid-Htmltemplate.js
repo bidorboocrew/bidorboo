@@ -1,294 +1,276 @@
 exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDisplayName }) => {
-  return `
-  <!doctype html>
-<html>
-  <head>
-  <meta charset="utf-8" />
-  <meta
-    name="BidOrBoo"
-    content="BidorBoo, Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy."
-  />
-  <meta
-    name="Description"
-    content="A Crowd Sourcing Platform where you can Get Your Chores Done For The Right Price. Earn Money Doing What You Enjoy."
-  />
-  <meta
-    name="viewport"
-    content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
-  />
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="application-name" content="BidOrBoo" />
-  <meta name="msapplication-TileColor" content="#603cba" />
-  <meta name="theme-color" content="#ffffff" />
+  return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html data-editor-version="2" class="sg-campaigns" xmlns="http://www.w3.org/1999/xhtml"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+  <!--[if !mso]><!-->
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <!--<![endif]-->
+  <!--[if (gte mso 9)|(IE)]>
+  <xml>
+    <o:OfficeDocumentSettings>
+      <o:AllowPNG/>
+      <o:PixelsPerInch>96</o:PixelsPerInch>
+    </o:OfficeDocumentSettings>
+  </xml>
+  <![endif]-->
+  <!--[if (gte mso 9)|(IE)]>
+<style type="text/css">
+body {width: 600px;margin: 0 auto;}
+table {border-collapse: collapse;}
+table, td {mso-table-lspace: 0pt;mso-table-rspace: 0pt;}
+img {-ms-interpolation-mode: bicubic;}
+</style>
+<![endif]-->
+  <style type="text/css">
+body, p, div {
+  font-family: arial,helvetica,sans-serif !important;
+  font-size: 16px;
+}
+body {
+  color: #353535;
+}
+body a {
+  color: #ee2a36;
+  text-decoration: none;
+}
+p { margin: 0; padding: 0; }
+table.wrapper {
+  width:100% !important;
+  table-layout: fixed;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+img.max-width {
+  max-width: 100% !important;
+}
+.column.of-2 {
+  width: 50%;
+}
+.column.of-3 {
+  width: 33.333%;
+}
+.column.of-4 {
+  width: 25%;
+}
+@media screen and (max-width:480px) {
+  .preheader .rightColumnContent,
+  .footer .rightColumnContent {
+    text-align: left !important;
+  }
+  .preheader .rightColumnContent div,
+  .preheader .rightColumnContent span,
+  .footer .rightColumnContent div,
+  .footer .rightColumnContent span {
+    text-align: left !important;
+  }
+  .preheader .rightColumnContent,
+  .preheader .leftColumnContent {
+    font-size: 80% !important;
+    padding: 5px 0;
+  }
+  table.wrapper-mobile {
+    width: 100% !important;
+    table-layout: fixed;
+  }
+  img.max-width {
+    height: auto !important;
+    max-width: 100% !important;
+  }
+  a.bulletproof-button {
+    display: block !important;
+    width: auto !important;
+    font-size: 80%;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .columns {
+    width: 100% !important;
+  }
+  .column {
+    display: block !important;
+    width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+</style>
+  <!--user entered Head Start-->
 
-  <title>BidOrBoo Update</title>
-  <style>
-    img {
-      border: none;
-      -ms-interpolation-mode: bicubic;
-      max-width: 100%;
-    }
-
-    body {
-      background-color: #eeeeee;
-      font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
-      -webkit-font-smoothing: antialiased;
-      font-size: 16px;
-      line-height: 1.2;
-      margin: 0;
-      padding: 0;
-      -ms-text-size-adjust: 100%;
-      -webkit-text-size-adjust: 100%;
-    }
-
-    table {
-      border-collapse: separate;
-      mso-table-lspace: 0pt;
-      mso-table-rspace: 0pt;
-      width: 100%; }
-      table td {
-        font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
-        font-size: 16px;
-        vertical-align: top;
-    }
-
-    /* -------------------------------------
-        BODY & CONTAINER
-    ------------------------------------- */
-
-    .body {
-      background-color: #eeeeee;
-      width: 100%;
-    }
-
-    /* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */
-    .container {
-      display: block;
-      margin: 0 auto !important;
-      /* makes it centered */
-      max-width: 580px;
-      padding: 10px;
-      width: 580px;
-    }
-
-    /* This should also be a block element, so that it will fill 100% of the .container */
-    .content {
-      box-sizing: border-box;
-      display: block;
-      margin: 0 auto;
-      max-width: 580px;
-      padding: 10px;
-    }
-
-    /* -------------------------------------
-        HEADER, FOOTER, MAIN
-    ------------------------------------- */
-    .main {
-      background: #ffffff;
-      border-radius: 3px;
-      width: 100%;
-    }
-
-    .wrapper {
-      box-sizing: border-box;
-      padding: 20px;
-    }
-
-    .content-block {
-      padding-bottom: 10px;
-      padding-top: 10px;
-    }
-
-    .footer {
-      clear: both;
-      margin-top: 10px;
-      text-align: center;
-      width: 100%;
-    }
-      .footer td,
-      .footer p,
-      .footer span,
-      .footer a {
-        color: #999999;
-        font-size: 12px;
-        text-align: center;
-    }
-
-
-
-    a {
-      color: #3498db;
-
-    }
-
-    p {
-      font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
-      font-size: 18px;
-      font-weight: 400;
-      line-height: 1.5;
-    }
-
-    /* -------------------------------------
-        BUTTONS
-    ------------------------------------- */
-    .btn {
-      box-sizing: border-box;
-      width: 100%; }
-      .btn > tbody > tr > td {
-        padding-bottom: 15px; }
-      .btn table {
-        width: auto;
-    }
-      .btn table td {
-        background-color: #ffffff;
-        border-radius: 5px;
-        text-align: center;
-    }
-      .btn a {
-        background-color: #ffffff;
-        border: solid 1px #3498db;
-        border-radius: 5px;
-        box-sizing: border-box;
-        color: #3498db;
-        cursor: pointer;
-        display: inline-block;
-        font-size: 16px;
-        font-weight: bold;
-        margin: 0;
-        padding: 12px 25px;
-        text-decoration: none;
-        text-transform: capitalize;
-    }
-
-    .btn-primary table td {
-      background-color: #3498db;
-    }
-
-    .btn-primary a {
-      background-color: #3498db;
-      border-color: #3498db;
-      color: #ffffff;
-    }
-
-
-
-    .actionButton {
-      background-color: #ef2834 !important;
-      color: white;
-      width: 100%;
-      border: solid 1px #ef2834 !important;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    }
-    .preheader {
-      color: transparent;
-      display: none;
-      height: 0;
-      max-height: 0;
-      max-width: 0;
-      opacity: 0;
-      overflow: hidden;
-      mso-hide: all;
-      visibility: hidden;
-      width: 0;
-    }
-
-    .powered-by a {
-      text-decoration: none;
-    }
-
-    hr {
-      border: 0;
-      border-bottom: 1px solid #eeeeee;
-      margin: 20px 0;
-    }
-
-
-  </style>
-  </head>
-
-  <body>
-    <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
-      <tr>
-        <td class="container">
-          <div class="content">
-
-          <!-- START CENTERED WHITE CONTAINER -->
-          <span class="preheader">BidOrBoo updates!</span>
-
-        <table dir="ltr" class="m_-7318686519169392378Section m_-7318686519169392378Header" width="100%" style="border:0;border-collapse:collapse;margin:0;padding:0;background-color:#ffffff">
-          <tbody>
+ <!--End Head user entered-->
+</head>
+<body>
+  <center class="wrapper" data-link-color="#ee2a36" data-body-style="font-size:16px; font-family:arial,helvetica,sans-serif; color:#353535; background-color:#eeeeee;">
+    <div class="webkit">
+      <table cellpadding="0" cellspacing="0" border="0" width="100%" class="wrapper" bgcolor="#eeeeee">
+        <tbody><tr>
+          <td valign="top" bgcolor="#eeeeee" width="100%">
+            <table width="100%" role="content-container" class="outer" align="center" cellpadding="0" cellspacing="0" border="0">
+              <tbody><tr>
+                <td width="100%">
+                  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                    <tbody><tr>
+                      <td>
+                        <!--[if mso]>
+<center>
+<table><tr><td width="600">
+<![endif]-->
+                                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%; max-width:600px;" align="center">
+                                  <tbody><tr>
+                                    <td role="modules-container" style="padding:20px 15px 20px 15px; color:#353535; text-align:left;" bgcolor="white" width="100%" align="left"><table class="module preheader preheader-hide" role="module" data-type="preheader" border="0" cellpadding="0" cellspacing="0" width="100%" style="display: none !important; mso-hide: all; visibility: hidden; opacity: 0; color: transparent; height: 0; width: 0;">
+<tbody><tr>
+  <td role="module-content">
+    <p></p>
+  </td>
+</tr>
+</tbody></table><table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" role="module" data-type="columns" style="padding:0px 0px 0px 0px;" bgcolor="#FFFFFF">
+<tbody>
+  <tr role="module-content">
+    <td height="100%" valign="top">
+      <table class="column" width="550" style="width:550px; border-spacing:0; border-collapse:collapse; margin:0px 10px 0px 10px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="">
+        <tbody>
           <tr>
-            <td class="m_-7318686519169392378Header-left m_-7318686519169392378Target" style="background-color:#ee2a36;border:0;border-collapse:collapse;margin:0;padding:0;font-size:0;line-height:0px;background-size:100% 100%;border-top-left-radius:5px" align="right" height="156" valign="bottom" width="252">
-              <a href="#m_-7318686519169392378_">
-                <img  height="156" width="252" src="https://ci4.googleusercontent.com/proxy/9-vzO6oIjzdWLz5vxJipUa48-_jdteSGmZPi_jXjI1P9gfsxKXGx5ZC6HCp7gEsdL6c6qVHcVmPrfRVxxz7Yw1GWRX10g1zsI66f3vStuGoBVesH24A0bVJsUdvql3xAbjPcKaA_8g=s0-d-e1-ft#https://stripe-images.s3.amazonaws.com/notifications/hosted/20180110/Header/Left.png" style="display:block;border:0;line-height:100%;width:100%" class="CToWUd">
-              </a>
-            </td>
-            <td class="m_-7318686519169392378Header-icon m_-7318686519169392378Target" style="background-color:#ee2a36;border:0;border-collapse:collapse;margin:0;padding:0;font-size:0;line-height:0px;background-size:100% 100%" align="center" height="156" valign="bottom" width="96">
-              <a href="https://www.bidorboo.ca/" style="outline:0;text-decoration:none" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://www.bidorboo.ca/&amp;source=gmail&amp;ust=1569546059074000&amp;usg=AFQjCNGRPXG-YlxD4iHtz5pzS15YrDsjCw">
-                <img  height="156" width="96" src="https://ci5.googleusercontent.com/proxy/CWAZxB20BZL5WyY3c9lYMGFHyUgJ0fpEofRTtY5rT2iH0hiEEgbe5yY83CJNRUlxEEit1yFtYcvgcT9h3CgTjR2EqvvwSV9hqMtqcFf-guCd0sitz8dfk8rZ5ZaqtpSOrurDGtyzf4OQPFDmTdPZSkQ5=s0-d-e1-ft#https://stripe-images.s3.amazonaws.com/emails/acct_1EkxmxHRQ5neEvOS/2/twelve_degree_icon@2x.png" style="display:block;border:0;line-height:100%;width:100%" class="CToWUd">
-              </a>
-            </td>
-            <td class="m_-7318686519169392378Header-right m_-7318686519169392378Target" style="background-color:#ee2a36;border:0;border-collapse:collapse;margin:0;padding:0;font-size:0;line-height:0px;background-size:100% 100%;border-top-right-radius:5px" align="left" height="156" valign="bottom" width="252">
-              <a href="#m_-7318686519169392378_">
-                <img  height="156" width="252" src="https://ci5.googleusercontent.com/proxy/agqjJXCE9UqmeYtipoZMl4NQ5plhy-TKT_WsqxR18QMhNXU7t-dJPtqpaqwtjzrOslBvOe18-HlXRVknnUuUTIhtrECzchPqX06DXBwznI7p5hMwQb0pIl-d9gWCXjLTWHpQSf0rxKo=s0-d-e1-ft#https://stripe-images.s3.amazonaws.com/notifications/hosted/20180110/Header/Right.png" style="display:block;border:0;line-height:100%;width:100%" class="CToWUd">
-              </a>
-            </td>
+            <td style="padding:0px;margin:0px;border-spacing:0;"><table class="wrapper" role="module" data-type="image" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="3rJq2JNfCVswMX8uNtGfKd">
+<tbody>
+  <tr>
+    <td style="font-size:6px; line-height:10px; padding:4px 4px 4px 4px;" valign="top" align="center"><a href="https://www.bidorboo.ca/"><img class="max-width" border="0" style="display:block; color:#000000; text-decoration:none; font-family:Helvetica, arial, sans-serif; font-size:16px; max-width:20% !important; width:20%; height:auto !important;" width="110" alt="BidOrBoo Home Page" data-proportionally-constrained="true" data-responsive="true" src="http://cdn.mcauto-images-production.sendgrid.net/812bfeff138deed7/f7a7f777-7250-4400-9ec1-eedac9d69bd4/512x512.png"></a></td>
+  </tr>
+</tbody>
+</table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="i2A6UoT2ikeKVijcdbZiAP" data-mc-module-version="2019-10-22">
+<tbody>
+  <tr>
+    <td style="padding:8px 0px 8px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center"><span style="color: #ee2a36; font-size: 26px">B</span><span style="color: #353535; font-size: 26px">id</span><span style="color: #ee2a36; font-size: 26px">O</span><span style="color: #353535; font-size: 26px">r</span><span style="color: #ee2a36; font-size: 26px">B</span><span style="color: #353535; font-size: 26px">oo</span></div><div></div></div></td>
+  </tr>
+</tbody>
+</table></td>
           </tr>
+        </tbody>
+      </table>
+
+    </td>
+  </tr>
+</tbody>
+</table><table class="module" role="module" data-type="spacer" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="dd3d5c45-e8a9-479e-8699-bcd7090a002b">
+<tbody>
+  <tr>
+    <td style="padding:0px 0px 6px 0px;" role="module-content" bgcolor="#EE2A36">
+    </td>
+  </tr>
+</tbody>
+</table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="275bbbf1-32ee-42db-bd47-1e764c3f6932" data-mc-module-version="2019-10-22">
+<tbody>
+  <tr>
+    <td style="padding:8px 0px 8px 0px; line-height:21px; text-align:inherit; background-color:white;" height="100%" valign="top" bgcolor="white" role="module-content"><div><h2 style="text-align: left"><span style="color: #ee2a36; font-weight: 300; font-size: 16px">Hello </span><span style="font-weight: 300; color: #353535; font-size: 16px"><strong>${toDisplayName}</strong></span></h2><div></div></div></td>
+  </tr>
+</tbody>
+</table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="c8b34392-2468-4e31-8568-037a330507b2" data-mc-module-version="2019-10-22">
+<tbody>
+  <tr>
+    <td style="padding:18px 0px 18px 0px; line-height:21px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: left"><span style="color: #353535; font-size: 16px">${contentHtml}</span></div><div></div></div></td>
+  </tr>
+</tbody>
+</table><table border="0" cellpadding="0" cellspacing="0" class="module" data-role="module-button" data-type="button" role="module" style="table-layout:fixed;" width="100%" data-muid="2ca2ae39-1659-4456-8289-d729ad096bf4">
+  <tbody>
+    <tr>
+      <td align="left" bgcolor="" class="outer-td" style="padding:4px 0px 4px 0px;">
+        <table border="0" cellpadding="0" cellspacing="0" class="wrapper-mobile" style="text-align:center;">
+          <tbody>
+            <tr>
+            <td align="center" bgcolor="#EE2A36" class="inner-td" style="border-radius:6px; font-size:16px; text-align:left; background-color:inherit;"><a href="${clickLink}" style="border:4px solid EE2A36; border-color:EE2A36; border-radius:4px; border-width:4px; color:#ffffff; display:inline-block; font-size:16px; font-weight:normal; letter-spacing:1px; line-height:normal; padding:12px 18px 12px 18px; text-align:center; text-decoration:none; border-style:solid; background-color:#EE2A36; font-family:helvetica,sans-serif;" target="_blank">${clickDisplayName}</a></td>
+            </tr>
           </tbody>
         </table>
-
-            <table role="presentation" class="main">
-
-              <!-- START MAIN CONTENT AREA -->
-              <tr>
-                <td class="wrapper">
-                  <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                    <tr>
-                      <td>
-                        <p>Hi ${toDisplayName || ''},</p>
-                        <p>${contentHtml || ''}</p>
-                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
-                          <tbody>
-                            <tr>
-                              <td align="left">
-                                <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                                  <tbody>
-                                    <tr>
-                                      <td> <a class="actionButton" href="${clickLink ||
-                                        'https://www.bidorboo.ca'}" rel="noopener noreferrer" target="_blank">${clickDisplayName ||
-    'Launch BidOrBoo'}</a> </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
+      </td>
+    </tr>
+  </tbody>
+</table><table class="module" role="module" data-type="spacer" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="dd3d5c45-e8a9-479e-8699-bcd7090a002b.1.1">
+<tbody>
+  <tr>
+    <td style="padding:0px 0px 60px 0px;" role="module-content" bgcolor="">
+    </td>
+  </tr>
+</tbody>
+</table><table class="module" role="module" data-type="spacer" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="dd3d5c45-e8a9-479e-8699-bcd7090a002b.2">
+<tbody>
+  <tr>
+    <td style="padding:0px 0px 6px 0px;" role="module-content" bgcolor="#EE2A36">
+    </td>
+  </tr>
+</tbody>
+</table><table class="module" role="module" data-type="social" align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="kTqJe3Ke2movtrLxSjKW3C">
+  <tbody>
+    <tr>
+      <td valign="top" style="padding:12px 0px 12px 0px; font-size:6px; line-height:10px; background-color:white;" align="center">
+        <table align="center">
+          <tbody>
+            <tr><td style="padding: 0px 5px;">
+  <a role="social-icon-link" href="https://business.facebook.com/bidorboo" target="_blank" alt="Facebook" title="Facebook" style="display:inline-block; background-color:#EE2A36; height:32px; width:32px; border-radius:4px; -webkit-border-radius:4px; -moz-border-radius:4px;">
+    <img role="social-icon" alt="Facebook" title="Facebook" src="https://marketing-image-production.s3.amazonaws.com/social/white/facebook.png" style="height:32px; width:32px;" height="32" width="32">
+  </a>
+</td><td style="padding: 0px 5px;">
+  <a role="social-icon-link" href="https://twitter.com/bidorboo" target="_blank" alt="Twitter" title="Twitter" style="display:inline-block; background-color:#EE2A36; height:32px; width:32px; border-radius:4px; -webkit-border-radius:4px; -moz-border-radius:4px;">
+    <img role="social-icon" alt="Twitter" title="Twitter" src="https://marketing-image-production.s3.amazonaws.com/social/white/twitter.png" style="height:32px; width:32px;" height="32" width="32">
+  </a>
+</td><td style="padding: 0px 5px;">
+  <a role="social-icon-link" href="https://www.instagram.com/bidorboo/" target="_blank" alt="Instagram" title="Instagram" style="display:inline-block; background-color:#EE2A36; height:32px; width:32px; border-radius:4px; -webkit-border-radius:4px; -moz-border-radius:4px;">
+    <img role="social-icon" alt="Instagram" title="Instagram" src="https://marketing-image-production.s3.amazonaws.com/social/white/instagram.png" style="height:32px; width:32px;" height="32" width="32">
+  </a>
+</td></tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+</table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="1c6c1d84-726c-4688-9452-aea210af1c83" data-mc-module-version="2019-10-22">
+<tbody>
+  <tr>
+    <td style="padding:18px 0px 0px 0px; line-height:12px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center"><span style="color: #bdbdbd; font-size: 10px">You can unsubscribe anytime by changing your notification settings</span></div><div></div></div></td>
+  </tr>
+</tbody>
+</table><table border="0" cellpadding="0" cellspacing="0" class="module" data-role="module-button" data-type="button" role="module" style="table-layout:fixed;" width="100%" data-muid="d6250d47-915f-416d-80ca-bc6736258fae">
+  <tbody>
+    <tr>
+      <td align="center" bgcolor="" class="outer-td" style="padding:0px 0px 0px 0px;">
+        <table border="0" cellpadding="0" cellspacing="0" class="wrapper-mobile" style="text-align:center;">
+          <tbody>
+            <tr>
+            <td align="center" bgcolor="white" class="inner-td" style="border-radius:6px; font-size:16px; text-align:center; background-color:inherit;">
+              <a href="https://bidorboo.ca/my-profile/notification-settings" style="background-color:white; border:0px solid Auto; border-color:Auto; border-radius:0px; border-width:0px; color:#BDBDBD; display:inline-block; font-size:10px; font-weight:normal; letter-spacing:1px; line-height:normal; padding:0px 0px 0px 0px; text-align:center; text-decoration:none; border-style:solid; font-family:helvetica,sans-serif;" target="_blank">Unsubscribe</a>
+            </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+</table></td>
+                                  </tr>
+                                </tbody></table>
+                                <!--[if mso]>
                               </td>
                             </tr>
-                          </tbody>
-                        </table>
-                        <p> BidOrBoo Wishes you the best of luck!</p>
+                          </table>
+                        </center>
+                        <![endif]-->
                       </td>
                     </tr>
-                  </table>
+                  </tbody></table>
                 </td>
               </tr>
+            </tbody></table>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+  </center>
 
-            <!-- END MAIN CONTENT AREA -->
-            </table>
 
-            <!-- START FOOTER -->
-            <div class="footer">
-              <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td class="content-block">
-                    <span class="apple-link">BidOrBoo Inc, Ottawa ON Canada</span>
-                    <br>You can unsubscribe anytime by changing your notification settings <a href="https://bidorboo.ca/my-profile/notification-settings">Unsubscribe</a>.
-                  </td>
-                </tr>
-              </table>
-            </div>
-          </div>
-        </td>
-      </tr>
-    </table>
-  </body>
-</html>`;
+</body></html>
+`;
 };
+
+
+

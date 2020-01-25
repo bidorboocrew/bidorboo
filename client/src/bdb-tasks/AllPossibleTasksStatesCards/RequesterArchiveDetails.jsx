@@ -69,8 +69,8 @@ class RequesterArchiveDetails extends RequestBaseContainer {
             <div className="content">
               <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
               <UserGivenTitle userGivenTitle={requestTitle} />
-
-              <TaskImagesCarousel taskImages={taskImages} isLarge />
+ m
+               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={completionDate}
                 renderHelpComponent={() => (
@@ -81,7 +81,7 @@ class RequesterArchiveDetails extends RequestBaseContainer {
 
               <TaskCost cost={requesterPaymentAmount} />
               <Collapse isOpened={showMore}>
-                <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
+                <div style={{ maxWidth: 300, margin: 'auto' }}>
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
                   {extras && extras.destinationText && (
                     <DestinationAddressValue
@@ -191,7 +191,7 @@ class AssignedTaskerDetails extends React.Component {
                 onClick={() => {
                   switchRoute(ROUTES.CLIENT.REVIEW.getRequesterRequestReview({ requestId }));
                 }}
-                className={`button firstButtonInCard is-primary`}
+                className={`button is-primary`}
               >
                 <span className="icon">
                   <i className="fas fa-user-check" />
@@ -224,14 +224,14 @@ class AssignedTaskerDetails extends React.Component {
             )}
 
             <br></br>
-            <hr className="dropdown-divider" />
-            <br></br>
-            <button onClick={goBackToPreviousRoute} className="button is-outline">
+            {/* <hr className="dropdown-divider" />
+            <br></br> */}
+            {/* <button onClick={goBackToPreviousRoute} className="button is-outline">
               <span className="icon">
                 <i className="far fa-arrow-alt-circle-left" />
               </span>
               <span>Go Back</span>
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

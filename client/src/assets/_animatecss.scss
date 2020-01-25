@@ -283,8 +283,8 @@ ol.progtrckr li span {
 }
 
 .fade-in {
-  -webkit-animation: fade-in 3s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-  animation: fade-in 3s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  -webkit-animation: fade-in 1s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  animation: fade-in 1s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 }
 @-webkit-keyframes fade-in {
   0% {

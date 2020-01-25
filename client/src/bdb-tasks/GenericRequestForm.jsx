@@ -203,6 +203,7 @@ class GenericRequestForm extends React.Component {
       handleSubmit,
       handleBlur,
       recaptchaField,
+      isValid,
     } = this.props;
     const {
       ID,
@@ -320,42 +321,57 @@ class GenericRequestForm extends React.Component {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
+              <div className="field ">
+                <GeoAddressInput
+                  renderAptField={() => {
+                    return (
+                      <TextInput
+                        id="requestUnitOrApt"
+                        type="text"
+                        placeholder={'(Optional) Unit or Apt #'}
+                        error={touched.requestUnitOrApt && errors.requestUnitOrApt}
+                        value={values.requestUnitOrApt || ''}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      ></TextInput>
+                    );
+                  }}
+                  id="geoInputField"
+                  type="text"
+                  label="Task Location"
+                  placeholder="Street address, e.g 123 bank st..."
+                  autoDetectComponent={this.shouldShowAutodetectControl}
+                  error={errors.addressText || errors.location}
+                  touched={touched.addressText || touched.location}
+                  value={values.addressText || ''}
+                  helpText="*Taskers will see an approximate location based on this."
+                  onError={(e) => {
+                    errors.addressText = 'google api error ' + e;
+                  }}
+                  onChangeEvent={(e) => {
+                    setFieldValue('addressText', e, true);
+                  }}
+                  onBlurEvent={(e) => {
+                    if (e && e.target) {
+                      e.target.id = 'addressText';
+                      handleBlur(e);
+                    }
+                  }}
+                  handleSelect={(address) => {
+                    setFieldValue('addressText', address, true);
+                    geocodeByAddress(address)
+                      .then((results) => getLatLng(results[0]))
+                      .then((latLng) => {
+                        setFieldValue('location', latLng, true);
+                      })
+                      .catch((error) => {
+                        errors.addressText = 'error getting lat lng ' + error;
+                        console.error('Error', error);
+                      });
+                  }}
+                />
+              </div>
 
-              <GeoAddressInput
-                id="geoInputField"
-                type="text"
-                helpText={'*Your exact address will be shared with the awarded Tasker only.'}
-                label="Address"
-                placeholder="Start typing an address..."
-                autoDetectComponent={this.shouldShowAutodetectControl}
-                error={errors.addressText || errors.location}
-                touched={touched.addressText || touched.location}
-                value={values.addressText || ''}
-                onError={(e) => {
-                  errors.addressText = 'google api error ' + e;
-                }}
-                onChangeEvent={(e) => {
-                  setFieldValue('addressText', e, true);
-                }}
-                onBlurEvent={(e) => {
-                  if (e && e.target) {
-                    e.target.id = 'addressText';
-                    handleBlur(e);
-                  }
-                }}
-                handleSelect={(address) => {
-                  setFieldValue('addressText', address, true);
-                  geocodeByAddress(address)
-                    .then((results) => getLatLng(results[0]))
-                    .then((latLng) => {
-                      setFieldValue('location', latLng, true);
-                    })
-                    .catch((error) => {
-                      errors.addressText = 'error getting lat lng ' + error;
-                      console.error('Error', error);
-                    });
-                }}
-              />
               {requiresDestinationField && (
                 <>
                   <input
@@ -505,7 +521,7 @@ class GenericRequestForm extends React.Component {
                   boxShadow: '0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1)',
                 }}
                 className={`button is-success is-medium ${isSubmitting ? 'is-loading' : ''}`}
-                disabled={isSubmitting}
+                disabled={isSubmitting || !isValid || (errors && Object.keys(errors).length > 0)}
               >
                 <span className="icon">
                   <i className="far fa-paper-plane" />
@@ -835,6 +851,7 @@ const EnhancedForms = withFormik({
       taskImg3,
       requestTitle,
       recaptchaField,
+      requestUnitOrApt,
       ...extras // everything else
     } = values;
 
@@ -915,7 +932,12 @@ const EnhancedForms = withFormik({
         taskImages: finalImages,
       };
     }
-
+    if (requestUnitOrApt) {
+      mappedFieldsToRequestSchema = {
+        ...mappedFieldsToRequestSchema,
+        addressText: `${requestUnitOrApt} - ${addressText}`,
+      };
+    }
     await postNewRequest({ requestDetails: mappedFieldsToRequestSchema, recaptchaField });
 
     setSubmitting(false);

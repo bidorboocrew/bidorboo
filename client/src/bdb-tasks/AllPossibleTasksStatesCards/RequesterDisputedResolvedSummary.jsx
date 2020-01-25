@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   CountDownComponent,
-  DisputedBy,
+  ResolvedDispute,
   SummaryStartDateAndTime,
   RequestCardTitle,
   TaskImagesCarousel,
@@ -44,7 +44,7 @@ export default class RequesterDisputedSummary extends React.Component {
               date={startingDateAndTime}
               renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
-            <DisputedBy name={whoDisputed} />
+            <ResolvedDispute name={whoDisputed} />
           </div>
         </div>
 

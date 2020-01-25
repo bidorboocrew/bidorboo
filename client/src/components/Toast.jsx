@@ -125,7 +125,9 @@ class Toast extends React.Component {
                 className="button is-info is-small"
                 onClick={() => {
                   if (window.fcWidget && !window.fcWidget.isOpen()) {
-                    window.fcWidget.open();
+                    document.querySelector('#bob-ChatSupport') &&
+                      document.querySelector('#bob-ChatSupport').click();
+                    // window.fcWidget.open();
                   }
                 }}
               >

@@ -21,7 +21,14 @@ export default class TaskerBidDoneSummary extends React.Component {
   render() {
     const { bid, request } = this.props;
 
-    const { startingDateAndTime, taskImages = [], requestTitle, state, _reviewRef } = request;
+    const {
+      startingDateAndTime,
+      taskImages = [],
+      requestTitle,
+      state,
+      _reviewRef,
+      completionDate,
+    } = request;
 
     const { TITLE, ICON, IMG } = TASKS_DEFINITIONS[`${request.templateId}`];
 
@@ -35,19 +42,20 @@ export default class TaskerBidDoneSummary extends React.Component {
       <div className={`card has-text-centered cardWithButton`}>
         <div className="card-content">
           <div className="content">
-            <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <RequestCardTitle
+              icon={ICON}
+              title={TITLE}
+              img={taskImages && taskImages.length > 0 ? taskImages[0].url : IMG}
+            />
             <UserGivenTitle userGivenTitle={requestTitle} />
 
-            <TaskImagesCarousel taskImages={taskImages} />
             <SummaryStartDateAndTime
-              date={startingDateAndTime}
-              renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
+              date={completionDate}
+              renderHelpComponent={() => <CountDownComponent startingDate={completionDate} />}
             />
-            <BidAmount bidAmount={bidValue} />
 
             {isAwardedToMe && (
               <>
-                <TaskerWillEarn earningAmount={taskerTotalPayoutAmount} />
                 <TaskIsFulfilled
                   renderHelp={() => {
                     if (requiresTaskerReview) {
@@ -58,9 +66,11 @@ export default class TaskerBidDoneSummary extends React.Component {
                     }
                   }}
                 />
+                {/* <TaskerWillEarn earningAmount={taskerTotalPayoutAmount} /> */}
               </>
             )}
             {!isAwardedToMe && <BSAwardedToSomeoneElse />}
+            <BidAmount bidAmount={bidValue} />
           </div>
         </div>
         <div className="centeredButtonInCard">

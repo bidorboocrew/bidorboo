@@ -32,6 +32,7 @@ class GeoSearch extends React.Component {
       touched,
       autoDetectComponent,
       value = '',
+      renderAptField = () => null,
     } = this.props;
 
     let inputState = '';
@@ -57,6 +58,8 @@ class GeoSearch extends React.Component {
       return (
         <div className={`group ${touched && error ? 'isError' : ''}`}>
           <label className={inputState}>{label}</label>
+
+          {renderAptField()}
           <div>
             <input
               id={id}

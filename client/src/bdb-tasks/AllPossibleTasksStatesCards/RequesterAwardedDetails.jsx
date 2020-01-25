@@ -232,7 +232,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
               />
 
               <Collapse isOpened={showMore}>
-                <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
+                <div style={{ maxWidth: 300, margin: 'auto' }}>
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
 
                   <TaskSpecificExtras templateId={ID} extras={extras} />
@@ -283,8 +283,6 @@ class RequesterAwardedDetails extends RequestBaseContainer {
           renderActionButton={() => (
             <>
               <RequesterConfirmsCompletion {...this.props} />
-              <br></br>
-              <br></br>
             </>
           )}
         />
@@ -387,7 +385,6 @@ class RequesterDisputes extends React.Component {
   }
 
   submitDispute = (taskerDispute) => {
-    debugger
     const { requesterDisputesRequest } = this.props;
     requesterDisputesRequest(taskerDispute);
   };
@@ -544,86 +541,88 @@ class AssignedTaskerDetails extends React.Component {
     }
 
     return (
-      <div
-        style={{
-          boxShadow: 'none',
-          borderLeft: '1px solid rgba(10,10,10,0.2)',
-          borderBottom: '1px solid rgba(10,10,10,0.2)',
-          borderRight: '1px solid rgba(10,10,10,0.2)',
-        }}
-        className="card cardWithButton nofixedwidth"
-      >
-        <div style={{ paddingTop: 0 }} className="card-content">
-          <div className="content">
-            <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
-              <ul style={{ marginLeft: 0 }}>
-                <li className="is-active">
-                  <a>
-                    <span className="icon">
-                      <i className="far fa-handshake"></i>
-                    </span>
-                    <span>Contact The Tasker</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
+      <>
+        <br></br>{' '}
+        <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
+          <ul style={{ marginLeft: 0 }}>
+            <li className="is-active">
+              <a>
+                <span>Next Steps</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div className="card cardWithButton nofixedwidth">
+          <div className="card-content">
+            <div className="content">
+              <p>
+                Get in touch to finalize exact details like location to meet, date and time, etc
+              </p>
+              <div style={{ textAlign: 'center' }}>
+                <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large isCentered />
 
-            <p>Get in touch to finalize exact details like location to meet, date and time, etc</p>
-            <div style={{ textAlign: 'center' }}>
-              <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large isCentered />
-
-              <div style={{ marginBottom: '2rem' }}>
-                <div className="group">
-                  <div style={{ display: 'inline-block', textAlign: 'left', lineHeight: '28px' }}>
-                    <div>
-                      <a
-                        href={`mailto:${emailAddress}?subject=BidOrBoo - Reaching out to finalize time and location details&body=I requested ${requestTitle} service and reaching out to agree on meeting time and details`}
-                      >
-                        <span className="icon">
-                          <i className="far fa-envelope" />
-                        </span>
-                        <span>{emailAddress}</span>
-                      </a>
-                    </div>
-                    <div>
-                      <a
-                        href={`sms://${phoneNumber}?body=Hello%20I%20assigned%20you%20a%20task%20from%20BidOrBoo%20and%20am%20reaching%20out%20to%20agree%20on%20meeting%20time%20and%20details`}
-                      >
-                        <span className="icon">
-                          <i className="fas fa-sms" />
-                        </span>
-                        <span>{phoneNumber}</span>
-                      </a>
-                    </div>
-                    <div>
-                      <a href={`tel:${phoneNumber}`}>
-                        <span className="icon">
-                          <i className="fas fa-mobile-alt" />
-                        </span>
-                        <span>{phoneNumber}</span>
-                      </a>
+                <div style={{ marginBottom: '2rem' }}>
+                  <div className="group">
+                    <div style={{ display: 'inline-block', textAlign: 'left', lineHeight: '28px' }}>
+                      <div>
+                        <a
+                          href={`mailto:${emailAddress}?subject=BidOrBoo - Reaching out to finalize time and location details&body=I requested ${requestTitle} service and reaching out to agree on meeting time and details`}
+                        >
+                          <span className="icon">
+                            <i className="far fa-envelope" />
+                          </span>
+                          <span>{emailAddress}</span>
+                        </a>
+                      </div>
+                      <div>
+                        <a
+                          href={`sms://${phoneNumber}?body=Hello%20I%20assigned%20you%20a%20task%20from%20BidOrBoo%20and%20am%20reaching%20out%20to%20agree%20on%20meeting%20time%20and%20details`}
+                        >
+                          <span className="icon">
+                            <i className="fas fa-sms" />
+                          </span>
+                          <span>{phoneNumber}</span>
+                        </a>
+                      </div>
+                      <div>
+                        <a href={`tel:${phoneNumber}`}>
+                          <span className="icon">
+                            <i className="fas fa-mobile-alt" />
+                          </span>
+                          <span>{phoneNumber}</span>
+                        </a>
+                      </div>
                     </div>
                   </div>
+                  {renderAddToCalendar && renderAddToCalendar()}
                 </div>
-                {renderAddToCalendar && renderAddToCalendar()}
               </div>
             </div>
-            <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
-              <ul style={{ marginLeft: 0 }}>
-                <li className="is-active">
-                  <a>
-                    <span className="icon is-small">
-                      <i className="fa fa-clock" aria-hidden="true" />
-                    </span>
-                    <span>After The Task Is Done</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div style={{ textAlign: 'center' }}>{renderActionButton && renderActionButton()}</div>
           </div>
         </div>
-      </div>
+        <br></br>
+        <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
+          <ul style={{ marginLeft: 0 }}>
+            <li className="is-active">
+              <a>
+                <span className="icon is-small">
+                  <i className="fa fa-clock" aria-hidden="true" />
+                </span>
+                <span>After The Task Is Done</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div className="card cardWithButton nofixedwidth">
+          <div className="card-content">
+            <div className="content">
+              <div style={{ textAlign: 'center' }}>
+                {renderActionButton && renderActionButton()}
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
     );
   }
 }

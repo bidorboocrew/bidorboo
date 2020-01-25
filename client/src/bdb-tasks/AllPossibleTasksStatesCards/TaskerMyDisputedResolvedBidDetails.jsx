@@ -7,7 +7,7 @@ import {
   RequestCardTitle,
   TaskImagesCarousel,
   UserGivenTitle,
-  DisputedBy,
+  ResolvedDispute,
   TaskerWillEarn,
   BidAmount,
 } from '../../containers/commonComponents';
@@ -44,25 +44,24 @@ export default class TaskerMyDisputedBidDetails extends React.Component {
 
             <SummaryStartDateAndTime date={startingDateAndTime} />
 
-            <DisputedBy name={whoDisputed} />
+            <ResolvedDispute name={whoDisputed} />
 
             <BidAmount bidAmount={bidValue} />
             {/* <TaskerWillEarn earningAmount={taskerPayoutAmount}></TaskerWillEarn> */}
 
             <div className="group has-text-left">
-              <label className="label has-text-danger">What you need to know:</label>
+              <label className="label has-text-dark">Our Support Team Resolution:</label>
               <ul>
                 <li>
-                  <strong>
-                    Your expected earnings ${taskerPayoutAmount} will be on hold until we resolve
-                    the dispute
-                  </strong>
+                  <p className="has-text-weight-bold">
+                    {dispute &&
+                    dispute.bidOrBooCrewResolution &&
+                    dispute.bidOrBooCrewResolution.taskerResolution
+                      ? `${dispute.bidOrBooCrewResolution.taskerResolution}`
+                      : 'Please contact us at bidorboo@bidorboo.ca or use the chat button in the footer to get in touch with our support team'}
+                  </p>
                 </li>
-                <li>
-                  BidOrBoo support crew will assess the dispute asap to resolve and ensure your
-                  satisfaction
-                </li>
-                <li>We will get in touch with you to update you regularly with the progress</li>
+                <li>BidOrBoo Support decisions are final as per our Terms Of Service agreement</li>
               </ul>
             </div>
           </div>

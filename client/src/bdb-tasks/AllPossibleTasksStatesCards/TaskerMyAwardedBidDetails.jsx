@@ -126,15 +126,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
             </div>,
             document.querySelector('#bidorboo-root-modals'),
           )}
-        <div
-          style={{
-            boxShadow: 'none',
-            borderLeft: '1px solid rgba(10,10,10,0.2)',
-            borderTop: '1px solid rgba(10,10,10,0.2)',
-            borderRight: '1px solid rgba(10,10,10,0.2)',
-          }}
-          className="card has-text-centered"
-        >
+        <div className="card has-text-centered">
           <div style={{ borderBottom: 0 }} className="card-content">
             <div className="content">
               <RequestCardTitle
@@ -193,16 +185,16 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                   <CountDownComponent startingDate={startingDateAndTime} />
                 )}
               />
-              <BidAmount bidAmount={bidValue} />
-
-              <TaskerWillEarn earningAmount={taskerPayoutAmount}></TaskerWillEarn>
 
               {taskerConfirmedCompletion && <BSWaitingOnRequesterToConfirm />}
 
               {!taskerConfirmedCompletion && <BSTaskerAwarded />}
+              <BidAmount bidAmount={bidValue} />
 
               <Collapse isOpened={showMore}>
-                <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
+                <div style={{ maxWidth: 300, margin: 'auto' }}>
+                  <TaskerWillEarn earningAmount={taskerPayoutAmount}></TaskerWillEarn>
+
                   <div className="group">
                     <label className="label hasSelectedValue">Task Address</label>
                     <div className="control">{addressText}</div>
@@ -520,7 +512,9 @@ class TaskerDisputes extends React.Component {
                     onClick={() => {
                       if (!window.fcWidget.isOpen()) {
                         this.toggleModal();
-                        window.fcWidget.open();
+                        document.querySelector('#bob-ChatSupport') &&
+                          document.querySelector('#bob-ChatSupport').click();
+                        // window.fcWidget.open();
                       }
                     }}
                   >
@@ -584,88 +578,84 @@ class ContactTheRequester extends React.Component {
     const emailAddress = otherUserProfileInfo.email && otherUserProfileInfo.email.emailAddress;
     const phoneNumber = otherUserProfileInfo.phone && otherUserProfileInfo.phone.phoneNumber;
     return (
-      <div
-        style={{
-          boxShadow: 'none',
-          borderLeft: '1px solid rgba(10,10,10,0.2)',
-          borderBottom: '1px solid rgba(10,10,10,0.2)',
-          borderRight: '1px solid rgba(10,10,10,0.2)',
-        }}
-        className="card cardWithButton nofixedwidth"
-      >
-        <div style={{ paddingTop: 0 }} className="card-content">
-          <div className="content has-text-left">
-            <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
-              <ul style={{ marginLeft: 0 }}>
-                <li className="is-active">
-                  <a>
-                    <span className="icon">
-                      <i className="far fa-handshake"></i>
-                    </span>
-                    <span>Contact The Requester</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <p className="has-text-centered">
-              Get in touch to finalize exact details like location to meet, date and time, etc
-            </p>
-            <div style={{ textAlign: 'center' }}>
-              <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large isCentered />
+      <>
+        <br></br>
+        <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
+          <ul style={{ marginLeft: 0 }}>
+            <li className="is-active">
+              <a>
+                <span>Next Steps</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div className="card cardWithButton nofixedwidth">
+          <div className="card-content">
+            <div className="content has-text-left">
+              <p className="has-text-centered">
+                Get in touch to finalize exact details like location to meet, date and time, etc
+              </p>
+              <div style={{ textAlign: 'center' }}>
+                <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large isCentered />
 
-              <div style={{ marginBottom: '2rem' }}>
-                <div className="group">
-                  <div style={{ display: 'inline-block', textAlign: 'left', lineHeight: '28px' }}>
-                    <div>
-                      <a
-                        href={`mailto:${emailAddress}?subject=BidOrBoo - Reaching out to finalize time and location details&body=Iam assigned for your ${requestTitle} request. I'm reaching out to agree on meeting time and details`}
-                      >
-                        <span className="icon">
-                          <i className="far fa-envelope" />
-                        </span>
-                        <span>{emailAddress}</span>
-                      </a>
-                    </div>
-                    <div>
-                      <a
-                        href={`sms://${phoneNumber}?body=I%20am%20your%20tasker%20from%20BidOrBoo%20and%20am%20reaching%20out%20to%20agree%20on%20meeting%20time%20and%20detailsS`}
-                      >
-                        <span className="icon">
-                          <i className="fas fa-sms" />
-                        </span>
-                        <span>{phoneNumber}</span>
-                      </a>
-                    </div>
-                    <div>
-                      <a href={`tel:${phoneNumber}`}>
-                        <span className="icon">
-                          <i className="fas fa-mobile-alt" />
-                        </span>
-                        <span>{phoneNumber}</span>
-                      </a>
+                <div style={{ marginBottom: '2rem' }}>
+                  <div className="group">
+                    <div style={{ display: 'inline-block', textAlign: 'left', lineHeight: '28px' }}>
+                      <div>
+                        <a
+                          href={`mailto:${emailAddress}?subject=BidOrBoo - Reaching out to finalize time and location details&body=Iam assigned for your ${requestTitle} request. I'm reaching out to agree on meeting time and details`}
+                        >
+                          <span className="icon">
+                            <i className="far fa-envelope" />
+                          </span>
+                          <span>{emailAddress}</span>
+                        </a>
+                      </div>
+                      <div>
+                        <a
+                          href={`sms://${phoneNumber}?body=I%20am%20your%20tasker%20from%20BidOrBoo%20and%20am%20reaching%20out%20to%20agree%20on%20meeting%20time%20and%20detailsS`}
+                        >
+                          <span className="icon">
+                            <i className="fas fa-sms" />
+                          </span>
+                          <span>{phoneNumber}</span>
+                        </a>
+                      </div>
+                      <div>
+                        <a href={`tel:${phoneNumber}`}>
+                          <span className="icon">
+                            <i className="fas fa-mobile-alt" />
+                          </span>
+                          <span>{phoneNumber}</span>
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
+                {renderAddToCalendar && renderAddToCalendar()}
               </div>
-              {renderAddToCalendar && renderAddToCalendar()}
             </div>
           </div>
-          <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
-            <ul style={{ marginLeft: 0 }}>
-              <li className="is-active">
-                <a>
-                  <span className="icon is-small">
-                    <i className="fa fa-clock" aria-hidden="true" />
-                  </span>
-                  <span>After You Finish The Task</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div style={{ textAlign: 'center' }}>{renderActionButton && renderActionButton()}</div>
-          <br />
         </div>
-      </div>
+        <br></br>
+        <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
+          <ul style={{ marginLeft: 0 }}>
+            <li className="is-active">
+              <a>
+                <span className="icon is-small">
+                  <i className="fa fa-clock" aria-hidden="true" />
+                </span>
+                <span>After You Complete Task</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div className="card cardWithButton nofixedwidth">
+          <div className="card-content">
+            <div style={{ textAlign: 'center' }}>{renderActionButton && renderActionButton()}</div>
+          </div>
+        </div>
+      </>
     );
   }
 }
@@ -679,43 +669,37 @@ class ReviewTheRequester extends React.Component {
     }
 
     return (
-      <div
-        style={{
-          boxShadow: 'none',
-          borderLeft: '1px solid rgba(10,10,10,0.2)',
-          borderBottom: '1px solid rgba(10,10,10,0.2)',
-          borderRight: '1px solid rgba(10,10,10,0.2)',
-        }}
-        className="card cardWithButton nofixedwidth"
-      >
-        <div style={{ paddingTop: 0 }} className="card-content">
-          <div className="content has-text-left">
-            <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
-              <ul style={{ marginLeft: 0 }}>
-                <li className="is-active">
-                  <a>
-                    <span className="icon">
-                      <i className="far fa-handshake"></i>
-                    </span>
-                    <span>Review The Requester</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <p className="has-text-centered">
-              We've reached out to the requester to confirm task completion.
-            </p>
-            <div style={{ textAlign: 'center' }}>
-              <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large isCentered />
-
+      <>
+        <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
+          <ul style={{ marginLeft: 0 }}>
+            <li className="is-active">
+              <a>
+                <span className="icon">
+                  <i className="far fa-handshake"></i>
+                </span>
+                <span>Review The Requester</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div className="card cardWithButton nofixedwidth">
+          <div style={{ paddingTop: 0 }} className="card-content">
+            <div className="content has-text-left">
+              <p className="has-text-centered">
+                We've reached out to the requester to confirm task completion.
+              </p>
               <div style={{ textAlign: 'center' }}>
-                {renderActionButton && renderActionButton()}
+                <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large isCentered />
+
+                <div style={{ textAlign: 'center' }}>
+                  {renderActionButton && renderActionButton()}
+                </div>
               </div>
+              <br />
             </div>
-            <br />
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }

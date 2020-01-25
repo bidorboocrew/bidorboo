@@ -150,7 +150,8 @@ class Header extends React.Component {
       bidsHappeningToday,
     } = notificationFeed;
 
-    const isThereRequestsHappeningToday = requestsHappeningToday && requestsHappeningToday.length > 0;
+    const isThereRequestsHappeningToday =
+      requestsHappeningToday && requestsHappeningToday.length > 0;
     const isThereBidsHappeningToday = bidsHappeningToday && bidsHappeningToday.length > 0;
     const isAnythingHappeningToday = isThereRequestsHappeningToday || isThereBidsHappeningToday;
 
@@ -254,8 +255,8 @@ class Header extends React.Component {
           {!isOnLoginPage && (
             <div className=" navbar-item">
               <a
-                style={{ borderRadius: 2, fontWeight: 400 }}
-                className="button is-success is-small"
+                style={{ borderRadius: 2, fontWeight: 500, border: '1px solid #eee' }}
+                className="button is-link is-inverted is-small"
                 onClick={(e) => {
                   e.preventDefault();
                   switchRoute(ROUTES.CLIENT.LOGIN_OR_REGISTER, {
@@ -466,7 +467,7 @@ class Header extends React.Component {
                           </span>
                         )}
                       </span>
-                      <span>INBOX</span>
+                      <span>MY REQS.</span>
                     </a>
                   </React.Fragment>
                 )}
@@ -518,7 +519,7 @@ class Header extends React.Component {
                           </span>
                         )}
                       </span>
-                      <span>INBOX</span>
+                      <span>MY BIDS</span>
                     </a>
                   </React.Fragment>
                 )}
@@ -597,7 +598,7 @@ class Header extends React.Component {
                         <span className="icon">
                           <i className="far fa-plus-square" />
                         </span>
-                        <span>REQUEST NOW</span>
+                        <span>REQUEST</span>
                       </a>
                       <a
                         id={'viewDependentNavBarItems'}
@@ -628,7 +629,7 @@ class Header extends React.Component {
                             </span>
                           )}
                         </span>
-                        <span>REQUESTS INBOX</span>
+                        <span>MY REQUESTS</span>
                       </a>
                     </>
                   )}
@@ -648,7 +649,7 @@ class Header extends React.Component {
                         <span className="icon">
                           <i className="fas fa-hand-rock" />
                         </span>
-                        <span>BID NOW</span>
+                        <span>BID</span>
                       </a>
                       <a
                         onClick={(e) => {
@@ -679,7 +680,7 @@ class Header extends React.Component {
                             </span>
                           )}
                         </span>
-                        <span>BIDS INBOX</span>
+                        <span>MY BIDS</span>
                       </a>
                     </>
                   )}
@@ -727,7 +728,7 @@ class Header extends React.Component {
                               className="navbar-item"
                             >
                               <span style={{ position: 'relative' }} className="icon">
-                                <i className="fab fa-nintendo-switch" />
+                                <i className="fas fa-exchange-alt" />
                                 {requestRecievedNewBids && (
                                   <span
                                     style={{
@@ -834,7 +835,9 @@ class Header extends React.Component {
                         onClick={(e) =>
                           this.closeMenuThenExecute(() => {
                             if (!window.fcWidget.isOpen()) {
-                              window.fcWidget.open();
+                              document.querySelector('#bob-ChatSupport') &&
+                                document.querySelector('#bob-ChatSupport').click();
+                              // window.fcWidget.open();
                             }
                           })
                         }

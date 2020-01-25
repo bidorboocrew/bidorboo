@@ -2,7 +2,9 @@ import * as A from '../actionTypes';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
 import { switchRoute, throwErrorNotification } from '../../utils';
-
+const sleep = (ms) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
 export const verifyPhone = (code, onSuccessCallback = () => null) => (dispatch) => {
   dispatch({
     type: A.UI_ACTIONS.VERIFY_USER_PHONE,
@@ -10,7 +12,7 @@ export const verifyPhone = (code, onSuccessCallback = () => null) => (dispatch) 
       .post(ROUTES.API.USER.POST.verifyPhone, {
         data: { code: `${code}` },
       })
-      .then((verifyReq) => {
+      .then(async (verifyReq) => {
         if (verifyReq && verifyReq.data && verifyReq.data.success) {
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
@@ -21,6 +23,7 @@ export const verifyPhone = (code, onSuccessCallback = () => null) => (dispatch) 
               },
             },
           });
+          await sleep(3000);
           getCurrentUserNotifications()(dispatch);
 
           onSuccessCallback && onSuccessCallback();
@@ -43,7 +46,7 @@ export const verifyEmail = (code, onSuccessCallback = () => null) => (dispatch) 
       .post(ROUTES.API.USER.POST.verifyEmail, {
         data: { code },
       })
-      .then((verifyReq) => {
+      .then(async (verifyReq) => {
         if (verifyReq && verifyReq.data && verifyReq.data.success) {
           dispatch({
             type: A.UI_ACTIONS.SHOW_TOAST_MSG,
@@ -54,6 +57,7 @@ export const verifyEmail = (code, onSuccessCallback = () => null) => (dispatch) 
               },
             },
           });
+          await sleep(3000);
           getCurrentUserNotifications()(dispatch);
 
           onSuccessCallback && onSuccessCallback();

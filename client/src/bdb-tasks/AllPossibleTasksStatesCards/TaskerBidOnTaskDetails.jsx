@@ -123,7 +123,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
                   />
                 </div>
               </div>
-
+              <br />
               <div className="group">
                 {/* <label className="label hasSelectedValue">Task Info</label> */}
                 <CardTitleAndActionsInfo
@@ -136,7 +136,6 @@ export default class TaskerBidOnTaskDetails extends React.Component {
                 />
               </div>
 
-              <br />
               <br />
               {userAlreadyBid && (
                 <React.Fragment>{renderTaskerBidInfo && renderTaskerBidInfo()}</React.Fragment>

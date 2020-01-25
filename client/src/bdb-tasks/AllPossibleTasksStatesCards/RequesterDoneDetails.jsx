@@ -36,6 +36,7 @@ export default class RequesterDoneDetails extends RequestBaseContainer {
       _reviewRef,
       taskImages = [],
       requestTitle,
+      completionDate
     } = request;
 
     const { requesterPayment, _taskerRef } = _awardedBidRef;
@@ -53,15 +54,7 @@ export default class RequesterDoneDetails extends RequestBaseContainer {
     const requiresRequesterReview = _reviewRef.requiresRequesterReview;
     return (
       <>
-        <div
-          style={{
-            boxShadow: 'none',
-            borderLeft: '1px solid rgba(10,10,10,0.2)',
-            borderTop: '1px solid rgba(10,10,10,0.2)',
-            borderRight: '1px solid rgba(10,10,10,0.2)',
-          }}
-          className="card has-text-centered"
-        >
+        <div className="card has-text-centered">
           <div style={{ borderBottom: 0 }} className="card-content">
             <div className="content">
               <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
@@ -69,9 +62,9 @@ export default class RequesterDoneDetails extends RequestBaseContainer {
 
               <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
-                date={startingDateAndTime}
+                date={completionDate}
                 renderHelpComponent={() => (
-                  <CountDownComponent startingDate={startingDateAndTime} />
+                  <CountDownComponent startingDate={completionDate} />
                 )}
               />
 
@@ -87,7 +80,7 @@ export default class RequesterDoneDetails extends RequestBaseContainer {
               />
               <TaskCost cost={requesterPaymentAmount} />
               <Collapse isOpened={showMore}>
-                <div style={{ maxWidth: 300, margin: 'auto' }} className="has-text-left">
+                <div style={{ maxWidth: 300, margin: 'auto' }}>
                   <DisplayLabelValue labelText="Address" labelValue={addressText} />
                   {extras && extras.destinationText && (
                     <DestinationAddressValue
@@ -129,41 +122,41 @@ export default class RequesterDoneDetails extends RequestBaseContainer {
               </div>
             </div>
           </div>
-          <AssignedTaskerDetails
-            otherUserProfileInfo={_taskerRef}
-            emailAddress={emailAddress}
-            phoneNumber={phoneNumber}
-            renderActionButton={() => (
-              <>
-                {requiresRequesterReview && (
-                  <a
-                    onClick={() => {
-                      switchRoute(ROUTES.CLIENT.REVIEW.getRequesterRequestReview({ requestId }));
-                    }}
-                    className={`button is-primary`}
-                  >
-                    <span className="icon">
-                      <i className="fas fa-user-check" />
-                    </span>
-                    <span>Review Tasker</span>
-                  </a>
-                )}
-                {!requiresRequesterReview && (
-                  <div style={{ textAlign: 'center' }}>
-                    <ul className="has-text-left">
-                      <li>You have submitted your review successfully</li>
-                      <li>We've contacted the Tasker to submit their review</li>
-                      <li>
-                        After that, this task will be archived under (Past Requests) for your
-                        reference
-                      </li>
-                    </ul>
-                  </div>
-                )}
-              </>
-            )}
-          />
         </div>
+        <AssignedTaskerDetails
+          otherUserProfileInfo={_taskerRef}
+          emailAddress={emailAddress}
+          phoneNumber={phoneNumber}
+          renderActionButton={() => (
+            <>
+              {requiresRequesterReview && (
+                <a
+                  onClick={() => {
+                    switchRoute(ROUTES.CLIENT.REVIEW.getRequesterRequestReview({ requestId }));
+                  }}
+                  className={`button is-primary`}
+                >
+                  <span className="icon">
+                    <i className="fas fa-user-check" />
+                  </span>
+                  <span>Review Tasker</span>
+                </a>
+              )}
+              {!requiresRequesterReview && (
+                <div style={{ textAlign: 'center' }}>
+                  <ul className="has-text-left">
+                    <li>You have submitted your review successfully</li>
+                    <li>We've contacted the Tasker to submit their review</li>
+                    <li>
+                      After that, this task will be archived under (Past Requests) for your
+                      reference
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </>
+          )}
+        />
       </>
     );
   }
@@ -178,35 +171,27 @@ class AssignedTaskerDetails extends React.Component {
     }
 
     return (
-      <div
-        style={{
-          boxShadow: 'none',
-          border: 'none',
-          borderBottom: '1px solid rgba(10,10,10,0.2)',
-        }}
-        className="card cardWithButton nofixedwidth"
-      >
-        <div style={{ paddingTop: 0 }} className="card-content">
-          <div className="content">
-            <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
-              <ul style={{ marginLeft: 0 }}>
-                <li className="is-active">
-                  <a>
-                    <span className="icon is-small">
-                      <i className="fas fa-user-tie" aria-hidden="true" />
-                    </span>
-                    <span>Assigned Tasker</span>
-                  </a>
-                </li>
-              </ul>
+      <>
+        <br></br>
+        <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
+          <ul style={{ marginLeft: 0 }}>
+            <li className="is-active">
+              <a>
+                <span>Next Step</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div className="card cardWithButton nofixedwidth">
+          <div className="card-content">
+            <div className="content has-text-centered">
+              <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large isCentered />
+
+              {renderActionButton && renderActionButton()}
             </div>
-            <CenteredUserImageAndRating userDetails={otherUserProfileInfo} large isCentered />
-            <br></br>
-            {renderActionButton && renderActionButton()}
-            <br />
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }

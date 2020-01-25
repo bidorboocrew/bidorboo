@@ -180,7 +180,7 @@ class TaskerRootLocationFilter extends React.Component {
           <div className="content has-text-left">
             <div className="group">
               <label style={{ fontWeight: 400 }} className="label">
-                Address
+               Street Address
               </label>
               <GeoSearch
                 value={addressText}
@@ -188,7 +188,7 @@ class TaskerRootLocationFilter extends React.Component {
                 onSelect={this.handleSelect}
                 handleSelect={this.handleSelect}
                 onError={this.errorHandling}
-                placeholder="Start entering an adddress"
+                placeholder="Entering an adddress, e.g 123 Bank st"
                 forceSetAddressValue={addressText}
                 id="filter-tasker-request"
               />
@@ -402,9 +402,9 @@ class TaskTypeFilter extends React.Component {
           >
             <span className="icon">
               {currentFilters.indexOf(key) > -1 ? (
-                <i class="far fa-check-square"></i>
+                <i className="far fa-check-square"></i>
               ) : (
-                <i class="far fa-square"></i>
+                <i className="far fa-square"></i>
               )}
             </span>
             <span></span>

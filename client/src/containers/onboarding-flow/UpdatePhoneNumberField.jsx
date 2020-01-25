@@ -37,11 +37,12 @@ const EnhancedForms = withFormik({
 });
 
 const UpdatePhoneNumberField = (props) => {
-  const { values, touched, errors, handleChange, handleBlur, handleSubmit, setFieldValue } = props;
+  const { values, touched, errors, handleBlur, handleSubmit, setFieldValue } = props;
 
   return (
     <form onSubmit={handleSubmit}>
       <PhoneNumberInput
+        style={{ borderBottom: '2px solid #26ca70' }}
         id="phoneNumber"
         defaultCountry="CA"
         country="CA"
@@ -49,13 +50,17 @@ const UpdatePhoneNumberField = (props) => {
         placeholder="Enter phone number starting with area code"
         error={touched.phoneNumber && errors.phoneNumber}
         value={values.phoneNumber || ''}
-        onChange={(val) => setFieldValue('phoneNumber', val)}
+        onChange={(val) => setFieldValue('phoneNumber', val, true)}
         onBlur={handleBlur}
         helpText="Must be a canadian number and follow This format : (613) 333-4444"
       />
-
-      <button style={{ borderRadius: 0 }} className="button is-success" type="submit">
-        {`Save Phone Number`}
+      <button
+        style={{ borderRadius: 0 }}
+        className="button is-success"
+        type="submit"
+        disabled={!values || !values.phoneNumber || values.phoneNumber.length < 12}
+      >
+        Send My Verification Code
       </button>
     </form>
   );

@@ -13,6 +13,9 @@ import {
   TaskImagesCarousel,
   CenteredUserImageAndRating,
   UserGivenTitle,
+  RequestCardTitleOnMap,
+  UserGivenTitleOnMap,
+  SummaryStartDateAndTimeOnMap,
 } from '../../containers/commonComponents';
 
 import { didUserAlreadyView } from '../../containers/commonUtils';
@@ -44,37 +47,55 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
 
     const userAlreadyView = didUserAlreadyView(request, currentUserId);
 
-    const specialStyle = isOnMapView ? { padding: '0.25rem' } : {};
-    const specialStyleCard = isOnMapView ? { width: 300 } : {};
+    const specialStyle = isOnMapView ? { padding: '0.75rem' } : {};
+    const specialStyleCard = isOnMapView ? { maxWidth: 200 } : {};
 
     return (
       <React.Fragment>
         <div style={{ ...specialStyleCard }} className="card has-text-centered cardWithButton">
           <div style={{ ...specialStyle }} className="card-content">
             <div className="content">
-              <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
-              <UserGivenTitle userGivenTitle={requestTitle} />
+              {isOnMapView ? (
+                <RequestCardTitleOnMap
+                  icon={ICON}
+                  title={TITLE}
+                  img={taskImages && taskImages.length > 0 ? taskImages[0].url : IMG}
+                />
+              ) : (
+                <RequestCardTitle
+                  icon={ICON}
+                  title={TITLE}
+                  img={taskImages && taskImages.length > 0 ? taskImages[0].url : IMG}
+                />
+              )}
 
-              {!isOnMapView && <TaskImagesCarousel taskImages={taskImages} />}
-
-              <SummaryStartDateAndTime
-                date={startingDateAndTime}
-                renderHelpComponent={() => (
-                  <CountDownComponent startingDate={startingDateAndTime} />
-                )}
-              />
-              <div className="group">
-                {!isOnMapView && (
-                  <CenteredUserImageAndRating
-                    labelOnTop={() => <label className="label hasSelectedValue">Requester</label>}
-                    clipUserName
-                    userDetails={_ownerRef}
-                  />
-                )}
-              </div>
+              {isOnMapView ? (
+                <UserGivenTitleOnMap userGivenTitle={requestTitle} />
+              ) : (
+                <UserGivenTitle userGivenTitle={requestTitle} />
+              )}
+              {isOnMapView ? (
+                <SummaryStartDateAndTimeOnMap
+                  date={startingDateAndTime}
+                  renderHelpComponent={() => (
+                    <CountDownComponent startingDate={startingDateAndTime} />
+                  )}
+                />
+              ) : (
+                <SummaryStartDateAndTime
+                  date={startingDateAndTime}
+                  renderHelpComponent={() => (
+                    <CountDownComponent startingDate={startingDateAndTime} />
+                  )}
+                />
+              )}
               {!isOnMapView && (
                 <div className="group">
-                  {/* <label className="label">Task Info</label> */}
+                  <CenteredUserImageAndRating clipUserName userDetails={_ownerRef} />
+                </div>
+              )}
+              {!isOnMapView && (
+                <div className="group">
                   <CardTitleAndActionsInfo
                     isOnMapView={isOnMapView}
                     requestState={state}
@@ -91,26 +112,28 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                   <br></br>
                   <div style={{ display: 'flex' }}>
                     <a
-                      style={{ flexGrow: 1 }}
                       onClick={(e) => {
                         switchRoute(ROUTES.CLIENT.TASKER.getDynamicBidOnRequestPage(request._id));
                       }}
                       className="button is-success firstButtonInCard"
                     >
-                      Enter Your Bid
+                      <span className="icon">
+                        <i className="fas fa-hand-paper"></i>
+                      </span>
+                      <span>Bid Now</span>
                     </a>
                     {showMapView && (
                       <a
-                        style={{ marginLeft: 12 }}
                         onClick={(e) => {
                           const markerRef = reactMapClusterRef;
                           markerRef.current.props.onClick();
                         }}
-                        className="button secondButtonInCard "
+                        className="button secondButtonInCard"
                       >
                         <span className="icon">
-                          <i className="fas fa-map-marked-alt" />
+                          <i className="fas fa-map-marker-alt"></i>
                         </span>
+                        <span>Locate</span>
                       </a>
                     )}
                   </div>
@@ -133,7 +156,7 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                       }}
                       className="button is-success is-small"
                     >
-                      Enter Your Bid
+                      Bid Now
                     </a>
                   </div>
                 </div>

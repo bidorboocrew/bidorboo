@@ -106,7 +106,7 @@ class MyBidsPage extends React.Component {
           <div className="hero-body  has-text-centered">
             <div className="container">
               <h1 style={{ marginBottom: 0 }} className="has-text-white title">
-                Bids Inbox
+                My Bids
               </h1>
             </div>
           </div>

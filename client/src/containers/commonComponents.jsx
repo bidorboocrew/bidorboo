@@ -263,7 +263,7 @@ export const CardTitleAndActionsInfo = ({ bidsList = [], userAlreadyView = false
       <div style={{ width: 80, display: 'inline-block' }}>
         <div>
           <div />
-          <div className="has-text-weight-semibold">{avgBid > 0 ? avgBid : '--'}</div>
+          <div className="has-text-weight-semibold">{avgBid > 0 ? `$${avgBid}` : '--'}</div>
           <div className="help">Avg Bid</div>
         </div>
       </div>
@@ -625,7 +625,9 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
                       onClick={() => {
                         if (!window.fcWidget.isOpen()) {
                           this.toggleModal();
-                          window.fcWidget.open();
+                          document.querySelector('#bob-ChatSupport') &&
+                            document.querySelector('#bob-ChatSupport').click();
+                          // window.fcWidget.open();
                         }
                       }}
                     >
@@ -666,7 +668,9 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
                       onClick={() => {
                         if (!window.fcWidget.isOpen()) {
                           this.toggleModal();
-                          window.fcWidget.open();
+                          document.querySelector('#bob-ChatSupport') &&
+                            document.querySelector('#bob-ChatSupport').click();
+                          // window.fcWidget.open();
                         }
                       }}
                     >
@@ -709,7 +713,9 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
                       onClick={() => {
                         if (!window.fcWidget.isOpen()) {
                           this.toggleModal();
-                          window.fcWidget.open();
+                          document.querySelector('#bob-ChatSupport') &&
+                            document.querySelector('#bob-ChatSupport').click();
+                          // window.fcWidget.open();
                         }
                       }}
                     >
@@ -750,7 +756,9 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
                       onClick={() => {
                         if (!window.fcWidget.isOpen()) {
                           this.toggleModal();
-                          window.fcWidget.open();
+                          document.querySelector('#bob-ChatSupport') &&
+                            document.querySelector('#bob-ChatSupport').click();
+                          // window.fcWidget.open();
                         }
                       }}
                     >
@@ -795,7 +803,9 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
                       onClick={() => {
                         if (!window.fcWidget.isOpen()) {
                           this.toggleModal();
-                          window.fcWidget.open();
+                          document.querySelector('#bob-ChatSupport') &&
+                            document.querySelector('#bob-ChatSupport').click();
+                          // window.fcWidget.open();
                         }
                       }}
                     >
@@ -839,7 +849,9 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
                       onClick={() => {
                         if (!window.fcWidget.isOpen()) {
                           this.toggleModal();
-                          window.fcWidget.open();
+                          document.querySelector('#bob-ChatSupport') &&
+                            document.querySelector('#bob-ChatSupport').click();
+                          // window.fcWidget.open();
                         }
                       }}
                     >
@@ -976,6 +988,30 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
   );
 };
 
+export const SummaryStartDateAndTimeOnMap = ({ date }) => {
+  const startingDate = moment(date).format('DD/MMM');
+
+  return (
+    <div className="group">
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          fontWeight: 500,
+          fontSize: 12,
+          maxWidth: 200,
+          margin: 'auto',
+        }}
+      >
+        <div style={{ borderRight: '1px solid lightgrey', padding: 10, flex: '1 1 0' }}>
+          {startingDate}
+        </div>
+        <div style={{ padding: 10, flex: '1 1 0' }}>{moment(date).fromNow()}</div>
+      </div>
+    </div>
+  );
+};
+
 export const SummaryStartDateAndTime = ({ date }) => {
   const startingDate = moment(date).format('DD/MMM');
 
@@ -1032,7 +1068,7 @@ export const AwaitingOnTasker = () => {
           Waiting For Bids
         </div>
 
-        <div className="help">*Check Back soon!</div>
+        <div className="help">Check back soon!</div>
       </div>
     </div>
   );
@@ -1168,7 +1204,35 @@ export const UserGivenTitle = ({ userGivenTitle }) => {
   );
 };
 
-export const RequestCardTitle = ({ img, icon, title, meatballMenu }) => {
+export const UserGivenTitleOnMap = ({ userGivenTitle = '--' }) => {
+  return (
+    <div style={{ fontWeight: 300, fontSize: 12, color: '#363636', marginBottom: '0.5rem' }}>
+      {`Title: ${userGivenTitle || '--'}`}
+    </div>
+  );
+};
+
+export const RequestCardTitleOnMap = ({ img, title }) => {
+  const imgSection =
+    typeof img === 'string' && img.includes('http') ? (
+      <figure style={{ margin: 4 }} className="media-left">
+        <img
+          style={{
+            height: 32,
+            width: 32,
+            objectFit: 'cover',
+            borderRadius: '100%',
+          }}
+          src={img}
+          alt="task image"
+        />
+      </figure>
+    ) : (
+      <figure style={{ margin: 0 }} className="media-left">
+        <img style={{ height: 36, width: 36, objectFit: 'cover' }} src={img} alt="task image" />
+      </figure>
+    );
+
   return (
     <div style={{ display: 'flex', alignItems: 'center', width: '100%', marginBottom: 0 }}>
       <div
@@ -1180,10 +1244,48 @@ export const RequestCardTitle = ({ img, icon, title, meatballMenu }) => {
           margin: 'auto',
         }}
       >
-        <figure style={{ margin: 0 }} className="media-left">
-          <img style={{ height: 64, width: 64, objectFit: 'cover' }} src={img} alt="task image" />
-        </figure>
+        {imgSection}
+        <div className="content">
+          <span style={{ fontSize: 16 }}>{title}</span>
+        </div>
+      </div>
+    </div>
+  );
+};
 
+export const RequestCardTitle = ({ img, icon, title, meatballMenu }) => {
+  const imgSection =
+    typeof img === 'string' && img.includes('http') ? (
+      <figure style={{ margin: 4 }} className="media-left">
+        <img
+          style={{
+            height: 48,
+            width: 48,
+            objectFit: 'cover',
+            borderRadius: '100%',
+          }}
+          src={img}
+          alt="task image"
+        />
+      </figure>
+    ) : (
+      <figure style={{ margin: 0 }} className="media-left">
+        <img style={{ height: 64, width: 64, objectFit: 'cover' }} src={img} alt="task image" />
+      </figure>
+    );
+
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', width: '100%', marginBottom: 0 }}>
+      <div
+        style={{
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          overflow: 'hidden',
+          margin: 'auto',
+        }}
+      >
+        {imgSection}
         <div className="content">
           <span style={{ fontSize: 28 }}>{title}</span>
         </div>
@@ -1281,7 +1383,49 @@ export const DisputedBy = ({ name }) => {
           {`Disputed by ${name}`}
         </div>
         <div>
-          <div className="help is-danger">*BidOrBoo support crew will resolve this ASAP</div>
+          <div className="help is-danger">Our support will resolve this asap</div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const ResolvedDispute = ({ name }) => {
+  return (
+    <div className="group">
+      <div
+        style={{
+          fontWeight: 500,
+          fontSize: 16,
+          padding: 5,
+        }}
+      >
+        <div
+          style={{
+            display: 'inline-block',
+            flexGrow: 0,
+            fontSize: 18,
+            borderRadius: '100%',
+            border: '1px dashed #353535',
+            width: 28,
+            height: 28,
+            marginRight: 8,
+          }}
+        >
+          <div className="icon">
+            <i style={{ width: 18, color: '#353535' }} className="fas fa-gavel" />
+          </div>
+        </div>
+        <div
+          style={{
+            display: 'inline-block',
+            fontSize: 16,
+          }}
+        >
+          Resolved By BidOrBoo
+        </div>
+        <div>
+          <div className="help is-grey">{`Disputed by ${name}`}</div>
         </div>
       </div>
     </div>
@@ -1499,7 +1643,7 @@ export const BSawaitingOnRequester = () => {
         >
           Awaiting On Requester
         </div>
-        <div className="help">*Check Back soon!</div>
+        <div className="help">You'll be notified if your bid won</div>
       </div>
     </div>
   );
@@ -1538,7 +1682,7 @@ export const BSPastDueExpired = () => {
         >
           Past Due - Expired
         </div>
-        <div className="help">* Task Was not awarded to anyone</div>
+        <div className="help">Task expired and was not awarded</div>
       </div>
     </div>
   );
@@ -1579,8 +1723,8 @@ export const BSAwardedToSomeoneElse = () => {
           Bid Rejected
         </div>
 
-        <div className="help">*Task was awarded to someone else</div>
-        <div className="help">*This will be removed in 24 hours</div>
+        <div className="help">Task was awarded to someone else</div>
+        <div className="help">This bid will be auto deleted in 24 hours</div>
       </div>
     </div>
   );
@@ -1618,7 +1762,7 @@ export const BSTaskerAwarded = () => {
             display: 'inline-block',
           }}
         >
-          Winning Bid
+          Bid Won
         </div>
         <div className="help">Contact Requester To finalize details</div>
       </div>
@@ -1660,7 +1804,7 @@ export const BSWaitingOnRequesterToConfirm = () => {
         >
           Awaiting Confirmation
         </div>
-        <div className="help">we've contacted the Requester to confirm</div>
+        <div className="help">We've contacted the Requester to confirm</div>
       </div>
     </div>
   );
@@ -1699,7 +1843,7 @@ export const BSTaskIsDone = () => {
         >
           Task Is Done
         </div>
-        <div className="help">* You've completed This</div>
+        <div className="help">You've completed This task</div>
       </div>
     </div>
   );
@@ -1718,9 +1862,11 @@ export const TaskImagesCarousel = ({ taskImages, isLarge = false }) => {
 
     return (
       <Carousel
+        className="bdb-carousel"
         showThumbs={false}
         showArrows={true}
         infiniteLoop
+        swipeable
         // centerMode
       >
         {taskImages}

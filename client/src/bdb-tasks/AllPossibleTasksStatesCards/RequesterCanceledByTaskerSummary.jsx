@@ -42,15 +42,16 @@ class RequesterCanceledByTaskerSummary extends React.Component {
       >
         <div className="card-content">
           <div className="content">
-            <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
+            <RequestCardTitle
+              icon={ICON}
+              title={TITLE}
+              img={taskImages && taskImages.length > 0 ? taskImages[0].url : IMG}
+            />
             <UserGivenTitle userGivenTitle={requestTitle} />
 
-            <TaskImagesCarousel taskImages={taskImages} />
             <SummaryStartDateAndTime
               date={startingDateAndTime}
-              renderHelpComponent={() => (
-                <CountDownComponent startingDate={startingDateAndTime} />
-              )}
+              renderHelpComponent={() => <CountDownComponent startingDate={startingDateAndTime} />}
             />
 
             <CancelledBy name={'Tasker'} />
@@ -63,7 +64,8 @@ class RequesterCanceledByTaskerSummary extends React.Component {
               style={{ position: 'relative' }}
               onClick={(e) => {
                 e.preventDefault();
-                newUnseenState && updateRequestState(request._id, 'AWARDED_REQUEST_CANCELED_BY_TASKER_SEEN');
+                newUnseenState &&
+                  updateRequestState(request._id, 'AWARDED_REQUEST_CANCELED_BY_TASKER_SEEN');
 
                 switchRoute(ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(request._id));
               }}

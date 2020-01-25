@@ -234,19 +234,19 @@ Q2) Anything else you want to highlight for the Tasker?
               selectedValue = `Owner's Place`;
               helperText = (
                 <div className="help">
-                  Tasker expected to go to the pet owner's home and take care/check on the pet
+                  Tasker is expected to go to the pet owner's home and take care/check on the pet
                   regularly for the duration of the service.
                 </div>
               );
               break;
             case 'taskersPlace':
               selectedValue = `Tasker's Place - Owner will drop the pet at the tasker's place`;
-              helperText = (
-                <div className="help">
-                  The pet will be in the caring <strong>home of the Tasker</strong> for the duration
-                  of the service.
-                </div>
-              );
+              // helperText = (
+              //   <div className="help">
+              //     The pet will be in the caring home of the Tasker for the duration
+              //     of the service.
+              //   </div>
+              // );
               break;
             case 'decideLater':
               selectedValue =

@@ -278,6 +278,11 @@ $button-disabled-opacity: 0.85;
   transform: translateY(0);
 }
 
+div.bdb-carousel {
+  > div > div > ul > li.slide.selected {
+    background: #353535;
+  }
+}
 .VerticalAligner {
   display: flex;
   align-items: center;
@@ -512,8 +517,7 @@ div.centeredButtonInCard {
   font-weight: 400;
   position: absolute;
   bottom: -1rem;
-  right: 184px;
-  width: 100px;
+  left: 1.75rem;
   border-radius: 25px;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   &.nofixedwidth {
@@ -1036,4 +1040,9 @@ div.react-datepicker__input-container {
     overflow-wrap: break-word !important;
     word-break: break-word !important;
   }
+}
+
+.button[disabled] {
+  background: #999 !important;
+  cursor: not-allowed;
 }
