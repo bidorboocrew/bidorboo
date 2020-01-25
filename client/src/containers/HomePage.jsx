@@ -88,12 +88,11 @@ export default class HomePage extends React.Component {
               <div className="player-wrapper fade-in">
                 <ReactPlayer
                   className="react-player"
-                  url="https://youtu.be/YHh9JbJAyf0?mode=opaque"
+                  url="https://youtu.be/YHh9JbJAyf0"
                   width="100%"
                   height="100%"
                   youtubeConfig={{
                     playerVars: {
-                      controls: 0,
                       modestbranding: 1,
                       origin: 'https://www.bidorboo.ca',
                       widget_referrer: 'https://www.bidorboo.ca',
