@@ -150,6 +150,8 @@ class Header extends React.Component {
       bidsHappeningToday,
     } = notificationFeed;
 
+    const installWebAppButton = document.querySelector('#bob-installWebApp');
+
     const isThereRequestsHappeningToday =
       requestsHappeningToday && requestsHappeningToday.length > 0;
     const isThereBidsHappeningToday = bidsHappeningToday && bidsHappeningToday.length > 0;
@@ -758,7 +760,7 @@ class Header extends React.Component {
                               className="navbar-item"
                             >
                               <span style={{ position: 'relative' }} className="icon">
-                                <i className="fab fa-nintendo-switch" />
+                                <i className="fas fa-exchange-alt" />
                                 {bidsGotAwardedToMe && (
                                   <div
                                     style={{
@@ -848,6 +850,24 @@ class Header extends React.Component {
                         </span>
                         <span>Support</span>
                       </a>
+                      {installWebAppButton && (
+                        <>
+                          <hr className="navbar-divider" />
+
+                          <a
+                            className="navbar-item"
+                            onClick={(e) => {
+                              installWebAppButton && installWebAppButton.click();
+                            }}
+                          >
+                            <span style={{ position: 'relative' }} className="icon">
+                              <i class="fas fa-mobile-alt"></i>
+                            </span>
+                            <span>WEB APP</span>
+                          </a>
+                        </>
+                      )}
+
                       <hr className="navbar-divider" />
                       <a
                         onClick={(e) =>
