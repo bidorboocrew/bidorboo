@@ -200,6 +200,9 @@ Q2)Any items that require extreme caution or care ?
           if (isTouched) {
             approximateDurationClass =
               values.approximateDuration === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          } else {
+            approximateDurationClass =
+              values.approximateDuration !== 'noSelection' ? 'hasSelectedValue' : '';
           }
           return (
             <React.Fragment key={'extras-approximateDuration'}>
@@ -251,6 +254,8 @@ Q2)Any items that require extreme caution or care ?
           let isTouched = touched && touched.houseType;
           if (isTouched) {
             houseTypeClass = values.houseType === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          } else {
+            houseTypeClass = values.houseType !== 'noSelection' ? 'hasSelectedValue' : '';
           }
           return (
             <React.Fragment key={'extras-houseType'}>
@@ -297,6 +302,9 @@ Q2)Any items that require extreme caution or care ?
           if (isTouched) {
             requiresTaskerWithCarClass =
               values.requiresTaskerWithCar === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          } else {
+            requiresTaskerWithCarClass =
+              values.requiresTaskerWithCar !== 'noSelection' ? 'hasSelectedValue' : '';
           }
           return (
             <React.Fragment key={'extras-requiresTaskerWithCar'}>
@@ -344,6 +352,9 @@ Q2)Any items that require extreme caution or care ?
           if (isTouched) {
             toolsForDisassemblyClass =
               values.toolsForDisassembly === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          } else {
+            toolsForDisassemblyClass =
+              values.toolsForDisassembly !== 'noSelection' ? 'hasSelectedValue' : '';
           }
           return (
             <React.Fragment key={'extras-toolsForDisassembly'}>
@@ -397,6 +408,8 @@ Q2)Any items that require extreme caution or care ?
           if (isTouched) {
             trollyProvidedClass =
               values.trollyProvided === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          } else {
+            trollyProvidedClass = values.trollyProvided !== 'noSelection' ? 'hasSelectedValue' : '';
           }
           return (
             <React.Fragment key={'extras-trollyProvided'}>

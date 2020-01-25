@@ -33,8 +33,19 @@ export default class DatePickerInput extends React.Component {
     this.props.onChangeEvent(dateWithTimeZone.toISOString());
   };
 
+  componentDidMount() {
+    const { value } = this.props;
+    if (value && moment(value).isValid()) {
+      const dateWithTimeZone = moment.utc(value);
+      this.setState({
+        selectedDate: dateWithTimeZone.toDate(),
+      });
+      this.props.onChangeEvent(dateWithTimeZone.toISOString());
+    }
+  }
+
   render() {
-    const { label, error, helpText, touched } = this.props;
+    const { label, error, helpText, touched, value } = this.props;
 
     const { selectedDate } = this.state;
 

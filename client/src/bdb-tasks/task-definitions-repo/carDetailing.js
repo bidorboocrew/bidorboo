@@ -173,7 +173,10 @@ Q3) Any particular stains or dirt that you want to mention?
           let isTouched = touched && touched.carSize;
           if (isTouched) {
             carSizeSelectClass = values.carSize === NO_SELECTION ? 'is-danger' : 'hasSelectedValue';
+          } else {
+            carSizeSelectClass = values.carSize !== 'noSelection' ? 'hasSelectedValue' : '';
           }
+
           return (
             <React.Fragment key={'extras-carSize'}>
               <div className={`group ${isTouched && errors.carSize ? 'isError' : ''}`}>
@@ -232,6 +235,8 @@ Q3) Any particular stains or dirt that you want to mention?
           if (isTouched) {
             interiorTypeClass =
               values.interiorType === NO_SELECTION ? 'is-danger' : 'hasSelectedValue';
+          } else {
+            interiorTypeClass = values.interiorType !== 'noSelection' ? 'hasSelectedValue' : '';
           }
           return (
             <React.Fragment key={'extras-interiorType'}>
@@ -289,6 +294,8 @@ Q3) Any particular stains or dirt that you want to mention?
           if (isTouched) {
             trunkCleaningClass =
               values.trunkCleaning === NO_SELECTION ? 'is-danger' : 'hasSelectedValue';
+          } else {
+            trunkCleaningClass = values.trunkCleaning !== 'noSelection' ? 'hasSelectedValue' : '';
           }
           return (
             <React.Fragment key={'extras-trunkCleaning'}>

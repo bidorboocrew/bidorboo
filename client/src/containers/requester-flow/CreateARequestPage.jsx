@@ -6,6 +6,8 @@ import { postNewRequest, uploadTaskImages } from '../../app-state/actions/reques
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 import { RenderBackButton } from '../commonComponents';
 import GenericRequestForm from '../../bdb-tasks/GenericRequestForm';
+import * as ROUTES from '../../constants/frontend-route-consts';
+import { switchRoute } from '../../utils';
 
 const creatRequestsByIdMap = {
   ['bdbMoving']: (props) => {
@@ -38,13 +40,15 @@ class CreateARequestPage extends React.Component {
   render() {
     const { chosenTemplate } = this.state;
 
+    if (!creatRequestsByIdMap[`${chosenTemplate}`]) {
+      return switchRoute(ROUTES.CLIENT.REQUESTER.root);
+    }
     return (
       <div className="columns is-centered is-mobile">
         <div className="column limitLargeMaxWidth slide-in-right">
           <RenderBackButton />
           {/* create request based on ID */}
-          {creatRequestsByIdMap[`${chosenTemplate}`] &&
-            creatRequestsByIdMap[`${chosenTemplate}`](this.props)}
+          {creatRequestsByIdMap[`${chosenTemplate}`](this.props)}
         </div>
       </div>
     );

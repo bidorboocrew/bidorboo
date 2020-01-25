@@ -184,6 +184,9 @@ Q2) Anything else you want to highlight for the Tasker?
           if (isTouched) {
             isRequesterHostingClass =
               values.isRequesterHosting === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          } else {
+            isRequesterHostingClass =
+              values.isRequesterHosting !== 'noSelection' ? 'hasSelectedValue' : '';
           }
           return (
             <React.Fragment key={'extras-isRequesterHosting'}>
@@ -270,6 +273,9 @@ Q2) Anything else you want to highlight for the Tasker?
           if (isTouched) {
             requiresWalkingClass =
               values.requiresWalking === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          } else {
+            requiresWalkingClass =
+              values.requiresWalking !== 'noSelection' ? 'hasSelectedValue' : '';
           }
           return (
             <React.Fragment key={'extras-requiresWalking'}>

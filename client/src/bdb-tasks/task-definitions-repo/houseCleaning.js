@@ -170,7 +170,10 @@ Q3) Anything else you want to highlight for the Tasker?
           let isTouched = touched && touched.effort;
           if (isTouched) {
             effortClass = values.effort === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          } else {
+            effortClass = values.effort !== 'noSelection' ? 'hasSelectedValue' : '';
           }
+
           return (
             <React.Fragment key={'extras-effort'}>
               <div className={`group ${isTouched && errors.effort ? 'isError' : ''}`}>
@@ -225,6 +228,8 @@ Q3) Anything else you want to highlight for the Tasker?
           if (isTouched) {
             bedroomCountClass =
               values.bedroomCount === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          } else {
+            bedroomCountClass = values.bedroomCount !== 'noSelection' ? 'hasSelectedValue' : '';
           }
           return (
             <React.Fragment key={'extras-bedroomCount'}>
@@ -273,6 +278,8 @@ Q3) Anything else you want to highlight for the Tasker?
           if (isTouched) {
             bathroomCountClass =
               values.bathroomCount === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          } else {
+            bathroomCountClass = values.bathroomCount !== 'noSelection' ? 'hasSelectedValue' : '';
           }
           return (
             <React.Fragment key={'extras-bathroomCount'}>
@@ -321,6 +328,9 @@ Q3) Anything else you want to highlight for the Tasker?
           if (isTouched) {
             basementCleaningClass =
               values.basementCleaning === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          } else {
+            basementCleaningClass =
+              values.basementCleaning !== 'noSelection' ? 'hasSelectedValue' : '';
           }
           return (
             <React.Fragment key={'extras-basementCleaning'}>
@@ -364,6 +374,9 @@ Q3) Anything else you want to highlight for the Tasker?
           if (isTouched) {
             equipmentProviderClass =
               values.equipmentProvider === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          } else {
+            equipmentProviderClass =
+              values.equipmentProvider !== 'noSelection' ? 'hasSelectedValue' : '';
           }
           return (
             <React.Fragment key={'extras-equipmentProvider'}>

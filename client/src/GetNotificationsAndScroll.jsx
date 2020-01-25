@@ -19,13 +19,14 @@ import { Spinner } from './components/Spinner';
 import { Header } from './containers/index';
 
 const loggedOutRoutes = [
-  ROUTES.CLIENT.HOME,
-  ROUTES.CLIENT.TOS,
-  ROUTES.CLIENT.RESETPASSWORD,
-  ROUTES.CLIENT.USER_ROFILE_FOR_REVIEW,
-  ROUTES.CLIENT.REQUESTER.root,
-  ROUTES.CLIENT.TASKER.root,
-  ROUTES.CLIENT.TASKER.bidOnRequestPage,
+  '/',
+  '/terms-of-service',
+  '/reset-password',
+  '/user-profile',
+  '/bdb-request/root',
+  '/bdb-request/create-request',
+  '/bdb-bidder/root',
+  '/bdb-bidder/bid-on-request',
 ];
 
 class GetNotificationsAndScroll extends React.Component {
@@ -174,7 +175,10 @@ class GetNotificationsAndScroll extends React.Component {
 
     if (!isLoggedIn) {
       // if you are on one of our logged out experience roots , just show it
-      if (loggedOutRoutes.indexOf(this.props.location.pathname) > -1) {
+
+      const currentPath = this.props.location.pathname;
+      const isAllowedRoute = loggedOutRoutes.some((route) => currentPath.includes(route));
+      if (isAllowedRoute) {
         return this.props.children;
       }
 

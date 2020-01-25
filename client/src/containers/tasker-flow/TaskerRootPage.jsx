@@ -232,21 +232,25 @@ class TaskerRootPage extends React.Component {
                   </div>
                 )}
 
-                <div className="has-text-left">
-                  <div style={{ marginBottom: '0.75rem', textAlign: 'left', marginTop: '0.75rem' }}>
-                    <input
-                      id="togglemapView"
-                      type="checkbox"
-                      name="togglemapView"
-                      className="switch is-rounded is-success"
-                      onChange={this.toggleMapView}
-                      checked={showMapView}
-                    />
-                    <label style={{ fontWeight: 500 }} htmlFor="togglemapView">
-                      Toggle map view
-                    </label>
+                {isThereAnActiveSearch && (
+                  <div className="has-text-left">
+                    <div
+                      style={{ marginBottom: '0.75rem', textAlign: 'left', marginTop: '0.75rem' }}
+                    >
+                      <input
+                        id="togglemapView"
+                        type="checkbox"
+                        name="togglemapView"
+                        className="switch is-rounded is-success"
+                        onChange={this.toggleMapView}
+                        checked={showMapView}
+                      />
+                      <label style={{ fontWeight: 500 }} htmlFor="togglemapView">
+                        Toggle map view
+                      </label>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </section>
@@ -258,7 +262,7 @@ class TaskerRootPage extends React.Component {
           )}
           {!isLoading && (
             <React.Fragment>
-              <Collapse isOpened={showMapView}>
+              <Collapse isOpened={showMapView && anyVisibleRequests}>
                 <div style={{ marginTop: '1.25rem' }} className="container slide-in-bottom-small">
                   <MapSection
                     mapCenterPoint={mapCenterPoint}

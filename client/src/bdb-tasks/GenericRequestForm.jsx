@@ -57,6 +57,8 @@ class GenericRequestForm extends React.Component {
     } else {
       this.props.setFieldValue('recaptchaField', 'test', true);
     }
+
+    window.localStorage && window.localStorage.removeItem('bob_prevPostedReq');
   }
   updateTaskThumbnails = (fieldIdAndValue) => {
     this.props.setFieldValue(fieldIdAndValue.fieldId, fieldIdAndValue.fieldValue, false);
@@ -204,6 +206,7 @@ class GenericRequestForm extends React.Component {
       handleBlur,
       recaptchaField,
       isValid,
+      isLoggedIn,
     } = this.props;
     const {
       ID,
@@ -223,6 +226,8 @@ class GenericRequestForm extends React.Component {
     if (istimeOfDayTouched) {
       timeOfDayClass =
         values.timeOfDay === 'noSelection' || errors.timeOfDay ? 'is-danger' : 'hasSelectedValue';
+    } else {
+      timeOfDayClass = values.timeOfDay !== 'noSelection' ? 'hasSelectedValue' : '';
     }
 
     const hasAtLeastOneTaskImg = !!values.taskImg1 || !!values.taskImg2 || !!values.taskImg3;
@@ -255,7 +260,7 @@ class GenericRequestForm extends React.Component {
                 value={values.taskImg1 || ''}
               />
 
-              {enableImageUploadField && (
+              {isLoggedIn && enableImageUploadField && (
                 <div className="group">
                   <label className={`label ${hasAtLeastOneTaskImg ? 'hasSelectedValue' : ''}`}>
                     Upload images <span className="has-text-grey-lighter">(Optional)</span>
@@ -425,6 +430,7 @@ class GenericRequestForm extends React.Component {
                 onChangeEvent={this.updateDateInputFieldValue}
                 error={errors.startingDateAndTime}
                 touched={touched.startingDateAndTime}
+                value={values.startingDateAndTime || ''}
               />
               <div className={`group ${touched.timeOfDay && errors.timeOfDay ? 'isError' : ''}`}>
                 <label className={timeOfDayClass}>{'Time of day'}</label>
@@ -521,7 +527,7 @@ class GenericRequestForm extends React.Component {
                   boxShadow: '0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1)',
                 }}
                 className={`button is-success is-medium ${isSubmitting ? 'is-loading' : ''}`}
-                disabled={isSubmitting || !isValid || (errors && Object.keys(errors).length > 0)}
+                disabled={isSubmitting || (errors && Object.keys(errors).length > 0)}
               >
                 <span className="icon">
                   <i className="far fa-paper-plane" />
@@ -822,6 +828,21 @@ const EnhancedForms = withFormik({
     return errors;
   },
   mapPropsToValues: (props) => {
+    const previousAttemptAtPostingARequest = window.localStorage
+      ? window.localStorage.getItem('bob_prevPostedReq')
+      : null;
+    if (!!previousAttemptAtPostingARequest) {
+      const previouslyEnteredValues = JSON.parse(previousAttemptAtPostingARequest);
+      // only if attempted previous request was the same as the currnet job we are trying to post
+      if (props.requestTemplateId === previouslyEnteredValues.templateId) {
+        return {
+          ...previouslyEnteredValues,
+        };
+      } else {
+        window.localStorage.removeItem('bob_prevPostedReq');
+      }
+    }
+
     return {
       templateId: props.requestTemplateId,
       startingDateAndTime: '',
@@ -938,7 +959,13 @@ const EnhancedForms = withFormik({
         addressText: `${requestUnitOrApt} - ${addressText}`,
       };
     }
-    await postNewRequest({ requestDetails: mappedFieldsToRequestSchema, recaptchaField });
+
+    localStorage.setItem('bob_prevPostedReq', JSON.stringify(values));
+    if (props.isLoggedIn) {
+      await postNewRequest({ requestDetails: mappedFieldsToRequestSchema, recaptchaField });
+    } else {
+      props.showLoginDialog(true);
+    }
 
     setSubmitting(false);
   },

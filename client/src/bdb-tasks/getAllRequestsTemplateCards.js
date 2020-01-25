@@ -24,10 +24,6 @@ const renderTask = ({ task, isLoggedIn, showLoginDialog }) => {
         <a
           style={{ fontSize: 14, width: 132, borderRadius: 25 }}
           onClick={() => {
-            if (!isLoggedIn) {
-              showLoginDialog(true);
-              return;
-            }
             switchRoute(ROUTES.CLIENT.REQUESTER.dynamicCreateRequest(ID));
           }}
           className="button is-success firstButtonInCard"

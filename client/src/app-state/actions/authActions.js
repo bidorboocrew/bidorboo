@@ -1,7 +1,8 @@
 import * as A from '../actionTypes';
-import * as ROUTES from '../../constants/frontend-route-consts';
 import axios from 'axios';
 import { switchRoute, throwErrorNotification } from '../../utils';
+import * as ROUTES from '../../constants/frontend-route-consts';
+
 const sleep = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
