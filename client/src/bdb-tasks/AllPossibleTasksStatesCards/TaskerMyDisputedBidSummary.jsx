@@ -7,7 +7,7 @@ import {
   RequestCardTitle,
   TaskImagesCarousel,
   SummaryStartDateAndTime,
-  ResolvedDispute,
+  DisputedBy,
   TaskerWillEarn,
   BidAmount,
 } from '../../containers/commonComponents';
@@ -49,7 +49,7 @@ export default class TaskerMyDisputedBidSummary extends React.Component {
 
             <SummaryStartDateAndTime date={startingDateAndTime} />
 
-            <ResolvedDispute name={whoDisputed} />
+            <DisputedBy name={whoDisputed} />
             <BidAmount bidAmount={bidValue} />
           </div>
         </div>

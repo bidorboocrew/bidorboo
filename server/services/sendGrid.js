@@ -19,8 +19,9 @@ exports.EmailService = {
       html: populateHtmlTemplate({
         toDisplayName,
         contentHtml: `
-        <p>Your Email Verification Code is:</p>
-        <p><strong>${emailVerificationCode}</strong></p>
+        <p>Your BidOrBoo email verification code is:</p>
+        <br></br>
+        <p>${emailVerificationCode}</p>
         `,
         clickDisplayName: 'Verify Email',
       }),
@@ -41,6 +42,7 @@ exports.EmailService = {
         toDisplayName: toDisplayName || to,
         contentHtml: `
         <p>Exciting news! Your ${taskName} request has received a new bid.</p>
+        <br></br>
         <p>Check the bids and award a Tasker</p>`,
         clickLink,
         clickDisplayName: 'View Bid',
@@ -73,12 +75,15 @@ exports.EmailService = {
         toDisplayName: toDisplayName || to,
         contentHtml: `
         <p>This is an automated reminder for your upcoming ${requestTitle} task.</p>
+        <br></br>
         <p>Get in touch with the requester to agree on exact location and time details.</p>
+        <br></br>
         <div>
-        <strong>Email address:</strong> <a href="mailto:${ownerEmailAddress}?subject=BidOrBoo - Iam the tasker for ${requestTitle}">${ownerEmailAddress}</a>
+        Email address: <a href="mailto:${ownerEmailAddress}?subject=BidOrBoo - Iam the tasker for ${requestTitle}">${ownerEmailAddress}</a>
         </div>
+        <br></br>
         <div>
-        <strong>Phone number:</srtong> <a href="tel:${ownerPhoneNumber}">${ownerPhoneNumber}</a>
+        Phone number: <a href="tel:${ownerPhoneNumber}">${ownerPhoneNumber}</a>
         </div>`,
         clickLink: `${linkForTasker}`,
         clickDisplayName: 'View Request',
@@ -102,7 +107,8 @@ exports.EmailService = {
         toDisplayName: toDisplayName || to,
         contentHtml: `
         <p>${requestTitle} request was posted in your area.</p>
-        <p>Act fast, be the first to bid on it</p>
+        <br></br>
+        <p>Act fast, be the first to bid on this request</p>
         `,
         clickLink: `${linkForTasker}`,
         clickDisplayName: 'Bid Now',
@@ -136,12 +142,14 @@ exports.EmailService = {
       html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `<p>This is an automated reminder for your upcoming scheduled ${requestTitle} task.</p>
+        <br></br>
         <p>Get in touch with the requester to agree on exact location and time details.</p>
+        <br></br>
         <div>
-        <strong>email address:</strong> <a href="mailto:${taskerEmailAddress}?subject=BidOrBoo - Iam expecting you soon for ${requestTitle}">${taskerEmailAddress}</a>
+        Email address: <a href="mailto:${taskerEmailAddress}?subject=BidOrBoo - Iam expecting you soon for ${requestTitle}">${taskerEmailAddress}</a>
         </div>
         <div>
-        <strong>phone number:</srtong> <a href="tel:${taskerPhoneNumber}">${taskerPhoneNumber}</a>
+        Phone number: <a href="tel:${taskerPhoneNumber}">${taskerPhoneNumber}</a>
         </div>`,
         clickLink: `${linkForOwner}`,
         clickDisplayName: 'View Request',
@@ -162,8 +170,10 @@ exports.EmailService = {
       html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `<p>We are sorry to inform you that this Request has been cancelled by the requester.</p>
-        <p>You are no longer assigned and should not show up to do this task</p>
-        <p>click to View details and understand the full impact</p>
+        <br></br>
+        <p>You are no longer assigned and should not show up nor contact the Reuester regarding this</p>
+        <br></br>
+        <p>click to View details and understand the impact</p>
        `,
         clickLink: `${linkForTasker}`,
         clickDisplayName: 'Cancelled Request Details',
@@ -191,8 +201,10 @@ exports.EmailService = {
       html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `<p>We are sorry to hear that things did not work out.</p>
+        <br></br>
         <p>We will inform the tasker about this to ensure that they will NOT show up.</p>
-        <p>click to View details and understand the full impact</p>`,
+        <br></br>
+        <p>click to View details and understand the impact</p>`,
         clickLink: `${linkForOwner}`,
         clickDisplayName: 'Cancelled Request Details',
       }),
@@ -212,7 +224,8 @@ exports.EmailService = {
      `,
       html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
-        contentHtml: `<p>This request ${requestTitle} did not recieve any bids and it is Past due so we automatically deleted it.</p>
+        contentHtml: `<p>Your equest ${requestTitle} did not recieve any bids before the request due date.</p>
+        <br></br>
         <p>Feel free to post a new Request</p>
         `,
         clickLink: `https://www.bidorboo.ca/bdb-request/root`,
@@ -260,8 +273,10 @@ exports.EmailService = {
       html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `<p>We are sorry to inform you that things did not work out!</p>
+        <br></br>
         <p>The tasker cancelled their agreement and thus will NOT show up to do this task.</p>
-        <p>click to View details and understand the full impact</p>
+        <br></br>
+        <p>click to View details and understand the impact</p>
        `,
         clickLink: `${linkForOwner}`,
         clickDisplayName: 'Cancelled Request Details',
@@ -286,10 +301,12 @@ exports.EmailService = {
       html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `
-        <p>You have cancelled your agreement and thus you should NOT show up or do the task.</p>
-
+        <p>You have cancelled your agreement and thus you should NOT contact the requester nor show up to do the task.</p>
+        <br></br>
         <p>It Happens! We understand that life is sometimes unpredictable</p>
+        <br></br>
         <p>and we are sorry to hear that things did not work out!</p>
+        <br></br>
         <p>click to View details and understand the full impact</p>
        `,
         clickLink: `${linkForTasker}`,
@@ -311,7 +328,9 @@ exports.EmailService = {
       html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `<p>We are waiting on you to confirm that our Tasker have completed the request</p>
+        <br></br>
         <p>We hope that they done so to your satisfaction.</p>
+        <br></br>
         <p>View the request to confirm that it is completed</p>
          `,
         clickLink: `${linkForOwner}`,
@@ -343,8 +362,11 @@ exports.EmailService = {
         toDisplayName: toDisplayName || to,
         contentHtml: `
         <p>Thank you for completing this Request!</p>
+        <br></br>
         <p>We are reaching out to the Requester to get the final confirmation that you completed your work.</p>
+        <br></br>
         <p>This will happen shortly and your payment will be released upon this confirmation.</p>
+        <br></br>
         <p>We will keep you posted of any updates. click to View details</p>
        `,
         clickLink: `${linkForTasker}`,
@@ -374,12 +396,11 @@ exports.EmailService = {
         toDisplayName: toDisplayName || to,
         contentHtml: `
         <p>BidOrBoo is happy to hear that the request was fulfilled.</p>
-
+        <br></br>
         <p>Now it is your turn to rate the Tasker</p>
-         <p>click to view the details</p>
        `,
         clickLink: `${linkForOwner}`,
-        clickDisplayName: 'Request Details',
+        clickDisplayName: 'Rate Tasker',
       }),
     };
 
@@ -394,18 +415,19 @@ exports.EmailService = {
       from: 'bidorboo@bidorboo.ca',
       subject: `${requestTitle} is Completed!`,
       text: `BidOrBoo is happy to hear that you've completed this request
-      Your payout is on the way and you should recieve it within 5-10 business days`,
+      Your payout is on the way and you should recieve it within 1-10 business days`,
 
       html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `
         <p>BidOrBoo is happy to hear that you've completed this request</p>
-        <p>Your payout is on the way and you should recieve it within 5-10 business days</p>
+        <br></br>
+        <p>Your payout is on the way and you should recieve it within 1-10 business days</p>
+        <br></br>
         <p>Now it is your turn to rate the Requester</p>
-        <p>click to view the details</p>
        `,
         clickLink: `${linkForTasker}`,
-        clickDisplayName: 'Request Details',
+        clickDisplayName: 'Rate Requester',
       }),
     };
 
@@ -431,6 +453,7 @@ exports.EmailService = {
         toDisplayName: toDisplayName || to,
         contentHtml: `
         <p>Thank you for your payment! We've notified the Tasker</p>
+        <br></br>
         <p>The Tasker will be ready to fulfill this request request.</p>
        `,
         clickLink: `${linkForOwner}`,
@@ -455,12 +478,13 @@ exports.EmailService = {
         toDisplayName: toDisplayName || to,
         contentHtml: `
         <p>Your ${requestTitle} Bid Won and the request is Assigned to you!</p>
-        <p>Please show up prepaired with all the tools required to fulfil this request</p>
-
-        <p>Remember that showing up on time, clear communication, good manners and thourough work will lead to higher ratings</p>
+        <br></br>
+        <p>Next step is to get in touch with the Requester to finalize details like exact location and time!</p>
+        <br></br>
+        <p>Remember that showing up on time with all the required tools to do a good job, clear communication, good manners and thourough work will lead to higher ratings</p>
        `,
         clickLink: `${linkForTasker}`,
-        clickDisplayName: 'Request Details',
+        clickDisplayName: 'Finalize Request Details',
       }),
     };
 
@@ -481,6 +505,7 @@ exports.EmailService = {
         toDisplayName: toDisplayName || to,
         contentHtml: `
         <p>We are sorry for your inconvienience and want you to know that we will investigat and resolve this asap!</p>
+        <br></br>
         <p>we will keep you posted with any updates soon.</p>
        `,
         clickLink: `${linkForTasker}`,
@@ -503,8 +528,8 @@ exports.EmailService = {
         toDisplayName: toDisplayName || to,
         contentHtml: `
         <p>BidOrBoo is happy to hear that your ${requestTitle} request was fulfilled</p>
+        <br></br>
         <p> Since you did not confirm the completion in the past 3 days we went ahead and marked this request as completed.</p>
-        <p>Please rate the Tasker</p>
        `,
         clickLink: `${linkForOwner}`,
         clickDisplayName: 'Request Details',
@@ -526,11 +551,11 @@ exports.EmailService = {
         toDisplayName: toDisplayName || to,
         contentHtml: `
         <p>BidOrBoo is happy to hear that your ${requestTitle} request was fulfilled.</p>
+        <br></br>
         <p>Please confirm the completion of this request asap</p>
-        <p>click to view the details</p>
        `,
         clickLink: `${linkForOwner}`,
-        clickDisplayName: 'Request Details',
+        clickDisplayName: 'Confirm Request Completion',
       }),
     };
 
@@ -558,50 +583,45 @@ exports.EmailService = {
       to: 'bidorboo@bidorboo.ca',
       from: 'bidorboo@bidorboo.ca',
       subject: `DISPUTE CASE: ${reason} submitted by ${whoSubmitted}`,
-      text: `
-     Investigate this dispute filed by user ${userIdWhoFiledDispute} about request ${requestId}.
-     the claim details are :
-    ${details}
-    Additional info
-    whoSubmitted = ${whoSubmitted},
-    requesterDisplayName = ${requesterDisplayName},
-    taskerDisplayName = ${taskerDisplayName},
-    requestDisplayName = ${requestDisplayName},
-    requestLinkForRequester = ${requestLinkForRequester},
-    requestLinkForTasker = ${requestLinkForTasker},
-    requesterEmailAddress = ${requesterEmailAddress},
-    requesterPhoneNumber = ${requesterPhoneNumber},
-    taskerEmailAddress = ${taskerEmailAddress},
-    requestId = ${requestId},
-    reason = ${reason},
-    details = ${details},
-    processedPayment= ${JSON.stringify(processedPayment)},
-     `,
-
       html: `
       <p>Investigate this dispute filed by user ${userIdWhoFiledDispute} about request ${requestId}.</p>
+      <br></br>
       <p>the claim details are :</p>
-      <p><strong>${details}</strong></p>
-      <br>
-      Additional info
+      <br></br>
+      <p>${details}</p>
+      <br></br>
+      <p>Additional info</p>
+      <br></br>
     <p>whoSubmitted = ${whoSubmitted},</p>
+    <br></br>
     <p>requesterDisplayName = ${requesterDisplayName},</p>
+    <br></br>
     <p>taskerDisplayName = ${taskerDisplayName},</p>
+    <br></br>
     <p>requestDisplayName = ${requestDisplayName},</p>
+    <br></br>
     <p>requestLinkForRequester = ${requestLinkForRequester},</p>
+    <br></br>
     <p>requestLinkForTasker = ${requestLinkForTasker},</p>
+    <br></br>
     <div>
-    <a href="mailto:${requesterEmailAddress}?subject=BidOrBoo DISPUTE"><strong>requesterEmailAddress:</strong> ${requesterEmailAddress}</a>
+    <a href="mailto:${requesterEmailAddress}?subject=BidOrBoo DISPUTE">requesterEmailAddress: ${requesterEmailAddress}</a>
     </div>
+    <br></br>
     <div>
-    <a href="tel:${requesterPhoneNumber}"><strong>requesterPhoneNumber</srtong>: ${requesterPhoneNumber},</a>
+    <a href="tel:${requesterPhoneNumber}">requesterPhoneNumber</srtong>: ${requesterPhoneNumber},</a>
     </div>
+    <br></br>
     <div>
-    <a href="mailto:${taskerEmailAddress}?subject=BidOrBoo DISPUTE"><strong>taskerEmailAddress:</strong> ${taskerEmailAddress}</a>
+    <a href="mailto:${taskerEmailAddress}?subject=BidOrBoo DISPUTE">taskerEmailAddress: ${taskerEmailAddress}</a>
     </div>
+    <br></br>
     <p>requestId = ${requestId},</p>
+    <br></br>
     <p>reason = ${reason},</p>
+    <br></br>
     <p>details = ${details},</p>
+    <br></br>
     <p>processedPayment = ${JSON.stringify(processedPayment)},</p>
       `,
     };

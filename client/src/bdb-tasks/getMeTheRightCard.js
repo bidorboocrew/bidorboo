@@ -254,19 +254,6 @@ const TaskerCardTemplates = {
       <TaskerArchiveDetails request={request} {...otherArgs} />
     );
   },
-  [REQUEST_STATES.DISPUTE_RESOLVED]: ({
-    request,
-    isSummaryView,
-    pointOfView,
-    withBidDetails,
-    ...otherArgs
-  }) => {
-    if (isSummaryView) {
-      return <div>REQUEST_STATES.DISPUTE_RESOLVED state summary view not implemented yet</div>;
-    } else {
-      return <div>REQUEST_STATES.DISPUTE_RESOLVED state detail view not implemented yet</div>;
-    }
-  },
 };
 
 const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {

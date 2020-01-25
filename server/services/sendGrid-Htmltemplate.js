@@ -23,11 +23,11 @@ img {-ms-interpolation-mode: bicubic;}
 <![endif]-->
   <style type="text/css">
 body, p, div {
-  font-family: arial,helvetica,sans-serif;
+  font-family: arial,helvetica,sans-serif !important;
   font-size: 16px;
 }
 body {
-  color: #FFFFFF;
+  color: #353535;
 }
 body a {
   color: #ee2a36;
@@ -103,7 +103,7 @@ img.max-width {
  <!--End Head user entered-->
 </head>
 <body>
-  <center class="wrapper" data-link-color="#ee2a36" data-body-style="font-size:16px; font-family:arial,helvetica,sans-serif; color:#FFFFFF; background-color:#eeeeee;">
+  <center class="wrapper" data-link-color="#ee2a36" data-body-style="font-size:16px; font-family:arial,helvetica,sans-serif; color:#353535; background-color:#eeeeee;">
     <div class="webkit">
       <table cellpadding="0" cellspacing="0" border="0" width="100%" class="wrapper" bgcolor="#eeeeee">
         <tbody><tr>
@@ -120,7 +120,7 @@ img.max-width {
 <![endif]-->
                                 <table width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%; max-width:600px;" align="center">
                                   <tbody><tr>
-                                    <td role="modules-container" style="padding:20px 15px 20px 15px; color:#FFFFFF; text-align:left;" bgcolor="white" width="100%" align="left"><table class="module preheader preheader-hide" role="module" data-type="preheader" border="0" cellpadding="0" cellspacing="0" width="100%" style="display: none !important; mso-hide: all; visibility: hidden; opacity: 0; color: transparent; height: 0; width: 0;">
+                                    <td role="modules-container" style="padding:20px 15px 20px 15px; color:#353535; text-align:left;" bgcolor="white" width="100%" align="left"><table class="module preheader preheader-hide" role="module" data-type="preheader" border="0" cellpadding="0" cellspacing="0" width="100%" style="display: none !important; mso-hide: all; visibility: hidden; opacity: 0; color: transparent; height: 0; width: 0;">
 <tbody><tr>
   <td role="module-content">
     <p></p>
@@ -142,7 +142,7 @@ img.max-width {
 </table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="i2A6UoT2ikeKVijcdbZiAP" data-mc-module-version="2019-10-22">
 <tbody>
   <tr>
-    <td style="padding:8px 0px 8px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center"><span style="color: #ee2a36; font-size: 26px"><strong>B</strong></span><span style="color: #353535; font-size: 26px"><strong>id</strong></span><span style="color: #ee2a36; font-size: 26px"><strong>O</strong></span><span style="color: #353535; font-size: 26px"><strong>r</strong></span><span style="color: #ee2a36; font-size: 26px"><strong>B</strong></span><span style="color: #353535; font-size: 26px"><strong>oo</strong></span></div><div></div></div></td>
+    <td style="padding:8px 0px 8px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center"><span style="color: #ee2a36; font-size: 26px">B</span><span style="color: #353535; font-size: 26px">id</span><span style="color: #ee2a36; font-size: 26px">O</span><span style="color: #353535; font-size: 26px">r</span><span style="color: #ee2a36; font-size: 26px">B</span><span style="color: #353535; font-size: 26px">oo</span></div><div></div></div></td>
   </tr>
 </tbody>
 </table></td>
@@ -163,7 +163,7 @@ img.max-width {
 </table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="275bbbf1-32ee-42db-bd47-1e764c3f6932" data-mc-module-version="2019-10-22">
 <tbody>
   <tr>
-    <td style="padding:8px 0px 8px 0px; line-height:21px; text-align:inherit; background-color:white;" height="100%" valign="top" bgcolor="white" role="module-content"><div><h2 style="text-align: left"><span style="color: #ee2a36; font-weight: 300; font-size: 20px">Hello </span><span style="font-weight: 300; font-size: 20px; color: #353535">${toDisplayName}</span></h2><div></div></div></td>
+    <td style="padding:8px 0px 8px 0px; line-height:21px; text-align:inherit; background-color:white;" height="100%" valign="top" bgcolor="white" role="module-content"><div><h2 style="text-align: left"><span style="color: #ee2a36; font-weight: 300; font-size: 16px">Hello </span><span style="font-weight: 300; color: #353535; font-size: 16px"><strong>${toDisplayName}</strong></span></h2><div></div></div></td>
   </tr>
 </tbody>
 </table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="c8b34392-2468-4e31-8568-037a330507b2" data-mc-module-version="2019-10-22">
@@ -179,7 +179,7 @@ img.max-width {
         <table border="0" cellpadding="0" cellspacing="0" class="wrapper-mobile" style="text-align:center;">
           <tbody>
             <tr>
-            <td align="center" bgcolor="white" class="inner-td" style="border-radius:6px; font-size:16px; text-align:left; background-color:inherit;"><a href="${clickLink}" style="border:4px solid #EE2A36; border-color:#EE2A36; border-radius:4px; border-width:4px; color:#EE2A36; display:inline-block; font-size:16px; font-weight:normal; letter-spacing:1px; line-height:normal; padding:12px 18px 12px 18px; text-align:center; text-decoration:none; border-style:solid; background-color:white; font-family:helvetica,sans-serif;" target="_blank">${clickDisplayName}</a></td>
+            <td align="center" bgcolor="#EE2A36" class="inner-td" style="border-radius:6px; font-size:16px; text-align:left; background-color:inherit;"><a href="${clickLink}" style="border:4px solid EE2A36; border-color:EE2A36; border-radius:4px; border-width:4px; color:#ffffff; display:inline-block; font-size:16px; font-weight:normal; letter-spacing:1px; line-height:normal; padding:12px 18px 12px 18px; text-align:center; text-decoration:none; border-style:solid; background-color:#EE2A36; font-family:helvetica,sans-serif;" target="_blank">${clickDisplayName}</a></td>
             </tr>
           </tbody>
         </table>
