@@ -1,6 +1,7 @@
 const passport = require('passport');
 const ROUTES = require('../backend-route-constants');
 const LocalStrategy = require('passport-local').Strategy;
+const uuidv4 = require('uuid/v4');
 
 const userDataAccess = require('../data-access/userDataAccess');
 
@@ -141,11 +142,16 @@ passport.use(
       const trimmedEmail = email.trim();
       const existingUser = await userDataAccess.checkIfUserAlreadyExist(trimmedEmail, trimmedEmail);
       if (existingUser) {
-        return done(new Error('a user with the same email already exists'), null);
+        return done(
+          new Error(
+            'A user with the same email already exists, if you forgot your password click on reset credentials'
+          ),
+          null
+        );
       }
 
       const userDetails = {
-        userId: email,
+        userId: uuidv4(),
         email: { emailAddress: email },
         password: password,
         displayName: req.body.displayName,

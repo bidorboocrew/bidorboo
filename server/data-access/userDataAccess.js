@@ -150,7 +150,7 @@ exports.findOneByEmailId = (loginEmailAddress, lean = true) =>
     .exec();
 
 exports.checkIfUserAlreadyExist = (userId, registrationEmail, lean = true) =>
-  User.findOne({ $or: [{ userId: userId }, { 'email.emailAddress': registrationEmail }] })
+  User.findOne({ 'email.emailAddress': registrationEmail })
     .lean(lean)
     .exec();
 

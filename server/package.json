@@ -70,6 +70,7 @@
     "response-time": "^2.3.2",
     "stripe": "^7.9.1",
     "twilio": "^3.35.0",
+    "uuid": "^3.4.0",
     "validate-phone-number-node-js": "^0.0.1",
     "web-push": "^3.3.5"
   },
