@@ -89,7 +89,10 @@ class TaskerRootPage extends React.Component {
     const { isLoggedIn, userDetails, searchRequestsToBidOn } = this.props;
 
     if (isLoggedIn) {
+      // window.localStorage && window.localStorage.removeItem('bob_prevTaskFilters');
+
       const userLastStoredSearchParams = userDetails && userDetails.lastSearch;
+
       if (
         userLastStoredSearchParams &&
         userLastStoredSearchParams.location &&
@@ -110,6 +113,10 @@ class TaskerRootPage extends React.Component {
                 addressText,
                 tasksTypeFilter,
               },
+              mapCenterPoint: {
+                lng: coordinates[0],
+                lat: coordinates[1],
+              },
               activeSearchParams: {
                 searchRadius,
                 latLng: { lng: coordinates[0], lat: coordinates[1] },
@@ -128,13 +135,66 @@ class TaskerRootPage extends React.Component {
           },
         );
       }
+    } else {
+      if (window.localStorage) {
+        if (!!window.localStorage.getItem('bob_prevTaskFilters')) {
+          try {
+            const previouslyActiveSearchParams = JSON.parse(
+              window.localStorage.getItem('bob_prevTaskFilters'),
+            );
+
+            if (
+              previouslyActiveSearchParams &&
+              previouslyActiveSearchParams.latLng &&
+              previouslyActiveSearchParams.addressText &&
+              previouslyActiveSearchParams.searchRadius &&
+              previouslyActiveSearchParams.latLng.lng &&
+              previouslyActiveSearchParams.latLng.lat
+            ) {
+              if (
+                !previouslyActiveSearchParams.tasksTypeFilter ||
+                !previouslyActiveSearchParams.tasksTypeFilter.length ||
+                !previouslyActiveSearchParams.tasksTypeFilter.length > 1
+              ) {
+                previouslyActiveSearchParams.tasksTypeFilter = [
+                  'bdbHouseCleaning',
+                  'bdbPetSittingWalking',
+                ];
+              }
+
+              this.setState(
+                () => ({
+                  isThereAnActiveSearch: true,
+                  activeSearchParams: { ...previouslyActiveSearchParams },
+                  mapCenterPoint: {
+                    lng: previouslyActiveSearchParams.latLng.lng,
+                    lat: previouslyActiveSearchParams.latLng.lat,
+                  },
+                }),
+                () => {
+                  searchRequestsToBidOn({
+                    searchRadius: previouslyActiveSearchParams.searchRadius,
+                    location: {
+                      lng: previouslyActiveSearchParams.latLng.lng,
+                      lat: previouslyActiveSearchParams.latLng.lat,
+                    },
+                    addressText: previouslyActiveSearchParams.addressText,
+                    tasksTypeFilter: previouslyActiveSearchParams.tasksTypeFilter,
+                  });
+                },
+              );
+            }
+          } catch (e) {
+            console.log(e);
+          }
+        }
+      }
     }
   }
 
   submitSearchLocationParams = ({ addressText, latLng, searchRadius, tasksTypeFilter }) => {
     const { searchRequestsToBidOn } = this.props;
 
-    // do some validation xxxxx latLng
     this.setState(
       () => ({
         isThereAnActiveSearch: true,
@@ -301,7 +361,9 @@ class TaskerRootPage extends React.Component {
                           <div className="has-text-centered">
                             <div className="is-size-6">Search for tasks in areas near you</div>
                             <div className="is-size-6">Help us spread BidOrBoo in your area</div>
-                            <ShareButtons shareUrl={'/'}></ShareButtons>
+                            <div style={{ margin: 6 }}>
+                              <ShareButtons shareUrl={'/'}></ShareButtons>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -320,14 +382,14 @@ class TaskerRootPage extends React.Component {
                             <div className="is-size-6">
                               No Tasks available around this area at this time.
                             </div>
-
                             <div className="help">
                               Try Changing Your Search Criteria or search a different area
                             </div>
                             <br />
-
                             <div className="is-size-6">Help us spread BidOrBoo in your area</div>
-                            <ShareButtons shareUrl={'/'}></ShareButtons>
+                            <div style={{ margin: 6 }}>
+                              <ShareButtons shareUrl={'/'}></ShareButtons>
+                            </div>
                           </div>
                         </div>
                       </div>

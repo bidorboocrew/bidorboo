@@ -2,7 +2,6 @@ import appHistory from './react-router-history';
 import * as A from './app-state/actionTypes';
 
 export const switchRoute = (routeAndParams, stateContent = null) => {
-  debugger
   setTimeout(() => {
     //
     if (stateContent) {

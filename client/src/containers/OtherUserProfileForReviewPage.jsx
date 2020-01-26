@@ -131,7 +131,7 @@ class OtherUserProfileForReviewPage extends React.Component {
             <>
               <div style={{ margin: '1rem 0.5rem 1rem 0.5rem', height: 52 }}>
                 <div className="is-pulled-left">
-                  <RenderBackButton></RenderBackButton>
+                  <RenderBackButton />
                 </div>
 
                 {nextAction && nextAction.text && nextAction.clickHandler && (

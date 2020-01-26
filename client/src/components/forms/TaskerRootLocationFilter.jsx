@@ -158,8 +158,11 @@ class TaskerRootLocationFilter extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { activeSearchParams, submitSearchLocationParams } = this.props;
-
+    const { activeSearchParams, submitSearchLocationParams, isLoggedIn } = this.props;
+    if (!isLoggedIn) {
+      window.localStorage &&
+        window.localStorage.setItem('bob_prevTaskFilters', JSON.stringify(activeSearchParams));
+    }
     submitSearchLocationParams({
       ...activeSearchParams,
     });
@@ -180,7 +183,7 @@ class TaskerRootLocationFilter extends React.Component {
           <div className="content has-text-left">
             <div className="group">
               <label style={{ fontWeight: 400 }} className="label">
-               Street Address
+                Street Address
               </label>
               <GeoSearch
                 value={addressText}
@@ -188,7 +191,7 @@ class TaskerRootLocationFilter extends React.Component {
                 onSelect={this.handleSelect}
                 handleSelect={this.handleSelect}
                 onError={this.errorHandling}
-                placeholder="Entering an adddress, e.g 123 Bank st"
+                placeholder="Enter an address, e.g 123 Bank st"
                 forceSetAddressValue={addressText}
                 id="filter-tasker-request"
               />
