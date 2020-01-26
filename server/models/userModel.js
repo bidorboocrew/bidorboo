@@ -307,7 +307,14 @@ UserSchema.pre('save', async function(next) {
 
 UserSchema.virtual('canPost').get(function() {
   // return this.phone && this.phone.isVerified &&
-  return !!(this.phone && this.phone.isVerified && this.email && this.email.isVerified);
+  return !!(
+    this.phone &&
+    this.phone.isVerified &&
+    this.email &&
+    this.email.isVerified &&
+    this.tos_acceptance &&
+    this.tos_acceptance.Agreed
+  );
 });
 
 UserSchema.virtual('canBid').get(function() {
@@ -318,6 +325,8 @@ UserSchema.virtual('canBid').get(function() {
     this.phone.isVerified &&
     this.email &&
     this.email.isVerified &&
+    this.tos_acceptance &&
+    this.tos_acceptance.Agreed &&
     this.stripeConnect &&
     this.stripeConnect.chargesEnabled &&
     this.stripeConnect.capabilities &&

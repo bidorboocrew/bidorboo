@@ -20,8 +20,7 @@ exports.EmailService = {
         toDisplayName,
         contentHtml: `
         <p>Your BidOrBoo email verification code is:</p>
-        <br>
-        <p>${emailVerificationCode}</p>
+        <p><strong>${emailVerificationCode}</strong></p>
         `,
         clickDisplayName: 'Verify Email',
       }),
@@ -43,7 +42,7 @@ exports.EmailService = {
         contentHtml: `
         <p>Exciting news! Your ${taskName} request has received a new bid.</p>
         <br>
-        <p>Check the bids and award a Tasker</p>`,
+        <p>Check out the bids and then select one to award and assign this request to a Tasker</p>`,
         clickLink,
         clickDisplayName: 'View Bid',
       }),
@@ -79,12 +78,18 @@ exports.EmailService = {
         <p>Get in touch with the requester to agree on exact location and time details.</p>
         <br>
         <div>
-        Email address: <a href="mailto:${ownerEmailAddress}?subject=BidOrBoo - Iam the tasker for ${requestTitle}">${ownerEmailAddress}</a>
+        Email address:
+        </div>
+        <div>
+        <strong><a href="mailto:${ownerEmailAddress}?subject=BidOrBoo - Iam the tasker for ${requestTitle}">${ownerEmailAddress}</a></strong>
         </div>
         <br>
         <div>
-        Phone number: <a href="tel:${ownerPhoneNumber}">${ownerPhoneNumber}</a>
-        </div>`,
+        Phone number:
+        </div>
+        <div><strong><a href="tel:${ownerPhoneNumber}">${ownerPhoneNumber}</a></strong></div>
+        `,
+
         clickLink: `${linkForTasker}`,
         clickDisplayName: 'View Request',
       }),
@@ -146,11 +151,16 @@ exports.EmailService = {
         <p>Get in touch with the requester to agree on exact location and time details.</p>
         <br>
         <div>
-        Email address: <a href="mailto:${taskerEmailAddress}?subject=BidOrBoo - Iam expecting you soon for ${requestTitle}">${taskerEmailAddress}</a>
+        Email address:
         </div>
+        <div><strong><a href="mailto:${taskerEmailAddress}?subject=BidOrBoo - Iam expecting you soon for ${requestTitle}">${taskerEmailAddress}</a></strong></div>
+        <br>
         <div>
-        Phone number: <a href="tel:${taskerPhoneNumber}">${taskerPhoneNumber}</a>
-        </div>`,
+        Phone number:
+        </div>
+        <div><strong><a href="tel:${taskerPhoneNumber}">${taskerPhoneNumber}</a></strong></div>
+        `,
+
         clickLink: `${linkForOwner}`,
         clickDisplayName: 'View Request',
       }),

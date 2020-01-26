@@ -169,7 +169,7 @@ img.max-width {
 </table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="c8b34392-2468-4e31-8568-037a330507b2" data-mc-module-version="2019-10-22">
 <tbody>
   <tr>
-    <td style="padding:18px 0px 18px 0px; line-height:21px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: left"><span style="color: #353535; font-size: 16px">${contentHtml}</span></div><div></div></div></td>
+    <td style="padding:18px 0px 18px 0px; line-height:21px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: left;color: #353535">${contentHtml}</div><div></div></div></td>
   </tr>
 </tbody>
 </table><table border="0" cellpadding="0" cellspacing="0" class="module" data-role="module-button" data-type="button" role="module" style="table-layout:fixed;" width="100%" data-muid="2ca2ae39-1659-4456-8289-d729ad096bf4">

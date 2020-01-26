@@ -6,53 +6,43 @@ const CLIENT_URL_BASE =
   process.env.NODE_ENV === 'production' ? 'https://www.bidorboo.ca/' : 'localhost:3000/';
 module.exports = (app) => {
   //google routes
-  app.get(ROUTES.API.AUTH.GOOGLE, (req, res, next) => {
-    let sourcePage = `${req.query.originPath || '/'}`;
-    return passport.authenticate('google', {
+  app.get(
+    ROUTES.API.AUTH.GOOGLE,
+    passport.authenticate('google', {
       scope: ['profile', 'email'],
-      state: JSON.stringify({ sourcePage: sourcePage }),
-    })(req, res, next);
-  });
+    })
+  );
 
-  app.get(ROUTES.API.AUTH.GOOGLE_CALLBACK, (req, res, next) => {
-    let sourcePage = '/';
-    if (req.query.state) {
-      const getRedirectPathFromState = JSON.parse(req.query.state);
-      if (getRedirectPathFromState.sourcePage) {
-        sourcePage = getRedirectPathFromState.sourcePage;
-      }
-    }
-
-    return passport.authenticate('google', {
-      successReturnToOrRedirect: sourcePage,
-      failureRedirect: '/errorRoute',
+  app.get(
+    ROUTES.API.AUTH.GOOGLE_CALLBACK,
+    passport.authenticate('google', {
+      successReturnToOrRedirect: '/',
+      failureRedirect: '/?loginSuccess=false',
       failureFlash: true,
-    })(req, res, next);
-  });
+    }),
+    (req, res) => {
+      res.redirect('/?loginSuccess=true');
+    }
+  );
 
   // Facebook routes
-  app.get(ROUTES.API.AUTH.FACEBOOK, (req, res, next) => {
-    let sourcePage = `${req.query.originPath || '/'}`;
-    return passport.authenticate('facebook', {
+  app.get(
+    ROUTES.API.AUTH.FACEBOOK,
+    passport.authenticate('facebook', {
       scope: ['email'],
-      state: JSON.stringify({ sourcePage: sourcePage }),
-    })(req, res, next);
-  });
-  app.get(ROUTES.API.AUTH.FACEBOOK_CALLBACK, (req, res, next) => {
-    let sourcePage = '/';
-    if (req.query.state) {
-      const getRedirectPathFromState = JSON.parse(req.query.state);
-      if (getRedirectPathFromState.sourcePage) {
-        sourcePage = getRedirectPathFromState.sourcePage;
-      }
-    }
-
-    return passport.authenticate('facebook', {
-      successReturnToOrRedirect: sourcePage,
-      failureRedirect: '/errorRoute',
+    })
+  );
+  app.get(
+    ROUTES.API.AUTH.FACEBOOK_CALLBACK,
+    passport.authenticate('facebook', {
+      successReturnToOrRedirect: '/',
+      failureRedirect: '/?loginSuccess=false',
       failureFlash: true,
-    })(req, res, next);
-  });
+    }),
+    (req, res) => {
+      res.redirect('/?loginSuccess=true');
+    }
+  );
 
   app.get(ROUTES.API.AUTH.LOGOUT, (req, res, next) => {
     req.logout(() => (req.session = null));
@@ -93,7 +83,7 @@ module.exports = (app) => {
       })(req, res, next);
     },
     (req, res, next) => {
-      const redirectUrl = req.body.originPath ? req.body.originPath : '/';
+      const redirectUrl = '/';
 
       return res.send({ user: req.user, redirectUrl });
     }
@@ -127,7 +117,7 @@ module.exports = (app) => {
       })(req, res, next);
     },
     async (req, res, done) => {
-      const redirectUrl = req.body.originPath ? req.body.originPath : '/';
+      const redirectUrl = '/';
       return res.send({ user: req.user, redirectUrl });
     }
   );

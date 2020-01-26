@@ -145,7 +145,7 @@ exports.findOneByUserId = (userId, lean = true) =>
     .exec();
 
 exports.findOneByEmailId = (loginEmailAddress, lean = true) =>
-  User.findOne({ userId: loginEmailAddress })
+  User.findOne({ 'email.emailAddress': loginEmailAddress })
     .lean(lean)
     .exec();
 
