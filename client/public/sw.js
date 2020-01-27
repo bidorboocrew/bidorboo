@@ -17,6 +17,7 @@ var urlsToCache = [
   '/favicon-16x16.png',
   '/mstile-310x150.png',
   '/android-chrome-192x192-mono.png',
+  '/safari-pinned-tab.svg',
 ];
 
 // https://developers.google.com/web/fundamentals/primers/service-workers/
@@ -117,8 +118,9 @@ self.addEventListener('push', (event) => {
 
   var options = {
     body: data.body,
-    badge: 'android-chrome-192x192-mono.png',
-    image: 'mstile-310x310.png',
+    badge: '/safari-pinned-tab.svg',
+    image: '/android-chrome-192x192.png',
+    icon: '/android-chrome-512x512.png',
     data: data.urlToLaunch || 'https://www.bidorboo.ca',
     actions: [{ action: 'viewUpdate', title: 'View Update' }],
   };

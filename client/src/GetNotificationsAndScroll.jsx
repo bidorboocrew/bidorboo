@@ -19,7 +19,7 @@ import { Spinner } from './components/Spinner';
 import { Header } from './containers/index';
 
 const loggedOutRoutes = [
-  '/',
+  '/BidOrBoo',
   '/terms-of-service',
   '/reset-password',
   '/user-profile',
