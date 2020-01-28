@@ -292,7 +292,7 @@ class TaskerRootPage extends React.Component {
                   </div>
                 )}
 
-                {isThereAnActiveSearch && (
+                {isThereAnActiveSearch && anyVisibleRequests && (
                   <div className="has-text-left">
                     <div
                       style={{ marginBottom: '0.75rem', textAlign: 'left', marginTop: '0.75rem' }}
