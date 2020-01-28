@@ -33,7 +33,7 @@ class RequesterArchiveDetails extends RequestBaseContainer {
     const { selectedArchivedRequest } = this.props;
 
     if (!selectedArchivedRequest || !selectedArchivedRequest._id) {
-      return <Spinner renderLabel={'Getting request details'} isLoading={true} size={'large'} />;
+      return <Spinner renderLabel={'Getting request details'} isLoading size={'large'} />;
     }
 
     const {

@@ -317,7 +317,7 @@ class TaskerRootPage extends React.Component {
 
           {isLoading && (
             <section className="section">
-              <Spinner renderLabel="getting requests..." isLoading={isLoading} size={'large'} />
+              <Spinner renderLabel="getting requests..." isLoading size={'large'} />
             </section>
           )}
           {!isLoading && (

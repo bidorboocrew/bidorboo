@@ -58,7 +58,7 @@ class OtherUserProfileForReviewPage extends React.Component {
     if (isLoadingAnotherUserProfile || !otherUserProfileInfo._id) {
       return (
         <div className="container is-widescreen">
-          <Spinner isLoading={isLoadingAnotherUserProfile} size={'large'} />;
+          <Spinner isLoading size={'large'} />;
         </div>
       );
     }

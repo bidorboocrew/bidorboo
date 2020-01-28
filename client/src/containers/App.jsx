@@ -186,7 +186,7 @@ class App extends React.Component {
         />
         <Header id="bidorboo-header" />
         <div id="RoutesWrapper" className="has-navbar-fixed-top">
-          <Suspense fallback={<Spinner renderLabel="loading..."></Spinner>}>
+          <Suspense fallback={<Spinner isLoading renderLabel="loading..."></Spinner>}>
             <Switch>
               <Route exact path={ROUTES.CLIENT.HOME} component={HomePage} />
               <Route exact path={ROUTES.CLIENT.REQUESTER.root} component={RequesterRootPage} />
@@ -292,7 +292,7 @@ class App extends React.Component {
             <div className="level-item has-text-centered">
               <div>
                 <div style={{ marginBottom: '0.5rem' }}>
-                  <Suspense fallback={<Spinner renderLabel="loading..."></Spinner>}>
+                  <Suspense fallback={<Spinner isLoadingrenderLabel="loading..."></Spinner>}>
                     <FreshdeskChat isFooter />
                   </Suspense>
                 </div>

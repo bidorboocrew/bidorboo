@@ -30,7 +30,7 @@ class MyRequestsPage extends React.Component {
     const { selectedTab } = this.state;
 
     if (isLoading) {
-      return <Spinner renderLabel={'Getting your requests'} isLoading={isLoading} size={'large'} />;
+      return <Spinner renderLabel={'Getting your requests'} isLoading size={'large'} />;
     }
 
     const areThereAnyRequestsToView = myRequestsSummary && myRequestsSummary.length > 0;

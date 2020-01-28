@@ -60,7 +60,7 @@ class ReviewOpenBidAndRequestPage extends React.Component {
     ) {
       return (
         <div className="container is-widescreen">
-          <Spinner renderLabel="getting your bid details" isLoading={true} size={'large'} />
+          <Spinner renderLabel="getting your bid details" isLoading size={'large'} />
         </div>
       );
     }

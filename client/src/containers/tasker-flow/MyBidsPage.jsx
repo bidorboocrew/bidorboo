@@ -126,7 +126,7 @@ class MyBidsPage extends React.Component {
           </ul>
         </div>
         {isLoading && (
-          <Spinner renderLabel="getting your bids..." isLoading={isLoading} size={'large'} />
+          <Spinner renderLabel="getting your bids..." isLoading size={'large'} />
         )}
         {!isLoading &&
           areThereAnyBidsToView &&

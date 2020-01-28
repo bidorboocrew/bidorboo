@@ -31,50 +31,54 @@ const FacebookPassportConfig = {
   proxy: true,
   enableProof: true,
   profileFields: ['id', 'displayName', 'name', 'picture.type(large)', 'emails'],
+  passReqToCallback: true,
 };
 //facebook Auth
 passport.use(
-  new FacebookStrategy(FacebookPassportConfig, async (accessToken, refreshToken, profile, done) => {
-    try {
-      const existingUser = await userDataAccess.findOneByUserId(profile.id);
-      if (existingUser) {
-        return done(null, existingUser);
-      }
-
-      const userEmail = profile.emails ? profile.emails[0].value : '';
-      if (userEmail) {
-        const anotherUserExistsWithSameEmail = await userDataAccess.checkIfUserEmailAlreadyExist(
-          userEmail
-        );
-        if (anotherUserExistsWithSameEmail) {
-          return done(
-            new Error(
-              'a user with the same email already exists, if you need help chat with us. a chat button is located in the footer of this page'
-            ),
-            null
-          );
+  new FacebookStrategy(
+    FacebookPassportConfig,
+    async (req, accessToken, refreshToken, profile, done) => {
+      try {
+        const existingUser = await userDataAccess.findOneByUserId(profile.id);
+        if (existingUser) {
+          return done(null, existingUser);
         }
+
+        const userEmail = profile.emails ? profile.emails[0].value : '';
+        if (userEmail) {
+          const anotherUserExistsWithSameEmail = await userDataAccess.checkIfUserEmailAlreadyExist(
+            userEmail
+          );
+          if (anotherUserExistsWithSameEmail) {
+            return done(
+              new Error(
+                'a user with the same email already exists, if you need help chat with us. a chat button is located in the footer of this page'
+              ),
+              null
+            );
+          }
+        }
+
+        const userDetails = {
+          isFbUser: true,
+          displayName: profile.displayName,
+          userId: profile.id,
+          email: { emailAddress: userEmail, isVerified: true },
+          profileImage: {
+            url: profile.photos
+              ? profile.photos[0].value
+              : 'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1565728175/android-chrome-512x512.png',
+          },
+        };
+
+        const user = await userDataAccess.createNewUser(userDetails);
+
+        return done(null, user);
+      } catch (e) {
+        return done(e, null);
       }
-
-      const userDetails = {
-        isFbUser: true,
-        displayName: profile.displayName,
-        userId: profile.id,
-        email: { emailAddress: userEmail, isVerified: true },
-        profileImage: {
-          url: profile.photos
-            ? profile.photos[0].value
-            : 'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1565728175/android-chrome-512x512.png',
-        },
-      };
-
-      const user = await userDataAccess.createNewUser(userDetails);
-
-      return done(null, user);
-    } catch (e) {
-      return done(e, null);
     }
-  })
+  )
 );
 
 // google Auth
@@ -83,47 +87,51 @@ const GooglePassportConfig = {
   clientSecret: keys.googleClientSecret,
   callbackURL: ROUTES.API.AUTH.GOOGLE_CALLBACK,
   proxy: true,
+  passReqToCallback: true,
 };
 passport.use(
-  new GoogleStrategy(GooglePassportConfig, async (accessToken, refreshToken, profile, done) => {
-    try {
-      const existingUser = await userDataAccess.findOneByUserId(profile.id);
-      if (existingUser) {
-        return done(null, existingUser);
-      }
-      const userEmail = profile.emails ? profile.emails[0].value : '';
-      if (userEmail) {
-        const anotherUserExistsWithSameEmail = await userDataAccess.checkIfUserEmailAlreadyExist(
-          userEmail
-        );
-        if (anotherUserExistsWithSameEmail) {
-          return done(
-            new Error(
-              'a user with the same email already exists, if you need help chat with us. a chat button is located in the footer of this page'
-            ),
-            null
-          );
+  new GoogleStrategy(
+    GooglePassportConfig,
+    async (req, accessToken, refreshToken, profile, done) => {
+      try {
+        const existingUser = await userDataAccess.findOneByUserId(profile.id);
+        if (existingUser) {
+          return done(null, existingUser);
         }
+        const userEmail = profile.emails ? profile.emails[0].value : '';
+        if (userEmail) {
+          const anotherUserExistsWithSameEmail = await userDataAccess.checkIfUserEmailAlreadyExist(
+            userEmail
+          );
+          if (anotherUserExistsWithSameEmail) {
+            return done(
+              new Error(
+                'a user with the same email already exists, if you need help chat with us. a chat button is located in the footer of this page'
+              ),
+              null
+            );
+          }
+        }
+        const userDetails = {
+          isGmailUser: true,
+          displayName: profile.displayName,
+          userId: profile.id,
+          email: { emailAddress: userEmail, isVerified: true },
+          profileImage: {
+            url: profile.photos
+              ? profile.photos[0].value
+              : 'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1565728175/android-chrome-512x512.png',
+          },
+        };
+
+        const user = await userDataAccess.createNewUser(userDetails);
+
+        return done(null, user);
+      } catch (e) {
+        return done(e, null);
       }
-      const userDetails = {
-        isGmailUser: true,
-        displayName: profile.displayName,
-        userId: profile.id,
-        email: { emailAddress: userEmail, isVerified: true },
-        profileImage: {
-          url: profile.photos
-            ? profile.photos[0].value
-            : 'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1565728175/android-chrome-512x512.png',
-        },
-      };
-
-      const user = await userDataAccess.createNewUser(userDetails);
-
-      return done(null, user);
-    } catch (e) {
-      return done(e, null);
     }
-  })
+  )
 );
 
 const LocalStrategyConfig = {

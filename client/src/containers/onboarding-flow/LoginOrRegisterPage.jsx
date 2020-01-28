@@ -38,12 +38,32 @@ export class LoginOrRegisterPage extends React.Component {
   //   }
   // }
 
+  loginGoogle = () => {
+    const googleAuthPath = ROUTES.API.AUTH.GOOGLE;
+
+    const fakeAElem = document.createElement('a');
+    fakeAElem.href = googleAuthPath;
+    fakeAElem.rel = 'noopener noreferrer';
+
+    document.body.appendChild(fakeAElem);
+    fakeAElem.click();
+    fakeAElem.remove();
+  };
+
+  loginFacebook = () => {
+    const facebookAuthPath = ROUTES.API.AUTH.FACEBOOK;
+
+    const fakeAElem = document.createElement('a');
+    fakeAElem.href = facebookAuthPath;
+    fakeAElem.rel = 'noopener noreferrer';
+
+    document.body.appendChild(fakeAElem);
+    fakeAElem.click();
+    fakeAElem.remove();
+  };
   render() {
     const { registerNewUser, bidOrBooLogin, isLoggedIn: storeIsLoggedIn } = this.props;
     const { showRegistrationForm, redirectedFromUrl, isLoggedIn } = this.state;
-
-    const googleAuthPath = `${ROUTES.API.AUTH.GOOGLE}/?originPath=${redirectedFromUrl}`;
-    const facebookAuthPath = `${ROUTES.API.AUTH.FACEBOOK}/?originPath=${redirectedFromUrl}`;
 
     if (isLoggedIn || storeIsLoggedIn) {
       // your logged in, why are you here?
@@ -95,9 +115,8 @@ export class LoginOrRegisterPage extends React.Component {
                           </ul>
                         </div>
                         <a
-                          rel="noopener noreferrer"
                           className="button is-danger is-inline-flex"
-                          href={googleAuthPath}
+                          onClick={this.loginGoogle}
                           style={{ borderRadius: 0, margin: 8, width: 160 }}
                         >
                           <span className="icon">
@@ -107,8 +126,7 @@ export class LoginOrRegisterPage extends React.Component {
                         </a>
 
                         <a
-                          rel="noopener noreferrer"
-                          href={facebookAuthPath}
+                          onClick={this.loginFacebook}
                           className="button is-link is-inline-flex"
                           style={{ borderRadius: 0, margin: 8, width: 160 }}
                         >
@@ -148,9 +166,8 @@ export class LoginOrRegisterPage extends React.Component {
                           </ul>
                         </div>
                         <a
-                          rel="noopener noreferrer"
                           className="button is-danger is-inline-flex"
-                          href={googleAuthPath}
+                          onClick={this.loginGoogle}
                           style={{ borderRadius: 0, margin: 8, width: 160 }}
                         >
                           <span className="icon">
@@ -160,8 +177,7 @@ export class LoginOrRegisterPage extends React.Component {
                         </a>
 
                         <a
-                          rel="noopener noreferrer"
-                          href={facebookAuthPath}
+                          onClick={this.loginFacebook}
                           className="button is-link is-inline-flex"
                           style={{ borderRadius: 0, margin: 8, width: 160 }}
                         >
@@ -197,7 +213,7 @@ export class LoginOrRegisterPage extends React.Component {
     );
   }
 }
-const mapStateToProps = ({ userReducer, uiReducer }) => {
+const mapStateToProps = ({ userReducer }) => {
   return {
     isLoggedIn: userReducer.isLoggedIn,
   };

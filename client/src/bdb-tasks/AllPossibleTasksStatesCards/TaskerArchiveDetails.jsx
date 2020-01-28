@@ -30,7 +30,7 @@ class TaskerArchiveDetails extends RequestBaseContainer {
   render() {
     const { selectedArchivedBid } = this.props;
     if (!selectedArchivedBid || !selectedArchivedBid._id) {
-      return <Spinner renderLabel={'Getting request details'} isLoading={true} size={'large'} />;
+      return <Spinner renderLabel={'Getting request details'} isLoading size={'large'} />;
     }
 
     const {

@@ -3,7 +3,7 @@ import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getCurrentUserNotifications, getCurrentUser } from './app-state/actions/authActions';
+import { getCurrentUser } from './app-state/actions/authActions';
 import { registerServiceWorker } from './registerServiceWorker';
 import { registerPushNotification } from './registerPushNotification';
 
@@ -29,7 +29,7 @@ const loggedOutRoutes = [
   '/bdb-bidder/bid-on-request',
 ];
 
-class GetNotificationsAndScroll extends React.Component {
+class GetNotificationsAndScroll extends React.PureComponent {
   constructor(props) {
     super(props);
     this.lastFetch = moment();
@@ -56,7 +56,9 @@ class GetNotificationsAndScroll extends React.Component {
       authIsInProgress,
       userDetails,
     } = this.props;
-
+    if (authIsInProgress || location.pathname === prevProps.location.pathname) {
+      return;
+    }
     if (
       prevProps.authIsInProgress &&
       !authIsInProgress &&
@@ -75,28 +77,10 @@ class GetNotificationsAndScroll extends React.Component {
 
     const currentUrlPathname = window.location.pathname;
 
-    if (currentUrlPathname.indexOf('termsAndPrivacy') > -1) {
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-      }, 0);
-      return;
-    }
-
-    if (location.pathname !== prevProps.location.pathname) {
-      if (isLoggedIn !== prevProps.isLoggedIn && !isLoggedIn) {
-        getCurrentUser();
-      }
+    if (location.pathname !== prevProps.location.pathname && !authIsInProgress) {
+      getCurrentUser();
 
       if (isLoggedIn) {
-        if (
-          currentUrlPathname.indexOf('terms-of-service') > -1 ||
-          currentUrlPathname.indexOf('login-and-registration') > -1
-        ) {
-          // do not fetch notifications on these pages above
-        } else {
-          this.props.getCurrentUserNotifications();
-        }
-
         if (currentUrlPathname.indexOf('bdb-request') > -1) {
           setServerAppRequesterView();
         } else if (currentUrlPathname.indexOf('bdb-bidder') > -1) {
@@ -111,27 +95,7 @@ class GetNotificationsAndScroll extends React.Component {
   }
 
   componentDidMount() {
-    const {
-      getCurrentUser,
-      setAppViewUIToTasker,
-      setAppViewUIToRequester,
-      isLoggedIn,
-      userDetails,
-    } = this.props;
-
-    if (isLoggedIn) {
-      if (userDetails.appView === 'REQUESTER') {
-        setAppViewUIToRequester();
-      } else if (userDetails.appView === 'TASKER') {
-        setAppViewUIToTasker();
-      }
-    } else {
-      getCurrentUser();
-    }
-
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 0);
+    this.props.getCurrentUser();
   }
 
   render() {
@@ -169,9 +133,9 @@ class GetNotificationsAndScroll extends React.Component {
       );
     }
 
-    if (authIsInProgress) {
-      return <Spinner renderLabel="securing your connection..." />;
-    }
+    // if (authIsInProgress) {
+    //   return <Spinner isLoading renderLabel="securing your connection..." />;
+    // }
 
     if (!isLoggedIn) {
       // if you are on one of our logged out experience roots , just show it
@@ -215,7 +179,7 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     dispatch,
-    getCurrentUserNotifications: bindActionCreators(getCurrentUserNotifications, dispatch),
+    // getCurrentUserNotifications: bindActionCreators(getCurrentUserNotifications, dispatch),
     getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
     setAppViewUIToTasker: bindActionCreators(setAppViewUIToTasker, dispatch),
     setAppViewUIToRequester: bindActionCreators(setAppViewUIToRequester, dispatch),

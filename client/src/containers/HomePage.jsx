@@ -97,7 +97,6 @@ export default class HomePage extends React.Component {
                       origin: 'https://www.bidorboo.ca',
                       widget_referrer: 'https://www.bidorboo.ca',
                     },
-                    preload: true,
                   }}
                 />
               </div>
@@ -106,14 +105,14 @@ export default class HomePage extends React.Component {
         </section>
         <br></br> <br></br> <br></br>
         <div className="columns is-mobile is-multiline is-centered">
-          <div style={{ maxWidth: '21rem', marginBottom: '1.5rem' }} className="column">
+          <div style={{ maxWidth: '21rem', margin: '1.5rem', padding: 0 }} className="column">
             <RequestAService
               onClickHandler={() => {
                 switchRoute(ROUTES.CLIENT.REQUESTER.root);
               }}
             />
           </div>
-          <div style={{ maxWidth: '21rem', marginBottom: '1.5rem' }} className="column">
+          <div style={{ maxWidth: '21rem', margin: '1.5rem', padding: 0 }} className="column">
             <ProvideAService
               onClickHandler={() => {
                 switchRoute(ROUTES.CLIENT.TASKER.root);
@@ -163,7 +162,7 @@ const RequestAService = (props) => {
         cursor: 'pointer',
         boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
       }}
-      className="card cardWithButton"
+      className="card"
     >
       <div className="card-image">
         <figure className="image">
@@ -202,7 +201,7 @@ const ProvideAService = () => {
         cursor: 'pointer',
         boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
       }}
-      className="card cardWithButton"
+      className="card"
     >
       <div className="card-image">
         <figure className="image">

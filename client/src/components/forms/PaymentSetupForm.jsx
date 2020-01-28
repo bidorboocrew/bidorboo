@@ -166,7 +166,7 @@ const PaymentSetupForm = (props) => {
             <div className="container is-widescreen">
               <Spinner
                 renderLabel={'Setting up your Payout banking Account'}
-                isLoading={true}
+                isLoading
                 size={'large'}
                 isDark={false}
               />

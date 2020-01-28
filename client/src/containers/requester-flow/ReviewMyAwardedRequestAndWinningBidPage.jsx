@@ -61,7 +61,7 @@ class ReviewMyAwardedRequestAndWinningBidPage extends React.Component {
     if (!selectedAwardedRequest || !selectedAwardedRequest._id) {
       return (
         <div className="container is-widescreen">
-          <Spinner renderLabel={'Getting Your Request Details'} isLoading={true} size={'large'} />
+          <Spinner renderLabel={'Getting Your Request Details'} isLoading size={'large'} />
         </div>
       );
     }

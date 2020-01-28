@@ -29,7 +29,7 @@ class PaymentSettings extends React.Component {
     if (isLoadingStripeAccountDetails) {
       return (
         <div className="container is-widescreen">
-          <Spinner isLoading={isLoadingStripeAccountDetails} size={'large'} />
+          <Spinner isLoading size={'large'} />
         </div>
       );
     }
