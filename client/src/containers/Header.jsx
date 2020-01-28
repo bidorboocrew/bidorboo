@@ -223,7 +223,6 @@ class Header extends React.Component {
 
           <div style={{ flexGrow: 1 }} className="navbar-item">
             <a
-              id={'viewDependentNavBarItems'}
               className={`navbar-item ${
                 activeNavBarMenuId === HREF_TO_TABID.REQUEST_A_SERVICE ? 'is-active' : ''
               }`}
@@ -356,7 +355,6 @@ class Header extends React.Component {
             {onlyShowReqAndBidButtons && (
               <div className="navbar-item">
                 <a
-                  id={'viewDependentNavBarItems'}
                   className={`navbar-item ${
                     activeNavBarMenuId === HREF_TO_TABID.REQUEST_A_SERVICE ? 'is-active' : ''
                   }`}
@@ -424,7 +422,6 @@ class Header extends React.Component {
                 {!isActingAsTasker && (
                   <React.Fragment>
                     <a
-                      id={'viewDependentNavBarItems'}
                       className={`navbar-item ${
                         activeNavBarMenuId === HREF_TO_TABID.REQUEST_A_SERVICE ? 'is-active' : ''
                       }`}
@@ -441,7 +438,6 @@ class Header extends React.Component {
                     </a>
 
                     <a
-                      id={'viewDependentNavBarItems'}
                       className={`navbar-item ${
                         activeNavBarMenuId === HREF_TO_TABID.MY_REQUESTS ? 'is-active' : ''
                       }`}
@@ -587,7 +583,6 @@ class Header extends React.Component {
                   {!isActingAsTasker && (
                     <>
                       <a
-                        id={'viewDependentNavBarItems'}
                         className={`navbar-item ${
                           activeNavBarMenuId === HREF_TO_TABID.REQUEST_A_SERVICE ? 'is-active' : ''
                         }`}
@@ -603,7 +598,6 @@ class Header extends React.Component {
                         <span>REQUEST</span>
                       </a>
                       <a
-                        id={'viewDependentNavBarItems'}
                         className={`navbar-item ${
                           activeNavBarMenuId === HREF_TO_TABID.MY_REQUESTS ? 'is-active' : ''
                         }`}
@@ -699,7 +693,7 @@ class Header extends React.Component {
                   <div className="navbar-item has-dropdown">
                     <a onClick={this.toggleProfileMenu} className="navbar-link">
                       <span>
-                        <figure className="image is-32x32">
+                        <figure className="image is-32x32" alt="user profile">
                           <img
                             style={{
                               paddingRight: 4,
