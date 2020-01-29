@@ -19,13 +19,12 @@ module.exports = (app) => {
       failureFlash: true,
       failureMessage:
         'Something went wrong while authenticating , sorry contact bidorboo@bidorboo.ca',
-      failureRedirect: '/loginSuccess=false',
+      failureRedirect: '/?loginSuccess=false',
       failWithError: true,
-      session: true,
       successFlash: true,
       successMessage: 'Successful login',
-      successRedirect: '/loginSuccess=true',
-      successReturnToOrRedirect: '/loginSuccess=true',
+      successRedirect: '/?loginSuccess=true',
+      successReturnToOrRedirect: '/?loginSuccess=true',
       // state: string;
       passReqToCallback: true,
     })
@@ -44,13 +43,12 @@ module.exports = (app) => {
       failureFlash: true,
       failureMessage:
         'Something went wrong while authenticating , sorry contact bidorboo@bidorboo.ca',
-      failureRedirect: '/loginSuccess=false',
+      failureRedirect: '/?loginSuccess=false',
       failWithError: true,
-      session: true,
       successFlash: true,
       successMessage: 'Successful login',
-      successRedirect: '/loginSuccess=true',
-      successReturnToOrRedirect: '/loginSuccess=true',
+      successRedirect: '/?loginSuccess=true',
+      successReturnToOrRedirect: '/?loginSuccess=true',
       // state: string;
       passReqToCallback: true,
     })
