@@ -142,7 +142,7 @@ class GetNotificationsAndScroll extends React.Component {
 
       const currentPath = this.props.location.pathname;
       const isAllowedRoute = loggedOutRoutes.some((route) => currentPath.includes(route));
-      if (isAllowedRoute || currentPath === '/') {
+      if (isAllowedRoute || currentPath === '/' || /([\/?]).*/.test(currentPath)) {
         return this.props.children;
       }
 
