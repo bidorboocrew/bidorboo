@@ -29,7 +29,7 @@ const loggedOutRoutes = [
   '/bdb-bidder/bid-on-request',
 ];
 
-class GetNotificationsAndScroll extends React.Component {
+class GetNotificationsAndScroll extends React.PureComponent {
   constructor(props) {
     super(props);
     this.lastFetch = moment();
