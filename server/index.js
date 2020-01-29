@@ -142,12 +142,13 @@ if (process.env.NODE_ENV === 'production') {
   app.use(
     express.static('../client/build', {
       setHeaders: (res, path, stat) => {
-        console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-
-        console.log(path);
-        console.log('----------');
-        console.log(stat);
-        console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxEnd');
+        if (path.indexOf('build/static/js') > -1) {
+          res.setHeader('Cache-Control', 'public, max-age=31536000');
+        } else if (path.indexOf('build/static/css') > -1) {
+          res.setHeader('Cache-Control', 'public, max-age=31536000');
+        } else {
+          res.setHeader('Cache-Control', 'public, no-cache');
+        }
       },
     })
   );
