@@ -70,6 +70,9 @@ self.addEventListener('fetch', function(event) {
           // xxxx maybe we shouldn't cache all things check the impact here
           // Check if we received a valid response
           if (!response || response.status !== 200 || response.type !== 'basic') {
+            console.info('we didnt cached it -------------');
+            console.log({ response });
+            console.info('we cached it -------------end');
             return response;
           }
 
@@ -85,6 +88,9 @@ self.addEventListener('fetch', function(event) {
               case 'style':
               case 'font':
               case 'image': {
+                console.info('we cached it -------------');
+                console.info({ destinationReq });
+                console.info('we cached it -------------end');
                 caches.open(CACHE_NAME).then(function(cache) {
                   cache.put(event.request, responseToCache);
                 });
