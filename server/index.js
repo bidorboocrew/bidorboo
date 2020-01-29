@@ -56,6 +56,7 @@ require('./services/CronRepeatingJobs')(app);
 // error handling
 app.use((err, req, res, next) => {
   let userError = {};
+  userError.statusCode = 400;
 
   console.log('BIDORBOOLOGS - ERROR ======== error handler BEGIN==========');
   if (err.joi) {
@@ -109,9 +110,6 @@ app.use((err, req, res, next) => {
       break;
   }
 
-  if (!err.statusCode) {
-    userError.statusCode = 400;
-  } // If err has no specified error code, set error code to 'Internal Server Error (500)'
   if (err.message) {
     userError.safeMsg = err.safeMsg || err.message;
   }
