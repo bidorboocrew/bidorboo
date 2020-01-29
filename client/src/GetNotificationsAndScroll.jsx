@@ -154,7 +154,6 @@ class GetNotificationsAndScroll extends React.PureComponent {
       // you are trying to hit a logged in protected route
       return switchRoute(ROUTES.CLIENT.LOGIN_OR_REGISTER, {
         isLoggedIn,
-        redirectedFromUrl: this.props.location.pathname,
       });
     }
 

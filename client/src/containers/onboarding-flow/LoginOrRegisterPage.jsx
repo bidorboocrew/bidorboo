@@ -15,7 +15,6 @@ export class LoginOrRegisterPage extends React.Component {
     this.state = {
       showRegistrationForm: false,
       isLoggedIn: (props.location.state && props.location.state.isLoggedIn) || false,
-      redirectedFromUrl: (props.location.state && props.location.state.redirectedFromUrl) || '/',
     };
   }
 
@@ -63,12 +62,9 @@ export class LoginOrRegisterPage extends React.Component {
   };
   render() {
     const { registerNewUser, bidOrBooLogin, isLoggedIn: storeIsLoggedIn } = this.props;
-    const { showRegistrationForm, redirectedFromUrl, isLoggedIn } = this.state;
+    const { showRegistrationForm, isLoggedIn } = this.state;
 
-    if (isLoggedIn || storeIsLoggedIn) {
-      // your logged in, why are you here?
-      switchRoute(redirectedFromUrl);
-    }
+
 
     return (
       <div className="columns is-centered is-multiline slide-in-right">
@@ -146,7 +142,6 @@ export class LoginOrRegisterPage extends React.Component {
                         </div>
                         <div style={{ marginLeft: 24 }}>
                           <LocalLoginForm
-                            redirectedFromUrl={redirectedFromUrl}
                             onSubmit={(vals) => {
                               bidOrBooLogin(vals);
                             }}
@@ -197,7 +192,6 @@ export class LoginOrRegisterPage extends React.Component {
                         </div>
                         <div style={{ marginLeft: 24 }} className="has-text-left">
                           <RegistrationForm
-                            redirectedFromUrl={redirectedFromUrl}
                             onSubmit={registerNewUser}
                           />
                         </div>

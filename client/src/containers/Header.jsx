@@ -262,7 +262,6 @@ class Header extends React.Component {
                   e.preventDefault();
                   switchRoute(ROUTES.CLIENT.LOGIN_OR_REGISTER, {
                     isLoggedIn: false,
-                    redirectedFromUrl: window.location.pathname,
                   });
                 }}
               >
