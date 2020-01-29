@@ -88,16 +88,10 @@ export default class HomePage extends React.Component {
               <div className="player-wrapper fade-in">
                 <ReactPlayer
                   className="react-player"
-                  url="https://youtu.be/YHh9JbJAyf0"
+                  url="https://res.cloudinary.com/hr6bwgs1p/video/upload/v1580259035/BidOrBooIntro.mp4"
                   width="100%"
                   height="100%"
-                  youtubeConfig={{
-                    playerVars: {
-                      modestbranding: 1,
-                      origin: 'https://www.bidorboo.ca',
-                      widget_referrer: 'https://www.bidorboo.ca',
-                    },
-                  }}
+                  controls
                 />
               </div>
             </div>
