@@ -99,14 +99,14 @@ export default class HomePage extends React.Component {
         </section>
         <br></br> <br></br> <br></br>
         <div className="columns is-mobile is-multiline is-centered">
-          <div style={{ maxWidth: '21rem', padding: '1.5rem' }} className="column">
+          <div style={{ minWidth: '18rem', maxWidth: '21rem' }} className="column">
             <RequestAService
               onClickHandler={() => {
                 switchRoute(ROUTES.CLIENT.REQUESTER.root);
               }}
             />
           </div>
-          <div style={{ maxWidth: '21rem', padding: '1.5rem' }} className="column">
+          <div style={{ minWidth: '18rem', maxWidth: '21rem' }} className="column">
             <ProvideAService
               onClickHandler={() => {
                 switchRoute(ROUTES.CLIENT.TASKER.root);
