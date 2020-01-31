@@ -82,7 +82,7 @@ export default class HomePage extends React.Component {
             </div>
           </div>
         </section>
-        <section className="hero has-text-centered ">
+        {/* <section className="hero has-text-centered ">
           <div style={{ position: 'relative' }}>
             <div style={{ margin: 'auto', maxWidth: 800, padding: '0.5rem' }}>
               <div className="player-wrapper fade-in">
@@ -96,8 +96,30 @@ export default class HomePage extends React.Component {
               </div>
             </div>
           </div>
+        </section> */}
+        <section className="hero has-text-centered ">
+          <div style={{ position: 'relative' }}>
+            <div style={{ margin: 'auto', maxWidth: 800, padding: '0.5rem' }}>
+              <div className="player-wrapper fade-in">
+                <ReactPlayer
+                  className="react-player"
+                  url="https://youtu.be/YHh9JbJAyf0"
+                  width="100%"
+                  height="100%"
+                  youtubeConfig={{
+                    playerVars: {
+                      modestbranding: 1,
+                      origin: 'https://www.bidorboo.ca',
+                      widget_referrer: 'https://www.bidorboo.ca',
+                    },
+                    preload: true,
+                  }}
+                />
+              </div>
+            </div>
+          </div>
         </section>
-        <br></br> <br></br> <br></br>
+        <br></br>
         <div className="columns is-mobile is-multiline is-centered">
           <div style={{ minWidth: '18rem', maxWidth: '21rem' }} className="column">
             <RequestAService
