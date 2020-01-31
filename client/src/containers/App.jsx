@@ -55,6 +55,12 @@ const ReviewMyAwardedRequestAndWinningBidPage = lazy(() =>
   import('./requester-flow/ReviewMyAwardedRequestAndWinningBidPage.jsx'),
 );
 
+const pathsWhereWeDontShowPortalDetail = [
+  '/BidOrBoo',
+  '/terms-of-service',
+  '/reset-password',
+  '/my-profile',
+];
 const getCookieByName = (name) => {
   var value = '; ' + document.cookie;
   var parts = value.split('; ' + name + '=');
@@ -95,6 +101,14 @@ class App extends React.Component {
   }
 
   render() {
+    let dontShowPortalHelper =
+      window.location.pathname === '/' ||
+      /(\/\?).*/.test(window.location.pathname) ||
+      pathsWhereWeDontShowPortalDetail.some((path) => window.location.pathname.includes(path));
+    let styleToPut = { paddingTop: '2.5rem' };
+    if (dontShowPortalHelper) {
+      styleToPut = {};
+    }
     if (this.state.hasError) {
       // You can render any custom fallback UI
       return (
@@ -185,7 +199,7 @@ class App extends React.Component {
           }}
         />
         <Header id="bidorboo-header" />
-        <div id="RoutesWrapper" style={{ paddingTop: '2rem' }} className="has-navbar-fixed-top">
+        <div id="RoutesWrapper" style={{ ...styleToPut }} className="has-navbar-fixed-top">
           <GetNotificationsAndScroll>
             <Suspense fallback={<Spinner isLoading renderLabel="loading..."></Spinner>}>
               <Switch>

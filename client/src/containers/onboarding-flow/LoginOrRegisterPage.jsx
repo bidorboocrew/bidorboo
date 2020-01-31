@@ -25,11 +25,12 @@ export class LoginOrRegisterPage extends React.Component {
     this.setState({ showRegistrationForm: false });
   };
 
-  // componentDidUpdate() {
-  //   if (this.props.isLoggedIn) {
-  //     return switchRoute(ROUTES.CLIENT.HOME);
-  //   }
-  // }
+  componentDidUpdate() {
+    debugger
+    if (this.props.isLoggedIn) {
+      return switchRoute(ROUTES.CLIENT.HOME);
+    }
+  }
 
   // componentDidMount() {
   //   if (this.props.isLoggedIn) {

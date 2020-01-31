@@ -60,15 +60,22 @@ class GetNotificationsAndScroll extends React.PureComponent {
     const currentUrlPathname = window.location.pathname;
 
     if (window.location.pathname !== prevProps.location.pathname) {
+      if (currentUrlPathname.indexOf('bdb-request') > -1) {
+        setAppViewUIToRequester();
+      } else if (currentUrlPathname.indexOf('bdb-bidder') > -1) {
+        setAppViewUIToTasker();
+      }
+      getCurrentUser();
+
       setTimeout(() => {
         window.scrollTo(0, 0);
       }, 0);
-      getCurrentUser();
       return;
     }
     if (authIsInProgress) {
       return;
     }
+
     if (isLoggedIn) {
       if (currentUrlPathname.indexOf('bdb-request') > -1) {
         setServerAppRequesterView();
@@ -162,7 +169,6 @@ class GetNotificationsAndScroll extends React.PureComponent {
 
     if (!isLoggedIn) {
       // if you are on one of our logged out experience roots , just show it
-      debugger;
       const currentPath = this.props.location.pathname;
       const isAllowedRoute = loggedOutRoutes.some((route) => currentPath.includes(route));
       if (isAllowedRoute || currentPath === '/' || /(\/\?).*/.test(currentPath)) {
@@ -186,6 +192,8 @@ class GetNotificationsAndScroll extends React.PureComponent {
       history.location.pathname !== ROUTES.CLIENT.ONBOARDING
     ) {
       return switchRoute(ROUTES.CLIENT.ONBOARDING, { redirectUrl: this.props.location.pathname });
+    } else if (this.props.location.pathname.includes(ROUTES.CLIENT.LOGIN_OR_REGISTER)) {
+      return switchRoute(ROUTES.CLIENT.HOME);
     } else {
       return this.props.children;
     }
