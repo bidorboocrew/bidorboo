@@ -287,11 +287,11 @@ class Header extends React.Component {
                     switchRoute(ROUTES.CLIENT.REQUESTER.root);
                   }}
                   style={{ borderRadius: '25px 0 0 25px', borderRight: 0, boxShadow: 'none' }}
-                  className="button is-success is-small"
+                  className="button is-success is-small is-outlined"
                 >
                   <span className="icon">
                     {!isActingAsTasker ? (
-                      <i className="far fa-check-circle"></i>
+                      <i className="fas fa-check-circle"></i>
                     ) : (
                       <i className="far fa-circle"></i>
                     )}
@@ -307,13 +307,13 @@ class Header extends React.Component {
                     switchRoute(ROUTES.CLIENT.TASKER.root);
                   }}
                   style={{ borderRadius: '0 25px 25px 0', borderLeft: 0, boxShadow: 'none' }}
-                  className="button is-dark is-small"
+                  className="button is-dark is-small is-outlined"
                 >
                   <span style={{ marginRight: 4 }}>Tasker Portal</span>
 
                   <span className="icon">
                     {isActingAsTasker ? (
-                      <i className="far fa-check-circle"></i>
+                      <i className="fas fa-check-circle"></i>
                     ) : (
                       <i className="far fa-circle"></i>
                     )}
@@ -940,11 +940,11 @@ class Header extends React.Component {
                     switchRoute(ROUTES.CLIENT.REQUESTER.root);
                   }}
                   style={{ borderRadius: '25px 0 0 25px', borderRight: 0, boxShadow: 'none' }}
-                  className="button is-success is-small"
+                  className="button is-success is-small is-outlined"
                 >
                   <span className="icon">
                     {!isActingAsTasker ? (
-                      <i className="far fa-check-circle"></i>
+                      <i className="fas fa-check-circle"></i>
                     ) : (
                       <i className="far fa-circle"></i>
                     )}
@@ -960,13 +960,13 @@ class Header extends React.Component {
                     switchRoute(ROUTES.CLIENT.TASKER.root);
                   }}
                   style={{ borderRadius: '0 25px 25px 0', borderLeft: 0, boxShadow: 'none' }}
-                  className="button is-dark is-small"
+                  className="button is-dark is-small is-outlined"
                 >
                   <span style={{ marginRight: 4 }}>Tasker Portal</span>
 
                   <span className="icon">
                     {isActingAsTasker ? (
-                      <i className="far fa-check-circle"></i>
+                      <i className="fas fa-check-circle"></i>
                     ) : (
                       <i className="far fa-circle"></i>
                     )}
