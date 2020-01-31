@@ -34,6 +34,7 @@ class GetNotificationsAndScroll extends React.PureComponent {
     super(props);
     this.lastFetch = moment();
     this.state = { hasError: false };
+    this.lastTimeWeRegisteredTheNotification = null;
   }
 
   componentDidCatch(error, info) {
@@ -56,46 +57,68 @@ class GetNotificationsAndScroll extends React.PureComponent {
       authIsInProgress,
       userDetails,
     } = this.props;
-    if (authIsInProgress || location.pathname === prevProps.location.pathname) {
-      return;
-    }
-    if (
-      prevProps.authIsInProgress &&
-      !authIsInProgress &&
-      isLoggedIn &&
-      userDetails.notifications &&
-      userDetails.notifications.push
-    ) {
-      registerServiceWorker()
-        .then(({ registration }) => {
-          registerPushNotification(`${process.env.REACT_APP_VAPID_KEY}`, registration)
-            .then(() => console.log('push Notifications enabled'))
-            .catch((e) => console.log('push Notifications not enabled ' + e));
-        })
-        .catch(() => console.info('ServiceWorker was not added'));
-    }
-
     const currentUrlPathname = window.location.pathname;
 
-    if (location.pathname !== prevProps.location.pathname && !authIsInProgress) {
-      getCurrentUser();
-
-      if (isLoggedIn) {
-        if (currentUrlPathname.indexOf('bdb-request') > -1) {
-          setServerAppRequesterView();
-        } else if (currentUrlPathname.indexOf('bdb-bidder') > -1) {
-          setServerAppTaskerView();
-        }
-      }
-
+    if (window.location.pathname !== prevProps.location.pathname) {
       setTimeout(() => {
         window.scrollTo(0, 0);
       }, 0);
+      getCurrentUser();
+      return;
+    }
+    if (authIsInProgress) {
+      return;
+    }
+    if (isLoggedIn) {
+      if (currentUrlPathname.indexOf('bdb-request') > -1) {
+        setServerAppRequesterView();
+      } else if (currentUrlPathname.indexOf('bdb-bidder') > -1) {
+        setServerAppTaskerView();
+      }
+
+      if (userDetails.notifications && userDetails.notifications.push) {
+        if (
+          !this.lastTimeWeRegisteredTheNotification ||
+          moment(this.lastTimeWeRegisteredTheNotification).isBefore(
+            moment(this.lastTimeWeRegisteredTheNotification).subtract(1, 'day'),
+          )
+        ) {
+          debugger;
+          this.lastTimeWeRegisteredTheNotification = moment().toISOString();
+          registerServiceWorker()
+            .then(({ registration }) => {
+              registerPushNotification(`${process.env.REACT_APP_VAPID_KEY}`, registration)
+                .then(() => console.log('push Notifications enabled'))
+                .catch((e) => console.log('push Notifications not enabled ' + e));
+            })
+            .catch(() => console.info('ServiceWorker was not added'));
+        }
+      }
     }
   }
 
   componentDidMount() {
-    this.props.getCurrentUser();
+    const {
+      getCurrentUser,
+      setAppViewUIToTasker,
+      setAppViewUIToRequester,
+      isLoggedIn,
+      userDetails,
+    } = this.props;
+
+    if (isLoggedIn) {
+      if (userDetails.appView === 'REQUESTER') {
+        setAppViewUIToRequester();
+      } else if (userDetails.appView === 'TASKER') {
+        setAppViewUIToTasker();
+      }
+    } else {
+      getCurrentUser();
+    }
+
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 0);
   }
 
   render() {
@@ -133,16 +156,16 @@ class GetNotificationsAndScroll extends React.PureComponent {
       );
     }
 
-    // if (authIsInProgress) {
-    //   return <Spinner isLoading renderLabel="securing your connection..." />;
-    // }
+    if (authIsInProgress) {
+      return <Spinner isLoading renderLabel="securing your connection..." />;
+    }
 
     if (!isLoggedIn) {
       // if you are on one of our logged out experience roots , just show it
-
+      debugger;
       const currentPath = this.props.location.pathname;
       const isAllowedRoute = loggedOutRoutes.some((route) => currentPath.includes(route));
-      if (isAllowedRoute || currentPath === '/' || /([\/?]).*/.test(currentPath)) {
+      if (isAllowedRoute || currentPath === '/' || /(\/\?).*/.test(currentPath)) {
         return this.props.children;
       }
 

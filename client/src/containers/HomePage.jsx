@@ -15,7 +15,7 @@ export default class HomePage extends React.Component {
         <section
           style={{
             background: '#ee2a36',
-            marginBottom: '3.5rem',
+            marginBottom: '1rem',
           }}
           className="hero has-text-centered"
         >
@@ -23,7 +23,7 @@ export default class HomePage extends React.Component {
             style={{ position: 'relative', backgroundImage: `url(${MainBanner})` }}
             className="hero-body"
           >
-            <div
+            {/* <div
               style={{
                 position: 'absolute',
                 margin: 'auto',
@@ -63,7 +63,7 @@ export default class HomePage extends React.Component {
                 </span>
                 <span>Bid</span>
               </button>
-            </div>
+            </div> */}
             <div className="container">
               <h1
                 style={{
@@ -97,7 +97,7 @@ export default class HomePage extends React.Component {
             </div>
           </div>
         </section>
-        <br></br> <br></br> <br></br>
+        <br></br>
         <div className="columns is-mobile is-multiline is-centered">
           <div style={{ minWidth: '18rem', maxWidth: '21rem' }} className="column">
             <RequestAService

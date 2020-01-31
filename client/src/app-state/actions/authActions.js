@@ -132,12 +132,11 @@ export const getCurrentUser = () => (dispatch) => {
 export const onLogout = () => (dispatch) =>
   dispatch({
     type: A.AUTH_ACTIONS.LOGOUT_FLOW_INITIATED,
-    payload: axios.get(ROUTES.API.AUTH.LOGOUT).then((resp) => {
+    payload: axios.get(ROUTES.API.AUTH.LOGOUT).then(async () => {
       dispatch({
         type: A.AUTH_ACTIONS.USER_IS_LOGGED_OUT,
       });
       //rediret user to sign up page
-      // switchRoute(ROUTES.CLIENT.HOME);
       dispatch({
         type: A.UI_ACTIONS.SHOW_TOAST_MSG,
         payload: {
@@ -147,7 +146,9 @@ export const onLogout = () => (dispatch) =>
           },
         },
       });
-      // window.location.reload();
+      await sleep(3000);
+
+      switchRoute(ROUTES.CLIENT.HOME);
     }),
   });
 

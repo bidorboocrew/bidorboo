@@ -85,12 +85,19 @@ html body {
 #bdb-home-content {
   background: white;
 }
-
+#bob-currentViewHelper {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23) !important;
+  position: fixed;
+  z-index: 20;
+  width: 100%;
+  text-align: center;
+  background: white;
+  padding: 6px;
+}
 #BID_OR_BOO_APP_HEADER {
   height: 4rem !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.24) !important;
-
-  * a.navbar-item {
+  border-bottom: 1px #eeeeee dashed;
+  a.navbar-item {
     color: #363636 !important;
     &:hover {
       background: rgba(#363636, 0.4) !important;
@@ -98,82 +105,12 @@ html body {
     }
   }
 
-  * a.navbar-item.is-active {
+  a.navbar-item.is-active {
     font-weight: 600 !important;
     color: #363636 !important;
     &:hover {
       background: rgba(#363636, 0.4) !important;
       color: #fff !important;
-    }
-  }
-  #myprofile-step > nav > div > a {
-    color: #363636 !important;
-    &:hover {
-      background: rgba(#363636, 0.4) !important;
-      color: #fff !important;
-    }
-  }
-
-  &.taskerAppBar {
-    background: #363636 !important;
-    color: white !important;
-    * a.navbar-item {
-      color: white !important;
-      background: none !important;
-      &:hover {
-        background: rgba(#fff, 0.8) !important;
-        color: #363636 !important;
-      }
-    }
-    * a.navbar-item.is-active {
-      color: white !important;
-      font-weight: 600 !important;
-      background: none !important;
-      &:hover {
-        background: rgba(#fff, 0.8) !important;
-        color: #363636 !important;
-      }
-    }
-
-    #myprofile-step > nav > div > a {
-      color: white !important;
-      background: none !important;
-      &:hover {
-        background: rgba(#fff, 0.8) !important;
-        color: #363636 !important;
-      }
-    }
-    #myprofile-step > nav > div > div.navbar-dropdown {
-      background: #363636 !important;
-    }
-    #myprofile-step.navbar-item.dropdown.is-right.is-active {
-      background: #363636 !important;
-    }
-    #navbarmenu {
-      background: #363636 !important;
-      > div > div.navbar-item.dropdown.is-right > nav > div > a > span.displayname {
-        color: white;
-      }
-    }
-    #navbarmenu > div > div.navbar-item.dropdown.is-right.is-active > nav > div > a {
-      &:hover {
-        background: rgba(#fff, 0.8) !important;
-      }
-    }
-    #navbarmenu > div > div.navbar-item.dropdown.is-right.is-active > nav > div > div {
-      background: #363636;
-    }
-    * #mobile-nav-burger {
-      color: white !important;
-      background: none !important;
-      &:hover {
-        background: rgba(#fff, 0.8) !important;
-        color: #363636 !important;
-      }
-      div.navbar-end {
-        background: unset !important;
-        color: unset !important;
-      }
     }
   }
 
