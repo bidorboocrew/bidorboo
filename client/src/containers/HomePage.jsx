@@ -69,11 +69,12 @@ export default class HomePage extends React.Component {
                 style={{
                   display: 'inline-block',
                   borderRadius: 0,
+                  borderBottom: '1px solid rgb(219,219,219)',
                 }}
                 onClick={(e) => {
                   switchRoute(ROUTES.CLIENT.REQUESTER.root);
                 }}
-                className="button is-large is-success is-fullwidth"
+                className="button is-large is-success is-fullwidth is-inverted"
               >
                 <span className="icon">
                   <i className="far fa-plus-square" />
@@ -91,11 +92,12 @@ export default class HomePage extends React.Component {
                 style={{
                   display: 'inline-block',
                   borderRadius: 0,
+                  borderBottom: '1px solid rgb(219,219,219)',
                 }}
                 onClick={(e) => {
                   switchRoute(ROUTES.CLIENT.TASKER.root);
                 }}
-                className="button is-dark is-large is-fullwidth"
+                className="button is-dark is-large is-fullwidth is-inverted"
               >
                 <span className="icon">
                   <i className="fas fa-hand-rock" />
