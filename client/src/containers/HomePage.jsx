@@ -7,6 +7,7 @@ import { switchRoute } from '../utils';
 import MainBanner from '../assets/images/MainBanner.png';
 import REQUESTER_MAINPAGE from '../assets/images/REQUESTER_MAINPAGE.png';
 import TASKER_MAINPAGE from '../assets/images/TASKER_MAINPAGE.png';
+import { withTheme } from 'styled-components';
 
 export default class HomePage extends React.Component {
   render() {
@@ -62,7 +63,9 @@ export default class HomePage extends React.Component {
         <br></br>
         <br></br>
         <section className="hero has-text-centered">
-          <h1 className="title">What do you like to do?</h1>
+          <h1 style={{ margin: 0, background: 'white', padding: '2rem' }} className="title">
+            Get Started As A...
+          </h1>
           <div className="columns is-mobile is-multiline is-centered">
             <div style={{ minWidth: '18rem', maxWidth: '21rem' }} className="column">
               <button
@@ -153,7 +156,7 @@ const RequestAService = (props) => {
         switchRoute(ROUTES.CLIENT.REQUESTER.root);
       }}
       style={{
-        height: 'unset',
+        height: 350,
         cursor: 'pointer',
         boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
       }}
@@ -161,7 +164,7 @@ const RequestAService = (props) => {
     >
       <div className="card-image">
         <figure className="image">
-          <img src={REQUESTER_MAINPAGE} alt="Placeholder" />
+          <img style={{ height: 150 }} src={REQUESTER_MAINPAGE} alt="Placeholder" />
         </figure>
       </div>
       <div className="card-content">
@@ -193,7 +196,7 @@ const ProvideAService = () => {
         switchRoute(ROUTES.CLIENT.TASKER.root);
       }}
       style={{
-        height: 'unset',
+        height: 350,
         cursor: 'pointer',
         boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
       }}
@@ -201,7 +204,7 @@ const ProvideAService = () => {
     >
       <div className="card-image">
         <figure className="image">
-          <img src={TASKER_MAINPAGE} alt="Placeholder" />
+          <img style={{ height: 150 }} src={TASKER_MAINPAGE} alt="Placeholder" />
         </figure>
       </div>
       <div className="card-content">
@@ -249,13 +252,13 @@ const HowItWorksRequestService = () => {
 const HowItWorksProvideService = () => {
   return (
     <div>
-      <h1 className="title has-text-left">Bid on requests</h1>
+      <h1 className="title has-text-left">Provide a service</h1>
       <ul className="has-text-left">
         <li>
-          <p className="is-size-5">Browse tasks</p>
+          <p className="is-size-5">Browse for tasks</p>
         </li>
         <li>
-          <p className="is-size-5">Enter Your Bid</p>
+          <p className="is-size-5">Bid on them</p>
         </li>
         <li>
           <p className="is-size-5">{`Do it & get paid`}</p>
