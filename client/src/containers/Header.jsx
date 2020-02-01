@@ -95,7 +95,6 @@ class Header extends React.Component {
         }
       }
       if (nextProp.history.location.pathname.includes('my-bids')) {
-
         if (prevState.activeNavBarMenuId !== HREF_TO_TABID.MY_BIDS) {
           return { activeNavBarMenuId: HREF_TO_TABID.MY_BIDS };
         }
@@ -286,8 +285,12 @@ class Header extends React.Component {
                     e.preventDefault();
                     switchRoute(ROUTES.CLIENT.REQUESTER.root);
                   }}
-                  style={{ borderRadius: '25px 0 0 25px', borderRight: 0, boxShadow: 'none' }}
-                  className="button is-success is-small is-outlined"
+                  style={{
+                    borderRadius: '25px 0 0 25px',
+                    borderRight: '1px solid rgb(219, 219, 219)',
+                    boxShadow: 'none',
+                  }}
+                  className="button is-small is-outlined"
                 >
                   <span className="icon">
                     {!isActingAsTasker ? (
@@ -296,7 +299,12 @@ class Header extends React.Component {
                       <i className="far fa-circle"></i>
                     )}
                   </span>
-                  <span>Requester Portal</span>
+                  <span
+                    className={`${!isActingAsTasker ? 'has-text-weight-semibold' : null}`}
+                    style={{ width: 100 }}
+                  >
+                    Requester View
+                  </span>
                 </span>
               </div>
               <div className="has-text-centered" style={{ display: 'inline-block' }}>
@@ -306,10 +314,19 @@ class Header extends React.Component {
                     e.preventDefault();
                     switchRoute(ROUTES.CLIENT.TASKER.root);
                   }}
-                  style={{ borderRadius: '0 25px 25px 0', borderLeft: 0, boxShadow: 'none' }}
-                  className="button is-dark is-small is-outlined"
+                  style={{
+                    borderRadius: '0 25px 25px 0',
+                    borderLeft: '1px solid rgb(219, 219, 219)',
+                    boxShadow: 'none',
+                  }}
+                  className="button is-small is-outlined"
                 >
-                  <span style={{ marginRight: 4 }}>Tasker Portal</span>
+                  <span
+                    className={`${isActingAsTasker ? 'has-text-weight-semibold' : null}`}
+                    style={{ marginRight: 4, width: 100 }}
+                  >
+                    Tasker View
+                  </span>
 
                   <span className="icon">
                     {isActingAsTasker ? (
@@ -870,7 +887,7 @@ class Header extends React.Component {
                         <span className="icon">
                           <i className="far fa-credit-card" aria-hidden="true" />
                         </span>
-                        <span>Payout Settings</span>
+                        <span>My Payouts</span>
                       </a>
                       <hr className="navbar-divider" />
                       <a
@@ -939,8 +956,12 @@ class Header extends React.Component {
                     e.preventDefault();
                     switchRoute(ROUTES.CLIENT.REQUESTER.root);
                   }}
-                  style={{ borderRadius: '25px 0 0 25px', borderRight: 0, boxShadow: 'none' }}
-                  className="button is-success is-small is-outlined"
+                  style={{
+                    borderRadius: '25px 0 0 25px',
+                    borderRight: '1px solid rgb(219, 219, 219)',
+                    boxShadow: 'none',
+                  }}
+                  className="button is-small is-outlined"
                 >
                   <span className="icon">
                     {!isActingAsTasker ? (
@@ -949,20 +970,34 @@ class Header extends React.Component {
                       <i className="far fa-circle"></i>
                     )}
                   </span>
-                  <span>Requester Portal</span>
+                  <span
+                    className={`${!isActingAsTasker ? 'has-text-weight-semibold' : null}`}
+                    style={{ width: 100 }}
+                  >
+                    Requester View
+                  </span>
                 </span>
               </div>
               <div className="has-text-centered" style={{ display: 'inline-block' }}>
                 <span
-                  style={{ cursor: 'pointer', width: 135 }}
+                  style={{ cursor: 'pointer' }}
                   onClick={(e) => {
                     e.preventDefault();
                     switchRoute(ROUTES.CLIENT.TASKER.root);
                   }}
-                  style={{ borderRadius: '0 25px 25px 0', borderLeft: 0, boxShadow: 'none' }}
-                  className="button is-dark is-small is-outlined"
+                  style={{
+                    borderRadius: '0 25px 25px 0',
+                    borderLeft: '1px solid rgb(219, 219, 219)',
+                    boxShadow: 'none',
+                  }}
+                  className="button is-small is-outlined"
                 >
-                  <span style={{ marginRight: 4 }}>Tasker Portal</span>
+                  <span
+                    className={`${isActingAsTasker ? 'has-text-weight-semibold' : null}`}
+                    style={{ marginRight: 4, width: 100 }}
+                  >
+                    Tasker View
+                  </span>
 
                   <span className="icon">
                     {isActingAsTasker ? (

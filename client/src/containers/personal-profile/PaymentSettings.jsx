@@ -58,7 +58,7 @@ class PaymentSettings extends React.Component {
           <div className="hero-body has-text-centered">
             <div className="container">
               <h1 style={{ marginBottom: 0 }} className="title">
-                Payout Settings
+                My Payouts
               </h1>
             </div>
           </div>
@@ -146,7 +146,7 @@ const InitialAccountSetupView = (props) => {
 
                 <div className="group">
                   <div className="label has-text-weight-semibold">
-                    To receive payouts you confirm the following:
+                    To receive payouts for the tasks you've completed you must be:
                   </div>
                 </div>
                 <div style={{ marginBottom: 5 }}>
@@ -156,7 +156,7 @@ const InitialAccountSetupView = (props) => {
                       onChange={(e) => setNinteenPlus(!isNinteenPlus)}
                       type="checkbox"
                     />
-                    {` I am 19 years or older.`}
+                    {` 19 years or older.`}
                   </label>
                 </div>
                 <div style={{ marginBottom: 5 }}>
@@ -166,7 +166,7 @@ const InitialAccountSetupView = (props) => {
                       onChange={(e) => setCanadian(!isCanadian)}
                       type="checkbox"
                     />
-                    {` I am a resident of Canada.`}
+                    {` A resident of Canada.`}
                   </label>
                 </div>
 
@@ -177,7 +177,7 @@ const InitialAccountSetupView = (props) => {
                       type="checkbox"
                       value={hasAgreedToTOS}
                     />
-                    {` I confirm that I have read and agreed to`}
+                    {` Have read and agreed to`}
                     <a target="_blank" rel="noopener noreferrer" href={`${ROUTES.CLIENT.TOS}`}>
                       {` BidOrBoo Service Agreement `}
                     </a>
@@ -191,7 +191,7 @@ const InitialAccountSetupView = (props) => {
                     </a>
                   </label>
                 </div>
-                <br></br>
+                {/* <br></br>
                 <div className="group">
                   <input
                     id="showPayoutSetupForm"
@@ -216,7 +216,7 @@ const InitialAccountSetupView = (props) => {
                       {` Stripe `}
                     </a>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -289,9 +289,11 @@ const EstablishedAccountView = (props) => {
           })()}
           <div
             style={{ borderRadius: 0 }}
-            className="panel-heading is-size-6 has-text-weight-semibold"
+            className="panel-heading has-text-weight-semibold has-text-centered"
           >
-            Earnings Summary
+            <h1 className="title" style={{ marginBottom: 0 }}>
+              Earnings Summary
+            </h1>
           </div>
           <div style={{ padding: '0.5rem' }}>
             {istherePaymentDetails && (
@@ -305,7 +307,7 @@ const EstablishedAccountView = (props) => {
                         : `0$`}
                     </p>
                     <p className="is-size-6 has-text-weight-semibold">Expected Earnings</p>
-                    <p className="help">*Will be paid as you complete each task</p>
+                    <p className="help">Will be paid as you complete each task</p>
                   </article>
                 </div>
                 <div className="tile is-parent">
@@ -339,9 +341,11 @@ const ShowEarningsOnly = (props) => {
       <nav style={{ border: 'none', boxShadow: 'none' }} className="panel">
         <div
           style={{ borderRadius: 0 }}
-          className="panel-heading is-size-6 has-text-weight-semibold"
+          className="panel-heading has-text-weight-semibold has-text-centered"
         >
-          Earnings Summary
+          <h1 className="title" style={{ marginBottom: 0 }}>
+            Earnings Summary
+          </h1>
         </div>
         <div style={{ padding: '0.5rem' }}>
           {istherePaymentDetails && (
@@ -355,7 +359,7 @@ const ShowEarningsOnly = (props) => {
                       : `0$`}
                   </p>
                   <p className="is-size-6 has-text-weight-semibold">Expected Earnings</p>
-                  <p className="help">*Will be paid as you complete each task</p>
+                  <p className="help">Will be paid as you complete each task</p>
                 </article>
               </div>
               <div className="tile is-parent">

@@ -190,9 +190,7 @@ class TaskerVerificationBanner extends React.Component {
                   </span>
                   <span>ADD A PAYOUT ACCOUNT</span>
                 </button>
-                <div className="help has-text-light">
-                  *This will redirect you to payout settings page
-                </div>
+                <div className="help has-text-light">*This will redirect you to payouts page</div>
               </div>
             </div>
           </section>

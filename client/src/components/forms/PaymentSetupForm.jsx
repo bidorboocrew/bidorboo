@@ -181,9 +181,14 @@ const PaymentSetupForm = (props) => {
         >
           <div style={{ minHeight: 'unset', height: 'unset' }} className="card-content">
             <HeaderTitle title="Add Payout Bank" />
-
+            <div className="help">
+              * Your data is kept private, encrypted and secured via
+              <a href="https://stripe.com/ca" target="_blank">
+                {` Stripe `}
+              </a>
+            </div>
             {errorsList}
-            <div>
+            <div style={{ marginTop: '2rem', marginBottom: '2rem' }}>
               <div style={{ maxWidth: 280 }}>
                 <TextInput
                   id="full_name"
@@ -253,6 +258,7 @@ const PaymentSetupForm = (props) => {
                 * click to view a sample cheque
               </a>
 
+              <br />
               <br />
 
               <button
