@@ -26,7 +26,7 @@ export class LoginOrRegisterPage extends React.Component {
   };
 
   componentDidUpdate() {
-    debugger
+
     if (this.props.isLoggedIn) {
       return switchRoute(ROUTES.CLIENT.HOME);
     }

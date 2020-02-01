@@ -90,7 +90,7 @@ class GetNotificationsAndScroll extends React.PureComponent {
             moment(this.lastTimeWeRegisteredTheNotification).subtract(1, 'day'),
           )
         ) {
-          debugger;
+
           this.lastTimeWeRegisteredTheNotification = moment().toISOString();
           registerServiceWorker()
             .then(({ registration }) => {
