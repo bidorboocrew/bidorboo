@@ -283,7 +283,7 @@ class TaskerRootPage extends React.Component {
     return (
       <>
         <TaskerVerificationBanner></TaskerVerificationBanner>
-        <section className="hero is-light">
+        <section className="hero is-dark is-bold">
           <div className="hero-body  has-text-centered">
             <div className="container">
               <h1 className="title">Search For Tasks In Your Area</h1>
