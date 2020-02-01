@@ -59,11 +59,19 @@ class SubscribeToSearchResultsToggle extends React.Component {
           checked={isSubscribed}
         />
         <label style={{ fontWeight: 500 }} htmlFor="notifyMeAboutNewTasks">
-          Subscribe to search results
+          {!isSubscribed ? 'Do not notify me about new results' : 'Notify me about new results'}
         </label>
-        <p className="help has-text-dark">
-          *Get notified when newly posted requests matches your search criteria
-        </p>
+        {!isSubscribed ? (
+          <p className="help has-text-dark">
+            *Subscribe to recieve notifications when newly posted requests matches your current
+            search criteria
+          </p>
+        ) : (
+          <p className="help has-text-dark">
+            *You will recieve notifications when newly posted requests matches your current search
+            criteria
+          </p>
+        )}
       </div>
     );
   }

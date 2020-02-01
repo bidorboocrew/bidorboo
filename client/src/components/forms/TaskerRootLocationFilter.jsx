@@ -156,9 +156,10 @@ class TaskerRootLocationFilter extends React.Component {
     });
   };
 
-  handleSubmit = (e) => {
-    e.preventDefault();
+  handleSubmit = () => {
+    // e.preventDefault();
     const { activeSearchParams, submitSearchLocationParams, isLoggedIn } = this.props;
+
     if (!isLoggedIn) {
       window.localStorage &&
         window.localStorage.setItem('bob_prevTaskFilters', JSON.stringify(activeSearchParams));
@@ -169,16 +170,13 @@ class TaskerRootLocationFilter extends React.Component {
   };
 
   render() {
-    const { activeSearchParams } = this.props;
+    const { activeSearchParams, renderSubscribeToSearchResults } = this.props;
     const { addressText, latLng, searchRadius, tasksTypeFilter } = activeSearchParams;
 
     const disableSubmit = !addressText || !latLng || !latLng.lat || !latLng.lng || !searchRadius;
 
     return (
-      <div
-        style={{ height: 'unset', border: '1px solid #26ca70' }}
-        className="card cardWithButton nofixedwidth"
-      >
+      <div style={{ height: 'unset' }} className="card cardWithButton nofixedwidth">
         <div className="card-content">
           <div className="content has-text-left">
             <div className="group">
@@ -216,6 +214,11 @@ class TaskerRootLocationFilter extends React.Component {
               updateTaskTypesFilter={this.updateTaskTypesFilter}
               currentFilters={tasksTypeFilter}
             ></TaskTypeFilter>
+            <br></br>
+            <br></br>
+
+            {renderSubscribeToSearchResults && renderSubscribeToSearchResults()}
+            <br></br>
             <br></br>
           </div>
 
