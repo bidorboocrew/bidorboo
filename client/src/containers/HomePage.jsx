@@ -7,9 +7,15 @@ import { switchRoute } from '../utils';
 import MainBanner from '../assets/images/MainBanner.png';
 import REQUESTER_MAINPAGE from '../assets/images/REQUESTER_MAINPAGE.png';
 import TASKER_MAINPAGE from '../assets/images/TASKER_MAINPAGE.png';
-import { withTheme } from 'styled-components';
 
 export default class HomePage extends React.Component {
+  componentDidMount() {
+    window.document.querySelector('body').setAttribute('style', 'background: white');
+  }
+  componentWillUnmount() {
+    window.document.querySelector('body').setAttribute('background', '#eee');
+  }
+
   render() {
     return (
       <div>
@@ -17,7 +23,7 @@ export default class HomePage extends React.Component {
           style={{
             background: '#ee2a36',
           }}
-          className="hero has-text-centered"
+          className="hero has-text-centered is-white"
         >
           <div style={{ backgroundImage: `url(${MainBanner})` }} className="hero-body">
             <div className="container">
@@ -39,11 +45,14 @@ export default class HomePage extends React.Component {
           </div>
         </section>
 
-        <section className="hero has-text-centered is-light">
+        <section className="hero has-text-centered is-white">
           <h1 style={{ margin: 0, background: 'white', padding: '2rem' }} className="title">
             Get Started As A...
           </h1>
-          <div className="columns is-mobile is-multiline is-centered">
+          <div
+            tyle={{ background: 'white' }}
+            className="columns is-mobile is-multiline is-centered"
+          >
             <div style={{ minWidth: '18rem', maxWidth: '21rem' }} className="column">
               <button
                 style={{
@@ -54,7 +63,7 @@ export default class HomePage extends React.Component {
                 onClick={(e) => {
                   switchRoute(ROUTES.CLIENT.REQUESTER.root);
                 }}
-                className="button is-large is-success is-fullwidth is-inverted"
+                className="button is-large is-success is-fullwidth"
               >
                 <span className="icon">
                   <i className="far fa-plus-square" />
@@ -77,7 +86,7 @@ export default class HomePage extends React.Component {
                 onClick={(e) => {
                   switchRoute(ROUTES.CLIENT.TASKER.root);
                 }}
-                className="button is-dark is-large is-fullwidth is-inverted"
+                className="button is-dark is-large is-fullwidth"
               >
                 <span className="icon">
                   <i className="fas fa-hand-rock" />
@@ -93,10 +102,9 @@ export default class HomePage extends React.Component {
           </div>
         </section>
         <br></br>
-        <br></br>
-        <section className="hero has-text-centered is-light">
+        <section className="hero has-text-centered is-white">
           <h1 style={{ margin: 0, background: 'white', padding: '2rem' }} className="title">
-            What is BidOrBoo ?
+            What is BidOrBoo?
           </h1>
           <div style={{ position: 'relative' }}>
             <div style={{ margin: 'auto', maxWidth: 800, padding: '0.5rem' }}>

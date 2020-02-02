@@ -299,10 +299,10 @@ class App extends React.Component {
             </div>
             <div className="level-item has-text-centered">
               <div>
-                <div className="has-text-white is-size-7">
-                  <img src={logoImg} alt="BidOrBoo" width={21} height={21} />
-                  {` BidOrBoo Inc`}
+                <div>
+                  <img src={logoImg} alt="BidOrBoo" width={24} height={24} />
                 </div>
+                <div className="has-text-white is-size-7">BidOrBoo Inc</div>
                 <div style={{ marginTop: 6 }}>
                   <AddToMobileHomeScreenBanner />
                 </div>
@@ -331,9 +331,9 @@ class App extends React.Component {
                     title="Facebook"
                     style={{
                       display: 'inline-block',
-                      backgroundColor: '#EE2A36',
-                      height: '32px',
-                      width: '32px',
+                      backgroundColor: 'dimgrey',
+                      height: '21px',
+                      width: '21px',
                       borderRadius: '4px',
                       WebkitBorderRadius: '4px',
                       MozBorderRadius: '4px',
@@ -344,9 +344,9 @@ class App extends React.Component {
                       alt="Facebook"
                       title="Facebook"
                       src="https://marketing-image-production.s3.amazonaws.com/social/white/facebook.png"
-                      style={{ height: '32px', width: '32px' }}
-                      height={32}
-                      width={32}
+                      style={{ height: '21px', width: '21px' }}
+                      height={21}
+                      width={21}
                     />
                   </a>
                 </td>
@@ -359,9 +359,9 @@ class App extends React.Component {
                     title="Twitter"
                     style={{
                       display: 'inline-block',
-                      backgroundColor: '#EE2A36',
-                      height: '32px',
-                      width: '32px',
+                      backgroundColor: 'dimgrey',
+                      height: '21px',
+                      width: '21px',
                       borderRadius: '4px',
                       WebkitBorderRadius: '4px',
                       MozBorderRadius: '4px',
@@ -372,9 +372,9 @@ class App extends React.Component {
                       alt="Twitter"
                       title="Twitter"
                       src="https://marketing-image-production.s3.amazonaws.com/social/white/twitter.png"
-                      style={{ height: '32px', width: '32px' }}
-                      height={32}
-                      width={32}
+                      style={{ height: '21px', width: '21px' }}
+                      height={21}
+                      width={21}
                     />
                   </a>
                 </td>
@@ -387,9 +387,9 @@ class App extends React.Component {
                     title="Instagram"
                     style={{
                       display: 'inline-block',
-                      backgroundColor: '#EE2A36',
-                      height: '32px',
-                      width: '32px',
+                      backgroundColor: 'dimgrey',
+                      height: '21px',
+                      width: '21px',
                       borderRadius: '4px',
                       WebkitBorderRadius: '4px',
                       MozBorderRadius: '4px',
@@ -400,9 +400,9 @@ class App extends React.Component {
                       alt="Instagram"
                       title="Instagram"
                       src="https://marketing-image-production.s3.amazonaws.com/social/white/instagram.png"
-                      style={{ height: '32px', width: '32px' }}
-                      height={32}
-                      width={32}
+                      style={{ height: '21px', width: '21px' }}
+                      height={21}
+                      width={21}
                     />
                   </a>
                 </td>

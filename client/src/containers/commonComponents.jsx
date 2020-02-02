@@ -1879,7 +1879,11 @@ export const TaskImagesCarousel = ({ taskImages, isLarge = false }) => {
 
 export const RenderBackButton = () => {
   return (
-    <a style={{ margin: '0 0 1rem 0' }} className="button" onClick={() => goBackToPreviousRoute()}>
+    <a
+      style={{ margin: '1.2rem 0 1rem 0' }}
+      className="button"
+      onClick={() => goBackToPreviousRoute()}
+    >
       <span className="icon is-large">
         <i className="fas fa-chevron-left" />
       </span>

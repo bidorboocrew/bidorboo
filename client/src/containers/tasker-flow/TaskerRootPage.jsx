@@ -366,7 +366,7 @@ class TaskerRootPage extends React.Component {
           {!isLoading && (
             <React.Fragment>
               <Collapse isOpened={showMapView && anyVisibleRequests}>
-                <div className="container slide-in-bottom-small">
+                <div style={{ marginTop: '2rem' }} className="container slide-in-bottom-small">
                   <MapSection
                     mapCenterPoint={mapCenterPoint}
                     mapZoomLevel={mapZoomLevel}
