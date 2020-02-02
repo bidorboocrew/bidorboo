@@ -218,15 +218,30 @@ class TaskerRootPage extends React.Component {
     );
   };
 
-  updateSearchLocationState = (newSearchParams) => {
+  updateSearchLocationState = (newSearchParams, withSearch = true) => {
+    const { isLoggedIn } = this.props;
     const { activeSearchParams } = this.state;
-    // do some validation xxxxx latLng
-    this.setState(() => ({
-      activeSearchParams: {
-        ...activeSearchParams,
-        ...newSearchParams,
+
+    this.setState(
+      () => ({
+        activeSearchParams: {
+          ...activeSearchParams,
+          ...newSearchParams,
+        },
+      }),
+      () => {
+        if (withSearch) {
+          if (!isLoggedIn) {
+            window.localStorage &&
+              window.localStorage.setItem(
+                'bob_prevTaskFilters',
+                JSON.stringify(activeSearchParams),
+              );
+          }
+          this.submitSearchLocationParams(this.state.activeSearchParams);
+        }
       },
-    }));
+    );
   };
 
   zoomAndCenterAroundMarker = (latLngNewCenter, callback) => {
@@ -286,7 +301,7 @@ class TaskerRootPage extends React.Component {
         <section className="hero is-dark is-bold">
           <div className="hero-body  has-text-centered">
             <div className="container">
-              <h1 className="title">Search For Tasks In Your Area</h1>
+              <h1 className="title">Look For Tasks In Your Area</h1>
               {showSearchFilters && (
                 <button
                   onClick={this.toggleShowSearchFilters}
@@ -298,7 +313,7 @@ class TaskerRootPage extends React.Component {
                     borderRight: 0,
                     borderLeft: 0,
                   }}
-                  className="button is-light is-fullwidth"
+                  className="button is-dark is-fullwidth is-small"
                 >
                   <span style={{ marginRight: 4 }}>Hide Filters</span>
                   <span className="icon">
@@ -317,7 +332,7 @@ class TaskerRootPage extends React.Component {
                     borderRight: 0,
                     borderLeft: 0,
                   }}
-                  className="button is-light is-fullwidth"
+                  className="button is-dark is-fullwidth is-small"
                 >
                   <span style={{ marginRight: 4 }}>Show Filters</span>
                   <span className="icon">
@@ -326,9 +341,12 @@ class TaskerRootPage extends React.Component {
                 </button>
               )}
 
-              <Collapse isOpened={showSearchFilters}>
+              <Collapse
+                isOpened={showSearchFilters}
+                // initialStyle={{ height: 0, overflow: 'hidden' }}
+              >
                 <TaskerRootLocationFilter
-                  submitSearchLocationParams={this.submitSearchLocationParams}
+                  // submitSearchLocationParams={this.submitSearchLocationParams}
                   updateSearchLocationState={this.updateSearchLocationState}
                   activeSearchParams={activeSearchParams}
                   userLastStoredSearchParams={userLastStoredSearchParams}
@@ -348,7 +366,7 @@ class TaskerRootPage extends React.Component {
           {!isLoading && (
             <React.Fragment>
               <Collapse isOpened={showMapView && anyVisibleRequests}>
-                <div style={{ marginTop: '1.25rem' }} className="container slide-in-bottom-small">
+                <div className="container slide-in-bottom-small">
                   <MapSection
                     mapCenterPoint={mapCenterPoint}
                     mapZoomLevel={mapZoomLevel}

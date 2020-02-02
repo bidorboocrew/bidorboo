@@ -49,7 +49,14 @@ class SubscribeToSearchResultsToggle extends React.Component {
     const { isSubscribed } = this.state;
 
     return (
-      <div style={{ marginBottom: '0.75rem', textAlign: 'left', marginTop: '0.75rem' }}>
+      <div
+        style={{
+          marginBottom: '0.75rem',
+          marginTop: '0.5rem',
+          textAlign: 'left',
+          marginTop: '2rem',
+        }}
+      >
         <input
           id="notifyMeAboutNewTasks"
           type="checkbox"
@@ -59,17 +66,15 @@ class SubscribeToSearchResultsToggle extends React.Component {
           checked={isSubscribed}
         />
         <label style={{ fontWeight: 500 }} htmlFor="notifyMeAboutNewTasks">
-          {!isSubscribed ? 'Do not notify me about new results' : 'Notify me about new results'}
+          {!isSubscribed ? 'Do Not Notify Me' : 'Notify Me'}
         </label>
         {!isSubscribed ? (
           <p className="help has-text-dark">
-            *Subscribe to recieve notifications when newly posted requests matches your current
-            search criteria
+            You won't recieve notifications about new Tasks in the search area
           </p>
         ) : (
           <p className="help has-text-dark">
-            *You will recieve notifications when newly posted requests matches your current search
-            criteria
+            Recieve notifications about new Tasks in the search area
           </p>
         )}
       </div>

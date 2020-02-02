@@ -20,14 +20,15 @@ import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-au
 class TaskerRootLocationFilter extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { addressField: '' || props.addressText };
     this.google = window.google;
     if (this.google) {
       this.geocoder = new this.google.maps.Geocoder();
     }
   }
 
-  handleChange = (addressText, latLng) => {
-    this.props.updateSearchLocationState({ addressText, latLng });
+  handleChange = (addressText, latLng, withSearch = false) => {
+    this.props.updateSearchLocationState({ addressText, latLng }, withSearch);
   };
 
   updateSearchRaduisSelection = (event) => {
@@ -42,7 +43,7 @@ class TaskerRootLocationFilter extends React.Component {
       geocodeByAddress(addressText)
         .then((results) => getLatLng(results[0]))
         .then((latLng) => {
-          this.handleChange(addressText, latLng);
+          this.handleChange(addressText, latLng, true);
         })
         .catch(this.errorHandling);
     }
@@ -156,19 +157,6 @@ class TaskerRootLocationFilter extends React.Component {
     });
   };
 
-  handleSubmit = () => {
-    // e.preventDefault();
-    const { activeSearchParams, submitSearchLocationParams, isLoggedIn } = this.props;
-
-    if (!isLoggedIn) {
-      window.localStorage &&
-        window.localStorage.setItem('bob_prevTaskFilters', JSON.stringify(activeSearchParams));
-    }
-    submitSearchLocationParams({
-      ...activeSearchParams,
-    });
-  };
-
   render() {
     const { activeSearchParams, renderSubscribeToSearchResults } = this.props;
     const { addressText, latLng, searchRadius, tasksTypeFilter } = activeSearchParams;
@@ -215,14 +203,10 @@ class TaskerRootLocationFilter extends React.Component {
               currentFilters={tasksTypeFilter}
             ></TaskTypeFilter>
             <br></br>
-            <br></br>
-
             {renderSubscribeToSearchResults && renderSubscribeToSearchResults()}
-            <br></br>
-            <br></br>
           </div>
 
-          <div
+          {/* <div
             disabled={disableSubmit}
             onClick={this.handleSubmit}
             className="firstButtonInCard button is-success"
@@ -231,7 +215,7 @@ class TaskerRootLocationFilter extends React.Component {
               <i className="fas fa-search" />
             </span>
             <span>{`Search`}</span>
-          </div>
+          </div> */}
         </div>
       </div>
     );
@@ -347,7 +331,7 @@ class SearchRadius extends React.Component {
           Search Radius
         </label>
         <div>
-          <div className="select">
+          <div style={{ width: 100 }} className="select">
             <select
               style={{
                 padding: '0 6px',
