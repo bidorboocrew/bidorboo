@@ -91,7 +91,11 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
               )}
               {!isOnMapView && (
                 <div className="group">
-                  <CenteredUserImageAndRating clipUserName userDetails={_ownerRef} />
+                  <CenteredUserImageAndRating
+                    clipUserName
+                    userDetails={_ownerRef}
+                    clickable={false}
+                  />
                 </div>
               )}
               {!isOnMapView && (

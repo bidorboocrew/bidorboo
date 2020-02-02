@@ -153,6 +153,7 @@ export const CenteredUserImageAndRating = ({
   large = false,
   isCentered = true,
   labelOnTop = () => null,
+  clickable = true,
 }) => {
   let temp = userDetails
     ? userDetails
@@ -170,13 +171,13 @@ export const CenteredUserImageAndRating = ({
         flexWrap: 'wrap',
         display: 'flex',
         width: '100%',
-        cursor: 'pointer',
+        cursor: clickable ? 'pointer' : '',
         alignItems: isCentered ? 'center' : '',
       }}
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(userDetails._id));
+        clickable && switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(userDetails._id));
       }}
     >
       <div
@@ -194,7 +195,7 @@ export const CenteredUserImageAndRating = ({
               borderRadius: '100%',
               width: `${large ? 64 : 48}`,
               height: `${large ? 64 : 48}`,
-              boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
+              boxShadow: clickable ? '0 2px 8px 0 rgba(0, 0, 0, 0.34)' : 'none',
             }}
             src={profileImage.url}
             alt="profile image"
