@@ -908,7 +908,9 @@ class Header extends React.Component {
                           <a
                             className="navbar-item"
                             onClick={(e) => {
-                              installWebAppButton && installWebAppButton.click();
+                              this.closeMenuThenExecute(() => {
+                                installWebAppButton && installWebAppButton.click();
+                              });
                             }}
                           >
                             <span style={{ position: 'relative' }} className="icon">
