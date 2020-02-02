@@ -109,13 +109,20 @@ class Header extends React.Component {
         if (prevState.activeNavBarMenuId !== HREF_TO_TABID.MY_PROFILE) {
           return { activeNavBarMenuId: HREF_TO_TABID.MY_PROFILE };
         }
-      } else if (nextProp.history.location.pathname.includes('BidOrBoo')) {
-        if (prevState.activeNavBarMenuId !== HREF_TO_TABID.HOME) {
-          return { activeNavBarMenuId: HREF_TO_TABID.HOME };
+      } else if (
+        nextProp.history.location.pathname.includes('BidOrBoo') ||
+        nextProp.history.location.pathname === '/'
+      ) {
+        if (prevState.activeNavBarMenuId !== 'unspecified') {
+          return { activeNavBarMenuId: 'unspecified' };
         }
       } else if (nextProp.history.location.pathname.includes('my-profile/notification-settings')) {
         if (prevState.activeNavBarMenuId !== HREF_TO_TABID.NOTIFICATIONS) {
           return { activeNavBarMenuId: HREF_TO_TABID.NOTIFICATIONS };
+        }
+      } else {
+        if (prevState.activeNavBarMenuId !== 'unspecified') {
+          return { activeNavBarMenuId: 'unspecified' };
         }
       }
     }

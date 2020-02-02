@@ -17,7 +17,9 @@ export default {
   Leave your pet in the gentle care of our pet loving Taskers.`,
   SUGGESTION_TEXT: `Q1) What kind or breed of pet do you have?
 [Answer here:  ]
-Q2) Anything else you want to highlight for the Tasker?
+Q2) Do you expect Tasker to stay at your place overnight?
+[Answer here:  ]
+Q3) Anything else you want to highlight for the Tasker?
 [Answer here:  ]
 `,
   defaultExtrasValues: {
