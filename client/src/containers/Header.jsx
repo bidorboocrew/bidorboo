@@ -12,6 +12,7 @@ import { showLoginDialog } from '../app-state/actions/uiActions';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 import logoImg from '../assets/images/android-chrome-192x192.png';
+import ShareThisPageHeaderMenuItem from './ShareThisPageHeaderMenuItem.jsx';
 
 const pathsWhereWeDontShowPortalDetail = [
   '/BidOrBoo',
@@ -915,6 +916,15 @@ class Header extends React.Component {
                             </span>
                             <span>WEB APP</span>
                           </a>
+                        </>
+                      )}
+
+                      {!window.location.pathname.includes('my-') && (
+                        <>
+                          <hr className="navbar-divider" />
+                          <ShareThisPageHeaderMenuItem
+                            closeMenuThenExecute={this.closeMenuThenExecute}
+                          />
                         </>
                       )}
 
