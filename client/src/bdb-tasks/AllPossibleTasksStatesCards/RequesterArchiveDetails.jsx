@@ -59,9 +59,7 @@ class RequesterArchiveDetails extends RequestBaseContainer {
         <div
           style={{
             boxShadow: 'none',
-            borderLeft: '1px solid rgba(10,10,10,0.2)',
-            borderTop: '1px solid rgba(10,10,10,0.2)',
-            borderRight: '1px solid rgba(10,10,10,0.2)',
+            border: '1px solid rgb(219,219,219)',
           }}
           className="card has-text-centered"
         >
@@ -69,8 +67,8 @@ class RequesterArchiveDetails extends RequestBaseContainer {
             <div className="content">
               <RequestCardTitle icon={ICON} title={TITLE} img={IMG} />
               <UserGivenTitle userGivenTitle={requestTitle} />
- m
-               <TaskImagesCarousel taskImages={taskImages} isLarge />
+              m
+              <TaskImagesCarousel taskImages={taskImages} isLarge />
               <SummaryStartDateAndTime
                 date={completionDate}
                 renderHelpComponent={() => (
@@ -78,7 +76,6 @@ class RequesterArchiveDetails extends RequestBaseContainer {
                 )}
               />
               <ArchiveTask />
-
               <TaskCost cost={requesterPaymentAmount} />
               <Collapse isOpened={showMore}>
                 <div style={{ maxWidth: 300, margin: 'auto' }}>

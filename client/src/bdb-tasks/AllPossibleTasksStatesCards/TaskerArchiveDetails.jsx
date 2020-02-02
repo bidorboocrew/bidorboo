@@ -55,9 +55,7 @@ class TaskerArchiveDetails extends RequestBaseContainer {
         <div
           style={{
             boxShadow: 'none',
-            borderLeft: '1px solid rgba(10,10,10,0.2)',
-            borderTop: '1px solid rgba(10,10,10,0.2)',
-            borderRight: '1px solid rgba(10,10,10,0.2)',
+            border: '1px solid rgb(219,219,219)',
           }}
           className="card has-text-centered"
         >

@@ -44,7 +44,34 @@ export default class HomePage extends React.Component {
             </div>
           </div>
         </section>
-
+        <br></br>
+        <section className="hero has-text-centered is-white">
+          {/* <h1 style={{ margin: 0, background: 'white', padding: '2rem' }} className="title">
+            What is BidOrBoo?
+          </h1> */}
+          <div style={{ position: 'relative' }}>
+            <div style={{ margin: 'auto', maxWidth: 800, padding: '0.5rem' }}>
+              <div className="player-wrapper">
+                <ReactPlayer
+                  className="react-player"
+                  url="https://youtu.be/YHh9JbJAyf0"
+                  width="100%"
+                  height="100%"
+                  controls
+                  playsinline
+                  youtubeConfig={{
+                    playerVars: {
+                      modestbranding: 1,
+                      origin: 'https://www.bidorboo.ca',
+                      widget_referrer: 'https://www.bidorboo.ca',
+                    },
+                    preload: true,
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </section>
         <section className="hero has-text-centered is-white">
           <h1 style={{ margin: 0, background: 'white', padding: '2rem' }} className="title">
             Get Started As A...
@@ -102,33 +129,7 @@ export default class HomePage extends React.Component {
           </div>
         </section>
         <br></br>
-        <section className="hero has-text-centered is-white">
-          <h1 style={{ margin: 0, background: 'white', padding: '2rem' }} className="title">
-            What is BidOrBoo?
-          </h1>
-          <div style={{ position: 'relative' }}>
-            <div style={{ margin: 'auto', maxWidth: 800, padding: '0.5rem' }}>
-              <div className="player-wrapper">
-                <ReactPlayer
-                  className="react-player"
-                  url="https://youtu.be/YHh9JbJAyf0"
-                  width="100%"
-                  height="100%"
-                  controls
-                  playsinline
-                  youtubeConfig={{
-                    playerVars: {
-                      modestbranding: 1,
-                      origin: 'https://www.bidorboo.ca',
-                      widget_referrer: 'https://www.bidorboo.ca',
-                    },
-                    preload: true,
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </section>
+        <br></br>
         {/* <div
           style={{
             width: '50%',
