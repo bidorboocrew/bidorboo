@@ -79,47 +79,40 @@ class Header extends React.Component {
 
   static getDerivedStateFromProps(nextProp, prevState) {
     if (nextProp.history && nextProp.history.location && nextProp.history.location.pathname) {
-      if (nextProp.history.location.pathname.includes('bdb-request')) {
+      if (nextProp.history.location.pathname.includes('bdb-request/root')) {
         if (prevState.activeNavBarMenuId !== HREF_TO_TABID.REQUEST_A_SERVICE) {
           return { activeNavBarMenuId: HREF_TO_TABID.REQUEST_A_SERVICE };
         }
-      }
-      if (nextProp.history.location.pathname.includes('bdb-bidder')) {
+      } else if (nextProp.history.location.pathname.includes('bdb-bidder/root')) {
         if (prevState.activeNavBarMenuId !== HREF_TO_TABID.PROVIDE_A_SERVICE) {
           return { activeNavBarMenuId: HREF_TO_TABID.PROVIDE_A_SERVICE };
         }
-      }
-      if (nextProp.history.location.pathname.includes('my-open-requests')) {
+      } else if (nextProp.history.location.pathname.includes('my-open-requests')) {
         if (prevState.activeNavBarMenuId !== HREF_TO_TABID.MY_REQUESTS) {
           return { activeNavBarMenuId: HREF_TO_TABID.MY_REQUESTS };
         }
-      }
-      if (nextProp.history.location.pathname.includes('my-bids')) {
+      } else if (nextProp.history.location.pathname.includes('my-bids')) {
+        console.info('nextProp.history.location.pathname.includes(my-bids)');
         if (prevState.activeNavBarMenuId !== HREF_TO_TABID.MY_BIDS) {
           return { activeNavBarMenuId: HREF_TO_TABID.MY_BIDS };
         }
-      }
-      if (nextProp.history.location.pathname.includes('payment-settings')) {
+      } else if (nextProp.history.location.pathname.includes('my-profile/payment-settings')) {
         if (prevState.activeNavBarMenuId !== HREF_TO_TABID.PAYMENT_SETTINGS) {
           return { activeNavBarMenuId: HREF_TO_TABID.PAYMENT_SETTINGS };
         }
-      }
-      if (nextProp.history.location.pathname.includes('my-archive')) {
+      } else if (nextProp.history.location.pathname.includes('my-archive')) {
         if (prevState.activeNavBarMenuId !== HREF_TO_TABID.ARCHIVE) {
           return { activeNavBarMenuId: HREF_TO_TABID.ARCHIVE };
         }
-      }
-      if (nextProp.history.location.pathname.includes('my-profile')) {
+      } else if (nextProp.history.location.pathname.includes('my-profile/basic-settings')) {
         if (prevState.activeNavBarMenuId !== HREF_TO_TABID.MY_PROFILE) {
           return { activeNavBarMenuId: HREF_TO_TABID.MY_PROFILE };
         }
-      }
-      if (nextProp.history.location.pathname.includes('BidOrBoo')) {
+      } else if (nextProp.history.location.pathname.includes('BidOrBoo')) {
         if (prevState.activeNavBarMenuId !== HREF_TO_TABID.HOME) {
           return { activeNavBarMenuId: HREF_TO_TABID.HOME };
         }
-      }
-      if (nextProp.history.location.pathname.includes('notification-settings')) {
+      } else if (nextProp.history.location.pathname.includes('my-profile/notification-settings')) {
         if (prevState.activeNavBarMenuId !== HREF_TO_TABID.NOTIFICATIONS) {
           return { activeNavBarMenuId: HREF_TO_TABID.NOTIFICATIONS };
         }
