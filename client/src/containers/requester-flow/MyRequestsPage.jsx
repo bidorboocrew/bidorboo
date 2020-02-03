@@ -98,17 +98,17 @@ class MyRequestsPage extends React.Component {
 
     return (
       <div>
-        <section className="hero is-white">
+        <section className="hero is-success is-bold is-small">
           <div className="hero-body  has-text-centered">
             <div className="container">
-              <h1 style={{ marginBottom: 0 }} className="has-text-dark title">
+              <h1 style={{ marginBottom: 0 }} className="title">
                 My Requests
               </h1>
             </div>
           </div>
         </section>
 
-        <div className="tabs is-centered is-fullwidth">
+        <div className="tabs is-centered">
           <ul>
             <li className={`${selectedTab === MY_REQUESTS_TABS.activeRequests ? 'is-active' : ''}`}>
               <a onClick={() => this.setState({ selectedTab: MY_REQUESTS_TABS.activeRequests })}>

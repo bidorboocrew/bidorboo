@@ -113,7 +113,7 @@ export const CLIENT = {
     root: '/bdb-request/root',
     createrequest: '/bdb-request/create-request/:templateId',
     dynamicCreateRequest: (templateId) => `/bdb-request/create-request/${templateId}`,
-    myRequestsPage: '/my-open-requests',
+    myRequestsPage: '/bdb-request/my-open-requests',
     reviewRequestAndBidsPage: '/my-request/review-request-details/:requestId',
     dynamicReviewRequestAndBidsPage: (requestId) =>
       `/my-request/review-request-details/${requestId}`,
@@ -127,9 +127,11 @@ export const CLIENT = {
     getDynamicBidOnRequestPage: (requestId) => `/bdb-bidder/bid-on-request/${requestId}`,
     mybids: '/bdb-bidder/my-bids',
     reviewMyOpenBidAndTheRequestDetails: '/bdb-bidder/review-my-bid-details/:bidId',
-    dynamicReviewMyOpenBidAndTheRequestDetails: (bidId) => `/bdb-bidder/review-my-bid-details/${bidId}`,
+    dynamicReviewMyOpenBidAndTheRequestDetails: (bidId) =>
+      `/bdb-bidder/review-my-bid-details/${bidId}`,
     awardedBidDetailsPage: '/bdb-bidder/awarded-bid-details/:bidId',
-    dynamicReviewMyAwardedBidAndTheRequestDetails: (bidId) => `/bdb-bidder/awarded-bid-details/${bidId}`,
+    dynamicReviewMyAwardedBidAndTheRequestDetails: (bidId) =>
+      `/bdb-bidder/awarded-bid-details/${bidId}`,
   },
   REVIEW: {
     requesterRequestReview: `/bdb-request/review/:requestId`,

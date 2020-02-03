@@ -226,38 +226,7 @@ class Header extends React.Component {
               </div>
             </a>
 
-            <div style={{ flexGrow: 1 }} className="navbar-item">
-              {/* <a
-                className={`navbar-item ${
-                  activeNavBarMenuId === HREF_TO_TABID.REQUEST_A_SERVICE ? 'is-active' : ''
-                }`}
-                onClick={(e) => {
-                  this.closeMenuThenExecute(() => {
-                    switchRoute(ROUTES.CLIENT.REQUESTER.root);
-                  });
-                }}
-              >
-                <span className="icon">
-                  <i className="far fa-plus-square" />
-                </span>
-                <span>REQUEST</span>
-              </a>
-              <a
-                className={`navbar-item ${
-                  activeNavBarMenuId === HREF_TO_TABID.PROVIDE_A_SERVICE ? 'is-active' : ''
-                }`}
-                onClick={(e) => {
-                  this.closeMenuThenExecute(() => {
-                    switchRoute(ROUTES.CLIENT.TASKER.root);
-                  });
-                }}
-              >
-                <span className="icon">
-                  <i className="fas fa-hand-rock" />
-                </span>
-                <span>BID</span>
-              </a> */}
-            </div>
+            <div style={{ flexGrow: 1 }} className="navbar-item"></div>
             {!isOnLoginPage && (
               <div className=" navbar-item">
                 <a
@@ -418,73 +387,8 @@ class Header extends React.Component {
               </div>
             </div>
 
-            {/* {onlyShowReqAndBidButtons && (
-              <div className="navbar-item">
-                <a
-                  className={`navbar-item ${
-                    activeNavBarMenuId === HREF_TO_TABID.REQUEST_A_SERVICE ? 'is-active' : ''
-                  }`}
-                  onClick={(e) => {
-                    this.closeMenuThenExecute(() => {
-                      switchRoute(ROUTES.CLIENT.REQUESTER.root);
-                    });
-                  }}
-                >
-                  <span style={{ position: 'relative' }} className="icon">
-                    <i className="far fa-plus-square" />
-                    {requestRecievedNewBids && (
-                      <span
-                        style={{
-                          fontSize: 8,
-                          position: 'absolute',
-                          top: -6,
-                          left: -6,
-                          borderRadius: '100%',
-                          textAlign: 'center',
-                        }}
-                        className="icon has-text-danger"
-                      >
-                        <i className="fas fa-circle" />
-                      </span>
-                    )}
-                  </span>
-                  <span>REQUEST</span>
-                </a>
-                <a
-                  className={`navbar-item ${
-                    activeNavBarMenuId === HREF_TO_TABID.PROVIDE_A_SERVICE ? 'is-active' : ''
-                  }`}
-                  onClick={(e) => {
-                    this.closeMenuThenExecute(() => {
-                      switchRoute(ROUTES.CLIENT.TASKER.root);
-                    });
-                  }}
-                >
-                  <span style={{ position: 'relative' }} className="icon">
-                    <i className="fas fa-hand-rock" />
-                    {bidsGotAwardedToMe && (
-                      <span
-                        style={{
-                          fontSize: 8,
-                          position: 'absolute',
-                          top: -6,
-                          left: -6,
-                          borderRadius: '100%',
-                          textAlign: 'center',
-                        }}
-                        className="icon has-text-danger"
-                      >
-                        <i className="fas fa-circle" />
-                      </span>
-                    )}
-                  </span>
-                  <span>BID</span>
-                </a>
-              </div>
-            )} */}
-
             <div className="navbar-item is-hidden-desktop">
-              {!isActingAsTasker && (
+              {!isActingAsTasker && !!dontShowPortalHelper && (
                 <React.Fragment>
                   <a
                     className={`navbar-item ${
@@ -535,7 +439,7 @@ class Header extends React.Component {
                 </React.Fragment>
               )}
 
-              {isActingAsTasker && (
+              {isActingAsTasker && !dontShowPortalHelper && (
                 <React.Fragment>
                   <a
                     className={`navbar-item ${
@@ -644,7 +548,7 @@ class Header extends React.Component {
             <div className="navbar-end">
               {/* {!onlyShowReqAndBidButtons && ( */}
               <div className="navbar-item is-hidden-touch">
-                {!isActingAsTasker && (
+                {!isActingAsTasker && !dontShowPortalHelper && (
                   <>
                     <a
                       className={`navbar-item ${
@@ -694,7 +598,7 @@ class Header extends React.Component {
                   </>
                 )}
 
-                {isActingAsTasker && (
+                {isActingAsTasker && !dontShowPortalHelper && (
                   <>
                     <a
                       className={`navbar-item ${

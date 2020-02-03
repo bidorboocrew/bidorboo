@@ -32,7 +32,7 @@ export const Spinner = ({
       {isLoading && !didRequestTimeout && (
         <React.Fragment>
           <div className="VerticalAligner">
-            <div style={{ marginTop: '4rem' }} className={spinnerSize} />
+            <div style={{ marginTop: '6rem' }} className={spinnerSize} />
           </div>
           <div style={{ marginTop: '1rem' }} className="HorizontalAligner-center">
             {typeof renderLabel === 'function' && renderLabel()}

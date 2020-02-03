@@ -102,7 +102,7 @@ class MyBidsPage extends React.Component {
       <div>
         <TaskerVerificationBanner></TaskerVerificationBanner>
 
-        <section className="hero is-dark is-bold">
+        <section className="hero is-dark is-bold is-small">
           <div className="hero-body  has-text-centered">
             <div className="container">
               <h1 style={{ marginBottom: 0 }} className="has-text-white title">
@@ -111,7 +111,7 @@ class MyBidsPage extends React.Component {
             </div>
           </div>
         </section>
-        <div className="tabs is-centered is-fullwidth">
+        <div className="tabs is-centered">
           <ul>
             <li className={`${selectedTab === MY_BIDS_TABS.activeBids ? 'is-active' : ''}`}>
               <a onClick={() => this.setState({ selectedTab: MY_BIDS_TABS.activeBids })}>
@@ -125,9 +125,7 @@ class MyBidsPage extends React.Component {
             </li>
           </ul>
         </div>
-        {isLoading && (
-          <Spinner renderLabel="getting your bids..." isLoading size={'large'} />
-        )}
+        {isLoading && <Spinner renderLabel="getting your bids..." isLoading size={'large'} />}
         {!isLoading &&
           areThereAnyBidsToView &&
           myBidsSummaryCards &&

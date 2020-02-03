@@ -123,8 +123,9 @@ module.exports = {
       createrequest: 'https://www.bidorboo.ca/bdb-request/create-request/:templateId',
       dynamicCreateRequest: (templateId) =>
         `https://www.bidorboo.ca/bdb-request/create-request/${templateId}`,
-      myOpenRequests: 'https://www.bidorboo.ca/my-open-requests/:tabId',
-      dynamicMyOpenRequests: (tabId) => `https://www.bidorboo.ca/my-open-requests/${tabId}`,
+      myOpenRequests: 'https://www.bidorboo.ca/bdb-request/my-open-requests/:tabId',
+      dynamicMyOpenRequests: (tabId) =>
+        `https://www.bidorboo.ca/bdb-request/my-open-requests/${tabId}`,
       reviewRequestAndBidsPage:
         'https://www.bidorboo.ca/my-request/review-request-details/:requestId',
       dynamicReviewRequestAndBidsPage: (requestId) =>
@@ -140,11 +141,13 @@ module.exports = {
       getDynamicBidOnRequestPage: (requestId) =>
         `https://www.bidorboo.ca/bdb-bidder/bid-on-request/${requestId}`,
       mybids: 'https://www.bidorboo.ca/bdb-bidder/my-bids',
-      reviewMyBidAndTheRequestDetails: 'https://www.bidorboo.ca/bdb-bidder/review-my-bid-details/:bidId',
+      reviewMyBidAndTheRequestDetails:
+        'https://www.bidorboo.ca/bdb-bidder/review-my-bid-details/:bidId',
       dynamicReviewMyBidAndTheRequestDetails: (bidId) =>
         `https://www.bidorboo.cab/db-bidder/review-my-bid-details/${bidId}`,
       currentAwardedBid: 'https://www.bidorboo.ca/bdb-bidder/awarded-bid-details/:bidId',
-      dynamicCurrentAwardedBid: (bidId) => `https://www.bidorboo.ca/bdb-bidder/awarded-bid-details/${bidId}`,
+      dynamicCurrentAwardedBid: (bidId) =>
+        `https://www.bidorboo.ca/bdb-bidder/awarded-bid-details/${bidId}`,
     },
     REVIEW: {
       requesterRequestReview: `https://www.bidorboo.ca/bdb-request/review/:requestId`,

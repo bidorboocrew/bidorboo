@@ -2,19 +2,12 @@ import React from 'react';
 
 class Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren extends React.PureComponent {
   componentDidMount() {
-    const {
-      setAppViewUIToRequester,
-      setAppViewUIToTasker,
-      setServerAppRequesterView,
-      setServerAppTaskerView,
-    } = this.props;
+    const { setServerAppRequesterView, setServerAppTaskerView } = this.props;
     const currentUrlPathname = window.location.pathname;
 
     if (currentUrlPathname.indexOf('bdb-request') > -1) {
-      setAppViewUIToRequester();
       setServerAppRequesterView();
     } else if (currentUrlPathname.indexOf('bdb-bidder') > -1) {
-      setAppViewUIToTasker();
       setServerAppTaskerView();
     }
 
