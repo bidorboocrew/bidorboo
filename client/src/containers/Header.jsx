@@ -94,7 +94,6 @@ class Header extends React.Component {
           return { activeNavBarMenuId: HREF_TO_TABID.MY_REQUESTS };
         }
       } else if (nextProp.history.location.pathname.includes('my-bids')) {
-        console.info('nextProp.history.location.pathname.includes(my-bids)');
         if (prevState.activeNavBarMenuId !== HREF_TO_TABID.MY_BIDS) {
           return { activeNavBarMenuId: HREF_TO_TABID.MY_BIDS };
         }

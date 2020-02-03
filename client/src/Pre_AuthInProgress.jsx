@@ -38,7 +38,6 @@ class Pre_AuthInProgress extends React.PureComponent {
 
   componentDidMount() {
     const { getCurrentUser } = this.props;
-    debugger;
     getCurrentUser();
   }
 
@@ -46,7 +45,6 @@ class Pre_AuthInProgress extends React.PureComponent {
     const { getCurrentUser } = this.props;
 
     if (window.location.pathname !== prevProps.location.pathname) {
-      debugger;
       getCurrentUser();
     }
   }
