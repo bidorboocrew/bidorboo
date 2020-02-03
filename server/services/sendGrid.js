@@ -262,7 +262,6 @@ exports.EmailService = {
         contentHtml: `<p>Your equest ${requestTitle} did not recieve any bids and is past the chosen due date.</p>
         <br>
         <p>We automatically deleted this Request</p>
-        <p>In order to avoid cluttering your Request inbox with past due requests</p>
         `,
         clickLink: `https://www.bidorboo.ca/bdb-request/root`,
         clickDisplayName: 'Post Another Request',
@@ -447,12 +446,9 @@ exports.EmailService = {
         <p>BidOrBoo is happy to hear that the request was fulfilled.</p>
         <br>
         <div style="font-family: inherit; text-align: inherit; font-weight: bold"><strong>Next Steps</strong></div>
-        <ul>
-          <li style="">Rate your Tasker</li>
-        </ul>
        `,
         clickLink: `${linkForOwner}`,
-        clickDisplayName: 'Rate Tasker',
+        clickDisplayName: 'Rate The Tasker',
       }),
     };
 
@@ -476,13 +472,13 @@ exports.EmailService = {
         <br>
         <div style="font-family: inherit; text-align: inherit; font-weight: bold"><strong>Next Steps</strong></div>
         <ul>
-          <li style="">Rate your Requester and experience</li>
+          <li style="">Rate the Requester</li>
           <li style="">We notified the Requester to confirm this task's completion</li>
           <li style="">Payment for this task will be released once we recieve the confirmation</li>
         </ul>
        `,
         clickLink: `${linkForTasker}`,
-        clickDisplayName: 'Rate Requester',
+        clickDisplayName: 'Rate The Requester',
       }),
     };
 
