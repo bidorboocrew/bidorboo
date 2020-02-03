@@ -265,7 +265,7 @@ const UserSchema = new Schema(
       type: String,
       required: [
         true,
-        'We could not establish a stripe customer account. In order to proceed please chat with us via the chat button in the footer',
+        'We could not establish a stripe customer account. In order to proceed you can Chat with our customer support for further help',
       ],
     },
     // canBid: { type: Boolean, default: false },

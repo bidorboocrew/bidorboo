@@ -52,7 +52,7 @@ passport.use(
           if (anotherUserExistsWithSameEmail) {
             return done(
               new Error(
-                'a user with the same email already exists, if you need help chat with us. a chat button is located in the footer of this page'
+                'a user with the same email already exists. You can Chat with our customer support for further help'
               ),
               null
             );
@@ -106,7 +106,7 @@ passport.use(
           if (anotherUserExistsWithSameEmail) {
             return done(
               new Error(
-                'a user with the same email already exists, if you need help chat with us. a chat button is located in the footer of this page'
+                'a user with the same email already exists. You can Chat with our customer support for further help'
               ),
               null
             );

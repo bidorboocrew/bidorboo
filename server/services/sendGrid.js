@@ -203,10 +203,8 @@ exports.EmailService = {
           <li style="">You are no longer assigned to this task, remove it from your calendar if you had it set already</li>
           <li style="">Do NOT show up to the task address and Seize all communication with the Requester</li>
           <li style="">You will recieve a payout of approx. 10% of the bid amount for the inconvenience</li>
-          <li style="">If you have any further questions, Get in touch with our support crew by clicking the chat button at www.bidorboo.ca</li>
+          <li style="">If you have any further questions, Get in touch with our support crew by clicking the Chat button at www.bidorboo.ca</li>
         </ul>
-        <br>
-        <p>click to View more details</p>
        `,
         clickLink: `${linkForTasker}`,
         clickDisplayName: 'Cancelled Request Details',
@@ -239,10 +237,9 @@ exports.EmailService = {
         <ul>
           <li style="">We will notify the tasker and they will NOT show up</li>
           <li style="">You will recieve a refund of 90% of your booking payment</li>
-          <li style="">If you have any further questions, Get in touch with our support crew by clicking the chat button at www.bidorboo.ca</li>
+          <li style="">If you have any further questions, Get in touch with our support crew by clicking the Chat button at www.bidorboo.ca</li>
         </ul>
-        <br>
-        <p>click to View details and understand the impact</p>`,
+      `,
         clickLink: `${linkForOwner}`,
         clickDisplayName: 'Cancelled Request Details',
       }),
@@ -266,11 +263,9 @@ exports.EmailService = {
         <br>
         <p>We automatically deleted this Request</p>
         <p>In order to avoid cluttering your Request inbox with past due requests</p>
-        <br>
-        <p>You can always Post a new Request anytime</p>
         `,
         clickLink: `https://www.bidorboo.ca/bdb-request/root`,
-        clickDisplayName: 'Post A Request',
+        clickDisplayName: 'Post Another Request',
       }),
     };
 
@@ -324,10 +319,8 @@ exports.EmailService = {
         <ul>
           <li style="">Tasker will NOT show up to perform this task</li>
           <li style="">Full refund was issued back to your payment method</li>
-          <li style="">If you have any further questions, Get in touch with our support crew by clicking the chat button at www.bidorboo.ca</li>
+          <li style="">If you have any further questions, Get in touch with our support crew by clicking the Chat button at www.bidorboo.ca</li>
         </ul>
-        <br>
-        <p>click to View details and understand the impact</p>
        `,
         clickLink: `${linkForOwner}`,
         clickDisplayName: 'Cancelled Request Details',
@@ -360,10 +353,8 @@ exports.EmailService = {
         <ul>
           <li style="">You should Sieze all contact with the requester</li>
           <li style="">Do NOT show up or complete this task as you will not get paid for it</li>
-          <li style="">If you have any further questions, Get in touch with our support crew by clicking the chat button at www.bidorboo.ca</li>
+          <li style="">If you have any further questions, Get in touch with our support crew by clicking the Chat button at www.bidorboo.ca</li>
         </ul>
-        <br>
-        <p>click to View details and understand the full impact</p>
        `,
         clickLink: `${linkForTasker}`,
         clickDisplayName: 'Cancelled Request Details',
@@ -389,8 +380,6 @@ exports.EmailService = {
           <li style="">Confirm that the Tasker had completed their work</li>
           <li style="">Then Rate your Tasker</li>
         </ul>
-        <br>
-        <p>View the request to confirm that it is completed</p>
          `,
         clickLink: `${linkForOwner}`,
         clickDisplayName: 'View Request',
@@ -526,7 +515,6 @@ exports.EmailService = {
           <li style="">Taskers contact details are revealed</li>
           <li style="">Get in touch with the Tasker to sprcify the exact task location and meeting time details</li>
         </ul>
-        <br>
        `,
         clickLink: `${linkForOwner}`,
         clickDisplayName: 'View Assigned Tasker',
@@ -585,7 +573,7 @@ exports.EmailService = {
         <ul>
           <li style="">Our support crew will look into this Dispute ASAP and resolve it</li>
           <li style="">We will reach out to you and inform you about any updates</li>
-          <li style="">If you have any further questions, Get in touch with our support crew by clicking the chat button at www.bidorboo.ca</li>
+          <li style="">If you have any further questions, Get in touch with our support crew by clicking the Chat button at www.bidorboo.ca</li>
         </ul>
        `,
         clickLink: `${linkForTasker}`,
@@ -616,7 +604,7 @@ exports.EmailService = {
         <p>Thus We marked this request as complete automatically</p>
        `,
         clickLink: `${linkForOwner}`,
-        clickDisplayName: 'Request Details',
+        clickDisplayName: 'Completed Request Details',
       }),
     };
 
@@ -723,6 +711,21 @@ exports.EmailService = {
     ${JSON.stringify(paymentDetails)}`,
       html: `
       <p>Payment to bank was not successful follow up with user
+        ${JSON.stringify(paymentDetails)}.</p>
+      `,
+    };
+
+    sgMail.send(msg).catch((e) => {
+      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+    });
+  },
+  informBobCrewAboutSuccessPayment: ({ requestId, paymentDetails }) => {
+    const msg = {
+      to: 'bidorboo@bidorboo.ca',
+      from: 'bidorboo@bidorboo.ca',
+      subject: `SUCCESS PAYOUT CASE: ${requestId}`,
+      html: `
+      <p>Payment to bank was successful
         ${JSON.stringify(paymentDetails)}.</p>
       `,
     };

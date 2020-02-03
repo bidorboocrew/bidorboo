@@ -56,7 +56,7 @@ module.exports = (app) => {
         }
       } catch (e) {
         e.safeMsg =
-          "unexpected error occurred.We couldn't update your password, Use the chat button in the footer to chat with our client support team";
+          "unexpected error occurred.We couldn't update your password, You can Chat with our customer support for further help";
         return next(e);
       }
     }
@@ -115,7 +115,7 @@ module.exports = (app) => {
           await userDataAccess.findByUserIdAndUpdate(userId, userData);
           return res.status(400).send({
             safeMsg:
-              'Failed To verify Phone, Use the chat button at the bottom of the page to chat with us',
+              'Failed To verify Phone. You can Chat with our customer support for further help',
           });
         }
       } catch (e) {
@@ -205,12 +205,12 @@ module.exports = (app) => {
         } else {
           return res.status(400).send({
             safeMsg:
-              'unexpected error occurred while sending Verification Email, Use the chat button in the footer to chat with our client support team',
+              'unexpected error occurred while sending Verification Email, You can Chat with our customer support for further help',
           });
         }
       } catch (e) {
         e.safeMsg =
-          'unexpected error occurred while sending Verification Email, Use the chat button in the footer to chat with our client support team';
+          'unexpected error occurred while sending Verification Email, You can Chat with our customer support for further help';
         return next(e);
       }
     }

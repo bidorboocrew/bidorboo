@@ -120,7 +120,7 @@ module.exports = async (req, res, next) => {
     }
   } catch (e) {
     e.safeMsg =
-      'failed to validate if there is a payment already for this request, use the chat button at the bottom of the screen to reachout to our customer support team';
+      'failed to validate if there is a payment already for this request. You can Chat with our customer support for further help';
     return next(e);
   }
 };

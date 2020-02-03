@@ -52,7 +52,7 @@ module.exports = async (req, res, next) => {
     next();
   } catch (e) {
     e.safeMsg =
-      'some error occurred, please chat with our customer support using the chat button at the bottom of the page';
+      'some error occurred, You can Chat with our customer support for further help';
     return next(e);
   }
 };
