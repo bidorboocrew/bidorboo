@@ -57,15 +57,12 @@ export default class HomePage extends React.Component {
                   url="https://youtu.be/YHh9JbJAyf0"
                   width="100%"
                   height="100%"
-                  controls
-                  playsinline
                   youtubeConfig={{
                     playerVars: {
                       modestbranding: 1,
                       origin: 'https://www.bidorboo.ca',
                       widget_referrer: 'https://www.bidorboo.ca',
                     },
-                    preload: true,
                   }}
                 />
               </div>

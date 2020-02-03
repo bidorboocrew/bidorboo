@@ -28,7 +28,7 @@ export const Spinner = ({
     { large: size === 'large' },
   );
   return (
-    <Delay wait={500}>
+    <Delay wait={1000}>
       {isLoading && !didRequestTimeout && (
         <React.Fragment>
           <div className="VerticalAligner">

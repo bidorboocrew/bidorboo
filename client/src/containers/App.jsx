@@ -6,7 +6,7 @@ import { Redirect } from 'react-router';
 
 // https://github.com/osano/cookieconsent/tree/dev/src
 // import CookieConsent from 'cookieconsent';
-import GetNotificationsAndScroll from '../GetNotificationsAndScroll.jsx';
+// import GetNotificationsAndScroll from '../GetNotificationsAndScroll.jsx';
 import Toast from '../components/Toast';
 import LoadingBar from 'react-redux-loading-bar';
 import * as ROUTES from '../constants/frontend-route-consts';
@@ -23,6 +23,7 @@ import { Spinner } from '../components/Spinner.jsx';
 import { Header, HomePage, ResetLocalPassword, FirstTimeUser, LoginOrRegisterPage } from './index';
 
 import ShowSpecialMomentModal from './ShowSpecialMomentModal';
+import Pre_AuthInProgress from '../Pre_AuthInProgress.jsx';
 
 const FreshdeskChat = lazy(() => import('./FreshdeskChat.jsx'));
 
@@ -54,6 +55,7 @@ const ReviewRequestAndBidsPage = lazy(() =>
 const ReviewMyAwardedRequestAndWinningBidPage = lazy(() =>
   import('./requester-flow/ReviewMyAwardedRequestAndWinningBidPage.jsx'),
 );
+
 
 const pathsWhereWeDontShowPortalDetail = [
   '/BidOrBoo',
@@ -200,7 +202,7 @@ class App extends React.Component {
         />
         <Header id="bidorboo-header" />
         <div id="RoutesWrapper" style={{ ...styleToPut }} className="has-navbar-fixed-top">
-          <GetNotificationsAndScroll>
+          <Pre_AuthInProgress>
             <Suspense fallback={<Spinner isLoading renderLabel="loading..."></Spinner>}>
               <Switch>
                 <Route exact path={ROUTES.CLIENT.HOME} component={HomePage} />
@@ -284,7 +286,7 @@ class App extends React.Component {
                 <Redirect path="*" to={ROUTES.CLIENT.HOME} />
               </Switch>
             </Suspense>
-          </GetNotificationsAndScroll>
+          </Pre_AuthInProgress>
         </div>
 
         <footer id="mainFooter" className="footer">

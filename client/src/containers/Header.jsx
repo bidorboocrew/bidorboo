@@ -19,6 +19,7 @@ const pathsWhereWeDontShowPortalDetail = [
   '/terms-of-service',
   '/reset-password',
   '/my-profile',
+  '/login-and-registration',
 ];
 const HREF_TO_TABID = {
   PROVIDE_A_SERVICE: 'PROVIDE_A_SERVICE',
