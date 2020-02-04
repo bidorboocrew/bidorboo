@@ -293,10 +293,10 @@ class App extends React.Component {
           <nav className="level">
             <div className="level-item has-text-centered">
               <div>
-                <p className="has-text-white is-size-7">Availability</p>
                 <div className="is-size-7">
                   <img width={21} height={21} alt="Canada" src={canadaFlag} />
                 </div>
+                <p className="has-text-white is-size-7">Availability</p>
               </div>
             </div>
             <div className="level-item has-text-centered">
@@ -304,7 +304,7 @@ class App extends React.Component {
                 <div>
                   <img src={logoImg} alt="BidOrBoo" width={24} height={24} />
                 </div>
-                <div className="has-text-white is-size-7">BidOrBoo Inc</div>
+                <p className="has-text-white is-size-7">BidOrBoo Inc</p>
                 <div style={{ marginTop: 6 }}>
                   <AddToMobileHomeScreenBanner />
                 </div>
