@@ -22,7 +22,7 @@ export default class HomePage extends React.Component {
         <section
           style={{
 
-            marginBottom: '1.5rem',
+            marginBottom: '2rem',
           }}
           className="hero has-text-centered is-small is-danger"
         >
