@@ -104,22 +104,21 @@ class BidModal extends React.Component {
         <div className="modal-background" />
         <div className="modal-card">
           <header className="modal-card-head">
-            <div className="modal-card-title">Enter Your Bid!</div>
+            <div className="modal-card-title">Ready To Bid?</div>
             <button onClick={handleClose} className="delete" aria-label="close" />
           </header>
           <section className="modal-card-body">
             <p>
-              Enter a <strong>$ total amount</strong> you want to receive in exchange for completing
-              this task
+              What is the <strong>total dollar amount</strong> do you want to receive in exchange
+              for completing this task?
             </p>
 
             <TextInput
               type="number"
               // setFocusImmediately={true}
-              label="Enter Your Bid Amount"
+              label="Enter Bid Amount"
               id="bidAmountField"
               className="input is-focused"
-              placeholder={'Enter total bid amount...'}
               onBlur={handleBlur}
               error={touched.bidAmountField && errors.bidAmountField}
               value={values.bidAmountField || ''}
@@ -130,7 +129,7 @@ class BidModal extends React.Component {
               }}
             />
             <div style={{ marginTop: -8 }}>
-              <div className="help">* Use our quick bid options</div>
+              <div className="help">Use quick bid options</div>
               {autoBidOptions}
             </div>
             <br />
