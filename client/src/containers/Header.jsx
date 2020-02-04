@@ -587,7 +587,7 @@ class Header extends React.Component {
                         });
                       }}
                     >
-                      <span>SERVICES</span>
+                      <span>BROWSE SERVICES</span>
                     </a>
                   </li>
                   <li
@@ -631,7 +631,7 @@ class Header extends React.Component {
                         });
                       }}
                     >
-                      <span>Look For Tasks</span>
+                      <span>LOOK FOR TASKS</span>
                     </a>
                   </li>
                   <li
