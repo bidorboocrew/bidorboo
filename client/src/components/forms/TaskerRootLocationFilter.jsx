@@ -164,7 +164,10 @@ class TaskerRootLocationFilter extends React.Component {
     const disableSubmit = !addressText || !latLng || !latLng.lat || !latLng.lng || !searchRadius;
 
     return (
-      <div style={{ height: 'unset' }} className="card cardWithButton nofixedwidth">
+      <div
+        style={{ height: 'unset', boxShadow: 'none', borderTop: '1px solid rgb(219,219,219)' }}
+        className="card nofixedwidth"
+      >
         <div className="card-content">
           <div className="content has-text-left">
             <div className="group">

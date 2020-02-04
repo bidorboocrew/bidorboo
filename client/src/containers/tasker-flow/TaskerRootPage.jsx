@@ -298,7 +298,7 @@ class TaskerRootPage extends React.Component {
     return (
       <>
         <TaskerVerificationBanner></TaskerVerificationBanner>
-        <section className="hero is-dark is-bold">
+        <section className="hero is-white is-small">
           <div className="hero-body  has-text-centered">
             <div className="container">
               <h1 className="title">Look For Tasks In Your Area</h1>
@@ -313,7 +313,7 @@ class TaskerRootPage extends React.Component {
                     borderRight: 0,
                     borderLeft: 0,
                   }}
-                  className="button is-dark is-fullwidth is-small"
+                  className="button"
                 >
                   <span style={{ marginRight: 4 }}>Hide Filters</span>
                   <span className="icon">
@@ -332,7 +332,7 @@ class TaskerRootPage extends React.Component {
                     borderRight: 0,
                     borderLeft: 0,
                   }}
-                  className="button is-dark is-fullwidth is-small"
+                  className="button"
                 >
                   <span style={{ marginRight: 4 }}>Show Filters</span>
                   <span className="icon">
