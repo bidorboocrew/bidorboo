@@ -19,10 +19,33 @@ export default class HomePage extends React.Component {
   render() {
     return (
       <div>
+        <section
+          style={{
+
+            marginBottom: '1.5rem',
+          }}
+          className="hero has-text-centered is-small is-danger"
+        >
+          <div style={{ backgroundImage: `url(${MainBanner})` }} className="hero-body">
+            <div className="container">
+              <h1
+                style={{
+                  color: 'white',
+                  marginBottom: 2,
+                  transform: 'scaleY(1.1)',
+                  fontWeight: 400,
+                }}
+                className="title is-1"
+              >
+                <span id="BidOrBoo-welcome-step">BidOrBoo</span>
+              </h1>
+              <h2 style={{ fontSize: 16 }} className="has-text-white">
+                Get your chores done for the right price. Earn money doing what you enjoy.
+              </h2>
+            </div>
+          </div>
+        </section>
         <section className="hero has-text-centered is-white">
-          {/* <h1 style={{ margin: 0, background: 'white', padding: '2rem' }} className="title">
-            What is BidOrBoo?
-          </h1> */}
           <div style={{ position: 'relative' }}>
             <div style={{ margin: 'auto', maxWidth: 800, padding: '0.5rem' }}>
               <div className="player-wrapper">
@@ -151,7 +174,7 @@ const ProvideAService = () => {
 const HowItWorksRequestService = () => {
   return (
     <div>
-      <h1 className="title has-text-centered">Get help with your chores?</h1>
+      <h1 className="title has-text-centered">Need help with your chores?</h1>
       <ul className="has-text-left">
         <li>
           <p className="is-size-5">Browse Our Services</p>
