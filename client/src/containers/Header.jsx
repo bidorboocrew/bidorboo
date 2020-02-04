@@ -202,7 +202,7 @@ class Header extends React.Component {
                     !isActingAsTasker && !dontShowPortalHelper ? 'has-text-weight-semibold' : ''
                   }`}
                 >
-                  Requester
+                  REQUESTER
                 </span>
               </a>
             </li>
@@ -220,7 +220,7 @@ class Header extends React.Component {
                   }`}
                   style={{ marginRight: 4 }}
                 >
-                  Tasker
+                  TASKER
                 </span>
 
                 <span className="icon">

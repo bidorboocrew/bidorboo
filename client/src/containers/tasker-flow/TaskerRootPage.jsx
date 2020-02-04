@@ -301,25 +301,20 @@ class TaskerRootPage extends React.Component {
         <section className="hero is-white is-small">
           <div className="hero-body  has-text-centered">
             <div className="container">
-              {showSearchFilters && (
-                <button
-                  onClick={this.toggleShowSearchFilters}
-                  style={{
-                    borderRadius: 0,
-                    border: '1px solid rgb(219,219,219)',
-                    boxShadow: 'none',
-                    borderTop: 0,
-                    borderRight: 0,
-                    borderLeft: 0,
-                  }}
-                  className="button"
-                >
-                  <span style={{ marginRight: 4 }}>Hide Filters</span>
-                  <span className="icon">
-                    <i className="fas fa-angle-double-up" />
-                  </span>
-                </button>
-              )}
+              <h1 className="title">Look For Tasks In Your Area</h1>
+              <Collapse
+                isOpened={showSearchFilters}
+                // initialStyle={{ height: 0, overflow: 'hidden' }}
+              >
+                <TaskerRootLocationFilter
+                  // submitSearchLocationParams={this.submitSearchLocationParams}
+                  updateSearchLocationState={this.updateSearchLocationState}
+                  activeSearchParams={activeSearchParams}
+                  userLastStoredSearchParams={userLastStoredSearchParams}
+                  {...this.props}
+                  renderSubscribeToSearchResults={this.renderSubscribeToSearchResults}
+                />
+              </Collapse>
               {!showSearchFilters && (
                 <button
                   onClick={this.toggleShowSearchFilters}
@@ -339,20 +334,25 @@ class TaskerRootPage extends React.Component {
                   </span>
                 </button>
               )}
-
-              <Collapse
-                isOpened={showSearchFilters}
-                // initialStyle={{ height: 0, overflow: 'hidden' }}
-              >
-                <TaskerRootLocationFilter
-                  // submitSearchLocationParams={this.submitSearchLocationParams}
-                  updateSearchLocationState={this.updateSearchLocationState}
-                  activeSearchParams={activeSearchParams}
-                  userLastStoredSearchParams={userLastStoredSearchParams}
-                  {...this.props}
-                  renderSubscribeToSearchResults={this.renderSubscribeToSearchResults}
-                />
-              </Collapse>
+              {showSearchFilters && (
+                <button
+                  onClick={this.toggleShowSearchFilters}
+                  style={{
+                    borderRadius: 0,
+                    border: '1px solid rgb(219,219,219)',
+                    boxShadow: 'none',
+                    borderTop: 0,
+                    borderRight: 0,
+                    borderLeft: 0,
+                  }}
+                  className="button"
+                >
+                  <span style={{ marginRight: 4 }}>Hide Filters</span>
+                  <span className="icon">
+                    <i className="fas fa-angle-double-up" />
+                  </span>
+                </button>
+              )}
             </div>
           </div>
         </section>
