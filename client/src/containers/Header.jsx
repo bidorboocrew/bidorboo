@@ -240,7 +240,11 @@ class Header extends React.Component {
       <nav
         id="BID_OR_BOO_APP_HEADER"
         className="navbar is-fixed-top"
-        style={{ boxShadow: dontShowPortalHelper ? '0 2px 4px 0 rgba(0, 0, 0, 0.34) ' : '' }}
+        style={{
+          boxShadow: dontShowPortalHelper
+            ? ' 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)'
+            : '',
+        }}
       >
         <LoginOrRegisterModal
           isActive={shouldShowLoginDialog && !isOnLoginPage}
@@ -327,7 +331,11 @@ class Header extends React.Component {
         <nav
           id="BID_OR_BOO_APP_HEADER"
           className="navbar is-fixed-top"
-          style={{ boxShadow: dontShowPortalHelper ? '0 2px 4px 0 rgba(0, 0, 0, 0.34) ' : '' }}
+          style={{
+            boxShadow: dontShowPortalHelper
+              ? ' 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)'
+              : '',
+          }}
         >
           <LoginOrRegisterModal
             isActive={shouldShowLoginDialog}

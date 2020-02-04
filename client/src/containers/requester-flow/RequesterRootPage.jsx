@@ -24,7 +24,7 @@ class RequesterRoot extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <section className="hero is-success is-bold">
+        {/* <section className="hero is-success is-bold">
           <div className="hero-body has-text-centered">
             <div className="container">
               <h1 style={{ marginBottom: 0 }} className="title">
@@ -32,7 +32,7 @@ class RequesterRoot extends React.Component {
               </h1>
             </div>
           </div>
-        </section>
+        </section> */}
 
         <div className="columns is-centered is-multiline">{this.AllActiveTasks}</div>
       </React.Fragment>

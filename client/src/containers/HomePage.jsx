@@ -45,20 +45,24 @@ export default class HomePage extends React.Component {
         </section>
         <section className="hero has-text-centered is-white">
           <h1 style={{ margin: 0, background: 'white', padding: '2rem' }} className="title">
-            What do you want to do?
+            What are you looking for?
           </h1>
-          <div
-            style={{ background: 'white' }}
-            className="columns is-mobile is-multiline is-centered"
-          >
-            <div style={{ minWidth: '18rem', maxWidth: '21rem' }} className="column">
+          <div className="columns is-mobile is-multiline is-centered">
+            <div
+              style={{ minWidth: '18rem', maxWidth: '21rem', margin: '1rem' }}
+              className="column"
+            >
               <RequestAService
                 onClickHandler={() => {
                   switchRoute(ROUTES.CLIENT.REQUESTER.root);
                 }}
               />
             </div>
-            <div style={{ minWidth: '18rem', maxWidth: '21rem' }} className="column">
+
+            <div
+              style={{ minWidth: '18rem', maxWidth: '21rem', margin: '1rem' }}
+              className="column"
+            >
               <ProvideAService
                 onClickHandler={() => {
                   switchRoute(ROUTES.CLIENT.TASKER.root);
@@ -81,7 +85,6 @@ const RequestAService = (props) => {
         switchRoute(ROUTES.CLIENT.REQUESTER.root);
       }}
       style={{
-        height: 400,
         cursor: 'pointer',
       }}
       className="card cardWithButton"
@@ -98,13 +101,12 @@ const RequestAService = (props) => {
       </div>
       <div className="centeredButtonInCard">
         <button
-          style={{ width: 200 }}
           onClick={(e) => {
             switchRoute(ROUTES.CLIENT.REQUESTER.root);
           }}
           className="button is-medium is-success centeredButtonInCard"
         >
-          <span>REQUESTER</span>
+          <span>Request a service</span>
         </button>
       </div>
     </div>
@@ -118,7 +120,6 @@ const ProvideAService = () => {
         switchRoute(ROUTES.CLIENT.TASKER.root);
       }}
       style={{
-        height: 400,
         cursor: 'pointer',
       }}
       className="card cardWithButton"
@@ -135,13 +136,12 @@ const ProvideAService = () => {
       </div>
       <div className="centeredButtonInCard">
         <button
-          style={{ width: 200 }}
           onClick={(e) => {
             switchRoute(ROUTES.CLIENT.TASKER.root);
           }}
           className="button is-medium is-dark centeredButtonInCard"
         >
-          <span>TASKER</span>
+          <span>Provide a service</span>
         </button>
       </div>
     </div>
@@ -151,16 +151,16 @@ const ProvideAService = () => {
 const HowItWorksRequestService = () => {
   return (
     <div>
-      <h1 className="title has-text-centered">Request a service</h1>
+      <h1 className="title has-text-centered">Get help with your chores?</h1>
       <ul className="has-text-left">
         <li>
-          <p className="is-size-5">Fill a request</p>
+          <p className="is-size-5">Browse Our Services</p>
         </li>
         <li>
-          <p className="is-size-5">Receive bids</p>
+          <p className="is-size-5">Receive Bids</p>
         </li>
         <li>
-          <p className="is-size-5">Choose a tasker</p>
+          <p className="is-size-5">Choose a tasker to get it done</p>
         </li>
       </ul>
       <br></br>
@@ -171,7 +171,7 @@ const HowItWorksRequestService = () => {
 const HowItWorksProvideService = () => {
   return (
     <div>
-      <h1 className="title has-text-centered">Provide a service</h1>
+      <h1 className="title has-text-centered">Earn money doing what you enjoy?</h1>
       <ul className="has-text-left">
         <li>
           <p className="is-size-5">Browse for tasks</p>
@@ -180,7 +180,7 @@ const HowItWorksProvideService = () => {
           <p className="is-size-5">Bid on them</p>
         </li>
         <li>
-          <p className="is-size-5">{`Do it & get paid`}</p>
+          <p className="is-size-5">{`Complete it & get paid`}</p>
         </li>
       </ul>
       <br></br>

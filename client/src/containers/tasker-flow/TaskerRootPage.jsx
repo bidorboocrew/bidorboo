@@ -301,7 +301,6 @@ class TaskerRootPage extends React.Component {
         <section className="hero is-white is-small">
           <div className="hero-body  has-text-centered">
             <div className="container">
-              <h1 className="title">Look For Tasks In Your Area</h1>
               {showSearchFilters && (
                 <button
                   onClick={this.toggleShowSearchFilters}

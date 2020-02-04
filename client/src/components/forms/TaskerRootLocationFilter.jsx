@@ -164,10 +164,7 @@ class TaskerRootLocationFilter extends React.Component {
     const disableSubmit = !addressText || !latLng || !latLng.lat || !latLng.lng || !searchRadius;
 
     return (
-      <div
-        style={{ height: 'unset', boxShadow: 'none', borderTop: '1px solid rgb(219,219,219)' }}
-        className="card nofixedwidth"
-      >
+      <div style={{ height: 'unset', boxShadow: 'none' }} className="card nofixedwidth">
         <div className="card-content">
           <div className="content has-text-left">
             <div className="group">
@@ -367,11 +364,15 @@ class TaskTypeFilter extends React.Component {
     const filterButtons = Object.keys(TASKS_DEFINITIONS)
       .filter((key) => !TASKS_DEFINITIONS[key].isComingSoon)
       .map((key) => {
+        const isSelected = currentFilters.indexOf(key) > -1;
         // let controlClass = `tag is-rounded ${taskTypesIds[key] ? 'is-link' : ''}`;
-        let controlClass = `button is-small ${currentFilters.indexOf(key) > -1 && 'is-info'}`;
+        let controlClass = `button is-small ${isSelected && 'is-info'}`;
         return (
           <span
-            style={{ cursor: 'pointer', minWidth: 165 }}
+            style={{
+              cursor: 'pointer',
+              minWidth: 165,
+            }}
             key={`key-${key}`}
             onClick={(e) => {
               e.preventDefault();
@@ -390,14 +391,20 @@ class TaskTypeFilter extends React.Component {
               }
               updateTaskTypesFilter(currentActiveFilters);
             }}
-            style={{ borderRadius: 25, margin: '4px 8px 0 0' }}
+            style={{
+              borderRadius: 25,
+              margin: '4px 8px 0 0',
+              boxShadow: isSelected
+                ? '0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)'
+                : 'none',
+            }}
             className={controlClass}
           >
             <span className="icon">
-              {currentFilters.indexOf(key) > -1 ? (
-                <i className="far fa-check-square"></i>
+              {isSelected ? (
+                <i className="far fa-check-circle"></i>
               ) : (
-                <i className="far fa-square"></i>
+                <i className="far fa-circle"></i>
               )}
             </span>
             <span></span>
