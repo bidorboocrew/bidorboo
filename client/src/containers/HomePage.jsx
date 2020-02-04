@@ -19,32 +19,6 @@ export default class HomePage extends React.Component {
   render() {
     return (
       <div>
-        <section
-          style={{
-            background: '#ee2a36',
-          }}
-          className="hero has-text-centered is-white"
-        >
-          <div style={{ backgroundImage: `url(${MainBanner})` }} className="hero-body">
-            <div className="container">
-              <h1
-                style={{
-                  color: 'white',
-                  marginBottom: 2,
-                  transform: 'scaleY(1.1)',
-                  fontWeight: 400,
-                }}
-                className="title is-1"
-              >
-                <span id="BidOrBoo-welcome-step">BidOrBoo</span>
-              </h1>
-              <h2 style={{ fontSize: 12 }} className="has-text-white">
-                Get your chores done for the right price. Earn money doing what you enjoy.
-              </h2>
-            </div>
-          </div>
-        </section>
-        <br></br>
         <section className="hero has-text-centered is-white">
           {/* <h1 style={{ margin: 0, background: 'white', padding: '2rem' }} className="title">
             What is BidOrBoo?
@@ -71,29 +45,13 @@ export default class HomePage extends React.Component {
         </section>
         <section className="hero has-text-centered is-white">
           <h1 style={{ margin: 0, background: 'white', padding: '2rem' }} className="title">
-            Get Started As A...
+            What do you want to do?
           </h1>
           <div
-            tyle={{ background: 'white' }}
+            style={{ background: 'white' }}
             className="columns is-mobile is-multiline is-centered"
           >
             <div style={{ minWidth: '18rem', maxWidth: '21rem' }} className="column">
-              <button
-                style={{
-                  display: 'inline-block',
-                  borderRadius: 0,
-                  borderBottom: '1px solid rgb(219,219,219)',
-                }}
-                onClick={(e) => {
-                  switchRoute(ROUTES.CLIENT.REQUESTER.root);
-                }}
-                className="button is-large is-success is-fullwidth"
-              >
-                <span className="icon">
-                  <i className="far fa-plus-square" />
-                </span>
-                <span>Requester</span>
-              </button>
               <RequestAService
                 onClickHandler={() => {
                   switchRoute(ROUTES.CLIENT.REQUESTER.root);
@@ -101,22 +59,6 @@ export default class HomePage extends React.Component {
               />
             </div>
             <div style={{ minWidth: '18rem', maxWidth: '21rem' }} className="column">
-              <button
-                style={{
-                  display: 'inline-block',
-                  borderRadius: 0,
-                  borderBottom: '1px solid rgb(219,219,219)',
-                }}
-                onClick={(e) => {
-                  switchRoute(ROUTES.CLIENT.TASKER.root);
-                }}
-                className="button is-dark is-large is-fullwidth"
-              >
-                <span className="icon">
-                  <i className="fas fa-hand-rock" />
-                </span>
-                <span>Tasker</span>
-              </button>
               <ProvideAService
                 onClickHandler={() => {
                   switchRoute(ROUTES.CLIENT.TASKER.root);
@@ -127,33 +69,6 @@ export default class HomePage extends React.Component {
         </section>
         <br></br>
         <br></br>
-        {/* <div
-          style={{
-            width: '50%',
-            margin: '3rem auto',
-            display: 'block',
-            borderBottom: '1px solid #ee2a36',
-          }}
-        /> */}
-        {/* <div className="columns is-mobile is-multiline is-centered">
-          <div style={{ maxWidth: '21rem', marginBottom: '1.5rem' }} className="column">
-            <VideoExplanation />
-          </div>
-        </div> */}
-        {/* <div
-          style={{
-            width: '50%',
-            margin: '3rem auto',
-            display: 'block',
-            borderBottom: '1px solid #ee2a36',
-          }}
-        /> */}
-        {/* <div className="container"> */}
-        {/* <br></br>
-        <br></br>
-        <br></br>
-        <RequesterRoot /> */}
-        {/* </div> */}
       </div>
     );
   }
@@ -166,11 +81,10 @@ const RequestAService = (props) => {
         switchRoute(ROUTES.CLIENT.REQUESTER.root);
       }}
       style={{
-        height: 350,
+        height: 400,
         cursor: 'pointer',
-        boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
       }}
-      className="card"
+      className="card cardWithButton"
     >
       <div className="card-image">
         <figure className="image">
@@ -182,19 +96,17 @@ const RequestAService = (props) => {
           <HowItWorksRequestService />
         </div>
       </div>
-      {/* <div className="centeredButtonInCard">
+      <div className="centeredButtonInCard">
         <button
-          onClick={() => {
+          style={{ width: 200 }}
+          onClick={(e) => {
             switchRoute(ROUTES.CLIENT.REQUESTER.root);
           }}
-          className="button is-fullwidth is-white"
+          className="button is-medium is-success centeredButtonInCard"
         >
-          <span className="icon">
-            <i className="far fa-plus-square" />
-          </span>
-          <span>Request</span>
+          <span>REQUESTER</span>
         </button>
-      </div> */}
+      </div>
     </div>
   );
 };
@@ -206,11 +118,10 @@ const ProvideAService = () => {
         switchRoute(ROUTES.CLIENT.TASKER.root);
       }}
       style={{
-        height: 350,
+        height: 400,
         cursor: 'pointer',
-        boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
       }}
-      className="card"
+      className="card cardWithButton"
     >
       <div className="card-image">
         <figure className="image">
@@ -222,19 +133,17 @@ const ProvideAService = () => {
           <HowItWorksProvideService />
         </div>
       </div>
-      {/* <div className="centeredButtonInCard">
+      <div className="centeredButtonInCard">
         <button
+          style={{ width: 200 }}
           onClick={(e) => {
             switchRoute(ROUTES.CLIENT.TASKER.root);
           }}
-          className="button is-fullwidth is-dark"
+          className="button is-medium is-dark centeredButtonInCard"
         >
-          <span className="icon">
-            <i className="fas fa-hand-rock" />
-          </span>
-          <span>Bid</span>
+          <span>TASKER</span>
         </button>
-      </div> */}
+      </div>
     </div>
   );
 };
@@ -242,7 +151,7 @@ const ProvideAService = () => {
 const HowItWorksRequestService = () => {
   return (
     <div>
-      <h1 className="title has-text-left">Request a service</h1>
+      <h1 className="title has-text-centered">Request a service</h1>
       <ul className="has-text-left">
         <li>
           <p className="is-size-5">Fill a request</p>
@@ -262,7 +171,7 @@ const HowItWorksRequestService = () => {
 const HowItWorksProvideService = () => {
   return (
     <div>
-      <h1 className="title has-text-left">Provide a service</h1>
+      <h1 className="title has-text-centered">Provide a service</h1>
       <ul className="has-text-left">
         <li>
           <p className="is-size-5">Browse for tasks</p>
