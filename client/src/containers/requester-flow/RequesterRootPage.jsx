@@ -11,7 +11,7 @@ class RequesterRoot extends React.Component {
     this.AllActiveTasks = getAllActiveRequestsTemplateCards({ ...props }).map((task, index) => {
       return (
         <div
-          style={{ marginBottom: '3rem' }}
+          style={{ margin: '3rem' }}
           key={index}
           className="column is-narrow isforCards slide-in-bottom-small"
         >

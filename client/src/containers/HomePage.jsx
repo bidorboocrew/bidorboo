@@ -13,7 +13,7 @@ export default class HomePage extends React.Component {
     window.document.querySelector('body').setAttribute('style', 'background: white');
   }
   componentWillUnmount() {
-    window.document.querySelector('body').setAttribute('background', '#eee');
+    window.document.querySelector('body').setAttribute('style', 'background: #eee');
   }
 
   render() {
