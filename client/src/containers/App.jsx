@@ -56,7 +56,6 @@ const ReviewMyAwardedRequestAndWinningBidPage = lazy(() =>
   import('./requester-flow/ReviewMyAwardedRequestAndWinningBidPage.jsx'),
 );
 
-
 const pathsWhereWeDontShowPortalDetail = [
   '/BidOrBoo',
   '/terms-of-service',
@@ -103,12 +102,13 @@ class App extends React.Component {
   }
 
   render() {
+    const { isLoggedIn } = this.props;
     let dontShowPortalHelper =
       window.location.pathname === '/' ||
       /(\/\?).*/.test(window.location.pathname) ||
       pathsWhereWeDontShowPortalDetail.some((path) => window.location.pathname.includes(path));
     let styleToPut = { paddingTop: '2.5rem' };
-    if (dontShowPortalHelper) {
+    if (dontShowPortalHelper || !isLoggedIn) {
       styleToPut = {};
     }
     if (this.state.hasError) {

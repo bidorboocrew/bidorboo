@@ -162,7 +162,7 @@ class Header extends React.Component {
     const isThereRequestsHappeningToday =
       requestsHappeningToday && requestsHappeningToday.length > 0;
     const isThereBidsHappeningToday = bidsHappeningToday && bidsHappeningToday.length > 0;
-    const isAnythingHappeningToday = isThereRequestsHappeningToday || isThereBidsHappeningToday;
+    // const isAnythingHappeningToday = isThereRequestsHappeningToday || isThereBidsHappeningToday;
 
     const requestRecievedNewBids = requestIdsWithNewBids && requestIdsWithNewBids.length > 0;
     const bidsGotAwardedToMe = myBidsWithNewStatus && myBidsWithNewStatus.length > 0;
@@ -178,139 +178,135 @@ class Header extends React.Component {
       /(\/\?).*/.test(window.location.pathname) ||
       pathsWhereWeDontShowPortalDetail.some((path) => window.location.pathname.includes(path));
 
+    const renderTaskerRequesterToggle = (
+      <div className="navbar-item">
+        <div className="tabs is-centered is-toggle is-toggle-rounded is-small is-mobile">
+          <ul>
+            <li className={`${!isActingAsTasker && !dontShowPortalHelper && 'is-active'}`}>
+              <a
+                style={{ padding: '0.2rem 1rem 0.2rem 0.2rem' }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  switchRoute(ROUTES.CLIENT.REQUESTER.root);
+                }}
+              >
+                <span className="icon">
+                  {!isActingAsTasker && !dontShowPortalHelper ? (
+                    <i className="fas fa-check-circle"></i>
+                  ) : (
+                    <i className="far fa-circle"></i>
+                  )}
+                </span>
+                <span
+                  className={`${
+                    !isActingAsTasker && !dontShowPortalHelper ? 'has-text-weight-semibold' : ''
+                  }`}
+                >
+                  Requester
+                </span>
+              </a>
+            </li>
+            <li className={`${isActingAsTasker && !dontShowPortalHelper && 'is-active'}`}>
+              <a
+                style={{ padding: '0.2rem 0.2rem 0.2rem 1rem' }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  switchRoute(ROUTES.CLIENT.TASKER.root);
+                }}
+              >
+                <span
+                  className={`${
+                    isActingAsTasker && !dontShowPortalHelper ? 'has-text-weight-semibold' : ''
+                  }`}
+                  style={{ marginRight: 4 }}
+                >
+                  Tasker
+                </span>
+
+                <span className="icon">
+                  {isActingAsTasker && !dontShowPortalHelper ? (
+                    <i className="fas fa-check-circle"></i>
+                  ) : (
+                    <i className="far fa-circle"></i>
+                  )}
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    );
     const loggedOutView = (
-      <>
-        <nav id="BID_OR_BOO_APP_HEADER" className="navbar is-fixed-top">
-          <LoginOrRegisterModal
-            isActive={shouldShowLoginDialog && !isOnLoginPage}
-            handleCancel={this.toggleLoginDialog}
-          />
-          <div style={{ flexGrow: 1, cursor: 'pointer' }} className="navbar-brand">
-            <a
-              style={{ paddingRight: 4, cursor: 'pointer' }}
-              id="BidOrBoo-logo-step"
+      <nav
+        id="BID_OR_BOO_APP_HEADER"
+        className="navbar is-fixed-top"
+        style={{ boxShadow: dontShowPortalHelper ? '0 2px 4px 0 rgba(0, 0, 0, 0.34) ' : '' }}
+      >
+        <LoginOrRegisterModal
+          isActive={shouldShowLoginDialog && !isOnLoginPage}
+          handleCancel={this.toggleLoginDialog}
+        />
+        <div style={{ flexGrow: 1, cursor: 'pointer' }} className="navbar-brand">
+          <a
+            style={{ paddingRight: 4, cursor: 'pointer' }}
+            id="BidOrBoo-logo-step"
+            onClick={() => {
+              this.closeMenuThenExecute(() => {
+                switchRoute(ROUTES.CLIENT.HOME);
+              });
+            }}
+            className={`navbar-item`}
+          >
+            <img
+              src={logoImg}
+              alt="BidOrBoo"
+              width="34"
+              height="auto"
+              style={{ maxHeight: 'unset' }}
+            />
+            <div
               onClick={() => {
                 this.closeMenuThenExecute(() => {
                   switchRoute(ROUTES.CLIENT.HOME);
                 });
               }}
-              className={`navbar-item`}
             >
-              <img
-                src={logoImg}
-                alt="BidOrBoo"
-                width="34"
-                height="auto"
-                style={{ maxHeight: 'unset' }}
-              />
               <div
                 onClick={() => {
                   this.closeMenuThenExecute(() => {
                     switchRoute(ROUTES.CLIENT.HOME);
                   });
                 }}
+                style={{ fontSize: 24, cursor: 'pointer', marginLeft: 4 }}
+                className="is-hidden-touch"
               >
-                <div
-                  onClick={() => {
-                    this.closeMenuThenExecute(() => {
-                      switchRoute(ROUTES.CLIENT.HOME);
-                    });
-                  }}
-                  style={{ fontSize: 24, cursor: 'pointer', marginLeft: 4 }}
-                  className="is-hidden-touch"
-                >
-                  <span style={{ color: '#ee2a36', fontWeight: 500 }}>B</span>id
-                  <span style={{ color: '#ee2a36', fontWeight: 500 }}>O</span>r
-                  <span style={{ color: '#ee2a36', fontWeight: 500 }}>B</span>oo
-                </div>
-              </div>
-            </a>
-
-            <div style={{ flexGrow: 1 }} className="navbar-item"></div>
-            {!isOnLoginPage && (
-              <div className=" navbar-item">
-                <a
-                  style={{ borderRadius: 2, fontWeight: 500, border: '1px solid #eee' }}
-                  className="button is-link is-inverted is-small"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    switchRoute(ROUTES.CLIENT.LOGIN_OR_REGISTER, {
-                      isLoggedIn: false,
-                    });
-                  }}
-                >
-                  LOGIN
-                </a>
-              </div>
-            )}
-          </div>
-        </nav>
-        {!dontShowPortalHelper && (
-          <div id="bob-currentViewHelper">
-            <div style={{ display: 'inline-block' }}>
-              <div className="has-text-centered" style={{ display: 'inline-block' }}>
-                <span
-                  style={{ cursor: 'pointer', width: 135 }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    switchRoute(ROUTES.CLIENT.REQUESTER.root);
-                  }}
-                  style={{
-                    borderRadius: '25px 0 0 25px',
-                    borderRight: '1px solid rgb(219, 219, 219)',
-                    boxShadow: 'none',
-                  }}
-                  className="button is-small is-outlined"
-                >
-                  <span className="icon">
-                    {!isActingAsTasker ? (
-                      <i className="fas fa-check-circle"></i>
-                    ) : (
-                      <i className="far fa-circle"></i>
-                    )}
-                  </span>
-                  <span
-                    className={`${!isActingAsTasker ? 'has-text-weight-semibold' : null}`}
-                    style={{ width: 100 }}
-                  >
-                    Requester View
-                  </span>
-                </span>
-              </div>
-              <div className="has-text-centered" style={{ display: 'inline-block' }}>
-                <span
-                  style={{ cursor: 'pointer', width: 135 }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    switchRoute(ROUTES.CLIENT.TASKER.root);
-                  }}
-                  style={{
-                    borderRadius: '0 25px 25px 0',
-                    borderLeft: '1px solid rgb(219, 219, 219)',
-                    boxShadow: 'none',
-                  }}
-                  className="button is-small is-outlined"
-                >
-                  <span
-                    className={`${isActingAsTasker ? 'has-text-weight-semibold' : null}`}
-                    style={{ marginRight: 4, width: 100 }}
-                  >
-                    Tasker View
-                  </span>
-
-                  <span className="icon">
-                    {isActingAsTasker ? (
-                      <i className="fas fa-check-circle"></i>
-                    ) : (
-                      <i className="far fa-circle"></i>
-                    )}
-                  </span>
-                </span>
+                <span style={{ color: '#ee2a36', fontWeight: 500 }}>B</span>id
+                <span style={{ color: '#ee2a36', fontWeight: 500 }}>O</span>r
+                <span style={{ color: '#ee2a36', fontWeight: 500 }}>B</span>oo
               </div>
             </div>
-          </div>
-        )}
-      </>
+          </a>
+          <div style={{ flexGrow: 1 }} className="navbar-item"></div>
+          {renderTaskerRequesterToggle}
+          {!isOnLoginPage && (
+            <div className=" navbar-item">
+              <a
+                style={{ borderRadius: 2, fontWeight: 500, border: '1px solid #eee' }}
+                className="button is-link is-inverted is-small"
+                onClick={(e) => {
+                  e.preventDefault();
+                  switchRoute(ROUTES.CLIENT.LOGIN_OR_REGISTER, {
+                    isLoggedIn: false,
+                  });
+                }}
+              >
+                LOGIN
+              </a>
+            </div>
+          )}
+        </div>
+        {/* the switch view button */}
+      </nav>
     );
 
     if (!isLoggedIn) {
@@ -328,8 +324,11 @@ class Header extends React.Component {
             className="modal-background"
           />
         )}
-        {/* is-spaced is a good prop to add  */}
-        <nav id="BID_OR_BOO_APP_HEADER" className="navbar is-fixed-top">
+        <nav
+          id="BID_OR_BOO_APP_HEADER"
+          className="navbar is-fixed-top"
+          style={{ boxShadow: dontShowPortalHelper ? '0 2px 4px 0 rgba(0, 0, 0, 0.34) ' : '' }}
+        >
           <LoginOrRegisterModal
             isActive={shouldShowLoginDialog}
             handleCancel={this.toggleLoginDialog}
@@ -387,165 +386,7 @@ class Header extends React.Component {
               </div>
             </div>
 
-            {!dontShowPortalHelper && (
-              <div className="navbar-item is-hidden-desktop">
-                {!isActingAsTasker && (
-                  <React.Fragment>
-                    <a
-                      className={`navbar-item ${
-                        activeNavBarMenuId === HREF_TO_TABID.REQUEST_A_SERVICE ? 'is-active' : ''
-                      }`}
-                      onClick={(e) => {
-                        this.closeMenuThenExecute(() => {
-                          switchRoute(ROUTES.CLIENT.REQUESTER.root);
-                        });
-                      }}
-                    >
-                      <span className="icon">
-                        <i className="far fa-plus-square" />
-                      </span>
-                      <span>REQUEST</span>
-                    </a>
-
-                    <a
-                      className={`navbar-item ${
-                        activeNavBarMenuId === HREF_TO_TABID.MY_REQUESTS ? 'is-active' : ''
-                      }`}
-                      onClick={(e) => {
-                        this.closeMenuThenExecute(() => {
-                          switchRoute(ROUTES.CLIENT.REQUESTER.myRequestsPage);
-                        });
-                      }}
-                    >
-                      <span style={{ position: 'relative' }} className="icon">
-                        <i className="fas fa-list" />
-                        {requestRecievedNewBids && (
-                          <span
-                            style={{
-                              fontSize: 8,
-                              position: 'absolute',
-                              top: -6,
-                              left: -6,
-                              borderRadius: '100%',
-                              textAlign: 'center',
-                            }}
-                            className="icon has-text-danger"
-                          >
-                            <i className="fas fa-circle" />
-                          </span>
-                        )}
-                      </span>
-                      <span>MY REQS.</span>
-                    </a>
-                  </React.Fragment>
-                )}
-
-                {isActingAsTasker && (
-                  <React.Fragment>
-                    <a
-                      className={`navbar-item ${
-                        activeNavBarMenuId === HREF_TO_TABID.PROVIDE_A_SERVICE ? 'is-active' : ''
-                      }`}
-                      onClick={(e) => {
-                        this.closeMenuThenExecute(() => {
-                          switchRoute(ROUTES.CLIENT.TASKER.root);
-                        });
-                      }}
-                    >
-                      <span className="icon">
-                        <i className="fas fa-hand-rock" />
-                      </span>
-                      <span>BID</span>
-                    </a>
-
-                    <a
-                      onClick={(e) => {
-                        this.closeMenuThenExecute(() => {
-                          return switchRoute(ROUTES.CLIENT.TASKER.mybids);
-                        });
-                      }}
-                      className={`navbar-item ${
-                        activeNavBarMenuId === HREF_TO_TABID.MY_BIDS ? 'is-active' : ''
-                      }`}
-                    >
-                      <span style={{ position: 'relative' }} className="icon">
-                        <i className="fas fa-list" />
-                        {bidsGotAwardedToMe && (
-                          <span
-                            style={{
-                              fontSize: 8,
-                              position: 'absolute',
-                              top: -6,
-                              left: -6,
-                              borderRadius: '100%',
-                              textAlign: 'center',
-                            }}
-                          >
-                            <span className="has-text-danger icon">
-                              <i className="fas fa-circle" />
-                            </span>
-                          </span>
-                        )}
-                      </span>
-                      <span>MY BIDS</span>
-                    </a>
-                  </React.Fragment>
-                )}
-              </div>
-            )}
-
-            {dontShowPortalHelper && (
-              <div className="navbar-item is-hidden-desktop">
-                <React.Fragment>
-                  <a
-                    className={`navbar-item`}
-                    onClick={(e) => {
-                      this.closeMenuThenExecute(() => {
-                        switchRoute(ROUTES.CLIENT.REQUESTER.root);
-                      });
-                    }}
-                  >
-                    <span className="icon">
-                      <i className="far fa-plus-square" />
-                    </span>
-                    <span>REQUESTER</span>
-                  </a>
-                  <a
-                    className={`navbar-item`}
-                    onClick={(e) => {
-                      this.closeMenuThenExecute(() => {
-                        switchRoute(ROUTES.CLIENT.TASKER.root);
-                      });
-                    }}
-                  >
-                    <span className="icon">
-                      <i className="fas fa-hand-rock" />
-                    </span>
-                    <span>TASKER</span>
-                  </a>
-                </React.Fragment>
-              </div>
-            )}
-
-            {/* {isLoggedIn && showNotificationButton && (
-              <div className="navbar-item">
-                <a
-                  style={{ borderRadius: '100%' }}
-                  onClick={this.toggleNotificationMenu}
-                  className="button is-danger is-small"
-                >
-                  <span className="icon">
-                    <i className="fas fa-bell" />
-                  </span>
-                </a>
-              </div>
-            )} */}
-
-            {/* {isNotificationMenuActive &&
-              ReactDOM.createPortal(
-                <NotificationsModal onClose={this.toggleNotificationMenu} />,
-                this.modalRootNode,
-              )} */}
+            {renderTaskerRequesterToggle}
 
             <a
               onClick={(e) => {
@@ -581,149 +422,7 @@ class Header extends React.Component {
             })}
           >
             <div className="navbar-end">
-              {/* {!onlyShowReqAndBidButtons && ( */}
-              {!dontShowPortalHelper && (
-                <div className="navbar-item is-hidden-touch">
-                  {!isActingAsTasker && (
-                    <>
-                      <a
-                        className={`navbar-item ${
-                          activeNavBarMenuId === HREF_TO_TABID.REQUEST_A_SERVICE ? 'is-active' : ''
-                        }`}
-                        onClick={(e) => {
-                          this.closeMenuThenExecute(() => {
-                            switchRoute(ROUTES.CLIENT.REQUESTER.root);
-                          });
-                        }}
-                      >
-                        <span className="icon">
-                          <i className="far fa-plus-square" />
-                        </span>
-                        <span>REQUEST</span>
-                      </a>
-                      <a
-                        className={`navbar-item ${
-                          activeNavBarMenuId === HREF_TO_TABID.MY_REQUESTS ? 'is-active' : ''
-                        }`}
-                        onClick={(e) => {
-                          this.closeMenuThenExecute(() => {
-                            switchRoute(ROUTES.CLIENT.REQUESTER.myRequestsPage);
-                          });
-                        }}
-                      >
-                        <span style={{ position: 'relative' }} className="icon">
-                          <i className="fas fa-list" />
-                          {requestRecievedNewBids && (
-                            <span
-                              style={{
-                                fontSize: 8,
-                                position: 'absolute',
-                                top: -6,
-                                left: -6,
-                                borderRadius: '100%',
-                                textAlign: 'center',
-                              }}
-                              className="icon has-text-danger"
-                            >
-                              <i className="fas fa-circle" />
-                            </span>
-                          )}
-                        </span>
-                        <span>MY REQUESTS</span>
-                      </a>
-                    </>
-                  )}
-
-                  {isActingAsTasker && (
-                    <>
-                      <a
-                        className={`navbar-item ${
-                          activeNavBarMenuId === HREF_TO_TABID.PROVIDE_A_SERVICE ? 'is-active' : ''
-                        }`}
-                        onClick={(e) => {
-                          this.closeMenuThenExecute(() => {
-                            switchRoute(ROUTES.CLIENT.TASKER.root);
-                          });
-                        }}
-                      >
-                        <span className="icon">
-                          <i className="fas fa-hand-rock" />
-                        </span>
-                        <span>BID</span>
-                      </a>
-                      <a
-                        onClick={(e) => {
-                          this.closeMenuThenExecute(() => {
-                            return switchRoute(ROUTES.CLIENT.TASKER.mybids);
-                          });
-                        }}
-                        className={`navbar-item ${
-                          activeNavBarMenuId === HREF_TO_TABID.MY_BIDS ? 'is-active' : ''
-                        }`}
-                      >
-                        <span style={{ position: 'relative' }} className="icon">
-                          <i className="fas fa-list" />
-                          {bidsGotAwardedToMe && (
-                            <span
-                              style={{
-                                fontSize: 8,
-                                position: 'absolute',
-                                top: -6,
-                                left: -6,
-                                borderRadius: '100%',
-                                textAlign: 'center',
-                              }}
-                            >
-                              <span className="has-text-danger icon">
-                                <i className="fas fa-circle" />
-                              </span>
-                            </span>
-                          )}
-                        </span>
-                        <span>MY BIDS</span>
-                      </a>
-                    </>
-                  )}
-                </div>
-              )}
-
-              {dontShowPortalHelper && (
-                <div className="navbar-item is-hidden-touch">
-                  <>
-                    <a
-                      className={`navbar-item`}
-                      onClick={(e) => {
-                        this.closeMenuThenExecute(() => {
-                          switchRoute(ROUTES.CLIENT.REQUESTER.root);
-                        });
-                      }}
-                    >
-                      <span className="icon">
-                        <i className="far fa-plus-square" />
-                      </span>
-                      <span>REQUESTER</span>
-                    </a>
-                    <a
-                      className={`navbar-item`}
-                      onClick={(e) => {
-                        this.closeMenuThenExecute(() => {
-                          switchRoute(ROUTES.CLIENT.TASKER.root);
-                        });
-                      }}
-                    >
-                      <span className="icon">
-                        <i className="fas fa-hand-rock" />
-                      </span>
-                      <span>TASKER</span>
-                    </a>
-                  </>
-                </div>
-              )}
-
-              {/* )} */}
-
               <div
-                // id="myprofile-step"
                 className={`navbar-item dropdown is-right  ${
                   isProfileMenuActive ? 'is-active' : ''
                 }`}
@@ -750,72 +449,6 @@ class Header extends React.Component {
                         isProfileMenuActive ? 'is-active' : ''
                       }`}
                     >
-                      {isLoggedIn && (
-                        <React.Fragment>
-                          {isActingAsTasker ? (
-                            <a
-                              id="switch-role-step"
-                              onClick={(e) =>
-                                this.closeMenuThenExecute(() => {
-                                  switchRoute(ROUTES.CLIENT.REQUESTER.root);
-                                })
-                              }
-                              className="navbar-item"
-                            >
-                              <span style={{ position: 'relative' }} className="icon">
-                                <i className="fas fa-exchange-alt" />
-                                {requestRecievedNewBids && (
-                                  <span
-                                    style={{
-                                      fontSize: 8,
-                                      position: 'absolute',
-                                      top: 0,
-                                      left: 0,
-                                      borderRadius: '100%',
-                                      textAlign: 'center',
-                                    }}
-                                    className="has-text-info"
-                                  >
-                                    <i className="fas fa-circle" />
-                                  </span>
-                                )}
-                              </span>
-                              <span>Switch to Requester View</span>
-                            </a>
-                          ) : (
-                            <a
-                              id="switch-role-step"
-                              onClick={(e) =>
-                                this.closeMenuThenExecute(() => {
-                                  switchRoute(ROUTES.CLIENT.TASKER.root);
-                                })
-                              }
-                              className="navbar-item"
-                            >
-                              <span style={{ position: 'relative' }} className="icon">
-                                <i className="fas fa-exchange-alt" />
-                                {bidsGotAwardedToMe && (
-                                  <div
-                                    style={{
-                                      fontSize: 8,
-                                      position: 'absolute',
-                                      top: 0,
-                                      left: 0,
-                                      borderRadius: '100%',
-                                      textAlign: 'center',
-                                    }}
-                                    className="has-text-info"
-                                  >
-                                    <i className="fas fa-circle" />
-                                  </div>
-                                )}
-                              </span>
-                              <span>Switch to Tasker View</span>
-                            </a>
-                          )}
-                        </React.Fragment>
-                      )}
-                      <hr className="navbar-divider" />
                       <a
                         // id="myprofile-step"
                         onClick={() => {
@@ -935,67 +568,91 @@ class Header extends React.Component {
         </nav>
         {!dontShowPortalHelper && (
           <div id="bob-currentViewHelper">
-            <div style={{ display: 'inline-block' }}>
-              <div className="has-text-centered" style={{ display: 'inline-block' }}>
-                <span
-                  style={{ cursor: 'pointer', width: 135 }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    switchRoute(ROUTES.CLIENT.REQUESTER.root);
-                  }}
-                  style={{
-                    borderRadius: '25px 0 0 25px',
-                    borderRight: '1px solid rgb(219, 219, 219)',
-                    boxShadow: 'none',
-                  }}
-                  className="button is-small is-outlined"
-                >
-                  <span className="icon">
-                    {!isActingAsTasker ? (
-                      <i className="fas fa-check-circle"></i>
-                    ) : (
-                      <i className="far fa-circle"></i>
-                    )}
-                  </span>
-                  <span
-                    className={`${!isActingAsTasker ? 'has-text-weight-semibold' : null}`}
-                    style={{ width: 100 }}
+            {!isActingAsTasker && (
+              <div className="tabs is-centered is-mobile">
+                <ul>
+                  <li
+                    className={`${
+                      activeNavBarMenuId === HREF_TO_TABID.REQUEST_A_SERVICE ? 'is-active' : ''
+                    }`}
                   >
-                    Requester View
-                  </span>
-                </span>
-              </div>
-              <div className="has-text-centered" style={{ display: 'inline-block' }}>
-                <span
-                  style={{ cursor: 'pointer' }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    switchRoute(ROUTES.CLIENT.TASKER.root);
-                  }}
-                  style={{
-                    borderRadius: '0 25px 25px 0',
-                    borderLeft: '1px solid rgb(219, 219, 219)',
-                    boxShadow: 'none',
-                  }}
-                  className="button is-small is-outlined"
-                >
-                  <span
-                    className={`${isActingAsTasker ? 'has-text-weight-semibold' : null}`}
-                    style={{ marginRight: 4, width: 100 }}
+                    <a
+                      style={{
+                        fontWeight:
+                          activeNavBarMenuId === HREF_TO_TABID.REQUEST_A_SERVICE ? '600' : '300',
+                      }}
+                      onClick={(e) => {
+                        this.closeMenuThenExecute(() => {
+                          switchRoute(ROUTES.CLIENT.REQUESTER.root);
+                        });
+                      }}
+                    >
+                      <span>SERVICES</span>
+                    </a>
+                  </li>
+                  <li
+                    className={`${
+                      activeNavBarMenuId === HREF_TO_TABID.MY_REQUESTS ? 'is-active' : ''
+                    }`}
                   >
-                    Tasker View
-                  </span>
-
-                  <span className="icon">
-                    {isActingAsTasker ? (
-                      <i className="fas fa-check-circle"></i>
-                    ) : (
-                      <i className="far fa-circle"></i>
-                    )}
-                  </span>
-                </span>
+                    <a
+                      style={{
+                        fontWeight:
+                          activeNavBarMenuId === HREF_TO_TABID.MY_REQUESTS ? '600' : '300',
+                      }}
+                      onClick={(e) => {
+                        this.closeMenuThenExecute(() => {
+                          switchRoute(ROUTES.CLIENT.REQUESTER.myRequestsPage);
+                        });
+                      }}
+                    >
+                      MY REQUESTS
+                    </a>
+                  </li>
+                </ul>
               </div>
-            </div>
+            )}
+            {isActingAsTasker && (
+              <div className="tabs is-centered is-mobile">
+                <ul>
+                  <li
+                    className={`${
+                      activeNavBarMenuId === HREF_TO_TABID.PROVIDE_A_SERVICE ? 'is-active' : ''
+                    }`}
+                  >
+                    <a
+                      style={{
+                        fontWeight:
+                          activeNavBarMenuId === HREF_TO_TABID.PROVIDE_A_SERVICE ? '600' : '300',
+                      }}
+                      onClick={(e) => {
+                        this.closeMenuThenExecute(() => {
+                          switchRoute(ROUTES.CLIENT.TASKER.root);
+                        });
+                      }}
+                    >
+                      <span>BID</span>
+                    </a>
+                  </li>
+                  <li
+                    className={`${activeNavBarMenuId === HREF_TO_TABID.MY_BIDS ? 'is-active' : ''}`}
+                  >
+                    <a
+                      style={{
+                        fontWeight: activeNavBarMenuId === HREF_TO_TABID.MY_BIDS ? '600' : '300',
+                      }}
+                      onClick={(e) => {
+                        this.closeMenuThenExecute(() => {
+                          switchRoute(ROUTES.CLIENT.TASKER.mybids);
+                        });
+                      }}
+                    >
+                      MY BIDS
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
         )}
       </React.Fragment>

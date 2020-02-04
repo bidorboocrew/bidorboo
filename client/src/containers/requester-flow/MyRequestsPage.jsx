@@ -101,8 +101,8 @@ class MyRequestsPage extends React.Component {
         <section className="hero is-success is-bold is-small">
           <div className="hero-body  has-text-centered">
             <div className="container">
-              <h1 style={{ marginBottom: 0 }} className="title">
-                My Requests
+              <h1 style={{ marginBottom: 0 }} className="subtitle">
+                Check Requests' status
               </h1>
             </div>
           </div>

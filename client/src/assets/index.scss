@@ -92,9 +92,11 @@ html body {
   width: 100%;
   text-align: center;
   background: white;
-  padding: 0 10px 12px 10px;
-  border-bottom: 1px solid rgb(219, 219, 219);
-  border-top: 1px solid transparent;
+  -webkit-animation: slide-in-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: slide-in-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  // padding: 0 10px 12px 10px;
+  // border-bottom: 1px solid rgb(219, 219, 219);
+  // border-top: 1px solid transparent;
 }
 #BID_OR_BOO_APP_HEADER {
   height: 4rem !important;
@@ -209,6 +211,9 @@ $family-sans-serif: 'Work Sans', sans-serif !default;
 $family-monospace: 'Work Sans', sans-serif !default;
 $render-mode: optimizeLegibility !default;
 $button-disabled-opacity: 0.85;
+
+$tabs-toggle-link-active-background-color: $red;
+$tabs-toggle-link-active-border-color: $orange;
 
 @import 'bulma/bulma.sass';
 @import 'bulma-switch/dist/css/bulma-switch.sass';
