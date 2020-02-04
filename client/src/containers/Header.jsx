@@ -342,7 +342,7 @@ class Header extends React.Component {
             handleCancel={this.toggleLoginDialog}
           />
 
-          <div className="navbar-brand">
+          <div style={{ flexGrow: 1, cursor: 'pointer' }} className="navbar-brand">
             <a
               style={{ paddingRight: 4 }}
               id="BidOrBoo-logo-step"
