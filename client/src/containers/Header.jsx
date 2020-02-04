@@ -631,7 +631,7 @@ class Header extends React.Component {
                         });
                       }}
                     >
-                      <span>BID</span>
+                      <span>Look For Tasks</span>
                     </a>
                   </li>
                   <li
