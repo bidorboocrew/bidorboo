@@ -307,6 +307,8 @@ UserSchema.pre('save', async function(next) {
 
 UserSchema.virtual('canPost').get(function() {
   // return this.phone && this.phone.isVerified &&
+  return true;
+
   return !!(
     this.phone &&
     this.phone.isVerified &&
@@ -319,7 +321,7 @@ UserSchema.virtual('canPost').get(function() {
 
 UserSchema.virtual('canBid').get(function() {
   // return this.email && this.email.isVerified;
-
+  return true;
   return !!(
     this.phone &&
     this.phone.isVerified &&

@@ -76,7 +76,7 @@ class TaskerRootLocationFilter extends React.Component {
           },
         });
       } else {
-        this.handleChange(addressText, { ...pos });
+        this.handleChange(addressText, { ...pos }, true);
       }
     }
   };

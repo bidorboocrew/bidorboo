@@ -703,7 +703,7 @@ exports.EmailService = {
       to: 'bidorboo@bidorboo.ca',
       from: 'bidorboo@bidorboo.ca',
       subject: `FAILED PAYOUT CASE: ${requestId}`,
-      text: ` Payment to bank was not successful follow up with user
+      text: `Payment to bank was not successful follow up with user
     ${JSON.stringify(paymentDetails)}`,
       html: `
       <p>Payment to bank was not successful follow up with user
