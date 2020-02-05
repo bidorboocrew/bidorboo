@@ -424,7 +424,7 @@ class Header extends React.Component {
 
           <div
             id="navbarmenu"
-            style={{ padding: 0 }}
+            style={{ padding: 0, flexGrow: 'unset' }}
             className={classNames('navbar-menu', {
               'is-active': isHamburgerOpen,
             })}
