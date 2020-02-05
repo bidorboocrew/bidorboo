@@ -8,7 +8,7 @@ module.exports = {
       script: './index.js',
       watch: false,
       min_uptime: '5s',
-      instances: 0,
+      instances: 3,
       exec_mode: 'cluster',
       autorestart: true,
       max_restarts: 2,
