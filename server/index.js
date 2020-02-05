@@ -30,6 +30,7 @@ app.use(responseTime());
 app.use(expressip().getIpInfoMiddleware);
 
 if (process.env.NODE_ENV === 'production') {
+  require('newrelic');
   app.use(bugsnagMiddleware.requestHandler);
 }
 // initialize bugsnag
