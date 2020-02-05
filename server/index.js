@@ -1,3 +1,6 @@
+if (process.env.NODE_ENV === 'production') {
+  require('newrelic');
+}
 const express = require('express');
 const passport = require('passport');
 const path = require('path');
@@ -30,7 +33,6 @@ app.use(responseTime());
 app.use(expressip().getIpInfoMiddleware);
 
 if (process.env.NODE_ENV === 'production') {
-  require('newrelic');
   app.use(bugsnagMiddleware.requestHandler);
 }
 // initialize bugsnag
