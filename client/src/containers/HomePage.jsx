@@ -21,7 +21,6 @@ export default class HomePage extends React.Component {
       <div>
         <section
           style={{
-
             marginBottom: '2rem',
           }}
           className="hero has-text-centered is-small is-danger"
@@ -54,11 +53,14 @@ export default class HomePage extends React.Component {
                   url="https://youtu.be/YHh9JbJAyf0"
                   width="100%"
                   height="100%"
-                  youtubeConfig={{
-                    playerVars: {
+                  config={{
+                    youtube: {
+                      rel: 0,
                       modestbranding: 1,
+                      iv_load_policy: 3,
                       origin: 'https://www.bidorboo.ca',
                       widget_referrer: 'https://www.bidorboo.ca',
+                      preload: true,
                     },
                   }}
                 />
