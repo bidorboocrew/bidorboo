@@ -395,7 +395,7 @@ module.exports = (app) => {
       return res.status(200).send();
     } catch (e) {
       e.safeMsg = 'payouts Webhook failed';
-      sendGridEmailing.informBobCrewAboutFailedPayment({ requestId, paymentDetails: e });
+      sendGridEmailing.informBobCrewAboutFailedPayment({ requestId: 'uknown', paymentDetails: e });
 
       return next(e);
     }
