@@ -77,7 +77,7 @@ class ReviewRequestAndBidsPage extends React.Component {
     if (!selectedRequestWithBids || !selectedRequestWithBids._id) {
       return (
         <div className="container is-widescreen">
-          <Spinner renderLabel={'Loading Your Request'} isLoading={true} size={'large'} />
+          <Spinner renderLabel={'Loading Your Request'} isLoading size={'large'} />
         </div>
       );
     }
@@ -117,7 +117,7 @@ class ReviewRequestAndBidsPage extends React.Component {
               <div className="container is-widescreen">
                 <Spinner
                   renderLabel={'Processing your payment. Please wait'}
-                  isLoading={true}
+                  isLoading
                   size={'large'}
                   isDark={false}
                 />

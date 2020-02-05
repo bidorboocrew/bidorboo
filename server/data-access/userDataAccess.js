@@ -179,13 +179,13 @@ exports.findUserAndAllNewNotifications = async (mongoUserId) => {
         'AWARDED',
         'AWARDED_REQUEST_CANCELED_BY_REQUESTER',
         'DONE',
-        'DISPUTE_RESOLVED',
+        // 'DISPUTE_RESOLVED',
       ];
 
       const requestStatesWhereRequesterNeedsToBeNotified = [
         'OPEN',
         'AWARDED_REQUEST_CANCELED_BY_TASKER',
-        'DISPUTE_RESOLVED',
+        // 'DISPUTE_RESOLVED',
       ];
 
       const user = await User.findById(mongoUserId, {

@@ -162,10 +162,10 @@ module.exports = (app) => {
           return res.send({ success: true, updatedUser: userAfterUpdate });
         }
         return res.status(400).send({
-          errorMsg: `couldn't register your bank account please use the chat button to talk to our customer support`,
+          errorMsg: `couldn't register your bank account. please Chat with our customer support for further help`,
         });
       } catch (e) {
-        e.safeMsg = `couldn't register your bank account please use the chat button to talk to our customer support`;
+        e.safeMsg = `couldn't register your bank account please Chat with our customer support for further help`;
         return next(e);
       }
     }
@@ -368,6 +368,8 @@ module.exports = (app) => {
                 'payoutDetails.status': { status },
               },
             });
+            sendGridEmailing.informBobCrewAboutSuccessPayment({ requestId, paymentDetails: data });
+
             //xxx inform user that it is paid via msg email..etc
             break;
           case 'payout.failed':
@@ -378,7 +380,7 @@ module.exports = (app) => {
                 'payoutDetails.status': { status },
               },
             });
-            sendGridEmailing.informBobCrewAboutFailedPayment({ requestId, data });
+            sendGridEmailing.informBobCrewAboutFailedPayment({ requestId, paymentDetails: data });
             break;
           default:
             requestDataAccess.updateRequestById(requestId, {
@@ -386,13 +388,15 @@ module.exports = (app) => {
                 'payoutDetails.status': { status },
               },
             });
-            sendGridEmailing.informBobCrewAboutFailedPayment({ requestId, data });
+            sendGridEmailing.informBobCrewAboutFailedPayment({ requestId, paymentDetails: data });
             break;
         }
       }
       return res.status(200).send();
     } catch (e) {
       e.safeMsg = 'payouts Webhook failed';
+      sendGridEmailing.informBobCrewAboutFailedPayment({ requestId, paymentDetails: e });
+
       return next(e);
     }
   });

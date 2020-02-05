@@ -24,22 +24,11 @@ export default class PostYourBid extends React.Component {
     }
   };
 
-  toggleShowTaskerOnBoardingDialog = (val) => {
-    this.setState({ showTaskerOnBoardingDialog: val });
-  };
   render() {
-    const { showBidDialog, showTaskerOnBoardingDialog } = this.state;
+    const { showBidDialog } = this.state;
 
     return (
       <>
-        {/* {showTaskerOnBoardingDialog && (
-          <AnytimeQuickModal
-            showModal={showTaskerOnBoardingDialog}
-            setShowModal={this.toggleShowTaskerOnBoardingDialog}
-            title={'Tasker Onboarding'}
-            renderContentFunc={() => <TaskerVerificationBanner></TaskerVerificationBanner>}
-          />
-        )} */}
         <div className="centeredButtonInCard">
           <button
             onClick={this.openShowBidDialog}

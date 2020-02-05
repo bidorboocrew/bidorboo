@@ -215,7 +215,7 @@ img.max-width {
     <img role="social-icon" alt="Twitter" title="Twitter" src="https://marketing-image-production.s3.amazonaws.com/social/white/twitter.png" style="height:32px; width:32px;" height="32" width="32">
   </a>
 </td><td style="padding: 0px 5px;">
-  <a role="social-icon-link" href="https://www.instagram.com/bidorboo/" target="_blank" alt="Instagram" title="Instagram" style="display:inline-block; background-color:#EE2A36; height:32px; width:32px; border-radius:4px; -webkit-border-radius:4px; -moz-border-radius:4px;">
+  <a role="social-icon-link" href="https://www.instagram.com/bidorboo" target="_blank" alt="Instagram" title="Instagram" style="display:inline-block; background-color:#EE2A36; height:32px; width:32px; border-radius:4px; -webkit-border-radius:4px; -moz-border-radius:4px;">
     <img role="social-icon" alt="Instagram" title="Instagram" src="https://marketing-image-production.s3.amazonaws.com/social/white/instagram.png" style="height:32px; width:32px;" height="32" width="32">
   </a>
 </td></tr>

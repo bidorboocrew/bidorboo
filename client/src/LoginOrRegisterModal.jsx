@@ -12,7 +12,6 @@ export default class LoginOrRegisterModal extends React.Component {
   render() {
     const { isActive, handleCancel } = this.props;
 
-    const redirectedFromUrl = `${window.location.pathname || '/'}`;
     return isActive ? (
       <div className="modal is-active">
         <div onClick={handleCancel} className="modal-background" />
@@ -26,7 +25,6 @@ export default class LoginOrRegisterModal extends React.Component {
                 handleCancel();
                 return switchRoute(ROUTES.CLIENT.LOGIN_OR_REGISTER, {
                   isLoggedIn: false,
-                  redirectedFromUrl,
                 });
               }}
               className="button is-success"

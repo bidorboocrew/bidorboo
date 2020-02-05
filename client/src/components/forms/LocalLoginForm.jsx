@@ -26,7 +26,6 @@ const EnhancedForms = withFormik({
   }),
   mapPropsToValues: (props) => {
     return {
-      originPath: props.redirectedFromUrl || '/',
       recaptchaField: process.env.NODE_ENV === 'production' ? '' : 'development_test',
     };
   },
@@ -34,7 +33,6 @@ const EnhancedForms = withFormik({
     props.onSubmit({
       email: values.loginEmail,
       password: values.loginPassword,
-      originPath: values.originPath,
       recaptchaField: values.recaptchaField,
     });
     setSubmitting(false);

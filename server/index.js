@@ -1,3 +1,6 @@
+if (process.env.NODE_ENV === 'production') {
+  require('newrelic');
+}
 const express = require('express');
 const passport = require('passport');
 const path = require('path');
@@ -56,6 +59,7 @@ require('./services/CronRepeatingJobs')(app);
 // error handling
 app.use((err, req, res, next) => {
   let userError = {};
+  userError.statusCode = 400;
 
   console.log('BIDORBOOLOGS - ERROR ======== error handler BEGIN==========');
   if (err.joi) {
@@ -109,9 +113,6 @@ app.use((err, req, res, next) => {
       break;
   }
 
-  if (!err.statusCode) {
-    userError.statusCode = 400;
-  } // If err has no specified error code, set error code to 'Internal Server Error (500)'
   if (err.message) {
     userError.safeMsg = err.safeMsg || err.message;
   }
@@ -139,12 +140,23 @@ if (process.env.NODE_ENV === 'production') {
 
   // Express will serve up production assets
   // like our main.js file, or main.css file!
-  app.use(express.static('../client/build'));
+  app.use(
+    express.static('../client/build', {
+      setHeaders: (res, path, stat) => {
+        if (path.indexOf('build/static/js') > -1) {
+          res.setHeader('Cache-Control', 'public, max-age=31536000');
+        } else if (path.indexOf('build/static/css') > -1) {
+          res.setHeader('Cache-Control', 'public, max-age=31536000');
+        } else {
+          res.setHeader('Cache-Control', 'public, no-cache');
+        }
+      },
+    })
+  );
 
   // Express will serve up the index.html file
   // if it doesn't recognize the route
   app.get('/*', (req, res, next) => {
-    console.log('serving dirname ' + path.resolve(__dirname, '../client', './build', 'index.html'));
     res.sendFile(path.resolve(__dirname, '../client', './build', 'index.html'));
   });
 }

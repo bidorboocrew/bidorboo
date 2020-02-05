@@ -16,13 +16,18 @@ module.exports = (app) => {
   app.get(
     ROUTES.API.AUTH.GOOGLE_CALLBACK,
     passport.authenticate('google', {
-      successReturnToOrRedirect: '/',
-      failureRedirect: '/?loginSuccess=false',
       failureFlash: true,
-    }),
-    (req, res) => {
-      res.redirect('/?loginSuccess=true');
-    }
+      failureMessage:
+        'Something went wrong while authenticating , sorry contact bidorboo@bidorboo.ca',
+      failureRedirect: '/?loginSuccess=false',
+      failWithError: true,
+      successFlash: true,
+      successMessage: 'Successful login',
+      successRedirect: '/?loginSuccess=true',
+      successReturnToOrRedirect: '/?loginSuccess=true',
+      // state: string;
+      passReqToCallback: true,
+    })
   );
 
   // Facebook routes
@@ -35,13 +40,18 @@ module.exports = (app) => {
   app.get(
     ROUTES.API.AUTH.FACEBOOK_CALLBACK,
     passport.authenticate('facebook', {
-      successReturnToOrRedirect: '/',
-      failureRedirect: '/?loginSuccess=false',
       failureFlash: true,
-    }),
-    (req, res) => {
-      res.redirect('/?loginSuccess=true');
-    }
+      failureMessage:
+        'Something went wrong while authenticating , sorry contact bidorboo@bidorboo.ca',
+      failureRedirect: '/?loginSuccess=false',
+      failWithError: true,
+      successFlash: true,
+      successMessage: 'Successful login',
+      successRedirect: '/?loginSuccess=true',
+      successReturnToOrRedirect: '/?loginSuccess=true',
+      // state: string;
+      passReqToCallback: true,
+    })
   );
 
   app.get(ROUTES.API.AUTH.LOGOUT, (req, res, next) => {
@@ -117,8 +127,7 @@ module.exports = (app) => {
       })(req, res, next);
     },
     async (req, res, done) => {
-      const redirectUrl = '/';
-      return res.send({ user: req.user, redirectUrl });
+      return res.send({ user: req.user });
     }
   );
 };

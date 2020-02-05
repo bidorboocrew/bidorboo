@@ -2,6 +2,7 @@
 
 @import './_animatecss.scss';
 @import './_addToCalendar.scss';
+@import '../../node_modules/@fortawesome/fontawesome-free/css/all.min.css';
 
 @import url('https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700&display=swap');
 
@@ -84,12 +85,24 @@ html body {
 #bdb-home-content {
   background: white;
 }
-
+#bob-currentViewHelper {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !important;
+  position: fixed;
+  z-index: 20;
+  width: 100%;
+  text-align: center;
+  background: white;
+  -webkit-animation: slide-in-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: slide-in-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  // padding: 0 10px 12px 10px;
+  // border-bottom: 1px solid rgb(219, 219, 219);
+  // border-top: 1px solid transparent;
+}
 #BID_OR_BOO_APP_HEADER {
   height: 4rem !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.24) !important;
+  a.navbar-item {
+    cursor: pointer;
 
-  * a.navbar-item {
     color: #363636 !important;
     &:hover {
       background: rgba(#363636, 0.4) !important;
@@ -97,82 +110,12 @@ html body {
     }
   }
 
-  * a.navbar-item.is-active {
+  a.navbar-item.is-active {
     font-weight: 600 !important;
     color: #363636 !important;
     &:hover {
       background: rgba(#363636, 0.4) !important;
       color: #fff !important;
-    }
-  }
-  #myprofile-step > nav > div > a {
-    color: #363636 !important;
-    &:hover {
-      background: rgba(#363636, 0.4) !important;
-      color: #fff !important;
-    }
-  }
-
-  &.taskerAppBar {
-    background: #363636 !important;
-    color: white !important;
-    * a.navbar-item {
-      color: white !important;
-      background: none !important;
-      &:hover {
-        background: rgba(#fff, 0.8) !important;
-        color: #363636 !important;
-      }
-    }
-    * a.navbar-item.is-active {
-      color: white !important;
-      font-weight: 600 !important;
-      background: none !important;
-      &:hover {
-        background: rgba(#fff, 0.8) !important;
-        color: #363636 !important;
-      }
-    }
-
-    #myprofile-step > nav > div > a {
-      color: white !important;
-      background: none !important;
-      &:hover {
-        background: rgba(#fff, 0.8) !important;
-        color: #363636 !important;
-      }
-    }
-    #myprofile-step > nav > div > div.navbar-dropdown {
-      background: #363636 !important;
-    }
-    #myprofile-step.navbar-item.dropdown.is-right.is-active {
-      background: #363636 !important;
-    }
-    #navbarmenu {
-      background: #363636 !important;
-      > div > div.navbar-item.dropdown.is-right > nav > div > a > span.displayname {
-        color: white;
-      }
-    }
-    #navbarmenu > div > div.navbar-item.dropdown.is-right.is-active > nav > div > a {
-      &:hover {
-        background: rgba(#fff, 0.8) !important;
-      }
-    }
-    #navbarmenu > div > div.navbar-item.dropdown.is-right.is-active > nav > div > div {
-      background: #363636;
-    }
-    * #mobile-nav-burger {
-      color: white !important;
-      background: none !important;
-      &:hover {
-        background: rgba(#fff, 0.8) !important;
-        color: #363636 !important;
-      }
-      div.navbar-end {
-        background: unset !important;
-        color: unset !important;
-      }
     }
   }
 
@@ -181,10 +124,12 @@ html body {
     #BidOrBoo-logo-step {
       &:hover {
         background: none !important;
+        color: unset !important;
       }
     }
     &:hover {
       background: none !important;
+      color: unset !important;
     }
   }
 }
@@ -266,6 +211,9 @@ $family-sans-serif: 'Work Sans', sans-serif !default;
 $family-monospace: 'Work Sans', sans-serif !default;
 $render-mode: optimizeLegibility !default;
 $button-disabled-opacity: 0.85;
+
+$tabs-toggle-link-active-background-color: $red;
+$tabs-toggle-link-active-border-color: $orange;
 
 @import 'bulma/bulma.sass';
 @import 'bulma-switch/dist/css/bulma-switch.sass';
@@ -1026,7 +974,7 @@ div.react-datepicker__input-container {
 .player-wrapper {
   position: relative;
   padding-top: 56.25%; /* Player ratio: 100 / (1280 / 720) */
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  // box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 .react-player {

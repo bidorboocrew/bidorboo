@@ -9,61 +9,24 @@ import REQUESTER_MAINPAGE from '../assets/images/REQUESTER_MAINPAGE.png';
 import TASKER_MAINPAGE from '../assets/images/TASKER_MAINPAGE.png';
 
 export default class HomePage extends React.Component {
+  componentDidMount() {
+    window.document.querySelector('body').setAttribute('style', 'background: white');
+  }
+  componentWillUnmount() {
+    window.document.querySelector('body').setAttribute('style', 'background: #eee');
+  }
+
   render() {
     return (
       <div>
         <section
           style={{
-            background: '#ee2a36',
-            marginBottom: '3.5rem',
+
+            marginBottom: '2rem',
           }}
-          className="hero has-text-centered"
+          className="hero has-text-centered is-small is-danger"
         >
-          <div
-            style={{ position: 'relative', backgroundImage: `url(${MainBanner})` }}
-            className="hero-body"
-          >
-            <div
-              style={{
-                position: 'absolute',
-                margin: 'auto',
-                left: 0,
-                bottom: '-1.5rem',
-                width: '100%',
-              }}
-            >
-              <button
-                style={{
-                  width: 150,
-                  marginRight: 30,
-                  boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
-                }}
-                onClick={(e) => {
-                  switchRoute(ROUTES.CLIENT.REQUESTER.root);
-                }}
-                className="button is-medium is-success"
-              >
-                <span className="icon">
-                  <i className="far fa-plus-square" />
-                </span>
-                <span>Request</span>
-              </button>
-              <button
-                style={{
-                  width: 150,
-                  boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
-                }}
-                onClick={(e) => {
-                  switchRoute(ROUTES.CLIENT.TASKER.root);
-                }}
-                className="button is-medium is-dark"
-              >
-                <span className="icon">
-                  <i className="fas fa-hand-rock" />
-                </span>
-                <span>Bid</span>
-              </button>
-            </div>
+          <div style={{ backgroundImage: `url(${MainBanner})` }} className="hero-body">
             <div className="container">
               <h1
                 style={{
@@ -76,16 +39,16 @@ export default class HomePage extends React.Component {
               >
                 <span id="BidOrBoo-welcome-step">BidOrBoo</span>
               </h1>
-              <h2 style={{ fontSize: 12 }} className="has-text-white">
+              <h2 style={{ fontSize: 16 }} className="has-text-white">
                 Get your chores done for the right price. Earn money doing what you enjoy.
               </h2>
             </div>
           </div>
         </section>
-        <section className="hero has-text-centered ">
+        <section className="hero has-text-centered is-white">
           <div style={{ position: 'relative' }}>
             <div style={{ margin: 'auto', maxWidth: 800, padding: '0.5rem' }}>
-              <div className="player-wrapper fade-in">
+              <div className="player-wrapper">
                 <ReactPlayer
                   className="react-player"
                   url="https://youtu.be/YHh9JbJAyf0"
@@ -97,57 +60,42 @@ export default class HomePage extends React.Component {
                       origin: 'https://www.bidorboo.ca',
                       widget_referrer: 'https://www.bidorboo.ca',
                     },
-                    preload: true,
                   }}
                 />
               </div>
             </div>
           </div>
         </section>
-        <br></br> <br></br> <br></br>
-        <div className="columns is-mobile is-multiline is-centered">
-          <div style={{ maxWidth: '21rem', marginBottom: '1.5rem' }} className="column">
-            <RequestAService
-              onClickHandler={() => {
-                switchRoute(ROUTES.CLIENT.REQUESTER.root);
-              }}
-            />
+        <section className="hero has-text-centered is-white">
+          <h1 style={{ margin: 0, background: 'white', padding: '2rem' }} className="title">
+            What are you looking for?
+          </h1>
+          <div className="columns is-mobile is-multiline is-centered">
+            <div
+              style={{ minWidth: '18rem', maxWidth: '21rem', margin: '1rem' }}
+              className="column"
+            >
+              <RequestAService
+                onClickHandler={() => {
+                  switchRoute(ROUTES.CLIENT.REQUESTER.root);
+                }}
+              />
+            </div>
+
+            <div
+              style={{ minWidth: '18rem', maxWidth: '21rem', margin: '1rem' }}
+              className="column"
+            >
+              <ProvideAService
+                onClickHandler={() => {
+                  switchRoute(ROUTES.CLIENT.TASKER.root);
+                }}
+              />
+            </div>
           </div>
-          <div style={{ maxWidth: '21rem', marginBottom: '1.5rem' }} className="column">
-            <ProvideAService
-              onClickHandler={() => {
-                switchRoute(ROUTES.CLIENT.TASKER.root);
-              }}
-            />
-          </div>
-        </div>
-        {/* <div
-          style={{
-            width: '50%',
-            margin: '3rem auto',
-            display: 'block',
-            borderBottom: '1px solid #ee2a36',
-          }}
-        /> */}
-        {/* <div className="columns is-mobile is-multiline is-centered">
-          <div style={{ maxWidth: '21rem', marginBottom: '1.5rem' }} className="column">
-            <VideoExplanation />
-          </div>
-        </div> */}
-        {/* <div
-          style={{
-            width: '50%',
-            margin: '3rem auto',
-            display: 'block',
-            borderBottom: '1px solid #ee2a36',
-          }}
-        /> */}
-        {/* <div className="container"> */}
-        {/* <br></br>
+        </section>
         <br></br>
         <br></br>
-        <RequesterRoot /> */}
-        {/* </div> */}
       </div>
     );
   }
@@ -161,13 +109,12 @@ const RequestAService = (props) => {
       }}
       style={{
         cursor: 'pointer',
-        boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
       }}
       className="card cardWithButton"
     >
       <div className="card-image">
         <figure className="image">
-          <img src={REQUESTER_MAINPAGE} alt="Placeholder" />
+          <img style={{ height: 150 }} src={REQUESTER_MAINPAGE} alt="Placeholder" />
         </figure>
       </div>
       <div className="card-content">
@@ -175,19 +122,16 @@ const RequestAService = (props) => {
           <HowItWorksRequestService />
         </div>
       </div>
-      {/* <div className="centeredButtonInCard">
+      <div className="centeredButtonInCard">
         <button
-          onClick={() => {
+          onClick={(e) => {
             switchRoute(ROUTES.CLIENT.REQUESTER.root);
           }}
-          className="button is-fullwidth is-white"
+          className="button is-medium is-success centeredButtonInCard"
         >
-          <span className="icon">
-            <i className="far fa-plus-square" />
-          </span>
-          <span>Request</span>
+          <span>Request a service</span>
         </button>
-      </div> */}
+      </div>
     </div>
   );
 };
@@ -200,13 +144,12 @@ const ProvideAService = () => {
       }}
       style={{
         cursor: 'pointer',
-        boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
       }}
       className="card cardWithButton"
     >
       <div className="card-image">
         <figure className="image">
-          <img src={TASKER_MAINPAGE} alt="Placeholder" />
+          <img style={{ height: 150 }} src={TASKER_MAINPAGE} alt="Placeholder" />
         </figure>
       </div>
       <div className="card-content">
@@ -214,19 +157,16 @@ const ProvideAService = () => {
           <HowItWorksProvideService />
         </div>
       </div>
-      {/* <div className="centeredButtonInCard">
+      <div className="centeredButtonInCard">
         <button
           onClick={(e) => {
             switchRoute(ROUTES.CLIENT.TASKER.root);
           }}
-          className="button is-fullwidth is-dark"
+          className="button is-medium is-dark centeredButtonInCard"
         >
-          <span className="icon">
-            <i className="fas fa-hand-rock" />
-          </span>
-          <span>Bid</span>
+          <span>Provide a service</span>
         </button>
-      </div> */}
+      </div>
     </div>
   );
 };
@@ -234,16 +174,16 @@ const ProvideAService = () => {
 const HowItWorksRequestService = () => {
   return (
     <div>
-      <h1 className="title has-text-centered">Request a service</h1>
-      <ul style={{ margin: 'auto', maxWidth: 220 }}>
+      <h1 className="title has-text-centered">Need help with your chores?</h1>
+      <ul className="has-text-left">
         <li>
-          <p className="is-size-5">Fill a request</p>
+          <p className="is-size-5">Browse Our Services</p>
         </li>
         <li>
-          <p className="is-size-5">Receive bids</p>
+          <p className="is-size-5">Receive Bids</p>
         </li>
         <li>
-          <p className="is-size-5">Choose a tasker</p>
+          <p className="is-size-5">Choose a tasker to get it done</p>
         </li>
       </ul>
       <br></br>
@@ -254,16 +194,16 @@ const HowItWorksRequestService = () => {
 const HowItWorksProvideService = () => {
   return (
     <div>
-      <h1 className="title has-text-centered">Bid on requests</h1>
-      <ul style={{ margin: 'auto', maxWidth: 195 }}>
+      <h1 className="title has-text-centered">Earn money doing what you enjoy?</h1>
+      <ul className="has-text-left">
         <li>
-          <p className="is-size-5">Browse tasks</p>
+          <p className="is-size-5">Browse for tasks</p>
         </li>
         <li>
-          <p className="is-size-5">Enter Your Bid</p>
+          <p className="is-size-5">Bid on them</p>
         </li>
         <li>
-          <p className="is-size-5">{`Do it & get paid`}</p>
+          <p className="is-size-5">{`Complete it & get paid`}</p>
         </li>
       </ul>
       <br></br>

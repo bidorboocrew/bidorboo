@@ -24,6 +24,7 @@ module.exports = (app) => {
       keys: [keys.cookieKey, keys.cookieKey2],
       resave: false,
       saveUninitialized: true,
+      sameSite: 'strict',
     })
   );
   app.use(cookieParser());

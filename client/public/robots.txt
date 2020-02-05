@@ -2,7 +2,7 @@ User-agent: *
 Disallow: /my-profile*
 Disallow: /bdb-bidder/my-bids*
 Disallow: /my-open-requests*
-Disallow: bdb-bidder/review-my-bid-details*
+Disallow: /bdb-bidder/review-my-bid-details*
 Disallow: /my-request*
 Disallow: /bdb-bidder/awarded-bid-details*
 Sitemap: https://www.bidorboo.ca/sitemap.xml

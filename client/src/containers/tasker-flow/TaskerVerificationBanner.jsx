@@ -174,29 +174,29 @@ class TaskerVerificationBanner extends React.Component {
           </>
         );
       } else if (showAddBankInfo) {
-        return (
-          <section className="hero is-success is-small is-bold slide-in-top">
-            <div className="hero-body">
-              <div className="container">
-                <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
-                  To receive payouts you must add your bank info
-                </h1>
-                <button
-                  className={`button is-small is-dark ${isLoading ? 'is-loading' : ''}`}
-                  onClick={this.redirectToPaymentSetting}
-                >
-                  <span className="icon">
-                    <i className="far fa-credit-card" aria-hidden="true" />
-                  </span>
-                  <span>ADD A PAYOUT ACCOUNT</span>
-                </button>
-                <div className="help has-text-light">
-                  *This will redirect you to payout settings page
-                </div>
-              </div>
-            </div>
-          </section>
-        );
+        // we dont wana bug them too much
+        return null;
+        // return (
+        //   <section className="hero is-success is-small is-bold slide-in-top">
+        //     <div className="hero-body">
+        //       <div className="container">
+        //         <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
+        //           To receive payouts you must add your bank info
+        //         </h1>
+        //         <button
+        //           className={`button is-small is-dark ${isLoading ? 'is-loading' : ''}`}
+        //           onClick={this.redirectToPaymentSetting}
+        //         >
+        //           <span className="icon">
+        //             <i className="far fa-credit-card" aria-hidden="true" />
+        //           </span>
+        //           <span>ADD A PAYOUT ACCOUNT</span>
+        //         </button>
+        //         <div className="help has-text-light">*This will redirect you to payouts page</div>
+        //       </div>
+        //     </div>
+        //   </section>
+        // );
       } else {
         return (
           <section className="hero is-success is-small is-bold slide-in-top">

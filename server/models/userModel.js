@@ -265,7 +265,7 @@ const UserSchema = new Schema(
       type: String,
       required: [
         true,
-        'We could not establish a stripe customer account. In order to proceed please chat with us via the chat button in the footer',
+        'We could not establish a stripe customer account. In order to proceed you can Chat with our customer support for further help',
       ],
     },
     // canBid: { type: Boolean, default: false },
@@ -307,6 +307,8 @@ UserSchema.pre('save', async function(next) {
 
 UserSchema.virtual('canPost').get(function() {
   // return this.phone && this.phone.isVerified &&
+  return true;
+
   return !!(
     this.phone &&
     this.phone.isVerified &&
@@ -319,7 +321,7 @@ UserSchema.virtual('canPost').get(function() {
 
 UserSchema.virtual('canBid').get(function() {
   // return this.email && this.email.isVerified;
-
+  return true;
   return !!(
     this.phone &&
     this.phone.isVerified &&

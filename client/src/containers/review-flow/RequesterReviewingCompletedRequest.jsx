@@ -284,7 +284,7 @@ export class RequesterReviewingCompletedRequest extends React.Component {
     return (
       <div style={{ background: 'white' }} className="container is-widescreen has-text-centered">
         {!userToBeRated && (
-          <Spinner renderLabel={'fetching Tasker Details'} isLoading={true} isDark={false} />
+          <Spinner renderLabel={'fetching Tasker Details'} isLoading isDark={false} />
         )}
         {userToBeRated && (
           <>

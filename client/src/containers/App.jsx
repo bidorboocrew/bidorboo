@@ -6,7 +6,7 @@ import { Redirect } from 'react-router';
 
 // https://github.com/osano/cookieconsent/tree/dev/src
 // import CookieConsent from 'cookieconsent';
-
+// import GetNotificationsAndScroll from '../GetNotificationsAndScroll.jsx';
 import Toast from '../components/Toast';
 import LoadingBar from 'react-redux-loading-bar';
 import * as ROUTES from '../constants/frontend-route-consts';
@@ -23,6 +23,7 @@ import { Spinner } from '../components/Spinner.jsx';
 import { Header, HomePage, ResetLocalPassword, FirstTimeUser, LoginOrRegisterPage } from './index';
 
 import ShowSpecialMomentModal from './ShowSpecialMomentModal';
+import Pre_AuthInProgress from '../Pre_AuthInProgress.jsx';
 
 const FreshdeskChat = lazy(() => import('./FreshdeskChat.jsx'));
 
@@ -55,6 +56,12 @@ const ReviewMyAwardedRequestAndWinningBidPage = lazy(() =>
   import('./requester-flow/ReviewMyAwardedRequestAndWinningBidPage.jsx'),
 );
 
+const pathsWhereWeDontShowPortalDetail = [
+  '/BidOrBoo',
+  '/terms-of-service',
+  '/reset-password',
+  '/my-profile',
+];
 const getCookieByName = (name) => {
   var value = '; ' + document.cookie;
   var parts = value.split('; ' + name + '=');
@@ -95,6 +102,15 @@ class App extends React.Component {
   }
 
   render() {
+    const { isLoggedIn } = this.props;
+    let dontShowPortalHelper =
+      window.location.pathname === '/' ||
+      /(\/\?).*/.test(window.location.pathname) ||
+      pathsWhereWeDontShowPortalDetail.some((path) => window.location.pathname.includes(path));
+    let styleToPut = { paddingTop: '2.5rem' };
+    if (dontShowPortalHelper || !isLoggedIn) {
+      styleToPut = {};
+    }
     if (this.state.hasError) {
       // You can render any custom fallback UI
       return (
@@ -185,104 +201,110 @@ class App extends React.Component {
           }}
         />
         <Header id="bidorboo-header" />
-        <div id="RoutesWrapper" className="has-navbar-fixed-top">
-          <Suspense fallback={<Spinner renderLabel="loading..."></Spinner>}>
-            <Switch>
-              <Route exact path={ROUTES.CLIENT.HOME} component={HomePage} />
-              <Route exact path={ROUTES.CLIENT.REQUESTER.root} component={RequesterRootPage} />
-              <Route
-                exact
-                path={`${ROUTES.CLIENT.REQUESTER.createrequest}`}
-                component={CreateARequestPage}
-              />
-              <Route exact path={ROUTES.CLIENT.TASKER.root} component={TaskerRootPage} />
-              <Route
-                exact
-                path={ROUTES.CLIENT.TASKER.bidOnRequestPage}
-                component={BidOnRequestPage}
-              />
-              <Route
-                exact
-                path={`${ROUTES.CLIENT.USER_ROFILE_FOR_REVIEW}`}
-                component={OtherUserProfileForReviewPage}
-              />
+        <div id="RoutesWrapper" style={{ ...styleToPut }} className="has-navbar-fixed-top">
+          <Pre_AuthInProgress>
+            <Suspense fallback={<Spinner isLoading renderLabel="loading..."></Spinner>}>
+              <Switch>
+                <Route exact path={ROUTES.CLIENT.HOME} component={HomePage} />
+                <Route exact path={ROUTES.CLIENT.REQUESTER.root} component={RequesterRootPage} />
+                <Route
+                  exact
+                  path={`${ROUTES.CLIENT.REQUESTER.createrequest}`}
+                  component={CreateARequestPage}
+                />
+                <Route exact path={ROUTES.CLIENT.TASKER.root} component={TaskerRootPage} />
+                <Route
+                  exact
+                  path={ROUTES.CLIENT.TASKER.bidOnRequestPage}
+                  component={BidOnRequestPage}
+                />
+                <Route
+                  exact
+                  path={`${ROUTES.CLIENT.USER_ROFILE_FOR_REVIEW}`}
+                  component={OtherUserProfileForReviewPage}
+                />
 
-              <Route exact path={`${ROUTES.CLIENT.ONBOARDING}`} component={FirstTimeUser} />
-              <Route exact path={`${ROUTES.CLIENT.RESETPASSWORD}`} component={ResetLocalPassword} />
-              <Route exact path={'/login-and-registration'} component={LoginOrRegisterPage} />
+                <Route exact path={`${ROUTES.CLIENT.ONBOARDING}`} component={FirstTimeUser} />
+                <Route
+                  exact
+                  path={`${ROUTES.CLIENT.RESETPASSWORD}`}
+                  component={ResetLocalPassword}
+                />
+                <Route exact path={'/login-and-registration'} component={LoginOrRegisterPage} />
 
-              <Route
-                exact
-                path={`${ROUTES.CLIENT.REQUESTER.myRequestsPage}`}
-                component={MyRequestsPage}
-              />
+                <Route
+                  exact
+                  path={`${ROUTES.CLIENT.REQUESTER.myRequestsPage}`}
+                  component={MyRequestsPage}
+                />
 
-              <Route
-                exact
-                path={`${ROUTES.CLIENT.REQUESTER.reviewRequestAndBidsPage}`}
-                component={ReviewRequestAndBidsPage}
-              />
-              <Route
-                exact
-                path={`${ROUTES.CLIENT.REQUESTER.selectedAwardedRequestPage}`}
-                component={ReviewMyAwardedRequestAndWinningBidPage}
-              />
+                <Route
+                  exact
+                  path={`${ROUTES.CLIENT.REQUESTER.reviewRequestAndBidsPage}`}
+                  component={ReviewRequestAndBidsPage}
+                />
+                <Route
+                  exact
+                  path={`${ROUTES.CLIENT.REQUESTER.selectedAwardedRequestPage}`}
+                  component={ReviewMyAwardedRequestAndWinningBidPage}
+                />
 
-              <Route exact path={ROUTES.CLIENT.TASKER.mybids} component={MyBidsPage} />
-              <Route
-                exact
-                path={`${ROUTES.CLIENT.TASKER.reviewMyOpenBidAndTheRequestDetails}`}
-                component={ReviewBidAndRequestPage}
-              />
-              <Route
-                exact
-                path={`${ROUTES.CLIENT.TASKER.awardedBidDetailsPage}`}
-                component={ReviewAwardedBidPage}
-              />
-              <Route exact path={ROUTES.CLIENT.MY_PROFILE.basicSettings} component={MyProfile} />
-              <Route
-                exact
-                path={ROUTES.CLIENT.MY_PROFILE.myNotifications}
-                component={MyNotifications}
-              />
-              <Route
-                exact
-                path={ROUTES.CLIENT.MY_PROFILE.paymentSettings}
-                component={PaymentSettings}
-              />
-              <Route
-                exact
-                path={`${ROUTES.CLIENT.REVIEW.requesterRequestReview}`}
-                component={RequesterReviewingCompletedRequest}
-              />
-              <Route
-                exact
-                path={`${ROUTES.CLIENT.REVIEW.taskerRequestReview}`}
-                component={TaskerReviewingCompletedRequest}
-              />
+                <Route exact path={ROUTES.CLIENT.TASKER.mybids} component={MyBidsPage} />
+                <Route
+                  exact
+                  path={`${ROUTES.CLIENT.TASKER.reviewMyOpenBidAndTheRequestDetails}`}
+                  component={ReviewBidAndRequestPage}
+                />
+                <Route
+                  exact
+                  path={`${ROUTES.CLIENT.TASKER.awardedBidDetailsPage}`}
+                  component={ReviewAwardedBidPage}
+                />
+                <Route exact path={ROUTES.CLIENT.MY_PROFILE.basicSettings} component={MyProfile} />
+                <Route
+                  exact
+                  path={ROUTES.CLIENT.MY_PROFILE.myNotifications}
+                  component={MyNotifications}
+                />
+                <Route
+                  exact
+                  path={ROUTES.CLIENT.MY_PROFILE.paymentSettings}
+                  component={PaymentSettings}
+                />
+                <Route
+                  exact
+                  path={`${ROUTES.CLIENT.REVIEW.requesterRequestReview}`}
+                  component={RequesterReviewingCompletedRequest}
+                />
+                <Route
+                  exact
+                  path={`${ROUTES.CLIENT.REVIEW.taskerRequestReview}`}
+                  component={TaskerReviewingCompletedRequest}
+                />
 
-              <Route exact path={ROUTES.CLIENT.TOS} component={TermsOfService} />
-              <Redirect path="*" to={ROUTES.CLIENT.HOME} />
-            </Switch>
-          </Suspense>
+                <Route exact path={ROUTES.CLIENT.TOS} component={TermsOfService} />
+                <Redirect path="*" to={ROUTES.CLIENT.HOME} />
+              </Switch>
+            </Suspense>
+          </Pre_AuthInProgress>
         </div>
 
         <footer id="mainFooter" className="footer">
           <nav className="level">
             <div className="level-item has-text-centered">
               <div>
-                <p className="has-text-white is-size-7">Availability</p>
                 <div className="is-size-7">
                   <img width={21} height={21} alt="Canada" src={canadaFlag} />
                 </div>
+                <p className="has-text-white is-size-7">Availability</p>
               </div>
             </div>
             <div className="level-item has-text-centered">
               <div>
-                <div className="has-text-white is-size-7">
-                  <img src={logoImg} alt="BidOrBoo" width={21} height={21} />
-                  {` BidOrBoo Inc`}
+                <div>
+                  <img src={logoImg} alt="BidOrBoo" width={24} height={24} />
                 </div>
+                <p className="has-text-white is-size-7">BidOrBoo Inc</p>
                 <div style={{ marginTop: 6 }}>
                   <AddToMobileHomeScreenBanner />
                 </div>
@@ -292,16 +314,105 @@ class App extends React.Component {
             <div className="level-item has-text-centered">
               <div>
                 <div style={{ marginBottom: '0.5rem' }}>
-                  <Suspense fallback={<Spinner renderLabel="loading..."></Spinner>}>
+                  <Suspense fallback={<Spinner isLoadingrenderLabel="loading..."></Spinner>}>
                     <FreshdeskChat isFooter />
                   </Suspense>
                 </div>
               </div>
             </div>
           </nav>
+          <table align="center">
+            <tbody>
+              <tr>
+                <td style={{ padding: '0px 5px' }}>
+                  <a
+                    role="social-icon-link"
+                    href="https://business.facebook.com/bidorboo"
+                    target="_blank"
+                    alt="Facebook"
+                    title="Facebook"
+                    style={{
+                      display: 'inline-block',
+                      backgroundColor: 'dimgrey',
+                      height: '21px',
+                      width: '21px',
+                      borderRadius: '4px',
+                      WebkitBorderRadius: '4px',
+                      MozBorderRadius: '4px',
+                    }}
+                  >
+                    <img
+                      role="social-icon"
+                      alt="Facebook"
+                      title="Facebook"
+                      src="https://marketing-image-production.s3.amazonaws.com/social/white/facebook.png"
+                      style={{ height: '21px', width: '21px' }}
+                      height={21}
+                      width={21}
+                    />
+                  </a>
+                </td>
+                <td style={{ padding: '0px 5px' }}>
+                  <a
+                    role="social-icon-link"
+                    href="https://twitter.com/bidorboo"
+                    target="_blank"
+                    alt="Twitter"
+                    title="Twitter"
+                    style={{
+                      display: 'inline-block',
+                      backgroundColor: 'dimgrey',
+                      height: '21px',
+                      width: '21px',
+                      borderRadius: '4px',
+                      WebkitBorderRadius: '4px',
+                      MozBorderRadius: '4px',
+                    }}
+                  >
+                    <img
+                      role="social-icon"
+                      alt="Twitter"
+                      title="Twitter"
+                      src="https://marketing-image-production.s3.amazonaws.com/social/white/twitter.png"
+                      style={{ height: '21px', width: '21px' }}
+                      height={21}
+                      width={21}
+                    />
+                  </a>
+                </td>
+                <td style={{ padding: '0px 5px' }}>
+                  <a
+                    role="social-icon-link"
+                    href="https://www.instagram.com/bidorboo"
+                    target="_blank"
+                    alt="Instagram"
+                    title="Instagram"
+                    style={{
+                      display: 'inline-block',
+                      backgroundColor: 'dimgrey',
+                      height: '21px',
+                      width: '21px',
+                      borderRadius: '4px',
+                      WebkitBorderRadius: '4px',
+                      MozBorderRadius: '4px',
+                    }}
+                  >
+                    <img
+                      role="social-icon"
+                      alt="Instagram"
+                      title="Instagram"
+                      src="https://marketing-image-production.s3.amazonaws.com/social/white/instagram.png"
+                      style={{ height: '21px', width: '21px' }}
+                      height={21}
+                      width={21}
+                    />
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
           <nav className="container help has-text-centered">
             <div className="has-text-light">
-              {`To get in touch via email:`}
               <a
                 style={{ color: '#72a4f7' }}
                 className="has-text-link"
@@ -321,35 +432,6 @@ class App extends React.Component {
               >
                 {`BidOrBoo Service Terms | Privacy`}
               </a>
-              {' and '}
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://stripe.com/connect-account/legal"
-                className="has-text-link"
-                style={{ color: '#72a4f7' }}
-              >
-                {`Stripe Terms of use`}
-              </a>
-            </div>
-            <div className="help has-text-light">
-              {`This site is protected by reCAPTCHA and the Google `}
-              <a
-                style={{ color: '#72a4f7' }}
-                className="has-text-link"
-                href="https://policies.google.com/privacy"
-              >
-                Privacy Policy
-              </a>
-              {` and `}
-              <a
-                style={{ color: '#72a4f7' }}
-                className="has-text-link"
-                href="https://policies.google.com/terms"
-              >
-                Terms of Service
-              </a>
-              {` apply.`}
             </div>
           </nav>
         </footer>

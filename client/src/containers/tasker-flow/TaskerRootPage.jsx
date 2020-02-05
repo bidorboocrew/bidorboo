@@ -23,6 +23,7 @@ class TaskerRootPage extends React.Component {
     super(props);
 
     this.state = {
+      showSearchFilters: true,
       showMapView: true,
       isThereAnActiveSearch: false,
       mapZoomLevel: 10,
@@ -185,7 +186,7 @@ class TaskerRootPage extends React.Component {
               );
             }
           } catch (e) {
-            console.log(e);
+            console.error(e);
           }
         }
       }
@@ -217,15 +218,30 @@ class TaskerRootPage extends React.Component {
     );
   };
 
-  updateSearchLocationState = (newSearchParams) => {
+  updateSearchLocationState = (newSearchParams, withSearch = true) => {
+    const { isLoggedIn } = this.props;
     const { activeSearchParams } = this.state;
-    // do some validation xxxxx latLng
-    this.setState(() => ({
-      activeSearchParams: {
-        ...activeSearchParams,
-        ...newSearchParams,
+
+    this.setState(
+      () => ({
+        activeSearchParams: {
+          ...activeSearchParams,
+          ...newSearchParams,
+        },
+      }),
+      () => {
+        if (withSearch) {
+          if (!isLoggedIn) {
+            window.localStorage &&
+              window.localStorage.setItem(
+                'bob_prevTaskFilters',
+                JSON.stringify(activeSearchParams),
+              );
+          }
+          this.submitSearchLocationParams(this.state.activeSearchParams);
+        }
       },
-    }));
+    );
   };
 
   zoomAndCenterAroundMarker = (latLngNewCenter, callback) => {
@@ -243,9 +259,25 @@ class TaskerRootPage extends React.Component {
     this.setState({ showMapView: !this.state.showMapView });
   };
 
+  toggleShowSearchFilters = () => {
+    this.setState({ showSearchFilters: !this.state.showSearchFilters });
+  };
+
+  renderSubscribeToSearchResults = () => {
+    return this.props.isLoggedIn ? (
+      <div className="has-text-left">
+        <SubscribeToSearchResultsToggle />
+      </div>
+    ) : null;
+  };
   render() {
     const { isLoading, isLoggedIn, listOfRequestsToBidOn, userDetails } = this.props;
-    const { isThereAnActiveSearch, userLastStoredSearchParams, showMapView } = this.state;
+    const {
+      isThereAnActiveSearch,
+      userLastStoredSearchParams,
+      showMapView,
+      showSearchFilters,
+    } = this.state;
 
     const { mapCenterPoint, mapZoomLevel, activeSearchParams } = this.state;
 
@@ -266,64 +298,74 @@ class TaskerRootPage extends React.Component {
     return (
       <>
         <TaskerVerificationBanner></TaskerVerificationBanner>
-
-        <div>
-          <section className="hero is-small is-bold">
-            <div className="hero-body">
-              <div className="container">
-                <h1
-                  style={{ marginBottom: '0.5rem', paddingLeft: 10 }}
-                  className="subtitle has-text-weight-semibold"
-                >
-                  Search For Requests:
-                </h1>
-
+        <section className="hero is-white is-small">
+          <div className="hero-body  has-text-centered">
+            <div className="container">
+              <h1 className="title">Look For Tasks In Your Area</h1>
+              <Collapse
+                isOpened={showSearchFilters}
+                // initialStyle={{ height: 0, overflow: 'hidden' }}
+              >
                 <TaskerRootLocationFilter
-                  submitSearchLocationParams={this.submitSearchLocationParams}
+                  // submitSearchLocationParams={this.submitSearchLocationParams}
                   updateSearchLocationState={this.updateSearchLocationState}
                   activeSearchParams={activeSearchParams}
                   userLastStoredSearchParams={userLastStoredSearchParams}
                   {...this.props}
+                  renderSubscribeToSearchResults={this.renderSubscribeToSearchResults}
                 />
-                <br></br>
-                {isLoggedIn && (
-                  <div className="has-text-left">
-                    <SubscribeToSearchResultsToggle />
-                  </div>
-                )}
-
-                {isThereAnActiveSearch && (
-                  <div className="has-text-left">
-                    <div
-                      style={{ marginBottom: '0.75rem', textAlign: 'left', marginTop: '0.75rem' }}
-                    >
-                      <input
-                        id="togglemapView"
-                        type="checkbox"
-                        name="togglemapView"
-                        className="switch is-rounded is-success"
-                        onChange={this.toggleMapView}
-                        checked={showMapView}
-                      />
-                      <label style={{ fontWeight: 500 }} htmlFor="togglemapView">
-                        Toggle map view
-                      </label>
-                    </div>
-                  </div>
-                )}
-              </div>
+              </Collapse>
+              {!showSearchFilters && (
+                <button
+                  onClick={this.toggleShowSearchFilters}
+                  style={{
+                    borderRadius: 0,
+                    border: '1px solid rgb(219,219,219)',
+                    boxShadow: 'none',
+                    borderTop: 0,
+                    borderRight: 0,
+                    borderLeft: 0,
+                  }}
+                  className="button"
+                >
+                  <span style={{ marginRight: 4 }}>Show Filters</span>
+                  <span className="icon">
+                    <i className="fas fa-angle-double-down" />
+                  </span>
+                </button>
+              )}
+              {showSearchFilters && (
+                <button
+                  onClick={this.toggleShowSearchFilters}
+                  style={{
+                    borderRadius: 0,
+                    border: '1px solid rgb(219,219,219)',
+                    boxShadow: 'none',
+                    borderTop: 0,
+                    borderRight: 0,
+                    borderLeft: 0,
+                  }}
+                  className="button"
+                >
+                  <span style={{ marginRight: 4 }}>Hide Filters</span>
+                  <span className="icon">
+                    <i className="fas fa-angle-double-up" />
+                  </span>
+                </button>
+              )}
             </div>
-          </section>
-
+          </div>
+        </section>
+        <div>
           {isLoading && (
             <section className="section">
-              <Spinner renderLabel="getting requests..." isLoading={isLoading} size={'large'} />
+              <Spinner renderLabel="getting requests..." isLoading size={'large'} />
             </section>
           )}
           {!isLoading && (
             <React.Fragment>
               <Collapse isOpened={showMapView && anyVisibleRequests}>
-                <div style={{ marginTop: '1.25rem' }} className="container slide-in-bottom-small">
+                <div style={{ marginTop: '2rem' }} className="container slide-in-bottom-small">
                   <MapSection
                     mapCenterPoint={mapCenterPoint}
                     mapZoomLevel={mapZoomLevel}

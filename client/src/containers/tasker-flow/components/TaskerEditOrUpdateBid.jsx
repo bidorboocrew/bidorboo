@@ -110,7 +110,7 @@ class TaskerEditOrUpdateBid extends React.Component {
               <div className="modal-background" />
               <div className="modal-card">
                 <header className="modal-card-head">
-                  <div className="modal-card-title">Change Bid Amount</div>
+                  <div className="modal-card-title">Change Your Bid?</div>
                   <button
                     onClick={this.closeUpdateBidModal}
                     className="delete"
@@ -119,14 +119,13 @@ class TaskerEditOrUpdateBid extends React.Component {
                 </header>
                 <section className="modal-card-body">
                   <p>
-                    Enter a new <strong>$ total amount</strong> you want to recieve in exchange for
-                    doing this task
+                    What is the <strong>total dollar amount</strong> do you want to receive in
+                    exchange for completing this task?
                   </p>
                   <TextInput
-                    label="Enter The New Bid Amount"
+                    label="Enter A New Bid Amount"
                     id="bidAmountField"
                     className="input is-focused"
-                    placeholder="Enter bid amount"
                     onBlur={handleBlur}
                     error={touched.bidAmountField && errors.bidAmountField}
                     value={values.bidAmountField || ''}
@@ -138,7 +137,7 @@ class TaskerEditOrUpdateBid extends React.Component {
                     }}
                   />
                   <div style={{ marginTop: -8 }}>
-                    <div className="help">* Use our quick bid options</div>
+                    <div className="help">Use quick bid options</div>
                     {autoBidOptions}
                   </div>
                 </section>

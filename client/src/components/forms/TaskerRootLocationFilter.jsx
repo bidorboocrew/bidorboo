@@ -20,14 +20,15 @@ import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-au
 class TaskerRootLocationFilter extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { addressField: '' || props.addressText };
     this.google = window.google;
     if (this.google) {
       this.geocoder = new this.google.maps.Geocoder();
     }
   }
 
-  handleChange = (addressText, latLng) => {
-    this.props.updateSearchLocationState({ addressText, latLng });
+  handleChange = (addressText, latLng, withSearch = false) => {
+    this.props.updateSearchLocationState({ addressText, latLng }, withSearch);
   };
 
   updateSearchRaduisSelection = (event) => {
@@ -42,7 +43,7 @@ class TaskerRootLocationFilter extends React.Component {
       geocodeByAddress(addressText)
         .then((results) => getLatLng(results[0]))
         .then((latLng) => {
-          this.handleChange(addressText, latLng);
+          this.handleChange(addressText, latLng, true);
         })
         .catch(this.errorHandling);
     }
@@ -75,7 +76,7 @@ class TaskerRootLocationFilter extends React.Component {
           },
         });
       } else {
-        this.handleChange(addressText, { ...pos });
+        this.handleChange(addressText, { ...pos }, true);
       }
     }
   };
@@ -156,29 +157,14 @@ class TaskerRootLocationFilter extends React.Component {
     });
   };
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    const { activeSearchParams, submitSearchLocationParams, isLoggedIn } = this.props;
-    if (!isLoggedIn) {
-      window.localStorage &&
-        window.localStorage.setItem('bob_prevTaskFilters', JSON.stringify(activeSearchParams));
-    }
-    submitSearchLocationParams({
-      ...activeSearchParams,
-    });
-  };
-
   render() {
-    const { activeSearchParams } = this.props;
+    const { activeSearchParams, renderSubscribeToSearchResults } = this.props;
     const { addressText, latLng, searchRadius, tasksTypeFilter } = activeSearchParams;
 
     const disableSubmit = !addressText || !latLng || !latLng.lat || !latLng.lng || !searchRadius;
 
     return (
-      <div
-        style={{ height: 'unset', border: '1px solid #26ca70' }}
-        className="card cardWithButton nofixedwidth"
-      >
+      <div style={{ height: 'unset', boxShadow: 'none' }} className="card nofixedwidth">
         <div className="card-content">
           <div className="content has-text-left">
             <div className="group">
@@ -217,9 +203,10 @@ class TaskerRootLocationFilter extends React.Component {
               currentFilters={tasksTypeFilter}
             ></TaskTypeFilter>
             <br></br>
+            {renderSubscribeToSearchResults && renderSubscribeToSearchResults()}
           </div>
 
-          <div
+          {/* <div
             disabled={disableSubmit}
             onClick={this.handleSubmit}
             className="firstButtonInCard button is-success"
@@ -228,7 +215,7 @@ class TaskerRootLocationFilter extends React.Component {
               <i className="fas fa-search" />
             </span>
             <span>{`Search`}</span>
-          </div>
+          </div> */}
         </div>
       </div>
     );
@@ -344,7 +331,7 @@ class SearchRadius extends React.Component {
           Search Radius
         </label>
         <div>
-          <div className="select">
+          <div style={{ width: 100 }} className="select">
             <select
               style={{
                 padding: '0 6px',
@@ -377,11 +364,15 @@ class TaskTypeFilter extends React.Component {
     const filterButtons = Object.keys(TASKS_DEFINITIONS)
       .filter((key) => !TASKS_DEFINITIONS[key].isComingSoon)
       .map((key) => {
+        const isSelected = currentFilters.indexOf(key) > -1;
         // let controlClass = `tag is-rounded ${taskTypesIds[key] ? 'is-link' : ''}`;
-        let controlClass = `button is-small ${currentFilters.indexOf(key) > -1 && 'is-info'}`;
+        let controlClass = `button is-small ${isSelected && 'is-info'}`;
         return (
           <span
-            style={{ cursor: 'pointer', minWidth: 165 }}
+            style={{
+              cursor: 'pointer',
+              minWidth: 165,
+            }}
             key={`key-${key}`}
             onClick={(e) => {
               e.preventDefault();
@@ -400,14 +391,20 @@ class TaskTypeFilter extends React.Component {
               }
               updateTaskTypesFilter(currentActiveFilters);
             }}
-            style={{ borderRadius: 25, margin: '4px 8px 0 0' }}
+            style={{
+              borderRadius: 25,
+              margin: '4px 8px 0 0',
+              boxShadow: isSelected
+                ? '0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)'
+                : 'none',
+            }}
             className={controlClass}
           >
             <span className="icon">
-              {currentFilters.indexOf(key) > -1 ? (
-                <i className="far fa-check-square"></i>
+              {isSelected ? (
+                <i className="far fa-check-circle"></i>
               ) : (
-                <i className="far fa-square"></i>
+                <i className="far fa-circle"></i>
               )}
             </span>
             <span></span>

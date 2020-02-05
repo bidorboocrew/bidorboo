@@ -15,7 +15,7 @@ import App from './containers/App';
 import { store } from './app-state/store';
 import { Router } from 'react-router-dom';
 import appHistory from './react-router-history';
-import GetNotificationsAndScroll from './GetNotificationsAndScroll';
+// import GetNotificationsAndScroll from './GetNotificationsAndScroll';
 import { registerServiceWorker } from './registerServiceWorker';
 
 window.BidOrBoo = window.BidOrBoo || {};
@@ -28,9 +28,9 @@ if (process.env.NODE_ENV === 'production') {
     <Provider store={store}>
       <Router history={appHistory}>
         <ErrorBoundary>
-          <GetNotificationsAndScroll>
-            <App />
-          </GetNotificationsAndScroll>
+          {/* <GetNotificationsAndScroll> */}
+          <App />
+          {/* </GetNotificationsAndScroll> */}
         </ErrorBoundary>
       </Router>
     </Provider>,
@@ -42,9 +42,9 @@ if (process.env.NODE_ENV === 'production') {
   ReactDOM.render(
     <Provider store={store}>
       <Router history={appHistory}>
-        <GetNotificationsAndScroll>
-          <App />
-        </GetNotificationsAndScroll>
+        {/* <GetNotificationsAndScroll> */}
+        <App />
+        {/* </GetNotificationsAndScroll> */}
       </Router>
     </Provider>,
     document.getElementById('BidOrBoo-app'),

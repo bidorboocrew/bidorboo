@@ -25,7 +25,7 @@ export const verifyPhone = (code, onSuccessCallback = () => null) => (dispatch) 
             },
           });
           await sleep(3000);
-          getCurrentUserNotifications()(dispatch);
+          getCurrentUser()(dispatch);
 
           onSuccessCallback && onSuccessCallback();
         } else {
@@ -59,7 +59,7 @@ export const verifyEmail = (code, onSuccessCallback = () => null) => (dispatch) 
             },
           });
           await sleep(3000);
-          getCurrentUserNotifications()(dispatch);
+          getCurrentUser()(dispatch);
 
           onSuccessCallback && onSuccessCallback();
         } else {
@@ -74,24 +74,24 @@ export const verifyEmail = (code, onSuccessCallback = () => null) => (dispatch) 
       }),
   });
 };
-export const getCurrentUserNotifications = () => (dispatch) => {
-  dispatch({
-    type: A.UI_ACTIONS.GET_CURRENT_USER_NOTIFICATIONS,
-    payload: axios
-      .get(ROUTES.API.USER.GET.currentUser)
-      .then((resp) => {
-        if (resp.data && resp.data.userId) {
-          dispatch({
-            type: A.USER_MODEL_ACTIONS.SET_CURRENT_USER_DETAILS,
-            payload: resp.data,
-          });
-        }
-      })
-      .catch((error) => {
-        throwErrorNotification(dispatch, error);
-      }),
-  });
-};
+// export const getCurrentUserNotifications = () => (dispatch) => {
+//   dispatch({
+//     type: A.UI_ACTIONS.GET_CURRENT_USER_NOTIFICATIONS,
+//     payload: axios
+//       .get(ROUTES.API.USER.GET.currentUser)
+//       .then((resp) => {
+//         if (resp.data && resp.data.userId) {
+//           dispatch({
+//             type: A.USER_MODEL_ACTIONS.SET_CURRENT_USER_DETAILS,
+//             payload: resp.data,
+//           });
+//         }
+//       })
+//       .catch((error) => {
+//         throwErrorNotification(dispatch, error);
+//       }),
+//   });
+// };
 export const getCurrentUser = () => (dispatch) => {
   return dispatch({
     type: A.AUTH_ACTIONS.LOGIN_FLOW_INITIATED,
@@ -132,12 +132,11 @@ export const getCurrentUser = () => (dispatch) => {
 export const onLogout = () => (dispatch) =>
   dispatch({
     type: A.AUTH_ACTIONS.LOGOUT_FLOW_INITIATED,
-    payload: axios.get(ROUTES.API.AUTH.LOGOUT).then((resp) => {
+    payload: axios.get(ROUTES.API.AUTH.LOGOUT).then(async () => {
       dispatch({
         type: A.AUTH_ACTIONS.USER_IS_LOGGED_OUT,
       });
       //rediret user to sign up page
-      switchRoute(ROUTES.CLIENT.HOME);
       dispatch({
         type: A.UI_ACTIONS.SHOW_TOAST_MSG,
         payload: {
@@ -147,7 +146,9 @@ export const onLogout = () => (dispatch) =>
           },
         },
       });
-      window.location.reload();
+      await sleep(3000);
+
+      switchRoute(ROUTES.CLIENT.HOME);
     }),
   });
 

@@ -3,7 +3,7 @@ import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getCurrentUserNotifications, getCurrentUser } from './app-state/actions/authActions';
+import { getCurrentUser } from './app-state/actions/authActions';
 import { registerServiceWorker } from './registerServiceWorker';
 import { registerPushNotification } from './registerPushNotification';
 
@@ -29,11 +29,12 @@ const loggedOutRoutes = [
   '/bdb-bidder/bid-on-request',
 ];
 
-class GetNotificationsAndScroll extends React.Component {
+class GetNotificationsAndScroll extends React.PureComponent {
   constructor(props) {
     super(props);
     this.lastFetch = moment();
     this.state = { hasError: false };
+    this.lastTimeWeRegisteredTheNotification = null;
   }
 
   componentDidCatch(error, info) {
@@ -56,57 +57,50 @@ class GetNotificationsAndScroll extends React.Component {
       authIsInProgress,
       userDetails,
     } = this.props;
-
-    if (
-      prevProps.authIsInProgress &&
-      !authIsInProgress &&
-      isLoggedIn &&
-      userDetails.notifications &&
-      userDetails.notifications.push
-    ) {
-      registerServiceWorker()
-        .then(({ registration }) => {
-          registerPushNotification(`${process.env.REACT_APP_VAPID_KEY}`, registration)
-            .then(() => console.log('push Notifications enabled'))
-            .catch((e) => console.log('push Notifications not enabled ' + e));
-        })
-        .catch(() => console.info('ServiceWorker was not added'));
-    }
-
     const currentUrlPathname = window.location.pathname;
 
-    if (currentUrlPathname.indexOf('termsAndPrivacy') > -1) {
+    if (window.location.pathname !== prevProps.location.pathname) {
+      if (currentUrlPathname.indexOf('bdb-request') > -1) {
+        setAppViewUIToRequester();
+      } else if (currentUrlPathname.indexOf('bdb-bidder') > -1) {
+        setAppViewUIToTasker();
+      }
+      getCurrentUser();
+
       setTimeout(() => {
         window.scrollTo(0, 0);
       }, 0);
       return;
     }
+    if (authIsInProgress) {
+      return;
+    }
 
-    if (location.pathname !== prevProps.location.pathname) {
-      if (isLoggedIn !== prevProps.isLoggedIn && !isLoggedIn) {
-        getCurrentUser();
+    if (isLoggedIn) {
+      if (currentUrlPathname.indexOf('bdb-request') > -1) {
+        setServerAppRequesterView();
+      } else if (currentUrlPathname.indexOf('bdb-bidder') > -1) {
+        setServerAppTaskerView();
       }
 
-      if (isLoggedIn) {
+      if (userDetails.notifications && userDetails.notifications.push) {
         if (
-          currentUrlPathname.indexOf('terms-of-service') > -1 ||
-          currentUrlPathname.indexOf('login-and-registration') > -1
+          !this.lastTimeWeRegisteredTheNotification ||
+          moment(this.lastTimeWeRegisteredTheNotification).isBefore(
+            moment(this.lastTimeWeRegisteredTheNotification).subtract(1, 'day'),
+          )
         ) {
-          // do not fetch notifications on these pages above
-        } else {
-          this.props.getCurrentUserNotifications();
-        }
 
-        if (currentUrlPathname.indexOf('bdb-request') > -1) {
-          setServerAppRequesterView();
-        } else if (currentUrlPathname.indexOf('bdb-bidder') > -1) {
-          setServerAppTaskerView();
+          this.lastTimeWeRegisteredTheNotification = moment().toISOString();
+          registerServiceWorker()
+            .then(({ registration }) => {
+              registerPushNotification(`${process.env.REACT_APP_VAPID_KEY}`, registration)
+                .then(() => console.log('push Notifications enabled'))
+                .catch((e) => console.log('push Notifications not enabled ' + e));
+            })
+            .catch(() => console.info('ServiceWorker was not added'));
         }
       }
-
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-      }, 0);
     }
   }
 
@@ -170,15 +164,14 @@ class GetNotificationsAndScroll extends React.Component {
     }
 
     if (authIsInProgress) {
-      return <Spinner renderLabel="securing your connection..." />;
+      return <Spinner isLoading renderLabel="securing your connection..." />;
     }
 
     if (!isLoggedIn) {
       // if you are on one of our logged out experience roots , just show it
-
       const currentPath = this.props.location.pathname;
       const isAllowedRoute = loggedOutRoutes.some((route) => currentPath.includes(route));
-      if (isAllowedRoute || currentPath === '/') {
+      if (isAllowedRoute || currentPath === '/' || /(\/\?).*/.test(currentPath)) {
         return this.props.children;
       }
 
@@ -190,7 +183,6 @@ class GetNotificationsAndScroll extends React.Component {
       // you are trying to hit a logged in protected route
       return switchRoute(ROUTES.CLIENT.LOGIN_OR_REGISTER, {
         isLoggedIn,
-        redirectedFromUrl: this.props.location.pathname,
       });
     }
 
@@ -200,6 +192,8 @@ class GetNotificationsAndScroll extends React.Component {
       history.location.pathname !== ROUTES.CLIENT.ONBOARDING
     ) {
       return switchRoute(ROUTES.CLIENT.ONBOARDING, { redirectUrl: this.props.location.pathname });
+    } else if (this.props.location.pathname.includes(ROUTES.CLIENT.LOGIN_OR_REGISTER)) {
+      return switchRoute(ROUTES.CLIENT.HOME);
     } else {
       return this.props.children;
     }
@@ -215,7 +209,7 @@ const mapStateToProps = ({ userReducer, uiReducer }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     dispatch,
-    getCurrentUserNotifications: bindActionCreators(getCurrentUserNotifications, dispatch),
+    // getCurrentUserNotifications: bindActionCreators(getCurrentUserNotifications, dispatch),
     getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
     setAppViewUIToTasker: bindActionCreators(setAppViewUIToTasker, dispatch),
     setAppViewUIToRequester: bindActionCreators(setAppViewUIToRequester, dispatch),

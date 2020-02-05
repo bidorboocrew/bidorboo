@@ -30,7 +30,7 @@ class MyRequestsPage extends React.Component {
     const { selectedTab } = this.state;
 
     if (isLoading) {
-      return <Spinner renderLabel={'Getting your requests'} isLoading={isLoading} size={'large'} />;
+      return <Spinner renderLabel={'Getting your requests'} isLoading size={'large'} />;
     }
 
     const areThereAnyRequestsToView = myRequestsSummary && myRequestsSummary.length > 0;
@@ -98,18 +98,18 @@ class MyRequestsPage extends React.Component {
 
     return (
       <div>
-        <section className="hero is-white">
+        {/* <section className="hero is-success is-bold is-small">
           <div className="hero-body  has-text-centered">
             <div className="container">
-              <h1 style={{ marginBottom: 0 }} className="has-text-dark title">
-                My Requests
+              <h1 style={{ marginBottom: 0 }} className="subtitle">
+                Check Requests' status
               </h1>
             </div>
           </div>
-        </section>
+        </section> */}
 
-        <div className="tabs is-centered is-fullwidth">
-          <ul>
+        <div className="tabs is-centered">
+          <ul style={{ background: '#eee', paddingTop: '1rem' }}>
             <li className={`${selectedTab === MY_REQUESTS_TABS.activeRequests ? 'is-active' : ''}`}>
               <a onClick={() => this.setState({ selectedTab: MY_REQUESTS_TABS.activeRequests })}>
                 {`Active Requests (${activeRequests ? activeRequests.length : 0})`}
