@@ -34,6 +34,8 @@ class FreshdeskChat extends React.Component {
             headers: {
               chat: 'BidOrBoo Support',
               chat_help: 'How can we help you?',
+              faq: 'BidOrBoo Support Guide',
+              faq_help: 'Helpful answers to common questions',
               push_notification: 'Allow push notifications to get instant replies',
             },
           },
