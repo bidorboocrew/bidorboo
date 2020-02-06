@@ -204,15 +204,10 @@ class TaskerVerificationBanner extends React.Component {
           <section className="hero is-success is-bold slide-in-top has-text-centered is-fullheight">
             <div className="hero-body">
               <div className="container">
-                {isThereAnUrgentRequirement ? (
-                  <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
-                    Complete Your Tasker Profile To Receive Payouts
-                  </h1>
-                ) : (
-                  <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
-                    Complete Your Tasker Profile To Receive Payouts
-                  </h1>
-                )}
+                <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
+                  Complete Your Tasker Profile To Receive Payouts
+                </h1>
+
                 <button
                   className={`button is-dark ${isLoading ? 'is-loading' : ''}`}
                   onClick={this.updateTaskerProfile}

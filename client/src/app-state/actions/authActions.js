@@ -142,13 +142,13 @@ export const onLogout = () => (dispatch) =>
         payload: {
           toastDetails: {
             type: 'info',
-            msg: 'You are logged out.',
+            msg: 'You logged out.',
           },
         },
       });
-      await sleep(3000);
-
+      await sleep(1000);
       switchRoute(ROUTES.CLIENT.HOME);
+      window.location.reload();
     }),
   });
 

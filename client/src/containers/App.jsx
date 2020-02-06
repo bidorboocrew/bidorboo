@@ -128,6 +128,8 @@ class App extends React.Component {
                 <a
                   onClick={() => {
                     window.location.href = 'https://www.bidorboo.ca';
+
+                    window.location.reload();
                     return;
                   }}
                   className="button is-success is-medium"

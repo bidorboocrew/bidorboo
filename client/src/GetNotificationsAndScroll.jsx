@@ -90,7 +90,6 @@ class GetNotificationsAndScroll extends React.PureComponent {
             moment(this.lastTimeWeRegisteredTheNotification).subtract(1, 'day'),
           )
         ) {
-
           this.lastTimeWeRegisteredTheNotification = moment().toISOString();
           registerServiceWorker()
             .then(({ registration }) => {
@@ -149,7 +148,9 @@ class GetNotificationsAndScroll extends React.PureComponent {
                 <br />
                 <a
                   onClick={(e) => {
-                    switchRoute(ROUTES.CLIENT.HOME);
+                    window.location.href = 'https://www.bidorboo.ca';
+                    window.location.reload();
+                    return;
                     // xxxx update without reload
                   }}
                   className="button is-success is-medium"

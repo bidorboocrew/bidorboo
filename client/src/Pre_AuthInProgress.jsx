@@ -69,8 +69,9 @@ class Pre_AuthInProgress extends React.PureComponent {
                 <br />
                 <a
                   onClick={(e) => {
-                    switchRoute(ROUTES.CLIENT.HOME);
-                    // xxxx update without reload
+                    window.location.href = 'https://www.bidorboo.ca';
+                    window.location.reload();
+                    return;
                   }}
                   className="button is-success is-medium"
                 >
