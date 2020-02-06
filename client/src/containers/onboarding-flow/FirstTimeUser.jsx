@@ -24,26 +24,19 @@ export class FirstTimeUser extends React.Component {
     return (
       <div className="columns is-multiline is-centered is-mobile">
         <div className="column limitLargeMaxWidth">
-          <div id="ONBOARDING_CONTAINER">
-            <section className="hero is-small has-text-centered">
+          <div>
+            <section className="hero is-small">
               <div className="hero-body">
-                <div className="HorizontalAligner-center">
-                  <div className="bdb-flex-container">
-                    <div className="flex-item">
-                      <img
+                <div className="container has-text-centered">
+                  {/* <img
                         src={logoImg}
                         alt="BidOrBoo"
                         width="48"
                         height="48"
                         style={{ maxHeight: 'unset' }}
-                      />
-                      <div className="title" style={{ marginLeft: 4, margin: 0 }}>
-                        <span style={{ color: '#ee2a36', fontWeight: 500 }}>B</span>id
-                        <span style={{ color: '#ee2a36', fontWeight: 500 }}>O</span>r
-                        <span style={{ color: '#ee2a36', fontWeight: 500 }}>B</span>oo
-                      </div>
-                    </div>
-                  </div>
+                      /> */}
+
+                  <div className="subtitle">Few steps to get Started</div>
                 </div>
               </div>
             </section>

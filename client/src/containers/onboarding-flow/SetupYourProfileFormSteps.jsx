@@ -176,7 +176,7 @@ class Step4 extends React.Component {
     return (
       <div style={{ position: 'relative' }}>
         <div className="title has-text-centered">BidOrBoo Terms Of Use</div>
-        <div className="slide-in-right field" style={{ height: '10rem' }}>
+        <div className="slide-in-right field">
           <div style={{ padding: '0.5rem' }} className="group">
             <div className="control">
               <label style={{ lineHeight: 1.5 }} className="checkbox">
@@ -188,17 +188,8 @@ class Step4 extends React.Component {
                 />
                 {` I confirm that I have read and agreed to`}
                 <a target="_blank" rel="noopener noreferrer" href={`${ROUTES.CLIENT.TOS}`}>
-                  {` BidOrBoo Service Agreement `}
+                  {` Terms Of Service And Privacy Policy Agreements `}
                 </a>
-                and
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://stripe.com/connect-account/legal"
-                >
-                  {` Stripe Connected Account Agreement`}
-                </a>
-                .
               </label>
               {tosError && (
                 <p className="help is-danger">
