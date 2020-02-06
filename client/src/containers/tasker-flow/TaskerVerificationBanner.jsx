@@ -81,20 +81,20 @@ class TaskerVerificationBanner extends React.Component {
 
     if (userWithNoStripeConnectAcc) {
       return (
-        <section className="hero is-success is-small is-bold slide-in-top">
+        <section className="hero is-success is-bold slide-in-top has-text-centered is-fullheight">
           <div className="hero-body">
             <div className="container">
-              <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
-                Want to provide your services and earn money?
+              <h1 style={{ marginBottom: '0.5rem' }} className="title">
+                Want to earn money doing what you enjoy?
               </h1>
               <button
-                className={`button is-small is-dark ${isLoading ? 'is-loading' : ''}`}
+                className={`button is-dark ${isLoading ? 'is-loading' : ''}`}
                 onClick={this.startupTaskerProfile}
               >
                 <span className="icon">
                   <i className="fas fa-user-tie"></i>
                 </span>
-                <span>START TASKER ONBOARDING</span>
+                <span>BECOME A TASKER</span>
               </button>
               <div className="help has-text-light">will take less than 2 minutes</div>
             </div>
@@ -149,24 +149,26 @@ class TaskerVerificationBanner extends React.Component {
                 </div>,
                 document.querySelector('#bidorboo-root-modals'),
               )}
-            <section className="hero is-success is-small is-bold slide-in-top">
+            <section className="hero is-success is-bold slide-in-top has-text-centered is-fullheight">
               <div className="hero-body">
                 <div className="container">
-                  <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
-                    For faster payouts complete your profile
+                  <h1 style={{ marginBottom: '0.5rem' }} className="title">
+                    Increast Trust and Get Faster Payouts
                   </h1>
-
+                  <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
+                    For Safety reasons as a Tasker you are required to provide a valid ID
+                  </h1>
                   <button
-                    className={`button is-small is-dark ${isLoading ? 'is-loading' : ''}`}
+                    className={`button is-dark ${isLoading ? 'is-loading' : ''}`}
                     onClick={this.toggleUploadImgModal}
                   >
                     <span className="icon">
                       <i className="fas fa-user-tie"></i>
                     </span>
-                    <span>Upload ID for verification</span>
+                    <span>ID VERIFICATION</span>
                   </button>
                   <div className="help has-text-light">
-                    *You will receive our "trusted Tasker" badge which will grant you more tasks
+                    A "Trusted Tasker" badge will appear on your profile
                   </div>
                 </div>
               </div>
@@ -177,14 +179,14 @@ class TaskerVerificationBanner extends React.Component {
         // we dont wana bug them too much
         return null;
         // return (
-        //   <section className="hero is-success is-small is-bold slide-in-top">
+        //   <section className="hero is-success is-bold slide-in-top">
         //     <div className="hero-body">
         //       <div className="container">
         //         <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
         //           To receive payouts you must add your bank info
         //         </h1>
         //         <button
-        //           className={`button is-small is-dark ${isLoading ? 'is-loading' : ''}`}
+        //           className={`button is-dark ${isLoading ? 'is-loading' : ''}`}
         //           onClick={this.redirectToPaymentSetting}
         //         >
         //           <span className="icon">
@@ -199,29 +201,29 @@ class TaskerVerificationBanner extends React.Component {
         // );
       } else {
         return (
-          <section className="hero is-success is-small is-bold slide-in-top">
+          <section className="hero is-success is-bold slide-in-top has-text-centered is-fullheight">
             <div className="hero-body">
               <div className="container">
                 {isThereAnUrgentRequirement ? (
                   <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
-                    Complete your profile to receive payouts
+                    Complete Your Tasker Profile To Receive Payouts
                   </h1>
                 ) : (
                   <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
-                    For faster payouts complete your profile
+                    Complete Your Tasker Profile To Receive Payouts
                   </h1>
                 )}
                 <button
-                  className={`button is-small is-dark ${isLoading ? 'is-loading' : ''}`}
+                  className={`button is-dark ${isLoading ? 'is-loading' : ''}`}
                   onClick={this.updateTaskerProfile}
                 >
                   <span className="icon">
                     <i className="fas fa-user-tie"></i>
                   </span>
-                  <span>COMPLETE TASKER ONBOARDING</span>
+                  <span>UPDATE YOUR PROFILE</span>
                 </button>
                 <div className="help has-text-white">
-                  *You will receive our "trusted Tasker" badge which will grant you more tasks
+                  A "Trusted Tasker" badge will appear on your profile
                 </div>
               </div>
             </div>
@@ -232,14 +234,17 @@ class TaskerVerificationBanner extends React.Component {
 
     if (isUserBlocked) {
       return (
-        <section className="hero is-danger is-small is-bold slide-in-top">
+        <section className="hero is-success is-bold slide-in-top has-text-centered is-fullheight">
           <div className="hero-body">
             <div className="container">
+              <h1 style={{ marginBottom: '0.5rem' }} className="title">
+                Sorry, It Seems We Need More Details
+              </h1>
               <h1 style={{ marginBottom: '0.5rem' }} className="subtitle">
-                We were not able to verify your info
+                Contact us and we will help you to become an eligible tasker
               </h1>
               <button
-                className={`button is-small is-dark ${isLoading ? 'is-loading' : ''}`}
+                className={`button is-dark ${isLoading ? 'is-loading' : ''}`}
                 onClick={this.chatWithSupportNow}
               >
                 <span className="icon">

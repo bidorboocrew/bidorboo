@@ -290,26 +290,29 @@ exports.util = {
 
   initializeConnectedAccount: async ({ userId, displayName, email, phone, tosAcceptance }) => {
     return new Promise(async (resolve, reject) => {
-      try {
-        const account = await stripe.accounts.create({
-          country: 'CA', //HARD CODED
-          type: 'custom', //HARD CODED
-          default_currency: 'CAD', //HARD CODED
-          requested_capabilities: ['card_payments', 'transfers'],
-          email: email || '',
-          business_type: 'individual',
-          metadata: { email, userId, displayName, phone },
-          tos_acceptance: { ip: tosAcceptance.ip, date: moment(tosAcceptance.date).valueOf() },
-          settings: {
-            payments: {
-              statement_descriptor: 'BidOrBoo Charge',
-            },
-            payouts: {
-              schedule: { interval: 'manual' },
-              statement_descriptor: 'BidOrBoo Payout',
-            },
+      let accountDetails = {
+        country: 'CA', //HARD CODED
+        type: 'custom', //HARD CODED
+        default_currency: 'CAD', //HARD CODED
+        requested_capabilities: ['card_payments', 'transfers'],
+        business_type: 'individual',
+        metadata: { email: email || '', userId, displayName, phone: phone || '' },
+        tos_acceptance: { ip: tosAcceptance.ip, date: moment(tosAcceptance.date).valueOf() },
+        settings: {
+          payments: {
+            statement_descriptor: 'BidOrBoo Charge',
           },
-        });
+          payouts: {
+            schedule: { interval: 'manual' },
+            statement_descriptor: 'BidOrBoo Payout',
+          },
+        },
+      };
+      if (email) {
+        accountDetails = { ...accountDetails, email };
+      }
+      try {
+        const account = await stripe.accounts.create(accountDetails);
         resolve(account);
       } catch (e) {
         reject(e);

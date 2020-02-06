@@ -15,7 +15,7 @@ module.exports = async (req, res, next) => {
       } else {
         const currentUser = await userDataAccess.findOneByUserId(req.user.userId);
         // user does not have a stripe account , we must establish one
-        const newStripeConnectAcc = await stripeServiceUtil.initializeConnectedAccount({
+        let initialUserAccDetails = {
           user_id: currentUser._id.toString(),
           userId: currentUser.userId,
           displayName: currentUser.displayName,
@@ -23,11 +23,21 @@ module.exports = async (req, res, next) => {
             date: currentUser.tos_acceptance.date,
             ip: currentUser.tos_acceptance.ip,
           },
-          email:
-            currentUser.email && currentUser.email.isVerified ? currentUser.email.emailAddress : '',
-          phone:
-            currentUser.phone && currentUser.phone.isVerified ? currentUser.phone.phoneNumber : '',
-        });
+        };
+        if (currentUser.email && currentUser.email.isVerified) {
+          initialUserAccDetails = {
+            ...initialUserAccDetails,
+            email: currentUser.email.emailAddress,
+          };
+        }
+        if (currentUser.phone && currentUser.phone.isVerified) {
+          initialUserAccDetails = {
+            ...initialUserAccDetails,
+            phone: currentUser.phone.phoneNumber,
+          };
+        }
+
+        const newStripeConnectAcc = await stripeServiceUtil.initializeConnectedAccount(initialUserAccDetails);
         if (newStripeConnectAcc.id) {
           const updateUser = await userDataAccess.findByUserIdAndUpdate(currentUser.userId, {
             stripeConnect: {
