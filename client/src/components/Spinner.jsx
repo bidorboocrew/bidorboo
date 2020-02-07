@@ -58,8 +58,10 @@ export const Spinner = ({
               <br />
               <br />
               <a
-                onClick={() => {
-                  switchRoute(ROUTES.CLIENT.HOME);
+                onClick={(e) => {
+                  window.location.href = 'https://www.bidorboo.ca';
+                  window.location.reload();
+                  return;
                 }}
                 className="button is-success is-medium"
               >

@@ -128,9 +128,8 @@ class App extends React.Component {
                 </label>
                 <br />
                 <a
-                  onClick={() => {
+                  onClick={(e) => {
                     window.location.href = 'https://www.bidorboo.ca';
-
                     window.location.reload();
                     return;
                   }}

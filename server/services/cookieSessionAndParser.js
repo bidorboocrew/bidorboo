@@ -21,12 +21,11 @@ module.exports = (app) => {
 
   const cookie = cookieSession({
     domain: process.env.NODE_ENV === 'production' ? 'bidorboo.ca' : 'localhost',
-    sameSite: true,
-    secure: process.env.NODE_ENV === 'production' ? true : false,
+    sameSite: false,
+    secure: true,
     httpOnly: true,
-    expires: expiryDate, // 24 hours
+    maxAge: expiryDate,
     keys: [keys.cookieKey, keys.cookieKey2],
-    resave: false,
     saveUninitialized: true,
   });
   app.use(cookie);
