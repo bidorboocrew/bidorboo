@@ -185,19 +185,14 @@ class Header extends React.Component {
           <ul>
             <li className={`${!isActingAsTasker && !dontShowPortalHelper && 'is-active'}`}>
               <a
-                style={{ padding: '0.2rem 1rem 0.2rem 0.2rem' }}
+                style={{ padding: '0.5rem', width: 100 }}
                 onClick={(e) => {
                   e.preventDefault();
-                  switchRoute(ROUTES.CLIENT.REQUESTER.root);
+                  this.closeMenuThenExecute(() => {
+                    switchRoute(ROUTES.CLIENT.REQUESTER.root);
+                  });
                 }}
               >
-                <span className="icon">
-                  {!isActingAsTasker && !dontShowPortalHelper ? (
-                    <i className="fas fa-check-circle"></i>
-                  ) : (
-                    <i className="far fa-circle"></i>
-                  )}
-                </span>
                 <span
                   className={`${
                     !isActingAsTasker && !dontShowPortalHelper ? 'has-text-weight-semibold' : ''
@@ -209,27 +204,20 @@ class Header extends React.Component {
             </li>
             <li className={`${isActingAsTasker && !dontShowPortalHelper && 'is-active'}`}>
               <a
-                style={{ padding: '0.2rem 0.2rem 0.2rem 1rem' }}
+                style={{ padding: '0.5rem', width: 100 }}
                 onClick={(e) => {
                   e.preventDefault();
-                  switchRoute(ROUTES.CLIENT.TASKER.root);
+                  this.closeMenuThenExecute(() => {
+                    switchRoute(ROUTES.CLIENT.TASKER.root);
+                  });
                 }}
               >
                 <span
                   className={`${
                     isActingAsTasker && !dontShowPortalHelper ? 'has-text-weight-semibold' : ''
                   }`}
-                  style={{ marginRight: 4 }}
                 >
                   TASKER
-                </span>
-
-                <span className="icon">
-                  {isActingAsTasker && !dontShowPortalHelper ? (
-                    <i className="fas fa-check-circle"></i>
-                  ) : (
-                    <i className="far fa-circle"></i>
-                  )}
                 </span>
               </a>
             </li>

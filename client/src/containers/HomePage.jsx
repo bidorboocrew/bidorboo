@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactPlayer from 'react-player';
+import Delay from 'react-delay';
 
 import * as ROUTES from '../constants/frontend-route-consts';
 // import RequesterRoot from './requester-flow/RequesterRootPage';
@@ -23,7 +24,7 @@ export default class HomePage extends React.Component {
           style={{
             marginBottom: '2rem',
           }}
-          className="hero has-text-centered is-small is-danger"
+          className="hero has-text-centered is-danger"
         >
           <div style={{ backgroundImage: `url(${MainBanner})` }} className="hero-body">
             <div className="container">
@@ -44,31 +45,8 @@ export default class HomePage extends React.Component {
             </div>
           </div>
         </section>
-        <section className="hero has-text-centered is-white">
-          <div style={{ position: 'relative' }}>
-            <div style={{ margin: 'auto', maxWidth: 800, padding: '0.5rem' }}>
-              <div className="player-wrapper">
-                <ReactPlayer
-                  className="react-player"
-                  url="https://youtu.be/YHh9JbJAyf0"
-                  width="100%"
-                  height="100%"
-                  config={{
-                    youtube: {
-                      rel: 0,
-                      modestbranding: 1,
-                      iv_load_policy: 3,
-                      origin: 'https://www.bidorboo.ca',
-                      widget_referrer: 'https://www.bidorboo.ca',
-                      preload: true,
-                    },
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-        <section className="hero has-text-centered is-white">
+
+        <section className="hero is-small has-text-centered is-white">
           <h1 style={{ margin: 0, background: 'white', padding: '2rem' }} className="title">
             What are you looking for?
           </h1>
@@ -98,6 +76,33 @@ export default class HomePage extends React.Component {
         </section>
         <br></br>
         <br></br>
+
+        <Delay wait={2000}>
+          <section className="hero has-text-centered is-white fade-in">
+            <div style={{ position: 'relative' }}>
+              <div style={{ margin: 'auto', maxWidth: 800, padding: '0.5rem' }}>
+                <div className="player-wrapper">
+                  <ReactPlayer
+                    className="react-player"
+                    url="https://youtu.be/YHh9JbJAyf0"
+                    width="100%"
+                    height="100%"
+                    config={{
+                      youtube: {
+                        rel: 0,
+                        modestbranding: 1,
+                        iv_load_policy: 3,
+                        origin: 'https://www.bidorboo.ca',
+                        widget_referrer: 'https://www.bidorboo.ca',
+                        preload: true,
+                      },
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+        </Delay>
       </div>
     );
   }
