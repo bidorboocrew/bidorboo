@@ -40,7 +40,7 @@ class CreateARequestPage extends React.Component {
   }
 
   render() {
-    const { currentUserDetails } = this.props;
+    const { currentUserDetails, isLoggedIn } = this.props;
     const { chosenTemplate } = this.state;
 
     if (!creatRequestsByIdMap[`${chosenTemplate}`]) {
@@ -52,7 +52,7 @@ class CreateARequestPage extends React.Component {
 
     return (
       <>
-        {!canPost && (
+        {isLoggedIn && !canPost && (
           <section
             id="bob-requesterVerificationBanner"
             className="hero is-white slide-in-top is-fullheight has-text-centered"
