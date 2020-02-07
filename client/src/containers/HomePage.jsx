@@ -6,8 +6,8 @@ import * as ROUTES from '../constants/frontend-route-consts';
 // import RequesterRoot from './requester-flow/RequesterRootPage';
 import { switchRoute } from '../utils';
 import MainBanner from '../assets/images/MainBanner.png';
-import REQUESTER_MAINPAGE from '../assets/images/REQUESTER_MAINPAGE.png';
-import TASKER_MAINPAGE from '../assets/images/TASKER_MAINPAGE.png';
+import Earn_Money from '../assets/images/Earn-Money.png';
+import Need_Help from '../assets/images/Need-Help.png';
 
 export default class HomePage extends React.Component {
   componentDidMount() {
@@ -20,12 +20,7 @@ export default class HomePage extends React.Component {
   render() {
     return (
       <div>
-        <section
-          style={{
-            marginBottom: '2rem',
-          }}
-          className="hero has-text-centered is-danger"
-        >
+        <section className="hero has-text-centered is-danger">
           <div style={{ backgroundImage: `url(${MainBanner})` }} className="hero-body">
             <div className="container">
               <h1
@@ -47,9 +42,6 @@ export default class HomePage extends React.Component {
         </section>
 
         <section className="hero is-small has-text-centered is-white">
-          <h1 style={{ margin: 0, background: 'white', padding: '2rem' }} className="title">
-            What are you looking for?
-          </h1>
           <div className="columns is-mobile is-multiline is-centered">
             <div
               style={{ minWidth: '18rem', maxWidth: '21rem', margin: '1rem' }}
@@ -80,10 +72,10 @@ export default class HomePage extends React.Component {
         <Delay wait={2000}>
           <section className="hero has-text-centered is-white fade-in">
             <div style={{ position: 'relative' }}>
-              <div style={{ margin: 'auto', maxWidth: 800, padding: '0.5rem' }}>
+              <div style={{ margin: 'auto', padding: '0.5rem', maxWidth: 650 }}>
                 <div className="player-wrapper">
                   <ReactPlayer
-                    className="react-player"
+                    className="react-player fade-in"
                     url="https://youtu.be/YHh9JbJAyf0"
                     width="100%"
                     height="100%"
@@ -116,27 +108,31 @@ const RequestAService = (props) => {
       }}
       style={{
         cursor: 'pointer',
+        border: 'none',
+        boxShadow: 'none',
       }}
       className="card cardWithButton"
     >
+      {/* <div className="card-image">
+        <figure className="image">
+          <img style={{ height: 150 }} src={Need_Help} alt="Placeholder" />
+        </figure>
+      </div> */}
       <div className="card-image">
         <figure className="image">
-          <img style={{ height: 150 }} src={REQUESTER_MAINPAGE} alt="Placeholder" />
+          <img style={{ height: 250 }} src={Need_Help} alt="Placeholder" />
         </figure>
       </div>
-      <div className="card-content">
-        <div className="content">
-          <HowItWorksRequestService />
-        </div>
-      </div>
-      <div className="centeredButtonInCard">
+      <br></br>
+      <div>
         <button
+          style={{ width: 210 }}
           onClick={(e) => {
             switchRoute(ROUTES.CLIENT.REQUESTER.root);
           }}
           className="button is-medium is-success centeredButtonInCard"
         >
-          <span>Request a service</span>
+          <span>Browse Services</span>
         </button>
       </div>
     </div>
@@ -151,27 +147,26 @@ const ProvideAService = () => {
       }}
       style={{
         cursor: 'pointer',
+        border: 'none',
+        boxShadow: 'none',
       }}
       className="card cardWithButton"
     >
       <div className="card-image">
         <figure className="image">
-          <img style={{ height: 150 }} src={TASKER_MAINPAGE} alt="Placeholder" />
+          <img style={{ height: 250 }} src={Earn_Money} alt="Placeholder" />
         </figure>
       </div>
-      <div className="card-content">
-        <div className="content">
-          <HowItWorksProvideService />
-        </div>
-      </div>
-      <div className="centeredButtonInCard">
+      <br></br>
+      <div>
         <button
+          style={{ width: 210 }}
           onClick={(e) => {
             switchRoute(ROUTES.CLIENT.TASKER.root);
           }}
           className="button is-medium is-dark centeredButtonInCard"
         >
-          <span>Provide a service</span>
+          <span>Become A Tasker</span>
         </button>
       </div>
     </div>
