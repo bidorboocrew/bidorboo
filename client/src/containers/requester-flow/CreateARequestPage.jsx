@@ -8,6 +8,8 @@ import { RenderBackButton } from '../commonComponents';
 import GenericRequestForm from '../../bdb-tasks/GenericRequestForm';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
+import SetupYourPhoneAneEmailVerifications from '../onboarding-flow/SetupYourPhoneAneEmailVerifications';
+import TASKS_DEFINITIONS from '../../bdb-tasks/tasksDefinitions';
 
 const creatRequestsByIdMap = {
   ['bdbMoving']: (props) => {
@@ -38,19 +40,42 @@ class CreateARequestPage extends React.Component {
   }
 
   render() {
+    const { currentUserDetails } = this.props;
     const { chosenTemplate } = this.state;
 
     if (!creatRequestsByIdMap[`${chosenTemplate}`]) {
       return switchRoute(ROUTES.CLIENT.REQUESTER.root);
     }
+    const { TITLE } = TASKS_DEFINITIONS[chosenTemplate];
+
+    let canPost = currentUserDetails && currentUserDetails.canPost;
+
     return (
-      <div className="columns is-centered is-mobile">
-        <div className="column limitLargeMaxWidth slide-in-right">
-          <RenderBackButton />
-          {/* create request based on ID */}
-          {creatRequestsByIdMap[`${chosenTemplate}`](this.props)}
+      <>
+        {!canPost && (
+          <section
+            id="bob-requesterVerificationBanner"
+            className="hero is-white slide-in-top is-fullheight has-text-centered"
+          >
+            <div style={{ marginTop: 0 }} className="hero-body">
+              <div className="container">
+                <h1 className="title has-text-centered">{`Need help with ${TITLE}?`}</h1>
+                <h1 className="subtitle has-text-centered">
+                  Easy Three steps to verify your basic info
+                </h1>
+                <SetupYourPhoneAneEmailVerifications></SetupYourPhoneAneEmailVerifications>
+              </div>
+            </div>
+          </section>
+        )}
+        <div className="columns is-centered is-mobile">
+          <div className="column limitLargeMaxWidth slide-in-right">
+            <RenderBackButton />
+            {/* create request based on ID */}
+            {creatRequestsByIdMap[`${chosenTemplate}`](this.props)}
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 }

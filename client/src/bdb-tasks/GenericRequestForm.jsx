@@ -858,6 +858,16 @@ const EnhancedForms = withFormik({
     };
   },
   handleSubmit: async (values, { setSubmitting, props }) => {
+    if (props.isLoggedIn && props.currentUserDetails) {
+      if (!props.currentUserDetails.canPost) {
+        setTimeout(() => {
+          const elmnt = document.querySelector('#bob-requesterVerificationBanner');
+          elmnt && elmnt.scrollIntoView({ block: 'end', behavior: 'smooth' });
+        }, 0);
+        return;
+      }
+    }
+
     const { postNewRequest } = props;
     setSubmitting(true);
 

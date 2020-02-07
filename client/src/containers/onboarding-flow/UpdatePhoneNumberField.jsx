@@ -42,7 +42,7 @@ const UpdatePhoneNumberField = (props) => {
   return (
     <form onSubmit={handleSubmit}>
       <PhoneNumberInput
-        style={{ borderBottom: '2px solid #26ca70' }}
+        style={{ borderBottom: '2px solid #26ca70', maxWidth: 400 }}
         id="phoneNumber"
         defaultCountry="CA"
         country="CA"
@@ -52,16 +52,25 @@ const UpdatePhoneNumberField = (props) => {
         value={values.phoneNumber || ''}
         onChange={(val) => setFieldValue('phoneNumber', val, true)}
         onBlur={handleBlur}
-        helpText="Must be a canadian number and follow This format : (613) 333-4444"
+        helpText={() => {
+          return (
+            <>
+              <p className="help">
+                Must be a canadian number and follow This format : (613) 333-4444
+              </p>
+              <p className="help">Taskers will contact you on this number</p>
+            </>
+          );
+        }}
       />
       <button
-        style={{ borderRadius: 0 }}
         className="button is-success"
         type="submit"
         disabled={!values || !values.phoneNumber || values.phoneNumber.length < 12}
       >
-        Send My Verification Code
+        Save This Number
       </button>
+      <p className="help"></p>
     </form>
   );
 };

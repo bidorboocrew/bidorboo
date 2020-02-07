@@ -22,7 +22,15 @@ const Label = ({ error, labelClassName, children, id, ...props }) => {
   );
 };
 
-export const HelpText = ({ helpText }) => (helpText ? <p className="help">{helpText}</p> : null);
+export const HelpText = ({ helpText }) => {
+  if (typeof helpText === 'string') {
+    return <p className="help">{helpText}</p>;
+  }
+  if (typeof helpText === 'function') {
+    return helpText();
+  }
+  return null;
+};
 
 export const Checkbox = ({
   type,

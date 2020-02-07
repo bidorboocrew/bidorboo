@@ -67,7 +67,7 @@ class VerifyEmailField extends React.Component {
               }
             }}
             disabled={isResendingVCode || verifyingEmailInProgress}
-            style={{ flexGrow: 1, borderRadius: 0, borderBottom: '2px solid #26ca70' }}
+            style={{ maxWidth: 400, borderRadius: 0, borderBottom: '2px solid #26ca70' }}
             className="input"
             placeholder="Enter verification code..."
           />
@@ -76,9 +76,9 @@ class VerifyEmailField extends React.Component {
           </div>
         </div>
 
-        <div style={{ display: 'flex' }}>
+        <div>
           <button
-            style={{ marginLeft: 8, borderRadius: 0 }}
+            style={{ marginLeft: 8 }}
             onClick={() => {
               if (!isResendingVCode || !verifyingEmailInProgress) {
                 if (!inputCodeContent) {

@@ -44,7 +44,7 @@ class VerifyPhoneField extends React.Component {
   };
   render() {
     const { isResendingVCode, inputCodeContent } = this.state;
-    const { verifyingPhoneInProgress, dispatch, userDetails } = this.props;
+    const { verifyingPhoneInProgress, dispatch, userDetails, editPhoneNumber = null } = this.props;
     this.rootModal = document.querySelector('#bidorboo-root-modals');
 
     return (
@@ -63,15 +63,32 @@ class VerifyPhoneField extends React.Component {
               }
             }}
             disabled={isResendingVCode || verifyingPhoneInProgress}
-            style={{ flexGrow: 1, borderRadius: 0, borderBottom: '2px solid #26ca70' }}
+            style={{
+              flexGrow: 1,
+              borderRadius: 0,
+              borderBottom: '2px solid #26ca70',
+              maxWidth: 400,
+            }}
             className="input"
             placeholder="Enter verification code..."
           />
           <div className="help">*check your phone text messages inbox</div>
         </div>
         <div>
+          {editPhoneNumber && (
+            <button
+              style={{ marginRight: 6 }}
+              onClick={editPhoneNumber}
+              className="button is-light"
+            >
+              <span className="icon">
+                <i className="far fa-arrow-alt-circle-left" />
+              </span>
+              <span>Go Back</span>
+            </button>
+          )}
           <button
-            style={{ marginLeft: 6, borderRadius: 0 }}
+            style={{ marginLeft: 6 }}
             onClick={() => {
               if (!isResendingVCode || !verifyingPhoneInProgress) {
                 if (!inputCodeContent) {

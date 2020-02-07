@@ -360,24 +360,21 @@ const userImageAndStats = (
                 <div style={{ marginBottom: 0 }} className={`title`}>
                   <span>{displayName}</span>
                 </div>
-                <div className={`has-text-grey`} style={{ fontWeight: 300 }}>
-                  ({membershipStatusDisplay})
-                </div>
+                <label className="label has-text-dark">({membershipStatusDisplay})</label>
                 {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
-                  <div className="has-text-grey" style={{ lineHeight: '32px' }}>
-                    - No Ratings Yet -
+                  <div className="has-text-warning" style={{ lineHeight: '52px', fontSize: 16 }}>
+                    <span className="icon">
+                      <i className="far fa-star" />
+                    </span>
+                    <span className="has-text-dark">--</span>
                   </div>
                 ) : (
-                  <ReactStars
-                    className="ReactStars"
-                    half
-                    count={5}
-                    value={globalRating}
-                    edit={false}
-                    size={35}
-                    color1={'lightgrey'}
-                    color2={'#ffd700'}
-                  />
+                  <div className="has-text-warning" style={{ lineHeight: '52px', fontSize: 16 }}>
+                    <span className="icon">
+                      <i className="far fa-star" />
+                    </span>
+                    <span className="has-text-dark">{globalRating}</span>
+                  </div>
                 )}
               </div>
             </div>
