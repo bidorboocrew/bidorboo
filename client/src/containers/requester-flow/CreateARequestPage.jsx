@@ -61,7 +61,7 @@ class CreateARequestPage extends React.Component {
               <div className="container">
                 <h1 className="title has-text-centered">{`Need help with ${TITLE}?`}</h1>
                 <h1 className="subtitle has-text-centered">
-                  Easy Three steps to verify your basic info
+                  But First, few steps are required verify your basic info
                 </h1>
                 <SetupYourPhoneAneEmailVerifications></SetupYourPhoneAneEmailVerifications>
               </div>

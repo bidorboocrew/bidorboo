@@ -137,6 +137,9 @@ class TaskerVerificationBanner extends React.Component {
       currently_due.includes('individual.verification.document') ||
       past_due.includes('individual.verification.document');
 
+    const showAddExternalBankAcc =
+      currently_due.includes('external_account') || past_due.includes('external_account');
+
     if (areThereMoreRequirement) {
       if (showAddVerificationId) {
         return (
@@ -190,32 +193,33 @@ class TaskerVerificationBanner extends React.Component {
             </section>
           </>
         );
+      } else if (showAddExternalBankAcc) {
+        // we dont wana bug them too much
+        return (
+          <section
+            id="bob-taskerVerificationBanner"
+            className="hero is-success is-bold slide-in-top has-text-centered is-fullheight"
+          >
+            <div className="hero-body">
+              <div className="container">
+                <h1 className="title">Want to recieve payouts upon completing a task?</h1>
+                <h1 className="subtitle">This requires you to add a valid bank account</h1>
+                <button
+                  className={`button is-dark ${isLoading ? 'is-loading' : ''}`}
+                  onClick={this.redirectToPaymentSetting}
+                >
+                  <span className="icon">
+                    <i className="far fa-credit-card" aria-hidden="true" />
+                  </span>
+                  <span>Add Bank Info</span>
+                </button>
+                <div className="help has-text-light">*This will redirect you to payouts page</div>
+              </div>
+            </div>
+          </section>
+        );
       }
-      // } else if (showAddBankInfo) {
-      //   // we dont wana bug them too much
-      //   return null;
-      // return (
-      //   <section className="hero is-success is-bold slide-in-top">
-      //     <div className="hero-body">
-      //       <div className="container">
-      //         <h1  className="subtitle">
-      //           To receive payouts you must add your bank info
-      //         </h1>
-      //         <button
-      //           className={`button is-dark ${isLoading ? 'is-loading' : ''}`}
-      //           onClick={this.redirectToPaymentSetting}
-      //         >
-      //           <span className="icon">
-      //             <i className="far fa-credit-card" aria-hidden="true" />
-      //           </span>
-      //           <span>ADD A PAYOUT ACCOUNT</span>
-      //         </button>
-      //         <div className="help has-text-light">*This will redirect you to payouts page</div>
-      //       </div>
-      //     </div>
-      //   </section>
-      // );
-      // } else {
+      // else {
       //   return (
       //     <section className="hero is-success is-bold slide-in-top has-text-centered is-fullheight">
       //       <div className="hero-body">
@@ -245,7 +249,7 @@ class TaskerVerificationBanner extends React.Component {
       return (
         <section
           id="bob-taskerVerificationBanner"
-          className="hero is-danger is-bold slide-in-top has-text-centered is-fullheight"
+          className="hero is-success is-bold slide-in-top has-text-centered is-fullheight"
         >
           <div className="hero-body">
             <div className="container">

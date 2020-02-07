@@ -14,7 +14,7 @@ const Step1 = ({ userDetails, showSetupPhoneStep }) => {
   return (
     <div className="field">
       <div style={{ marginBottom: 4, fontSize: 14, fontWeight: 400 }} className="has-text-dark">
-        Step 1: Verify your email
+        Step: Verify your email
       </div>
 
       <VerifyEmailField {...{ userDetails, showSetupPhoneStep }} />
@@ -41,7 +41,7 @@ const Step2 = ({
               style={{ marginBottom: 4, fontSize: 14, fontWeight: 400 }}
               className="has-text-dark"
             >
-              Step 2: Add your cellphone number
+              Step: Add your cellphone number
             </div>
             <UpdatePhoneNumberField
               showPhoneVerificationStep={showPhoneVerificationStep}
@@ -63,7 +63,7 @@ const Step2 = ({
                 style={{ marginBottom: 4, fontSize: 14, fontWeight: 400 }}
                 className="has-text-dark"
               >
-                Step 3: Verify your cellphone number
+                Step: Verify your cellphone number
               </div>
               <VerifyPhoneField
                 {...{

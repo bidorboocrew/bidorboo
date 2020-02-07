@@ -17,15 +17,18 @@ module.exports = (app) => {
   });
 
   //https://github.com/expressjs/cookie-session
-  const expiryDate = 10 * 24 * 60 * 60 * 1000; //10 days
-  app.use(
-    cookieSession({
-      maxAge: expiryDate, // 24 hours
-      keys: [keys.cookieKey, keys.cookieKey2],
-      resave: false,
-      saveUninitialized: true,
-      sameSite: 'strict',
-    })
-  );
+  const expiryDate = 30 * 24 * 60 * 60 * 1000; //10 days
+
+  const cookie = cookieSession({
+    domain: process.env.NODE_ENV === 'production' ? 'bidorboo.ca' : 'localhost',
+    sameSite: true,
+    secure: process.env.NODE_ENV === 'production' ? true : false,
+    httpOnly: true,
+    expires: expiryDate, // 24 hours
+    keys: [keys.cookieKey, keys.cookieKey2],
+    resave: false,
+    saveUninitialized: true,
+  });
+  app.use(cookie);
   app.use(cookieParser());
 };

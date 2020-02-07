@@ -65,8 +65,12 @@ class SubscribeToSearchResultsToggle extends React.Component {
           onChange={this.toggleAndSubmit}
           checked={isSubscribed}
         />
-        <label style={{ fontWeight: 500 }} htmlFor="notifyMeAboutNewTasks">
-          {!isSubscribed ? 'Do Not Notify Me' : 'Notify Me'}
+        <label
+          style={{ fontWeight: 500 }}
+          htmlFor="notifyMeAboutNewTasks"
+          className={`${!isSubscribed ? 'has-text-grey' : 'has-text-dark'}`}
+        >
+          Notify Me
         </label>
         {!isSubscribed ? (
           <p className="help has-text-dark">
