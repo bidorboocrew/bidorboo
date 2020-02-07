@@ -146,8 +146,8 @@ export const onLogout = () => (dispatch) =>
           },
         },
       });
-      await sleep(1000);
       switchRoute(ROUTES.CLIENT.HOME);
+      await sleep(1000);
       window.location.reload();
     }),
   });

@@ -355,7 +355,7 @@ exports.bidDataAccess = {
       }
     });
   },
-  getBidById: (bidId) => {
+  getBidById: (bidId, withVirtuals = false) => {
     return BidModel.findById(bidId)
       .populate({
         path: '_taskerRef',
@@ -405,7 +405,7 @@ exports.bidDataAccess = {
           },
         },
       })
-      .lean(true)
+      .lean(withVirtuals ? { virtuals: true } : true)
       .exec();
   },
 

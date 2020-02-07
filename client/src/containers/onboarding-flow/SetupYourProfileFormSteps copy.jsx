@@ -131,6 +131,7 @@ class Step4 extends React.Component {
   verifyAndSubmitOnBoarding = () => {
     const { hasAgreedToTOS } = this.state;
     const { location, updateOnBoardingDetails } = this.props;
+    const shouldRedirect = location && location.state && location.state.redirectUrl;
 
     let errors = {};
     if (!hasAgreedToTOS) {
@@ -165,24 +166,29 @@ class Step4 extends React.Component {
   };
   render() {
     const { hasAgreedToTOS, tosError } = this.state;
+    const {
+      showSetupPhoneStep,
+      isEmailAlreadyVerified,
+      isPhoneAlreadyVerified,
+      showEmailVerificationStep,
+    } = this.props;
 
     return (
       <div style={{ position: 'relative' }}>
-        <div className="title has-text-centered">BidOrBoo</div>
-        <div className="subtitle has-text-centered">Terms Of Use | Privacy Policy</div>
+        <div className="title has-text-centered">BidOrBoo Terms Of Use</div>
         <div className="slide-in-right field">
           <div style={{ padding: '0.5rem' }} className="group">
             <div className="control">
               <label style={{ lineHeight: 1.5 }} className="checkbox">
                 <input
-                  style={{ marginRight: 4, transform: 'scale(1.75)' }}
+                  style={{ marginRight: 4 }}
                   onChange={this.toggleHasAgreedToTOS}
                   type="checkbox"
                   value={hasAgreedToTOS}
                 />
                 {` I confirm that I have read and agreed to`}
                 <a target="_blank" rel="noopener noreferrer" href={`${ROUTES.CLIENT.TOS}`}>
-                  {` Terms Of Service And Privacy Policy `}
+                  {` Terms Of Service And Privacy Policy Agreements `}
                 </a>
               </label>
               {tosError && (
@@ -196,16 +202,56 @@ class Step4 extends React.Component {
         <button
           disabled={!hasAgreedToTOS || tosError}
           onClick={this.verifyAndSubmitOnBoarding}
-          className="button is-success"
+          className="button is-success is-pulled-right"
         >
-          Agree And Get Started
+          Get Started
         </button>
+
+        {!isEmailAlreadyVerified && isPhoneAlreadyVerified && (
+          <button onClick={showEmailVerificationStep} className="button is-pulled-left">
+            <span className="icon">
+              <i className="fas fa-chevron-left" />
+            </span>
+            <span>Back</span>
+          </button>
+        )}
+        {!isPhoneAlreadyVerified && (
+          <button onClick={showSetupPhoneStep} className="button is-pulled-left">
+            <span className="icon">
+              <i className="fas fa-chevron-left" />
+            </span>
+            <span>Back</span>
+          </button>
+        )}
       </div>
     );
   }
 }
 
 class SetupYourProfileFormSteps extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentStep: 1,
+    };
+  }
+
+  showEmailVerificationStep = () => {
+    this.setState(() => ({ currentStep: 1 }));
+  };
+
+  showSetupPhoneStep = () => {
+    this.setState(() => ({ currentStep: 2 }));
+  };
+
+  showPhoneVerificationStep = () => {
+    this.setState(() => ({ currentStep: 3 }));
+  };
+
+  showTosStep = () => {
+    this.setState(() => ({ currentStep: 4 }));
+  };
+
   componentDidUpdate() {
     const { isLoggedIn, userDetails, location } = this.props;
 
@@ -234,9 +280,120 @@ class SetupYourProfileFormSteps extends React.Component {
       switchRoute(`${ROUTES.CLIENT.HOME}`);
     }
   }
-
+  handlePhoneNumberSubmit = (value) => {
+    this.props.updateProfileDetails(value);
+    this.showTosStep();
+  };
   render() {
-    return <Step4 {...this.props} />;
+    const { currentStep } = this.state;
+    const { updateProfileDetails, userDetails } = this.props;
+
+    const { email, phone } = userDetails;
+
+    let isEmailAlreadyVerified = false;
+    if (email && email.emailAddress && email.isVerified) {
+      isEmailAlreadyVerified = true;
+    }
+
+    let isPhoneAlreadyVerified = false;
+    if (phone && phone.phoneNumber && phone.isVerified) {
+      isPhoneAlreadyVerified = true;
+    }
+
+    let showTos = false;
+    if (phone && phone.phoneNumber && phone.isVerified) {
+      showTos = true;
+    }
+
+    let stepToRender = null;
+    switch (currentStep) {
+      case 1:
+        if (!isEmailAlreadyVerified) {
+          stepToRender = (
+            <Step1
+              isEmailAlreadyVerified={isEmailAlreadyVerified}
+              isPhoneAlreadyVerified={isPhoneAlreadyVerified}
+              {...this.props}
+              showSetupPhoneStep={this.showSetupPhoneStep}
+              showTosStep={this.showTosStep}
+            />
+          );
+        } else if (!isPhoneAlreadyVerified) {
+          stepToRender = (
+            <Step2
+              {...this.props}
+              isEmailAlreadyVerified={isEmailAlreadyVerified}
+              isPhoneAlreadyVerified={isPhoneAlreadyVerified}
+              showTosStep={this.showTosStep}
+              showEmailVerificationStep={this.showEmailVerificationStep}
+              showPhoneVerificationStep={this.showPhoneVerificationStep}
+              onSubmit={this.handlePhoneNumberSubmit}
+            />
+          );
+        } else {
+          stepToRender = (
+            <Step4
+              isEmailAlreadyVerified={isEmailAlreadyVerified}
+              isPhoneAlreadyVerified={isPhoneAlreadyVerified}
+              {...this.props}
+              showSetupPhoneStep={this.showSetupPhoneStep}
+              showEmailVerificationStep={this.showEmailVerificationStep}
+            />
+          );
+        }
+        break;
+      case 2:
+        if (!isPhoneAlreadyVerified) {
+          stepToRender = (
+            <Step2
+              {...this.props}
+              isEmailAlreadyVerified={isEmailAlreadyVerified}
+              isPhoneAlreadyVerified={isPhoneAlreadyVerified}
+              showTosStep={this.showTosStep}
+              showEmailVerificationStep={this.showEmailVerificationStep}
+              showPhoneVerificationStep={this.showPhoneVerificationStep}
+              onSubmit={updateProfileDetails}
+            />
+          );
+        } else {
+          stepToRender = (
+            <Step4
+              isEmailAlreadyVerified={isEmailAlreadyVerified}
+              isPhoneAlreadyVerified={isPhoneAlreadyVerified}
+              {...this.props}
+              showSetupPhoneStep={this.showSetupPhoneStep}
+              showEmailVerificationStep={this.showEmailVerificationStep}
+            />
+          );
+        }
+        break;
+      case 3:
+        stepToRender = (
+          <Step2
+            {...this.props}
+            isEmailAlreadyVerified={isEmailAlreadyVerified}
+            isPhoneAlreadyVerified={isPhoneAlreadyVerified}
+            showTosStep={this.showTosStep}
+            showEmailVerificationStep={this.showEmailVerificationStep}
+            showPhoneVerificationStep={this.showPhoneVerificationStep}
+            onSubmit={updateProfileDetails}
+            renderVerificationSection
+          />
+        );
+        break;
+      case 4:
+        stepToRender = (
+          <Step4
+            isEmailAlreadyVerified={isEmailAlreadyVerified}
+            isPhoneAlreadyVerified={isPhoneAlreadyVerified}
+            {...this.props}
+            showSetupPhoneStep={this.showSetupPhoneStep}
+            showEmailVerificationStep={this.showEmailVerificationStep}
+          />
+        );
+        break;
+    }
+    return <React.Fragment>{stepToRender}</React.Fragment>;
   }
 }
 

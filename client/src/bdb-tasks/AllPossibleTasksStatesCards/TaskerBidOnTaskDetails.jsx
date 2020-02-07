@@ -59,13 +59,13 @@ export default class TaskerBidOnTaskDetails extends React.Component {
 
           <div className="card-content">
             <div className="content subtitle">
-              Review The Task Details Then
+              Review the task details then
               <span>
                 <a
                   onClick={(e) => {
                     e.preventDefault();
-                    const elmnt = document.getElementById('bob-bid-on-request');
-                    elmnt.scrollIntoView({ block: 'end', behavior: 'smooth' });
+                    const elmnt = document.querySelector('#bob-bid-on-request');
+                    elmnt && elmnt.scrollIntoView({ block: 'end', behavior: 'smooth' });
                   }}
                   className="is-text"
                 >

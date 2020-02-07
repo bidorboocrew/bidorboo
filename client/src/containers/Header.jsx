@@ -60,6 +60,37 @@ class Header extends React.Component {
 
   componentDidMount() {
     this.modalRootNode = document.querySelector('#bidorboo-root-modals');
+
+    if (
+      this.props.history.location.pathname.includes('bdb-request/root') ||
+      this.props.history.location.pathname.includes('bdb-request/create-request')
+    ) {
+      this.setState({ activeNavBarMenuId: HREF_TO_TABID.REQUEST_A_SERVICE });
+    } else if (
+      this.props.history.location.pathname.includes('bdb-bidder/root') ||
+      this.props.history.location.pathname.includes('bdb-bidder/bid-on-request')
+    ) {
+      this.setState({ activeNavBarMenuId: HREF_TO_TABID.PROVIDE_A_SERVICE });
+    } else if (this.props.history.location.pathname.includes('my-open-requests')) {
+      this.setState({ activeNavBarMenuId: HREF_TO_TABID.MY_REQUESTS });
+    } else if (this.props.history.location.pathname.includes('my-bids')) {
+      this.setState({ activeNavBarMenuId: HREF_TO_TABID.MY_BIDS });
+    } else if (this.props.history.location.pathname.includes('my-profile/payment-settings')) {
+      this.setState({ activeNavBarMenuId: HREF_TO_TABID.PAYMENT_SETTINGS });
+    } else if (this.props.history.location.pathname.includes('my-archive')) {
+      this.setState({ activeNavBarMenuId: HREF_TO_TABID.ARCHIVE });
+    } else if (this.props.history.location.pathname.includes('my-profile/basic-settings')) {
+      this.setState({ activeNavBarMenuId: HREF_TO_TABID.MY_PROFILE });
+    } else if (
+      this.props.history.location.pathname.includes('BidOrBoo') ||
+      this.props.history.location.pathname === '/'
+    ) {
+      this.setState({ activeNavBarMenuId: 'unspecified' });
+    } else if (this.props.history.location.pathname.includes('my-profile/notification-settings')) {
+      this.setState({ activeNavBarMenuId: HREF_TO_TABID.NOTIFICATIONS });
+    } else {
+      this.setState({ activeNavBarMenuId: 'unspecified' });
+    }
   }
 
   closeMenuThenExecute = (func) => {
@@ -82,11 +113,17 @@ class Header extends React.Component {
 
   static getDerivedStateFromProps(nextProp, prevState) {
     if (nextProp.history && nextProp.history.location && nextProp.history.location.pathname) {
-      if (nextProp.history.location.pathname.includes('bdb-request/root')) {
+      if (
+        nextProp.history.location.pathname.includes('bdb-request/root') ||
+        nextProp.history.location.pathname.includes('bdb-request/create-request')
+      ) {
         if (prevState.activeNavBarMenuId !== HREF_TO_TABID.REQUEST_A_SERVICE) {
           return { activeNavBarMenuId: HREF_TO_TABID.REQUEST_A_SERVICE };
         }
-      } else if (nextProp.history.location.pathname.includes('bdb-bidder/root')) {
+      } else if (
+        nextProp.history.location.pathname.includes('bdb-bidder/root') ||
+        nextProp.history.location.pathname.includes('bdb-bidder/bid-on-request')
+      ) {
         if (prevState.activeNavBarMenuId !== HREF_TO_TABID.PROVIDE_A_SERVICE) {
           return { activeNavBarMenuId: HREF_TO_TABID.PROVIDE_A_SERVICE };
         }

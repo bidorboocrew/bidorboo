@@ -22,13 +22,10 @@ export class FirstTimeUser extends React.Component {
     }
 
     return (
-      <div className="columns is-multiline is-centered is-mobile">
-        <div className="column limitLargeMaxWidth">
-          <div>
-            <section className="hero is-small">
-              <div className="hero-body">
-                <div className="container has-text-centered">
-                  {/* <img
+      <div className="hero is-white slide-in-top has-text-centered is-fullheight">
+        <div className="hero-body">
+          <div className="container has-text-centered">
+            {/* <img
                         src={logoImg}
                         alt="BidOrBoo"
                         width="48"
@@ -36,21 +33,7 @@ export class FirstTimeUser extends React.Component {
                         style={{ maxHeight: 'unset' }}
                       /> */}
 
-                  <div className="subtitle">Few steps to get Started</div>
-                </div>
-              </div>
-            </section>
-
-            <div
-              style={{ height: 'unset' }}
-              className="card cardWithButton limitLargeMaxWidth nofixedwidth"
-            >
-              <div className="card-content">
-                <div className="content">
-                  <SetupYourProfileFormSteps {...this.props} />
-                </div>
-              </div>
-            </div>
+            <SetupYourProfileFormSteps {...this.props} />
           </div>
         </div>
       </div>

@@ -19,6 +19,9 @@ export default class PostYourBid extends React.Component {
 
     if (!isLoggedIn) {
       showLoginDialog(true);
+    } else if (!taskerCanBid) {
+      const elmnt = document.querySelector('#bob-taskerVerificationBanner');
+      elmnt && elmnt.scrollIntoView({ block: 'end', behavior: 'smooth' });
     } else {
       this.setState({ showBidDialog: true });
     }

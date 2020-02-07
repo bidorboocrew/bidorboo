@@ -38,13 +38,13 @@ module.exports = (app) => {
 
         const { requestId, bidId } = req.body.data;
 
-        const theBid = await bidDataAccess.getBidById(bidId);
+        const theBid = await bidDataAccess.getBidById(bidId, true);
         const theRequest = await requestDataAccess.getRequestWithOwnerDetails(requestId);
 
         if (!theBid || !theBid._id || !theRequest || !theRequest._id) {
           return res.status(403).send({
             errorMsg:
-              "Couldn't locate the request and corresponding Bid. Your card was NOT charged, reload the page and try again.",
+              "Couldn't locate the request and corresponding Bid. Try again and if this problem persist chat with our customer support.",
           });
         }
 
@@ -55,7 +55,15 @@ module.exports = (app) => {
           userId: taskerUserId,
           displayName: taskerDisplayName,
           tos_acceptance,
+          canBid,
         } = _taskerRef;
+
+        if (!canBid) {
+          return res.status(400).send({
+            safeMsg:
+              'Sorry, This Tasker is still being verified, You can award someone else instead',
+          });
+        }
         const taskerEmail = taskerEmailObject.emailAddress;
         const taskerId = taskerIdObject.toString();
 
@@ -96,7 +104,7 @@ module.exports = (app) => {
           } else {
             return res.status(400).send({
               safeMsg:
-                'The tasker does not have a stripe account with us. Sorry we can not process your payment for this tasker',
+                'This tasker is still under verification steps. In the mean while you can award someone else. Sorry for the inconvenience',
             });
           }
         }
@@ -134,7 +142,8 @@ module.exports = (app) => {
           return res.status(200).send({ sessionClientId });
         }
       } catch (e) {
-        e.safeMsg = "We couldn't confirm the charge details. NO charge was applied to your card";
+        e.safeMsg =
+          "Couldn't locate the request and corresponding Bid. Try again and if this problem persist chat with our customer support.";
         return next(e);
       }
     }

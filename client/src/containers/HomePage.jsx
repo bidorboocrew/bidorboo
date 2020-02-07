@@ -42,34 +42,44 @@ export default class HomePage extends React.Component {
         </section>
 
         <section className="hero is-small has-text-centered is-white">
-          <div className="columns is-mobile is-multiline is-centered">
-            <div
-              style={{ minWidth: '18rem', maxWidth: '21rem', margin: '1rem' }}
-              className="column"
-            >
-              <RequestAService
-                onClickHandler={() => {
-                  switchRoute(ROUTES.CLIENT.REQUESTER.root);
-                }}
-              />
-            </div>
+          <div className="hero-body">
+            <div className="columns is-mobile is-multiline is-centered">
+              <div
+                style={{ minWidth: '18rem', maxWidth: '21rem', margin: '1rem' }}
+                className="column"
+              >
+                <RequestAService
+                  onClickHandler={() => {
+                    switchRoute(ROUTES.CLIENT.REQUESTER.root);
+                  }}
+                />
+              </div>
 
-            <div
-              style={{ minWidth: '18rem', maxWidth: '21rem', margin: '1rem' }}
-              className="column"
-            >
-              <ProvideAService
-                onClickHandler={() => {
-                  switchRoute(ROUTES.CLIENT.TASKER.root);
-                }}
-              />
+              <div
+                style={{ minWidth: '18rem', maxWidth: '21rem', margin: '1rem' }}
+                className="column"
+              >
+                <ProvideAService
+                  onClickHandler={() => {
+                    switchRoute(ROUTES.CLIENT.TASKER.root);
+                  }}
+                />
+              </div>
             </div>
           </div>
         </section>
         <br></br>
         <br></br>
 
-        <Delay wait={2000}>
+        <Delay wait={1500}>
+          <section className="hero is-small has-text-centered is-white fade-in">
+            <div style={{ paddingBottom: 0.5 }} className="hero-body">
+              <div className="container">
+                <h1 className="title is-marginless">How Does It Work?</h1>
+              </div>
+            </div>
+          </section>
+
           <section className="hero has-text-centered is-white fade-in">
             <div style={{ position: 'relative' }}>
               <div style={{ margin: 'auto', padding: '0.5rem', maxWidth: 650 }}>

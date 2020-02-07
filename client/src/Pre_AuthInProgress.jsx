@@ -85,7 +85,7 @@ class Pre_AuthInProgress extends React.PureComponent {
     }
 
     if (authIsInProgress) {
-      return <Spinner isLoading renderLabel="securing your connection..." />;
+      return <Spinner isLoading />;
     }
 
     if (!isLoggedIn) {

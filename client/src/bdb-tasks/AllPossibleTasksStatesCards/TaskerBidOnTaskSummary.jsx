@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
@@ -10,7 +10,7 @@ import {
   CardTitleAndActionsInfo,
   RequestCardTitle,
   CountDownComponent,
-  TaskImagesCarousel,
+  // TaskImagesCarousel,
   CenteredUserImageAndRating,
   UserGivenTitle,
   RequestCardTitleOnMap,
@@ -28,7 +28,7 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
     // const { showRegisterAsTaskerModal } = this.state;
     const { showMapView, isLoggedIn, userDetails, updateViewedBy } = otherArgs;
 
-    const { _id: currentUserId } = userDetails;
+    const { _id: currentUserId, canBid } = userDetails;
 
     const { onCloseHandler = () => null, isOnMapView = false } = otherArgs;
 
@@ -117,7 +117,17 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                   <div style={{ display: 'flex' }}>
                     <a
                       onClick={(e) => {
-                        switchRoute(ROUTES.CLIENT.TASKER.getDynamicBidOnRequestPage(request._id));
+                        if (isLoggedIn) {
+                          updateViewedBy(request);
+                        }
+
+                        if (canBid || !isLoggedIn) {
+                          switchRoute(ROUTES.CLIENT.TASKER.getDynamicBidOnRequestPage(request._id));
+                        } else {
+                          e.preventDefault();
+                          const elmnt = document.querySelector('#bob-taskerVerificationBanner');
+                          elmnt && elmnt.scrollIntoView({ block: 'end', behavior: 'smooth' });
+                        }
                       }}
                       className="button is-success firstButtonInCard"
                     >
@@ -152,11 +162,18 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                   </div>
                   <div style={{ display: 'inline-block', marginTop: -12 }}>
                     <a
-                      onClick={() => {
+                      onClick={(e) => {
                         if (isLoggedIn) {
                           updateViewedBy(request);
                         }
-                        switchRoute(ROUTES.CLIENT.TASKER.getDynamicBidOnRequestPage(request._id));
+
+                        if (canBid || !isLoggedIn) {
+                          switchRoute(ROUTES.CLIENT.TASKER.getDynamicBidOnRequestPage(request._id));
+                        } else {
+                          e.preventDefault();
+                          const elmnt = document.querySelector('#bob-taskerVerificationBanner');
+                          elmnt && elmnt.scrollIntoView({ block: 'end', behavior: 'smooth' });
+                        }
                       }}
                       className="button is-success is-small"
                     >

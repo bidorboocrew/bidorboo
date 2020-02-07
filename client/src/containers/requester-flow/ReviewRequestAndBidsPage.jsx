@@ -21,8 +21,8 @@ import {
 } from '../../bdb-tasks/getMeTheRightCard';
 import { RenderBackButton, requesterViewRerouteBasedOnRequestState } from '../commonComponents';
 
-const FETCH_INTERVAL = 5000;
-const FETCH_DURATION = 30; //20times*15second=3mins of fetching then we stop
+const FETCH_INTERVAL = 15000;
+const FETCH_DURATION = 10; //10times*15second
 
 class ReviewRequestAndBidsPage extends React.Component {
   constructor(props) {

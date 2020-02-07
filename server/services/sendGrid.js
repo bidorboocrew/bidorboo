@@ -22,6 +22,7 @@ exports.EmailService = {
         <p>Your BidOrBoo Email verification code is:</p>
         <p><strong>${emailVerificationCode}</strong></p>
         `,
+        clickLink: 'https://www.bidoroboo.ca/my-profile/basic-settings',
         clickDisplayName: 'Verify Email',
       }),
     };

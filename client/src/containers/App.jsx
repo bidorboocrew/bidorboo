@@ -61,6 +61,8 @@ const pathsWhereWeDontShowPortalDetail = [
   '/terms-of-service',
   '/reset-password',
   '/my-profile',
+  '/login-and-registration',
+  '/on-boarding',
 ];
 const getCookieByName = (name) => {
   var value = '; ' + document.cookie;
@@ -289,6 +291,9 @@ class App extends React.Component {
               </Switch>
             </Suspense>
           </Pre_AuthInProgress>
+          <br></br>
+          <br></br>
+          <br></br>
         </div>
 
         <footer id="mainFooter" className="footer">

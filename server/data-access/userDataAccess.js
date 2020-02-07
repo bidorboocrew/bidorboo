@@ -227,7 +227,7 @@ exports.findUserAndAllNewNotifications = async (mongoUserId) => {
             },
           },
         })
-        .lean(true)
+        .lean({ virtuals: true })
         .exec();
 
       console.log(user._postedBidsRef);
