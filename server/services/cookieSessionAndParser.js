@@ -21,9 +21,7 @@ module.exports = (app) => {
 
   app.use(
     cookieSession({
-      sameSite: true,
-      secure: true,
-      httpOnly: true,
+      sameSite: 'strict',
       maxAge: expiryDate,
       keys: [keys.cookieKey, keys.cookieKey2],
     })
