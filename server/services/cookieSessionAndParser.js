@@ -19,15 +19,14 @@ module.exports = (app) => {
   //https://github.com/expressjs/cookie-session
   const expiryDate = 30 * 24 * 60 * 60 * 1000; //10 days
 
-  const cookie = cookieSession({
-    domain: process.env.NODE_ENV === 'production' ? 'bidorboo.ca' : 'localhost',
-    sameSite: false,
-    secure: true,
-    httpOnly: true,
-    maxAge: expiryDate,
-    keys: [keys.cookieKey, keys.cookieKey2],
-    saveUninitialized: true,
-  });
-  app.use(cookie);
+  app.use(
+    cookieSession({
+      sameSite: true,
+      secure: true,
+      httpOnly: true,
+      maxAge: expiryDate,
+      keys: [keys.cookieKey, keys.cookieKey2],
+    })
+  );
   app.use(cookieParser());
 };
