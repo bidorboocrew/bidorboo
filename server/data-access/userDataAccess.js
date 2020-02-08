@@ -344,14 +344,8 @@ exports.resetAndSendEmailVerificationCode = (userId, emailAddress) => {
 exports.createNewUser = async (userDetails) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const { id } = await stripeServiceUtil.initializeCustomer({
-        email: userDetails.email.emailAddress,
-        name: userDetails.displayName,
-      });
-
       const newUser = await new User({
         ...userDetails,
-        stripeCustomerAccId: id,
       }).save();
 
       if (newUser.email.emailAddress && !newUser.email.isVerified) {

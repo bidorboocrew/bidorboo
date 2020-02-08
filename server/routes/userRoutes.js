@@ -2,6 +2,8 @@ const userDataAccess = require('../data-access/userDataAccess');
 const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
 const { encryptData } = require('../utils/utilities');
 const { celebrate } = require('celebrate');
+const requireUserHasAStripeAccountOrInitalizeOne = require('../middleware/requireUserHasAStripeAccountOrInitalizeOne');
+const stripeServiceUtil = require('../services/stripeService').util;
 
 const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
@@ -292,11 +294,16 @@ module.exports = (app) => {
 
         const userId = req.user.userId;
         await userDataAccess.updateUserProfileDetails(userId, newDetails);
-        return res.send({ success: true });
+
+        next();
       } catch (e) {
         e.safeMsg = 'Failed To update update Onboarding Details';
         return next(e);
       }
+    },
+    requireUserHasAStripeAccountOrInitalizeOne,
+    (req, res, next) => {
+      return res.send({ success: true });
     }
   );
 

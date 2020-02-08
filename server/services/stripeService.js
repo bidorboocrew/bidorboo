@@ -151,7 +151,6 @@ exports.util = {
       customer: requesterCustomerId,
       submit_type: 'book',
       mode: 'payment',
-      billing_address_collection: 'auto',
       line_items: [
         {
           name: title,
@@ -294,13 +293,13 @@ exports.util = {
         country: 'CA', //HARD CODED
         type: 'custom', //HARD CODED
         default_currency: 'CAD', //HARD CODED
-        requested_capabilities: ['card_payments', 'transfers'],
+        requested_capabilities: ['transfers'], // ['card_payments', 'transfers'],
         business_type: 'individual',
         metadata: { email: email || '', userId, displayName, phone: phone || '' },
         tos_acceptance: { ip: tosAcceptance.ip, date: moment(tosAcceptance.date).valueOf() },
         settings: {
           payments: {
-            statement_descriptor: 'BidOrBoo Charge',
+            statement_descriptor: 'BidOrBoo Payment',
           },
           payouts: {
             schedule: { interval: 'manual' },

@@ -13,8 +13,8 @@ module.exports = (process) => {
   mongoose.Promise = global.Promise;
 
   const dbOptions = {
-    autoIndex: false,
-    autoCreate: true,
+    autoIndex: process.env.NODE_ENV !== 'production',
+    // autoCreate: true,
     useCreateIndex: true,
     useFindAndModify: false,
     useNewUrlParser: true,

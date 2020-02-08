@@ -3,7 +3,7 @@ const requireLogin = require('../middleware/requireLogin');
 
 const requireRequestOwner = require('../middleware/requireRequestOwner');
 const requireNoPaymentProcessedForThisRequestBefore = require('../middleware/requireNoPaymentProcessedForThisRequestBefore');
-
+const requireRequesterHaveStripeCustomerAccountIdOrInitialize = require('../middleware/requireRequesterHaveStripeCustomerAccountIdOrInitialize');
 const requireRequestIsNotAwarded = require('../middleware/requireRequestIsNotAwarded');
 const userDataAccess = require('../data-access/userDataAccess');
 
@@ -32,6 +32,7 @@ module.exports = (app) => {
     requireRequestOwner,
     requireRequestIsNotAwarded,
     requireNoPaymentProcessedForThisRequestBefore,
+    requireRequesterHaveStripeCustomerAccountIdOrInitialize,
     async (req, res, next) => {
       try {
         const mongoUser_id = req.user._id.toString();

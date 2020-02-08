@@ -14,7 +14,7 @@ module.exports = async (req, res, next) => {
       } else {
         return res.status(200).send({
           safeMsg:
-            'you do not hasve an existing stripe account with us. Setup your account or email us at bidorboo@bidorboo.ca',
+            'you do not hasve an existing stripe account with us. Setup your account',
         });
       }
     } else {
