@@ -222,7 +222,7 @@ class Header extends React.Component {
           <ul>
             <li className={`${!isActingAsTasker && !dontShowPortalHelper && 'is-active'}`}>
               <a
-                style={{ padding: '0.5rem', width: 100 }}
+                style={{ padding: '0.25rem', width: 90 }}
                 onClick={(e) => {
                   e.preventDefault();
                   this.closeMenuThenExecute(() => {
@@ -241,7 +241,7 @@ class Header extends React.Component {
             </li>
             <li className={`${isActingAsTasker && !dontShowPortalHelper && 'is-active'}`}>
               <a
-                style={{ padding: '0.5rem', width: 100 }}
+                style={{ padding: '0.25rem', width: 90 }}
                 onClick={(e) => {
                   e.preventDefault();
                   this.closeMenuThenExecute(() => {
@@ -321,8 +321,13 @@ class Header extends React.Component {
           {!isOnLoginPage && (
             <div className=" navbar-item">
               <a
-                style={{ borderRadius: 2, fontWeight: 500, border: '1px solid #eee' }}
-                className="button is-link is-inverted is-small"
+                style={{
+                  borderRadius: 2,
+                  fontWeight: 500,
+                  border: '1px solid #eee',
+                  // boxShadow: 'none',
+                }}
+                className="button is-link is-small"
                 onClick={(e) => {
                   e.preventDefault();
                   switchRoute(ROUTES.CLIENT.LOGIN_OR_REGISTER, {

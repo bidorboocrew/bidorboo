@@ -290,9 +290,6 @@ class App extends React.Component {
               </Switch>
             </Suspense>
           </Pre_AuthInProgress>
-          <br></br>
-          <br></br>
-          <br></br>
         </div>
 
         <footer id="mainFooter" className="footer">

@@ -28,7 +28,7 @@ html body {
 
 #RoutesWrapper {
   // padding: 0 0.5rem;
-  min-height: 100vh !important;
+  min-height: calc(100vh - 4rem) !important;
   // padding-bottom: 3rem;
 }
 
@@ -217,6 +217,11 @@ $tabs-toggle-link-active-border-color: $orange;
 
 @import 'bulma/bulma.sass';
 @import 'bulma-switch/dist/css/bulma-switch.sass';
+
+.hero.is-fullheight {
+  min-height: calc(100vh - 4rem);
+}
+
 // xxx update bulma when a new release comes
 // https://github.com/AITGmbH/tapiodeveloperapp/pull/56/files
 // https://github.com/jgthms/bulma/issues/2503
