@@ -39,7 +39,7 @@ module.exports = (app) => {
 
         const { requestId, bidId } = req.body.data;
 
-        const theBid = await bidDataAccess.getBidById(bidId, true);
+        const theBid = await bidDataAccess.getBidByIdWithTaskerDetails(bidId, true);
         const theRequest = await requestDataAccess.getRequestWithOwnerDetails(requestId);
 
         if (!theBid || !theBid._id || !theRequest || !theRequest._id) {
@@ -509,7 +509,7 @@ module.exports = (app) => {
 
   app.post(ROUTES.API.PAYMENT.POST.checkoutFulfillment, async (req, res, next) => {
     try {
-      return res.status(200).send();
+      // return res.status(200).send();
       // console.log('payoutsWebhook is triggered');
 
       // // sign key by strip

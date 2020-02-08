@@ -92,7 +92,10 @@ class Header extends React.Component {
       this.setState({ activeNavBarMenuId: 'unspecified' });
     }
   }
-
+  componentDidCatch(error, info) {
+    console.error('bdb error details ' + error);
+    console.error('failure info ' + info);
+  }
   closeMenuThenExecute = (func) => {
     this.setState(
       { isHamburgerOpen: false, isProfileMenuActive: false, isNotificationMenuActive: false },

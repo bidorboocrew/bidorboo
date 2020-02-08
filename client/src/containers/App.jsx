@@ -20,7 +20,7 @@ import AddToMobileHomeScreenBanner from './AddToMobileHomeScreenBanner';
 import '../assets/index.scss';
 import { Spinner } from '../components/Spinner.jsx';
 
-import { Header, HomePage, ResetLocalPassword, FirstTimeUser, LoginOrRegisterPage } from './index';
+import { Header, HomePage, ResetLocalPassword,  LoginOrRegisterPage } from './index';
 
 import ShowSpecialMomentModal from './ShowSpecialMomentModal';
 import Pre_AuthInProgress from '../Pre_AuthInProgress.jsx';
@@ -227,7 +227,6 @@ class App extends React.Component {
                   component={OtherUserProfileForReviewPage}
                 />
 
-                <Route exact path={`${ROUTES.CLIENT.ONBOARDING}`} component={FirstTimeUser} />
                 <Route
                   exact
                   path={`${ROUTES.CLIENT.RESETPASSWORD}`}

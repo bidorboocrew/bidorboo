@@ -33,7 +33,7 @@ class ReviewRequestAndBidsPage extends React.Component {
       bidUnderReview: {},
     };
 
-    this.numberOfFetches = FETCH_DURATION;
+    this.numberOfFetches = 0; //; FETCH_DURATION;
   }
 
   fetchMostRecentBids = () => {

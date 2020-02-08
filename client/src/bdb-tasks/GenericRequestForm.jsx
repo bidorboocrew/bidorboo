@@ -336,6 +336,7 @@ class GenericRequestForm extends React.Component {
                         value={values.requestUnitOrApt || ''}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        extraStyle={{ marginBottom: 0 }}
                       ></TextInput>
                     );
                   }}

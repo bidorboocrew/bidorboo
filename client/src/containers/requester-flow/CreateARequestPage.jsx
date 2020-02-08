@@ -52,7 +52,7 @@ class CreateARequestPage extends React.Component {
 
     return (
       <>
-        {isLoggedIn && !canPost && (
+        {/* {isLoggedIn && !canPost && (
           <section
             id="bob-requesterVerificationBanner"
             className="hero is-white slide-in-top is-fullheight has-text-centered"
@@ -67,7 +67,7 @@ class CreateARequestPage extends React.Component {
               </div>
             </div>
           </section>
-        )}
+        )} */}
         <div className="columns is-centered is-mobile">
           <div className="column limitLargeMaxWidth slide-in-right">
             <RenderBackButton />

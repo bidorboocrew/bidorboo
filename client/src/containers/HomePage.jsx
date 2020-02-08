@@ -20,7 +20,7 @@ export default class HomePage extends React.Component {
   render() {
     return (
       <div>
-        <section className="hero has-text-centered is-danger">
+        <section className="hero has-text-centered is-danger is-small">
           <div style={{ backgroundImage: `url(${MainBanner})` }} className="hero-body">
             <div className="container">
               <h1
@@ -34,8 +34,14 @@ export default class HomePage extends React.Component {
               >
                 <span id="BidOrBoo-welcome-step">BidOrBoo</span>
               </h1>
+              <h2
+                style={{ fontSize: 16, marginBottom: 0, paddingBottom: 0 }}
+                className="has-text-white"
+              >
+                the place to get all your chores done,
+              </h2>
               <h2 style={{ fontSize: 16 }} className="has-text-white">
-                Get your chores done for the right price. Earn money doing what you enjoy.
+                and earn money doing what you love.
               </h2>
             </div>
           </div>
@@ -89,6 +95,7 @@ export default class HomePage extends React.Component {
                     url="https://youtu.be/YHh9JbJAyf0"
                     width="100%"
                     height="100%"
+                    // light
                     config={{
                       youtube: {
                         rel: 0,

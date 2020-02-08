@@ -194,12 +194,6 @@ export const registerNewUser = (userData) => (dispatch) =>
           dispatch({
             type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
           });
-          if (
-            resp.data.membershipStatus === 'NEW_MEMBER' &&
-            window.location.pathname !== ROUTES.CLIENT.TOS
-          ) {
-            switchRoute(ROUTES.CLIENT.ONBOARDING, { redirectUrl: resp.data.redirectUrl });
-          }
         }
       })
       .catch((error) => {

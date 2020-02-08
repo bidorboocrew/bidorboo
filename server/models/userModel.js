@@ -317,7 +317,7 @@ UserSchema.virtual('canPost').get(function() {
 
 UserSchema.virtual('canBid').get(function() {
   // return this.email && this.email.isVerified;
-  return true;
+  // return true;
   return !!(
     this.phone &&
     this.phone.isVerified &&
@@ -328,8 +328,8 @@ UserSchema.virtual('canBid').get(function() {
     this.stripeConnect &&
     this.stripeConnect.chargesEnabled &&
     this.stripeConnect.capabilities &&
-    this.stripeConnect.capabilities.transfers === 'active' &&
-    (!this.stripeConnect.accRequirements || !!!this.stripeConnect.accRequirements.disabled_reason)
+    this.stripeConnect.capabilities.transfers === 'active'
+    // &&(!this.stripeConnect.accRequirements || !!!this.stripeConnect.accRequirements.disabled_reason)
   );
 });
 
