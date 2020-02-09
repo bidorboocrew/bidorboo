@@ -38,10 +38,10 @@ const EnhancedForms = withFormik({
           return phoneNumber(inputText);
         },
       ),
-    personalParagraph: Yup.string().max(
-      MAX_PARAGRAPH_LENGTH,
-      `can not be more than ${MAX_PARAGRAPH_LENGTH} characters long`,
-    ),
+    personalParagraph: Yup.string()
+      .ensure()
+      .trim()
+      .max(MAX_PARAGRAPH_LENGTH, `can not be more than ${MAX_PARAGRAPH_LENGTH} characters long`),
   }),
   mapPropsToValues: ({ userDetails }) => {
     const { displayName, personalParagraph, phone, email } = userDetails;

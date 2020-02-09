@@ -55,7 +55,7 @@ class Pre_AuthInProgress extends React.PureComponent {
       return (
         <div id="bidorboo-root-view">
           <Header id="bidorboo-header" />
-          <section className="hero is-fullheight">
+          <section className="hero is-fullheight is-white">
             <div className="hero-body">
               <div className="container">
                 <label className="subtitle has-text-info">Sorry! We've encountered an error</label>

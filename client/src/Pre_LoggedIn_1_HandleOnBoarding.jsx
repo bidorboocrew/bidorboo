@@ -12,11 +12,11 @@ class Pre_LoggedIn_1_HandleOnBoarding extends React.PureComponent {
     if (history.location.pathname === ROUTES.CLIENT.TOS) {
       // any of the logged out routes just render right away
       return <Pre_LoggedIn_2_RegisterSwAndPush {...this.props} />;
-
     } else if (
       userDetails.membershipStatus === 'NEW_MEMBER' ||
       (userDetails && !userDetails.canPost)
     ) {
+      debugger;
       if (userDetails.membershipStatus === 'NEW_MEMBER') {
         // TOS
         return <FirstTimeUser></FirstTimeUser>;

@@ -479,7 +479,7 @@ exports.updateUserProfileDetails = (userId, userDetails) => {
             new: true,
           }
         )
-          .lean(true)
+          .lean({ virtuals: true })
           .exec();
       }
 
