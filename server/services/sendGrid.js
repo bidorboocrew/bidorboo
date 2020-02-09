@@ -699,23 +699,7 @@ exports.EmailService = {
       console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
     });
   },
-  informBobCrewAboutFailedPayment: ({ requestId, paymentDetails }) => {
-    const msg = {
-      to: 'bidorboo@bidorboo.ca',
-      from: 'bidorboo@bidorboo.ca',
-      subject: `FAILED PAYOUT CASE: ${requestId}`,
-      text: `Payment to bank was not successful follow up with user
-    ${JSON.stringify(paymentDetails)}`,
-      html: `
-      <p>Payment to bank was not successful follow up with user
-        ${JSON.stringify(paymentDetails)}.</p>
-      `,
-    };
 
-    sgMail.send(msg).catch((e) => {
-      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
-    });
-  },
   informBobCrewAboutSuccessPayment: ({ requestId, paymentDetails }) => {
     const msg = {
       to: 'bidorboo@bidorboo.ca',
@@ -724,6 +708,23 @@ exports.EmailService = {
       html: `
       <p>Payment to bank was successful
         ${JSON.stringify(paymentDetails)}.</p>
+      `,
+    };
+
+    sgMail.send(msg).catch((e) => {
+      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+    });
+  },
+
+  informBobCrewAboutFailedImportantStuff: (methodName, details) => {
+    const msg = {
+      to: 'bidorboocrew@gmail.com',
+      from: 'bidorboo@bidorboo.ca',
+      subject: `FAILED IMPORTANT: ${methodName}`,
+
+      html: `
+      <p>Something important failed
+        ${JSON.stringify(details)}.</p>
       `,
     };
 

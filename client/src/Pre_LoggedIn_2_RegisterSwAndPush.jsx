@@ -6,21 +6,20 @@ import { registerPushNotification } from './registerPushNotification';
 import Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren from './Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren';
 
 class Pre_LoggedIn_2_RegisterSwAndPush extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.lastFetch = moment();
-    this.lastTimeWeRegisteredTheNotification = null;
-  }
-
   componentDidMount() {
     const { userDetails } = this.props;
     if (userDetails.notifications && userDetails.notifications.push) {
+      const lastKnownRegTimeStamp = window.sessionStorage.getItem(
+        'bob-SWPushRegTimestamp',
+        moment().toISOString(),
+      );
+
       if (
-        !this.lastTimeWeRegisteredTheNotification ||
-        moment(this.lastTimeWeRegisteredTheNotification).isBefore(
-          moment(this.lastTimeWeRegisteredTheNotification).subtract(1, 'day'),
-        )
+        !lastKnownRegTimeStamp ||
+        moment(lastKnownRegTimeStamp).isBefore(moment().subtract(1, 'day'))
       ) {
+        window.sessionStorage.setItem('bob-SWPushRegTimestamp', moment().toISOString());
+
         this.lastTimeWeRegisteredTheNotification = moment().toISOString();
         registerServiceWorker()
           .then(({ registration }) => {

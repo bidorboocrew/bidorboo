@@ -22,33 +22,59 @@ exports.updateStripeAccountRequirementsDetails = ({
     currently_due,
     eventually_due,
   } = accRequirements;
-
-  return User.findOneAndUpdate(
-    {
-      userId,
-      // 'stripeConnect.accId': { $eq: accId },
-      'stripeConnect.processedWebhookEventIds': { $ne: eventId },
-    },
-    {
-      $set: {
-        payoutsEnabled,
-        'stripeConnect.capabilities': capabilities,
-        'stripeConnect.isVerified': payoutsEnabled && chargesEnabled,
-        'stripeConnect.payoutsEnabled': payoutsEnabled,
-        'stripeConnect.chargesEnabled': chargesEnabled,
-        'stripeConnect.accRequirements': {
-          disabled_reason,
-          current_deadline,
-          past_due,
-          currently_due,
-          eventually_due,
-        },
+  if (eventId) {
+    return User.findOneAndUpdate(
+      {
+        userId,
+        'stripeConnect.accId': { $eq: accId },
+        'stripeConnect.processedWebhookEventIds': { $ne: eventId },
       },
-      $push: { 'stripeConnect.processedWebhookEventIds': eventId },
-    }
-  )
-    .lean(true)
-    .exec();
+      {
+        $set: {
+          payoutsEnabled,
+          'stripeConnect.capabilities': capabilities,
+          'stripeConnect.isVerified': payoutsEnabled && chargesEnabled,
+          'stripeConnect.payoutsEnabled': payoutsEnabled,
+          'stripeConnect.chargesEnabled': chargesEnabled,
+          'stripeConnect.accRequirements': {
+            disabled_reason,
+            current_deadline,
+            past_due,
+            currently_due,
+            eventually_due,
+          },
+        },
+        $push: { 'stripeConnect.processedWebhookEventIds': eventId },
+      }
+    )
+      .lean(true)
+      .exec();
+  } else {
+    return User.findOneAndUpdate(
+      {
+        userId,
+        'stripeConnect.accId': { $eq: accId },
+      },
+      {
+        $set: {
+          payoutsEnabled,
+          'stripeConnect.capabilities': capabilities,
+          'stripeConnect.isVerified': payoutsEnabled && chargesEnabled,
+          'stripeConnect.payoutsEnabled': payoutsEnabled,
+          'stripeConnect.chargesEnabled': chargesEnabled,
+          'stripeConnect.accRequirements': {
+            disabled_reason,
+            current_deadline,
+            past_due,
+            currently_due,
+            eventually_due,
+          },
+        },
+      }
+    )
+      .lean(true)
+      .exec();
+  }
 };
 
 exports.updateOnboardingDetails = (mongoUser_id, onBoardingDetails) => {

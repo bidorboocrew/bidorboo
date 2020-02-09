@@ -95,6 +95,7 @@ class Header extends React.Component {
   componentDidCatch(error, info) {
     console.error('bdb error details ' + error);
     console.error('failure info ' + info);
+    debugger;
   }
   closeMenuThenExecute = (func) => {
     this.setState(
@@ -194,15 +195,15 @@ class Header extends React.Component {
     const {
       requestIdsWithNewBids,
       myBidsWithNewStatus,
-      requestsHappeningToday,
-      bidsHappeningToday,
+      // requestsHappeningToday,
+      // bidsHappeningToday,
     } = notificationFeed;
 
     const installWebAppButton = document.querySelector('#bob-installWebApp');
 
-    const isThereRequestsHappeningToday =
-      requestsHappeningToday && requestsHappeningToday.length > 0;
-    const isThereBidsHappeningToday = bidsHappeningToday && bidsHappeningToday.length > 0;
+    // const isThereRequestsHappeningToday =
+    //   requestsHappeningToday && requestsHappeningToday.length > 0;
+    // const isThereBidsHappeningToday = bidsHappeningToday && bidsHappeningToday.length > 0;
     // const isAnythingHappeningToday = isThereRequestsHappeningToday || isThereBidsHappeningToday;
 
     const requestRecievedNewBids = requestIdsWithNewBids && requestIdsWithNewBids.length > 0;
@@ -230,7 +231,7 @@ class Header extends React.Component {
     //   marginLeftForToggle = `calc(${navbarEnd.offsetWidth}px)}`;
     // }
     const renderTaskerRequesterToggle = (
-      <div id="requseterTaskerToggle" style={{ marginLeft: '1.25rem' }} className="navbar-item">
+      <div id="requseterTaskerToggle" className="navbar-item">
         <div className="tabs is-centered is-toggle is-toggle-rounded is-small is-mobile">
           <ul>
             <li className={`${!isActingAsTasker && !dontShowPortalHelper && 'is-active'}`}>
@@ -501,7 +502,6 @@ class Header extends React.Component {
                       }`}
                     >
                       <a
-                        // id="myprofile-step"
                         onClick={() => {
                           this.closeMenuThenExecute(() => {
                             switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
@@ -514,7 +514,7 @@ class Header extends React.Component {
                         <span className="icon">
                           <i className="far fa-user" aria-hidden="true" />
                         </span>
-                        <span>{`Profile`}</span>
+                        <span>Profile</span>
                       </a>
 
                       <hr className="navbar-divider" />
@@ -543,9 +543,11 @@ class Header extends React.Component {
                           activeNavBarMenuId === HREF_TO_TABID.MY_REQUESTS ? 'is-active' : ''
                         }`}
                       >
-                        {/* <span className="icon">
-                          <i className="fas fa-bell"></i>
-                        </span> */}
+                        {requestRecievedNewBids && (
+                          <span style={{ marginRight: 1 }} className="has-text-danger">
+                            <i className="fas fa-bell"></i>
+                          </span>
+                        )}
                         <span>My Requests</span>
                       </a>
                       <hr className="navbar-divider" />
@@ -574,9 +576,11 @@ class Header extends React.Component {
                           activeNavBarMenuId === HREF_TO_TABID.MY_BIDS ? 'is-active' : ''
                         }`}
                       >
-                        {/* <span className="icon">
-                          <i className="fas fa-bell"></i>
-                        </span> */}
+                        {bidsGotAwardedToMe && (
+                          <span style={{ marginRight: 1 }} className="has-text-danger">
+                            <i className="fas fa-bell"></i>
+                          </span>
+                        )}
                         <span>My Bids</span>
                       </a>
                       <hr className="navbar-divider" />
@@ -593,7 +597,7 @@ class Header extends React.Component {
                         }`}
                       >
                         <span className="icon">
-                          <i className="fas fa-bell"></i>
+                          <i className="fas fa-cog"></i>
                         </span>
                         <span>{`Notifications`}</span>
                       </a>
@@ -702,7 +706,7 @@ class Header extends React.Component {
                         });
                       }}
                     >
-                      <span>BROWSE SERVICES</span>
+                      <span>Browse Services</span>
                     </a>
                   </li>
                   <li
@@ -721,7 +725,12 @@ class Header extends React.Component {
                         });
                       }}
                     >
-                      MY REQUESTS
+                      {requestRecievedNewBids && (
+                        <span style={{ marginRight: 1 }} className="has-text-danger">
+                          <i className="fas fa-bell"></i>
+                        </span>
+                      )}
+                      <span>My Requests</span>
                     </a>
                   </li>
                 </ul>
@@ -746,7 +755,7 @@ class Header extends React.Component {
                         });
                       }}
                     >
-                      <span>LOOK FOR TASKS</span>
+                      <span>Look For Tasks</span>
                     </a>
                   </li>
                   <li
@@ -762,7 +771,12 @@ class Header extends React.Component {
                         });
                       }}
                     >
-                      MY BIDS
+                      {bidsGotAwardedToMe && (
+                        <span style={{ marginRight: 1 }} className="has-text-danger">
+                          <i className="fas fa-bell"></i>
+                        </span>
+                      )}
+                      <span>My Bids</span>
                     </a>
                   </li>
                 </ul>
