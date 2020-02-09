@@ -271,8 +271,6 @@ module.exports = (app) => {
             },
             accRequirements,
           });
-          console.log('updateStripeAccountRequirementsDetails done');
-          console.log('-------BidOrBooLogging----------------------');
         }
 
         accBalanceDetails = await stripeServiceUtil.getConnectedAccountBalance(

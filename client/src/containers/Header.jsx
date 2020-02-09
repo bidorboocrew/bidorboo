@@ -95,7 +95,6 @@ class Header extends React.Component {
   componentDidCatch(error, info) {
     console.error('bdb error details ' + error);
     console.error('failure info ' + info);
-    debugger;
   }
   closeMenuThenExecute = (func) => {
     this.setState(

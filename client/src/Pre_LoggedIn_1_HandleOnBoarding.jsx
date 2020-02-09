@@ -16,9 +16,7 @@ class Pre_LoggedIn_1_HandleOnBoarding extends React.PureComponent {
       userDetails.membershipStatus === 'NEW_MEMBER' ||
       (userDetails && !userDetails.canPost)
     ) {
-      debugger;
       if (userDetails.membershipStatus === 'NEW_MEMBER') {
-        // TOS
         return <FirstTimeUser></FirstTimeUser>;
       } else {
         return (
