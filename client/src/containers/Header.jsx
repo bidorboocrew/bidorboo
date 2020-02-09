@@ -230,11 +230,7 @@ class Header extends React.Component {
     //   marginLeftForToggle = `calc(${navbarEnd.offsetWidth}px)}`;
     // }
     const renderTaskerRequesterToggle = (
-      <div
-        id="requseterTaskerToggle"
-        style={{ marginLeft: '1.25rem' }}
-        className="navbar-item"
-      >
+      <div id="requseterTaskerToggle" style={{ marginLeft: '1.25rem' }} className="navbar-item">
         <div className="tabs is-centered is-toggle is-toggle-rounded is-small is-mobile">
           <ul>
             <li className={`${!isActingAsTasker && !dontShowPortalHelper && 'is-active'}`}>
@@ -520,7 +516,71 @@ class Header extends React.Component {
                         </span>
                         <span>{`Profile`}</span>
                       </a>
+
                       <hr className="navbar-divider" />
+                      <a
+                        onClick={(e) => {
+                          this.closeMenuThenExecute(() => {
+                            switchRoute(ROUTES.CLIENT.REQUESTER.root);
+                          });
+                        }}
+                        className={`navbar-item ${
+                          activeNavBarMenuId === HREF_TO_TABID.REQUEST_A_SERVICE ? 'is-active' : ''
+                        }`}
+                      >
+                        {/* <span className="icon">
+                          <i className="fas fa-bell"></i>
+                        </span> */}
+                        <span>Browse Services</span>
+                      </a>
+                      <a
+                        onClick={(e) => {
+                          this.closeMenuThenExecute(() => {
+                            switchRoute(ROUTES.CLIENT.REQUESTER.myRequestsPage);
+                          });
+                        }}
+                        className={`navbar-item ${
+                          activeNavBarMenuId === HREF_TO_TABID.MY_REQUESTS ? 'is-active' : ''
+                        }`}
+                      >
+                        {/* <span className="icon">
+                          <i className="fas fa-bell"></i>
+                        </span> */}
+                        <span>My Requests</span>
+                      </a>
+                      <hr className="navbar-divider" />
+                      <a
+                        onClick={(e) => {
+                          this.closeMenuThenExecute(() => {
+                            switchRoute(ROUTES.CLIENT.TASKER.root);
+                          });
+                        }}
+                        className={`navbar-item ${
+                          activeNavBarMenuId === HREF_TO_TABID.PROVIDE_A_SERVICE ? 'is-active' : ''
+                        }`}
+                      >
+                        {/* <span className="icon">
+                          <i className="fas fa-bell"></i>
+                        </span> */}
+                        <span>Look For Tasks</span>
+                      </a>
+                      <a
+                        onClick={(e) => {
+                          this.closeMenuThenExecute(() => {
+                            switchRoute(ROUTES.CLIENT.TASKER.mybids);
+                          });
+                        }}
+                        className={`navbar-item ${
+                          activeNavBarMenuId === HREF_TO_TABID.MY_BIDS ? 'is-active' : ''
+                        }`}
+                      >
+                        {/* <span className="icon">
+                          <i className="fas fa-bell"></i>
+                        </span> */}
+                        <span>My Bids</span>
+                      </a>
+                      <hr className="navbar-divider" />
+
                       <a
                         // id="myprofile-step"
                         onClick={() => {
