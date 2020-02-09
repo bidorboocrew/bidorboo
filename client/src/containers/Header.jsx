@@ -219,8 +219,22 @@ class Header extends React.Component {
       /(\/\?).*/.test(window.location.pathname) ||
       pathsWhereWeDontShowPortalDetail.some((path) => window.location.pathname.includes(path));
 
+    // let navbarBurger = window.document.querySelector('.navbar-burger.BURGERMENU');
+    // let navbarEnd = window.document.querySelector('.navbar-end');
+    // let marginLeftForToggle = '';
+    // if (navbarBurger) {
+    //   marginLeftForToggle = `calc(${navbarBurger.offsetWidth}px)}`;
+    //   debugger;
+    // }
+    // if (navbarEnd) {
+    //   marginLeftForToggle = `calc(${navbarEnd.offsetWidth}px)}`;
+    // }
     const renderTaskerRequesterToggle = (
-      <div className="navbar-item">
+      <div
+        id="requseterTaskerToggle"
+        style={{ marginLeft: '1.25rem' }}
+        className="navbar-item"
+      >
         <div className="tabs is-centered is-toggle is-toggle-rounded is-small is-mobile">
           <ul>
             <li className={`${!isActingAsTasker && !dontShowPortalHelper && 'is-active'}`}>
@@ -319,7 +333,7 @@ class Header extends React.Component {
               </div>
             </div>
           </a>
-          <div style={{ flexGrow: 1 }} className="navbar-item"></div>
+
           {renderTaskerRequesterToggle}
           {!isOnLoginPage && (
             <div className=" navbar-item">
@@ -401,9 +415,8 @@ class Header extends React.Component {
               style={{
                 paddingLeft: 0,
                 paddingRight: 0,
-                flexGrow: 1,
               }}
-              className="navbar-item has-text-grey"
+              className="navbar-item has-text-dark"
             >
               <div
                 onClick={(e) => {
@@ -435,7 +448,7 @@ class Header extends React.Component {
                 this.setState({ isHamburgerOpen: !isHamburgerOpen });
               }}
               id="mobile-nav-burger"
-              className={classNames('navbar-burger', {
+              className={classNames('navbar-burger BURGERMENU', {
                 'is-active': isHamburgerOpen,
               })}
               data-target="navbarmenu"
