@@ -835,13 +835,13 @@ const EnhancedForms = withFormik({
       // only if attempted previous request was the same as the currnet job we are trying to post
       if (props.requestTemplateId === previouslyEnteredValues.templateId) {
         // one time use
-        // window.localStorage && window.localStorage.removeItem('bob_prevPostedReq');
+        window.localStorage && window.localStorage.removeItem('bob_prevPostedReq');
 
         return {
           ...previouslyEnteredValues,
         };
       } else {
-        // window.localStorage && window.localStorage.removeItem('bob_prevPostedReq');
+        window.localStorage && window.localStorage.removeItem('bob_prevPostedReq');
       }
     }
 
