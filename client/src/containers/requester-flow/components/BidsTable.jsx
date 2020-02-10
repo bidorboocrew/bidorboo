@@ -48,7 +48,7 @@ export default class BidsTable extends React.Component {
                       style={{ position: 'absolute', top: -4, right: 0, fontSize: 10 }}
                       className="has-text-danger"
                     >
-                      <i className="fas fa-circle" />
+                      <i className="fas fa-bell" />
                     </span>
                   )}
                 </button>

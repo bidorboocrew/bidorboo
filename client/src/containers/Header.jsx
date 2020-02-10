@@ -456,7 +456,7 @@ class Header extends React.Component {
                 {(requestRecievedNewBids || bidsGotAwardedToMe) && (
                   <i
                     style={{ position: 'absolute', top: -5, right: -5, fontSize: 8 }}
-                    className="has-text-danger fas fa-circle"
+                    className="has-text-danger fas fa-bell"
                   />
                 )}
               </span>
@@ -563,7 +563,7 @@ class Header extends React.Component {
                         {/* <span className="icon">
                           <i className="fas fa-bell"></i>
                         </span> */}
-                        <span>Look For Tasks</span>
+                        <span>Explore Tasks</span>
                       </a>
                       <a
                         onClick={(e) => {
@@ -754,7 +754,7 @@ class Header extends React.Component {
                         });
                       }}
                     >
-                      <span>Look For Tasks</span>
+                      <span>Explore Tasks</span>
                     </a>
                   </li>
                   <li

@@ -301,7 +301,7 @@ class TaskerRootPage extends React.Component {
         <section className="hero is-white is-small">
           <div className="hero-body  has-text-centered">
             <div className="container">
-              <h1 className="title">Look For Tasks In Your Area</h1>
+              <h1 className="title">Search For Tasks In Your Area</h1>
               <Collapse
                 isOpened={showSearchFilters}
                 // initialStyle={{ height: 0, overflow: 'hidden' }}

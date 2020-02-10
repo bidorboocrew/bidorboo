@@ -104,7 +104,7 @@ const renderFooter = ({ request, notificationFeed }) => {
               style={{ position: 'absolute', top: -5, right: 0, fontSize: 10 }}
               className="has-text-danger"
             >
-              <i className="fas fa-circle" />
+              <i className="fas fa-bell" />
             </div>
           )}
         </a>

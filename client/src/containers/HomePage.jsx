@@ -6,8 +6,11 @@ import * as ROUTES from '../constants/frontend-route-consts';
 // import RequesterRoot from './requester-flow/RequesterRootPage';
 import { switchRoute } from '../utils';
 import MainBanner from '../assets/images/MainBanner.png';
-import Earn_Money from '../assets/images/Earn-Money.png';
-import Need_Help from '../assets/images/Need-Help.png';
+
+import Need_Help from '../assets/images/Need-Help.jpg';
+import RequesterSteps from '../assets/images/RequesterSteps.jpg';
+import Earn_Money from '../assets/images/Earn-Money.jpg';
+import TaskerSteps from '../assets/images/TaskerSteps.jpg';
 
 export default class HomePage extends React.Component {
   componentDidMount() {
@@ -75,43 +78,70 @@ export default class HomePage extends React.Component {
           </div>
         </section>
         <br></br>
+        <section className="hero is-small has-text-centered is-white fade-in">
+          <div style={{ paddingBottom: 0.5 }} className="hero-body">
+            <div className="container">
+              <h1 className="title is-marginless">How Does It Work?</h1>
+            </div>
+          </div>
+        </section>
+        <section className="hero has-text-centered is-white fade-in">
+          <div style={{ position: 'relative' }}>
+            <div style={{ margin: 'auto', padding: '0.5rem', maxWidth: 650 }}>
+              <div className="player-wrapper">
+                <ReactPlayer
+                  light
+                  playing
+                  className="react-player fade-in"
+                  url="https://youtu.be/YHh9JbJAyf0"
+                  width="100%"
+                  height="100%"
+                  // light
+                  config={{
+                    youtube: {
+                      rel: 0,
+                      modestbranding: 1,
+                      iv_load_policy: 3,
+                      origin: 'https://www.bidorboo.ca',
+                      widget_referrer: 'https://www.bidorboo.ca',
+                      preload: true,
+                    },
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
         <br></br>
+        <section className="hero is-small has-text-centered is-white">
+          <div className="hero-body">
+            <div className="columns is-mobile is-multiline is-centered">
+              <div
+                style={{ minWidth: '18rem', maxWidth: '21rem', margin: '1rem' }}
+                className="column"
+              >
+                <RequestAServiceHowTo
+                  onClickHandler={() => {
+                    switchRoute(ROUTES.CLIENT.TASKER.root);
+                  }}
+                />
+              </div>
 
-        <Delay wait={1500}>
-          <section className="hero is-small has-text-centered is-white fade-in">
-            <div style={{ paddingBottom: 0.5 }} className="hero-body">
-              <div className="container">
-                <h1 className="title is-marginless">How Does It Work?</h1>
+              <div
+                style={{ minWidth: '18rem', maxWidth: '21rem', margin: '1rem' }}
+                className="column"
+              >
+                <ProvideAServiceHowTo
+                  onClickHandler={() => {
+                    switchRoute(ROUTES.CLIENT.TASKER.root);
+                  }}
+                />
               </div>
             </div>
-          </section>
-
-          <section className="hero has-text-centered is-white fade-in">
-            <div style={{ position: 'relative' }}>
-              <div style={{ margin: 'auto', padding: '0.5rem', maxWidth: 650 }}>
-                <div className="player-wrapper">
-                  <ReactPlayer
-                    className="react-player fade-in"
-                    url="https://youtu.be/YHh9JbJAyf0"
-                    width="100%"
-                    height="100%"
-                    // light
-                    config={{
-                      youtube: {
-                        rel: 0,
-                        modestbranding: 1,
-                        iv_load_policy: 3,
-                        origin: 'https://www.bidorboo.ca',
-                        widget_referrer: 'https://www.bidorboo.ca',
-                        preload: true,
-                      },
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-          </section>
-        </Delay>
+          </div>
+        </section>
+        <br></br>
       </div>
     );
   }
@@ -137,10 +167,9 @@ const RequestAService = (props) => {
       </div> */}
       <div className="card-image">
         <figure className="image">
-          <img style={{ height: 250 }} src={Need_Help} alt="Placeholder" />
+          <img src={Need_Help} alt="Placeholder" />
         </figure>
       </div>
-      <br></br>
       <div>
         <button
           style={{ width: 210 }}
@@ -156,6 +185,63 @@ const RequestAService = (props) => {
   );
 };
 
+const RequestAServiceHowTo = (props) => {
+  return (
+    <div
+      style={{
+        border: 'none',
+        boxShadow: 'none',
+      }}
+      className="card cardWithButton"
+    >
+      <div className="card-image">
+        <figure className="image">
+          <img src={RequesterSteps} alt="Placeholder" />
+        </figure>
+      </div>
+      <div>
+        <button
+          style={{ width: 210, marginTop: -32 }}
+          onClick={(e) => {
+            switchRoute(ROUTES.CLIENT.REQUESTER.root);
+          }}
+          className="button is-medium is-success centeredButtonInCard"
+        >
+          <span>Browse Services</span>
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const ProvideAServiceHowTo = (props) => {
+  return (
+    <div
+      style={{
+        border: 'none',
+        boxShadow: 'none',
+      }}
+      className="card cardWithButton"
+    >
+      <div className="card-image">
+        <figure className="image">
+          <img src={TaskerSteps} alt="Placeholder" />
+        </figure>
+      </div>
+      <div>
+        <button
+          style={{ width: 210, marginTop: -32 }}
+          onClick={(e) => {
+            switchRoute(ROUTES.CLIENT.TASKER.root);
+          }}
+          className="button is-medium is-dark centeredButtonInCard"
+        >
+          <span>Become A Tasker</span>
+        </button>
+      </div>
+    </div>
+  );
+};
 const ProvideAService = () => {
   return (
     <div
@@ -171,10 +257,9 @@ const ProvideAService = () => {
     >
       <div className="card-image">
         <figure className="image">
-          <img style={{ height: 250 }} src={Earn_Money} alt="Placeholder" />
+          <img src={Earn_Money} alt="Placeholder" />
         </figure>
       </div>
-      <br></br>
       <div>
         <button
           style={{ width: 210 }}
