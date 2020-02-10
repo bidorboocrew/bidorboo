@@ -11,6 +11,7 @@ import Need_Help from '../assets/images/Need-Help.jpg';
 import RequesterSteps from '../assets/images/RequesterSteps.jpg';
 import Earn_Money from '../assets/images/Earn-Money.jpg';
 import TaskerSteps from '../assets/images/TaskerSteps.jpg';
+import HowItWorks from '../assets/images/HowItWorks.jpg';
 
 export default class HomePage extends React.Component {
   componentDidMount() {
@@ -80,8 +81,8 @@ export default class HomePage extends React.Component {
         <br></br>
         <section className="hero is-small has-text-centered is-white fade-in">
           <div style={{ paddingBottom: 0.5 }} className="hero-body">
-            <div className="container">
-              <h1 className="title is-marginless">How Does It Work?</h1>
+            <div className="container has-text-centered">
+              <img style={{ width: 280 }} src={HowItWorks} alt="Placeholder" />
             </div>
           </div>
         </section>
@@ -116,11 +117,8 @@ export default class HomePage extends React.Component {
         <br></br>
         <section className="hero is-small has-text-centered is-white">
           <div className="hero-body">
-            <div className="columns is-mobile is-multiline is-centered">
-              <div
-                style={{ minWidth: '18rem', maxWidth: '21rem', margin: '1rem' }}
-                className="column"
-              >
+            <div className="columns is-centered is-narrow is-mobile is-multiline is-centered">
+              <div style={{ minWidth: '18rem', margin: '0 2rem' }} className="column is-narrow">
                 <RequestAServiceHowTo
                   onClickHandler={() => {
                     switchRoute(ROUTES.CLIENT.TASKER.root);
@@ -128,10 +126,7 @@ export default class HomePage extends React.Component {
                 />
               </div>
 
-              <div
-                style={{ minWidth: '18rem', maxWidth: '21rem', margin: '1rem' }}
-                className="column"
-              >
+              <div style={{ minWidth: '18rem', margin: '0 2rem' }} className="column is-narrow">
                 <ProvideAServiceHowTo
                   onClickHandler={() => {
                     switchRoute(ROUTES.CLIENT.TASKER.root);
@@ -191,6 +186,7 @@ const RequestAServiceHowTo = (props) => {
       style={{
         border: 'none',
         boxShadow: 'none',
+        padding: '2rem',
       }}
       className="card cardWithButton"
     >
@@ -201,7 +197,7 @@ const RequestAServiceHowTo = (props) => {
       </div>
       <div>
         <button
-          style={{ width: 210, marginTop: -32 }}
+          style={{ width: 210, marginTop: 0 }}
           onClick={(e) => {
             switchRoute(ROUTES.CLIENT.REQUESTER.root);
           }}
@@ -220,6 +216,7 @@ const ProvideAServiceHowTo = (props) => {
       style={{
         border: 'none',
         boxShadow: 'none',
+        padding: '2rem',
       }}
       className="card cardWithButton"
     >
@@ -230,7 +227,7 @@ const ProvideAServiceHowTo = (props) => {
       </div>
       <div>
         <button
-          style={{ width: 210, marginTop: -32 }}
+          style={{ width: 210, marginTop: 0 }}
           onClick={(e) => {
             switchRoute(ROUTES.CLIENT.TASKER.root);
           }}
