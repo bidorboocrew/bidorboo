@@ -650,6 +650,8 @@ exports.EmailService = {
     details,
     userIdWhoFiledDispute,
   }) => {
+    console.log("EMAIL- informBobCrewAboutDispute")
+
     const msg = {
       to: 'bidorboo@bidorboo.ca',
       from: 'bidorboo@bidorboo.ca',
@@ -703,6 +705,8 @@ exports.EmailService = {
   },
 
   informBobCrewAboutSuccessPayment: ({ requestId, paymentDetails }) => {
+    console.log("EMAIL- informBobCrewAboutSuccessPayment")
+
     const msg = {
       to: 'bidorboo@bidorboo.ca',
       from: 'bidorboo@bidorboo.ca',
@@ -719,6 +723,7 @@ exports.EmailService = {
   },
 
   informBobCrewAboutFailedImportantStuff: (methodName, details) => {
+    console.log("EMAIL- informBobCrewAboutFailedImportantStuff")
     const msg = {
       to: 'bidorboocrew@gmail.com',
       from: 'bidorboo@bidorboo.ca',

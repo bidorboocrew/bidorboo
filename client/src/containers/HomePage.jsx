@@ -12,6 +12,7 @@ import RequesterSteps from '../assets/images/RequesterSteps.jpg';
 import Earn_Money from '../assets/images/Earn-Money.jpg';
 import TaskerSteps from '../assets/images/TaskerSteps.jpg';
 import HowItWorks from '../assets/images/HowItWorks.jpg';
+import BidOrBooMain from '../assets/images/BidOrBooMain.png';
 
 export default class HomePage extends React.Component {
   componentDidMount() {
@@ -27,7 +28,7 @@ export default class HomePage extends React.Component {
         <section className="hero has-text-centered is-danger is-small">
           <div style={{ backgroundImage: `url(${MainBanner})` }} className="hero-body">
             <div className="container">
-              <h1
+              {/* <h1
                 style={{
                   color: 'white',
                   marginBottom: 2,
@@ -37,8 +38,11 @@ export default class HomePage extends React.Component {
                 className="title is-1"
               >
                 <span id="BidOrBoo-welcome-step">BidOrBoo</span>
-              </h1>
-              <h2
+              </h1> */}
+              <div className="container has-text-centered">
+                <img style={{ width: 280 }} src={BidOrBooMain} alt="Placeholder" />
+              </div>
+              {/* <h2
                 style={{ fontSize: 16, marginBottom: 0, paddingBottom: 0 }}
                 className="has-text-white"
               >
@@ -46,7 +50,7 @@ export default class HomePage extends React.Component {
               </h2>
               <h2 style={{ fontSize: 16 }} className="has-text-white">
                 and earn money doing what you love.
-              </h2>
+              </h2> */}
             </div>
           </div>
         </section>
@@ -277,46 +281,6 @@ const ProvideAService = () => {
           </button>
         </Delay>
       </div>
-    </div>
-  );
-};
-
-const HowItWorksRequestService = () => {
-  return (
-    <div>
-      <h1 className="title has-text-centered">Need help with your chores?</h1>
-      <ul className="has-text-left">
-        <li>
-          <p className="is-size-5">Browse Our Services</p>
-        </li>
-        <li>
-          <p className="is-size-5">Receive Bids</p>
-        </li>
-        <li>
-          <p className="is-size-5">Choose a tasker to get it done</p>
-        </li>
-      </ul>
-      <br></br>
-    </div>
-  );
-};
-
-const HowItWorksProvideService = () => {
-  return (
-    <div>
-      <h1 className="title has-text-centered">Earn money doing what you enjoy?</h1>
-      <ul className="has-text-left">
-        <li>
-          <p className="is-size-5">Browse for tasks</p>
-        </li>
-        <li>
-          <p className="is-size-5">Bid on them</p>
-        </li>
-        <li>
-          <p className="is-size-5">{`Complete it & get paid`}</p>
-        </li>
-      </ul>
-      <br></br>
     </div>
   );
 };
