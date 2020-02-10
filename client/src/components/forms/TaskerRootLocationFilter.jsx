@@ -400,15 +400,18 @@ class TaskTypeFilter extends React.Component {
             }}
             className={controlClass}
           >
-            <span className="icon">
-              {isSelected ? (
+            {isSelected && (
+              <span className="icon">
                 <i className="far fa-check-circle"></i>
-              ) : (
+              </span>
+            )}
+            {!isSelected && (
+              <span className="icon">
                 <i className="far fa-circle"></i>
-              )}
-            </span>
-            <span></span>
-            {TASKS_DEFINITIONS[key].TITLE}
+              </span>
+            )}
+
+            <span>{TASKS_DEFINITIONS[key].TITLE}</span>
           </span>
         );
       });
