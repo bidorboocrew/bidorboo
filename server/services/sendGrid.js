@@ -375,10 +375,12 @@ exports.EmailService = {
       html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `
+        <div>The Tasker has confirmed that ${requestTitle} was completed</div>
         <div style="font-family: inherit; text-align: inherit; font-weight: bold"><strong>Next Steps</strong></div>
         <ul>
-          <li style="">Confirm that the Tasker had completed their work</li>
+          <li style="">Confirm that it is completed</li>
           <li style="">Then Rate your Tasker</li>
+          <li> </li>
         </ul>
          `,
         clickLink: `${linkForOwner}`,
@@ -510,7 +512,7 @@ exports.EmailService = {
         <ul>
           <li style="">Tasker was notified and assigned to complete this request</li>
           <li style="">Taskers contact details are revealed</li>
-          <li style="">Get in touch with the Tasker to sprcify the exact task location and meeting time details</li>
+          <li style="">Get in touch with the Tasker to specify the exact task location and meeting time details</li>
         </ul>
        `,
         clickLink: `${linkForOwner}`,
