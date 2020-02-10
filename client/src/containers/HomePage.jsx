@@ -23,7 +23,7 @@ export default class HomePage extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="fade-in">
         <section className="hero has-text-centered is-danger is-small">
           <div style={{ backgroundImage: `url(${MainBanner})` }} className="hero-body">
             <div className="container">
@@ -91,6 +91,7 @@ export default class HomePage extends React.Component {
             <div style={{ margin: 'auto', padding: '0.5rem', maxWidth: 650 }}>
               <div className="player-wrapper">
                 <ReactPlayer
+                  playIcon={<div style={{ display: 'none', width: 0, height: 0 }}></div>}
                   light
                   playing
                   className="react-player fade-in"
@@ -153,7 +154,7 @@ const RequestAService = (props) => {
         border: 'none',
         boxShadow: 'none',
       }}
-      className="card cardWithButton"
+      className="card cardWithButton fade-in"
     >
       {/* <div className="card-image">
         <figure className="image">
@@ -166,15 +167,17 @@ const RequestAService = (props) => {
         </figure>
       </div>
       <div>
-        <button
-          style={{ width: 210 }}
-          onClick={(e) => {
-            switchRoute(ROUTES.CLIENT.REQUESTER.root);
-          }}
-          className="button is-medium is-success centeredButtonInCard"
-        >
-          <span>Browse Services</span>
-        </button>
+        <Delay wait={500}>
+          <button
+            style={{ width: 210 }}
+            onClick={(e) => {
+              switchRoute(ROUTES.CLIENT.REQUESTER.root);
+            }}
+            className="button is-medium is-success centeredButtonInCard fade-in"
+          >
+            <span>Browse Services</span>
+          </button>
+        </Delay>
       </div>
     </div>
   );
@@ -188,7 +191,7 @@ const RequestAServiceHowTo = (props) => {
         boxShadow: 'none',
         padding: '2rem',
       }}
-      className="card cardWithButton"
+      className="card cardWithButton fade-in"
     >
       <div className="card-image">
         <figure className="image">
@@ -196,15 +199,17 @@ const RequestAServiceHowTo = (props) => {
         </figure>
       </div>
       <div>
-        <button
-          style={{ width: 210, marginTop: 0 }}
-          onClick={(e) => {
-            switchRoute(ROUTES.CLIENT.REQUESTER.root);
-          }}
-          className="button is-medium is-success centeredButtonInCard"
-        >
-          <span>Browse Services</span>
-        </button>
+        <Delay wait={500}>
+          <button
+            style={{ width: 210, marginTop: 0 }}
+            onClick={(e) => {
+              switchRoute(ROUTES.CLIENT.REQUESTER.root);
+            }}
+            className="button is-medium is-success centeredButtonInCard fade-in"
+          >
+            <span>Browse Services</span>
+          </button>
+        </Delay>
       </div>
     </div>
   );
@@ -218,7 +223,7 @@ const ProvideAServiceHowTo = (props) => {
         boxShadow: 'none',
         padding: '2rem',
       }}
-      className="card cardWithButton"
+      className="card cardWithButton fade-in"
     >
       <div className="card-image">
         <figure className="image">
@@ -226,15 +231,17 @@ const ProvideAServiceHowTo = (props) => {
         </figure>
       </div>
       <div>
-        <button
-          style={{ width: 210, marginTop: 0 }}
-          onClick={(e) => {
-            switchRoute(ROUTES.CLIENT.TASKER.root);
-          }}
-          className="button is-medium is-dark centeredButtonInCard"
-        >
-          <span>Become A Tasker</span>
-        </button>
+        <Delay wait={500}>
+          <button
+            style={{ width: 210, marginTop: 0 }}
+            onClick={(e) => {
+              switchRoute(ROUTES.CLIENT.TASKER.root);
+            }}
+            className="button is-medium is-dark centeredButtonInCard fade-in"
+          >
+            <span>Become A Tasker</span>
+          </button>
+        </Delay>
       </div>
     </div>
   );
@@ -250,7 +257,7 @@ const ProvideAService = () => {
         border: 'none',
         boxShadow: 'none',
       }}
-      className="card cardWithButton"
+      className="card cardWithButton fade-in"
     >
       <div className="card-image">
         <figure className="image">
@@ -258,15 +265,17 @@ const ProvideAService = () => {
         </figure>
       </div>
       <div>
-        <button
-          style={{ width: 210 }}
-          onClick={(e) => {
-            switchRoute(ROUTES.CLIENT.TASKER.root);
-          }}
-          className="button is-medium is-dark centeredButtonInCard"
-        >
-          <span>Become A Tasker</span>
-        </button>
+        <Delay wait={500}>
+          <button
+            style={{ width: 210 }}
+            onClick={(e) => {
+              switchRoute(ROUTES.CLIENT.TASKER.root);
+            }}
+            className="button is-medium is-dark centeredButtonInCard fade-in"
+          >
+            <span>Become A Tasker</span>
+          </button>
+        </Delay>
       </div>
     </div>
   );
