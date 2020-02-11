@@ -147,7 +147,7 @@ export default class HomePage extends React.Component {
   }
 }
 
-const RequestAService = (props) => {
+const RequestAService = () => {
   return (
     <div
       onClick={() => {

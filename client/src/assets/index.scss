@@ -2,8 +2,7 @@
 
 @import './_animatecss.scss';
 @import './_addToCalendar.scss';
-@import '../../node_modules/@fortawesome/fontawesome-free/css/all.min.css';
-
+// @import '../../node_modules/@fortawesome/fontawesome-free/css/all.min.css';
 @import url('https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700&display=swap');
 
 $border-divider: 1px solid rgba(0, 0, 0, 0.12);
@@ -19,12 +18,6 @@ html body {
   font-display: swap;
   font-family: 'Work Sans', sans-serif;
   font-weight: 300;
-}
-
-#requseterTaskerToggle {
-  flex-grow: 1;
-  align-items: center;
-  justify-content: center;
 }
 
 #mainFooter {

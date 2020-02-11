@@ -219,18 +219,8 @@ class Header extends React.Component {
       /(\/\?).*/.test(window.location.pathname) ||
       pathsWhereWeDontShowPortalDetail.some((path) => window.location.pathname.includes(path));
 
-    // let navbarBurger = window.document.querySelector('.navbar-burger.BURGERMENU');
-    // let navbarEnd = window.document.querySelector('.navbar-end');
-    // let marginLeftForToggle = '';
-    // if (navbarBurger) {
-    //   marginLeftForToggle = `calc(${navbarBurger.offsetWidth}px)}`;
-    //   debugger;
-    // }
-    // if (navbarEnd) {
-    //   marginLeftForToggle = `calc(${navbarEnd.offsetWidth}px)}`;
-    // }
     const renderTaskerRequesterToggle = (
-      <div id="requseterTaskerToggle" className="navbar-item">
+      <div className="navbar-item">
         <div className="tabs is-centered is-toggle is-toggle-rounded is-small is-mobile">
           <ul>
             <li className={`${!isActingAsTasker && !dontShowPortalHelper && 'is-active'}`}>
