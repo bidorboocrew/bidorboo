@@ -324,6 +324,27 @@ ol.progtrckr li span {
   }
 }
 
+.color-change-2x {
+  -webkit-animation: color-change-2x 1s linear infinite alternate both;
+  animation: color-change-2x 1s linear infinite alternate both;
+}
+@-webkit-keyframes color-change-2x {
+  0% {
+    color: #353535;
+  }
+  100% {
+    color: #4285f4;
+  }
+}
+@keyframes color-change-2x {
+  0% {
+    color: #353535;
+  }
+  100% {
+    color: #4285f4;
+  }
+}
+
 // .success-color-change-2x {
 //   -webkit-animation: color-change-2x 2s linear infinite alternate both;
 //   animation: color-change-2x 2s linear infinite alternate both;

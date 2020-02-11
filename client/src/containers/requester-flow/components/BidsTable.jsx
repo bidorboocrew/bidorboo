@@ -65,12 +65,12 @@ export default class BidsTable extends React.Component {
           className="tabs is-centered is-medium"
         >
           <ul>
-            <li className="is-active">
+            <li className="color-change-2x is-active">
               <a>
-                <span className="icon is-small">
+                <span className="color-change-2x icon is-small">
                   <i className="fas fa-user-tie" aria-hidden="true" />
                 </span>
-                <span>Available Taskers</span>
+                <span className="color-change-2x">Available Taskers</span>
               </a>
             </li>
           </ul>

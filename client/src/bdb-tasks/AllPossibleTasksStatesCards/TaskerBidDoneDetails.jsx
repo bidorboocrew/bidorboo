@@ -153,7 +153,7 @@ class RequesterDetails extends React.Component {
           className="tabs is-centered is-medium"
         >
           <ul style={{ marginLeft: 0 }}>
-            <li className="is-active">
+            <li className="is-active color-change-2x">
               <a>
                 <span>Next Steps</span>
               </a>
