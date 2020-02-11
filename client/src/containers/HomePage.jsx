@@ -7,9 +7,9 @@ import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 import MainBanner from '../assets/images/MainBanner.png';
 
-import Need_Help from '../assets/images/Need-Help.jpg';
+import Need_Help from '../assets/images/Need-Help.jpeg';
 import RequesterSteps from '../assets/images/RequesterSteps.jpg';
-import Earn_Money from '../assets/images/Earn-Money.jpg';
+import Earn_Money from '../assets/images/Earn-Money.jpeg';
 import TaskerSteps from '../assets/images/TaskerSteps.jpg';
 import HowItWorks from '../assets/images/HowItWorks.jpg';
 import BidOrBooMain from '../assets/images/BidOrBooMain.png';
