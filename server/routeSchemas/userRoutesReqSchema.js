@@ -220,15 +220,16 @@ exports.userDetailsReqSchema = {
           };
         }),
       personalParagraph: Joi.string()
-        .valid('')
-        .optional()
+        .allow('')
+
         .max(MAX_PARAGRAPH_LENGTH)
         .error(() => {
           return {
             message:
               '[personal paragraph field] must be valid alphanumeric and less than 255 characters long',
           };
-        }),
+        })
+        .optional(),
       phone: Joi.object({
         phoneNumber: Joi.string()
           .trim()

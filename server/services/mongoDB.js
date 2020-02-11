@@ -13,15 +13,15 @@ module.exports = (process) => {
   mongoose.Promise = global.Promise;
 
   const dbOptions = {
-    autoIndex: process.env.NODE_ENV !== 'production',
-    // autoCreate: true,
-    useCreateIndex: true,
+    autoIndex: false,
+    config: { autoIndex: true }, // avoid performance hit due to schema level indexing
     useFindAndModify: false,
     useNewUrlParser: true,
     useUnifiedTopology: true,
     poolSize: 12,
     keepAlive: true,
-    config: { autoIndex: false }, // avoid performance hit due to schema level indexing
+    useCreateIndex: true,
+    autoCreate: true,
   };
   mongoose.set('debug', process.env.NODE_ENV === 'production' ? false : true);
 

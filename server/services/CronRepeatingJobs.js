@@ -2,6 +2,8 @@
 // https://scotch.io/tutorials/nodejs-cron-requests-by-examples
 // https://www.npmjs.com/package/cron-parser
 
+// https://www.npmjs.com/package/cron
+
 const { requestDataAccess } = require('../data-access/requestDataAccess');
 const CronJob = require('cron').CronJob;
 // http://pm2.keymetrics.io/docs/usage/environment/
@@ -12,7 +14,8 @@ module.exports = () => {
       // *second (0 - 59, optional)    *minute (0 - 59)    *hour (0 - 23)    *day of month (1 - 31)    *month (1 - 12)    *day of week (0 - 7) (0 or 7 is Sun)
       // clean requests at midnight
       new CronJob(
-        '00 00 00 * * *',
+        // '0 0 0 * * *',
+        '0 0 */3 * * *',
         () => {
           console.log('start running cron request: CleanUpAllExpiredNonAwardedRequests');
           requestDataAccess.BidOrBooAdmin.CleanUpAllExpiredNonAwardedRequests();
@@ -25,7 +28,7 @@ module.exports = () => {
       // run at midnight pm every day of the week
       // Notify anyone who is assigned a task via email and sms at 8pm
       new CronJob(
-        '00 00 20 * * *',
+        '0 0 20 * * *',
         () => {
           console.log('start running cron request: SendRemindersForUpcomingRequests');
           requestDataAccess.BidOrBooAdmin.SendRemindersForUpcomingRequests();
@@ -39,7 +42,8 @@ module.exports = () => {
 
     if (process.env.NODE_APP_INSTANCE === '1') {
       new CronJob(
-        '00 00 03 * * *',
+        // '0 0 03 * * *',
+        '0 0 */4 * * *',
         () => {
           console.log('start running cron request: CleanUpAllBidsAssociatedWithDoneRequests');
           requestDataAccess.BidOrBooAdmin.CleanUpAllBidsAssociatedWithDoneRequests();
@@ -52,7 +56,7 @@ module.exports = () => {
 
     if (process.env.NODE_APP_INSTANCE === '2') {
       new CronJob(
-        '00 00 03 * * *',
+        '0 0 */12 * * *',
         () => {
           console.log(
             'start running cron request: InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct '
@@ -72,7 +76,7 @@ module.exports = () => {
 
     if (process.env.NODE_APP_INSTANCE === '2') {
       new CronJob(
-        '00 00 05 * * *',
+        '0 0 */12 * * *',
         () => {
           console.log('start running cron request: archiveAfter5Days ');
 
@@ -86,7 +90,8 @@ module.exports = () => {
 
     if (process.env.NODE_APP_INSTANCE === '3') {
       new CronJob(
-        '00 00 */6 * * *',
+        // '0 0 */6 * * *',
+        '0 */30 * * * *',
         () => {
           console.log('start running cron request: SendPayoutsToBanks');
           requestDataAccess.BidOrBooAdmin.SendPayoutsToBanks();

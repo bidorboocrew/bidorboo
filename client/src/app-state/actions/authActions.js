@@ -154,22 +154,24 @@ export const onLogout = () => (dispatch) =>
 
 export const bidOrBooLogin = (userData) => (dispatch) =>
   dispatch({
-    type: A.AUTH_ACTIONS.LOGIN_FLOW_INITIATED,
+    type: 'A.AUTH_ACTIONS.LOGIN_FLOW_INITIATED',
     payload: axios
       .post(ROUTES.API.AUTH.LOCAL_LOGIN, {
         ...userData,
       })
       .then((resp) => {
         if (resp.data && resp.data.user && resp.data.user.userId) {
-          dispatch({
-            type: A.USER_MODEL_ACTIONS.SET_CURRENT_USER_DETAILS,
-            payload: resp.data.user,
-          });
+          // dispatch({
+          //   type: A.USER_MODEL_ACTIONS.SET_CURRENT_USER_DETAILS,
+          //   payload: resp.data.user,
+          // });
           //update everyone that user is now logged in
-          dispatch({
-            type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
-          });
-          switchRoute(resp.data.redirectUrl);
+          // dispatch({
+          //   type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
+          // });
+          getCurrentUser()(dispatch);
+          // xxx redirect
+          // switchRoute(resp.data.redirectUrl);
         }
       })
       .catch((error) => {
@@ -186,20 +188,15 @@ export const registerNewUser = (userData) => (dispatch) =>
       })
       .then((resp) => {
         if (resp.data && resp.data.user && resp.data.user.userId) {
-          dispatch({
-            type: A.USER_MODEL_ACTIONS.SET_CURRENT_USER_DETAILS,
-            payload: resp.data.user,
-          });
+          // dispatch({
+          //   type: A.USER_MODEL_ACTIONS.SET_CURRENT_USER_DETAILS,
+          //   payload: resp.data.user,
+          // });
           //update everyone that user is now logged in
-          dispatch({
-            type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
-          });
-          if (
-            resp.data.membershipStatus === 'NEW_MEMBER' &&
-            window.location.pathname !== ROUTES.CLIENT.TOS
-          ) {
-            switchRoute(ROUTES.CLIENT.ONBOARDING, { redirectUrl: resp.data.redirectUrl });
-          }
+          // dispatch({
+          //   type: A.AUTH_ACTIONS.USER_IS_LOGGED_IN,
+          // });
+          getCurrentUser()(dispatch);
         }
       })
       .catch((error) => {

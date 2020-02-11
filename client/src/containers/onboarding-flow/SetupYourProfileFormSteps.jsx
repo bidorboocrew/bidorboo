@@ -9,6 +9,7 @@ import VerifyEmailField from './VerifyEmailField';
 import VerifyPhoneField from './VerifyPhoneField';
 import UpdatePhoneNumberField from './UpdatePhoneNumberField';
 import { updateProfileDetails } from '../../app-state/actions/userModelActions';
+import { getCurrentUser } from '../../app-state/actions/authActions';
 
 const Step1 = ({ userDetails, showSetupPhoneStep }) => {
   return (
@@ -130,7 +131,7 @@ class Step4 extends React.Component {
 
   verifyAndSubmitOnBoarding = () => {
     const { hasAgreedToTOS } = this.state;
-    const { location, updateOnBoardingDetails } = this.props;
+    const { location, updateOnBoardingDetails, getCurrentUser } = this.props;
 
     let errors = {};
     if (!hasAgreedToTOS) {
@@ -149,14 +150,8 @@ class Step4 extends React.Component {
               agreedToTOS: this.state.hasAgreedToTOS,
             },
             () => {
-              if (
-                location.state.redirectUrl !== ROUTES.CLIENT.ONBOARDING &&
-                location.state.redirectUrl !== ROUTES.CLIENT.LOGIN_OR_REGISTER
-              ) {
-                return switchRoute(location.state.redirectUrl);
-              } else {
-                return switchRoute(ROUTES.CLIENT.HOME);
-              }
+              // xxxx redirect potential
+              getCurrentUser();
             },
           );
         }
@@ -214,11 +209,7 @@ class SetupYourProfileFormSteps extends React.Component {
     } else if (userDetails.membershipStatus !== 'NEW_MEMBER') {
       const shouldRedirect = location && location.state && location.state.redirectUrl;
 
-      if (
-        shouldRedirect &&
-        location.state.redirectUrl !== ROUTES.CLIENT.ONBOARDING &&
-        location.state.redirectUrl !== ROUTES.CLIENT.LOGIN_OR_REGISTER
-      ) {
+      if (shouldRedirect && location.state.redirectUrl !== ROUTES.CLIENT.LOGIN_OR_REGISTER) {
         return switchRoute(location.state.redirectUrl);
       } else {
         return switchRoute(ROUTES.CLIENT.HOME);
@@ -250,6 +241,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     dispatch,
     updateProfileDetails: bindActionCreators(updateProfileDetails, dispatch),
+    getCurrentUser: bindActionCreators(getCurrentUser, dispatch),
   };
 };
 

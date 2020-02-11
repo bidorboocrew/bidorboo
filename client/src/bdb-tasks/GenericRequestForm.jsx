@@ -336,6 +336,7 @@ class GenericRequestForm extends React.Component {
                         value={values.requestUnitOrApt || ''}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        extraStyle={{ marginBottom: 0 }}
                       ></TextInput>
                     );
                   }}
@@ -971,10 +972,10 @@ const EnhancedForms = withFormik({
       };
     }
 
-    localStorage.setItem('bob_prevPostedReq', JSON.stringify(values));
     if (props.isLoggedIn) {
       await postNewRequest({ requestDetails: mappedFieldsToRequestSchema, recaptchaField });
     } else {
+      localStorage.setItem('bob_prevPostedReq', JSON.stringify(values));
       props.showLoginDialog(true);
     }
 

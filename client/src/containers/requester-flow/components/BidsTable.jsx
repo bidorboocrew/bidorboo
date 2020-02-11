@@ -1,6 +1,6 @@
 import React from 'react';
-
-import { VerifiedVia, CenteredUserImageAndRating } from '../../../containers/commonComponents';
+import OtherUserProfileForReviewPageForBid from '../../OtherUserProfileForReviewPageForBid.jsx';
+// import { VerifiedVia, UserImageAndRating } from '../../../containers/commonComponents';
 export default class BidsTable extends React.Component {
   openBidDetailsModal = (bid) => {
     const { markBidAsSeen, requestId, showBidReviewModal } = this.props;
@@ -27,28 +27,28 @@ export default class BidsTable extends React.Component {
       const { value: totalCharge } = bid.requesterPayment;
 
       return (
-        <div key={bid._id} className="column is-narrow isforCards slide-in-bottom-small">
+        <div key={bid._id} className="column is-12 slide-in-bottom-small">
           <TaskerBidCard
             otherUserProfileInfo={bid._taskerRef}
             bidAmountHtml={() => (
               <div className="centeredButtonInCard">
-                <div style={{ fontSize: 12 }} className="has-text-centered has-text-grey">
-                  will do it for
-                </div>
+                {/* <div className="has-text-centered has-text-grey">
+                  <span style={{ fontSize: 12 }}>Will do it for</span>
+                </div> */}
                 <button
                   onClick={(e) => {
                     e.preventDefault();
                     this.openBidDetailsModal(bid);
                   }}
-                  className="button is-success has-text-centered is-fullwidth has-text-weight-semibold"
+                  className="button is-success has-text-centered is-fullwidth"
                 >
-                  ${totalCharge}
+                  Book It For ${totalCharge}
                   {bid.isNewBid && (
                     <span
                       style={{ position: 'absolute', top: -4, right: 0, fontSize: 10 }}
                       className="has-text-danger"
                     >
-                      <i className="fas fa-circle" />
+                      <i className="fas fa-bell" />
                     </span>
                   )}
                 </button>
@@ -65,12 +65,12 @@ export default class BidsTable extends React.Component {
           className="tabs is-centered is-medium"
         >
           <ul>
-            <li className="is-active">
+            <li className="color-change-2x is-active">
               <a>
-                <span className="icon is-small">
+                <span className="color-change-2x icon is-small has-text-weight-semibold">
                   <i className="fas fa-user-tie" aria-hidden="true" />
                 </span>
-                <span>Available Taskers</span>
+                <span className="color-change-2x has-text-weight-semibold">Available Taskers</span>
               </a>
             </li>
           </ul>
@@ -145,13 +145,17 @@ class TaskerBidCard extends React.Component {
     }
 
     return (
-      <div style={{ marginBottom: '1.5rem ', width: '15rem' }} className="card cardWithButton">
-        <div style={{ padding: '1rem' }} className="card-content has-text-centered">
-          <CenteredUserImageAndRating userDetails={otherUserProfileInfo} />
+      <div style={{ marginBottom: '2.5rem ' }} className="card">
+        <div className="card-content">
+          <OtherUserProfileForReviewPageForBid
+            match={{ params: { userId: otherUserProfileInfo._id } }}
+          ></OtherUserProfileForReviewPageForBid>
 
-          <div className="group">
+          {/* <UserImageAndRating userDetails={otherUserProfileInfo} /> */}
+
+          {/* <div className="group">
             <VerifiedVia userDetails={otherUserProfileInfo} />
-          </div>
+          </div> */}
         </div>
 
         {bidAmountHtml()}

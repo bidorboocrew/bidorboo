@@ -408,7 +408,17 @@ exports.bidDataAccess = {
       .lean(withVirtuals ? { virtuals: true } : true)
       .exec();
   },
-
+  getBidByIdWithTaskerDetails: (bidId) => {
+    return BidModel.findById(bidId)
+      .populate({
+        path: '_taskerRef',
+      })
+      .populate({
+        path: '_requestRef',
+      })
+      .lean({ virtuals: true })
+      .exec();
+  },
   // get requests for a user and filter by a given state
   getMyPostedBidsSummary: async (mongoUser_id) => {
     return new Promise(async (resolve, reject) => {

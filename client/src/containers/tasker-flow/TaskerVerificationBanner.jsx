@@ -195,6 +195,7 @@ class TaskerVerificationBanner extends React.Component {
         );
       } else if (showAddExternalBankAcc) {
         // we dont wana bug them too much
+        return null
         return (
           <section
             id="bob-taskerVerificationBanner"

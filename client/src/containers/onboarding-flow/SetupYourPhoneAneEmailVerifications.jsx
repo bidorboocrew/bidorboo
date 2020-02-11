@@ -13,10 +13,6 @@ import { updateProfileDetails } from '../../app-state/actions/userModelActions';
 const Step1 = ({ userDetails, showSetupPhoneStep }) => {
   return (
     <div className="field">
-      <div style={{ marginBottom: 4, fontSize: 14, fontWeight: 400 }} className="has-text-dark">
-        Step: Verify your email
-      </div>
-
       <VerifyEmailField {...{ userDetails, showSetupPhoneStep }} />
     </div>
   );
@@ -37,12 +33,6 @@ const Step2 = ({
       <div>
         {(!renderVerificationSection || editPhoneNumber) && (
           <div className="slide-in-right field">
-            <div
-              style={{ marginBottom: 4, fontSize: 14, fontWeight: 400 }}
-              className="has-text-dark"
-            >
-              Step: Add your cellphone number
-            </div>
             <UpdatePhoneNumberField
               showPhoneVerificationStep={showPhoneVerificationStep}
               userDetails={userDetails}
@@ -59,12 +49,6 @@ const Step2 = ({
         {renderVerificationSection && !editPhoneNumber && (
           <>
             <div className="fade-in field">
-              <div
-                style={{ marginBottom: 4, fontSize: 14, fontWeight: 400 }}
-                className="has-text-dark"
-              >
-                Step: Verify your cellphone number
-              </div>
               <VerifyPhoneField
                 {...{
                   userDetails,

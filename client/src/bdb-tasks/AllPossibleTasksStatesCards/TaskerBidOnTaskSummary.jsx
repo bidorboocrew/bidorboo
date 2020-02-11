@@ -163,13 +163,14 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                   <div style={{ display: 'inline-block', marginTop: -12 }}>
                     <a
                       onClick={(e) => {
-                        if (isLoggedIn) {
-                          updateViewedBy(request);
-                        }
-
-                        if (canBid || !isLoggedIn) {
+                        debugger
+                        if (!isLoggedIn || canBid) {
                           switchRoute(ROUTES.CLIENT.TASKER.getDynamicBidOnRequestPage(request._id));
                         } else {
+                          if (isLoggedIn) {
+                            updateViewedBy(request);
+                          }
+
                           e.preventDefault();
                           const elmnt = document.querySelector('#bob-taskerVerificationBanner');
                           elmnt && elmnt.scrollIntoView({ block: 'end', behavior: 'smooth' });

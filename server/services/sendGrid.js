@@ -375,10 +375,12 @@ exports.EmailService = {
       html: populateRequestUpdates({
         toDisplayName: toDisplayName || to,
         contentHtml: `
+        <div>The Tasker has confirmed that ${requestTitle} was completed</div>
         <div style="font-family: inherit; text-align: inherit; font-weight: bold"><strong>Next Steps</strong></div>
         <ul>
-          <li style="">Confirm that the Tasker had completed their work</li>
+          <li style="">Confirm that it is completed</li>
           <li style="">Then Rate your Tasker</li>
+          <li> </li>
         </ul>
          `,
         clickLink: `${linkForOwner}`,
@@ -510,7 +512,7 @@ exports.EmailService = {
         <ul>
           <li style="">Tasker was notified and assigned to complete this request</li>
           <li style="">Taskers contact details are revealed</li>
-          <li style="">Get in touch with the Tasker to sprcify the exact task location and meeting time details</li>
+          <li style="">Get in touch with the Tasker to specify the exact task location and meeting time details</li>
         </ul>
        `,
         clickLink: `${linkForOwner}`,
@@ -648,6 +650,8 @@ exports.EmailService = {
     details,
     userIdWhoFiledDispute,
   }) => {
+    console.log("EMAIL- informBobCrewAboutDispute")
+
     const msg = {
       to: 'bidorboo@bidorboo.ca',
       from: 'bidorboo@bidorboo.ca',
@@ -699,15 +703,16 @@ exports.EmailService = {
       console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
     });
   },
-  informBobCrewAboutFailedPayment: ({ requestId, paymentDetails }) => {
+
+  informBobCrewAboutSuccessPayment: ({ requestId, paymentDetails }) => {
+    console.log("EMAIL- informBobCrewAboutSuccessPayment")
+
     const msg = {
       to: 'bidorboo@bidorboo.ca',
       from: 'bidorboo@bidorboo.ca',
-      subject: `FAILED PAYOUT CASE: ${requestId}`,
-      text: `Payment to bank was not successful follow up with user
-    ${JSON.stringify(paymentDetails)}`,
+      subject: `SUCCESS PAYOUT CASE: ${requestId}`,
       html: `
-      <p>Payment to bank was not successful follow up with user
+      <p>Payment to bank was successful
         ${JSON.stringify(paymentDetails)}.</p>
       `,
     };
@@ -716,14 +721,17 @@ exports.EmailService = {
       console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
     });
   },
-  informBobCrewAboutSuccessPayment: ({ requestId, paymentDetails }) => {
+
+  informBobCrewAboutFailedImportantStuff: (methodName, details) => {
+    console.log("EMAIL- informBobCrewAboutFailedImportantStuff")
     const msg = {
-      to: 'bidorboo@bidorboo.ca',
+      to: 'bidorboocrew@gmail.com',
       from: 'bidorboo@bidorboo.ca',
-      subject: `SUCCESS PAYOUT CASE: ${requestId}`,
+      subject: `FAILED IMPORTANT: ${methodName}`,
+
       html: `
-      <p>Payment to bank was successful
-        ${JSON.stringify(paymentDetails)}.</p>
+      <p>Something important failed
+        ${JSON.stringify(details)}.</p>
       `,
     };
 

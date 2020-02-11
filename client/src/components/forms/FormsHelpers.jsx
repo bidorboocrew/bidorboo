@@ -144,6 +144,7 @@ export const TextInput = ({
   setFocusImmediately,
   placeholder,
   suggestButton,
+  extraStyle = {},
   ...props
 }) => {
   let inputClassName = className || 'input';
@@ -163,7 +164,10 @@ export const TextInput = ({
   }
 
   return (
-    <div className={`group ${touched && id && touched[id] && error ? 'isError' : ''}`}>
+    <div
+      style={{ ...extraStyle }}
+      className={`group ${touched && id && touched[id] && error ? 'isError' : ''}`}
+    >
       <label className={labelClass}>{label}</label>
 
       <div>

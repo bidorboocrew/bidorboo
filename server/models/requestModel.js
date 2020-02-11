@@ -276,5 +276,11 @@ RequestSchema.pre('remove', async function(next) {
     return next(e);
   }
 });
-
+RequestSchema.on('index', function(err) {
+  if (err) {
+      console.error('User index error: %s', err);
+  } else {
+      console.info('User indexing complete');
+  }
+});
 mongoose.model('RequestModel', RequestSchema);

@@ -104,7 +104,7 @@ export const CLIENT = {
   HOME: '/',
   TOS: '/terms-of-service',
   LOGIN_OR_REGISTER: '/login-and-registration',
-  ONBOARDING: '/on-boarding',
+  // ONBOARDING: '/on-boarding',
   RESETPASSWORD: '/reset-password',
   USER_ROFILE_FOR_REVIEW: '/user-profile/:userId',
   dynamicUserProfileForReview: (userId) => `/user-profile/${userId}`,

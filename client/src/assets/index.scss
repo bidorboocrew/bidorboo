@@ -2,8 +2,7 @@
 
 @import './_animatecss.scss';
 @import './_addToCalendar.scss';
-@import '../../node_modules/@fortawesome/fontawesome-free/css/all.min.css';
-
+// @import '../../node_modules/@fortawesome/fontawesome-free/css/all.min.css';
 @import url('https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700&display=swap');
 
 $border-divider: 1px solid rgba(0, 0, 0, 0.12);
@@ -22,13 +21,14 @@ html body {
 }
 
 #mainFooter {
+  margin-top: 3rem;
   padding: 1rem;
   background: #363636;
 }
 
 #RoutesWrapper {
   // padding: 0 0.5rem;
-  min-height: 100vh !important;
+  min-height: calc(100vh - 4rem) !important;
   // padding-bottom: 3rem;
 }
 
@@ -197,7 +197,7 @@ $body-background-color: #eeeeee;
 $navbar-height: 4rem;
 $navbar-dropdown-boxed-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.34);
 $primary: #00aa90 !default;
-$orange: #ef2834 !default;
+$orange: #fc5120 !default;
 $yellow: #ffcd5e !default;
 $green: #26ca70 !default;
 $cyan: #5376e2 !default;
@@ -217,6 +217,11 @@ $tabs-toggle-link-active-border-color: $orange;
 
 @import 'bulma/bulma.sass';
 @import 'bulma-switch/dist/css/bulma-switch.sass';
+
+.hero.is-fullheight {
+  min-height: calc(100vh - 4rem);
+}
+
 // xxx update bulma when a new release comes
 // https://github.com/AITGmbH/tapiodeveloperapp/pull/56/files
 // https://github.com/jgthms/bulma/issues/2503
@@ -486,6 +491,7 @@ div.centeredButtonInCard {
   color: #353535;
   height: 100%;
   border-radius: 0;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   &.disputeOnlyView {
     border: 2px dashed #e85255;
     box-shadow: none !important;

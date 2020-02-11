@@ -135,14 +135,6 @@ exports.util = {
     const title = `${taskName} Request Booking`;
     const description = `*After you confirm service completion, payment will be released to tasker: (${taskerDisplayName})`;
 
-    // const BIDORBOO_SERVICECHARGE = 0.06;
-
-    // // confirm award and pay
-    // const originalCharge = amount.value;
-    // const bidOrBooServiceFee = Math.ceil(originalCharge * BIDORBOO_SERVICECHARGE);
-    // const totalAmount = (originalCharge + bidOrBooServiceFee) * 100;
-    // const taskerPayoutAmount = chargeAmount - bidOrBooTotalCommission;
-
     return stripe.checkout.sessions.create({
       success_url: `${websiteUrl}/my-request/awarded-request-details/${taskId}`,
       cancel_url: `${websiteUrl}/my-request/review-request-details/${taskId}/?checkoutCancelled=true`,
@@ -175,6 +167,46 @@ exports.util = {
       },
     });
   },
+  // const BIDORBOO_SERVICECHARGE = 0.06;
+
+  // // confirm award and pay
+  // const originalCharge = amount.value;
+  // const bidOrBooServiceFee = Math.ceil(originalCharge * BIDORBOO_SERVICECHARGE);
+  // const totalAmount = (originalCharge + bidOrBooServiceFee) * 100;
+  // const taskerPayoutAmount = chargeAmount - bidOrBooTotalCommission;
+
+  //   return stripe.checkout.sessions.create({
+  //     success_url: `${websiteUrl}/my-request/awarded-request-details/${taskId}`,
+  //     cancel_url: `${websiteUrl}/my-request/review-request-details/${taskId}/?checkoutCancelled=true`,
+  //     payment_method_types: ['card'],
+  //     client_reference_id: requesterId,
+  //     customer: requesterCustomerId,
+  //     submit_type: 'book',
+  //     mode: 'payment',
+  //     line_items: [
+  //       {
+  //         name: title,
+  //         description,
+  //         amount: totalCharge,
+  //         currency: 'cad',
+  //         quantity: 1,
+  //         images: taskImages ? taskImages : [],
+  //       },
+  //     ],
+  //     payment_intent_data: {
+  //       // application_fee_amount: bidOrBooServiceFee,
+  //       capture_method: 'automatic',
+  //       description: description,
+  //       metadata,
+  //       statement_descriptor: 'BidOrBoo Charge',
+  //       receipt_email: requesterEmail,
+  //       setup_future_usage: 'on_session',
+  //       // transfer_data: {
+  //       //   destination: taskerAccId,
+  //       // },
+  //     },
+  //   });
+  // },
   partialRefundTransation: ({ chargeId, refundAmount, metadata }) => {
     // xxxxxx
     return stripe.refunds.create({

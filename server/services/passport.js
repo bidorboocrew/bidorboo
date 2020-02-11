@@ -170,7 +170,7 @@ passport.use(
       const user = await userDataAccess.createNewUser(userDetails);
       done(null, user);
     } catch (err) {
-      console.error('Failed To google Auth' + e);
+      console.error('Failed To local-register Auth' + err);
       return done(err, null);
     }
   })

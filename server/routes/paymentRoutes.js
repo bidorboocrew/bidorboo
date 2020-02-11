@@ -39,7 +39,7 @@ module.exports = (app) => {
 
         const { requestId, bidId } = req.body.data;
 
-        const theBid = await bidDataAccess.getBidById(bidId, true);
+        const theBid = await bidDataAccess.getBidByIdWithTaskerDetails(bidId, true);
         const theRequest = await requestDataAccess.getRequestWithOwnerDetails(requestId);
 
         if (!theBid || !theBid._id || !theRequest || !theRequest._id) {
@@ -240,20 +240,50 @@ module.exports = (app) => {
   app.get(ROUTES.API.PAYMENT.GET.myStripeAccountDetails, requireLogin, async (req, res, next) => {
     try {
       const mongoUser_id = req.user._id.toString();
+      let accDetails = {};
+      let accBalanceDetails = [];
+      const userStripeAccountDetail = await userDataAccess.getUserStripeAccount(mongoUser_id);
 
-      let accDetails = [];
-      const paymentsDetails = await userDataAccess.getUserStripeAccount(mongoUser_id);
+      if (userStripeAccountDetail && userStripeAccountDetail.accId) {
+        accDetails = await stripeServiceUtil.getConnectedAccountDetails(
+          userStripeAccountDetail.accId
+        );
+        if (accDetails) {
+          const {
+            id: accId,
+            payouts_enabled,
+            charges_enabled,
+            requirements: accRequirements,
+            metadata,
+            capabilities: { transfers, card_payments },
+          } = accDetails;
 
-      if (paymentsDetails && paymentsDetails.accId) {
-        accDetails = await stripeServiceUtil.getConnectedAccountBalance(paymentsDetails.accId);
+          const { userId } = metadata;
+
+          await userDataAccess.updateStripeAccountRequirementsDetails({
+            userId,
+            accId,
+            chargesEnabled: charges_enabled,
+            payoutsEnabled: payouts_enabled,
+            capabilities: {
+              card_payments,
+              transfers,
+            },
+            accRequirements,
+          });
+        }
+
+        accBalanceDetails = await stripeServiceUtil.getConnectedAccountBalance(
+          userStripeAccountDetail.accId
+        );
       }
       let verifiedAmount = 0;
       let pendingVerificationAmount = 0;
       let paidoutAmount = 0;
 
-      if (accDetails && accDetails.length === 2) {
-        const accountBalance = accDetails[0];
-        const accountPayouts = accDetails[1];
+      if (accBalanceDetails && accBalanceDetails.length === 2) {
+        const accountBalance = accBalanceDetails[0];
+        const accountPayouts = accBalanceDetails[1];
 
         accountBalance.available &&
           accountBalance.available.forEach((availableCash) => {
@@ -350,6 +380,9 @@ module.exports = (app) => {
       return res.status(200).send();
     } catch (e) {
       e.safeMsg = 'connected Accounts Webhook failure';
+      sendGridEmailing.informBobCrewAboutFailedImportantStuff('connectedAccountsWebhook', {
+        safeMsg: 'connected Accounts Webhook failure',
+      });
       return next(e);
     }
   });
@@ -404,9 +437,10 @@ module.exports = (app) => {
       }
       return res.status(200).send();
     } catch (e) {
-      e.safeMsg = 'payouts Webhook failed';
-      sendGridEmailing.informBobCrewAboutFailedPayment({ requestId: 'uknown', paymentDetails: e });
-
+      sendGridEmailing.informBobCrewAboutFailedImportantStuff('payoutsWebhook', {
+        safeMsg: 'payout webhook failed',
+      });
+      e.safeMsg = 'payout webhook failed';
       return next(e);
     }
   });
@@ -502,6 +536,9 @@ module.exports = (app) => {
       }
       return res.status(200).send();
     } catch (e) {
+      sendGridEmailing.informBobCrewAboutFailedImportantStuff('chargeSucceededWebhook', {
+        safeMsg: 'charges succeeded failed',
+      });
       e.safeMsg = 'charge succeeded failed';
       return next(e);
     }
@@ -509,17 +546,14 @@ module.exports = (app) => {
 
   app.post(ROUTES.API.PAYMENT.POST.checkoutFulfillment, async (req, res, next) => {
     try {
-      return res.status(200).send();
+      // return res.status(200).send();
       // console.log('payoutsWebhook is triggered');
-
       // // sign key by strip
       // let endpointSecret = keys.stripeWebhookSessionSig;
       // let sig = req.headers['stripe-signature'];
       // let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
-
       // if (event) {
       //   const { type } = event;
-
       //   // update customer card with card in this
       //   // update address
       //   if (type === 'checkout.session.completed') {
@@ -527,14 +561,11 @@ module.exports = (app) => {
       //     const { payment_intent } = session;
       //     const paymentIntentDetails = await stripeServiceUtil.getPaymentIntents(payment_intent);
       //     const { metadata, id } = paymentIntentDetails;
-
       //     const { requestId, bidId, amount } = metadata;
-
       //     const updateRequestAndBid = await requestDataAccess.updateRequestAwardedBid(requestId, bidId, {
       //       paymentIntentId: id,
       //       amount,
       //     });
-
       //     return res.status(200).send();
       //   }
       // }

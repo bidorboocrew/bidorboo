@@ -92,7 +92,10 @@ class Header extends React.Component {
       this.setState({ activeNavBarMenuId: 'unspecified' });
     }
   }
-
+  componentDidCatch(error, info) {
+    console.error('bdb error details ' + error);
+    console.error('failure info ' + info);
+  }
   closeMenuThenExecute = (func) => {
     this.setState(
       { isHamburgerOpen: false, isProfileMenuActive: false, isNotificationMenuActive: false },
@@ -191,15 +194,15 @@ class Header extends React.Component {
     const {
       requestIdsWithNewBids,
       myBidsWithNewStatus,
-      requestsHappeningToday,
-      bidsHappeningToday,
+      // requestsHappeningToday,
+      // bidsHappeningToday,
     } = notificationFeed;
 
     const installWebAppButton = document.querySelector('#bob-installWebApp');
 
-    const isThereRequestsHappeningToday =
-      requestsHappeningToday && requestsHappeningToday.length > 0;
-    const isThereBidsHappeningToday = bidsHappeningToday && bidsHappeningToday.length > 0;
+    // const isThereRequestsHappeningToday =
+    //   requestsHappeningToday && requestsHappeningToday.length > 0;
+    // const isThereBidsHappeningToday = bidsHappeningToday && bidsHappeningToday.length > 0;
     // const isAnythingHappeningToday = isThereRequestsHappeningToday || isThereBidsHappeningToday;
 
     const requestRecievedNewBids = requestIdsWithNewBids && requestIdsWithNewBids.length > 0;
@@ -222,7 +225,7 @@ class Header extends React.Component {
           <ul>
             <li className={`${!isActingAsTasker && !dontShowPortalHelper && 'is-active'}`}>
               <a
-                style={{ padding: '0.5rem', width: 100 }}
+                style={{ padding: '0.25rem', width: 90 }}
                 onClick={(e) => {
                   e.preventDefault();
                   this.closeMenuThenExecute(() => {
@@ -241,7 +244,7 @@ class Header extends React.Component {
             </li>
             <li className={`${isActingAsTasker && !dontShowPortalHelper && 'is-active'}`}>
               <a
-                style={{ padding: '0.5rem', width: 100 }}
+                style={{ padding: '0.25rem', width: 90 }}
                 onClick={(e) => {
                   e.preventDefault();
                   this.closeMenuThenExecute(() => {
@@ -316,13 +319,18 @@ class Header extends React.Component {
               </div>
             </div>
           </a>
-          <div style={{ flexGrow: 1 }} className="navbar-item"></div>
+
           {renderTaskerRequesterToggle}
           {!isOnLoginPage && (
             <div className=" navbar-item">
               <a
-                style={{ borderRadius: 2, fontWeight: 500, border: '1px solid #eee' }}
-                className="button is-link is-inverted is-small"
+                style={{
+                  borderRadius: 2,
+                  fontWeight: 500,
+                  border: '1px solid #eee',
+                  // boxShadow: 'none',
+                }}
+                className="button is-link is-small"
                 onClick={(e) => {
                   e.preventDefault();
                   switchRoute(ROUTES.CLIENT.LOGIN_OR_REGISTER, {
@@ -393,9 +401,8 @@ class Header extends React.Component {
               style={{
                 paddingLeft: 0,
                 paddingRight: 0,
-                flexGrow: 1,
               }}
-              className="navbar-item has-text-grey"
+              className="navbar-item has-text-dark"
             >
               <div
                 onClick={(e) => {
@@ -427,7 +434,7 @@ class Header extends React.Component {
                 this.setState({ isHamburgerOpen: !isHamburgerOpen });
               }}
               id="mobile-nav-burger"
-              className={classNames('navbar-burger', {
+              className={classNames('navbar-burger BURGERMENU', {
                 'is-active': isHamburgerOpen,
               })}
               data-target="navbarmenu"
@@ -439,7 +446,7 @@ class Header extends React.Component {
                 {(requestRecievedNewBids || bidsGotAwardedToMe) && (
                   <i
                     style={{ position: 'absolute', top: -5, right: -5, fontSize: 8 }}
-                    className="has-text-danger fas fa-circle"
+                    className="has-text-danger fas fa-bell"
                   />
                 )}
               </span>
@@ -484,7 +491,6 @@ class Header extends React.Component {
                       }`}
                     >
                       <a
-                        // id="myprofile-step"
                         onClick={() => {
                           this.closeMenuThenExecute(() => {
                             switchRoute(ROUTES.CLIENT.MY_PROFILE.basicSettings);
@@ -497,9 +503,77 @@ class Header extends React.Component {
                         <span className="icon">
                           <i className="far fa-user" aria-hidden="true" />
                         </span>
-                        <span>{`Profile`}</span>
+                        <span>Profile</span>
+                      </a>
+
+                      <hr className="navbar-divider" />
+                      <a
+                        onClick={(e) => {
+                          this.closeMenuThenExecute(() => {
+                            switchRoute(ROUTES.CLIENT.REQUESTER.root);
+                          });
+                        }}
+                        className={`navbar-item ${
+                          activeNavBarMenuId === HREF_TO_TABID.REQUEST_A_SERVICE ? 'is-active' : ''
+                        }`}
+                      >
+                        {/* <span className="icon">
+                          <i className="fas fa-bell"></i>
+                        </span> */}
+                        <span>Browse Services</span>
+                      </a>
+                      <a
+                        onClick={(e) => {
+                          this.closeMenuThenExecute(() => {
+                            switchRoute(ROUTES.CLIENT.REQUESTER.myRequestsPage);
+                          });
+                        }}
+                        className={`navbar-item ${
+                          activeNavBarMenuId === HREF_TO_TABID.MY_REQUESTS ? 'is-active' : ''
+                        }`}
+                      >
+                        {requestRecievedNewBids && (
+                          <span style={{ marginRight: 1 }} className="has-text-danger">
+                            <i className="fas fa-bell"></i>
+                          </span>
+                        )}
+                        <span>My Requests</span>
                       </a>
                       <hr className="navbar-divider" />
+                      <a
+                        onClick={(e) => {
+                          this.closeMenuThenExecute(() => {
+                            switchRoute(ROUTES.CLIENT.TASKER.root);
+                          });
+                        }}
+                        className={`navbar-item ${
+                          activeNavBarMenuId === HREF_TO_TABID.PROVIDE_A_SERVICE ? 'is-active' : ''
+                        }`}
+                      >
+                        {/* <span className="icon">
+                          <i className="fas fa-bell"></i>
+                        </span> */}
+                        <span>Explore Tasks</span>
+                      </a>
+                      <a
+                        onClick={(e) => {
+                          this.closeMenuThenExecute(() => {
+                            switchRoute(ROUTES.CLIENT.TASKER.mybids);
+                          });
+                        }}
+                        className={`navbar-item ${
+                          activeNavBarMenuId === HREF_TO_TABID.MY_BIDS ? 'is-active' : ''
+                        }`}
+                      >
+                        {bidsGotAwardedToMe && (
+                          <span style={{ marginRight: 1 }} className="has-text-danger">
+                            <i className="fas fa-bell"></i>
+                          </span>
+                        )}
+                        <span>My Bids</span>
+                      </a>
+                      <hr className="navbar-divider" />
+
                       <a
                         // id="myprofile-step"
                         onClick={() => {
@@ -512,7 +586,7 @@ class Header extends React.Component {
                         }`}
                       >
                         <span className="icon">
-                          <i className="fas fa-bell"></i>
+                          <i className="fas fa-cog"></i>
                         </span>
                         <span>{`Notifications`}</span>
                       </a>
@@ -621,7 +695,7 @@ class Header extends React.Component {
                         });
                       }}
                     >
-                      <span>BROWSE SERVICES</span>
+                      <span>Browse Services</span>
                     </a>
                   </li>
                   <li
@@ -640,7 +714,12 @@ class Header extends React.Component {
                         });
                       }}
                     >
-                      MY REQUESTS
+                      {requestRecievedNewBids && (
+                        <span style={{ marginRight: 1 }} className="has-text-danger">
+                          <i className="fas fa-bell"></i>
+                        </span>
+                      )}
+                      <span>My Requests</span>
                     </a>
                   </li>
                 </ul>
@@ -665,7 +744,7 @@ class Header extends React.Component {
                         });
                       }}
                     >
-                      <span>LOOK FOR TASKS</span>
+                      <span>Explore Tasks</span>
                     </a>
                   </li>
                   <li
@@ -681,7 +760,12 @@ class Header extends React.Component {
                         });
                       }}
                     >
-                      MY BIDS
+                      {bidsGotAwardedToMe && (
+                        <span style={{ marginRight: 1 }} className="has-text-danger">
+                          <i className="fas fa-bell"></i>
+                        </span>
+                      )}
+                      <span>My Bids</span>
                     </a>
                   </li>
                 </ul>
