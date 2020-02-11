@@ -491,6 +491,7 @@ div.centeredButtonInCard {
   color: #353535;
   height: 100%;
   border-radius: 0;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   &.disputeOnlyView {
     border: 2px dashed #e85255;
     box-shadow: none !important;

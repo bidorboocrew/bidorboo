@@ -874,7 +874,7 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
         style={{ width, margin: isCentered ? 'auto' : '' }}
         className={`${isCentered ? 'has-text-centered' : ''}`}
       >
-        <label style={{marginBottom: 0}} className="label has-text-dark">verifications</label>
+        {/* <label style={{marginBottom: 0}} className="label has-text-dark">verifications</label> */}
 
         {isFbUser && (
           <div

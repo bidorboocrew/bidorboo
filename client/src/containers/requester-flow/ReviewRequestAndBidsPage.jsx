@@ -130,7 +130,7 @@ class ReviewRequestAndBidsPage extends React.Component {
           <AcceptBidAndTaskerModal closeModal={this.hideBidReviewModal} bid={bidUnderReview} />
         )}
 
-        <div className="columns is-centered is-mobile">
+        <div className="is-centered is-mobile">
           <div className="column limitLargeMaxWidth slide-in-right">
             <RenderBackButton />
             {getMeTheRightRequestCard({
