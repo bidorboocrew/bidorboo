@@ -40,7 +40,7 @@ export default class HomePage extends React.Component {
                 <span id="BidOrBoo-welcome-step">BidOrBoo</span>
               </h1> */}
               <div className="container has-text-centered">
-                <img style={{ width: 280 }} src={BidOrBooMain} alt="Placeholder" />
+                <img style={{ width: 300 }} src={BidOrBooMain} alt="Placeholder" />
               </div>
               {/* <h2
                 style={{ fontSize: 16, marginBottom: 0, paddingBottom: 0 }}
