@@ -37,6 +37,7 @@ exports.WebPushNotifications = {
       return e;
     }
   },
+
   pushAwardedRequestWasCancelled: async (
     targetUserPushSubscription,
     { requestTitle, icon, urlToLaunch }
@@ -64,6 +65,32 @@ exports.WebPushNotifications = {
       return e;
     }
   },
+  pushNewBidRecieved: async (targetUserPushSubscription, { requestTitle, icon, urlToLaunch }) => {
+    // if (process.env.NODE_ENV !== 'production') {
+    //   return;
+    // }
+    try {
+      if (targetUserPushSubscription) {
+        const payload = JSON.stringify({
+          title: `Request Recieved New Bid!`,
+          body: `${requestTitle} Recieved New Bid! Click for more details`,
+          icon: icon,
+          urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
+          tag: urlToLaunch,
+        });
+        webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
+          console.log('BIDORBOO_ERROR: WEBPUSH ISSUE ' + JSON.stringify(e));
+        });
+        return { success: true };
+      } else {
+        return { success: false, errorMsg: 'This user has not subscribed' };
+      }
+    } catch (e) {
+      console.log('BIDORBOO_ERROR: WEBPUSH ISSUE ' + JSON.stringify(e));
+      return e;
+    }
+  },
+
   pushNewRequestInYourArea: async (targetUserPushSubscription, { requestTitle, urlToLaunch }) => {
     // if (process.env.NODE_ENV !== 'production') {
     //   return;
@@ -98,7 +125,7 @@ exports.WebPushNotifications = {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
           title: `${requestTitle} is completed!`,
-          body: `It is DONE! Click to Rate it`,
+          body: `It is DONE! Click to Review it`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
           tag: urlToLaunch,
@@ -152,7 +179,7 @@ exports.WebPushNotifications = {
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
           title: `Confirm that ${requestTitle} is Completed!`,
-          body: `Click to confirm completion and Rate the tasker`,
+          body: `Click to confirm completion and Review the tasker`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
           tag: urlToLaunch,

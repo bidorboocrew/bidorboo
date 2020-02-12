@@ -379,8 +379,7 @@ exports.EmailService = {
         <div style="font-family: inherit; text-align: inherit; font-weight: bold"><strong>Next Steps</strong></div>
         <ul>
           <li style="">Confirm that it is completed</li>
-          <li style="">Then Rate your Tasker</li>
-          <li> </li>
+          <li style="">Then Review your Tasker</li>
         </ul>
          `,
         clickLink: `${linkForOwner}`,
@@ -415,7 +414,7 @@ exports.EmailService = {
         <br>
         <div style="font-family: inherit; text-align: inherit; font-weight: bold"><strong>Next Steps</strong></div>
         <ul>
-          <li style="">Rate your Requester and experience</li>
+          <li style="">Review your Requester</li>
           <li style="">We notified the Requester to confirm this task's completion</li>
           <li style="">Payment for this task will be released once we recieve the confirmation</li>
         </ul>
@@ -451,7 +450,7 @@ exports.EmailService = {
         <div style="font-family: inherit; text-align: inherit; font-weight: bold"><strong>Next Steps</strong></div>
        `,
         clickLink: `${linkForOwner}`,
-        clickDisplayName: 'Rate The Tasker',
+        clickDisplayName: 'Review The Tasker',
       }),
     };
 
@@ -475,13 +474,13 @@ exports.EmailService = {
         <br>
         <div style="font-family: inherit; text-align: inherit; font-weight: bold"><strong>Next Steps</strong></div>
         <ul>
-          <li style="">Rate the Requester</li>
+          <li style="">Review the Requester</li>
           <li style="">We notified the Requester to confirm this task's completion</li>
           <li style="">Payment for this task will be released once we recieve the confirmation</li>
         </ul>
        `,
         clickLink: `${linkForTasker}`,
-        clickDisplayName: 'Rate The Requester',
+        clickDisplayName: 'Review The Requester',
       }),
     };
 

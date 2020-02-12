@@ -42,13 +42,13 @@ exports.TxtMsgingService = {
   sendRequestIsCompletedText: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
     const msgContent = `BidOrBoo: ${requestTitle} is Completed! go to ${
       urlLink ? urlLink : 'https://www.bidorboo.ca'
-    } to Rate it.`;
+    } to Review it.`;
     return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
   tellRequesterToConfirmRequest: (mobileNumber, requestTitle, urlLink, callback = () => {}) => {
     const msgContent = `BidOrBoo: Please Confirm that ${requestTitle} is Completed! go to ${
       urlLink ? urlLink : 'https://www.bidorboo.ca'
-    } to confirm and Rate your Tasker.`;
+    } to confirm and Review your Tasker.`;
     return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
   tellRequesterThatWeMarkedRequestDone: (
@@ -59,7 +59,7 @@ exports.TxtMsgingService = {
   ) => {
     const msgContent = `BidOrBoo Marked ${requestTitle} as Complete because you did not act in 3 days. go to ${
       urlLink ? urlLink : 'https://www.bidorboo.ca'
-    } to Rate your Tasker.`;
+    } to Review your Tasker.`;
     return this.TxtMsgingService.sendText(mobileNumber, msgContent, callback);
   },
 

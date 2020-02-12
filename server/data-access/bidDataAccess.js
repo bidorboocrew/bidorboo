@@ -9,9 +9,8 @@ const utils = require('../utils/utilities');
 const stripeServiceUtil = require('../services/stripeService').util;
 const sendGridEmailing = require('../services/sendGrid').EmailService;
 const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
-const WebPushNotifications = require('../services/WebPushNotifications').WebPushNotifications;
 const { getChargeDistributionDetails } = require('../utils/chargesCalculatorUtil');
-
+const WebPushNotifications = require('../services/WebPushNotifications').WebPushNotifications;
 exports.bidDataAccess = {
   cancelAwardedBid: async (mongoUser_id, bidId) => {
     /**
@@ -846,7 +845,8 @@ exports.bidDataAccess = {
           .lean()
           .exec();
         const ownerDetails = requestDetails._ownerRef;
-        if (ownerDetails) {
+        const notificationSettings = requestDetails.notifications;
+        if (ownerDetails && notificationSettings) {
           const ownerEmailAddress =
             ownerDetails.email && ownerDetails.email.emailAddress
               ? ownerDetails.email.emailAddress
@@ -855,12 +855,24 @@ exports.bidDataAccess = {
           const requestTemplate =
             utils.requestTemplateIdToDefinitionObjectMapper[`${requestDetails.templateId}`];
           const requestTitle = `${requestTemplate.TITLE} - ${requestDetails.requestTitle}`;
-          sendGridEmailing.sendNewBidRecievedEmail({
-            to: ownerEmailAddress,
-            toDisplayName: ownerDetails.displayName,
-            taskName: requestTitle,
-            clickLink: `${ROUTES.CLIENT.REQUESTER.dynamicReviewRequestAndBidsPage(requestId)}`,
-          });
+          ownerEmailAddress &&
+            notificationSettings.email &&
+            sendGridEmailing.sendNewBidRecievedEmail({
+              to: ownerEmailAddress,
+              toDisplayName: ownerDetails.displayName,
+              taskName: requestTitle,
+              clickLink: `${ROUTES.CLIENT.REQUESTER.dynamicReviewRequestAndBidsPage(requestId)}`,
+            });
+
+          const ownerPushSubscription = ownerDetails.pushSubscription
+            ? ownerDetails.pushSubscription
+            : '';
+          ownerPushSubscription &&
+            notificationSettings.push &&
+            WebPushNotifications.pushNewBidRecieved(ownerPushSubscription, {
+              requestTitle: requestTitle,
+              urlToLaunch: `${ROUTES.CLIENT.REQUESTER.dynamicReviewRequestAndBidsPage(requestId)}`,
+            });
         }
 
         newBid && newBid.toObject ? resolve(newBid.toObject()) : resolve(newBid);

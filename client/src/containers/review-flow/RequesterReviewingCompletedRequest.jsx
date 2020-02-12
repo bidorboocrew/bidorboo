@@ -291,7 +291,7 @@ export class RequesterReviewingCompletedRequest extends React.Component {
             <section className="hero is-small is-dark">
               <div className="hero-body">
                 <div className="container is-widescreen">
-                  <h2 className="title">Rate The Tasker</h2>
+                  <h2 className="title">Review The Tasker</h2>
                 </div>
               </div>
             </section>
