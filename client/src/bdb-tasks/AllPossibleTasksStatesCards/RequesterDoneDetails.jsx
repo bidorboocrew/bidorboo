@@ -175,7 +175,7 @@ class AssignedTaskerDetails extends React.Component {
         <br></br>
         <div style={{ background: 'transparent' }} className="tabs is-centered is-medium">
           <ul style={{ marginLeft: 0 }}>
-            <li className="is-active">
+            <li className="is-active color-change-2x">
               <a>
                 <span>Next Step</span>
               </a>
