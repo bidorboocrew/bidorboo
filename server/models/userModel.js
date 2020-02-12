@@ -330,7 +330,7 @@ UserSchema.virtual('canBid').get(function() {
       this.tos_acceptance &&
       this.tos_acceptance.Agreed &&
       this.stripeConnect &&
-      this.stripeConnect.chargesEnabled &&
+      // this.stripeConnect.chargesEnabled &&
       this.stripeConnect.capabilities &&
       this.stripeConnect.capabilities.transfers === 'active'
     )

@@ -152,6 +152,7 @@ const InitialAccountSetupView = (props) => {
                 <div style={{ marginBottom: 5 }}>
                   <label className="checkbox">
                     <input
+                      style={{ marginRight: 4 }}
                       value={isNinteenPlus}
                       onChange={(e) => setNinteenPlus(!isNinteenPlus)}
                       type="checkbox"
@@ -162,6 +163,7 @@ const InitialAccountSetupView = (props) => {
                 <div style={{ marginBottom: 5 }}>
                   <label className="checkbox">
                     <input
+                      style={{ marginRight: 4 }}
                       value={isCanadian}
                       onChange={(e) => setCanadian(!isCanadian)}
                       type="checkbox"
@@ -173,6 +175,7 @@ const InitialAccountSetupView = (props) => {
                 <div style={{ marginBottom: 5 }}>
                   <label className="checkbox">
                     <input
+                      style={{ marginRight: 4 }}
                       onChange={() => setHasAgreedToTos(!hasAgreedToTOS)}
                       type="checkbox"
                       value={hasAgreedToTOS}
