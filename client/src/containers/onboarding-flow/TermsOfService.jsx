@@ -13,13 +13,33 @@ export default class TermsOfService extends React.Component {
                 <div className="hero-body has-text-centered">
                   <div className="container">
                     <h1 className="title">BIDORBOO Inc</h1>
-                    <h2 className="subtitle">Terms Of Service And Privacy Policy Agreements</h2>
+                    <h2 className="subtitle">
+                      <a className="has-text-link has-text-weight-semibold" href="#TermsOfService">
+                        Terms Of Service
+                      </a>{' '}
+                      And{' '}
+                      <a className="has-text-link has-text-weight-semibold" href="#PrivacyPolicy">
+                        Privacy Policy
+                      </a>{' '}
+                      Agreements
+                    </h2>
                   </div>
                 </div>
               </section>
+
+              <section className="hero is-info is-small">
+                <div className="hero-body has-text-centered">
+                  <div className="container">
+                    <a className="title" name="TermsOfService">
+                      Privacy Policy
+                    </a>
+                  </div>
+                </div>
+              </section>
+
               <TOS></TOS>
 
-              <section className="hero is-white">
+              <section className="hero is-info is-small">
                 <div className="hero-body has-text-centered">
                   <div className="container">
                     <a className="title" name="PrivacyPolicy">
@@ -40,7 +60,7 @@ export default class TermsOfService extends React.Component {
 const POS = () => {
   return (
     <div>
-      <p>{/* <strong>PRIVACY POLICY</strong> */}</p>
+      <p>Terms Of Servic Agreement</p>
       <p>&nbsp;</p>
       <p>
         BIDORBOO INC., and its affiliates or corporate partners, ("
