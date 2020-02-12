@@ -59,7 +59,7 @@ module.exports = () => {
         '0 0 */12 * * *',
         () => {
           console.log(
-            'start running cron request: InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct '
+            'start running cron request: InformRequesterThatMoneyWillBeAutoTransferredIfTheyDontAct'
           );
 
           requestDataAccess.BidOrBooAdmin.nagRequesterToConfirmRequest();
@@ -78,7 +78,7 @@ module.exports = () => {
       new CronJob(
         '0 0 */12 * * *',
         () => {
-          console.log('start running cron request: archiveAfter5Days ');
+          console.log('start running cron request: archiveAfter5Days');
 
           requestDataAccess.BidOrBooAdmin.archiveAfter5Days();
         },

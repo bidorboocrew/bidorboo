@@ -192,7 +192,6 @@ exports.requestDataAccess = {
                 startingDateAndTime,
                 requestTemplateDisplayTitle,
                 requestTitle,
-                isHappeningSoon,
               } = request;
               const ownerDetails = request._ownerRef;
               const ownerEmailAddress =
