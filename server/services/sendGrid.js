@@ -15,7 +15,7 @@ exports.EmailService = {
       toDisplayName,
       from: 'bidorboo@bidorboo.ca',
       subject: `Email Verification Code`,
-      text: `Your BidOrBoo Email Verification Code is inside`,
+      text: `BidOrBoo Email Verification Code is ${emailVerificationCode}`,
       html: populateHtmlTemplate({
         toDisplayName,
         contentHtml: `
@@ -23,7 +23,7 @@ exports.EmailService = {
         <p><strong>${emailVerificationCode}</strong></p>
         `,
         clickLink: 'https://www.bidoroboo.ca/my-profile/basic-settings',
-        clickDisplayName: 'Verify Email',
+        clickDisplayName: 'Go To BidOrBoo',
       }),
     };
 
@@ -650,7 +650,7 @@ exports.EmailService = {
     details,
     userIdWhoFiledDispute,
   }) => {
-    console.log("EMAIL- informBobCrewAboutDispute")
+    console.log('EMAIL- informBobCrewAboutDispute');
 
     const msg = {
       to: 'bidorboo@bidorboo.ca',
@@ -705,7 +705,7 @@ exports.EmailService = {
   },
 
   informBobCrewAboutSuccessPayment: ({ requestId, paymentDetails }) => {
-    console.log("EMAIL- informBobCrewAboutSuccessPayment")
+    console.log('EMAIL- informBobCrewAboutSuccessPayment');
 
     const msg = {
       to: 'bidorboo@bidorboo.ca',
@@ -723,7 +723,7 @@ exports.EmailService = {
   },
 
   informBobCrewAboutFailedImportantStuff: (methodName, details) => {
-    console.log("EMAIL- informBobCrewAboutFailedImportantStuff")
+    console.log('EMAIL- informBobCrewAboutFailedImportantStuff');
     const msg = {
       to: 'bidorboocrew@gmail.com',
       from: 'bidorboo@bidorboo.ca',
