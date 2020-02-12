@@ -164,7 +164,16 @@ class Step4 extends React.Component {
     return (
       <div style={{ position: 'relative' }}>
         <div className="title has-text-centered">BidOrBoo</div>
-        <div className="subtitle has-text-centered">Terms Of Use | Privacy Policy</div>
+        <div className="has-text-centered">
+          <a
+            className="subtitle"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => switchRoute(`${ROUTES.CLIENT.TOS}`)}
+          >
+            Terms Of Service | Privacy Policy
+          </a>
+        </div>
         <div className="slide-in-right field">
           <div style={{ padding: '0.5rem' }} className="group">
             <div className="control">
@@ -176,8 +185,12 @@ class Step4 extends React.Component {
                   value={hasAgreedToTOS}
                 />
                 {` I confirm that I have read and agreed to`}
-                <a target="_blank" rel="noopener noreferrer" href={`${ROUTES.CLIENT.TOS}`}>
-                  {` Terms Of Service And Privacy Policy `}
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => switchRoute(`${ROUTES.CLIENT.TOS}`)}
+                >
+                  {` Terms Of Service And Privacy Policy Agreements`}
                 </a>
               </label>
               {tosError && (

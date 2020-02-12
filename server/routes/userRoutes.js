@@ -3,12 +3,12 @@ const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
 const { encryptData } = require('../utils/utilities');
 const { celebrate } = require('celebrate');
 const requireUserHasAStripeAccountOrInitalizeOne = require('../middleware/requireUserHasAStripeAccountOrInitalizeOne');
-const stripeServiceUtil = require('../services/stripeService').util;
-const { bugsnagClient } = require('../index');
+// const stripeServiceUtil = require('../services/stripeService').util;
+const bugsnagClient = require('../index').bugsnagClient;
 const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 const utils = require('../utils/utilities');
-const { requestDataAccess } = require('../data-access/requestDataAccess');
+// const { requestDataAccess } = require('../data-access/requestDataAccess');
 const {
   resetPasswordReqSchema,
   verifyViaCode,

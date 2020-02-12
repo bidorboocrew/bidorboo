@@ -2,7 +2,7 @@ const passport = require('passport');
 const ROUTES = require('../backend-route-constants');
 const LocalStrategy = require('passport-local').Strategy;
 const uuidv4 = require('uuid/v4');
-const { bugsnagClient } = require('../index');
+const bugsnagClient = require('../index').bugsnagClient;
 const userDataAccess = require('../data-access/userDataAccess');
 
 const keys = require('../config/keys');

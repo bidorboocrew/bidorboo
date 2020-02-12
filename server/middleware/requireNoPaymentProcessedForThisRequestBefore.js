@@ -7,7 +7,7 @@ const WebPushNotifications = require('../services/WebPushNotifications').WebPush
 
 const getAllContactDetails = require('../utils/commonDataUtils')
   .getAwardedRequestOwnerTaskerAndRelevantNotificationDetails;
-  const { bugsnagClient } = require('../index');
+  const bugsnagClient = require('../index').bugsnagClient;
 
 module.exports = async (req, res, next) => {
   try {

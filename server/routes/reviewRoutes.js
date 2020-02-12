@@ -1,5 +1,5 @@
 const { celebrate } = require('celebrate');
-const { bugsnagClient } = require('../index');
+const bugsnagClient = require('../index').bugsnagClient;
 const { requesterSubmitReview, taskerSubmitReview } = require('../routeSchemas/reviewRoutesSchema');
 
 const { requestDataAccess } = require('../data-access/requestDataAccess');

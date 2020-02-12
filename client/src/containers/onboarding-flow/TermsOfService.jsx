@@ -31,7 +31,7 @@ export default class TermsOfService extends React.Component {
                 <div className="hero-body has-text-centered">
                   <div className="container">
                     <a className="title" name="TermsOfService">
-                      Privacy Policy
+                      Terms Of Service
                     </a>
                   </div>
                 </div>

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const User = mongoose.model('UserModel');
 const sendGridEmailing = require('../services/sendGrid').EmailService;
 const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
-const { bugsnagClient } = require('../index');
+const bugsnagClient = require('../index').bugsnagClient;
 
 exports.updateStripeAccountRequirementsDetails = ({
   eventId,

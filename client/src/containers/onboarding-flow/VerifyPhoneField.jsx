@@ -81,7 +81,7 @@ class VerifyPhoneField extends React.Component {
         <div>
           {editPhoneNumber && (
             <button
-              style={{ marginRight: 6 }}
+              style={{ marginRight: 6, boxShadow: 'none' }}
               onClick={editPhoneNumber}
               className="button is-light"
             >

@@ -1,7 +1,7 @@
 // emailing services
 const keys = require('../config/keys');
 const twilio = require('twilio');
-const { bugsnagClient } = require('../index');
+const bugsnagClient = require('../index').bugsnagClient;
 const client = new twilio(keys.twilioAccountSid, keys.twilioAuthToken);
 
 exports.TxtMsgingService = {
