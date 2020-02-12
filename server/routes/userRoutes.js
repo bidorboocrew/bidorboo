@@ -4,7 +4,7 @@ const { encryptData } = require('../utils/utilities');
 const { celebrate } = require('celebrate');
 const requireUserHasAStripeAccountOrInitalizeOne = require('../middleware/requireUserHasAStripeAccountOrInitalizeOne');
 const stripeServiceUtil = require('../services/stripeService').util;
-
+const { bugsnagClient } = require('../index');
 const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 const utils = require('../utils/utilities');
@@ -57,6 +57,8 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg =
           "unexpected error occurred.We couldn't update your password, You can Chat with our customer support for further help";
         return next(e);
@@ -87,6 +89,8 @@ module.exports = (app) => {
           return res.send({ success: false });
         }
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = 'Failed To verify Email';
         return next(e);
       }
@@ -121,6 +125,8 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = 'Failed To verify Phone';
         return next(e);
       }
@@ -149,6 +155,8 @@ module.exports = (app) => {
         });
       }
     } catch (e) {
+      bugsnagClient.notify(e);
+
       e.safeMsg = 'Failed To send verification email';
       return next(e);
     }
@@ -177,6 +185,8 @@ module.exports = (app) => {
         });
       }
     } catch (e) {
+      bugsnagClient.notify(e);
+
       e.safeMsg = 'Failed To send verification message';
       return next(e);
     }
@@ -211,6 +221,8 @@ module.exports = (app) => {
           });
         }
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg =
           'unexpected error occurred while sending Verification Email, You can Chat with our customer support for further help';
         return next(e);
@@ -229,6 +241,8 @@ module.exports = (app) => {
       }
       return res.send({});
     } catch (e) {
+      bugsnagClient.notify(e);
+
       e.safeMsg = 'Failed To get your user details';
       return next(e);
       // return res.status(400).send({ errorMsg: 'Failed To get current user', details: `${e}` });
@@ -249,6 +263,8 @@ module.exports = (app) => {
 
         return res.send({});
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = 'Failed To get user public details';
         return next(e);
       }
@@ -271,6 +287,8 @@ module.exports = (app) => {
         await userDataAccess.updateNotificationSettings(userId, notificationSettings);
         return res.send({ success: true });
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = 'Failed To get notification settings';
         return next(e);
       }
@@ -297,6 +315,8 @@ module.exports = (app) => {
 
         next();
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = 'Failed To update update Onboarding Details';
         return next(e);
       }
@@ -326,6 +346,8 @@ module.exports = (app) => {
         );
         return res.send(userAfterUpdates);
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = 'Failed To update update user Details';
         return next(e);
       }
@@ -343,6 +365,8 @@ module.exports = (app) => {
         await userDataAccess.updateUserAppView(userId, appViewId);
         return res.send({ success: true });
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = 'Failed To update update user app view';
         return next(e);
       }
@@ -364,6 +388,8 @@ module.exports = (app) => {
               newUserProfilePicImg = { secure_url, public_id };
             }
           } catch (e) {
+            bugsnagClient.notify(e);
+
             e.safeMsg = 'Failed To upload user profile picture';
             return next(e);
           }
@@ -402,6 +428,8 @@ module.exports = (app) => {
         });
       }
     } catch (e) {
+      bugsnagClient.notify(e);
+
       e.safeMsg = 'Failed To upload user profile picture';
       return next(e);
     }

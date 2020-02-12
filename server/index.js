@@ -15,28 +15,24 @@ const keys = require('./config/keys');
 const bugsnag = require('@bugsnag/js');
 const bugsnagExpress = require('@bugsnag/plugin-express');
 const bugsnagClient = bugsnag(keys.bugSnagApiKey);
-let bugsnagMiddleware;
-if (process.env.NODE_ENV === 'production') {
-  bugsnagClient.use(bugsnagExpress);
-  bugsnagMiddleware = bugsnagClient.getPlugin('express');
-}
+
+bugsnagClient.use(bugsnagExpress);
+
 // initialize and start mongodb
 require('./services/mongoDB')(process);
 require('./services/passport');
 
 const app = express();
+let bugsnagMiddleware = bugsnagClient.getPlugin('express');
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
-app.use(responseTime());
 
+app.use(bugsnagMiddleware.requestHandler);
+
+app.use(responseTime());
 app.use(expressip().getIpInfoMiddleware);
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(bugsnagMiddleware.requestHandler);
-}
-// initialize bugsnag
-// require('./services/bugSnag')(app);
 // initialize security and compression
 require('./services/SecurityAndCompression')(app);
 // initialize logging
@@ -129,9 +125,7 @@ if (process.env.NODE_ENV === 'development') {
   // only use in development
   app.use(errorhandler());
 }
-if (process.env.NODE_ENV === 'production') {
-  app.use(bugsnagMiddleware.errorHandler);
-}
+
 // serve the static js file
 if (process.env.NODE_ENV === 'production') {
   console.log('IAM NODE process.env.NODE_APP_INSTANCE ' + process.env.NODE_APP_INSTANCE);
@@ -160,3 +154,7 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve(__dirname, '../client', './build', 'index.html'));
   });
 }
+
+app.use(bugsnagMiddleware.errorHandler);
+
+exports.bugsnagClient = bugsnagClient;

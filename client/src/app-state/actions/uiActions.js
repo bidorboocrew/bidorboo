@@ -1,6 +1,7 @@
 import axios from 'axios';
 import * as A from '../actionTypes';
 import * as ROUTES from '../../constants/frontend-route-consts';
+import { getBugsnagClient } from '../../index';
 
 export const showLoginDialog = (shouldOpen) => (dispatch) => {
   dispatch({
@@ -39,7 +40,8 @@ export const setServerAppTaskerView = () => (dispatch, getState) => {
         .put(ROUTES.API.USER.PUT.updateAppView, postData, config)
         .then(() => {})
         .catch((error) => {
-          console.error(`couldn't save user appview + ${error}`);
+          getBugsnagClient().leaveBreadcrumb('couldnt save user appview');
+          getBugsnagClient().notify(error);
         }),
     });
 
@@ -68,7 +70,8 @@ export const setServerAppRequesterView = () => (dispatch, getState) => {
         .put(ROUTES.API.USER.PUT.updateAppView, postData, config)
         .then(() => {})
         .catch((error) => {
-          console.error(`couldn't save user appview + ${error}`);
+          getBugsnagClient().leaveBreadcrumb('couldnt save user appview');
+          getBugsnagClient().notify(error);
         }),
     });
     return dispatch({

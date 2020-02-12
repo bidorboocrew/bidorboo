@@ -1,5 +1,6 @@
 const userDataAccess = require('../data-access/userDataAccess');
 const stripeServiceUtil = require('../services/stripeService').util;
+const { bugsnagClient } = require('../index');
 
 module.exports = async (req, res, next) => {
   try {
@@ -59,6 +60,8 @@ module.exports = async (req, res, next) => {
       return res.status(401).send({ safeMsg: 'you gotta sign in first.' });
     }
   } catch (e) {
+    bugsnagClient.notify(e);
+
     e.safeMsg = 'failed to check for existing stripe account';
     return next(e);
   }

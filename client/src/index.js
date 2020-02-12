@@ -19,9 +19,13 @@ import appHistory from './react-router-history';
 import { registerServiceWorker } from './registerServiceWorker';
 
 window.BidOrBoo = window.BidOrBoo || {};
+let bugsnagClient = {
+  notify: () => null,
+  leaveBreadcrumb: () => null,
+};
 
 if (process.env.NODE_ENV === 'production') {
-  const bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_API_KEY}`);
+  bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_API_KEY}`);
   bugsnagClient.use(bugsnagReact, React);
   const ErrorBoundary = bugsnagClient.getPlugin('react');
   ReactDOM.render(
@@ -50,3 +54,5 @@ if (process.env.NODE_ENV === 'production') {
     document.getElementById('BidOrBoo-app'),
   );
 }
+
+export const getBugsnagClient = () => bugsnagClient;

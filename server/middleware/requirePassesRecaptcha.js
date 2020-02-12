@@ -2,6 +2,7 @@
 const keys = require('../config/keys');
 const Recaptcha = require('recaptcha-verify');
 // skip
+const { bugsnagClient } = require('../index');
 
 const recaptcha = new Recaptcha({
   secret: keys.recaptchaApiKey,
@@ -29,6 +30,8 @@ module.exports = async (req, res, next) => {
     };
     await recaptcha.checkResponse(req.body.recaptchaField, recpatchaAssesmentResponse);
   } catch (e) {
+    bugsnagClient.notify(e);
+
     e.safeMsg = 'Failed To evaluate recaptcha from server';
     return next(e);
   }

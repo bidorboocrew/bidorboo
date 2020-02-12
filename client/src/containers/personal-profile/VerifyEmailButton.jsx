@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
+import { getBugsnagClient } from '../../index';
 import * as A from '../../app-state/actionTypes';
 
 import axios from 'axios';
@@ -43,6 +45,8 @@ class VerifyEmailButton extends React.Component {
           });
         }
       } catch (e) {
+        getBugsnagClient().leaveBreadcrumb('URGENT_Unable to verify your email button');
+        getBugsnagClient().notify(e);
         this.props.dispatch({
           type: A.UI_ACTIONS.SHOW_TOAST_MSG,
           payload: {

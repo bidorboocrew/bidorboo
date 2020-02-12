@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 require('mongoose-geojson-schema');
 const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
 const moment = require('moment-timezone');
+const { bugsnagClient } = require('../index');
 
 const { detroyExistingImg } = require('../utils/utilities');
 
@@ -272,15 +273,17 @@ RequestSchema.pre('remove', async function(next) {
     }
     next();
   } catch (e) {
+    bugsnagClient.notify(e);
+
     e.safeMsg = 'Encountered an error while deleting this request';
     return next(e);
   }
 });
 RequestSchema.on('index', function(err) {
   if (err) {
-      console.error('User index error: %s', err);
+    console.error('User index error: %s', err);
   } else {
-      console.info('User indexing complete');
+    console.info('User indexing complete');
   }
 });
 mongoose.model('RequestModel', RequestSchema);

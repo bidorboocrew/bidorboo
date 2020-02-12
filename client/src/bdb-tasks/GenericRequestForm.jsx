@@ -21,7 +21,7 @@ import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 import TASKS_DEFINITIONS from './tasksDefinitions';
 import UploaderComponent from './UploaderComponent';
-
+import { getBugsnagClient } from '../index';
 import * as A from '../app-state/actionTypes';
 
 // for reverse geocoding , get address from lat lng
@@ -368,8 +368,8 @@ class GenericRequestForm extends React.Component {
                         setFieldValue('location', latLng, true);
                       })
                       .catch((error) => {
-                        errors.addressText = 'error getting lat lng ' + error;
-                        console.error('Error', error);
+                        getBugsnagClient().leaveBreadcrumb('error getting lat lng');
+                        getBugsnagClient().notify(error);
                       });
                   }}
                 />
@@ -910,7 +910,8 @@ const EnhancedForms = withFormik({
           finalImages = resultOfImageUpload.taskImages;
         }
       } catch (e) {
-        console.error('error uploading images');
+        getBugsnagClient().leaveBreadcrumb('error uploading images');
+        getBugsnagClient().notify(e);
       }
     }
 
@@ -940,7 +941,8 @@ const EnhancedForms = withFormik({
         lng = -180;
       }
     } catch (e) {
-      console.error('failed to create location');
+      getBugsnagClient().leaveBreadcrumb('failed to create location');
+      getBugsnagClient().notify(e);
     }
 
     let mappedFieldsToRequestSchema = {

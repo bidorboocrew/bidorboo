@@ -1,4 +1,5 @@
 const { requestDataAccess } = require('../data-access/requestDataAccess');
+const { bugsnagClient } = require('../index');
 
 module.exports = async (req, res, next) => {
   try {
@@ -27,6 +28,8 @@ module.exports = async (req, res, next) => {
         .send({ safeMsg: 'only the request Owner can perform this operation.' });
     }
   } catch (e) {
+    bugsnagClient.notify(e);
+
     e.safeMsg = 'failed to validate is request owner';
     return next(e);
   }

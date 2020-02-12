@@ -1,4 +1,5 @@
 const { requestDataAccess } = require('../data-access/requestDataAccess');
+const { bugsnagClient } = require('../index');
 
 module.exports = async (req, res, next) => {
   try {
@@ -51,8 +52,9 @@ module.exports = async (req, res, next) => {
     };
     next();
   } catch (e) {
-    e.safeMsg =
-      'some error occurred, You can Chat with our customer support for further help';
+    bugsnagClient.notify(e);
+
+    e.safeMsg = 'some error occurred, You can Chat with our customer support for further help';
     return next(e);
   }
 };

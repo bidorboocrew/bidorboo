@@ -4,13 +4,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getCurrentUser } from './app-state/actions/authActions';
-import * as ROUTES from './constants/frontend-route-consts';
-import { switchRoute } from './utils';
 import { Spinner } from './components/Spinner';
 import { Header } from './containers/index';
 
 import Pre_LoggedOut_1_CheckValidRoutes from './Pre_LoggedOut_1_CheckValidRoutes';
 import Pre_LoggedIn_1_HandleOnBoarding from './Pre_LoggedIn_1_HandleOnBoarding';
+import { getBugsnagClient } from './index';
 
 import {
   setAppViewUIToRequester,
@@ -27,11 +26,11 @@ class Pre_AuthInProgress extends React.PureComponent {
   }
 
   componentDidCatch(error, info) {
-    console.error('bdb error details ' + error);
-    console.error('failure info ' + info);
+    getBugsnagClient().leaveBreadcrumb('componentDidCatch Pre_authInProgress', { debugInfo: info });
+    getBugsnagClient().notify(error);
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError() {
     // Update state so the next render will show the fallback UI.
     return { hasError: true };
   }

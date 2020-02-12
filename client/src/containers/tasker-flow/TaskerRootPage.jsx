@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Collapse } from 'react-collapse';
 import ShareButtons from '../ShareButtons.jsx';
-
+import { getBugsnagClient } from '../../index';
 import { getCurrentUser } from '../../app-state/actions/authActions';
 
 import { searchRequestsToBidOn } from '../../app-state/actions/requestActions';
@@ -186,7 +186,8 @@ class TaskerRootPage extends React.Component {
               );
             }
           } catch (e) {
-            console.error(e);
+            getBugsnagClient().leaveBreadcrumb('tasker root page');
+            getBugsnagClient().notify(e);
           }
         }
       }

@@ -1,5 +1,5 @@
 const { celebrate } = require('celebrate');
-
+const { bugsnagClient } = require('../index');
 const { requesterSubmitReview, taskerSubmitReview } = require('../routeSchemas/reviewRoutesSchema');
 
 const { requestDataAccess } = require('../data-access/requestDataAccess');
@@ -95,6 +95,8 @@ module.exports = (app) => {
 
         return res.send({ success: true, message: 'Requester Review submitted successfully' });
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = 'Failed To submit review';
         return next(e);
       }
@@ -177,6 +179,8 @@ module.exports = (app) => {
 
         return res.send({ success: true, message: "Tasker's Review submitted successfully" });
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = 'Failed To submit  review';
         return next(e);
       }

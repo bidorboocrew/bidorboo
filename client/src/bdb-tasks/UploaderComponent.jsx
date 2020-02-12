@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom';
 // https://github.com/blueimp/JavaScript-Load-Image#api
 import loadImage from 'blueimp-load-image';
 import 'cropperjs/dist/cropper.css';
-
+import { getBugsnagClient } from '../index';
 const MAX_FILE_SIZE_IN_MB = 1000000 * 10; //10MB
 
 class UploaderComponent extends React.Component {
@@ -88,7 +88,8 @@ class UploaderComponent extends React.Component {
       // write the ArrayBuffer to a blob, and you're done
       return new Blob([ab], { type: mimeString });
     } catch (e) {
-      console.error('error parsing img ' + e);
+      getBugsnagClient().leaveBreadcrumb('error parsing img');
+      getBugsnagClient().notify(e);
     }
   };
 

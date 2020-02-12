@@ -37,7 +37,7 @@ import {
   TaskerMyDisputedResolvedBidDetails,
   TaskerMyDisputedResolvedBidSummary,
 } from './index';
-
+import { getBugsnagClient } from '../index';
 export { POINT_OF_VIEW };
 export { REQUEST_STATES };
 
@@ -273,7 +273,10 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
           });
           return card;
         } catch (e) {
-          console.error(e + ' Error Loading getTaskerBidCard REQUEST_STATES.OPEN: Card ');
+          getBugsnagClient().leaveBreadcrumb(
+            'Error Loading getTaskerBidCard REQUEST_STATES.OPEN: Card',
+          );
+          getBugsnagClient().notify(e);
         }
         break;
       case REQUEST_STATES.AWARDED_SEEN:
@@ -289,7 +292,10 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
           });
           return card;
         } catch (e) {
-          console.error(e + ' Error Loading getTaskerBidCard REQUEST_STATES.AWARDED: Card ');
+          getBugsnagClient().leaveBreadcrumb(
+            ' Error Loading getTaskerBidCard REQUEST_STATES.AWARDED: Card',
+          );
+          getBugsnagClient().notify(e);
         }
         break;
       case REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_REQUESTER_SEEN:
@@ -305,10 +311,10 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
           });
           return card;
         } catch (e) {
-          console.error(
-            e +
-              ' Error Loading getTaskerBidCard REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_REQUESTER: Card ',
+          getBugsnagClient().leaveBreadcrumb(
+            ' Error Loading getTaskerBidCard REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_REQUESTER: Card',
           );
+          getBugsnagClient().notify(e);
         }
         break;
       case REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_TASKER_SEEN:
@@ -324,10 +330,10 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
           });
           return card;
         } catch (e) {
-          console.error(
-            e +
-              ' Error Loading getTaskerBidCard REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_TASKER: Card ',
+          getBugsnagClient().leaveBreadcrumb(
+            ' Error Loading getTaskerBidCard REQUEST_STATES.AWARDED_REQUEST_CANCELED_BY_TASKER: Card',
           );
+          getBugsnagClient().notify(e);
         }
         break;
       case REQUEST_STATES.DONE_SEEN:
@@ -343,7 +349,10 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
           });
           return card;
         } catch (e) {
-          console.error(e + ' Error Loading getTaskerBidCard REQUEST_STATES.DONE: Card ');
+          getBugsnagClient().leaveBreadcrumb(
+            '  Error Loading getTaskerBidCard REQUEST_STATES.DONE: Card',
+          );
+          getBugsnagClient().notify(e);
         }
       case REQUEST_STATES.ARCHIVE:
         try {
@@ -357,7 +366,10 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
           });
           return card;
         } catch (e) {
-          console.error(e + ' Error Loading getTaskerBidCard REQUEST_STATES.DONE: Card ');
+          getBugsnagClient().leaveBreadcrumb(
+            'Error Loading getTaskerBidCard REQUEST_STATES.DONE: Card',
+          );
+          getBugsnagClient().notify(e);
         }
       case REQUEST_STATES.DISPUTED:
         try {
@@ -371,28 +383,33 @@ const getTaskerBidCard = (bid, isSummaryView, otherArgs) => {
           });
           return card;
         } catch (e) {
-          console.error(e + ' Error Loading getTaskerBidCard REQUEST_STATES.DONE: Card ');
+          getBugsnagClient().leaveBreadcrumb(
+            'Error Loading getTaskerBidCard REQUEST_STATES.DONE: Card',
+          );
+          getBugsnagClient().notify(e);
         }
       default:
         return <div>default unknown getTaskerBidCard state {state}</div>;
     }
   } catch (e) {
-    console.error(e + ' Error Loading Tasker Card ' + state);
+    getBugsnagClient().leaveBreadcrumb('Error Loading Tasker Card ' + state);
+    getBugsnagClient().notify(e);
+
     return <div>Error Loading Tasker Card </div>;
   }
 };
 
 export const getMeTheRightBidCard = ({ bid, isSummaryView, ...otherArgs }) => {
   if (!bid || !bid._id) {
-    console.error('no bid passed in');
+    getBugsnagClient().notify(new Error('no bid passed in'));
     return null; //return
   }
   if (isSummaryView === undefined) {
-    console.error('Summary was not  passed in');
+    getBugsnagClient().notify(new Error('Summary was not  passed in'));
     return;
   }
   if (!bid._requestRef) {
-    console.error('no associated request for this bid passed in');
+    getBugsnagClient().notify(new Error('no associated request for this bid passed in'));
     return; //return
   }
   return getTaskerBidCard(bid, isSummaryView, otherArgs);
@@ -400,11 +417,12 @@ export const getMeTheRightBidCard = ({ bid, isSummaryView, ...otherArgs }) => {
 
 export const getMeTheRightRequestCard = ({ request, isSummaryView, pointOfView, ...otherArgs }) => {
   if (!request || !request.templateId) {
-    console.error('no request passed in');
+    getBugsnagClient().notify(new Error('no request passed in'));
     return null; //return
   }
   if (isSummaryView === undefined || pointOfView === undefined) {
-    console.error('Summary or Point ofView was not  passed in');
+    getBugsnagClient().notify(new Error('Summary or Point ofView was not  passed in'));
+
     return;
   }
   const { state } = request;
@@ -418,7 +436,8 @@ export const getMeTheRightRequestCard = ({ request, isSummaryView, pointOfView, 
       });
       return card || <div>This type ain't found</div>;
     } catch (e) {
-      console.error(e + ' Error Loading Requester Card ' + state);
+      getBugsnagClient().leaveBreadcrumb('Error Loading Requester Card');
+      getBugsnagClient().notify(e);
       return <div>Error Loading Requester Card </div>;
     }
   }
@@ -433,7 +452,8 @@ export const getMeTheRightRequestCard = ({ request, isSummaryView, pointOfView, 
       });
       return card || <div>This type ain't found</div>;
     } catch (e) {
-      console.error(e + ' Error Loading Requester Card ' + state);
+      getBugsnagClient().leaveBreadcrumb(' Error Loading Requester Card ' + state);
+      getBugsnagClient().notify(e);
       return <div>Error Loading Requester Card </div>;
     }
   }

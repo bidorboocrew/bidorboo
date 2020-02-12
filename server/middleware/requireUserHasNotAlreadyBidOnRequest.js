@@ -1,4 +1,5 @@
 const { requestDataAccess } = require('../data-access/requestDataAccess');
+const { bugsnagClient } = require('../index');
 
 module.exports = async (req, res, next) => {
   try {
@@ -22,6 +23,8 @@ module.exports = async (req, res, next) => {
       }
     }
   } catch (e) {
+    bugsnagClient.notify(e);
+
     e.safeMsg = 'Sorry , try to refresh the page and place your bid again.';
     return next(e);
   }

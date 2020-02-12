@@ -1,5 +1,5 @@
 const ROUTES = require('../backend-route-constants');
-
+const { bugsnagClient } = require('../index');
 const webpush = require('web-push');
 const keys = require('../config/keys');
 const userDataAccess = require('../data-access/userDataAccess');
@@ -7,7 +7,11 @@ module.exports = (app) => {
   let subscription;
   let pushIntervalID;
 
-  webpush.setVapidDetails('mailto:bidorboo@bidorboo.ca', keys.vapidPublicApiKey, keys.vapidPrivateApiKey);
+  webpush.setVapidDetails(
+    'mailto:bidorboo@bidorboo.ca',
+    keys.vapidPublicApiKey,
+    keys.vapidPrivateApiKey
+  );
 
   // app.post(ROUTES.API.PUSH.POST.pushNotification, async (req, res, next) => {
   //   try {
@@ -60,6 +64,8 @@ module.exports = (app) => {
       });
       return res.status(201).json({ success: true });
     } catch (e) {
+      bugsnagClient.notify(e);
+
       e.safeMsg = 'Failed To register push notifications';
       return next(e);
     }

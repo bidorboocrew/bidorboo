@@ -2,7 +2,7 @@ const passport = require('passport');
 const ROUTES = require('../backend-route-constants');
 const LocalStrategy = require('passport-local').Strategy;
 const uuidv4 = require('uuid/v4');
-
+const { bugsnagClient } = require('../index');
 const userDataAccess = require('../data-access/userDataAccess');
 
 const keys = require('../config/keys');
@@ -20,6 +20,8 @@ passport.deserializeUser(async (id, done) => {
     const user = await userDataAccess.findSessionUserById(id);
     return done(null, user);
   } catch (e) {
+    bugsnagClient.notify(e);
+
     return done(e, null);
   }
 });
@@ -75,6 +77,8 @@ passport.use(
 
         return done(null, user);
       } catch (e) {
+        bugsnagClient.notify(e);
+
         return done(e, null);
       }
     }
@@ -128,6 +132,8 @@ passport.use(
 
         return done(null, user);
       } catch (e) {
+        bugsnagClient.notify(e);
+
         return done(e, null);
       }
     }

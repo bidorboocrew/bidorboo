@@ -2,6 +2,7 @@
 const keys = require('../config/keys');
 const stripe = require('stripe')(keys.stripeSecretKey);
 const moment = require('moment');
+const { bugsnagClient } = require('../index');
 // // XXXXXX RELEASE THE FUNDS
 // const payoutConfirmation = await stripeServiceUtil.payoutToBank('acct_1DxRCzFZom4pltNY', {
 //   amount: requestDetails.processedPayment.taskerPayout,
@@ -279,6 +280,8 @@ exports.util = {
 
         resolve(accountBalanceDetails);
       } catch (e) {
+        bugsnagClient.notify(e);
+
         reject(e);
       }
     });
@@ -346,6 +349,8 @@ exports.util = {
         const account = await stripe.accounts.create(accountDetails);
         resolve(account);
       } catch (e) {
+        bugsnagClient.notify(e);
+
         reject(e);
       }
     });

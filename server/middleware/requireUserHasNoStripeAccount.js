@@ -1,4 +1,5 @@
 const { getUserStripeAccount } = require('../data-access/userDataAccess');
+const { bugsnagClient } = require('../index');
 
 module.exports = async (req, res, next) => {
   try {
@@ -15,6 +16,8 @@ module.exports = async (req, res, next) => {
       return res.status(401).send({ safeMsg: 'you gotta sign in first.' });
     }
   } catch (e) {
+    bugsnagClient.notify(e);
+
     e.safeMsg = 'failed to check for existing account';
     return next(e);
   }

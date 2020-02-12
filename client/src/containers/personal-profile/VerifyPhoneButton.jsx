@@ -6,6 +6,7 @@ import * as A from '../../app-state/actionTypes';
 
 import { bindActionCreators } from 'redux';
 import axios from 'axios';
+import { getBugsnagClient } from '../../index';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
 
@@ -42,6 +43,8 @@ class VerifyPhoneButton extends React.Component {
           });
         }
       } catch (e) {
+        getBugsnagClient().leaveBreadcrumb('URGENT_Unable to verify your phone button');
+        getBugsnagClient().notify(e);
         dispatch({
           type: A.UI_ACTIONS.SHOW_TOAST_MSG,
           payload: {

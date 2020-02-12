@@ -1,4 +1,5 @@
 const userDataAccess = require('../data-access/userDataAccess');
+const { bugsnagClient } = require('../index');
 
 module.exports = async (req, res, next) => {
   try {
@@ -17,6 +18,8 @@ module.exports = async (req, res, next) => {
       return res.status(401).send({ errorMsg: 'You must be logged in to perform this action' });
     }
   } catch (e) {
+    bugsnagClient.notify(e);
+
     e.safeMsg = 'failed to validate is uesr ability to bid';
     return next(e);
   }

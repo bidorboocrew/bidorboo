@@ -2,7 +2,7 @@
 
 const keys = require('../config/keys');
 const webpush = require('web-push');
-
+const { bugsnagClient } = require('../index');
 webpush.setVapidDetails(
   'mailto:bidorboo@bidorboo.ca',
   keys.vapidPublicApiKey,
@@ -34,6 +34,8 @@ exports.WebPushNotifications = {
         return { success: false, errorMsg: 'This user has not subscribed' };
       }
     } catch (e) {
+      bugsnagClient.notify(e);
+
       return e;
     }
   },
@@ -62,6 +64,8 @@ exports.WebPushNotifications = {
         return { success: false, errorMsg: 'This user has not subscribed' };
       }
     } catch (e) {
+      bugsnagClient.notify(e);
+
       return e;
     }
   },
@@ -86,6 +90,8 @@ exports.WebPushNotifications = {
         return { success: false, errorMsg: 'This user has not subscribed' };
       }
     } catch (e) {
+      bugsnagClient.notify(e);
+
       console.log('BIDORBOO_ERROR: WEBPUSH ISSUE ' + JSON.stringify(e));
       return e;
     }
@@ -111,6 +117,8 @@ exports.WebPushNotifications = {
         return { success: false, errorMsg: 'This user has not subscribed' };
       }
     } catch (e) {
+      bugsnagClient.notify(e);
+
       return e;
     }
   },
@@ -138,6 +146,8 @@ exports.WebPushNotifications = {
         return { success: false, errorMsg: 'This user has not subscribed' };
       }
     } catch (e) {
+      bugsnagClient.notify(e);
+
       return e;
     }
   },
@@ -165,6 +175,8 @@ exports.WebPushNotifications = {
         return { success: false, errorMsg: 'This user has not subscribed' };
       }
     } catch (e) {
+      bugsnagClient.notify(e);
+
       return e;
     }
   },
@@ -193,6 +205,8 @@ exports.WebPushNotifications = {
         return { success: false, errorMsg: 'This user has not subscribed' };
       }
     } catch (e) {
+      bugsnagClient.notify(e);
+
       return e;
     }
   },
@@ -220,6 +234,8 @@ exports.WebPushNotifications = {
         return { success: false, errorMsg: 'This user has not subscribed' };
       }
     } catch (e) {
+      bugsnagClient.notify(e);
+
       return e;
     }
   },
@@ -247,6 +263,8 @@ exports.WebPushNotifications = {
         return { success: false, errorMsg: 'This user has not subscribed' };
       }
     } catch (e) {
+      bugsnagClient.notify(e);
+
       return e;
     }
   },
@@ -271,6 +289,8 @@ exports.WebPushNotifications = {
         return { success: false, errorMsg: 'This user has not subscribed' };
       }
     } catch (e) {
+      bugsnagClient.notify(e);
+
       return e;
     }
   },

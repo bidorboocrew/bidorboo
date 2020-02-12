@@ -3,8 +3,7 @@ const mongoose = require('mongoose');
 const User = mongoose.model('UserModel');
 const sendGridEmailing = require('../services/sendGrid').EmailService;
 const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
-// const moment = require('moment');
-const stripeServiceUtil = require('../services/stripeService').util;
+const { bugsnagClient } = require('../index');
 
 exports.updateStripeAccountRequirementsDetails = ({
   eventId,
@@ -149,6 +148,8 @@ exports.findUserPublicDetails = (mongoUser_id) => {
       }
       return {};
     } catch (e) {
+      bugsnagClient.notify(e);
+
       reject(e);
     }
   });
@@ -292,6 +293,8 @@ exports.findUserAndAllNewNotifications = async (mongoUserId) => {
         z_notify_myBidsWithNewStatus,
       });
     } catch (e) {
+      bugsnagClient.notify(e);
+
       reject(e);
     }
   });
@@ -325,6 +328,8 @@ exports.resetAndSendPhoneVerificationPin = (userId, phoneNumber) => {
       sendTextService.verifyPhone(updatedUser.phone.phoneNumber);
       resolve({ success: true, updatedUser: updatedUser });
     } catch (e) {
+      bugsnagClient.notify(e);
+
       reject({ error: e, success: true });
     }
   });
@@ -362,6 +367,8 @@ exports.resetAndSendEmailVerificationCode = (userId, emailAddress) => {
 
       resolve({ success: true });
     } catch (e) {
+      bugsnagClient.notify(e);
+
       reject({ error: e, success: false });
     }
   });
@@ -384,6 +391,8 @@ exports.createNewUser = async (userDetails) => {
 
       resolve(newUser.toObject());
     } catch (e) {
+      bugsnagClient.notify(e);
+
       reject(e);
     }
   });
@@ -452,6 +461,8 @@ exports.updateUserLastSearchDetails = (
 
       resolve(updatedUser);
     } catch (e) {
+      bugsnagClient.notify(e);
+
       reject(e);
     }
   });
@@ -511,6 +522,8 @@ exports.updateUserProfileDetails = (userId, userDetails) => {
 
       resolve(updatedUser);
     } catch (e) {
+      bugsnagClient.notify(e);
+
       reject(e);
     }
   });
@@ -622,6 +635,8 @@ exports.getUserStripeAccount = async (mongoUser_id) => {
         .exec();
       resolve(user.stripeConnect);
     } catch (e) {
+      bugsnagClient.notify(e);
+
       reject(e);
     }
   });

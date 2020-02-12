@@ -1,7 +1,7 @@
 // emailing services
 const keys = require('../config/keys');
 const twilio = require('twilio');
-
+const { bugsnagClient } = require('../index');
 const client = new twilio(keys.twilioAccountSid, keys.twilioAuthToken);
 
 exports.TxtMsgingService = {
@@ -93,6 +93,8 @@ exports.TxtMsgingService = {
         .services(keys.twilioVerificationServiceSid)
         .verifications.create({ to: `${mobileNumber}`, channel: 'sms' });
     } catch (e) {
+      bugsnagClient.notify(e);
+
       console.log(`BIDORBOOLOGS======== twilio send verifyPhone issue ${e}`);
     }
   },
@@ -104,6 +106,8 @@ exports.TxtMsgingService = {
         .verificationChecks.create({ code, to: `${mobileNumber}` });
       return resp;
     } catch (e) {
+      bugsnagClient.notify(e);
+
       console.log(`BIDORBOOLOGS======== twilio verfy code issue ${e}`);
     }
   },

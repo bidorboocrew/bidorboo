@@ -2,6 +2,8 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import axios from 'axios';
 import { connect } from 'react-redux';
+
+import { getBugsnagClient } from '../../index';
 import * as A from '../../app-state/actionTypes';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -23,6 +25,8 @@ class VerifyPhoneField extends React.Component {
         await axios.post(ROUTES.API.USER.POST.resendVerificationMsg);
         this.setState({ isResendingVCode: false, inputCodeContent: '' });
       } catch (e) {
+        getBugsnagClient().leaveBreadcrumb('URGENT_Unable to verify your phone');
+        getBugsnagClient().notify(e);
         this.props.dispatch({
           type: A.UI_ACTIONS.SHOW_TOAST_MSG,
           payload: {

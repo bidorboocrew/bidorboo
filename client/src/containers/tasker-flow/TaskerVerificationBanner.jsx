@@ -9,6 +9,7 @@ import { switchRoute } from '../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import TaskerSetupForm from '../../components/forms/TaskerSetupForm';
 import * as A from '../../app-state/actionTypes';
+import { getBugsnagClient } from '../../index';
 
 class TaskerVerificationBanner extends React.Component {
   constructor(props) {
@@ -33,12 +34,14 @@ class TaskerVerificationBanner extends React.Component {
           window.location = data.accountLinkUrl;
         }
       } catch (e) {
+        getBugsnagClient().leaveBreadcrumb('sorry we couldnt establish connection with stripe');
+        getBugsnagClient().notify(e);
         dispatch({
           type: A.UI_ACTIONS.SHOW_TOAST_MSG,
           payload: {
             toastDetails: {
               type: 'error',
-              msg: `sorry we couldn't establish connection with stripe`,
+              msg: `sorry we couldn't establish connection with stripe, try again later or `,
             },
           },
         });
@@ -56,7 +59,10 @@ class TaskerVerificationBanner extends React.Component {
           window.location = data.accountLinkUrl;
         }
       } catch (e) {
-        console.error(`sorry we couldn't establish connection with stripe`);
+        getBugsnagClient().leaveBreadcrumb(
+          'updateTaskerProfile, sorry we couldnt establish connection with stripe',
+        );
+        getBugsnagClient().notify(e);
       }
     });
   };
@@ -195,7 +201,7 @@ class TaskerVerificationBanner extends React.Component {
         );
       } else if (showAddExternalBankAcc) {
         // we dont wana bug them too much
-        return null
+        return null;
         return (
           <section
             id="bob-taskerVerificationBanner"

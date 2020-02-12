@@ -1,4 +1,5 @@
 const { bidDataAccess } = require('../data-access/bidDataAccess');
+const { bugsnagClient } = require('../index');
 
 module.exports = async (req, res, next) => {
   try {
@@ -10,6 +11,8 @@ module.exports = async (req, res, next) => {
 
     next();
   } catch (e) {
+    bugsnagClient.notify(e);
+
     e.safeMsg = 'failed to pass delete bid checks';
     return next(e);
   }
