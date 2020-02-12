@@ -146,6 +146,7 @@ export const onLogout = () => (dispatch) =>
           },
         },
       });
+      window.localStorage.removeItem('bob_lastKnownRoute')
       switchRoute(ROUTES.CLIENT.HOME);
       await sleep(1000);
       window.location.reload();
