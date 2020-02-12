@@ -151,10 +151,25 @@ export class ResetLocalPassword extends React.Component {
                     <p className="subtitle has-text-success has-text-weight-bold">
                       Your password was updated successfully
                     </p>
+                    <div>You can now login using your new credentials</div>
                     <div>
-                      please click the
-                      <span className="has-text-success has-text-weight-bold">{` Login`}</span>
-                      button in our application bar and use your new credentials to login
+                      <a
+                        style={{
+                          borderRadius: 2,
+                          fontWeight: 500,
+                          border: '1px solid #eee',
+                          // boxShadow: 'none',
+                        }}
+                        className="button is-link is-small"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          switchRoute(ROUTES.CLIENT.LOGIN_OR_REGISTER, {
+                            isLoggedIn: false,
+                          });
+                        }}
+                      >
+                        LOGIN
+                      </a>
                     </div>
                   </>
                 )}
@@ -255,7 +270,7 @@ export class ResetLocalPassword extends React.Component {
                     )}
 
                     <button className="button is-success" onClick={this.submitNewPassword}>
-                      Update password
+                      Change Password
                     </button>
 
                     <div className="help">
@@ -279,7 +294,4 @@ const mapStateToProps = ({ userReducer }) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  null,
-)(ResetLocalPassword);
+export default connect(mapStateToProps, null)(ResetLocalPassword);

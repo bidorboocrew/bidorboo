@@ -322,7 +322,7 @@ class Header extends React.Component {
 
           {renderTaskerRequesterToggle}
           {!isOnLoginPage && (
-            <div className=" navbar-item">
+            <div style={{ flexGrow: 1, flexDirection: 'row-reverse' }} className="navbar-item">
               <a
                 style={{
                   borderRadius: 2,

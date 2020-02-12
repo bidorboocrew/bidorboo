@@ -1,7 +1,16 @@
 import appHistory from './react-router-history';
 import * as A from './app-state/actionTypes';
+import * as ROUTES from './constants/frontend-route-consts';
 
 export const switchRoute = (routeAndParams, stateContent = null) => {
+  // if we are NOT on the login or register page
+  if (
+    window.location.pathname.indexOf(ROUTES.CLIENT.LOGIN_OR_REGISTER) === -1 &&
+    routeAndParams.indexOf(ROUTES.CLIENT.LOGIN_OR_REGISTER) > -1
+  ) {
+    window.localStorage.setItem('bob_lastKnownRoute', `${window.location.pathname}`);
+  }
+
   setTimeout(() => {
     //
     if (stateContent) {
