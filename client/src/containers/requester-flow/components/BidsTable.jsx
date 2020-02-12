@@ -145,7 +145,7 @@ class TaskerBidCard extends React.Component {
     }
 
     return (
-      <div style={{ marginBottom: '2.5rem ' }} className="card">
+      <div style={{ marginBottom: '3rem ' }} className="card">
         <div className="card-content">
           <OtherUserProfileForReviewPageForBid
             match={{ params: { userId: otherUserProfileInfo._id } }}

@@ -2019,3 +2019,58 @@ export const ReviewComments = ({
     </>
   );
 };
+
+export const ReviewCommentsForBidsTable = ({
+  commenterDisplayName,
+  commenterProfilePicUrl,
+  comment,
+  commenterId = null,
+  ratingCategories = null,
+  createdAt,
+}) => {
+  return (
+    <>
+      <article
+        style={{ cursor: 'default', border: '1px solid #ededed', padding: 2 }}
+        className="media"
+      >
+        <figure
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            commenterId && switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(commenterId));
+          }}
+          style={{ margin: '0.5rem', cursor: 'pointer' }}
+          className="media-left"
+        >
+          <p className="image is-64x64">
+            <img
+              style={{
+                borderRadius: '100%',
+                width: 64,
+                height: 64,
+              }}
+              src={commenterProfilePicUrl}
+            />
+          </p>
+        </figure>
+        <div style={{ border: 'none', padding: '0.5rem' }} className="media-content">
+          <div style={{ border: 'none' }} className="content">
+            <div>
+              {createdAt && (
+                <span style={{ fontSize: 12 }} className="has-text-grey">
+                  {` - (${moment.utc(createdAt).format('DD-MMM-YYYY')})`}
+                </span>
+              )}
+            </div>
+
+            <p>{comment}</p>
+          </div>
+        </div>
+      </article>
+      {ratingCategories && (
+        <RatingPerCategoryView ratingCategories={ratingCategories}></RatingPerCategoryView>
+      )}
+    </>
+  );
+};

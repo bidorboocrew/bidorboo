@@ -15,7 +15,7 @@ import { switchRoute } from '../utils';
 import { Spinner } from '../components/Spinner';
 import { VerifiedVia } from './commonComponents';
 import * as Constants from '../constants/enumConstants';
-import { ReviewComments } from './commonComponents.jsx';
+import { ReviewCommentsForBidsTable } from './commonComponents.jsx';
 
 class OtherUserProfileForReviewPageForBid extends React.Component {
   constructor(props) {
@@ -78,7 +78,7 @@ class OtherUserProfileForReviewPageForBid extends React.Component {
           const { displayName, profileImage } = requesterId;
 
           return (
-            <ReviewComments
+            <ReviewCommentsForBidsTable
               key={_id}
               commenterDisplayName={displayName}
               commenterProfilePicUrl={profileImage.url}
@@ -189,28 +189,10 @@ class OtherUserProfileForReviewPageForBid extends React.Component {
           </div>
 
           {asATaskerReviews && asATaskerReviews.length > 0 ? (
-            <div className="field has-addons">
-              <p className="control">
-                <button
-                  onClick={() => this.setReviewsSelectedButton('fromRequesters')}
-                  style={{ borderRadius: 0, boxShadow: 'none' }}
-                  className={`button ${
-                    this.state.reviewsSelectedButton === 'fromRequesters'
-                      ? 'is-success is-selected'
-                      : ''
-                  } `}
-                >
-                  <span>{`From Requesters (${
-                    asATaskerReviews ? asATaskerReviews.length : 0
-                  })`}</span>
-                </button>
-              </p>
-            </div>
+            <React.Fragment>{asATaskerReviews}</React.Fragment>
           ) : (
             <p className="has-text-centered has-text-dark">No Reviews Yet</p>
           )}
-
-          {asATaskerReviews && <React.Fragment>{asATaskerReviews}</React.Fragment>}
         </Collapse>
         <div className="has-text-centered">
           {!showExtraDetails && (
