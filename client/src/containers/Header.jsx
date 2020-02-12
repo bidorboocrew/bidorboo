@@ -639,7 +639,7 @@ class Header extends React.Component {
                             <span style={{ position: 'relative' }} className="icon">
                               <i className="fas fa-mobile-alt"></i>
                             </span>
-                            <span>WEB APP</span>
+                            <span>Install APP</span>
                           </a>
                         </>
                       )}
