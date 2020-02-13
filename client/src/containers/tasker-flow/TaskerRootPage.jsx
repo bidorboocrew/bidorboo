@@ -17,6 +17,7 @@ import TaskerVerificationBanner from './TaskerVerificationBanner';
 import AllRequestsView from './components/AllRequestsView';
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 import SubscribeToSearchResultsToggle from './SubscribeToSearchResultsToggle';
+import NoTasksFound from '../../assets/images/NoTasksFound.png';
 
 class TaskerRootPage extends React.Component {
   constructor(props) {
@@ -431,7 +432,22 @@ class TaskerRootPage extends React.Component {
                             <div className="is-size-6">
                               Try Changing Your Search Criteria or search a different area
                             </div>
-                            <br />
+
+                            <section
+                              style={{ padding: 0 }}
+                              className="hero is-small has-text-centered fade-in"
+                            >
+                              <div style={{ padding: 0 }} className="hero-body">
+                                <div className="container has-text-centered">
+                                  <img
+                                    style={{ width: 280 }}
+                                    src={NoTasksFound}
+                                    alt="Placeholder"
+                                  />
+                                </div>
+                              </div>
+                            </section>
+
                             <div className="is-size-6">Help us spread BidOrBoo in your area</div>
                             <div style={{ margin: 6 }}>
                               <ShareButtons shareUrl={'/'}></ShareButtons>
