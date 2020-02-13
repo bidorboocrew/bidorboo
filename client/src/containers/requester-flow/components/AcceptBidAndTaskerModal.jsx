@@ -151,7 +151,7 @@ class AcceptBidAndTaskerModal extends React.Component {
                   className="help"
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => switchRoute(`${ROUTES.CLIENT.TOS}`)}
+                  href={ROUTES.CLIENT.TOS}
                 >
                   <span>{`By booking you confirm that you have read and agree with all `}</span>
                   <span style={{ textDecoration: 'underline' }}>

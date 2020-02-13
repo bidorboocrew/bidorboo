@@ -27,7 +27,7 @@ export default class TermsOfService extends React.Component {
                 </div>
               </section>
 
-              <section className="hero is-info is-small">
+              <section className="hero is-dark is-bold is-small">
                 <div className="hero-body has-text-centered">
                   <div className="container">
                     <a className="title" name="TermsOfService">
@@ -39,7 +39,7 @@ export default class TermsOfService extends React.Component {
 
               <TOS></TOS>
 
-              <section className="hero is-info is-small">
+              <section className="hero is-dark is-bold is-small">
                 <div className="hero-body has-text-centered">
                   <div className="container">
                     <a className="title" name="PrivacyPolicy">

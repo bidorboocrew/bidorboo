@@ -169,7 +169,7 @@ class Step4 extends React.Component {
             className="subtitle"
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => switchRoute(`${ROUTES.CLIENT.TOS}`)}
+            href={ROUTES.CLIENT.TOS}
           >
             Terms Of Service | Privacy Policy
           </a>
@@ -190,9 +190,9 @@ class Step4 extends React.Component {
                   rel="noopener noreferrer"
                   className="is-link has-text-link"
                   style={{ textDecoration: 'underline' }}
-                  onClick={() => switchRoute(`${ROUTES.CLIENT.TOS}`)}
+                  href={ROUTES.CLIENT.TOS}
                 >
-                  {`Terms Of Service and Privacy Policy Agreements`}
+                  {`BidOrBoo Terms Of Service and Privacy Policy Agreements`}
                 </a>
               </label>
               {tosError && (
