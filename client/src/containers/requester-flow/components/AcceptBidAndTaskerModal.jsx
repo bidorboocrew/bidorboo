@@ -48,7 +48,7 @@ class AcceptBidAndTaskerModal extends React.Component {
             <button onClick={closeModal} className="delete" aria-label="close" />
           </header>
           <section className="modal-card-body">
-            <div style={{ marginBottom: 10 }} className="has-text-centered">
+            <div style={{ marginBottom: 10 }} className="has-text-left">
               <figure
                 onClick={(e) => {
                   e.preventDefault();
@@ -56,18 +56,18 @@ class AcceptBidAndTaskerModal extends React.Component {
                   switchRoute(ROUTES.CLIENT.dynamicUserProfileForReview(otherUserProfileInfo._id));
                 }}
                 style={{ marginBottom: 6, display: 'inline-block' }}
-                className="image is-128x128"
+                className="image is-64x64"
               >
                 <img
                   style={{
-                    width: 128,
-                    height: 128,
+                    width: 64,
+                    height: 64,
                     boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.34)',
                   }}
                   src={otherUserProfileInfo.profileImage.url}
                 />
               </figure>
-              <label style={{ marginBottom: 0 }} className="label has-text-dark is-size-5">
+              <label style={{ marginBottom: 0 }} className="label has-text-dark is-size-6">
                 {otherUserProfileInfo.displayName}
               </label>
               {globalRating === 'No Ratings Yet' || globalRating === 0 ? (
@@ -87,14 +87,23 @@ class AcceptBidAndTaskerModal extends React.Component {
               )}
               {/* <label className="help">Status: {membershipStatusDisplay}</label> */}
             </div>
+
+            <div className="has-text-left">
+              <div className="is-size-6" style={{ marginBottom: 0, marginTop: 4 }}>
+                {`Will complete this chore for `}
+                <span className="is-size-4 has-text-weight-bold has-text-success">
+                  {`${Math.ceil(totalCharge)}$`}
+                </span>
+              </div>
+            </div>
             <br></br>
-            <div className="has-text-centered">
-              <div style={{ marginBottom: 0, marginTop: 4 }}>
-                Offered to do this request for a total price of
-              </div>
-              <div className="control is-size-5 has-text-weight-semibold has-text-success">
-                {`${Math.ceil(totalCharge)} $CAD`}
-              </div>
+            <div className="has-text-left help">
+              <div className="has-text-weight-semibold">What happens after I book?</div>
+              <ul>
+                <li>- Your payment will be on hold with BidOrBoo</li>
+                <li>- Tasker contact details will be revealed to you</li>
+                <li>- After Tasker completes the work, they will get paid</li>
+              </ul>
             </div>
 
             {/* <div
@@ -123,18 +132,34 @@ class AcceptBidAndTaskerModal extends React.Component {
             </div> */}
           </section>
           <footer className="modal-card-foot">
-            <button style={{ marginLeft: 4 }} onClick={closeModal} className="button">
-              <span>Close</span>
-            </button>
-            <button
-              onClick={this.submitBid}
-              className={`button is-success ${submitClicked ? 'is-loading' : null}`}
-            >
-              <span>Book Now</span>
-              <span className="icon">
-                <i className="fas fa-chevron-right" />
-              </span>
-            </button>
+            <div style={{ display: 'block' }}>
+              <button style={{ marginTop: 4 }} onClick={closeModal} className="button">
+                <span>Close</span>
+              </button>
+              <button
+                style={{ marginTop: 4 }}
+                onClick={this.submitBid}
+                className={`button is-success ${submitClicked ? 'is-loading' : null}`}
+              >
+                <span>{`Pay for booking`}</span>
+                <span className="icon">
+                  <i className="fas fa-chevron-right" />
+                </span>
+              </button>
+              <div style={{ paddingTop: 8 }} className="help">
+                <a
+                  className="help"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => switchRoute(`${ROUTES.CLIENT.TOS}`)}
+                >
+                  <span>{`By booking you confirm that you have read and agree with all `}</span>
+                  <span style={{ textDecoration: 'underline' }}>
+                    Terms Of Service | Privacy Policy
+                  </span>
+                </a>
+              </div>
+            </div>
           </footer>
         </div>
       </div>

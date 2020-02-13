@@ -363,12 +363,13 @@ exports.util = {
   }) => {
     try {
       // XXX important update
+      // https://stripe.com/docs/connect/connect-onboarding#customaccountverification
       const accountLink = await stripe.accountLinks.create({
         account: stripeConnectAccId,
         failure_url: `${redirectUrl}/?success=false`,
         success_url: `${redirectUrl}/?success=true`,
-        type: isNewCustomer ? 'custom_account_verification' : 'custom_account_update',
-        collect: collectMinimum ? 'currently_due' : 'eventually_due',
+        type: 'custom_account_verification', //isNewCustomer ? 'custom_account_verification' : 'custom_account_update',
+        collect: 'currently_due',
       });
 
       return accountLink;

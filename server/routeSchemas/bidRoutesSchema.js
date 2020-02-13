@@ -77,10 +77,10 @@ exports.createNewBid = {
         .integer()
         .positive()
         .min(10)
-        .max(5000)
+        .max(2000)
         .error(() => {
           return {
-            message: 'Invalid Request, bid amount must be between [20-5000] dollars',
+            message: 'Invalid Request, bid amount must be between [20-2000] dollars',
           };
         })
         .required(),
@@ -111,10 +111,10 @@ exports.updateMyBid = {
         .integer()
         .positive()
         .min(10)
-        .max(5000)
+        .max(2000)
         .error(() => {
           return {
-            message: 'Invalid Request, bid amount must be between [20-5000] dollars',
+            message: 'Invalid Request, bid amount must be between [20-2000] dollars',
           };
         })
         .required(),

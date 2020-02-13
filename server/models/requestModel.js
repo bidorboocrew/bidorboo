@@ -18,7 +18,7 @@ const MAX_ADDRESS_LENGTH = 300;
 const MIN_ADDRESS_LENGTH = 5;
 
 const MIN_BID_AMOUNT = 10 * 100;
-const MAX_BID_AMOUNT = 5000 * 100;
+const MAX_BID_AMOUNT = 2000 * 100;
 const MAX_IMAGE_COUNT = 3;
 
 const RequestSchema = new Schema(

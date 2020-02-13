@@ -142,7 +142,7 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                                   toastDetails: {
                                     type: 'error',
                                     msg:
-                                      'You are not verified yet, Please chat with our support team',
+                                      'You are not verified yet, Try refreshing the page first. Otherwise please chat with our support team',
                                   },
                                 },
                               });
@@ -184,7 +184,6 @@ class TaskerBidOnTaskSummary extends RequestBaseContainer {
                   <div style={{ display: 'inline-block', marginTop: -12 }}>
                     <a
                       onClick={(e) => {
-                        debugger;
                         if (!isLoggedIn || canBid) {
                           switchRoute(ROUTES.CLIENT.TASKER.getDynamicBidOnRequestPage(request._id));
                         } else {

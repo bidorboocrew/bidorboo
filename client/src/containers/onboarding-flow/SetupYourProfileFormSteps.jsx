@@ -184,13 +184,15 @@ class Step4 extends React.Component {
                   type="checkbox"
                   value={hasAgreedToTOS}
                 />
-                {` I confirm that I have read and agreed to`}
+                {` I confirm that I have read and agreed to `}
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="is-link has-text-link"
+                  style={{ textDecoration: 'underline' }}
                   onClick={() => switchRoute(`${ROUTES.CLIENT.TOS}`)}
                 >
-                  {` Terms Of Service And Privacy Policy Agreements`}
+                  {`Terms Of Service and Privacy Policy Agreements`}
                 </a>
               </label>
               {tosError && (

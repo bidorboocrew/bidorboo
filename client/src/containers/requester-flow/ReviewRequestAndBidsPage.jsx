@@ -57,11 +57,11 @@ class ReviewRequestAndBidsPage extends React.Component {
       // fetch it
       getPostedRequestAndBidsForRequester(newRequestId);
     }
-    this.getMoreBids = setInterval(this.fetchMostRecentBids, FETCH_INTERVAL);
+    // this.getMoreBids = setInterval(this.fetchMostRecentBids, FETCH_INTERVAL);
   }
 
   componentWillUnmount() {
-    this.getMoreBids && clearInterval(this.getMoreBids);
+    // this.getMoreBids && clearInterval(this.getMoreBids);
   }
 
   showBidReviewModal = (bid) => {

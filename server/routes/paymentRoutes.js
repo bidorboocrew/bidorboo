@@ -202,7 +202,6 @@ module.exports = (app) => {
           stripeConnectAccId,
           redirectUrl: req.query.redirectUrl,
           isNewCustomer: true,
-          collectMinimum: true,
         });
 
         return res.send({ success: true, accountLinkUrl: url });
@@ -232,7 +231,6 @@ module.exports = (app) => {
           stripeConnectAccId,
           redirectUrl: req.query.redirectUrl,
           isNewCustomer: false,
-          collectMinimum: false,
         });
 
         return res.send({ success: true, accountLinkUrl: url });
