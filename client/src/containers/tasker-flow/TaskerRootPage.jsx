@@ -303,7 +303,7 @@ class TaskerRootPage extends React.Component {
         <section className="hero is-white is-small">
           <div style={{ paddingBottom: 0 }} className="hero-body">
             <div className="container">
-              <h1 style={{ marginBottom: '0.5rem', marginTop: '0.5rem' }} className="title">
+              <h1 style={{ marginBottom: '0.5rem', marginTop: '0.5rem' }} className="title has-text-centered">
                 Find Tasks In Your Area
               </h1>
 
@@ -405,9 +405,22 @@ class TaskerRootPage extends React.Component {
                       <div>
                         <div className="card-content VerticalAligner">
                           <div className="has-text-centered">
-                            <div className="is-size-4">Search for tasks in areas near you</div>
+                            <div className="is-size-4">Find tasks in your area</div>
                             <div className="is-size-6">Help us spread BidOrBoo in your area</div>
-                            <br />
+                            <section
+                              style={{ padding: 0 }}
+                              className="hero is-small has-text-centered fade-in"
+                            >
+                              <div style={{ padding: 0 }} className="hero-body">
+                                <div className="container has-text-centered">
+                                  <img
+                                    style={{ width: 280 }}
+                                    src={NoTasksFound}
+                                    alt="Placeholder"
+                                  />
+                                </div>
+                              </div>
+                            </section>
                             <div style={{ margin: 6 }}>
                               <ShareButtons shareUrl={'/'}></ShareButtons>
                             </div>
@@ -429,9 +442,7 @@ class TaskerRootPage extends React.Component {
                             <div className="is-size-4 has-text-danger">
                               Sorry, No Tasks available around this area at this time.
                             </div>
-                            <div className="is-size-6">
-                              Try Changing Your Search Criteria or search a different area
-                            </div>
+                            <div className="is-size-6">Try adjusting your search criteria</div>
 
                             <section
                               style={{ padding: 0 }}

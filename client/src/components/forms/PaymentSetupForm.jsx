@@ -38,7 +38,13 @@ const EnhancedForms = withFormik({
     const { full_name, account_number, institution_number, transit_number } = values;
 
     const { token: tokenizedBankAccount, error: tokenizedBankAccountError } = await window
-      .Stripe(`${process.env.REACT_APP_STRIPE_KEY}`)
+      .Stripe(
+        `${
+          process.env.NODE_ENV === 'production'
+            ? process.env.REACT_APP_STRIPE_KEY
+            : process.env.REACT_APP_STRIPE_KEY_TEST
+        }`,
+      )
       .createToken('bank_account', {
         country: 'CA',
         currency: 'cad',

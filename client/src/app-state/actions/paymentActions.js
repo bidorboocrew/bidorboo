@@ -34,9 +34,17 @@ export const submitPayment = ({ requestId, bidId }) => async (dispatch) => {
       },
     });
 
-    await window.Stripe(`${process.env.REACT_APP_STRIPE_KEY}`).redirectToCheckout({
-      sessionId: sessionClientId,
-    });
+    await window
+      .Stripe(
+        `${
+          process.env.NODE_ENV === 'production'
+            ? process.env.REACT_APP_STRIPE_KEY
+            : process.env.REACT_APP_STRIPE_KEY_TEST
+        }`,
+      )
+      .redirectToCheckout({
+        sessionId: sessionClientId,
+      });
 
     dispatch({
       type: A.REQUESTER_ACTIONS.AWARD_TASKER_AND_MAKE_A_PAYMENT,

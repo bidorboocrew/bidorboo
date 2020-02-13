@@ -76,7 +76,7 @@ exports.createNewBid = {
       bidAmount: Joi.number()
         .integer()
         .positive()
-        .min(10)
+        .min(20)
         .max(2000)
         .error(() => {
           return {
@@ -110,7 +110,7 @@ exports.updateMyBid = {
       bidAmount: Joi.number()
         .integer()
         .positive()
-        .min(10)
+        .min(20)
         .max(2000)
         .error(() => {
           return {

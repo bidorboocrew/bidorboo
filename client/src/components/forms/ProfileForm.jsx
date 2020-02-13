@@ -70,7 +70,11 @@ const EnhancedForms = withFormik({
       const config = {
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${process.env.REACT_APP_STRIPE_KEY}`,
+          Authorization: `Bearer ${
+            process.env.NODE_ENV === 'production'
+              ? process.env.REACT_APP_STRIPE_KEY
+              : process.env.REACT_APP_STRIPE_KEY_TEST
+          }`,
         },
       };
 
@@ -104,7 +108,11 @@ const EnhancedForms = withFormik({
       const config = {
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${process.env.REACT_APP_STRIPE_KEY}`,
+          Authorization: `Bearer ${
+            process.env.NODE_ENV === 'production'
+              ? process.env.REACT_APP_STRIPE_KEY
+              : process.env.REACT_APP_STRIPE_KEY_TEST
+          }`,
         },
       };
       try {
