@@ -2,7 +2,7 @@
 const keys = require('../config/keys');
 const stripe = require('stripe')(keys.stripeSecretKey);
 const moment = require('moment');
-const bugsnagClient = require('../index').bugsnagClient;
+const { bugsnagClient } = require('../utils/utilities');;
 // // XXXXXX RELEASE THE FUNDS
 // const payoutConfirmation = await stripeServiceUtil.payoutToBank('acct_1DxRCzFZom4pltNY', {
 //   amount: requestDetails.processedPayment.taskerPayout,

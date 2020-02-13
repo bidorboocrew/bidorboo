@@ -4,7 +4,8 @@ const { encryptData } = require('../utils/utilities');
 const { celebrate } = require('celebrate');
 const requireUserHasAStripeAccountOrInitalizeOne = require('../middleware/requireUserHasAStripeAccountOrInitalizeOne');
 // const stripeServiceUtil = require('../services/stripeService').util;
-const bugsnagClient = require('../index').bugsnagClient;
+const { bugsnagClient } = require('../utils/utilities');
+
 const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
 const utils = require('../utils/utilities');

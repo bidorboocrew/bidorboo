@@ -2,7 +2,7 @@
 const keys = require('../config/keys');
 const Recaptcha = require('recaptcha-verify');
 // skip
-const bugsnagClient = require('../index').bugsnagClient;
+const { bugsnagClient } = require('../utils/utilities');;
 
 const recaptcha = new Recaptcha({
   secret: keys.recaptchaApiKey,

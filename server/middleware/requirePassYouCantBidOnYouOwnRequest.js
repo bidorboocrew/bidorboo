@@ -1,5 +1,5 @@
 const { requestDataAccess } = require('../data-access/requestDataAccess');
-const bugsnagClient = require('../index').bugsnagClient;
+const { bugsnagClient } = require('../utils/utilities');;
 
 module.exports = async (req, res, next) => {
   try {

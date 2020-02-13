@@ -1,6 +1,6 @@
 const userDataAccess = require('../data-access/userDataAccess');
 const stripeServiceUtil = require('../services/stripeService').util;
-const bugsnagClient = require('../index').bugsnagClient;
+const { bugsnagClient } = require('../utils/utilities');;
 
 module.exports = async (req, res, next) => {
   try {

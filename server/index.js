@@ -156,5 +156,3 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.use(bugsnagMiddleware.errorHandler);
-
-exports.bugsnagClient = bugsnagClient;

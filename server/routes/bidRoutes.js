@@ -1,5 +1,5 @@
 const { celebrate } = require('celebrate');
-const bugsnagClient = require('../index').bugsnagClient;
+const { bugsnagClient } = require('../utils/utilities');;
 const {
   deleteOpenBid,
   cancelAwardedBid,

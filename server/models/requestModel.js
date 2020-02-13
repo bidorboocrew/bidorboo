@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 require('mongoose-geojson-schema');
 const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
 const moment = require('moment-timezone');
-const bugsnagClient = require('../index').bugsnagClient;
+const { bugsnagClient } = require('../utils/utilities');;
 
 const { detroyExistingImg } = require('../utils/utilities');
 

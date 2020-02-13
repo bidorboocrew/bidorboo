@@ -1,6 +1,6 @@
 const { requestDataAccess } = require('../data-access/requestDataAccess');
 const { bidDataAccess } = require('../data-access/bidDataAccess');
-const bugsnagClient = require('../index').bugsnagClient;
+const { bugsnagClient } = require('../utils/utilities');;
 
 module.exports = async (req, res, next) => {
   try {

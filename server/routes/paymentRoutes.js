@@ -1,6 +1,6 @@
 const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
-const bugsnagClient = require('../index').bugsnagClient;
+const { bugsnagClient } = require('../utils/utilities');;
 const requireRequestOwner = require('../middleware/requireRequestOwner');
 const requireNoPaymentProcessedForThisRequestBefore = require('../middleware/requireNoPaymentProcessedForThisRequestBefore');
 const requireRequesterHaveStripeCustomerAccountIdOrInitialize = require('../middleware/requireRequesterHaveStripeCustomerAccountIdOrInitialize');

@@ -3,10 +3,14 @@ const fs = require('fs');
 const { promisify } = require('util');
 const unlinkAsync = promisify(fs.unlink);
 const keys = require('../config/keys');
-const bugsnagClient = require('../index').bugsnagClient;
+
 const bcrypt = require('bcrypt');
 const SALT_WORK_FACTOR = 10;
 const requestTemplatesDefinitions = require('./bdb-request-templates-definitions');
+
+const bugsnag = require('@bugsnag/js');
+const bugsnagClient = bugsnag(keys.bugSnagApiKey);
+exports.bugsnagClient = bugsnagClient;
 
 exports.encryptData = async (dataToEncrypt) => {
   try {
