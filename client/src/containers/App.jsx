@@ -176,7 +176,12 @@ class App extends React.Component {
         >
           <div className="help has-text-light">
             {`This website uses cookies to enhance the user experience `}
-            <a style={{ color: '#72a4f7' }} onClick={() => switchRoute(ROUTES.CLIENT.TOS)}>
+            <a
+              style={{ color: '#72a4f7' }}
+              href={ROUTES.CLIENT.TOS}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {`BidOrBoo Terms Of Service | Privacy Policy`}
             </a>
           </div>
@@ -308,119 +313,123 @@ class App extends React.Component {
               </div>
             </div>
           </nav>
-          <table align="center">
-            <tbody>
-              <tr>
-                <td style={{ padding: '0px 5px' }}>
-                  <a
-                    href="https://business.facebook.com/bidorboo"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    alt="Facebook"
-                    title="Facebook"
-                    style={{
-                      display: 'inline-block',
-                      backgroundColor: 'dimgrey',
-                      height: '21px',
-                      width: '21px',
-                      borderRadius: '4px',
-                      WebkitBorderRadius: '4px',
-                      MozBorderRadius: '4px',
-                    }}
-                  >
-                    <img
-                      role="social-icon"
-                      alt="Facebook"
-                      title="Facebook"
-                      src="https://marketing-image-production.s3.amazonaws.com/social/white/facebook.png"
-                      style={{ height: '21px', width: '21px' }}
-                      height={21}
-                      width={21}
-                    />
-                  </a>
-                </td>
-                <td style={{ padding: '0px 5px' }}>
-                  <a
-                    href="https://twitter.com/bidorboo"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    alt="Twitter"
-                    title="Twitter"
-                    style={{
-                      display: 'inline-block',
-                      backgroundColor: 'dimgrey',
-                      height: '21px',
-                      width: '21px',
-                      borderRadius: '4px',
-                      WebkitBorderRadius: '4px',
-                      MozBorderRadius: '4px',
-                    }}
-                  >
-                    <img
-                      role="social-icon"
-                      alt="Twitter"
-                      title="Twitter"
-                      src="https://marketing-image-production.s3.amazonaws.com/social/white/twitter.png"
-                      style={{ height: '21px', width: '21px' }}
-                      height={21}
-                      width={21}
-                    />
-                  </a>
-                </td>
-                <td style={{ padding: '0px 5px' }}>
-                  <a
-                    href="https://www.instagram.com/bidorboo"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    alt="Instagram"
-                    title="Instagram"
-                    style={{
-                      display: 'inline-block',
-                      backgroundColor: 'dimgrey',
-                      height: '21px',
-                      width: '21px',
-                      borderRadius: '4px',
-                      WebkitBorderRadius: '4px',
-                      MozBorderRadius: '4px',
-                    }}
-                  >
-                    <img
-                      role="social-icon"
-                      alt="Instagram"
-                      title="Instagram"
-                      src="https://marketing-image-production.s3.amazonaws.com/social/white/instagram.png"
-                      style={{ height: '21px', width: '21px' }}
-                      height={21}
-                      width={21}
-                    />
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+
           <nav className="container help has-text-centered">
-            <div className="has-text-light">
-              <a
-                style={{ color: '#72a4f7' }}
-                className="has-text-link"
-                href={`mailto:bidorboo@bidorboo.ca`}
-              >
-                <span className="icon">
-                  <i className="far fa-envelope" />
-                </span>
-                <span>bidorboo@bidorboo.ca</span>
-              </a>
-            </div>
-            <br></br>
-            <div className="has-text-light">
-              <a
-                style={{ color: '#72a4f7' }}
-                className="has-text-link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {`BidOrBoo Terms Of Service | Privacy Policy`}
-              </a>
+            <div>
+              <table align="center">
+                <tbody>
+                  <tr>
+                    <td style={{ padding: '0px 5px' }}>
+                      <a
+                        href="https://business.facebook.com/bidorboo"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        alt="Facebook"
+                        title="Facebook"
+                        style={{
+                          display: 'inline-block',
+                          backgroundColor: 'dimgrey',
+                          height: '21px',
+                          width: '21px',
+                          borderRadius: '4px',
+                          WebkitBorderRadius: '4px',
+                          MozBorderRadius: '4px',
+                        }}
+                      >
+                        <img
+                          role="social-icon"
+                          alt="Facebook"
+                          title="Facebook"
+                          src="https://marketing-image-production.s3.amazonaws.com/social/white/facebook.png"
+                          style={{ height: '21px', width: '21px' }}
+                          height={21}
+                          width={21}
+                        />
+                      </a>
+                    </td>
+                    <td style={{ padding: '0px 5px' }}>
+                      <a
+                        href="https://twitter.com/bidorboo"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        alt="Twitter"
+                        title="Twitter"
+                        style={{
+                          display: 'inline-block',
+                          backgroundColor: 'dimgrey',
+                          height: '21px',
+                          width: '21px',
+                          borderRadius: '4px',
+                          WebkitBorderRadius: '4px',
+                          MozBorderRadius: '4px',
+                        }}
+                      >
+                        <img
+                          role="social-icon"
+                          alt="Twitter"
+                          title="Twitter"
+                          src="https://marketing-image-production.s3.amazonaws.com/social/white/twitter.png"
+                          style={{ height: '21px', width: '21px' }}
+                          height={21}
+                          width={21}
+                        />
+                      </a>
+                    </td>
+                    <td style={{ padding: '0px 5px' }}>
+                      <a
+                        href="https://www.instagram.com/bidorboo"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        alt="Instagram"
+                        title="Instagram"
+                        style={{
+                          display: 'inline-block',
+                          backgroundColor: 'dimgrey',
+                          height: '21px',
+                          width: '21px',
+                          borderRadius: '4px',
+                          WebkitBorderRadius: '4px',
+                          MozBorderRadius: '4px',
+                        }}
+                      >
+                        <img
+                          role="social-icon"
+                          alt="Instagram"
+                          title="Instagram"
+                          src="https://marketing-image-production.s3.amazonaws.com/social/white/instagram.png"
+                          style={{ height: '21px', width: '21px' }}
+                          height={21}
+                          width={21}
+                        />
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div className="has-text-light">
+                <a
+                  style={{ color: '#fff' }}
+                  className="has-text-white"
+                  href={`mailto:bidorboo@bidorboo.ca`}
+                >
+                  <span className="icon">
+                    <i className="far fa-envelope" />
+                  </span>
+                  <span>bidorboo@bidorboo.ca</span>
+                </a>
+              </div>
+              <br></br>
+              <div className="has-text-light">
+                <a
+                  style={{ color: '#fff', textDecoration: 'underline' }}
+                  className="has-text-white"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={ROUTES.CLIENT.TOS}
+                >
+                  {`BidOrBoo Terms Of Service | Privacy Policy`}
+                </a>
+              </div>
             </div>
           </nav>
         </footer>
