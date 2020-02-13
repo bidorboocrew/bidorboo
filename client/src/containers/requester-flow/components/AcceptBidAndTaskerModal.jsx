@@ -105,31 +105,6 @@ class AcceptBidAndTaskerModal extends React.Component {
                 <li>- After Tasker completes the work, they will get paid</li>
               </ul>
             </div>
-
-            {/* <div
-              style={{
-                backgroundColor: ' whitesmoke',
-                border: 'none',
-                display: 'block',
-                height: 2,
-                margin: '0.5rem 0',
-              }}
-              className="navbar-divider"
-            />
-             <div className="help">
-              * By proceeding you confirm that you agree with all
-              <a target="_blank" rel="noopener noreferrer" href={`${ROUTES.CLIENT.TOS}`}>
-                {` BidOrBoo Service Agreement Terms`}
-              </a>
-              {` and the`}
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://stripe.com/connect-account/legal"
-              >
-                {` Stripe Connected Account Agreement`}
-              </a>
-            </div> */}
           </section>
           <footer className="modal-card-foot">
             <div style={{ display: 'block' }}>

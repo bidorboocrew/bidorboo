@@ -13,16 +13,7 @@ export default class TermsOfService extends React.Component {
                 <div className="hero-body has-text-centered">
                   <div className="container">
                     <h1 className="title">BIDORBOO Inc</h1>
-                    <h2 className="subtitle">
-                      <a className="has-text-link has-text-weight-semibold" href="#TermsOfService">
-                        Terms Of Service
-                      </a>{' '}
-                      And{' '}
-                      <a className="has-text-link has-text-weight-semibold" href="#PrivacyPolicy">
-                        Privacy Policy
-                      </a>{' '}
-                      Agreements
-                    </h2>
+                    <h2 className="subtitle">Terms Of Service And Privacy Policy Agreements</h2>
                   </div>
                 </div>
               </section>

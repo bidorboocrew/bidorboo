@@ -177,7 +177,7 @@ class App extends React.Component {
           <div className="help has-text-light">
             {`This website uses cookies to enhance the user experience `}
             <a style={{ color: '#72a4f7' }} onClick={() => switchRoute(ROUTES.CLIENT.TOS)}>
-              {`BidOrBoo Service Terms | Privacy`}
+              {`BidOrBoo Terms Of Service | Privacy Policy`}
             </a>
           </div>
         </CookieConsent>
@@ -313,9 +313,9 @@ class App extends React.Component {
               <tr>
                 <td style={{ padding: '0px 5px' }}>
                   <a
-                    role="social-icon-link"
                     href="https://business.facebook.com/bidorboo"
                     target="_blank"
+                    rel="noopener noreferrer"
                     alt="Facebook"
                     title="Facebook"
                     style={{
@@ -341,9 +341,9 @@ class App extends React.Component {
                 </td>
                 <td style={{ padding: '0px 5px' }}>
                   <a
-                    role="social-icon-link"
                     href="https://twitter.com/bidorboo"
                     target="_blank"
+                    rel="noopener noreferrer"
                     alt="Twitter"
                     title="Twitter"
                     style={{
@@ -369,9 +369,9 @@ class App extends React.Component {
                 </td>
                 <td style={{ padding: '0px 5px' }}>
                   <a
-                    role="social-icon-link"
                     href="https://www.instagram.com/bidorboo"
                     target="_blank"
+                    rel="noopener noreferrer"
                     alt="Instagram"
                     title="Instagram"
                     style={{
@@ -411,13 +411,15 @@ class App extends React.Component {
                 <span>bidorboo@bidorboo.ca</span>
               </a>
             </div>
+            <br></br>
             <div className="has-text-light">
               <a
                 style={{ color: '#72a4f7' }}
                 className="has-text-link"
-                onClick={() => switchRoute(ROUTES.CLIENT.TOS)}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                {`BidOrBoo Service Terms | Privacy`}
+                {`BidOrBoo Terms Of Service | Privacy Policy`}
               </a>
             </div>
           </nav>
