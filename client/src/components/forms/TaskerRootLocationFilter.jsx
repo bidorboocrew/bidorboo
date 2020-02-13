@@ -166,56 +166,61 @@ class TaskerRootLocationFilter extends React.Component {
     return (
       <div style={{ height: 'unset', boxShadow: 'none' }} className="card nofixedwidth">
         <div className="card-content">
-          <div className="content has-text-left">
-            <div className="group">
-              <label style={{ fontWeight: 400 }} className="label">
-                Street Address
-              </label>
-              <GeoSearch
-                value={addressText}
-                onChange={this.handleChange}
-                onSelect={this.handleSelect}
-                handleSelect={this.handleSelect}
-                onError={this.errorHandling}
-                placeholder="Enter an address, e.g 123 Bank st"
-                forceSetAddressValue={addressText}
-                id="filter-tasker-request"
-              />
+          <div className="container">
+            <div className="content has-text-left">
+              <div className="group">
+                <label style={{ fontWeight: 400 }} className="label">
+                  Street Address
+                </label>
+                <GeoSearch
+                  value={addressText}
+                  onChange={this.handleChange}
+                  onSelect={this.handleSelect}
+                  handleSelect={this.handleSelect}
+                  onError={this.errorHandling}
+                  placeholder="Enter an address, e.g 123 Bank st"
+                  forceSetAddressValue={addressText}
+                  id="filter-tasker-request"
+                />
+                <a
+                  style={{ marginTop: 6, fontSize: 14, color: '#ce1bbf' }}
+                  onClick={this.autoDetectCurrentAddress}
+                  className="is-small is-text"
+                >
+                  <span className="icon">
+                    <i className="fas fa-map-marker-alt" />
+                  </span>
+                  <span>Auto Detect</span>
+                </a>
+              </div>
+              <div className="group">
+                <SearchRadius
+                  updateSearchRaduisSelection={this.updateSearchRaduisSelection}
+                  searchRadiusValue={searchRadius}
+                />
+              </div>
 
-              <a
-                style={{ marginTop: 6, fontSize: 14, color: '#ce1bbf' }}
-                onClick={this.autoDetectCurrentAddress}
-                className="is-small is-text"
-              >
-                <span className="icon">
-                  <i className="fas fa-map-marker-alt" />
-                </span>
-                <span>Auto Detect</span>
-              </a>
+              <TaskTypeFilter
+                updateTaskTypesFilter={this.updateTaskTypesFilter}
+                currentFilters={tasksTypeFilter}
+              ></TaskTypeFilter>
+              {/*
+              <div>
+                <button
+                  disableSubmit={disableSubmit}
+                  onClick={this.handleSubmit}
+                  className="button is-success"
+                >
+                  <span className="icon">
+                    <i className="fas fa-search" />
+                  </span>
+                  <span>{`Search`}</span>
+                </button>
+              </div> */}
+
+              {renderSubscribeToSearchResults && renderSubscribeToSearchResults()}
             </div>
-            <SearchRadius
-              updateSearchRaduisSelection={this.updateSearchRaduisSelection}
-              searchRadiusValue={searchRadius}
-            />
-            <br></br>
-            <TaskTypeFilter
-              updateTaskTypesFilter={this.updateTaskTypesFilter}
-              currentFilters={tasksTypeFilter}
-            ></TaskTypeFilter>
-            <br></br>
-            {renderSubscribeToSearchResults && renderSubscribeToSearchResults()}
           </div>
-
-          {/* <div
-            disabled={disableSubmit}
-            onClick={this.handleSubmit}
-            className="firstButtonInCard button is-success"
-          >
-            <span className="icon">
-              <i className="fas fa-search" />
-            </span>
-            <span>{`Search`}</span>
-          </div> */}
         </div>
       </div>
     );
@@ -421,11 +426,11 @@ class TaskTypeFilter extends React.Component {
   render() {
     const listOfTasks = this.createTaskFilterButtonTags();
     return (
-      <div className="has-text-left">
+      <div style={{ marginBottom: '2.5rem' }} className="has-text-left">
         <div className="group">
-          <label className="label">Filter By service type</label>
+          <label className="label">Filter by service type</label>
+          <div className="tags are-medium">{listOfTasks}</div>
         </div>
-        <div className="tags are-medium">{listOfTasks}</div>
       </div>
     );
   }

@@ -183,6 +183,8 @@ const PaymentSetupForm = (props) => {
         >
           <div style={{ minHeight: 'unset', height: 'unset' }} className="card-content">
             <HeaderTitle title="Add Payout Bank" />
+
+            <div>Where do you want us to send your money?</div>
             <div className="help">
               * Your data is kept private, encrypted and secured via
               <a href="https://stripe.com/ca" target="_blank">
@@ -190,7 +192,7 @@ const PaymentSetupForm = (props) => {
               </a>
             </div>
             {errorsList}
-            <div style={{ marginTop: '2rem', marginBottom: '2rem' }}>
+            <div style={{ marginTop: '1rem', marginBottom: '2rem' }}>
               <div style={{ maxWidth: 280 }}>
                 <TextInput
                   id="full_name"

@@ -300,9 +300,12 @@ class TaskerRootPage extends React.Component {
       <>
         <TaskerVerificationBanner></TaskerVerificationBanner>
         <section className="hero is-white is-small">
-          <div className="hero-body  has-text-centered">
+          <div style={{ paddingBottom: 0 }} className="hero-body">
             <div className="container">
-              <h1 className="title">Find Tasks In Your Area</h1>
+              <h1 style={{ marginBottom: '0.5rem', marginTop: '0.5rem' }} className="title">
+                Find Tasks In Your Area
+              </h1>
+
               <Collapse
                 isOpened={showSearchFilters}
                 // initialStyle={{ height: 0, overflow: 'hidden' }}
@@ -327,7 +330,7 @@ class TaskerRootPage extends React.Component {
                     borderRight: 0,
                     borderLeft: 0,
                   }}
-                  className="button"
+                  className="button is-fullwidth"
                 >
                   <span style={{ marginRight: 4 }}>Show Filters</span>
                   <span className="icon">
@@ -346,7 +349,7 @@ class TaskerRootPage extends React.Component {
                     borderRight: 0,
                     borderLeft: 0,
                   }}
-                  className="button"
+                  className="button is-fullwidth"
                 >
                   <span style={{ marginRight: 4 }}>Hide Filters</span>
                   <span className="icon">
@@ -375,13 +378,12 @@ class TaskerRootPage extends React.Component {
                   />
                 </div>
               </Collapse>
-              {isThereAnActiveSearch && (
+              {isThereAnActiveSearch && currentRequestsList && currentRequestsList.length > 0 && (
                 <div
                   style={{ marginTop: 2 }}
                   className="help container is-widescreen has-text-grey has-text-centered"
                 >
-                  {` ${(currentRequestsList && currentRequestsList.length) ||
-                    0} tasks available in the search area`}
+                  {` ${currentRequestsList.length} tasks available in the search area`}
                 </div>
               )}
               {currentRequestsList && currentRequestsList.length > 0 && (
@@ -397,13 +399,14 @@ class TaskerRootPage extends React.Component {
               {!isThereAnActiveSearch && (
                 <>
                   <br></br>
-                  <div className="HorizontalAligner-center column">
+                  <div className="HorizontalAligner-center column slide-in-bottom-small">
                     <div className="is-fullwidth">
-                      <div className="card">
+                      <div>
                         <div className="card-content VerticalAligner">
                           <div className="has-text-centered">
-                            <div className="is-size-6">Search for tasks in areas near you</div>
+                            <div className="is-size-4">Search for tasks in areas near you</div>
                             <div className="is-size-6">Help us spread BidOrBoo in your area</div>
+                            <br />
                             <div style={{ margin: 6 }}>
                               <ShareButtons shareUrl={'/'}></ShareButtons>
                             </div>
@@ -417,15 +420,15 @@ class TaskerRootPage extends React.Component {
               {searchWithNoResults && (
                 <>
                   <br></br>
-                  <div className="HorizontalAligner-center column">
+                  <div className="HorizontalAligner-center column slide-in-bottom-small">
                     <div className="is-fullwidth">
-                      <div className="card">
+                      <div>
                         <div className="card-content VerticalAligner">
                           <div className="has-text-centered">
-                            <div className="is-size-6">
-                              No Tasks available around this area at this time.
+                            <div className="is-size-4 has-text-danger">
+                              Sorry, No Tasks available around this area at this time.
                             </div>
-                            <div className="help">
+                            <div className="is-size-6">
                               Try Changing Your Search Criteria or search a different area
                             </div>
                             <br />

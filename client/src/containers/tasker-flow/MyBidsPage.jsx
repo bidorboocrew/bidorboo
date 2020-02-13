@@ -163,10 +163,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(MyBidsPage);
 const EmptyStateComponent = () => {
   return (
     <div className="HorizontalAligner-center column">
-      <div className="card is-fullwidth">
+      <div className="is-fullwidth">
         <div className="card-content VerticalAligner">
           <div className="content has-text-centered">
-            <div className="is-size-5">You have no bids. Start bidding to earn money!</div>
+            <div className="is-size-4">You have no bids. Start bidding to earn money!</div>
             <br />
             <a
               className="button is-success"

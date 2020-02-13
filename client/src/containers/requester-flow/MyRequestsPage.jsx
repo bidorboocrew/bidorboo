@@ -152,19 +152,19 @@ const EmptyStateComponent = () => (
   <>
     <div className="HorizontalAligner-center column">
       <div className="is-fullwidth">
-        <div className="card">
+        <div>
           <div className="card-content VerticalAligner">
             <div className="has-text-centered">
               <div className="is-size-6">No requests found.</div>
               <br />
               <a
-                className="button is-success "
+                className="button is-success"
                 onClick={(e) => {
                   e.preventDefault();
                   switchRoute(ROUTES.CLIENT.REQUESTER.root);
                 }}
               >
-                REQUEST A SERVICE
+                Browse Our Services
               </a>
             </div>
           </div>

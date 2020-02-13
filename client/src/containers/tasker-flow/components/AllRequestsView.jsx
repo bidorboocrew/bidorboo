@@ -41,10 +41,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(AllRequestsView);
 const EmptyStateComponent = () => {
   return (
     <div className="HorizontalAligner-center column">
-      <div className="card is-fullwidth">
+      <div className="is-fullwidth">
         <div className="card-content VerticalAligner">
           <div className="content has-text-centered">
-            <div className="is-size-5">No Open Requests. please check again soon!</div>
+            <div className="is-size-4">No posted Requests. please check again soon!</div>
             <br />
             <a
               className="button is-success "

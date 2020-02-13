@@ -27,7 +27,11 @@ export default class BidsTable extends React.Component {
       const { value: totalCharge } = bid.requesterPayment;
 
       return (
-        <div key={bid._id} className="column is-12 slide-in-bottom-small">
+        <div
+          style={{ margin: '1.5rem' }}
+          key={bid._id}
+          className="column is-12 slide-in-bottom-small"
+        >
           <TaskerBidCard
             otherUserProfileInfo={bid._taskerRef}
             bidAmountHtml={() => (
