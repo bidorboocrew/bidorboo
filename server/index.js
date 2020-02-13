@@ -14,8 +14,8 @@ const keys = require('./config/keys');
 // initialize bugsnag
 const bugsnag = require('@bugsnag/js');
 const bugsnagExpress = require('@bugsnag/plugin-express');
-const bugsnagClient = bugsnag(keys.bugSnagApiKey);
 
+const { bugsnagClient } = require('./utils/utilities');
 bugsnagClient.use(bugsnagExpress);
 
 // initialize and start mongodb
