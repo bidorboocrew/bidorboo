@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
@@ -18,7 +18,7 @@ import logoImg from '../assets/images/android-chrome-192x192.png';
 import canadaFlag from '../assets/images/Canada-flag-round.png';
 import AddToMobileHomeScreenBanner from './AddToMobileHomeScreenBanner';
 import '../assets/index.scss';
-import { Spinner } from '../components/Spinner.jsx';
+// import { Spinner } from '../components/Spinner.jsx';
 import { getBugsnagClient } from '../index';
 
 import { Header, HomePage, ResetLocalPassword, LoginOrRegisterPage } from './index';
@@ -26,36 +26,28 @@ import { Header, HomePage, ResetLocalPassword, LoginOrRegisterPage } from './ind
 import ShowSpecialMomentModal from './ShowSpecialMomentModal';
 import Pre_AuthInProgress from '../Pre_AuthInProgress.jsx';
 
-const FreshdeskChat = lazy(() => import('./FreshdeskChat.jsx'));
+import FreshdeskChat from './FreshdeskChat.jsx';
 
-const MyNotifications = lazy(() => import('./personal-profile/MyNotifications.jsx'));
-const MyProfile = lazy(() => import('./personal-profile/MyProfile.jsx'));
-const PaymentSettings = lazy(() => import('./personal-profile/PaymentSettings.jsx'));
+import MyNotifications from './personal-profile/MyNotifications.jsx';
+import MyProfile from './personal-profile/MyProfile.jsx';
+import PaymentSettings from './personal-profile/PaymentSettings.jsx';
 
-const RequesterRootPage = lazy(() => import('./requester-flow/RequesterRootPage.jsx'));
-const CreateARequestPage = lazy(() => import('./requester-flow/CreateARequestPage.jsx'));
+import RequesterRootPage from './requester-flow/RequesterRootPage.jsx';
+import CreateARequestPage from './requester-flow/CreateARequestPage.jsx';
 
-const MyRequestsPage = lazy(() => import('./requester-flow/MyRequestsPage.jsx'));
+import MyRequestsPage from './requester-flow/MyRequestsPage.jsx';
 
-const TermsOfService = lazy(() => import('./onboarding-flow/TermsOfService.jsx'));
-const OtherUserProfileForReviewPage = lazy(() => import('./OtherUserProfileForReviewPage.jsx'));
-const TaskerReviewingCompletedRequest = lazy(() =>
-  import('./review-flow/TaskerReviewingCompletedRequest.jsx'),
-);
-const RequesterReviewingCompletedRequest = lazy(() =>
-  import('./review-flow/RequesterReviewingCompletedRequest.jsx'),
-);
-const MyBidsPage = lazy(() => import('./tasker-flow/MyBidsPage.jsx'));
-const ReviewAwardedBidPage = lazy(() => import('./tasker-flow/ReviewAwardedBidPage.jsx'));
-const ReviewBidAndRequestPage = lazy(() => import('./tasker-flow/ReviewOpenBidAndRequestPage.jsx'));
-const BidOnRequestPage = lazy(() => import('./tasker-flow/BidOnRequestPage.jsx'));
-const TaskerRootPage = lazy(() => import('./tasker-flow/TaskerRootPage.jsx'));
-const ReviewRequestAndBidsPage = lazy(() =>
-  import('./requester-flow/ReviewRequestAndBidsPage.jsx'),
-);
-const ReviewMyAwardedRequestAndWinningBidPage = lazy(() =>
-  import('./requester-flow/ReviewMyAwardedRequestAndWinningBidPage.jsx'),
-);
+import TermsOfService from './onboarding-flow/TermsOfService.jsx';
+import OtherUserProfileForReviewPage from './OtherUserProfileForReviewPage.jsx';
+import TaskerReviewingCompletedRequest from './review-flow/TaskerReviewingCompletedRequest.jsx';
+import RequesterReviewingCompletedRequest from './review-flow/RequesterReviewingCompletedRequest.jsx';
+import MyBidsPage from './tasker-flow/MyBidsPage.jsx';
+import ReviewAwardedBidPage from './tasker-flow/ReviewAwardedBidPage.jsx';
+import ReviewBidAndRequestPage from './tasker-flow/ReviewOpenBidAndRequestPage.jsx';
+import BidOnRequestPage from './tasker-flow/BidOnRequestPage.jsx';
+import TaskerRootPage from './tasker-flow/TaskerRootPage.jsx';
+import ReviewRequestAndBidsPage from './requester-flow/ReviewRequestAndBidsPage.jsx';
+import ReviewMyAwardedRequestAndWinningBidPage from './requester-flow/ReviewMyAwardedRequestAndWinningBidPage.jsx';
 
 const pathsWhereWeDontShowPortalDetail = [
   '/BidOrBoo',
@@ -207,88 +199,82 @@ class App extends React.Component {
         <Header id="bidorboo-header" />
         <div id="RoutesWrapper" style={{ ...styleToPut }} className="has-navbar-fixed-top">
           <Pre_AuthInProgress>
-            <Suspense fallback={<Spinner isLoading renderLabel="loading..."></Spinner>}>
-              <Switch>
-                <Route exact path={ROUTES.CLIENT.HOME} component={HomePage} />
-                <Route exact path={ROUTES.CLIENT.REQUESTER.root} component={RequesterRootPage} />
-                <Route
-                  exact
-                  path={`${ROUTES.CLIENT.REQUESTER.createrequest}`}
-                  component={CreateARequestPage}
-                />
-                <Route exact path={ROUTES.CLIENT.TASKER.root} component={TaskerRootPage} />
-                <Route
-                  exact
-                  path={ROUTES.CLIENT.TASKER.bidOnRequestPage}
-                  component={BidOnRequestPage}
-                />
-                <Route
-                  exact
-                  path={`${ROUTES.CLIENT.USER_ROFILE_FOR_REVIEW}`}
-                  component={OtherUserProfileForReviewPage}
-                />
+            <Switch>
+              <Route exact path={ROUTES.CLIENT.HOME} component={HomePage} />
+              <Route exact path={ROUTES.CLIENT.REQUESTER.root} component={RequesterRootPage} />
+              <Route
+                exact
+                path={`${ROUTES.CLIENT.REQUESTER.createrequest}`}
+                component={CreateARequestPage}
+              />
+              <Route exact path={ROUTES.CLIENT.TASKER.root} component={TaskerRootPage} />
+              <Route
+                exact
+                path={ROUTES.CLIENT.TASKER.bidOnRequestPage}
+                component={BidOnRequestPage}
+              />
+              <Route
+                exact
+                path={`${ROUTES.CLIENT.USER_ROFILE_FOR_REVIEW}`}
+                component={OtherUserProfileForReviewPage}
+              />
 
-                <Route
-                  exact
-                  path={`${ROUTES.CLIENT.RESETPASSWORD}`}
-                  component={ResetLocalPassword}
-                />
-                <Route exact path={'/login-and-registration'} component={LoginOrRegisterPage} />
+              <Route exact path={`${ROUTES.CLIENT.RESETPASSWORD}`} component={ResetLocalPassword} />
+              <Route exact path={'/login-and-registration'} component={LoginOrRegisterPage} />
 
-                <Route
-                  exact
-                  path={`${ROUTES.CLIENT.REQUESTER.myRequestsPage}`}
-                  component={MyRequestsPage}
-                />
+              <Route
+                exact
+                path={`${ROUTES.CLIENT.REQUESTER.myRequestsPage}`}
+                component={MyRequestsPage}
+              />
 
-                <Route
-                  exact
-                  path={`${ROUTES.CLIENT.REQUESTER.reviewRequestAndBidsPage}`}
-                  component={ReviewRequestAndBidsPage}
-                />
-                <Route
-                  exact
-                  path={`${ROUTES.CLIENT.REQUESTER.selectedAwardedRequestPage}`}
-                  component={ReviewMyAwardedRequestAndWinningBidPage}
-                />
+              <Route
+                exact
+                path={`${ROUTES.CLIENT.REQUESTER.reviewRequestAndBidsPage}`}
+                component={ReviewRequestAndBidsPage}
+              />
+              <Route
+                exact
+                path={`${ROUTES.CLIENT.REQUESTER.selectedAwardedRequestPage}`}
+                component={ReviewMyAwardedRequestAndWinningBidPage}
+              />
 
-                <Route exact path={ROUTES.CLIENT.TASKER.mybids} component={MyBidsPage} />
-                <Route
-                  exact
-                  path={`${ROUTES.CLIENT.TASKER.reviewMyOpenBidAndTheRequestDetails}`}
-                  component={ReviewBidAndRequestPage}
-                />
-                <Route
-                  exact
-                  path={`${ROUTES.CLIENT.TASKER.awardedBidDetailsPage}`}
-                  component={ReviewAwardedBidPage}
-                />
-                <Route exact path={ROUTES.CLIENT.MY_PROFILE.basicSettings} component={MyProfile} />
-                <Route
-                  exact
-                  path={ROUTES.CLIENT.MY_PROFILE.myNotifications}
-                  component={MyNotifications}
-                />
-                <Route
-                  exact
-                  path={ROUTES.CLIENT.MY_PROFILE.paymentSettings}
-                  component={PaymentSettings}
-                />
-                <Route
-                  exact
-                  path={`${ROUTES.CLIENT.REVIEW.requesterRequestReview}`}
-                  component={RequesterReviewingCompletedRequest}
-                />
-                <Route
-                  exact
-                  path={`${ROUTES.CLIENT.REVIEW.taskerRequestReview}`}
-                  component={TaskerReviewingCompletedRequest}
-                />
+              <Route exact path={ROUTES.CLIENT.TASKER.mybids} component={MyBidsPage} />
+              <Route
+                exact
+                path={`${ROUTES.CLIENT.TASKER.reviewMyOpenBidAndTheRequestDetails}`}
+                component={ReviewBidAndRequestPage}
+              />
+              <Route
+                exact
+                path={`${ROUTES.CLIENT.TASKER.awardedBidDetailsPage}`}
+                component={ReviewAwardedBidPage}
+              />
+              <Route exact path={ROUTES.CLIENT.MY_PROFILE.basicSettings} component={MyProfile} />
+              <Route
+                exact
+                path={ROUTES.CLIENT.MY_PROFILE.myNotifications}
+                component={MyNotifications}
+              />
+              <Route
+                exact
+                path={ROUTES.CLIENT.MY_PROFILE.paymentSettings}
+                component={PaymentSettings}
+              />
+              <Route
+                exact
+                path={`${ROUTES.CLIENT.REVIEW.requesterRequestReview}`}
+                component={RequesterReviewingCompletedRequest}
+              />
+              <Route
+                exact
+                path={`${ROUTES.CLIENT.REVIEW.taskerRequestReview}`}
+                component={TaskerReviewingCompletedRequest}
+              />
 
-                <Route exact path={ROUTES.CLIENT.TOS} component={TermsOfService} />
-                <Redirect path="*" to={ROUTES.CLIENT.HOME} />
-              </Switch>
-            </Suspense>
+              <Route exact path={ROUTES.CLIENT.TOS} component={TermsOfService} />
+              <Redirect path="*" to={ROUTES.CLIENT.HOME} />
+            </Switch>
           </Pre_AuthInProgress>
         </div>
 
@@ -317,9 +303,7 @@ class App extends React.Component {
             <div className="level-item has-text-centered">
               <div>
                 <div style={{ marginBottom: '0.5rem' }}>
-                  <Suspense fallback={<Spinner isLoadingrenderLabel="loading..."></Spinner>}>
-                    <FreshdeskChat isFooter />
-                  </Suspense>
+                  <FreshdeskChat isFooter />
                 </div>
               </div>
             </div>
