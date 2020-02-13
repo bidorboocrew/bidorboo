@@ -174,7 +174,7 @@ const EmptyStateComponent = () => {
                 switchRoute(ROUTES.CLIENT.TASKER.root);
               }}
             >
-              View Requested Tasks
+              Explore Tasks In Your Area
             </a>
           </div>
         </div>

@@ -19,8 +19,9 @@ import canadaFlag from '../assets/images/Canada-flag-round.png';
 import AddToMobileHomeScreenBanner from './AddToMobileHomeScreenBanner';
 import '../assets/index.scss';
 import { Spinner } from '../components/Spinner.jsx';
+import { getBugsnagClient } from '../index';
 
-import { Header, HomePage, ResetLocalPassword,  LoginOrRegisterPage } from './index';
+import { Header, HomePage, ResetLocalPassword, LoginOrRegisterPage } from './index';
 
 import ShowSpecialMomentModal from './ShowSpecialMomentModal';
 import Pre_AuthInProgress from '../Pre_AuthInProgress.jsx';
@@ -81,8 +82,8 @@ class App extends React.Component {
   }
 
   componentDidCatch(error, info) {
-    console.error('bdb error details ' + error);
-    console.error('failure info ' + info);
+    getBugsnagClient().leaveBreadcrumb('componentDidCatch App', { debugInfo: info });
+    getBugsnagClient().notify(error);
   }
 
   static getDerivedStateFromError(error) {

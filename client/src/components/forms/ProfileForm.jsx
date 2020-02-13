@@ -7,6 +7,7 @@ import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import { TextInput, TextAreaInput, PhoneNumberInput } from './FormsHelpers';
 import { alphanumericField, phoneNumber } from './FormsValidators';
+import { getBugsnagClient } from '../../index';
 
 const MAX_PARAGRAPH_LENGTH = 255;
 const MAX_NAME_LENGTH = 25;
@@ -76,6 +77,8 @@ const EnhancedForms = withFormik({
       try {
         frontSideResp = await axios.post(`https://files.stripe.com/v1/files`, fileData, config);
       } catch (e) {
+        getBugsnagClient().leaveBreadcrumb('URGENT_Error processing id img');
+        getBugsnagClient().notify(e);
         props.dispatch({
           type: A.UI_ACTIONS.SHOW_TOAST_MSG,
           payload: {

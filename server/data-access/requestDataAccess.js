@@ -4,7 +4,7 @@ const User = mongoose.model('UserModel');
 const RequestModel = mongoose.model('RequestModel');
 const BidModel = mongoose.model('BidModel');
 const ReviewModel = mongoose.model('ReviewModel');
-
+const bugsnagClient = require('../index').bugsnagClient;
 const moment = require('moment');
 const ROUTES = require('../backend-route-constants');
 const sendGridEmailing = require('../services/sendGrid').EmailService;
@@ -157,11 +157,14 @@ exports.requestDataAccess = {
                 }
               }
             } catch (innerE) {
+              bugsnagClient.notify(innerE);
               console.log('BIDORBOO_ERROR: SendRemindersForUpcomingRequests_Error ' + innerE);
             }
           });
         }
       } catch (e) {
+        bugsnagClient.notify(e);
+
         console.log('BIDORBOO_ERROR: SendRemindersForUpcomingRequests_Error ' + e);
       }
     },
@@ -239,6 +242,8 @@ exports.requestDataAccess = {
                 });
               }
             } catch (innerError) {
+              bugsnagClient.notify(innerError);
+
               console.log('BIDORBOO_ERROR: CleanUpAllExpiredNonAwardedRequests ' + innerError);
             }
           });
@@ -246,6 +251,7 @@ exports.requestDataAccess = {
 
         return;
       } catch (e) {
+        bugsnagClient.notify(e);
         console.log('BIDORBOO_ERROR: CleanUpAllExpiredNonAwardedRequests_Error ' + e);
       }
     },
@@ -385,12 +391,15 @@ exports.requestDataAccess = {
                 }
               }
             } catch (innerError) {
+              bugsnagClient.notify(innerError);
+
               console.log('BIDORBOO_ERROR: nagRequesterToConfirmRequest_Error ' + innerError);
             }
           });
         }
         return;
       } catch (e) {
+        bugsnagClient.notify(e);
         console.log('BIDORBOO_ERROR: nagRequesterToConfirmRequest_Error ' + e);
       }
     },
@@ -432,6 +441,7 @@ exports.requestDataAccess = {
         }
         return;
       } catch (e) {
+        bugsnagClient.notify(e);
         console.log('BIDORBOO_ERROR: nagRequesterToConfirmRequest_Error ' + e);
       }
     },
@@ -489,6 +499,10 @@ exports.requestDataAccess = {
                     'BIDORBOO_PAYMENTS: DANGER INVESTIGATE WHY THIS IS NOT SUCCESSFUL' +
                       JSON.stringify(request)
                   );
+                  sendGridEmailing.informBobCrewAboutFailedImportantStuff(
+                    'SendPayoutsToBanks',
+                    request
+                  );
                   return;
                 }
                 if (!refund) {
@@ -523,34 +537,37 @@ exports.requestDataAccess = {
                     .lean()
                     .exec();
                 } catch (errorPayout) {
-                  if (errorPayout) {
-                    console.log('BIDORBOO_ERROR: SendPayoutsToBanks_Error request details');
-                    console.log({ request });
-
-                    console.log(
-                      'BIDORBOO_ERROR: SendPayoutsToBanks_Error ' +
-                        errorPayout +
-                        '  ' +
-                        errorPayout.message
-                    );
-                  } else {
-                    console.log('BIDORBOO_ERROR: SendPayoutsToBanks_Error ' + errorPayout);
-                  }
+                  console.log('BIDORBOO_ERROR: SendPayoutsToBanks_Error request details');
+                  console.log({ request });
+                  sendGridEmailing.informBobCrewAboutFailedImportantStuff(
+                    'SendPayoutsToBanks',
+                    errorPayout
+                  );
                 }
               } else {
                 console.log(
                   'BIDORBOO_PAYMENTS_WARNIKNG: DANGER PAYOUT IS NOT ENABLED PLEASE INVESTIGATE WHY ' +
                     destinationStripeAcc
                 );
+                sendGridEmailing.informBobCrewAboutFailedImportantStuff('SendPayoutsToBanks', {
+                  destinationStripeAcc,
+                });
               }
             } catch (innerError) {
+              bugsnagClient.notify(innerError);
+
               throw innerError;
             }
           });
         }
         return;
       } catch (e) {
+        bugsnagClient.notify(e);
         console.log('BIDORBOO_ERROR: SendPayoutsToBanks_Error ' + e);
+        sendGridEmailing.informBobCrewAboutFailedImportantStuff('SendPayoutsToBanks', {
+          e,
+        });
+        return;
       }
     },
 
@@ -615,6 +632,8 @@ exports.requestDataAccess = {
                 });
               }
             } catch (innerError) {
+              bugsnagClient.notify(innerError);
+
               console.log(
                 'BIDORBOO_ERROR: CleanUpAllBidsAssociatedWithDoneRequests ' +
                   JSON.stringify(innerError)
@@ -624,6 +643,7 @@ exports.requestDataAccess = {
         }
         return;
       } catch (e) {
+        bugsnagClient.notify(e);
         console.log('BIDORBOO_ERROR: CleanUpAllBidsAssociatedWithDoneRequests ' + e);
       }
     },
@@ -724,6 +744,7 @@ exports.requestDataAccess = {
           resolve(allRequests);
         }
       } catch (e) {
+        bugsnagClient.notify(e);
         reject(e);
       }
     });
@@ -751,6 +772,7 @@ exports.requestDataAccess = {
         .exec();
       return newRequest.toObject();
     } catch (e) {
+      bugsnagClient.notify(e);
       throw e;
     }
   },
@@ -815,6 +837,7 @@ exports.requestDataAccess = {
 
       return updatedRequest;
     } catch (e) {
+      bugsnagClient.notify(e);
       throw e;
     }
   },
@@ -868,6 +891,7 @@ exports.requestDataAccess = {
 
         resolve(requestWithTaskerDetails);
       } catch (e) {
+        bugsnagClient.notify(e);
         reject(e);
       }
     });
@@ -969,6 +993,7 @@ exports.requestDataAccess = {
           });
         return resolve(requestsUserDidNotBidOn);
       } catch (e) {
+        bugsnagClient.notify(e);
         reject(e);
       }
     });
@@ -1022,6 +1047,7 @@ exports.requestDataAccess = {
         }
         resolve({ success: true });
       } catch (e) {
+        bugsnagClient.notify(e);
         console.log('BIDORBOO_ERROR: couldnt notify interested taskers ' + JSON.stringify(e));
       }
     });
@@ -1203,6 +1229,7 @@ exports.requestDataAccess = {
 
         resolve({ success: true });
       } catch (e) {
+        bugsnagClient.notify(e);
         reject(e);
       }
     });
@@ -1275,6 +1302,7 @@ exports.requestDataAccess = {
           success: true,
         });
       } catch (e) {
+        bugsnagClient.notify(e);
         reject(e);
       }
     });
@@ -1343,6 +1371,7 @@ exports.requestDataAccess = {
           success: true,
         });
       } catch (e) {
+        bugsnagClient.notify(e);
         reject(e);
       }
     });
@@ -1419,6 +1448,7 @@ exports.requestDataAccess = {
           success: true,
         });
       } catch (e) {
+        bugsnagClient.notify(e);
         reject(e);
       }
     });
@@ -1625,6 +1655,7 @@ exports.requestDataAccess = {
         // not open nor awarded request
         reject('something went wrong while canceling request');
       } catch (e) {
+        bugsnagClient.notify(e);
         reject(e);
       }
     });
@@ -1664,6 +1695,7 @@ exports.requestDataAccess = {
         );
         resolve(true);
       } catch (e) {
+        bugsnagClient.notify(e);
         reject(e);
       }
     });
@@ -1681,6 +1713,7 @@ exports.requestDataAccess = {
         );
         resolve(true);
       } catch (e) {
+        bugsnagClient.notify(e);
         reject(e);
       }
     });
@@ -1702,6 +1735,7 @@ exports.requestDataAccess = {
           }
         );
       } catch (e) {
+        bugsnagClient.notify(e);
         reject(e);
       }
     });
@@ -1716,6 +1750,7 @@ exports.requestDataAccess = {
           .exec();
         resolve(true);
       } catch (e) {
+        bugsnagClient.notify(e);
         reject(e);
       }
     });
@@ -1775,6 +1810,7 @@ exports.requestDataAccess = {
 
         resolve(true);
       } catch (e) {
+        bugsnagClient.notify(e);
         reject(e);
       }
     });
@@ -1841,6 +1877,7 @@ exports.requestDataAccess = {
 
       return [];
     } catch (e) {
+      bugsnagClient.notify(e);
       throw e;
     }
   },
@@ -1893,6 +1930,7 @@ exports.requestDataAccess = {
 
         resolve(requestWithBidDetails);
       } catch (e) {
+        bugsnagClient.notify(e);
         reject(e);
       }
     });
@@ -1955,6 +1993,7 @@ exports.requestDataAccess = {
         }
         reject('cant find the specified Request');
       } catch (e) {
+        bugsnagClient.notify(e);
         reject(e);
       }
     });
@@ -2030,6 +2069,7 @@ exports.requestDataAccess = {
         }
         resolve(requestWithTaskerDetails);
       } catch (e) {
+        bugsnagClient.notify(e);
         reject(e);
       }
     });
@@ -2083,6 +2123,7 @@ exports.requestDataAccess = {
 
         resolve(requestWithBidDetails);
       } catch (e) {
+        bugsnagClient.notify(e);
         reject(e);
       }
     });

@@ -199,6 +199,8 @@ exports.bidDataAccess = {
           });
         }
       } catch (e) {
+        bugsnagClient.notify(e);
+
         reject(e);
       }
     });
@@ -350,6 +352,7 @@ exports.bidDataAccess = {
           resolve({ success: true, deletedBidId: bidId });
         }
       } catch (e) {
+        bugsnagClient.notify(e);
         reject(e);
       }
     });
@@ -506,6 +509,8 @@ exports.bidDataAccess = {
         }
         resolve(results);
       } catch (e) {
+        bugsnagClient.notify(e);
+
         reject(e);
       }
     });
@@ -614,6 +619,8 @@ exports.bidDataAccess = {
 
         return resolve(theBid);
       } catch (e) {
+        bugsnagClient.notify(e);
+
         reject(e);
       }
     });
@@ -680,6 +687,8 @@ exports.bidDataAccess = {
             : {};
         resolve(theBid);
       } catch (e) {
+        bugsnagClient.notify(e);
+
         reject(e);
       }
     });
@@ -728,6 +737,8 @@ exports.bidDataAccess = {
             : {};
         resolve(theBid);
       } catch (e) {
+        bugsnagClient.notify(e);
+
         reject(e);
       }
     });
@@ -877,6 +888,8 @@ exports.bidDataAccess = {
 
         newBid && newBid.toObject ? resolve(newBid.toObject()) : resolve(newBid);
       } catch (e) {
+        bugsnagClient.notify(e);
+
         reject(e);
       }
     });
@@ -953,6 +966,8 @@ exports.bidDataAccess = {
         }
         reject('cant find the specified Bid');
       } catch (e) {
+        bugsnagClient.notify(e);
+
         reject(e);
       }
     });
@@ -967,6 +982,8 @@ exports.bidDataAccess = {
 
         resolve(theBid);
       } catch (e) {
+        bugsnagClient.notify(e);
+
         reject(e);
       }
     });

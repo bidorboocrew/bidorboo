@@ -9,7 +9,7 @@ import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute, goBackToPreviousRoute } from '../utils';
-
+import { getBugsnagClient } from '../index';
 import TASKS_DEFINITIONS from '../bdb-tasks/tasksDefinitions';
 
 export const POINT_OF_VIEW = {
@@ -22,8 +22,9 @@ export const getDaysSinceCreated = (createdAt) => {
   try {
     daysSinceCreated = createdAt ? moment.duration(moment().diff(moment(createdAt))).humanize() : 0;
   } catch (e) {
-    //xxx we dont wana fail simply cuz we did not get the diff in time
-    console.error(e);
+    //xxx we dont wana fail simply cuz we
+    getBugsnagClient().leaveBreadcrumb('did not get the diff in time');
+    getBugsnagClient().notify(e);
   }
   return daysSinceCreated;
 };
@@ -339,7 +340,8 @@ export class LocationLabelAndValue extends React.Component {
     this._isMounted = true;
     const { location, useShortAddress } = this.props;
     if (!location || location.length !== 2) {
-      console.error('error location is invalid');
+      getBugsnagClient().notify(new Error('error location is invalid'));
+
       return null;
     }
 
@@ -390,7 +392,8 @@ export class LocationLabelAndValue extends React.Component {
                   });
                 }
               } catch (e) {
-                console.error('error ' + e);
+                getBugsnagClient().leaveBreadcrumb('did not get the diff in time');
+                getBugsnagClient().notify(e);
               }
             }
           }

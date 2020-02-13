@@ -1,4 +1,5 @@
 const { bidDataAccess } = require('../data-access/bidDataAccess');
+const bugsnagClient = require('../index').bugsnagClient;
 
 module.exports = async (req, res, next) => {
   try {
@@ -22,6 +23,7 @@ module.exports = async (req, res, next) => {
       }
     }
   } catch (e) {
+    bugsnagClient.notify(e);
     e.safeMsg = 'Bad Request post new Bid, missing param';
     return next(e);
   }

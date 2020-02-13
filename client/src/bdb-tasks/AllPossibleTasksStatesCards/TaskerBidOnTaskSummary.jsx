@@ -1,6 +1,10 @@
 import React from 'react';
 // import ReactDOM from 'react-dom';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as A from '../../app-state/actionTypes';
+
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 import TASKS_DEFINITIONS from '../tasksDefinitions';
@@ -22,9 +26,9 @@ import { didUserAlreadyView } from '../../containers/commonUtils';
 
 import RequestBaseContainer from './RequestBaseContainer';
 
-export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
+class TaskerBidOnTaskSummary extends RequestBaseContainer {
   render() {
-    const { request, otherArgs = {} } = this.props;
+    const { request, otherArgs = {}, dispatch } = this.props;
     // const { showRegisterAsTaskerModal } = this.state;
     const { showMapView, isLoggedIn, userDetails, updateViewedBy } = otherArgs;
 
@@ -117,16 +121,33 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                   <div style={{ display: 'flex' }}>
                     <a
                       onClick={(e) => {
-                        if (isLoggedIn) {
-                          updateViewedBy(request);
-                        }
-
-                        if (canBid || !isLoggedIn) {
+                        if (!isLoggedIn) {
                           switchRoute(ROUTES.CLIENT.TASKER.getDynamicBidOnRequestPage(request._id));
                         } else {
-                          e.preventDefault();
-                          const elmnt = document.querySelector('#bob-taskerVerificationBanner');
-                          elmnt && elmnt.scrollIntoView({ block: 'end', behavior: 'smooth' });
+                          if (canBid) {
+                            updateViewedBy(request);
+                            switchRoute(
+                              ROUTES.CLIENT.TASKER.getDynamicBidOnRequestPage(request._id),
+                            );
+                          } else {
+                            const elmnt = document.querySelector('#bob-taskerVerificationBanner');
+
+                            if (elmnt) {
+                              elmnt.scrollIntoView({ block: 'end', behavior: 'smooth' });
+                              return;
+                            } else {
+                              dispatch({
+                                type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+                                payload: {
+                                  toastDetails: {
+                                    type: 'error',
+                                    msg:
+                                      'You are not verified yet, Try refreshing the page first. Otherwise please chat with our support team',
+                                  },
+                                },
+                              });
+                            }
+                          }
                         }
                       }}
                       className="button is-success firstButtonInCard"
@@ -163,7 +184,6 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                   <div style={{ display: 'inline-block', marginTop: -12 }}>
                     <a
                       onClick={(e) => {
-                        debugger
                         if (!isLoggedIn || canBid) {
                           switchRoute(ROUTES.CLIENT.TASKER.getDynamicBidOnRequestPage(request._id));
                         } else {
@@ -190,3 +210,11 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch,
+  };
+};
+
+export default connect(null, mapDispatchToProps)(TaskerBidOnTaskSummary);

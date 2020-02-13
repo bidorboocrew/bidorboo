@@ -1,5 +1,6 @@
 const { requestDataAccess } = require('../data-access/requestDataAccess');
 const { bidDataAccess } = require('../data-access/bidDataAccess');
+const bugsnagClient = require('../index').bugsnagClient;
 
 module.exports = async (req, res, next) => {
   try {
@@ -38,6 +39,8 @@ module.exports = async (req, res, next) => {
       next();
     }
   } catch (e) {
+    bugsnagClient.notify(e);
+
     e.safeMsg = `failed to pass Tasker Review Pre-Checks`;
     return next(e);
   }

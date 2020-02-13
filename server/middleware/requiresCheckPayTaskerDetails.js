@@ -1,6 +1,7 @@
 const { bidDataAccess } = require('../data-access/bidDataAccess');
 const userDataAccess = require('../data-access/userDataAccess');
 const stripeServiceUtil = require('../services/stripeService').util;
+const bugsnagClient = require('../index').bugsnagClient;
 
 /**
  * bunch of confirmation checks to ensure that we do not charge until all details match up
@@ -77,6 +78,8 @@ module.exports = async (req, res, next) => {
       });
     }
   } catch (e) {
+    bugsnagClient.notify(e);
+
     e.safeMsg = `We did NOT process the payment. failed to meet requirements to process payment`;
     return next(e);
   }

@@ -1,4 +1,5 @@
 const { bidDataAccess } = require('../data-access/bidDataAccess');
+const bugsnagClient = require('../index').bugsnagClient;
 
 module.exports = async (req, res, next) => {
   try {
@@ -21,6 +22,7 @@ module.exports = async (req, res, next) => {
       safeMsg: 'Missing parameters, we can not complete this request',
     });
   } catch (e) {
+    bugsnagClient.notify(e);
     e.safeMsg = 'you must be the bid owner to change its value';
     return next(e);
   }

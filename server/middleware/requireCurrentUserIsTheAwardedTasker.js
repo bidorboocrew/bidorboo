@@ -1,5 +1,5 @@
 const { requestDataAccess } = require('../data-access/requestDataAccess');
-
+const bugsnagClient = require('../index').bugsnagClient;
 module.exports = async (req, res, next) => {
   try {
     //in the future redirect to login page
@@ -22,6 +22,7 @@ module.exports = async (req, res, next) => {
         .send({ safeMsg: 'only the awarded Tasker can perform this operation.' });
     }
   } catch (e) {
+    bugsnagClient.notify(e);
     e.safeMsg = 'failed to validate is awarded Tasker';
     return next(e);
   }

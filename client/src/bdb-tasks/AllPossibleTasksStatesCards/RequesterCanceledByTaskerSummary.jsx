@@ -76,7 +76,7 @@ class RequesterCanceledByTaskerSummary extends React.Component {
                   style={{ position: 'absolute', top: -5, right: 0, fontSize: 10 }}
                   className="has-text-danger"
                 >
-                  <i className="fas fa-bell" />
+                  <i className="fas fa-circle"></i>
                 </div>
               )}
               View Details

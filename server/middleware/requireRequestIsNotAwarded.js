@@ -1,4 +1,5 @@
 const { requestDataAccess } = require('../data-access/requestDataAccess');
+const bugsnagClient = require('../index').bugsnagClient;
 
 module.exports = async (req, res, next) => {
   try {
@@ -18,6 +19,8 @@ module.exports = async (req, res, next) => {
         .send({ safeMsg: 'Sorry , The Requester had already awarded this task to somebody.' });
     }
   } catch (e) {
+    bugsnagClient.notify(e);
+
     e.safeMsg = 'failed to validate if this task is awarded';
     return next(e);
   }

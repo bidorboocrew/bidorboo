@@ -1,11 +1,10 @@
 import React from 'react';
-
+import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as A from '../../app-state/actionTypes';
 
-import axios from 'axios';
-
+import { getBugsnagClient } from '../../index';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { verifyEmail } from '../../app-state/actions/authActions';
 
@@ -32,6 +31,8 @@ class VerifyEmailField extends React.Component {
           this.setState({ isResendingVCode: false, inputCodeContent: '' });
         }, 2000);
       } catch (e) {
+        getBugsnagClient().leaveBreadcrumb('URGENT_Unable to verify your email');
+        getBugsnagClient().notify(e);
         this.props.dispatch({
           type: A.UI_ACTIONS.SHOW_TOAST_MSG,
           payload: {

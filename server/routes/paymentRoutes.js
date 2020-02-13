@@ -1,6 +1,6 @@
 const ROUTES = require('../backend-route-constants');
 const requireLogin = require('../middleware/requireLogin');
-
+const bugsnagClient = require('../index').bugsnagClient;
 const requireRequestOwner = require('../middleware/requireRequestOwner');
 const requireNoPaymentProcessedForThisRequestBefore = require('../middleware/requireNoPaymentProcessedForThisRequestBefore');
 const requireRequesterHaveStripeCustomerAccountIdOrInitialize = require('../middleware/requireRequesterHaveStripeCustomerAccountIdOrInitialize');
@@ -143,6 +143,8 @@ module.exports = (app) => {
           return res.status(200).send({ sessionClientId });
         }
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg =
           "Couldn't locate the request and corresponding Bid. Try again and if this problem persist chat with our customer support.";
         return next(e);
@@ -175,6 +177,8 @@ module.exports = (app) => {
           errorMsg: `couldn't register your bank account. please Chat with our customer support for further help`,
         });
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = `couldn't register your bank account please Chat with our customer support for further help`;
         return next(e);
       }
@@ -198,11 +202,12 @@ module.exports = (app) => {
           stripeConnectAccId,
           redirectUrl: req.query.redirectUrl,
           isNewCustomer: true,
-          collectMinimum: true,
         });
 
         return res.send({ success: true, accountLinkUrl: url });
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = `couldn't get account link for setup and verification from stripe`;
         return next(e);
       }
@@ -226,11 +231,12 @@ module.exports = (app) => {
           stripeConnectAccId,
           redirectUrl: req.query.redirectUrl,
           isNewCustomer: false,
-          collectMinimum: false,
         });
 
         return res.send({ success: true, accountLinkUrl: url });
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = `couldn't get account link update for setup and verification from stripe`;
         return next(e);
       }
@@ -310,6 +316,8 @@ module.exports = (app) => {
         },
       });
     } catch (e) {
+      bugsnagClient.notify(e);
+
       e.safeMsg = 'Failed To retrieve your connected stripe account details';
       return next(e);
     }
@@ -379,6 +387,8 @@ module.exports = (app) => {
       }
       return res.status(200).send();
     } catch (e) {
+      bugsnagClient.notify(e);
+
       e.safeMsg = 'connected Accounts Webhook failure';
       sendGridEmailing.informBobCrewAboutFailedImportantStuff('connectedAccountsWebhook', {
         safeMsg: 'connected Accounts Webhook failure',
@@ -437,6 +447,8 @@ module.exports = (app) => {
       }
       return res.status(200).send();
     } catch (e) {
+      bugsnagClient.notify(e);
+
       sendGridEmailing.informBobCrewAboutFailedImportantStuff('payoutsWebhook', {
         safeMsg: 'payout webhook failed',
       });
@@ -536,6 +548,8 @@ module.exports = (app) => {
       }
       return res.status(200).send();
     } catch (e) {
+      bugsnagClient.notify(e);
+
       sendGridEmailing.informBobCrewAboutFailedImportantStuff('chargeSucceededWebhook', {
         safeMsg: 'charges succeeded failed',
       });
@@ -573,6 +587,8 @@ module.exports = (app) => {
       //   safeMsg: 'something went wrong handling payment, our crew wil be in touch with you',
       // });
     } catch (e) {
+      bugsnagClient.notify(e);
+
       e.safeMsg = 'checkout Fulfillment failed';
       return next(e);
     }

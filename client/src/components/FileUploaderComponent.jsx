@@ -8,6 +8,8 @@ import Cropper from 'react-cropper';
 // https://github.com/blueimp/JavaScript-Load-Image#api
 import loadImage from 'blueimp-load-image';
 import 'cropperjs/dist/cropper.css';
+import { getBugsnagClient } from '../index';
+
 const MAX_FILE_SIZE_IN_MB = 1000000 * 10; //10MB
 
 const formikEnhancer = withFormik({
@@ -100,7 +102,8 @@ class MyForm extends React.Component {
       //New Code
       return new Blob([ab], { type: mimeString });
     } catch (e) {
-      console.error('error parsing img ' + e);
+      getBugsnagClient().leaveBreadcrumb('error parsing img');
+      getBugsnagClient().notify(e);
     }
   };
 
@@ -117,7 +120,10 @@ class MyForm extends React.Component {
       this.props.setFieldValue('fileField', updatedFile, false);
       this.props.handleSubmit(values, this.props);
     } catch (e) {
-      console.error('could not crop the image will upload the original img instead');
+      getBugsnagClient().leaveBreadcrumb(
+        'could not crop the image will upload the original img instead',
+      );
+      getBugsnagClient().notify(e);
     }
   };
 
@@ -135,7 +141,8 @@ class MyForm extends React.Component {
         this.setState({ croppedFile: file });
       }
     } catch (e) {
-      console.error('failed to crop' + e);
+      getBugsnagClient().leaveBreadcrumb('failed to crop');
+      getBugsnagClient().notify(e);
     }
   };
 

@@ -2,6 +2,7 @@
 const keys = require('../config/keys');
 const stripe = require('stripe')(keys.stripeSecretKey);
 const moment = require('moment');
+const bugsnagClient = require('../index').bugsnagClient;
 // // XXXXXX RELEASE THE FUNDS
 // const payoutConfirmation = await stripeServiceUtil.payoutToBank('acct_1DxRCzFZom4pltNY', {
 //   amount: requestDetails.processedPayment.taskerPayout,
@@ -279,6 +280,8 @@ exports.util = {
 
         resolve(accountBalanceDetails);
       } catch (e) {
+        bugsnagClient.notify(e);
+
         reject(e);
       }
     });
@@ -346,6 +349,8 @@ exports.util = {
         const account = await stripe.accounts.create(accountDetails);
         resolve(account);
       } catch (e) {
+        bugsnagClient.notify(e);
+
         reject(e);
       }
     });
@@ -358,12 +363,13 @@ exports.util = {
   }) => {
     try {
       // XXX important update
+      // https://stripe.com/docs/connect/connect-onboarding#customaccountverification
       const accountLink = await stripe.accountLinks.create({
         account: stripeConnectAccId,
         failure_url: `${redirectUrl}/?success=false`,
         success_url: `${redirectUrl}/?success=true`,
-        type: isNewCustomer ? 'custom_account_verification' : 'custom_account_update',
-        collect: collectMinimum ? 'currently_due' : 'eventually_due',
+        type: 'custom_account_verification', //isNewCustomer ? 'custom_account_verification' : 'custom_account_update',
+        collect: 'currently_due',
       });
 
       return accountLink;

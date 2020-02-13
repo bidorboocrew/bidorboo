@@ -68,7 +68,7 @@ const UpdatePhoneNumberField = (props) => {
         type="submit"
         disabled={!values || !values.phoneNumber || values.phoneNumber.length < 12}
       >
-        Save This Number
+        Send Verification Code
       </button>
       <p className="help"></p>
     </form>

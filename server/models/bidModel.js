@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const MIN_BID_AMOUNT = 20;
-const MAX_BID_AMOUNT = 5000;
+const MAX_BID_AMOUNT = 2000;
 const BidSchema = new Schema(
   {
     _taskerRef: {

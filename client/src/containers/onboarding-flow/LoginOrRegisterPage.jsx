@@ -26,7 +26,6 @@ export class LoginOrRegisterPage extends React.Component {
   };
 
   componentDidUpdate() {
-
     if (this.props.isLoggedIn) {
       return switchRoute(ROUTES.CLIENT.HOME);
     }
@@ -64,8 +63,6 @@ export class LoginOrRegisterPage extends React.Component {
   render() {
     const { registerNewUser, bidOrBooLogin, isLoggedIn: storeIsLoggedIn } = this.props;
     const { showRegistrationForm, isLoggedIn } = this.state;
-
-
 
     return (
       <div className="columns is-centered is-multiline slide-in-right">
@@ -107,7 +104,7 @@ export class LoginOrRegisterPage extends React.Component {
                         <div className="tabs is-small is-centered">
                           <ul>
                             <li>
-                              <a>login via social media</a>
+                              <a style={{ fontSize: 14 }}>login via social media</a>
                             </li>
                           </ul>
                         </div>
@@ -137,7 +134,7 @@ export class LoginOrRegisterPage extends React.Component {
                         <div className="tabs is-small is-centered">
                           <ul>
                             <li>
-                              <a>or login with your email</a>
+                              <a style={{ fontSize: 14 }}>or login with your email</a>
                             </li>
                           </ul>
                         </div>
@@ -157,7 +154,7 @@ export class LoginOrRegisterPage extends React.Component {
                         <div className="tabs is-small is-centered">
                           <ul>
                             <li>
-                              <a>Join via social media</a>
+                              <a style={{ fontSize: 14 }}>Join via social media</a>
                             </li>
                           </ul>
                         </div>
@@ -187,14 +184,12 @@ export class LoginOrRegisterPage extends React.Component {
                         <div className="tabs is-small is-centered">
                           <ul>
                             <li>
-                              <a>Register With BidOrBoo</a>
+                              <a style={{ fontSize: 14 }}>Register With BidOrBoo</a>
                             </li>
                           </ul>
                         </div>
                         <div style={{ marginLeft: 24 }} className="has-text-left">
-                          <RegistrationForm
-                            onSubmit={registerNewUser}
-                          />
+                          <RegistrationForm onSubmit={registerNewUser} />
                         </div>
                       </div>
                     </>

@@ -5,7 +5,7 @@ import * as A from '../../app-state/actionTypes';
 
 import Dropzone from 'react-dropzone';
 import { withFormik } from 'formik';
-
+import { getBugsnagClient } from '../../index';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
 const MAX_FILE_SIZE_IN_MB = 1000000 * 10; //10MB
@@ -48,6 +48,9 @@ const EnhancedForms = withFormik({
       try {
         frontSideResp = await axios.post(`https://files.stripe.com/v1/files`, fileData, config);
       } catch (e) {
+        getBugsnagClient().leaveBreadcrumb('URGENT_Error processing id img');
+        getBugsnagClient().notify(e);
+
         dispatch({
           type: A.UI_ACTIONS.SHOW_TOAST_MSG,
           payload: {
@@ -78,6 +81,8 @@ const EnhancedForms = withFormik({
       try {
         backSideResp = await axios.post(`https://files.stripe.com/v1/files`, fileData, config);
       } catch (e) {
+        getBugsnagClient().leaveBreadcrumb('URGENT_Error processing id img');
+        getBugsnagClient().notify(e);
         dispatch({
           type: A.UI_ACTIONS.SHOW_TOAST_MSG,
           payload: {
@@ -109,7 +114,12 @@ const EnhancedForms = withFormik({
       });
     } catch (e) {
       props && props.closeModal && props.closeModal();
+
+      getBugsnagClient().leaveBreadcrumb('URGENT_failed  to create account');
+      getBugsnagClient().notify(e);
+
       let msg = 'failed To Create Account please email us at bidorboo@bidorboo.ca';
+
       if (
         e &&
         e.response &&
@@ -129,7 +139,6 @@ const EnhancedForms = withFormik({
         },
       });
       setSubmitting(false);
-      console.error(e);
     }
     setSubmitting(false);
     props && props.closeModal && props.closeModal();

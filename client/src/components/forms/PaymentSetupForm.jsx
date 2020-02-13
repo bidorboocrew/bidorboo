@@ -6,7 +6,7 @@ import axios from 'axios';
 import ReactDOM from 'react-dom';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
-
+import { getBugsnagClient } from '../../index';
 import { TextInput } from './FormsHelpers';
 
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -95,6 +95,8 @@ const EnhancedForms = withFormik({
       });
       window.location.reload();
     } catch (e) {
+      getBugsnagClient().leaveBreadcrumb('URGENT_failed To Create Account please');
+      getBugsnagClient().notify(e);
       let msg = 'failed To Create Account please email us at bidorboo@bidorboo.ca';
       if (
         e &&

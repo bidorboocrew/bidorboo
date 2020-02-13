@@ -1,4 +1,5 @@
 const { requestDataAccess } = require('../data-access/requestDataAccess');
+const bugsnagClient = require('../index').bugsnagClient;
 
 module.exports = async (req, res, next) => {
   try {
@@ -27,6 +28,8 @@ module.exports = async (req, res, next) => {
         .send({ safeMsg: 'only users relevant to the request can change its state' });
     }
   } catch (e) {
+    bugsnagClient.notify(e);
+
     e.safeMsg = `failed to verify that you are relevant to the request. Couldn't change state`;
     return next(e);
   }

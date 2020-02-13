@@ -7,6 +7,7 @@ const WebPushNotifications = require('../services/WebPushNotifications').WebPush
 
 const getAllContactDetails = require('../utils/commonDataUtils')
   .getAwardedRequestOwnerTaskerAndRelevantNotificationDetails;
+  const bugsnagClient = require('../index').bugsnagClient;
 
 module.exports = async (req, res, next) => {
   try {
@@ -119,6 +120,8 @@ module.exports = async (req, res, next) => {
       return res.status(403).send({ safeMsg: 'could not locate this request.' });
     }
   } catch (e) {
+    bugsnagClient.notify(e);
+
     e.safeMsg =
       'failed to validate if there is a payment already for this request. You can Chat with our customer support for further help';
     return next(e);

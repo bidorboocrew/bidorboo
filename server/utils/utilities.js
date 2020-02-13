@@ -3,7 +3,7 @@ const fs = require('fs');
 const { promisify } = require('util');
 const unlinkAsync = promisify(fs.unlink);
 const keys = require('../config/keys');
-
+const bugsnagClient = require('../index').bugsnagClient;
 const bcrypt = require('bcrypt');
 const SALT_WORK_FACTOR = 10;
 const requestTemplatesDefinitions = require('./bdb-request-templates-definitions');
@@ -13,6 +13,8 @@ exports.encryptData = async (dataToEncrypt) => {
     const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
     return bcrypt.hash(dataToEncrypt, salt);
   } catch (e) {
+    bugsnagClient.notify(e);
+
     return { errorMsg: 'Failed To encrypt the password', details: `${e}` };
   }
 };
@@ -32,6 +34,8 @@ exports.uploadFileToCloudinary = async (filePath, options, callbackFunc) => {
         resolve(true);
       });
     } catch (e) {
+      bugsnagClient.notify(e);
+
       console.log('BIDORBOO_ERROR: filed to uplod to cloudinary ' + JSON.stringify(e));
       reject(e);
     } finally {
@@ -43,6 +47,8 @@ exports.uploadFileToCloudinary = async (filePath, options, callbackFunc) => {
 
         callbackFunc && callbackFunc(null, null);
       } catch (e) {
+        bugsnagClient.notify(e);
+
         console.log(
           'BIDORBOO_ERROR: file at  (${filePath}) was not deleted successfully ' + JSON.stringify(e)
         );
@@ -63,6 +69,8 @@ exports.signCloudinaryParams = async (paramsToSign) => {
       );
       resolve(signed);
     } catch (e) {
+      bugsnagClient.notify(e);
+
       reject(e);
     }
   });

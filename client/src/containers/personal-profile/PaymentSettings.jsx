@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 // import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { switchRoute } from '../../utils';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -152,6 +153,7 @@ const InitialAccountSetupView = (props) => {
                 <div style={{ marginBottom: 5 }}>
                   <label className="checkbox">
                     <input
+                      style={{ marginRight: 4 }}
                       value={isNinteenPlus}
                       onChange={(e) => setNinteenPlus(!isNinteenPlus)}
                       type="checkbox"
@@ -162,6 +164,7 @@ const InitialAccountSetupView = (props) => {
                 <div style={{ marginBottom: 5 }}>
                   <label className="checkbox">
                     <input
+                      style={{ marginRight: 4 }}
                       value={isCanadian}
                       onChange={(e) => setCanadian(!isCanadian)}
                       type="checkbox"
@@ -173,21 +176,20 @@ const InitialAccountSetupView = (props) => {
                 <div style={{ marginBottom: 5 }}>
                   <label className="checkbox">
                     <input
+                      style={{ marginRight: 4 }}
                       onChange={() => setHasAgreedToTos(!hasAgreedToTOS)}
                       type="checkbox"
                       value={hasAgreedToTOS}
                     />
-                    {` Have read and agreed to`}
-                    <a target="_blank" rel="noopener noreferrer" href={`${ROUTES.CLIENT.TOS}`}>
-                      {` BidOrBoo Service Agreement `}
-                    </a>
-                    and
+                    {` I confirm that I have read and agreed to `}
                     <a
                       target="_blank"
                       rel="noopener noreferrer"
-                      href="https://stripe.com/connect-account/legal"
+                      className="is-link has-text-link"
+                      style={{ textDecoration: 'underline' }}
+                      href={ROUTES.CLIENT.TOS}
                     >
-                      {` Stripe Connected Account Agreement`}
+                      {`BidOrBoo Terms Of Service and Privacy Policy Agreements`}
                     </a>
                   </label>
                 </div>

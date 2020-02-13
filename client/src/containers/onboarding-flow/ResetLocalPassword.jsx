@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-
+import { getBugsnagClient } from '../../index';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
@@ -107,8 +107,9 @@ export class ResetLocalPassword extends React.Component {
           this.setState({ showOopsSomethingWentWrong: true });
         }
       } catch (e) {
+        getBugsnagClient().leaveBreadcrumb('URGENT_failed to update password');
+        getBugsnagClient().notify(e);
         this.setState({ showOopsSomethingWentWrong: true });
-        console.error('failed to update password' + e);
       }
     } else {
       this.setState({ isValidPassword, isValidPassword, isValidVerificationCode });

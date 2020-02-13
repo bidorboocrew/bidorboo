@@ -4,7 +4,7 @@
 // very important
 // https://github.com/deanhume/pwa-update-available
 // https://developers.google.com/web/fundamentals/primers/service-workers/
-var CACHE_NAME = 'bob-app-cache-v1.5.0';
+var CACHE_NAME = 'bob-app-cache-v1.6.0';
 var THREE_MONTHS_IN_SECONDS = 7776000;
 
 var urlsToCache = [
@@ -124,9 +124,9 @@ self.addEventListener('push', (event) => {
 
   var options = {
     body: data.body,
-    badge: '/safari-pinned-tab.svg',
-    image: '/android-chrome-192x192.png',
-    icon: '/android-chrome-512x512.png',
+    badge: './android-chrome-192x192-mono.png',
+    image: './android-chrome-192x192.png',
+    icon: './android-chrome-512x512.png',
     data: data.urlToLaunch || 'https://www.bidorboo.ca',
     actions: [{ action: 'viewUpdate', title: 'View Update' }],
   };

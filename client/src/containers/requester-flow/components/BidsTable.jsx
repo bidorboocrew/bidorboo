@@ -42,13 +42,14 @@ export default class BidsTable extends React.Component {
                   }}
                   className="button is-success has-text-centered is-fullwidth"
                 >
-                  Book It For ${totalCharge}
+                  <span style={{ marginRight: 4 }}>{`Book for `}</span>
+                  <span className="has-text-weight-bold">(${totalCharge})</span>
                   {bid.isNewBid && (
                     <span
                       style={{ position: 'absolute', top: -4, right: 0, fontSize: 10 }}
                       className="has-text-danger"
                     >
-                      <i className="fas fa-bell" />
+                      <i className="fas fa-circle"></i>
                     </span>
                   )}
                 </button>

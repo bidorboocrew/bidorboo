@@ -1,5 +1,5 @@
 const { celebrate } = require('celebrate');
-
+const bugsnagClient = require('../index').bugsnagClient;
 const {
   requiresRequestId,
   deletePostedRequestAndBidsForRequester,
@@ -35,6 +35,8 @@ module.exports = (app) => {
         const requestDetails = await requestDataAccess.requestToBidOnDetailsForTasker(requestId);
         return res.send(requestDetails);
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = 'Failed To get request by id';
         return next(e);
       }
@@ -53,6 +55,8 @@ module.exports = (app) => {
         await requestDataAccess.cancelRequest(requestId, mongoUser_id);
         return res.send(requestId);
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = 'Failed To delete request';
         return next(e);
       }
@@ -72,6 +76,8 @@ module.exports = (app) => {
         );
         return res.send(requestFullDetails);
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = 'Failed To get request details';
         return next(e);
       }
@@ -94,6 +100,8 @@ module.exports = (app) => {
         });
         return res.send(archivedRequestDetails);
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = 'Failed To get request details';
         return next(e);
       }
@@ -113,6 +121,8 @@ module.exports = (app) => {
         await requestDataAccess.updateState(requestId, newState);
         return res.send({ requestId, success: true });
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = 'Failed To update request state';
         return next(e);
       }
@@ -134,6 +144,8 @@ module.exports = (app) => {
 
         return res.send(newRequest);
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = 'Failed To create new request';
         return next(e);
       }
@@ -176,6 +188,8 @@ module.exports = (app) => {
         });
       }
     } catch (e) {
+      bugsnagClient.notify(e);
+
       e.safeMsg = 'Failed To upload request image';
       return next(e);
     }
@@ -192,6 +206,8 @@ module.exports = (app) => {
         await requestDataAccess.updateViewedBy(requestId, mongoUser_id);
         return res.send({ success: true });
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = 'Failed To update viewed by';
         return next(e);
       }
@@ -211,6 +227,8 @@ module.exports = (app) => {
         await requestDataAccess.updateBooedBy(requestId, mongoUser_id);
         return res.send({ success: true });
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = 'Failed To update booed by';
         return next(e);
       }
@@ -230,6 +248,8 @@ module.exports = (app) => {
 
         return res.send({ success: true });
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = 'Failed To confirms request completion';
         return next(e);
       }
@@ -265,6 +285,8 @@ module.exports = (app) => {
 
         return res.send(requestsAroundMe);
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = 'Failed To search for requests';
         return next(e);
       }
@@ -283,6 +305,8 @@ module.exports = (app) => {
         await requestDataAccess.taskerConfirmsRequestCompletion(requestId);
         return res.send({ success: true });
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = 'Failed To confirm completion';
         return next(e);
       }
@@ -302,6 +326,8 @@ module.exports = (app) => {
 
         return res.send({ success: true });
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = 'Failed To file dispute request';
         return next(e);
       }
@@ -319,6 +345,8 @@ module.exports = (app) => {
         await requestDataAccess.taskerDisputesRequest({ requestId, reason, details });
         return res.send({ success: true });
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = 'Failed To file dispute request';
         return next(e);
       }
@@ -332,6 +360,8 @@ module.exports = (app) => {
 
       return res.send({ myRequestsSummary: userRequestsList || [] });
     } catch (e) {
+      bugsnagClient.notify(e);
+
       e.safeMsg = 'Failed To get requests summary';
       return next(e);
     }
@@ -351,6 +381,8 @@ module.exports = (app) => {
         );
         return res.send(requestDetails);
       } catch (e) {
+        bugsnagClient.notify(e);
+
         e.safeMsg = 'Failed To get requests by id';
         return next(e);
       }
