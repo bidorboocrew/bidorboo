@@ -133,7 +133,7 @@ exports.util = {
     requesterCustomerId,
     taskImages,
   }) => {
-    const title = `${taskName} Request Booking`;
+    const title = `Booking - ${taskName}`;
     const description = `*After you confirm service completion, payment will be released to tasker: (${taskerDisplayName})`;
 
     return stripe.checkout.sessions.create({
