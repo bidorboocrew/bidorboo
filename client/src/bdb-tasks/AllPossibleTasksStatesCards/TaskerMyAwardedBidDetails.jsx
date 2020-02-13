@@ -333,10 +333,10 @@ class TaskerConfirmsCompletion extends React.Component {
                 <section className="modal-card-body">
                   <div className="content">
                     <label className="has-text-weight-semibold">BidOrBoo is proud of you!</label>
-                    <p>If you are done please confirm that you finished this request.</p>
+                    <p>If you have completed this request please, proceed to confirm.</p>
 
                     <div className="group">
-                      <label className="label">What will happen next?</label>
+                      <label className="label has-text-dark">What will happen next?</label>
                       <ul>
                         <li>You will be prompted to review the Tasker</li>
                         <li>The Requester will be notified to confirm the task completion</li>
@@ -674,16 +674,13 @@ class ReviewTheRequester extends React.Component {
           <ul style={{ marginLeft: 0 }}>
             <li className="is-active">
               <a>
-                <span className="icon">
-                  <i className="far fa-handshake"></i>
-                </span>
-                <span>Review The Requester</span>
+                <span>Next Step</span>
               </a>
             </li>
           </ul>
         </div>
         <div className="card cardWithButton nofixedwidth">
-          <div style={{ paddingTop: 0 }} className="card-content">
+          <div className="card-content">
             <div className="content has-text-left">
               <p className="has-text-centered">
                 We've reached out to the requester to confirm task completion.

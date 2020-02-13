@@ -72,9 +72,15 @@ class Header extends React.Component {
       this.props.history.location.pathname.includes('bdb-bidder/bid-on-request')
     ) {
       this.setState({ activeNavBarMenuId: HREF_TO_TABID.PROVIDE_A_SERVICE });
-    } else if (this.props.history.location.pathname.includes('my-open-requests')) {
+    } else if (
+      this.props.history.location.pathname.includes('my-open-requests') ||
+      this.props.history.location.pathname.includes('my-request/awarded-request-details')
+    ) {
       this.setState({ activeNavBarMenuId: HREF_TO_TABID.MY_REQUESTS });
-    } else if (this.props.history.location.pathname.includes('my-bids')) {
+    } else if (
+      this.props.history.location.pathname.includes('my-bids') ||
+      this.props.history.location.pathname.includes('bdb-bidder/awarded-bid-details')
+    ) {
       this.setState({ activeNavBarMenuId: HREF_TO_TABID.MY_BIDS });
     } else if (this.props.history.location.pathname.includes('my-profile/payment-settings')) {
       this.setState({ activeNavBarMenuId: HREF_TO_TABID.PAYMENT_SETTINGS });
