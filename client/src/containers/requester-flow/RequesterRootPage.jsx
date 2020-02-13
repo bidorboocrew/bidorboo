@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import { showLoginDialog } from '../../app-state/actions/uiActions';
 import { getAllActiveRequestsTemplateCards } from '../../bdb-tasks/getAllRequestsTemplateCards';
+import WhatCanWeHelpWith from '../../assets/images/WhatCanWeHelpWith.png';
 
 class RequesterRoot extends React.Component {
   constructor(props) {
@@ -24,16 +25,13 @@ class RequesterRoot extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <section className="hero is-success is-bold">
-          <div className="hero-body has-text-centered">
-            <div className="container">
-              <h1 style={{ marginBottom: 0 }} className="title">
-                What can we help you with?
-              </h1>
+        <section className="hero has-text-centered is-small">
+          <div className="hero-body">
+            <div className="container has-text-centered">
+              <img style={{ width: 280 }} src={WhatCanWeHelpWith} alt="Placeholder" />
             </div>
           </div>
         </section>
-
         <div className="columns is-centered is-multiline">{this.AllActiveTasks}</div>
       </React.Fragment>
     );
