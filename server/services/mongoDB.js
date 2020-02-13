@@ -13,7 +13,7 @@ module.exports = (process) => {
   mongoose.Promise = global.Promise;
 
   const dbOptions = {
-    autoIndex: false,
+    // autoIndex: false,
     config: { autoIndex: true }, // avoid performance hit due to schema level indexing
     useFindAndModify: false,
     useNewUrlParser: true,
