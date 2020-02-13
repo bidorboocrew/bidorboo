@@ -91,7 +91,7 @@ module.exports = () => {
     if (process.env.NODE_APP_INSTANCE === '3') {
       new CronJob(
         // '0 0 */6 * * *',
-        '0 0 8,12,16 * * *',
+        '0 0 */4 * * *',
         () => {
           console.log('start running cron request: SendPayoutsToBanks');
           requestDataAccess.BidOrBooAdmin.SendPayoutsToBanks();
