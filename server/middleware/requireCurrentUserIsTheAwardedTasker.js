@@ -1,5 +1,5 @@
 const { requestDataAccess } = require('../data-access/requestDataAccess');
-const { bugsnagClient } = require('../utils/utilities');;
+const { bugsnagClient } = require('../utils/utilities');
 module.exports = async (req, res, next) => {
   try {
     //in the future redirect to login page

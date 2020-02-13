@@ -1,7 +1,7 @@
 const { bidDataAccess } = require('../data-access/bidDataAccess');
 const userDataAccess = require('../data-access/userDataAccess');
 const stripeServiceUtil = require('../services/stripeService').util;
-const { bugsnagClient } = require('../utils/utilities');;
+const { bugsnagClient } = require('../utils/utilities');
 
 /**
  * bunch of confirmation checks to ensure that we do not charge until all details match up

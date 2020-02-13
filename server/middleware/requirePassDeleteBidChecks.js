@@ -1,8 +1,10 @@
 const { bidDataAccess } = require('../data-access/bidDataAccess');
-const { bugsnagClient } = require('../utils/utilities');;
+const { bugsnagClient } = require('../utils/utilities');
 
 module.exports = async (req, res, next) => {
   try {
+    const { bidId } = req.body.data;
+
     const bidDetails = await bidDataAccess.findBidByOwner(req.user._id, bidId);
 
     if (!bidDetails || !bidDetails._id) {

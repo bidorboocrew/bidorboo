@@ -1,5 +1,5 @@
 const { getUserStripeAccount } = require('../data-access/userDataAccess');
-const { bugsnagClient } = require('../utils/utilities');;
+const { bugsnagClient } = require('../utils/utilities');
 
 module.exports = async (req, res, next) => {
   try {

@@ -1,5 +1,5 @@
 const ROUTES = require('../backend-route-constants');
-const { bugsnagClient } = require('../utils/utilities');;
+const { bugsnagClient } = require('../utils/utilities');
 const webpush = require('web-push');
 const keys = require('../config/keys');
 const userDataAccess = require('../data-access/userDataAccess');

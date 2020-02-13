@@ -2,7 +2,7 @@
 
 const keys = require('../config/keys');
 const webpush = require('web-push');
-const { bugsnagClient } = require('../utils/utilities');;
+const { bugsnagClient } = require('../utils/utilities');
 webpush.setVapidDetails(
   'mailto:bidorboo@bidorboo.ca',
   keys.vapidPublicApiKey,
