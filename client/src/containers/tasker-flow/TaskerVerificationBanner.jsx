@@ -114,6 +114,7 @@ class TaskerVerificationBanner extends React.Component {
     const showAddExternalBankAcc =
       disabled_reason === 'requirements.past_due' &&
       past_due.includes('external_account') &&
+      past_due.lengt === 1 &&
       !last4BankAcc;
 
     // if (userWithNoStripeConnectAcc) {
@@ -142,7 +143,7 @@ class TaskerVerificationBanner extends React.Component {
     //   );
     // }
     if (showAddExternalBankAcc) {
-      return null
+      return null;
       // we dont wana bug them too much, we will do that later if you have outstanding payouts
       return (
         <section

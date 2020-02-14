@@ -284,7 +284,6 @@ class TaskerRootPage extends React.Component {
     const { mapCenterPoint, mapZoomLevel, activeSearchParams } = this.state;
 
     let currentRequestsList = listOfRequestsToBidOn;
-    const taskerCanBid = userDetails && userDetails.canBid;
 
     currentRequestsList = currentRequestsList.map((request) => {
       return {

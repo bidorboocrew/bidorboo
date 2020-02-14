@@ -16,11 +16,11 @@ export default class PostYourBid extends React.Component {
 
   openShowBidDialog = () => {
     const { isLoggedIn, showLoginDialog, taskerCanBid } = this.props;
+    const elmnt = document.querySelector('#bob-taskerVerificationBanner');
 
     if (!isLoggedIn) {
       showLoginDialog(true);
-    } else if (!taskerCanBid) {
-      const elmnt = document.querySelector('#bob-taskerVerificationBanner');
+    } else if (elmnt) {
       elmnt && elmnt.scrollIntoView({ block: 'end', behavior: 'smooth' });
     } else {
       this.setState({ showBidDialog: true });
