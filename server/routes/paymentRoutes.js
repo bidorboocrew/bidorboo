@@ -561,9 +561,8 @@ module.exports = (app) => {
   // TEST WEBHOOKS NOT FOR USE IN PROD
   app.post(ROUTES.API.PAYMENT.POST.connectedAccountsWebhook + '/test', async (req, res, next) => {
     try {
-
       // sign key by strip
-      let endpointSecret = whsec_DnOAmC7GK83RwcxQCpF3TKLeL8XE9omW;
+      let endpointSecret = 'whsec_DnOAmC7GK83RwcxQCpF3TKLeL8XE9omW';
       let sig = req.headers['stripe-signature'];
       let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
       if (event) {
