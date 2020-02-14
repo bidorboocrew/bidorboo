@@ -303,7 +303,10 @@ class TaskerRootPage extends React.Component {
         <section className="hero is-white is-small">
           <div style={{ paddingBottom: 0 }} className="hero-body">
             <div className="container">
-              <h1 style={{ marginBottom: '0.5rem', marginTop: '0.5rem' }} className="title has-text-centered">
+              <h1
+                style={{ marginBottom: '0.5rem', marginTop: '0.5rem' }}
+                className="title has-text-centered"
+              >
                 Find Tasks In Your Area
               </h1>
 
@@ -440,10 +443,21 @@ class TaskerRootPage extends React.Component {
                         <div className="card-content VerticalAligner">
                           <div className="has-text-centered">
                             <div className="is-size-4 has-text-danger">
-                              Sorry, No Tasks available around this area at this time.
+                              Sorry, No Tasks available around this area at this time
                             </div>
                             <div className="is-size-6">Try adjusting your search criteria</div>
-
+                            <button
+                              style={{ marginTop: '1.25rem' }}
+                              onClick={() =>
+                                this.updateSearchLocationState(this.state.activeSearchParams)
+                              }
+                              className="button is-white"
+                            >
+                              <span className="icon">
+                                <i className="fas fa-redo"></i>
+                              </span>
+                              <span>Check Again</span>
+                            </button>
                             <section
                               style={{ padding: 0 }}
                               className="hero is-small has-text-centered fade-in"

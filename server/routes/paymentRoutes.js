@@ -558,38 +558,231 @@ module.exports = (app) => {
     }
   });
 
-  app.post(ROUTES.API.PAYMENT.POST.checkoutFulfillment, async (req, res, next) => {
+  // TEST WEBHOOKS NOT FOR USE IN PROD
+  app.post(ROUTES.API.PAYMENT.POST.connectedAccountsWebhook + '/test', async (req, res, next) => {
     try {
-      // return res.status(200).send();
-      // console.log('payoutsWebhook is triggered');
-      // // sign key by strip
-      // let endpointSecret = keys.stripeWebhookSessionSig;
-      // let sig = req.headers['stripe-signature'];
-      // let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
-      // if (event) {
-      //   const { type } = event;
-      //   // update customer card with card in this
-      //   // update address
-      //   if (type === 'checkout.session.completed') {
-      //     const session = event.data.object;
-      //     const { payment_intent } = session;
-      //     const paymentIntentDetails = await stripeServiceUtil.getPaymentIntents(payment_intent);
-      //     const { metadata, id } = paymentIntentDetails;
-      //     const { requestId, bidId, amount } = metadata;
-      //     const updateRequestAndBid = await requestDataAccess.updateRequestAwardedBid(requestId, bidId, {
-      //       paymentIntentId: id,
-      //       amount,
-      //     });
-      //     return res.status(200).send();
-      //   }
-      // }
-      // return res.status(400).send({
-      //   safeMsg: 'something went wrong handling payment, our crew wil be in touch with you',
-      // });
+
+      // sign key by strip
+      let endpointSecret = whsec_DnOAmC7GK83RwcxQCpF3TKLeL8XE9omW;
+      let sig = req.headers['stripe-signature'];
+      let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
+      if (event) {
+        const { id, data } = event;
+
+        if (data) {
+          const customerAcc = data.object; //the user connected account is attached here
+          if (customerAcc) {
+            const {
+              id: accId,
+              payouts_enabled,
+              charges_enabled,
+              requirements: accRequirements,
+              metadata,
+              capabilities: { transfers, card_payments },
+            } = customerAcc;
+
+            const { userId } = metadata;
+            console.log('-------BidOrBooLogging----------------------');
+            console.log('updateStripeAccountRequirementsDetails started');
+            console.log({
+              eventId: id,
+              userId,
+              accId,
+              chargesEnabled: charges_enabled,
+              payoutsEnabled: payouts_enabled,
+              accRequirements,
+              capabilities: {
+                card_payments,
+                transfers,
+              },
+            });
+
+            await userDataAccess.updateStripeAccountRequirementsDetails({
+              eventId: id,
+              userId,
+              accId,
+              chargesEnabled: charges_enabled,
+              payoutsEnabled: payouts_enabled,
+              capabilities: {
+                card_payments,
+                transfers,
+              },
+              accRequirements,
+            });
+            console.log('updateStripeAccountRequirementsDetails done');
+            console.log('-------BidOrBooLogging----------------------');
+          }
+        }
+      }
+      return res.status(200).send();
     } catch (e) {
       bugsnagClient.notify(e);
 
-      e.safeMsg = 'checkout Fulfillment failed';
+      e.safeMsg = 'connected Accounts Webhook failure';
+      sendGridEmailing.informBobCrewAboutFailedImportantStuff('connectedAccountsWebhook', {
+        safeMsg: 'connected Accounts Webhook failure',
+      });
+      return next(e);
+    }
+  });
+
+  app.post(ROUTES.API.PAYMENT.POST.payoutsWebhook + '/test', async (req, res, next) => {
+    try {
+      console.log('payoutsWebhook is triggered');
+
+      // sign key by strip
+      let endpointSecret = 'whsec_R6oCyyO95KqAU8PVJ9Yui5goHC2ZrU1d';
+      let sig = req.headers['stripe-signature'];
+      let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
+      if (event) {
+        const { type, data } = event;
+        const { status, metadata } = data;
+        const { requestId } = metadata;
+
+        switch (type) {
+          case 'payout.paid':
+            console.log('payoutsWebhook payout.paid');
+            console.log({ requestId });
+
+            // update the request about this
+            requestDataAccess.updateRequestById(requestId, {
+              $set: {
+                'payoutDetails.status': { status },
+              },
+            });
+            sendGridEmailing.informBobCrewAboutSuccessPayment({ requestId, paymentDetails: data });
+
+            //xxx inform user that it is paid via msg email..etc
+            break;
+          case 'payout.failed':
+            console.log('payoutsWebhook payout.failed');
+            console.log({ requestId });
+            requestDataAccess.updateRequestById(requestId, {
+              $set: {
+                'payoutDetails.status': { status },
+              },
+            });
+            sendGridEmailing.informBobCrewAboutFailedPayment({ requestId, paymentDetails: data });
+            break;
+          default:
+            requestDataAccess.updateRequestById(requestId, {
+              $set: {
+                'payoutDetails.status': { status },
+              },
+            });
+            sendGridEmailing.informBobCrewAboutFailedPayment({ requestId, paymentDetails: data });
+            break;
+        }
+      }
+      return res.status(200).send();
+    } catch (e) {
+      bugsnagClient.notify(e);
+
+      sendGridEmailing.informBobCrewAboutFailedImportantStuff('payoutsWebhook', {
+        safeMsg: 'payout webhook failed',
+      });
+      e.safeMsg = 'payout webhook failed';
+      return next(e);
+    }
+  });
+
+  app.post(ROUTES.API.PAYMENT.POST.chargeSucceededWebhook + '/test', async (req, res, next) => {
+    try {
+      // sign key by strip
+      let endpointSecret = 'whsec_heuNOXF0NY5cFP9xoug1Jbqf1aqL6R6Y';
+      let sig = req.headers['stripe-signature'];
+
+      let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
+      if (event) {
+        const {
+          data: { object: chargeObject },
+        } = event;
+
+        const {
+          id: chargeId,
+          captured,
+          paid,
+          application_fee_amount: applicationFeeAmount,
+          amount,
+          payment_intent: paymentIntentId,
+          payment_method: paymentMethodId,
+          destination: destinationStripeAcc,
+          metadata: { bidId, requestId },
+        } = chargeObject;
+
+        if (!captured || !paid) {
+          return res.status(400).send('charge not captured');
+        }
+
+        console.log('BIDORBOOLOGGING - PAYMENT - process charge');
+
+        const theRequest = await requestDataAccess.getRequestById(requestId);
+
+        if (theRequest && theRequest.processedPayment && theRequest.processedPayment.chargeId) {
+          return res.status(200).send();
+        }
+
+        await requestDataAccess.updateRequestWithAwardedBidAndPaymentDetails(requestId, bidId, {
+          amount,
+          chargeId,
+          applicationFeeAmount,
+          destinationStripeAcc,
+          paymentIntentId,
+          paymentMethodId,
+        });
+        const {
+          requesterDisplayName,
+          taskerDisplayName,
+          requestDisplayName,
+          requestLinkForRequester,
+          requestLinkForTasker,
+          requesterEmailAddress,
+          taskerEmailAddress,
+          taskerPhoneNumber,
+          allowedToEmailRequester,
+          allowedToEmailTasker,
+          allowedToTextTasker,
+          allowedToPushNotifyTasker,
+          taskerPushNotSubscription,
+        } = await getAllContactDetails(requestId);
+        if (allowedToEmailRequester) {
+          sendGridEmailing.tellRequesterThanksforPaymentAndTaskerIsRevealed({
+            to: requesterEmailAddress,
+            requestTitle: requestDisplayName,
+            toDisplayName: requesterDisplayName,
+            linkForOwner: requestLinkForRequester,
+          });
+        }
+        if (allowedToEmailTasker) {
+          sendGridEmailing.tellTaskerThatTheyWereAwarded({
+            to: taskerEmailAddress,
+            requestTitle: requestDisplayName,
+            toDisplayName: taskerDisplayName,
+            linkForTasker: requestLinkForTasker,
+          });
+        }
+        if (allowedToTextTasker) {
+          sendTextService.sendRequestIsAwardedText(
+            taskerPhoneNumber,
+            requestDisplayName,
+            requestLinkForTasker
+          );
+        }
+        if (allowedToPushNotifyTasker) {
+          WebPushNotifications.pushYouAreAwarded(taskerPushNotSubscription, {
+            taskerDisplayName: taskerDisplayName,
+            urlToLaunch: requestLinkForTasker,
+          });
+        }
+      }
+      return res.status(200).send();
+    } catch (e) {
+      bugsnagClient.notify(e);
+
+      sendGridEmailing.informBobCrewAboutFailedImportantStuff('chargeSucceededWebhook', {
+        safeMsg: 'charges succeeded failed',
+      });
+      e.safeMsg = 'charge succeeded failed';
       return next(e);
     }
   });

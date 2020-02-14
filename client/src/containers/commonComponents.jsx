@@ -30,7 +30,7 @@ export const getDaysSinceCreated = (createdAt) => {
 };
 
 export const AvgBidDisplayLabelAndValue = ({ avgBid }) => {
-  return avgBid === '--' ? (
+  return !avgBid || avgBid === '--' ? (
     <DisplayLabelValue labelText="Avg Bid" labelValue={`Be the first tasker!`} />
   ) : (
     <DisplayLabelValue labelText="Avg Bid" labelValue={`$${avgBid} (CAD)`} />
@@ -265,7 +265,9 @@ export const CardTitleAndActionsInfo = ({ bidsList = [], userAlreadyView = false
       <div style={{ width: 80, display: 'inline-block' }}>
         <div>
           <div />
-          <div className="has-text-weight-semibold">{avgBid > 0 ? `$${avgBid}` : '--'}</div>
+          <div className="has-text-weight-semibold">
+            {avgBid && avgBid > 0 ? `$${avgBid}` : '--'}
+          </div>
           <div className="help">Avg Bid</div>
         </div>
       </div>
