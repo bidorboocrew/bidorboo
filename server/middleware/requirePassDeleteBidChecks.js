@@ -3,7 +3,7 @@ const { bugsnagClient } = require('../utils/utilities');
 
 module.exports = async (req, res, next) => {
   try {
-    const { bidId } = req.body.data;
+    const { bidId } = (req.body && req.body.data) || req.query;
 
     const bidDetails = await bidDataAccess.findBidByOwner(req.user._id, bidId);
 
