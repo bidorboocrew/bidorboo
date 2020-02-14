@@ -2,10 +2,21 @@ import React from 'react';
 import moment from 'moment';
 import { registerServiceWorker } from './registerServiceWorker';
 import { registerPushNotification } from './registerPushNotification';
+import { getBugsnagClient } from './index';
 
 import Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren from './Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren';
 
 class Pre_LoggedIn_2_RegisterSwAndPush extends React.PureComponent {
+  componentDidCatch(error, info) {
+    getBugsnagClient().leaveBreadcrumb(
+      'componentDidCatch Pre_LoggedIn_2_RegisterSwAndPush',
+      {
+        debugInfo: info,
+      },
+    );
+    getBugsnagClient().notify(error);
+  }
+
   componentDidMount() {
     const { userDetails } = this.props;
     if (userDetails.notifications && userDetails.notifications.push) {

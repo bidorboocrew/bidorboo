@@ -1,8 +1,19 @@
 import React from 'react';
 import * as ROUTES from './constants/frontend-route-consts';
 import { switchRoute } from './utils';
+import { getBugsnagClient } from './index';
 
 class Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren extends React.PureComponent {
+  componentDidCatch(error, info) {
+    getBugsnagClient().leaveBreadcrumb(
+      'componentDidCatch Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren',
+      {
+        debugInfo: info,
+      },
+    );
+    getBugsnagClient().notify(error);
+  }
+
   componentDidMount() {
     if (
       window.localStorage.getItem('bob_lastKnownRoute') &&
@@ -28,7 +39,7 @@ class Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren extends React.Pure
   }
 
   render() {
-    return this.props.children;
+    return <div>{this.props.children}</div>;
   }
 }
 

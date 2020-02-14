@@ -1,4 +1,5 @@
 import React from 'react';
+import { getBugsnagClient } from './index';
 
 import * as ROUTES from './constants/frontend-route-consts';
 import { switchRoute } from './utils';
@@ -6,6 +7,13 @@ import SetupYourPhoneAneEmailVerifications from './containers/onboarding-flow/Se
 import Pre_LoggedIn_2_RegisterSwAndPush from './Pre_LoggedIn_2_RegisterSwAndPush';
 import FirstTimeUser from './containers/onboarding-flow/FirstTimeUser.jsx';
 class Pre_LoggedIn_1_HandleOnBoarding extends React.PureComponent {
+  componentDidCatch(error, info) {
+    getBugsnagClient().leaveBreadcrumb('componentDidCatch Pre_LoggedIn_1_HandleOnBoarding', {
+      debugInfo: info,
+    });
+    getBugsnagClient().notify(error);
+  }
+
   render() {
     const { userDetails, history } = this.props;
 

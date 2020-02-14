@@ -1,6 +1,15 @@
 import React from 'react';
+import { getBugsnagClient } from './index';
 
 class Pre_LoggedOut_3_ScrollUpSetAppViewAndRenderChildren extends React.PureComponent {
+  componentDidCatch(error, info) {
+    getBugsnagClient().leaveBreadcrumb(
+      'componentDidCatch Pre_LoggedOut_3_ScrollUpSetAppViewAndRenderChildren',
+      { debugInfo: info },
+    );
+    getBugsnagClient().notify(error);
+  }
+
   componentDidMount() {
     const { setAppViewUIToRequester, setAppViewUIToTasker } = this.props;
     const currentUrlPathname = window.location.pathname;
@@ -17,7 +26,7 @@ class Pre_LoggedOut_3_ScrollUpSetAppViewAndRenderChildren extends React.PureComp
   }
 
   render() {
-    return this.props.children;
+    return <div>{this.props.children}</div>;
   }
 }
 

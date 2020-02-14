@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { registerServiceWorker } from './registerServiceWorker';
 import { registerPushNotification } from './registerPushNotification';
+import { getBugsnagClient } from './index';
 
 import Pre_LoggedOut_3_ScrollUpSetAppViewAndRenderChildren from './Pre_LoggedOut_3_ScrollUpSetAppViewAndRenderChildren';
 
@@ -10,6 +11,14 @@ class Pre_LoggedOut_2_RegisterSw extends React.PureComponent {
     super(props);
     this.lastFetch = moment();
     this.lastTimeWeRegisteredTheNotification = null;
+  }
+
+  componentDidCatch(error, info) {
+    getBugsnagClient().leaveBreadcrumb(
+      'componentDidCatch Pre_LoggedOut_2_RegisterSw',
+      { debugInfo: info },
+    );
+    getBugsnagClient().notify(error);
   }
 
   componentDidMount() {
