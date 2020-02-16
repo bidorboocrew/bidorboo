@@ -322,19 +322,16 @@ UserSchema.virtual('canBid').get(function() {
   // return this.email && this.email.isVerified;
   // return true;
   return !!(
-    (
-      this.phone &&
-      this.phone.isVerified &&
-      this.email &&
-      this.email.isVerified &&
-      this.tos_acceptance &&
-      this.tos_acceptance.Agreed &&
-      this.stripeConnect &&
-      // this.stripeConnect.chargesEnabled &&
-      this.stripeConnect.capabilities &&
-      this.stripeConnect.capabilities.transfers === 'active'
-    )
-    // &&(!this.stripeConnect.accRequirements || !!!this.stripeConnect.accRequirements.disabled_reason)
+    this.phone &&
+    this.phone.isVerified &&
+    this.email &&
+    this.email.isVerified &&
+    this.tos_acceptance &&
+    this.tos_acceptance.Agreed &&
+    this.stripeConnect &&
+    this.stripeConnect.accId &&
+    this.stripeConnect.capabilities &&
+    this.stripeConnect.capabilities.transfers === 'active'
   );
 });
 

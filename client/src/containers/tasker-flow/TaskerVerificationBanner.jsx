@@ -92,86 +92,24 @@ class TaskerVerificationBanner extends React.Component {
     }
 
     let canBid = !!userDetails.canBid;
+    if (canBid) {
+      return null;
+    }
 
-    const doesUserHaveAnEstablishedAccId =
-      userDetails.stripeConnect && userDetails.stripeConnect.accId;
-    const userWithNoStripeConnectAcc = userDetails && !doesUserHaveAnEstablishedAccId;
-    const { accRequirements = {}, last4BankAcc } = userDetails.stripeConnect;
+    const { accRequirements = {} } = userDetails.stripeConnect;
     const {
       currently_due = [],
-      disabled_reason,
+
       // eventually_due = [],
       past_due = [],
     } = accRequirements;
 
     const areThereMoreRequirement = currently_due.length > 0 || past_due.length > 0;
-    const isUserBlocked = !!disabled_reason;
 
     const showAddVerificationId =
-      currently_due.includes('individual.verification.document') ||
-      past_due.includes('individual.verification.document');
-
-    const showAddExternalBankAcc =
-      disabled_reason === 'requirements.past_due' &&
-      past_due.includes('external_account') &&
-      past_due.lengt === 1 &&
-      !last4BankAcc;
-
-    // if (userWithNoStripeConnectAcc) {
-    //   return (
-    //     <section
-    //       id="bob-taskerVerificationBanner"
-    //       className="hero is-success is-bold slide-in-top has-text-centered is-fullheight"
-    //     >
-    //       <div className="hero-body">
-    //         <div className="container">
-    //           <h1 className="title">want to Earn money doing what you enjoy?</h1>
-    //           <h1 className="subtitle">Become a Tasker</h1>
-    //           <button
-    //             className={`button is-dark ${isLoading ? 'is-loading' : ''}`}
-    //             onClick={this.startupTaskerProfile}
-    //           >
-    //             <span className="icon">
-    //               <i className="fas fa-user-tie"></i>
-    //             </span>
-    //             <span>Complete Verification Process</span>
-    //           </button>
-    //           <div className="help has-text-light">should take less than 2 minutes</div>
-    //         </div>
-    //       </div>
-    //     </section>
-    //   );
-    // }
-    if (showAddExternalBankAcc) {
-      return null;
-      // we dont wana bug them too much, we will do that later if you have outstanding payouts
-      return (
-        <section
-          id="bob-taskerVerificationBanner"
-          className="hero is-success is-bold slide-in-top has-text-centered is-fullheight"
-        >
-          <div className="hero-body">
-            <div className="container">
-              <h1 className="title">Want to earn money?</h1>
-              <h1 className="subtitle">
-                In order to Bid and recieve Payouts, You must complete the Tasker Verifications
-                process
-              </h1>
-              <button
-                className={`button is-dark ${isLoading ? 'is-loading' : ''}`}
-                onClick={this.redirectToPaymentSetting}
-              >
-                <span className="icon">
-                  <i className="far fa-credit-card" aria-hidden="true" />
-                </span>
-                <span>Add Bank Info</span>
-              </button>
-              <div className="help has-text-light">*This will redirect you to payments page</div>
-            </div>
-          </div>
-        </section>
-      );
-    }
+      areThereMoreRequirement &&
+      (currently_due.includes('individual.verification.document') ||
+        past_due.includes('individual.verification.document'));
 
     if (showAddVerificationId) {
       return (
@@ -226,7 +164,43 @@ class TaskerVerificationBanner extends React.Component {
         </>
       );
     }
-    if (areThereMoreRequirement || !canBid) {
+
+    const showAddExternalBankAcc =
+      (currently_due.length === 1 && currently_due.includes('external_account')) ||
+      (past_due.length === 1 && past_due.includes('external_account')) ||
+      currently_due.includes('external_account');
+    if (showAddExternalBankAcc) {
+      return null;
+      // we dont wana bug them too much, we will do that later if you have outstanding payouts
+      return (
+        <section
+          id="bob-taskerVerificationBanner"
+          className="hero is-success is-bold slide-in-top has-text-centered is-fullheight"
+        >
+          <div className="hero-body">
+            <div className="container">
+              <h1 className="title">Want to earn money?</h1>
+              <h1 className="subtitle">
+                In order to Bid and recieve Payouts, You must complete the Tasker Verifications
+                process
+              </h1>
+              <button
+                className={`button is-dark ${isLoading ? 'is-loading' : ''}`}
+                onClick={this.redirectToPaymentSetting}
+              >
+                <span className="icon">
+                  <i className="far fa-credit-card" aria-hidden="true" />
+                </span>
+                <span>Add Bank Info</span>
+              </button>
+              <div className="help has-text-light">*This will redirect you to payments page</div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    if (areThereMoreRequirement) {
       return (
         <section
           id="bob-taskerVerificationBanner"
@@ -258,32 +232,29 @@ class TaskerVerificationBanner extends React.Component {
       );
     }
 
-    if (isUserBlocked) {
-      return (
-        <section
-          id="bob-taskerVerificationBanner"
-          className="hero is-success is-bold slide-in-top has-text-centered is-fullheight"
-        >
-          <div className="hero-body">
-            <div className="container">
-              <h1 className="title">You are not a verified Tasker Yet!</h1>
-              <h1 className="subtitle">Don't worry, we just need a little more details</h1>
-              <button
-                className={`button is-dark ${isLoading ? 'is-loading' : ''}`}
-                onClick={this.chatWithSupportNow}
-              >
-                <span className="icon">
-                  <i className="far fa-comment-dots" />
-                </span>
-                <span>Chat with Support</span>
-              </button>
-            </div>
+    // we dont know why
+    return (
+      <section
+        id="bob-taskerVerificationBanner"
+        className="hero is-success is-bold slide-in-top has-text-centered is-fullheight"
+      >
+        <div className="hero-body">
+          <div className="container">
+            <h1 className="title">You are not a verified Tasker Yet!</h1>
+            <h1 className="subtitle">Don't worry, we just need a little more details</h1>
+            <button
+              className={`button is-dark ${isLoading ? 'is-loading' : ''}`}
+              onClick={this.chatWithSupportNow}
+            >
+              <span className="icon">
+                <i className="far fa-comment-dots" />
+              </span>
+              <span>Chat with Support</span>
+            </button>
           </div>
-        </section>
-      );
-    }
-
-    return null;
+        </div>
+      </section>
+    );
   }
 }
 
