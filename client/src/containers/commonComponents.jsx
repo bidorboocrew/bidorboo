@@ -630,7 +630,6 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
                       className="button is-success is-small"
                       onClick={() => {
                         if (!window.fcWidget.isOpen()) {
-                          this.toggleModal();
                           document.querySelector('#bob-ChatSupport') &&
                             document.querySelector('#bob-ChatSupport').click();
                           // window.fcWidget.open();
@@ -673,7 +672,6 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
                       className="button is-success is-small"
                       onClick={() => {
                         if (!window.fcWidget.isOpen()) {
-                          this.toggleModal();
                           document.querySelector('#bob-ChatSupport') &&
                             document.querySelector('#bob-ChatSupport').click();
                           // window.fcWidget.open();
@@ -718,7 +716,6 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
                       className="button is-success is-small"
                       onClick={() => {
                         if (!window.fcWidget.isOpen()) {
-                          this.toggleModal();
                           document.querySelector('#bob-ChatSupport') &&
                             document.querySelector('#bob-ChatSupport').click();
                           // window.fcWidget.open();
@@ -761,7 +758,6 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
                       className="button is-success is-small"
                       onClick={() => {
                         if (!window.fcWidget.isOpen()) {
-                          this.toggleModal();
                           document.querySelector('#bob-ChatSupport') &&
                             document.querySelector('#bob-ChatSupport').click();
                           // window.fcWidget.open();
@@ -808,7 +804,6 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
                       className="button is-success is-small"
                       onClick={() => {
                         if (!window.fcWidget.isOpen()) {
-                          this.toggleModal();
                           document.querySelector('#bob-ChatSupport') &&
                             document.querySelector('#bob-ChatSupport').click();
                           // window.fcWidget.open();
@@ -854,7 +849,6 @@ export const VerifiedVia = ({ width = 150, userDetails, isCentered = true, showA
                       className="button is-success is-small"
                       onClick={() => {
                         if (!window.fcWidget.isOpen()) {
-                          this.toggleModal();
                           document.querySelector('#bob-ChatSupport') &&
                             document.querySelector('#bob-ChatSupport').click();
                           // window.fcWidget.open();
