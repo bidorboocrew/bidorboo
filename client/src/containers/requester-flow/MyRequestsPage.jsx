@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { Spinner } from '../../components/Spinner';
 import { getMyRequestsSummary, cancelRequestById } from '../../app-state/actions/requestActions';
 import { REQUEST_STATES } from '../../bdb-tasks/index';
+import NoRequetsFound from '../../assets/images/NoRequetsFound.png';
 
 import { getMeTheRightRequestCard, POINT_OF_VIEW } from '../../bdb-tasks/getMeTheRightCard';
 import * as ROUTES from '../../constants/frontend-route-consts';
@@ -150,13 +151,19 @@ export default connect(mapStateToProps, mapDispatchToProps)(MyRequestsPage);
 
 const EmptyStateComponent = () => (
   <>
-    <div className="HorizontalAligner-center column">
+    <div className="HorizontalAligner-center column fade-in">
       <div className="is-fullwidth">
         <div>
           <div className="card-content VerticalAligner">
             <div className="has-text-centered">
-              <div className="is-size-6">No requests found.</div>
-              <br />
+              <div className="is-size-4">You Don't have any Requets here</div>
+              <section style={{ padding: 0 }} className="hero is-small has-text-centered fade-in">
+                <div style={{ padding: 0 }} className="hero-body">
+                  <div className="container has-text-centered">
+                    <img style={{ width: 280 }} src={NoRequetsFound} alt="Placeholder" />
+                  </div>
+                </div>
+              </section>
               <a
                 className="button is-success"
                 onClick={(e) => {

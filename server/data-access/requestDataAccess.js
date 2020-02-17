@@ -510,7 +510,24 @@ exports.requestDataAccess = {
                 }
 
                 let payoutInititated = null;
+                let totalAmountAvailableOnTaskerStripeAcc = 0;
                 try {
+                  let taskerAccBalance = await stripeServiceUtil.getAccountBalanceOnlyBalance(
+                    destinationStripeAcc
+                  );
+                  if (taskerAccBalance && taskerAccBalance.available) {
+                    taskerAccBalance.available.forEach((balance) => {
+                      totalAmountAvailableOnTaskerStripeAcc += balance.amount;
+                    });
+                    if (totalAmountAvailableOnTaskerStripeAcc < taskerPayout) {
+                      // we do not have enough to send payouts yet
+                      return;
+                    }
+                  } else {
+                    // Do not do anything for now
+                    return;
+                  }
+
                   payoutInititated = await stripeServiceUtil.payoutToBank(destinationStripeAcc, {
                     amount: taskerPayout,
                     metadata: {
@@ -539,23 +556,26 @@ exports.requestDataAccess = {
                 } catch (errorPayout) {
                   console.log('BIDORBOO_ERROR: SendPayoutsToBanks_Error request details');
                   console.log({ request });
-                  sendGridEmailing.informBobCrewAboutFailedImportantStuff(
-                    'SendPayoutsToBanks',
-                    errorPayout
-                  );
+                  throw errorPayout;
+                  // sendGridEmailing.informBobCrewAboutFailedImportantStuff(
+                  //   'SendPayoutsToBanks',
+                  //   errorPayout
+                  // );
                 }
               } else {
                 console.log(
                   'BIDORBOO_PAYMENTS_WARNIKNG: DANGER PAYOUT IS NOT ENABLED PLEASE INVESTIGATE WHY ' +
                     destinationStripeAcc
                 );
-                sendGridEmailing.informBobCrewAboutFailedImportantStuff('SendPayoutsToBanks', {
-                  destinationStripeAcc,
-                });
+                sendGridEmailing.informBobCrewAboutFailedImportantStuff(
+                  'SendPayoutsToBanks_PAYOUT IS NOT ENABLED',
+                  {
+                    destinationStripeAcc,
+                  }
+                );
               }
             } catch (innerError) {
               bugsnagClient.notify(innerError);
-
               throw innerError;
             }
           });
@@ -564,7 +584,7 @@ exports.requestDataAccess = {
       } catch (e) {
         bugsnagClient.notify(e);
         console.log('BIDORBOO_ERROR: SendPayoutsToBanks_Error ' + e);
-        sendGridEmailing.informBobCrewAboutFailedImportantStuff('SendPayoutsToBanks', {
+        sendGridEmailing.informBobCrewAboutFailedImportantStuff('SendPayoutsToBanksError', {
           e,
         });
         return;

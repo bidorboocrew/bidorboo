@@ -287,6 +287,15 @@ exports.util = {
     });
   },
 
+  getAccountBalanceOnlyBalance: async (connectedAccId) => {
+    return stripe.balance.retrieve(
+      {},
+      {
+        stripe_account: connectedAccId,
+      }
+    );
+  },
+
   sendPayoutToExternalBank: async (connectedAccId, amount) => {
     return stripe.payouts.create(
       {

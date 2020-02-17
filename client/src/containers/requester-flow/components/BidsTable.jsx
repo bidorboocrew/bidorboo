@@ -109,8 +109,8 @@ const TableWithNoBids = ({ viewedByCount }) => {
 
               {`${
                 viewedByCount > 1 || !viewedByCount
-                  ? 'Taskers are viewing your task and will place bids soon'
-                  : 'Tasker is viewing your task and will place a bid soon'
+                  ? ' Taskers are viewing your task and will place bids soon'
+                  : ' Tasker is viewing your task and will place a bid soon'
               }`}
             </div>
           </div>

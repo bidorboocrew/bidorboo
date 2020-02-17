@@ -436,7 +436,7 @@ class TaskerRootPage extends React.Component {
               {searchWithNoResults && (
                 <>
                   <br></br>
-                  <div className="HorizontalAligner-center column slide-in-bottom-small">
+                  <div className="HorizontalAligner-center column slide-in-bottom-small fade-in">
                     <div className="is-fullwidth">
                       <div>
                         <div className="card-content VerticalAligner">
