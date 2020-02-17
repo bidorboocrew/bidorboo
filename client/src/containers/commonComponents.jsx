@@ -2058,7 +2058,7 @@ export const ReviewCommentsForBidsTable = ({
             <div>
               {createdAt && (
                 <span style={{ fontSize: 12 }} className="has-text-grey">
-                  {` - (${moment.utc(createdAt).format('DD-MMM-YYYY')})`}
+                  {`(${moment.utc(createdAt).format('DD-MMM-YYYY')})`}
                 </span>
               )}
             </div>
