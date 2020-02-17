@@ -127,7 +127,7 @@ export class RequesterReviewingCompletedRequest extends React.Component {
     } else if (
       !cleanPerosnalComment ||
       cleanPerosnalComment.length < 10 ||
-      cleanPerosnalComment.length > 100
+      cleanPerosnalComment.length > 500
     ) {
       dispatch({
         type: A.UI_ACTIONS.SHOW_TOAST_MSG,
@@ -135,7 +135,7 @@ export class RequesterReviewingCompletedRequest extends React.Component {
           toastDetails: {
             type: 'error',
             msg:
-              'please add a personal comment with at least 10 characters and no more than 100 chars',
+              'please add a personal comment with at least 10 characters and no more than 500 chars',
           },
         },
       });
