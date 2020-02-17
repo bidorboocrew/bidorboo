@@ -543,7 +543,7 @@ exports.findByUserIdAndUpdate = (userId, userDetails) => {
     .exec();
 };
 
-exports.requesterPushesAReview = async (
+exports.requesterPushesAReview = (
   reviewId,
   requesterId,
   newFulfilledRequestId,
@@ -552,39 +552,26 @@ exports.requesterPushesAReview = async (
   newTotalOfAllRatings,
   personalComment
 ) => {
-  return await Promise.all([
-    User.findOneAndUpdate(
-      { _id: requesterId },
-      {
-        $push: { 'rating.fulfilledRequests': newFulfilledRequestId },
+  return User.findOneAndUpdate(
+    { _id: taskerId },
+    {
+      $push: { _asTaskerReviewsRef: reviewId },
+      $set: {
+        'rating.globalRating': newTaskerGlobalRating,
+        'rating.totalOfAllRatings': newTotalOfAllRatings,
+        'rating.latestComment': personalComment,
       },
-      {
-        new: true,
-      }
-    )
-      .lean(true)
-      .exec(),
-    User.findOneAndUpdate(
-      { _id: taskerId },
-      {
-        $push: { _asTaskerReviewsRef: reviewId },
-        $set: {
-          'rating.globalRating': newTaskerGlobalRating,
-          'rating.totalOfAllRatings': newTotalOfAllRatings,
-          'rating.latestComment': personalComment,
-        },
-        $inc: { 'rating.numberOfTimesBeenRated': 1 },
-      },
-      {
-        new: true,
-      }
-    )
-      .lean(true)
-      .exec(),
-  ]);
+      $inc: { 'rating.numberOfTimesBeenRated': 1 },
+    },
+    {
+      new: true,
+    }
+  )
+    .lean(true)
+    .exec();
 };
 
-exports.taskerPushesAReview = async (
+exports.taskerPushesAReview = (
   reviewId,
   taskerId,
   newFulfilledBidId,
@@ -593,38 +580,23 @@ exports.taskerPushesAReview = async (
   newTotalOfAllRatings,
   personalComment
 ) => {
-  return await Promise.all([
-    await User.findOneAndUpdate(
-      { _id: taskerId },
-      {
-        $push: {
-          'rating.fulfilledBids': newFulfilledBidId,
-        },
+  return User.findOneAndUpdate(
+    { _id: requesterId },
+    {
+      $push: { _asRequesterReviewsRef: reviewId },
+      $set: {
+        'rating.globalRating': newRequesterGlobalRating,
+        'rating.totalOfAllRatings': newTotalOfAllRatings,
+        'rating.latestComment': personalComment,
       },
-      {
-        new: true,
-      }
-    )
-      .lean(true)
-      .exec(),
-    await User.findOneAndUpdate(
-      { _id: requesterId },
-      {
-        $push: { _asRequesterReviewsRef: reviewId },
-        $set: {
-          'rating.globalRating': newRequesterGlobalRating,
-          'rating.totalOfAllRatings': newTotalOfAllRatings,
-          'rating.latestComment': personalComment,
-        },
-        $inc: { 'rating.numberOfTimesBeenRated': 1 },
-      },
-      {
-        new: true,
-      }
-    )
-      .lean(true)
-      .exec(),
-  ]);
+      $inc: { 'rating.numberOfTimesBeenRated': 1 },
+    },
+    {
+      new: true,
+    }
+  )
+    .lean(true)
+    .exec();
 };
 
 exports.getUserStripeAccount = async (mongoUser_id) => {
