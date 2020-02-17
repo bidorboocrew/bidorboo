@@ -203,7 +203,7 @@ const PaymentSetupForm = (props) => {
                 <TextInput
                   id="full_name"
                   type="text"
-                  helpText="*Tyoe your name as it appears on your bank statement"
+                  helpText="*Type your name as it appears on your bank statement"
                   label="Your Full Name"
                   error={touched.full_name && errors.full_name}
                   value={values.full_name || ''}
