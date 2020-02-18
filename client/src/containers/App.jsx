@@ -109,7 +109,7 @@ class App extends React.Component {
     if (this.state.hasError) {
       // You can render any custom fallback UI
       return (
-        <div id="bidorboo-root-view">
+        <div>
           <Header id="bidorboo-header" />
           <section className="hero is-fullheight">
             <div className="hero-body">
@@ -142,7 +142,6 @@ class App extends React.Component {
     return (
       <div id="bidorboo-root-view">
         {/* <FreshdeskChat /> */}
-        <div id="bidorboo-root-modals" />
         {/* this sill be where action sheets mount */}
         <div id="bidorboo-root-action-sheet" />
         <CookieConsent

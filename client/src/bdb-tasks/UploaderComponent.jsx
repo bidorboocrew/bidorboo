@@ -200,7 +200,7 @@ class UploaderComponent extends React.Component {
           </footer>
         </div>
       </div>,
-      document.querySelector('#bidorboo-root-modals'),
+      document.querySelector('body'),
     );
   }
 }

@@ -156,7 +156,7 @@ class TaskerEditOrUpdateBid extends React.Component {
                 </footer>
               </div>
             </div>,
-            document.querySelector('#bidorboo-root-modals'),
+            document.querySelector('body'),
           )}
         <br></br>
 

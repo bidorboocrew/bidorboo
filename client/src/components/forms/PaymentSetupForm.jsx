@@ -180,7 +180,7 @@ const PaymentSetupForm = (props) => {
               />
             </div>
           </div>,
-          document.querySelector('#bidorboo-root-view'),
+          document.querySelector('body'),
         )}
       <form onSubmit={handleSubmit}>
         <div

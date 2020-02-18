@@ -52,7 +52,7 @@ class Pre_AuthInProgress extends React.PureComponent {
     const { authIsInProgress, isLoggedIn } = this.props;
     if (this.state.hasError) {
       return (
-        <div id="bidorboo-root-view">
+        <div>
           <Header id="bidorboo-header" />
           <section className="hero is-fullheight is-white">
             <div className="hero-body">
