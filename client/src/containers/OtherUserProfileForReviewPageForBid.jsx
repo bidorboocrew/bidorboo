@@ -6,16 +6,17 @@
 import React from 'react';
 import moment from 'moment';
 import { Collapse } from 'react-collapse';
-
+import axios from 'axios';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { getOtherUserProfileInfo } from '../app-state/actions/userModelActions';
+
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 import { Spinner } from '../components/Spinner';
 import { VerifiedVia } from './commonComponents';
 import * as Constants from '../constants/enumConstants';
 import { ReviewCommentsForBidsTable } from './commonComponents.jsx';
+import { getBugsnagClient } from '../index';
+import * as A from '../app-state/actionTypes';
 
 class OtherUserProfileForReviewPageForBid extends React.Component {
   constructor(props) {
@@ -26,13 +27,46 @@ class OtherUserProfileForReviewPageForBid extends React.Component {
     } else {
       switchRoute(ROUTES.CLIENT.HOME);
     }
-    this.state = { showExtraDetails: false };
+    this.state = {
+      showExtraDetails: false,
+      isLoadingAnotherUserProfile: true,
+      otherUserProfileInfo: {},
+    };
   }
 
-  componentDidMount() {
-    // document.querySelector('body').setAttribute('style', 'background:white');
-    if (this.userIdUnderReview) {
-      this.props.getOtherUserProfileInfo(this.userIdUnderReview);
+  async componentDidMount() {
+    const { dispatch } = this.props;
+    try {
+      if (this.userIdUnderReview) {
+        const otherUserProfileInfo = await axios.get(ROUTES.API.USER.GET.otherUserProfileInfo, {
+          params: { otherUserId: this.userIdUnderReview },
+        });
+        this.setState({
+          otherUserProfileInfo: otherUserProfileInfo ? otherUserProfileInfo.data : {},
+          isLoadingAnotherUserProfile: false,
+        });
+      }
+    } catch (e) {
+      this.setState(
+        () => ({
+          otherUserProfileInfo: {},
+          isLoadingAnotherUserProfile: false,
+        }),
+        () => {
+          dispatch({
+            type: A.UI_ACTIONS.SHOW_TOAST_MSG,
+            payload: {
+              toastDetails: {
+                type: 'warn',
+                msg: 'Failed to load one of the Taskers details',
+              },
+            },
+          });
+        },
+      );
+
+      getBugsnagClient().leaveBreadcrumb(' Error getting Bidstable user');
+      getBugsnagClient().notify(e);
     }
   }
   toggleShowExtraDetails = () => {
@@ -40,12 +74,8 @@ class OtherUserProfileForReviewPageForBid extends React.Component {
   };
 
   render() {
-    const { showExtraDetails } = this.state;
-    const {
-      isLoadingAnotherUserProfile,
-      otherUserProfileInfo,
-      isMyPersonalProfile = false,
-    } = this.props;
+    const { showExtraDetails, otherUserProfileInfo, isLoadingAnotherUserProfile } = this.state;
+
     if (!this.userIdUnderReview) {
       return null;
     }
@@ -225,17 +255,10 @@ class OtherUserProfileForReviewPageForBid extends React.Component {
   }
 }
 
-const mapStateToProps = ({ userReducer }) => {
-  return {
-    isLoadingAnotherUserProfile: userReducer.isLoadingAnotherUserProfile,
-    otherUserProfileInfo: userReducer.otherUserProfileInfo,
-  };
-};
 const mapDispatchToProps = (dispatch) => {
   return {
     dispatch,
-    getOtherUserProfileInfo: bindActionCreators(getOtherUserProfileInfo, dispatch),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OtherUserProfileForReviewPageForBid);
+export default connect(null, mapDispatchToProps)(OtherUserProfileForReviewPageForBid);
