@@ -1132,7 +1132,7 @@ export const TaskersAvailable = ({ numberOfAvailableTaskers }) => {
             borderRadius: '100%',
             width: 28,
             height: 28,
-            background: '#6b88e0',
+            background: '#015ff5',
             color: 'white',
             marginRight: 8,
             alignItems: 'center',
