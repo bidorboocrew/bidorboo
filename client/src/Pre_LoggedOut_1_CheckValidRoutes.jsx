@@ -3,7 +3,7 @@ import * as ROUTES from './constants/frontend-route-consts';
 import { switchRoute } from './utils';
 import { getBugsnagClient } from './index';
 
-import Pre_LoggedOut_2_RegisterSw from './Pre_LoggedOut_2_RegisterSw';
+import Pre_LoggedOut_2_ScrollUpSetAppViewAndRenderChildren from './Pre_LoggedOut_2_ScrollUpSetAppViewAndRenderChildren';
 
 const loggedOutRoutes = [
   '/BidOrBoo',
@@ -29,7 +29,7 @@ class Pre_LoggedOut_1_CheckValidRoutes extends React.PureComponent {
     const currentPath = this.props.location.pathname;
     const isAllowedRoute = loggedOutRoutes.some((route) => currentPath.includes(route));
     if (isAllowedRoute || currentPath === '/' || /(\/\?).*/.test(currentPath)) {
-      return <Pre_LoggedOut_2_RegisterSw {...this.props} />;
+      return <Pre_LoggedOut_2_ScrollUpSetAppViewAndRenderChildren {...this.props} />;
     }
 
     // if you are on the loging in page

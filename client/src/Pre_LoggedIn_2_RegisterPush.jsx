@@ -5,10 +5,10 @@ import { registerServiceWorker } from './registerServiceWorker';
 import { getBugsnagClient } from './index';
 
 import Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren from './Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren';
-
-class Pre_LoggedIn_2_RegisterSwAndPush extends React.PureComponent {
+var OneSignal = window.OneSignal || [];
+class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
   componentDidCatch(error, info) {
-    getBugsnagClient().leaveBreadcrumb('componentDidCatch Pre_LoggedIn_2_RegisterSwAndPush', {
+    getBugsnagClient().leaveBreadcrumb('componentDidCatch Pre_LoggedIn_2_RegisterPush', {
       debugInfo: info,
     });
     getBugsnagClient().notify(error);
@@ -19,7 +19,6 @@ class Pre_LoggedIn_2_RegisterSwAndPush extends React.PureComponent {
     registerServiceWorker();
     if (userDetails.notifications && userDetails.notifications.push) {
       // https://documentation.onesignal.com/docs/sdk-reference
-      var OneSignal = window.OneSignal || [];
 
       OneSignal.push(async () => {
         let externalUserId = '';
@@ -67,4 +66,4 @@ class Pre_LoggedIn_2_RegisterSwAndPush extends React.PureComponent {
   }
 }
 
-export default Pre_LoggedIn_2_RegisterSwAndPush;
+export default Pre_LoggedIn_2_RegisterPush;

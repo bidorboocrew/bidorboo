@@ -38,8 +38,6 @@ if (process.env.NODE_ENV === 'production') {
     </Provider>,
     document.getElementById('BidOrBoo-app'),
   );
-
-  registerServiceWorker().catch(() => console.info('ServiceWorker was not added'));
 } else {
   ReactDOM.render(
     <Provider store={store}>
@@ -50,5 +48,7 @@ if (process.env.NODE_ENV === 'production') {
     document.getElementById('BidOrBoo-app'),
   );
 }
+
+registerServiceWorker().catch(() => console.info('ServiceWorker was not added'));
 
 export const getBugsnagClient = () => bugsnagClient;
