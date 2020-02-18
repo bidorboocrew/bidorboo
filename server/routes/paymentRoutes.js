@@ -515,6 +515,7 @@ module.exports = (app) => {
           allowedToTextTasker,
           allowedToPushNotifyTasker,
           taskerPushNotSubscription,
+          taskerOneSignalUserId,
         } = await getAllContactDetails(requestId);
         if (allowedToEmailRequester) {
           sendGridEmailing.tellRequesterThanksforPaymentAndTaskerIsRevealed({
@@ -540,7 +541,7 @@ module.exports = (app) => {
           );
         }
         if (allowedToPushNotifyTasker) {
-          WebPushNotifications.pushYouAreAwarded(taskerPushNotSubscription, {
+          WebPushNotifications.pushYouAreAwarded(taskerPushNotSubscription, taskerOneSignalUserId, {
             taskerDisplayName: taskerDisplayName,
             urlToLaunch: requestLinkForTasker,
           });
@@ -743,6 +744,7 @@ module.exports = (app) => {
           allowedToTextTasker,
           allowedToPushNotifyTasker,
           taskerPushNotSubscription,
+          taskerOneSignalUserId,
         } = await getAllContactDetails(requestId);
         if (allowedToEmailRequester) {
           sendGridEmailing.tellRequesterThanksforPaymentAndTaskerIsRevealed({
@@ -768,7 +770,7 @@ module.exports = (app) => {
           );
         }
         if (allowedToPushNotifyTasker) {
-          WebPushNotifications.pushYouAreAwarded(taskerPushNotSubscription, {
+          WebPushNotifications.pushYouAreAwarded(taskerPushNotSubscription, taskerOneSignalUserId, {
             taskerDisplayName: taskerDisplayName,
             urlToLaunch: requestLinkForTasker,
           });

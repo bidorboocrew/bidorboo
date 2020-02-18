@@ -41,6 +41,7 @@ exports.requestDataAccess = {
               email: 1,
               phone: 1,
               pushSubscription: 1,
+              oneSignalUserId: 1,
               notifications: 1,
             },
           })
@@ -55,6 +56,7 @@ exports.requestDataAccess = {
                 email: 1,
                 phone: 1,
                 pushSubscription: 1,
+                oneSignalUserId: 1,
                 notifications: 1,
               },
             },
@@ -141,14 +143,19 @@ exports.requestDataAccess = {
                 }
 
                 if (ownerDetails.notifications && ownerDetails.notifications.push) {
-                  WebPushNotifications.pushRequestIsHappeningSoon(ownerDetails.pushSubscription, {
-                    requestTitle: requestDisplayName,
-                    urlToLaunch: linkForOwner,
-                  });
+                  WebPushNotifications.pushRequestIsHappeningSoon(
+                    ownerDetails.pushSubscription,
+                    ownerDetails.oneSignalUserId,
+                    {
+                      requestTitle: requestDisplayName,
+                      urlToLaunch: linkForOwner,
+                    }
+                  );
                 }
                 if (awardedTaskerDetails.notifications && awardedTaskerDetails.notifications.push) {
                   WebPushNotifications.pushRequestIsHappeningSoon(
                     awardedTaskerDetails.pushSubscription,
+                    awardedTaskerDetails.oneSignalUserId,
                     {
                       requestTitle: requestDisplayName,
                       urlToLaunch: linkForTasker,
@@ -284,6 +291,8 @@ exports.requestDataAccess = {
                 allowedToTextRequester,
                 allowedToPushNotifyRequester,
                 requesterPushNotSubscription,
+                requesterOneSignalUserId,
+                taskerOneSignalUserId,
               } = await getAllContactDetails(request._id);
 
               if (markAsDoneAnyways) {
@@ -321,12 +330,6 @@ exports.requestDataAccess = {
                 }
 
                 if (allowedToTextRequester) {
-                  console.log('sendTextService.tellRequesterThatWeMarkedRequestDone');
-                  console.log({
-                    requesterPhoneNumber,
-                    requestDisplayName,
-                    requestLinkForRequester,
-                  });
                   sendTextService.tellRequesterThatWeMarkedRequestDone(
                     requesterPhoneNumber,
                     requestDisplayName,
@@ -335,26 +338,17 @@ exports.requestDataAccess = {
                 }
 
                 if (allowedToPushNotifyRequester) {
-                  console.log('WebPushNotifications.tellRequesterToConfirmRequest');
-                  console.log({
-                    requestTitle: requestDisplayName,
-                    urlToLaunch: requestLinkForRequester,
-                  });
-
-                  WebPushNotifications.tellRequesterToConfirmRequest(requesterPushNotSubscription, {
-                    requestTitle: requestDisplayName,
-                    urlToLaunch: requestLinkForRequester,
-                  });
+                  WebPushNotifications.tellRequesterToConfirmRequest(
+                    requesterPushNotSubscription,
+                    requesterOneSignalUserId,
+                    {
+                      requestTitle: requestDisplayName,
+                      urlToLaunch: requestLinkForRequester,
+                    }
+                  );
                 }
               } else {
                 if (allowedToEmailRequester) {
-                  console.log('sensendGridEmailingdTextService.tellRequesterToConfirmRequest');
-                  console.log({
-                    to: requesterEmailAddress,
-                    requestTitle: requestDisplayName,
-                    toDisplayName: requesterDisplayName,
-                    linkForOwner: requestLinkForRequester,
-                  });
                   sendGridEmailing.tellRequesterToConfirmRequest({
                     to: requesterEmailAddress,
                     requestTitle: requestDisplayName,
@@ -364,12 +358,6 @@ exports.requestDataAccess = {
                 }
 
                 if (allowedToTextRequester) {
-                  console.log('sendTextService.tellRequesterToConfirmRequest');
-                  console.log({
-                    requesterPhoneNumber,
-                    requestDisplayName,
-                    requestLinkForRequester,
-                  });
                   sendTextService.tellRequesterToConfirmRequest(
                     requesterPhoneNumber,
                     requestDisplayName,
@@ -378,16 +366,14 @@ exports.requestDataAccess = {
                 }
 
                 if (allowedToPushNotifyRequester) {
-                  console.log('WebPushNotifications.tellRequesterToConfirmRequest');
-                  console.log({
-                    requestTitle: requestDisplayName,
-                    urlToLaunch: requestLinkForRequester,
-                  });
-
-                  WebPushNotifications.tellRequesterToConfirmRequest(requesterPushNotSubscription, {
-                    requestTitle: requestDisplayName,
-                    urlToLaunch: requestLinkForRequester,
-                  });
+                  WebPushNotifications.tellRequesterToConfirmRequest(
+                    requesterPushNotSubscription,
+                    requesterOneSignalUserId,
+                    {
+                      requestTitle: requestDisplayName,
+                      urlToLaunch: requestLinkForRequester,
+                    }
+                  );
                 }
               }
             } catch (innerError) {
@@ -524,7 +510,7 @@ exports.requestDataAccess = {
                       return;
                     }
                   } else {
-                    // Do not do anything for now
+                    // Tasker does not have stripe acc or balance just yet Do not do anything for now
                     return;
                   }
 
@@ -1047,6 +1033,7 @@ exports.requestDataAccess = {
           notifications: 1,
           displayName: 1,
           pushSubscription: 1,
+          oneSignalUserId: 1,
         })
           .lean()
           .exec();
@@ -1059,10 +1046,14 @@ exports.requestDataAccess = {
               toDisplayName: user.displayName,
               linkForTasker: ROUTES.CLIENT.TASKER.getDynamicBidOnRequestPage(request._id),
             });
-            WebPushNotifications.pushNewRequestInYourArea(user.pushSubscription, {
-              requestTitle: templateIdToDisplayName[request.templateId],
-              urlToLaunch: ROUTES.CLIENT.TASKER.getDynamicBidOnRequestPage(request._id),
-            });
+            WebPushNotifications.pushNewRequestInYourArea(
+              user.pushSubscription,
+              user.oneSignalUserId,
+              {
+                requestTitle: templateIdToDisplayName[request.templateId],
+                urlToLaunch: ROUTES.CLIENT.TASKER.getDynamicBidOnRequestPage(request._id),
+              }
+            );
           });
         }
         resolve({ success: true });
@@ -1200,6 +1191,8 @@ exports.requestDataAccess = {
           allowedToPushNotifyTasker,
           requesterPushNotSubscription,
           taskerPushNotSubscription,
+          requesterOneSignalUserId,
+          taskerOneSignalUserId,
         } = await getAllContactDetails(requestId);
 
         if (allowedToEmailRequester) {
@@ -1235,16 +1228,24 @@ exports.requestDataAccess = {
         }
 
         if (allowedToPushNotifyRequester) {
-          WebPushNotifications.pushAwardedRequestWasCompleted(requesterPushNotSubscription, {
-            requestTitle: requestDisplayName,
-            urlToLaunch: requestLinkForRequester,
-          });
+          WebPushNotifications.pushAwardedRequestWasCompleted(
+            requesterPushNotSubscription,
+            requesterOneSignalUserId,
+            {
+              requestTitle: requestDisplayName,
+              urlToLaunch: requestLinkForRequester,
+            }
+          );
         }
         if (allowedToPushNotifyTasker) {
-          WebPushNotifications.pushAwardedRequestWasCompleted(taskerPushNotSubscription, {
-            requestTitle: requestLinkForRequester,
-            urlToLaunch: requestLinkForTasker,
-          });
+          WebPushNotifications.pushAwardedRequestWasCompleted(
+            taskerPushNotSubscription,
+            taskerOneSignalUserId,
+            {
+              requestTitle: requestLinkForRequester,
+              urlToLaunch: requestLinkForTasker,
+            }
+          );
         }
 
         resolve({ success: true });
@@ -1281,6 +1282,7 @@ exports.requestDataAccess = {
           allowedToTextRequester,
           allowedToPushNotifyRequester,
           requesterPushNotSubscription,
+          requesterOneSignalUserId,
         } = await getAllContactDetails(requestId);
 
         // send communication to both about the cancellation
@@ -1312,6 +1314,7 @@ exports.requestDataAccess = {
         if (allowedToPushNotifyRequester) {
           WebPushNotifications.sendRequestAwaitingRequesterConfirmCompletionText(
             requesterPushNotSubscription,
+            requesterOneSignalUserId,
             {
               requestTitle: requestDisplayName,
               urlToLaunch: requestLinkForRequester,
@@ -1548,6 +1551,8 @@ exports.requestDataAccess = {
             taskerPushNotSubscription,
             processedPayment,
             ownerRating,
+            requesterOneSignalUserId,
+            taskerOneSignalUserId,
           } = await getAllContactDetails(requestId);
 
           const currentRating = ownerRating.globalRating;
@@ -1652,16 +1657,24 @@ exports.requestDataAccess = {
             }
 
             if (allowedToPushNotifyRequester) {
-              WebPushNotifications.pushAwardedRequestWasCancelled(requesterPushNotSubscription, {
-                requestTitle: requestDisplayName,
-                urlToLaunch: requestLinkForRequester,
-              });
+              WebPushNotifications.pushAwardedRequestWasCancelled(
+                requesterPushNotSubscription,
+                requesterOneSignalUserId,
+                {
+                  requestTitle: requestDisplayName,
+                  urlToLaunch: requestLinkForRequester,
+                }
+              );
             }
             if (allowedToPushNotifyTasker) {
-              WebPushNotifications.pushAwardedRequestWasCancelled(taskerPushNotSubscription, {
-                requestTitle: requestLinkForRequester,
-                urlToLaunch: requestLinkForTasker,
-              });
+              WebPushNotifications.pushAwardedRequestWasCancelled(
+                taskerPushNotSubscription,
+                taskerOneSignalUserId,
+                {
+                  requestTitle: requestLinkForRequester,
+                  urlToLaunch: requestLinkForTasker,
+                }
+              );
             }
 
             resolve(updatedRequest);

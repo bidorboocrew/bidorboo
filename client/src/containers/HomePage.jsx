@@ -28,29 +28,9 @@ export default class HomePage extends React.Component {
         <section className="hero has-text-centered is-danger is-small">
           <div style={{ backgroundImage: `url(${MainBanner})` }} className="hero-body">
             <div className="container">
-              {/* <h1
-                style={{
-                  color: 'white',
-                  marginBottom: 2,
-                  transform: 'scaleY(1.1)',
-                  fontWeight: 400,
-                }}
-                className="title is-1"
-              >
-                <span id="BidOrBoo-welcome-step">BidOrBoo</span>
-              </h1> */}
               <div style={{ paddingTop: 8 }} className="container has-text-centered">
                 <img style={{ width: 300 }} src={BidOrBooMain} alt="Placeholder" />
               </div>
-              {/* <h2
-                style={{ fontSize: 16, marginBottom: 0, paddingBottom: 0 }}
-                className="has-text-white"
-              >
-                the place to get all your chores done,
-              </h2>
-              <h2 style={{ fontSize: 16 }} className="has-text-white">
-                and earn money doing what you love.
-              </h2> */}
             </div>
           </div>
         </section>

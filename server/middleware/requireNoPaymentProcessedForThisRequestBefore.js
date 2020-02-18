@@ -7,7 +7,7 @@ const WebPushNotifications = require('../services/WebPushNotifications').WebPush
 
 const getAllContactDetails = require('../utils/commonDataUtils')
   .getAwardedRequestOwnerTaskerAndRelevantNotificationDetails;
-  const { bugsnagClient } = require('../utils/utilities');
+const { bugsnagClient } = require('../utils/utilities');
 
 module.exports = async (req, res, next) => {
   try {
@@ -74,6 +74,7 @@ module.exports = async (req, res, next) => {
               allowedToTextTasker,
               allowedToPushNotifyTasker,
               taskerPushNotSubscription,
+              taskerOneSignalUserId,
             } = await getAllContactDetails(requestId);
             if (allowedToEmailRequester) {
               sendGridEmailing.tellRequesterThanksforPaymentAndTaskerIsRevealed({
@@ -99,10 +100,14 @@ module.exports = async (req, res, next) => {
               );
             }
             if (allowedToPushNotifyTasker) {
-              WebPushNotifications.pushYouAreAwarded(taskerPushNotSubscription, {
-                taskerDisplayName: taskerDisplayName,
-                urlToLaunch: requestLinkForTasker,
-              });
+              WebPushNotifications.pushYouAreAwarded(
+                taskerPushNotSubscription,
+                taskerOneSignalUserId,
+                {
+                  taskerDisplayName: taskerDisplayName,
+                  urlToLaunch: requestLinkForTasker,
+                }
+              );
             }
           }
 

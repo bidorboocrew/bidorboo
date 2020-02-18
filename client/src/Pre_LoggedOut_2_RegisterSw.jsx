@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { registerServiceWorker } from './registerServiceWorker';
-import { registerPushNotification } from './registerPushNotification';
+
 import { getBugsnagClient } from './index';
 
 import Pre_LoggedOut_3_ScrollUpSetAppViewAndRenderChildren from './Pre_LoggedOut_3_ScrollUpSetAppViewAndRenderChildren';
@@ -14,10 +14,9 @@ class Pre_LoggedOut_2_RegisterSw extends React.PureComponent {
   }
 
   componentDidCatch(error, info) {
-    getBugsnagClient().leaveBreadcrumb(
-      'componentDidCatch Pre_LoggedOut_2_RegisterSw',
-      { debugInfo: info },
-    );
+    getBugsnagClient().leaveBreadcrumb('componentDidCatch Pre_LoggedOut_2_RegisterSw', {
+      debugInfo: info,
+    });
     getBugsnagClient().notify(error);
   }
 
@@ -31,13 +30,7 @@ class Pre_LoggedOut_2_RegisterSw extends React.PureComponent {
         )
       ) {
         this.lastTimeWeRegisteredTheNotification = moment().toISOString();
-        registerServiceWorker()
-          .then(({ registration }) => {
-            registerPushNotification(`${process.env.REACT_APP_VAPID_KEY}`, registration)
-              .then(() => console.log('push Notifications enabled'))
-              .catch((e) => console.log('push Notifications not enabled ' + e));
-          })
-          .catch(() => console.info('ServiceWorker was not added'));
+        registerServiceWorker().catch(() => console.info('ServiceWorker was not added'));
       }
     }
   }

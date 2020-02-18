@@ -1,10 +1,11 @@
 import React from 'react';
-
+import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { updateNotificationSettings } from '../../app-state/actions/userModelActions';
 import { registerServiceWorker } from '../../registerServiceWorker';
-import { registerPushNotification } from '../../registerPushNotification';
+// import { registerPushNotification } from '../../registerPushNotification';
+import { getBugsnagClient } from '../../index';
 
 // XXXXX https://developers.google.com/web/fundamentals/codelabs/push-notifications follow this
 class MyNotifications extends React.Component {
@@ -23,13 +24,35 @@ class MyNotifications extends React.Component {
       enableTxtNotifications: isTextNotificationsEnabled,
       enableNotifyMeAboutNewTasksEnabled: isNotifyMeAboutNewTasksEnabled,
     };
-    registerServiceWorker()
-      .then(({ registration }) => {
-        registerPushNotification(`${process.env.REACT_APP_VAPID_KEY}`, registration)
-          .then(() => console.log('push Notifications enabled'))
-          .catch((e) => console.log('push Notifications not enabled ' + e));
-      })
-      .catch(() => console.info('ServiceWorker was not added'));
+    // registerServiceWorker()
+    //   .then(({ registration }) => {
+    //     registerPushNotification(`${process.env.REACT_APP_VAPID_KEY}`, registration)
+    //       .then(() => console.log('push Notifications enabled'))
+    //       .catch((e) => console.log('push Notifications not enabled ' + e));
+    //   })
+    //   .catch(() => console.info('ServiceWorker was not added'));
+  }
+
+  async componentDidMount() {
+    const { userDetails } = this.props;
+    try {
+      if (window.OneSignal) {
+        window.OneSignal.registerForPushNotifications();
+        const oneSignalUserId = await window.OneSignal.getUserId();
+        if (userDetails.oneSignalUserId !== oneSignalUserId) {
+          if (oneSignalUserId) {
+            await axios.post('/api/push/register', {
+              data: {
+                oneSignalUserId,
+              },
+            });
+          }
+        }
+      }
+    } catch (e) {
+      getBugsnagClient().leaveBreadcrumb('error updating onesignal user id');
+      getBugsnagClient().notify(e);
+    }
   }
 
   componentDidUpdate(prevProps) {

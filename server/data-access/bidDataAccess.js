@@ -77,6 +77,8 @@ exports.bidDataAccess = {
           allowedToPushNotifyTasker,
           requesterPushNotSubscription,
           taskerPushNotSubscription,
+          requesterOneSignalUserId,
+          taskerOneSignalUserId,
         } = await exports.bidDataAccess._getAwardedRequestOwnerTaskerAndRelevantNotificationDetails(
           requestedRequestId
         );
@@ -177,16 +179,24 @@ exports.bidDataAccess = {
           }
 
           if (allowedToPushNotifyRequester) {
-            WebPushNotifications.pushAwardedRequestWasCancelled(requesterPushNotSubscription, {
-              requestTitle: requestDisplayName,
-              urlToLaunch: requestLinkForRequester,
-            });
+            WebPushNotifications.pushAwardedRequestWasCancelled(
+              requesterPushNotSubscription,
+              requesterOneSignalUserId,
+              {
+                requestTitle: requestDisplayName,
+                urlToLaunch: requestLinkForRequester,
+              }
+            );
           }
           if (allowedToPushNotifyTasker) {
-            WebPushNotifications.pushAwardedRequestWasCancelled(taskerPushNotSubscription, {
-              requestTitle: requestLinkForRequester,
-              urlToLaunch: requestLinkForTasker,
-            });
+            WebPushNotifications.pushAwardedRequestWasCancelled(
+              taskerPushNotSubscription,
+              taskerOneSignalUserId,
+              {
+                requestTitle: requestLinkForRequester,
+                urlToLaunch: requestLinkForTasker,
+              }
+            );
           }
           // -------------notify
 
@@ -224,6 +234,7 @@ exports.bidDataAccess = {
             email: 1,
             phone: 1,
             pushSubscription: 1,
+            oneSignalUserId: 1,
             notifications: 1,
             displayName: 1,
           },
@@ -237,6 +248,7 @@ exports.bidDataAccess = {
           email: 1,
           phone: 1,
           pushSubscription: 1,
+          oneSignalUserId: 1,
           notifications: 1,
         },
       })
@@ -264,6 +276,9 @@ exports.bidDataAccess = {
 
     const requesterPushNotSubscription = ownerDetails.pushSubscription;
     const taskerPushNotSubscription = awardedTaskerDetails.pushSubscription;
+
+    const requesterOneSignalUserId = ownerDetails.oneSignalUserId;
+    const taskerOneSignalUserId = awardedTaskerDetails.oneSignalUserId;
 
     const requesterEmailAddress =
       ownerDetails.email && ownerDetails.email.emailAddress ? ownerDetails.email.emailAddress : '';
@@ -315,6 +330,8 @@ exports.bidDataAccess = {
       requesterPushNotSubscription,
       taskerPushNotSubscription,
       processedPayment,
+      requesterOneSignalUserId,
+      taskerOneSignalUserId,
     };
   },
   deleteOpenBid: async (mongoUser_id, bidId) => {
@@ -850,6 +867,7 @@ exports.bidDataAccess = {
               phone: 1,
               _taskerRef: 1,
               pushSubscription: 1,
+              oneSignalUserId: 1,
               notifications: 1,
             },
           })
@@ -875,15 +893,12 @@ exports.bidDataAccess = {
               clickLink: `${ROUTES.CLIENT.REQUESTER.dynamicReviewRequestAndBidsPage(requestId)}`,
             });
 
-          const ownerPushSubscription = ownerDetails.pushSubscription
-            ? ownerDetails.pushSubscription
-            : '';
-          ownerPushSubscription &&
-            notificationSettings.push &&
-            WebPushNotifications.pushNewBidRecieved(ownerPushSubscription, {
-              requestTitle: requestTitle,
-              urlToLaunch: `${ROUTES.CLIENT.REQUESTER.dynamicReviewRequestAndBidsPage(requestId)}`,
-            });
+          const ownerPushSubscription = ownerDetails.pushSubscription;
+          const ownerOneSignalUserId = ownerDetails.oneSignalUserId;
+          WebPushNotifications.pushNewBidRecieved(ownerPushSubscription, ownerOneSignalUserId, {
+            requestTitle: requestTitle,
+            urlToLaunch: `${ROUTES.CLIENT.REQUESTER.dynamicReviewRequestAndBidsPage(requestId)}`,
+          });
         }
 
         newBid && newBid.toObject ? resolve(newBid.toObject()) : resolve(newBid);

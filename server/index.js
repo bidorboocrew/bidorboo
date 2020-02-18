@@ -1,6 +1,7 @@
 if (process.env.NODE_ENV === 'production') {
   require('newrelic');
 }
+
 const express = require('express');
 const passport = require('passport');
 const path = require('path');
@@ -8,7 +9,6 @@ const expressip = require('express-ip');
 const responseTime = require('response-time');
 const errorhandler = require('errorhandler');
 
-const keys = require('./config/keys');
 // const { errors } = require('celebrate');
 
 // initialize bugsnag

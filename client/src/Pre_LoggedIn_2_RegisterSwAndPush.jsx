@@ -1,45 +1,64 @@
 import React from 'react';
-import moment from 'moment';
+import axios from 'axios';
 import { registerServiceWorker } from './registerServiceWorker';
-import { registerPushNotification } from './registerPushNotification';
+
 import { getBugsnagClient } from './index';
 
 import Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren from './Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren';
 
 class Pre_LoggedIn_2_RegisterSwAndPush extends React.PureComponent {
   componentDidCatch(error, info) {
-    getBugsnagClient().leaveBreadcrumb(
-      'componentDidCatch Pre_LoggedIn_2_RegisterSwAndPush',
-      {
-        debugInfo: info,
-      },
-    );
+    getBugsnagClient().leaveBreadcrumb('componentDidCatch Pre_LoggedIn_2_RegisterSwAndPush', {
+      debugInfo: info,
+    });
     getBugsnagClient().notify(error);
   }
 
   componentDidMount() {
     const { userDetails } = this.props;
+    registerServiceWorker();
     if (userDetails.notifications && userDetails.notifications.push) {
-      const lastKnownRegTimeStamp = window.sessionStorage.getItem(
-        'bob-SWPushRegTimestamp',
-        moment().toISOString(),
-      );
+      // https://documentation.onesignal.com/docs/sdk-reference
+      var OneSignal = window.OneSignal || [];
 
-      if (
-        !lastKnownRegTimeStamp ||
-        moment(lastKnownRegTimeStamp).isBefore(moment().subtract(1, 'day'))
-      ) {
-        window.sessionStorage.setItem('bob-SWPushRegTimestamp', moment().toISOString());
+      OneSignal.push(async () => {
+        let externalUserId = '';
+        if (OneSignal) {
+          externalUserId = await OneSignal.getExternalUserId();
+        }
 
-        this.lastTimeWeRegisteredTheNotification = moment().toISOString();
-        registerServiceWorker()
-          .then(({ registration }) => {
-            registerPushNotification(`${process.env.REACT_APP_VAPID_KEY}`, registration)
-              .then(() => console.log('push Notifications enabled'))
-              .catch((e) => console.log('push Notifications not enabled ' + e));
-          })
-          .catch(() => console.info('ServiceWorker was not added'));
-      }
+        if (externalUserId !== userDetails.userId) {
+          OneSignal.init({
+            appId:
+              process.env.NODE_ENV === 'production'
+                ? process.env.REACT_APP_ONESIGNAL_PUBLIC
+                : process.env.REACT_APP_ONESIGNAL_PUBLIC_TEST,
+            autoResubscribe: true,
+            notifyButton: {
+              enable: true,
+            },
+            allowLocalhostAsSecureOrigin: process.env.NODE_ENV === 'production' ? false : true,
+            welcomeNotification: {
+              disable: true,
+            },
+          });
+          if (!OneSignal.isPushNotificationsSupported()) {
+            return;
+          }
+          OneSignal.setDefaultNotificationUrl('https://www.bidorboo.ca');
+          OneSignal.setExternalUserId(userDetails.userId);
+          OneSignal.showSlidedownPrompt();
+
+          const oneSignalUserId = await OneSignal.getUserId();
+          if (oneSignalUserId) {
+            await axios.post('/api/push/register', {
+              data: {
+                oneSignalUserId,
+              },
+            });
+          }
+        }
+      });
     }
   }
 
