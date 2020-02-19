@@ -205,6 +205,44 @@ const POS = () => {
           ;
         </li>
         <li>
+          <a target="_blank" rel="noopener noreferrer" href="https://onesignal.com/tos">
+            OneSignal terms of use
+          </a>
+          ;
+        </li>
+        <li>
+          <a target="_blank" rel="noopener noreferrer" href="https://onesignal.com/privacy_policy">
+            OneSignal privacy policy
+          </a>
+          ;
+        </li>
+        <li>
+          <a target="_blank" rel="noopener noreferrer" href="https://mlab.com/company/legal/aup/">
+            MongoLab terms of use
+          </a>
+          ;
+        </li>
+        <li>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://mlab.com/company/legal/privacy/"
+          >
+            MongoLab privacy policy
+          </a>
+          ;
+        </li>
+        <li>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://newrelic.com/termsandconditions/paid"
+          >
+            New Relic
+          </a>
+          ;
+        </li>
+        <li>
           <a
             target="_blank"
             rel="noopener noreferrer"
