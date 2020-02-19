@@ -60,7 +60,7 @@ class Header extends React.Component {
   }
 
   componentDidMount() {
-    this.modalRootNode = document.querySelector('#bidorboo-root-modals');
+    this.modalRootNode = document.querySelector('body');
 
     if (
       this.props.history.location.pathname.includes('bdb-request/root') ||

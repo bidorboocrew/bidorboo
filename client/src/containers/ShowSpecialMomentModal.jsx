@@ -23,7 +23,7 @@ class ShowSpecialMomentModal extends React.Component {
               {boundSpecialMoment(this.clearOutThisMoment)}
             </div>
           </div>,
-          document.querySelector('#bidorboo-root-modals'),
+          document.querySelector('body'),
         )
       : null;
   }

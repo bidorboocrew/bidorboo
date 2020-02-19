@@ -134,7 +134,7 @@ class TaskerVerificationBanner extends React.Component {
                   </section>
                 </div>
               </div>,
-              document.querySelector('#bidorboo-root-modals'),
+              document.querySelector('body'),
             )}
           <section
             id="bob-taskerVerificationBanner"

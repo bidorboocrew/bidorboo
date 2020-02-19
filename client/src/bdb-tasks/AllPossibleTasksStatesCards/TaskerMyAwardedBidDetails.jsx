@@ -124,7 +124,7 @@ class TaskerMyAwardedBidDetails extends RequestBaseContainer {
                 </footer>
               </div>
             </div>,
-            document.querySelector('#bidorboo-root-modals'),
+            document.querySelector('body'),
           )}
         <div className="card has-text-centered">
           <div style={{ borderBottom: 0 }} className="card-content">
@@ -362,7 +362,7 @@ class TaskerConfirmsCompletion extends React.Component {
                 </footer>
               </div>
             </div>,
-            document.querySelector('#bidorboo-root-modals'),
+            document.querySelector('body'),
           )}
         <a onClick={this.toggleModal} className="button is-success">
           Confirm Task Completion
@@ -548,7 +548,7 @@ class TaskerDisputes extends React.Component {
                 </footer>
               </div>
             </div>,
-            document.querySelector('#bidorboo-root-modals'),
+            document.querySelector('body'),
           )}
 
         <a onClick={this.toggleModal} className="dropdown-item">

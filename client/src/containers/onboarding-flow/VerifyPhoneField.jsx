@@ -49,7 +49,6 @@ class VerifyPhoneField extends React.Component {
   render() {
     const { isResendingVCode, inputCodeContent } = this.state;
     const { verifyingPhoneInProgress, dispatch, userDetails, editPhoneNumber = null } = this.props;
-    this.rootModal = document.querySelector('#bidorboo-root-modals');
 
     return (
       <div>
