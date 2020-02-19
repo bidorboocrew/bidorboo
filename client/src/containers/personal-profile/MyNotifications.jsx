@@ -37,6 +37,7 @@ class MyNotifications extends React.Component {
     const { userDetails } = this.props;
     try {
       if (window.OneSignal) {
+        window.OneSignal.showSlidedownPrompt({ force: true });
         window.OneSignal.registerForPushNotifications();
         const oneSignalUserId = await window.OneSignal.getUserId();
         if (userDetails.oneSignalUserId !== oneSignalUserId) {
