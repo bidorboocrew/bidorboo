@@ -25,7 +25,10 @@ let bugsnagClient = {
 };
 
 if (process.env.NODE_ENV === 'production') {
-  bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_API_KEY}`);
+  bugsnagClient = bugsnag({
+    apiKey: `${process.env.REACT_APP_BUGSNAG_API_KEY}`,
+    appVersion: '1.0.0',
+  });
   bugsnagClient.use(bugsnagReact, React);
   const ErrorBoundary = bugsnagClient.getPlugin('react');
   ReactDOM.render(
