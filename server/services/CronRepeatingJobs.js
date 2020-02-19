@@ -39,22 +39,7 @@ module.exports = () => {
       ).start();
       return;
     }
-
-    if (process.env.NODE_APP_INSTANCE === '1') {
-      new CronJob(
-        // '0 0 03 * * *',
-        '0 0 */4 * * *',
-        () => {
-          console.log('start running cron request: CleanUpAllBidsAssociatedWithDoneRequests');
-          requestDataAccess.BidOrBooAdmin.CleanUpAllBidsAssociatedWithDoneRequests();
-        },
-        () => console.log('end running cron request: CleanUpAllBidsAssociatedWithDoneRequests'),
-        true,
-        'America/Toronto'
-      ).start();
-    }
-
-    if (process.env.NODE_APP_INSTANCE === '2') {
+    if (process.env.NODE_APP_INSTANCE === '0') {
       new CronJob(
         '0 0 */12 * * *',
         () => {
@@ -73,8 +58,21 @@ module.exports = () => {
         'America/Toronto'
       ).start();
     }
+    if (process.env.NODE_APP_INSTANCE === '1') {
+      new CronJob(
+        // '0 0 03 * * *',
+        '0 0 */4 * * *',
+        () => {
+          console.log('start running cron request: CleanUpAllBidsAssociatedWithDoneRequests');
+          requestDataAccess.BidOrBooAdmin.CleanUpAllBidsAssociatedWithDoneRequests();
+        },
+        () => console.log('end running cron request: CleanUpAllBidsAssociatedWithDoneRequests'),
+        true,
+        'America/Toronto'
+      ).start();
+    }
 
-    if (process.env.NODE_APP_INSTANCE === '2') {
+    if (process.env.NODE_APP_INSTANCE === '1') {
       new CronJob(
         '0 0 */12 * * *',
         () => {
@@ -88,7 +86,7 @@ module.exports = () => {
       ).start();
     }
 
-    if (process.env.NODE_APP_INSTANCE === '3') {
+    if (process.env.NODE_APP_INSTANCE === '2') {
       new CronJob(
         // '0 0 */6 * * *',
         '0 0 8,12,16 * * *',
