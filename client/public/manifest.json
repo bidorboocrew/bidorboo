@@ -11,6 +11,13 @@
   "display": "standalone",
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.app.bidorboo",
+      "id": "com.app.bidorboo"
+    }
+  ],
   "icons": [
     {
       "src": "/android-icon-36x36.png",
