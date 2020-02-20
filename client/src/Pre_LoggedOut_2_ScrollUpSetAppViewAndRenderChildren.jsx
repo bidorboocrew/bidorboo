@@ -26,7 +26,7 @@ class Pre_LoggedOut_2_ScrollUpSetAppViewAndRenderChildren extends React.PureComp
   }
 
   render() {
-    return <div>{this.props.children}</div>;
+    return this.props.children;
   }
 }
 

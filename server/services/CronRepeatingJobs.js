@@ -15,7 +15,7 @@ module.exports = () => {
       // clean requests at midnight
       new CronJob(
         // '0 0 0 * * *',
-        '0 0 */3 * * *',
+        '0 0 9 * * *',
         () => {
           console.log('start running cron request: CleanUpAllExpiredNonAwardedRequests');
           requestDataAccess.BidOrBooAdmin.CleanUpAllExpiredNonAwardedRequests();

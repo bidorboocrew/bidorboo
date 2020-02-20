@@ -44,6 +44,7 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
   }
 
   componentDidMount() {
+    console.log('we should only hit here once ');
     const { userDetails } = this.props;
     if (userDetails.notifications && userDetails.notifications.push) {
       // https://documentation.onesignal.com/docs/sdk-reference
@@ -77,6 +78,7 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
         OneSignal.showSlidedownPrompt();
 
         OneSignal.on('subscriptionChange', function(isSubscribed) {
+          console.info('update subscription');
           updateUserSubscription(userDetails, isSubscribed);
         });
       });

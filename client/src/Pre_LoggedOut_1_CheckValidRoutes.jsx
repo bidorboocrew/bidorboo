@@ -34,7 +34,7 @@ class Pre_LoggedOut_1_CheckValidRoutes extends React.PureComponent {
 
     // if you are on the loging in page
     if (this.props.location.pathname.includes(ROUTES.CLIENT.LOGIN_OR_REGISTER)) {
-      return <div>{this.props.children}</div>;
+      return this.props.children;
     }
 
     // you are trying to hit a logged in protected route
