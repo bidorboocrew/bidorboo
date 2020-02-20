@@ -11,7 +11,7 @@ import { showLoginDialog } from '../app-state/actions/uiActions';
 
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
-import logoImg from '../assets/images/android-chrome-192x192.png';
+import logoImg from '../assets/images/android-icon-192x192.png';
 import ShareThisPageHeaderMenuItem from './ShareThisPageHeaderMenuItem.jsx';
 import { getBugsnagClient } from '../index';
 

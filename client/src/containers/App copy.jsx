@@ -14,7 +14,7 @@
 // import CookieConsent from 'react-cookie-consent';
 
 // import { getCurrentUser } from '../app-state/actions/authActions';
-// import logoImg from '../assets/images/android-chrome-192x192.png';
+// import logoImg from '../assets/images/android-icon-192x192.png';
 // import canadaFlag from '../assets/images/Canada-flag-round.png';
 // import AddToMobileHomeScreenBanner from './AddToMobileHomeScreenBanner';
 // import '../assets/index.scss';

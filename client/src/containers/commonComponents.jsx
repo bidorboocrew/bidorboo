@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import logoImg from '../assets/images/android-chrome-192x192.png';
+import logoImg from '../assets/images/android-icon-192x192.png';
 import ReactDOM from 'react-dom';
 
 import moment from 'moment';

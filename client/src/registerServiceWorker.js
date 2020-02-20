@@ -1,8 +1,9 @@
 export const registerServiceWorker = async () => {
   return new Promise((resolve, reject) => {
     if (process.env.NODE_ENV === 'development') {
-      return reject({ success: false });
+      return resolve({ success: false });
     }
+
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', async () => {
         let registration;
@@ -27,7 +28,6 @@ export const registerServiceWorker = async () => {
 
           if (registration.waiting && registration.waiting.state === 'installed') {
             newWorker = registration.waiting;
-            // showUpdateBar();
             if (newWorker && newWorker.postMessage) {
               newWorker.postMessage({ action: 'skipWaiting' });
             }

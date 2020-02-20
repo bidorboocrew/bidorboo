@@ -3,7 +3,7 @@
   "short_name": "BidOrBoo",
   "name": "BidOrBoo",
   "homepage_url": "https://www.bidorboo.ca",
-  "version": "2.0.0",
+  "version": "300",
   "prefer_related_applications": false,
   "description": "Chores Made Easy! The place to get all your chores done and earn money doing what you love.",
   "lang": "en-US",
@@ -54,6 +54,11 @@
       "sizes": "192x192",
       "type": "image/png",
       "density": "4.0"
+    },
+    {
+      "src": "/android-icon-512x512.png?v=300",
+      "sizes": "512x512",
+      "type": "image/png"
     }
   ]
 }

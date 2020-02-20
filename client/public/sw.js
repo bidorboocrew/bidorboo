@@ -4,20 +4,22 @@
 // very important
 // https://github.com/deanhume/pwa-update-available
 // https://developers.google.com/web/fundamentals/primers/service-workers/
-var CACHE_NAME = 'bob-app-cache-v1.6.0';
+var CACHE_NAME = 'bob-app-cache-v2.0.0';
 var THREE_MONTHS_IN_SECONDS = 7776000;
 
 var urlsToCache = [
   '/favicon.ico',
-  '/offline.html',
-  '/android-chrome-192x192.png',
-  '/android-chrome-512x512.png',
-  '/apple-touch-icon.png',
   '/favicon-32x32.png',
   '/favicon-16x16.png',
-  '/mstile-310x150.png',
-  '/android-chrome-192x192-mono.png',
+  '/offline.html',
+  '/android-icon-192x192.png',
+  '/android-icon-512x512.png',
+  '/apple-icon.png',
+  '/ms-icon-310x150.png',
+  // '/android-icon-192x192-mono.png',
+  '/BidOrBooFinalCover_8.png',
   '/safari-pinned-tab.svg',
+  '/static/media/'
 ];
 
 // https://developers.google.com/web/fundamentals/primers/service-workers/
@@ -88,9 +90,9 @@ self.addEventListener('fetch', function(event) {
               case 'style':
               case 'font':
               case 'image': {
-                // console.info('we cached it -------------');
-                // console.info({ destinationReq });
-                // console.info('we cached it -------------end');
+                console.info('we cached it -------------');
+                console.info({ destinationReq });
+                console.info('we cached it -------------end');
                 caches.open(CACHE_NAME).then(function(cache) {
                   cache.put(event.request, responseToCache);
                 });
@@ -117,39 +119,39 @@ self.addEventListener('fetch', function(event) {
 });
 
 // https://developers.google.com/web/fundamentals/push-notifications/notification-behaviour
-self.addEventListener('push', (event) => {
-  var data = event.data.json();
+// self.addEventListener('push', (event) => {
+//   var data = event.data.json();
 
-  var title = data.title;
+//   var title = data.title;
 
-  var options = {
-    body: data.body,
-    badge: './android-chrome-192x192-mono.png',
-    image: './android-chrome-192x192.png',
-    icon: './android-chrome-512x512.png',
-    data: data.urlToLaunch || 'https://www.bidorboo.ca',
-    actions: [{ action: 'viewUpdate', title: 'View Update' }],
-  };
-  if (data.tag) {
-    options.renotify = true;
-    options.tag = data.tag;
-  }
-  if (data.requireInteraction) {
-    options.requireInteraction = true;
-  }
+//   var options = {
+//     body: data.body,
+//     badge: '/android-icon-192x192-mono.png',
+//     image: '/android-icon-192x192.png',
+//     icon: '/android-icon-512x512.png',
+//     data: data.urlToLaunch || 'https://www.bidorboo.ca',
+//     actions: [{ action: 'viewUpdate', title: 'View Update' }],
+//   };
+//   if (data.tag) {
+//     options.renotify = true;
+//     options.tag = data.tag;
+//   }
+//   if (data.requireInteraction) {
+//     options.requireInteraction = true;
+//   }
 
-  event.waitUntil(self.registration.showNotification(title, options));
-});
+//   event.waitUntil(self.registration.showNotification(title, options));
+// });
 
-self.addEventListener('notificationclick', (event) => {
-  event.notification.close();
-  if (event.action === 'viewUpdate') {
-    event.waitUntil(clients.openWindow(event.notification.data));
-    return;
-  }
-  //this needs to change, need to come need to be dybamic
-  event.waitUntil(clients.openWindow(event.notification.data));
-});
+// self.addEventListener('notificationclick', (event) => {
+//   event.notification.close();
+//   if (event.action === 'viewUpdate') {
+//     event.waitUntil(clients.openWindow(event.notification.data));
+//     return;
+//   }
+//   //this needs to change, need to come need to be dybamic
+//   event.waitUntil(clients.openWindow(event.notification.data));
+// });
 
 self.addEventListener('message', function(event) {
   if (event.data.action === 'skipWaiting') {
