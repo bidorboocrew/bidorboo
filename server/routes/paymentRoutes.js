@@ -407,7 +407,8 @@ module.exports = (app) => {
       let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
       if (event) {
         const { type, data } = event;
-        const { status, metadata } = data;
+        const { object } = data;
+        const { status, metadata } = object;
         const { requestId } = metadata;
 
         switch (type) {
