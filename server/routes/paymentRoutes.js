@@ -419,7 +419,7 @@ module.exports = (app) => {
             // update the request about this
             requestDataAccess.updateRequestById(requestId, {
               $set: {
-                'payoutDetails.status': { status },
+                'payoutDetails.status': status,
               },
             });
             sendGridEmailing.informBobCrewAboutSuccessPayment({ requestId, paymentDetails: data });
@@ -431,7 +431,7 @@ module.exports = (app) => {
             console.log({ requestId });
             requestDataAccess.updateRequestById(requestId, {
               $set: {
-                'payoutDetails.status': { status },
+                'payoutDetails.status': status,
               },
             });
             sendGridEmailing.informBobCrewAboutFailedPayment({ requestId, paymentDetails: data });
@@ -439,7 +439,7 @@ module.exports = (app) => {
           default:
             requestDataAccess.updateRequestById(requestId, {
               $set: {
-                'payoutDetails.status': { status },
+                'payoutDetails.status': status,
               },
             });
             sendGridEmailing.informBobCrewAboutFailedPayment({ requestId, paymentDetails: data });
@@ -637,7 +637,7 @@ module.exports = (app) => {
       let event = stripeServiceUtil.validateSignature(req.body, sig, endpointSecret);
       if (event) {
         const { type, data } = event;
-        const { status, metadata } = data;
+        const { status, metadata } = data.object;
         const { requestId } = metadata;
 
         switch (type) {
@@ -648,7 +648,7 @@ module.exports = (app) => {
             // update the request about this
             requestDataAccess.updateRequestById(requestId, {
               $set: {
-                'payoutDetails.status': { status },
+                'payoutDetails.status': status,
               },
             });
             sendGridEmailing.informBobCrewAboutSuccessPayment({ requestId, paymentDetails: data });
@@ -660,7 +660,7 @@ module.exports = (app) => {
             console.log({ requestId });
             requestDataAccess.updateRequestById(requestId, {
               $set: {
-                'payoutDetails.status': { status },
+                'payoutDetails.status': status,
               },
             });
             sendGridEmailing.informBobCrewAboutFailedPayment({ requestId, paymentDetails: data });
@@ -668,7 +668,7 @@ module.exports = (app) => {
           default:
             requestDataAccess.updateRequestById(requestId, {
               $set: {
-                'payoutDetails.status': { status },
+                'payoutDetails.status': status,
               },
             });
             sendGridEmailing.informBobCrewAboutFailedPayment({ requestId, paymentDetails: data });
