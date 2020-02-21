@@ -1149,8 +1149,11 @@ exports.requestDataAccess = {
 
         // update stuff
         await Promise.all([
-          User.findByIdAndUpdate(
-            updatedRequest._awardedBidRef._taskerRef,
+          User.findOneAndUpdate(
+            {
+              _id: updatedRequest._awardedBidRef._taskerRef,
+              'rating.fulfilledBids': { $ne: updatedRequest._awardedBidRef },
+            },
             {
               $push: { 'rating.fulfilledBids': updatedRequest._awardedBidRef },
             },
@@ -1160,8 +1163,11 @@ exports.requestDataAccess = {
           )
             .lean(true)
             .exec(),
-          User.findByIdAndUpdate(
-            updatedRequest._ownerRef,
+          User.findOneAndUpdate(
+            {
+              _id: updatedRequest._ownerRef,
+              'rating.fulfilledRequests': { $ne: requestId },
+            },
             {
               $push: { 'rating.fulfilledRequests': requestId },
             },
@@ -1583,7 +1589,7 @@ exports.requestDataAccess = {
           if (refundCharge.status === 'succeeded') {
             const [updatedRequest] = await Promise.all([
               RequestModel.findOneAndUpdate(
-                { _id: requestId, _ownerRef: mongoUser_id },
+                { _id: requestId, _ownerRef: mongoUser_id, hideFrom: { $ne: taskerId } },
                 {
                   $set: {
                     state: 'AWARDED_REQUEST_CANCELED_BY_REQUESTER',
@@ -1602,7 +1608,7 @@ exports.requestDataAccess = {
                 .exec(),
 
               User.findOneAndUpdate(
-                { _id: mongoUser_id },
+                { _id: mongoUser_id, 'rating.canceledRequests': { $ne: requestId } },
                 {
                   $set: {
                     'rating.latestComment':
