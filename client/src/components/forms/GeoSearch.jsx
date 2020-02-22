@@ -56,66 +56,68 @@ class GeoSearch extends React.Component {
           : {};
 
       return (
-        <div className={`group ${touched && error ? 'isError' : ''}`}>
-          <label className={inputState}>{label}</label>
-
+        <>
           {renderAptField()}
-          <div>
-            <input
-              id={id}
-              onBlur={onBlurEvent}
-              {...getInputProps({
-                type: 'text',
-                placeholder: `${placeholder}`,
-                className: `input ${inputState}`,
-              })}
-            />
-          </div>
-          <div
-            style={{ ...containerDropDownStyle }}
-            role="menu"
-            className="autocomplete-dropdown-container"
-          >
-            {suggestions.map((suggestion) => {
-              const className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
-              // inline style for demonstration purpose
-              const style = suggestion.active
-                ? {
-                    backgroundColor: '#3273dc',
-                    color: 'white',
-                    cursor: 'pointer',
-                    fontSize: '.875rem',
-                    lineHeight: '1.5',
-                    padding: '.375rem 1rem',
-                  }
-                : {
-                    color: '#353535',
-                    fontSize: '.875rem',
-                    lineHeight: '1.5',
-                    padding: '.375rem 1rem',
-                    cursor: 'pointer',
-                  };
-              return (
-                <div
-                  {...getSuggestionItemProps(suggestion, {
-                    className,
-                    style,
-                  })}
-                >
-                  <span>{suggestion.description}</span>
-                </div>
-              );
-            })}
-          </div>
-          {autoDetectComponent && autoDetectComponent(value)}
-          {/* {!autoDetectComponent && helpText && <p className="help">{helpText}</p>} */}
-          {helpText && <div className="help">{helpText}</div>}
-          {touched && error && (
-            <div style={{ fontWeight: 500 }} className="help is-danger">
-              {error}
+
+          <div className={`group ${touched && error ? 'isError' : ''}`}>
+            <label className={inputState}>Street Address</label>
+            <div>
+              <input
+                id={id}
+                onBlur={onBlurEvent}
+                {...getInputProps({
+                  type: 'text',
+                  placeholder: `${placeholder}`,
+                  className: `input ${inputState}`,
+                })}
+              />
             </div>
-          )}
-        </div>
+            <div
+              style={{ ...containerDropDownStyle }}
+              role="menu"
+              className="autocomplete-dropdown-container"
+            >
+              {suggestions.map((suggestion) => {
+                const className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
+                // inline style for demonstration purpose
+                const style = suggestion.active
+                  ? {
+                      backgroundColor: '#3273dc',
+                      color: 'white',
+                      cursor: 'pointer',
+                      fontSize: '.875rem',
+                      lineHeight: '1.5',
+                      padding: '.375rem 1rem',
+                    }
+                  : {
+                      color: '#353535',
+                      fontSize: '.875rem',
+                      lineHeight: '1.5',
+                      padding: '.375rem 1rem',
+                      cursor: 'pointer',
+                    };
+                return (
+                  <div
+                    {...getSuggestionItemProps(suggestion, {
+                      className,
+                      style,
+                    })}
+                  >
+                    <span>{suggestion.description}</span>
+                  </div>
+                );
+              })}
+            </div>
+            {autoDetectComponent && autoDetectComponent(value)}
+            {/* {!autoDetectComponent && helpText && <p className="help">{helpText}</p>} */}
+            {helpText && <div className="help">{helpText}</div>}
+            {touched && error && (
+              <div style={{ fontWeight: 500 }} className="help is-danger">
+                {error}
+              </div>
+            )}
+          </div>
+        </>
       );
     };
 

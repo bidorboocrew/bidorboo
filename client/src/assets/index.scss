@@ -808,7 +808,7 @@ $trans-time: 300ms;
     transition: $trans-time ease all;
 
     &.hasSelectedValue {
-      color: #afafaf;
+      color: #353535;
     }
   }
 
@@ -829,7 +829,7 @@ $trans-time: 300ms;
     outline: none !important;
     outline-color: transparent !important;
     // padding-left: 4px; xxxxxxxx how to add padding
-    color: #363636;
+    color: #353535;
     width: 100%;
     box-shadow: none !important;
     transition: $trans-time ease all;
@@ -859,7 +859,7 @@ label.label {
   font-weight: 400;
   transition: $trans-time ease all;
   &.hasSelectedValue {
-    color: #afafaf;
+    color: #353535;
   }
 }
 div.control {

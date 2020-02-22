@@ -15,12 +15,14 @@ export default {
   isComingSoon: false,
   DESCRIPTION: `Do you need someone to care for your pet while you are vacationing or just on a night out?
   Leave your pet in the gentle care of our pet loving Taskers.`,
-  SUGGESTION_TEXT: `Q1) What kind or breed of pet do you have?
-[Answer here:  ]
-Q2) Do you expect Tasker to stay at your place overnight?
-[Answer here:  ]
-Q3) Anything else you want to highlight for the Tasker?
-[Answer here:  ]
+  SUGGESTION_TEXT: `Q1) What is your pet name?
+[Answer:  ]
+Q2) What kind or breed of pet do you have?
+[Answer:  ]
+Q3) Do you expect Tasker to stay at your place overnight?
+[Answer:  ]
+Q4) Anything else you want to highlight for the Tasker?
+[Answer:  ]
 `,
   defaultExtrasValues: {
     duration: '',
@@ -327,10 +329,10 @@ Q3) Anything else you want to highlight for the Tasker?
           return (
             <React.Fragment key={'extras-dietryRestrictions'}>
               <TextAreaInput
-                textAreaStyle={{ minHeight: 50 }}
+                textAreaStyle={{ minHeight: 20 }}
                 id="dietaryRestrictions"
                 type="text"
-                label="Any dietary restrictions, medical, or special needs?"
+                label="Any dietary restrictions, medical, or special needs? (optional)"
                 helpText={`*Type "None" or leave this empty if your pet doesn't need any`}
                 placeholder={'Disclose here...'}
                 error={touched.dietaryRestrictions && errors.dietaryRestrictions}

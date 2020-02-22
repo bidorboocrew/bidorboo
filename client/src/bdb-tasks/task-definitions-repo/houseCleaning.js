@@ -13,14 +13,18 @@ export default {
   isComingSoon: false,
   DESCRIPTION: `Does your home need cleaning? Book one of our clean freak Taskers to take care of it!`,
   SUGGESTION_TEXT: `Q1) Do you have pets in the house?
-[Answer here:   ]
-Q2) Will the Tasker be required to move heavy items (couch, bed, etc.)?
-[Answer here:   ]
-Q3) Anything else you want to highlight for the Tasker?
-[Answer here: ]
+[Answer:   ]
+Q2) describe your living room floor type (hardwood, laminate, carpet) ?
+[Answer:   ]
+Q3) Will the Tasker be required to move heavy items (couch, bed, etc.)?
+[Answer:   ]
+Q4) Anything else you want to highlight for the Tasker?
+[Answer: ]
 `,
   defaultExtrasValues: {
     effort: 'noSelection',
+    kitchenCleaning: 'noSelection',
+    livingRoomCleaning: 'noSelection',
     bathroomCount: 'noSelection',
     bedroomCount: 'noSelection',
     basementCleaning: 'noSelection',
@@ -33,11 +37,21 @@ Q3) Anything else you want to highlight for the Tasker?
       .trim()
       .oneOf(['small', 'medium', 'large'], '*Please select an option from the drop down')
       .required('*Please select the effort required'),
+    kitchenCleaning: Yup.string()
+      .ensure()
+      .trim()
+      .oneOf(['Yes (required)', 'No (not required)'], '*Please select an option from the drop down')
+      .required('*Please specify if kitchen cleaning is required'),
+    livingRoomCleaning: Yup.string()
+      .ensure()
+      .trim()
+      .oneOf(['Yes (required)', 'No (not required)'], '*Please select an option from the drop down')
+      .required('*Please specify if living room cleaning is required'),
     bathroomCount: Yup.string()
       .ensure()
       .trim()
       .oneOf(
-        ['One', 'Two', 'Three', 'Four', 'Five', 'Six'],
+        ['Bathroom cleaning is not required', 'One', 'Two', 'Three', 'Four', 'Five', 'Six'],
         '*Please select an option from the drop down',
       )
       .required('*Please select the number of bathroom that require cleaning'),
@@ -45,7 +59,7 @@ Q3) Anything else you want to highlight for the Tasker?
       .ensure()
       .trim()
       .oneOf(
-        ['One', 'Two', 'Three', 'Four', 'Five', 'Six'],
+        ['Bedroom cleaning is not required', 'One', 'Two', 'Three', 'Four', 'Five', 'Six'],
         '*Please select an option from the drop down',
       )
       .required('*Please select the number of bathroom that require cleaning'),
@@ -53,7 +67,7 @@ Q3) Anything else you want to highlight for the Tasker?
       .ensure()
       .trim()
       .oneOf(['Yes (required)', 'No (not required)'], '*Please select an option from the drop down')
-      .required('*Please select the number of bathroom that require cleaning'),
+      .required('*Please specify if basement cleaning is required'),
     equipmentProvider: Yup.string()
       .ensure()
       .trim()
@@ -221,6 +235,98 @@ Q3) Anything else you want to highlight for the Tasker?
           );
         },
       },
+      kitchenCleaning: {
+        renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
+          let kitchenCleaningClass = '';
+          let isTouched = touched && touched.kitchenCleaning;
+          if (isTouched) {
+            kitchenCleaningClass =
+              values.kitchenCleaning === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          } else {
+            kitchenCleaningClass =
+              values.kitchenCleaning !== 'noSelection' ? 'hasSelectedValue' : '';
+          }
+          return (
+            <React.Fragment key={'extras-kitchenCleaning'}>
+              <div className={`group ${isTouched && errors.kitchenCleaning ? 'isError' : ''}`}>
+                <label className={kitchenCleaningClass}>{'Is kitchen cleaning required?'}</label>
+                <div>
+                  <div className={`select ${kitchenCleaningClass} `}>
+                    <select
+                      id="kitchenCleaning"
+                      value={values.kitchenCleaning}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      <option value="noSelection">-Select One-</option>
+                      <option value="Yes (required)">Yes (required)</option>
+                      <option value="No (not required)">No (not required)</option>
+                    </select>
+                    {isTouched && errors.kitchenCleaning && (
+                      <div className="help is-danger">{errors.kitchenCleaning}</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </React.Fragment>
+          );
+        },
+        renderSelection: (kitchenCleaning) => {
+          return (
+            <div key={'extras-kitchenCleaning'} className="group">
+              <label className="label hasSelectedValue">Kitchen cleaning</label>
+              <div className="control">{kitchenCleaning}</div>
+            </div>
+          );
+        },
+      },
+      livingRoomCleaning: {
+        renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
+          let livingRoomCleaningClass = '';
+          let isTouched = touched && touched.livingRoomCleaning;
+          if (isTouched) {
+            livingRoomCleaningClass =
+              values.livingRoomCleaning === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          } else {
+            livingRoomCleaningClass =
+              values.livingRoomCleaning !== 'noSelection' ? 'hasSelectedValue' : '';
+          }
+          return (
+            <React.Fragment key={'extras-livingRoomCleaning'}>
+              <div className={`group ${isTouched && errors.livingRoomCleaning ? 'isError' : ''}`}>
+                <label className={livingRoomCleaningClass}>
+                  {'Is living room cleaning required?'}
+                </label>
+                <div>
+                  <div className={`select ${livingRoomCleaningClass} `}>
+                    <select
+                      id="livingRoomCleaning"
+                      value={values.livingRoomCleaning}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      <option value="noSelection">-Select One-</option>
+                      <option value="Yes (required)">Yes (required)</option>
+                      <option value="No (not required)">No (not required)</option>
+                    </select>
+                    {isTouched && errors.livingRoomCleaning && (
+                      <div className="help is-danger">{errors.livingRoomCleaning}</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </React.Fragment>
+          );
+        },
+        renderSelection: (livingRoomCleaning) => {
+          return (
+            <div key={'extras-livingRoomCleaning'} className="group">
+              <label className="label hasSelectedValue">Living room cleaning</label>
+              <div className="control">{livingRoomCleaning}</div>
+            </div>
+          );
+        },
+      },
       bedroomCount: {
         renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
           let bedroomCountClass = '';
@@ -244,6 +350,7 @@ Q3) Anything else you want to highlight for the Tasker?
                       onBlur={handleBlur}
                     >
                       <option value="noSelection">-Select One-</option>
+                      <option value="Bedroom cleaning is not required">0</option>
                       <option value="One">1</option>
                       <option value="Two">2</option>
                       <option value="Three">3</option>
@@ -294,6 +401,7 @@ Q3) Anything else you want to highlight for the Tasker?
                       onBlur={handleBlur}
                     >
                       <option value="noSelection">-Select One-</option>
+                      <option value="Bathroom cleaning is not required">0</option>
                       <option value="One">1</option>
                       <option value="Two">2</option>
                       <option value="Three">3</option>

@@ -74,7 +74,7 @@ class Header extends React.Component {
       this.setState({ activeNavBarMenuId: HREF_TO_TABID.PROVIDE_A_SERVICE });
     } else if (
       this.props.history.location.pathname.includes('my-open-requests') ||
-      this.props.history.location.pathname.includes('my-request/awarded-request-details')
+      this.props.history.location.pathname.includes('my-request')
     ) {
       this.setState({ activeNavBarMenuId: HREF_TO_TABID.MY_REQUESTS });
     } else if (
@@ -137,7 +137,10 @@ class Header extends React.Component {
         if (prevState.activeNavBarMenuId !== HREF_TO_TABID.PROVIDE_A_SERVICE) {
           return { activeNavBarMenuId: HREF_TO_TABID.PROVIDE_A_SERVICE };
         }
-      } else if (nextProp.history.location.pathname.includes('my-open-requests')) {
+      } else if (
+        nextProp.history.location.pathname.includes('my-open-requests') ||
+        nextProp.history.location.pathname.includes('my-request')
+      ) {
         if (prevState.activeNavBarMenuId !== HREF_TO_TABID.MY_REQUESTS) {
           return { activeNavBarMenuId: HREF_TO_TABID.MY_REQUESTS };
         }

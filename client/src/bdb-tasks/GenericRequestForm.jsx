@@ -238,6 +238,13 @@ class GenericRequestForm extends React.Component {
 
               <input id="templateId" className="input is-invisible" type="hidden" value={ID} />
               <input
+                id="requestTitle"
+                className="input is-invisible"
+                type="hidden"
+                value={`bidorboo-task-${Math.floor(100000 + Math.random() * 900000)}`}
+              />
+
+              <input
                 id="taskImg1"
                 className="input is-invisible"
                 type="hidden"
@@ -281,32 +288,6 @@ class GenericRequestForm extends React.Component {
                 </div>
               )}
 
-              <TextInput
-                id="requestTitle"
-                type="text"
-                label="Task title"
-                placeholder={'Enter a title...'}
-                error={touched.requestTitle && errors.requestTitle}
-                value={values.requestTitle || ''}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                suggestButton={
-                  <div
-                    onClick={this.setTaskTitle}
-                    style={{
-                      cursor: 'pointer',
-                      color: '#ce1bbf',
-                    }}
-                    className="help"
-                  >
-                    <span className="icon">
-                      <i className="fas fa-pen" />
-                    </span>
-                    <span>AUTO GENERATE TITLE</span>
-                  </div>
-                }
-              ></TextInput>
-
               <input
                 id="addressText"
                 className="input is-invisible"
@@ -327,16 +308,19 @@ class GenericRequestForm extends React.Component {
                 <GeoAddressInput
                   renderAptField={() => {
                     return (
-                      <TextInput
-                        id="requestUnitOrApt"
-                        type="text"
-                        placeholder={'(Optional) Unit or Apt #'}
-                        error={touched.requestUnitOrApt && errors.requestUnitOrApt}
-                        value={values.requestUnitOrApt || ''}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        extraStyle={{ marginBottom: 0 }}
-                      ></TextInput>
+                      <div className="field ">
+                        <TextInput
+                          id="requestUnitOrApt"
+                          type="text"
+                          label="Unit or Apt# (optional)"
+                          placeholder={'Unit or Apt#'}
+                          error={touched.requestUnitOrApt && errors.requestUnitOrApt}
+                          value={values.requestUnitOrApt || ''}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          extraStyle={{ marginBottom: 0 }}
+                        ></TextInput>
+                      </div>
                     );
                   }}
                   id="geoInputField"
@@ -763,7 +747,7 @@ const EnhancedForms = withFormik({
         .ensure()
         .trim()
         .min(20, 'your description must be more than 20 characters')
-        .max(500, 'request title must be less than 500 characters')
+        .max(1000, 'request title must be less than 1000 characters')
         .required('*Please provide a detailed description'),
       recaptchaField: Yup.string()
         .ensure()
@@ -848,7 +832,7 @@ const EnhancedForms = withFormik({
       templateId: props.requestTemplateId,
       startingDateAndTime: '',
       detailedDescription: '',
-      requestTitle: '',
+      requestTitle: `bidorboo-task-${Math.floor(100000 + Math.random() * 900000)}`,
       addressText: '',
       destinationText: '',
       timeOfDay: 'noSelection',
