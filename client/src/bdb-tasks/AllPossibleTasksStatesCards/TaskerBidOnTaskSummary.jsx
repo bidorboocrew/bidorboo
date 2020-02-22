@@ -94,7 +94,7 @@ export default class TaskerBidOnTaskSummary extends RequestBaseContainer {
                   <CenteredUserImageAndRating
                     clipUserName
                     userDetails={_ownerRef}
-                    clickable={false}
+                    clickable={true}
                   />
                 </div>
               )}

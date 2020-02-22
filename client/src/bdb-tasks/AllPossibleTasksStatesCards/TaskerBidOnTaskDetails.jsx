@@ -69,7 +69,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
                   }}
                   className="is-text"
                 >
-                  {`enter your Bid`}
+                  {` enter your Bid`}
                 </a>
               </span>
             </div>

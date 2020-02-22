@@ -122,10 +122,12 @@ class TaskerEditOrUpdateBid extends React.Component {
                     What is the <strong>total dollar amount</strong> do you want to receive in
                     exchange for completing this task?
                   </p>
+
                   <TextInput
                     label="Enter A New Bid Amount"
                     id="bidAmountField"
                     className="input is-focused"
+                    helpText="remember to consider all factors like time, commute, material ..etc"
                     onBlur={handleBlur}
                     error={touched.bidAmountField && errors.bidAmountField}
                     value={values.bidAmountField || ''}
@@ -136,8 +138,8 @@ class TaskerEditOrUpdateBid extends React.Component {
                       handleChange(e);
                     }}
                   />
-                  <div style={{ marginTop: -8 }}>
-                    <div className="help">Use quick bid options</div>
+                  <div style={{ marginTop: -6 }}>
+                    <div className="help">quick bid options</div>
                     {autoBidOptions}
                   </div>
                 </section>
