@@ -12,6 +12,8 @@ import { showLoginDialog } from '../app-state/actions/uiActions';
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 import logoImg from '../assets/images/android-icon-192x192.png';
+import navbarBidOrBoo from '../assets/images/navbarBidOrBoo.png';
+
 import ShareThisPageHeaderMenuItem from './ShareThisPageHeaderMenuItem.jsx';
 import { getBugsnagClient } from '../index';
 
@@ -320,12 +322,16 @@ class Header extends React.Component {
                     switchRoute(ROUTES.CLIENT.HOME);
                   });
                 }}
-                style={{ fontSize: 24, cursor: 'pointer', marginLeft: 4 }}
+                style={{ fontSize: 30, cursor: 'pointer', marginLeft: 4 }}
                 className="is-hidden-touch"
               >
-                <span style={{ color: '#ee2a36', fontWeight: 500 }}>B</span>id
-                <span style={{ color: '#ee2a36', fontWeight: 500 }}>O</span>r
-                <span style={{ color: '#ee2a36', fontWeight: 500 }}>B</span>oo
+                <img
+                  src={navbarBidOrBoo}
+                  alt="BidOrBoo"
+                  width="100"
+                  height="auto"
+                  style={{ maxHeight: 'unset', pointerEvents: 'none' }}
+                />
               </div>
             </div>
           </a>
@@ -427,12 +433,16 @@ class Header extends React.Component {
                       switchRoute(ROUTES.CLIENT.HOME);
                     });
                   }}
-                  style={{ fontSize: 24, cursor: 'pointer', marginLeft: 4 }}
+                  style={{ fontSize: 30, cursor: 'pointer', marginLeft: 4 }}
                   className="is-hidden-touch"
                 >
-                  <span style={{ color: '#ee2a36', fontWeight: 500 }}>B</span>id
-                  <span style={{ color: '#ee2a36', fontWeight: 500 }}>O</span>r
-                  <span style={{ color: '#ee2a36', fontWeight: 500 }}>B</span>oo
+                  <img
+                    src={navbarBidOrBoo}
+                    alt="BidOrBoo"
+                    width="100"
+                    height="auto"
+                    style={{ maxHeight: 'unset', pointerEvents: 'none' }}
+                  />
                 </div>
               </div>
             </div>
