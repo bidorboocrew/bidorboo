@@ -169,9 +169,7 @@ const EmptyStateComponent = () => (
         <div>
           <div className="card-content VerticalAligner">
             <div className="has-text-centered">
-              <div className="is-size-4">
-                You don't have any bids here. Start bidding to earn money!
-              </div>
+              <div className="is-size-4">Start bidding, Earn money!</div>
               <section style={{ padding: 0 }} className="hero is-small has-text-centered fade-in">
                 <div style={{ padding: 0 }} className="hero-body">
                   <div className="container has-text-centered">

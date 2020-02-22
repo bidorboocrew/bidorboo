@@ -156,7 +156,7 @@ const EmptyStateComponent = () => (
         <div>
           <div className="card-content VerticalAligner">
             <div className="has-text-centered">
-              <div className="is-size-4">You Don't have any Requets here</div>
+              <div className="is-size-4">Get your chores done, Request a Service!</div>
               <section style={{ padding: 0 }} className="hero is-small has-text-centered fade-in">
                 <div style={{ padding: 0 }} className="hero-body">
                   <div className="container has-text-centered">
