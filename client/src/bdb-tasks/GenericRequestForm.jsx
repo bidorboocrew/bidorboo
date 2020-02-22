@@ -241,7 +241,7 @@ class GenericRequestForm extends React.Component {
                 id="requestTitle"
                 className="input is-invisible"
                 type="hidden"
-                value={`bidorboo-task-${Math.floor(100000 + Math.random() * 900000)}`}
+                value={values.requestTitle || `task-${Math.floor(100000 + Math.random() * 900000)}`}
               />
 
               <input
@@ -832,7 +832,7 @@ const EnhancedForms = withFormik({
       templateId: props.requestTemplateId,
       startingDateAndTime: '',
       detailedDescription: '',
-      requestTitle: `bidorboo-task-${Math.floor(100000 + Math.random() * 900000)}`,
+      requestTitle: `task-${Math.floor(100000 + Math.random() * 900000)}`,
       addressText: '',
       destinationText: '',
       timeOfDay: 'noSelection',

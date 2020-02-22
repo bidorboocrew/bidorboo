@@ -1199,7 +1199,7 @@ export const AssignedTasker = () => {
 export const UserGivenTitle = ({ userGivenTitle }) => {
   return (
     <div style={{ fontWeight: 300, fontSize: 16, color: '#363636', marginBottom: '1.25rem' }}>
-      {`Title: ${userGivenTitle}`}
+      {`${userGivenTitle}`}
     </div>
   );
 };
@@ -1207,7 +1207,7 @@ export const UserGivenTitle = ({ userGivenTitle }) => {
 export const UserGivenTitleOnMap = ({ userGivenTitle = '--' }) => {
   return (
     <div style={{ fontWeight: 300, fontSize: 12, color: '#363636', marginBottom: '0.5rem' }}>
-      {`Title: ${userGivenTitle || '--'}`}
+      {`${userGivenTitle || '--'}`}
     </div>
   );
 };
