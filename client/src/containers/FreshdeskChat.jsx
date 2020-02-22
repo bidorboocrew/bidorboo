@@ -66,8 +66,8 @@ class FreshdeskChat extends React.Component {
             appName: 'BidOrBoo',
             appLogo:
               'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1562257900/android-chrome-512x512.png',
-            backgroundColor: '#ef2834',
-            foregroundColor: '#353535',
+            backgroundColor: '#000000',
+            foregroundColor: '#fff',
             hideChatButton: true,
           },
           content: {
