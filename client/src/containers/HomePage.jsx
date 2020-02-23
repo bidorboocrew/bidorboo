@@ -13,6 +13,7 @@ import Earn_Money from '../assets/images/Earn-Money.jpeg';
 import TaskerSteps from '../assets/images/TaskerSteps.jpg';
 import HowItWorks from '../assets/images/HowItWorks.jpg';
 import BidOrBooMain from '../assets/images/BidOrBooMain.png';
+import YoutubeCover from '../assets/images/YoutubeCover.png';
 
 export default class HomePage extends React.Component {
   componentDidMount() {
@@ -75,14 +76,21 @@ export default class HomePage extends React.Component {
             <div style={{ margin: 'auto', padding: '0.5rem', maxWidth: 650 }}>
               <div className="player-wrapper">
                 <ReactPlayer
-                  playIcon={<div style={{ display: 'none', width: 0, height: 0 }}></div>}
+                  playIcon={
+                    <div style={{ background: 'white' }} className="container has-text-centered">
+                      <img
+                        style={{ width: 250, height: 'auto', maxWidth: 450 }}
+                        src={YoutubeCover}
+                        alt="Placeholder"
+                      />
+                    </div>
+                  }
                   light
                   playing
-                  className="react-player fade-in"
+                  className="react-player"
                   url="https://youtu.be/YHh9JbJAyf0"
                   width="100%"
                   height="100%"
-                  // light
                   config={{
                     youtube: {
                       rel: 0,

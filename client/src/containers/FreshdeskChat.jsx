@@ -90,7 +90,11 @@ class FreshdeskChat extends React.Component {
       if (isLoggedIn) {
         const {
           appView,
+          oneSignalUserId,
+          isGmailUser,
+          isFbUser,
           canBid,
+          clearCriminalHistory,
           canPost,
           displayName,
           email,
@@ -98,6 +102,7 @@ class FreshdeskChat extends React.Component {
           membershipStatus,
           userId,
           _id,
+          notifications,
           rating,
         } = userDetails;
         // To set unique user id in your system when it is available
@@ -108,13 +113,23 @@ class FreshdeskChat extends React.Component {
         window.fcWidget.user.setEmail((email && email.emailAddress) || '');
         // To set user properties
         window.fcWidget.user.setProperties({
+          pushNotificationEnabled: notifications && notifications.push,
+          emailNotificationEnabled: notifications && notifications.email,
+          textNotificationEnabled: notifications && notifications.text,
+          newTaskNotificationEnabled: notifications && notifications.newPostedTasks,
           appView,
+          isGmailUser,
+          oneSignalUserId,
+          isFbUser,
+          clearCriminalHistory,
           canBid,
           canPost,
           displayName,
-          email: JSON.stringify(email),
-          phone: JSON.stringify(phone),
-          rating: JSON.stringify(rating),
+          email: email && email.emailAddress ? email && email.emailAddress : '--',
+          isEmailVerified: email && email.isVerified,
+          phone: phone && phone.phoneNumber ? phone.phoneNumber : '--',
+          isPhoneVerified: phone && phone.isVerified,
+          rating: rating && rating.globalRating ? rating.globalRating : '--',
           membershipStatus,
           userId,
           currentPage: window.location.href,
