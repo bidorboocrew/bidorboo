@@ -65,25 +65,26 @@ export default class HomePage extends React.Component {
         </section>
         <br></br>
         <section className="hero is-small has-text-centered is-white fade-in">
-          <div style={{ paddingBottom: 0.5 }} className="hero-body">
+          <div style={{ paddingBottom: '1rem' }} className="hero-body">
             <div className="container has-text-centered">
               <img style={{ width: 280 }} src={HowItWorks} alt="Placeholder" />
             </div>
           </div>
         </section>
+        <br></br>
         <section className="hero has-text-centered is-white fade-in">
           <div style={{ position: 'relative' }}>
             <div style={{ margin: 'auto', padding: '0.5rem', maxWidth: 650 }}>
               <div className="player-wrapper">
                 <ReactPlayer
                   playIcon={
-                    <div style={{ background: 'white' }} className="container has-text-centered">
-                      <img
-                        style={{ width: 300, height: 'auto', maxWidth: 450 }}
-                        src={YoutubeCover}
-                        alt="Placeholder"
-                      />
-                    </div>
+                    <section className="hero is-small has-text-centered is-white fade-in">
+                      <div style={{ paddingBottom: '1rem' }} className="hero-body">
+                        <div className="container has-text-centered">
+                          <img style={{ maxWidth: 450 }} src={YoutubeCover} alt="Placeholder" />
+                        </div>
+                      </div>
+                    </section>
                   }
                   light
                   playing
