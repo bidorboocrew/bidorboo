@@ -81,7 +81,11 @@ export default class HomePage extends React.Component {
                     <section className="hero is-small has-text-centered is-white fade-in">
                       <div style={{ paddingBottom: '1rem' }} className="hero-body">
                         <div className="container has-text-centered">
-                          <img style={{ maxWidth: 450 }} src={YoutubeCover} alt="Placeholder" />
+                          <img
+                            style={{ width: 300, maxWidth: 450 }}
+                            src={YoutubeCover}
+                            alt="Placeholder"
+                          />
                         </div>
                       </div>
                     </section>
