@@ -79,7 +79,7 @@ export default class HomePage extends React.Component {
                   playIcon={
                     <div style={{ background: 'white' }} className="container has-text-centered">
                       <img
-                        style={{ width: 250, height: 'auto', maxWidth: 450 }}
+                        style={{ width: 300, height: 'auto', maxWidth: 450 }}
                         src={YoutubeCover}
                         alt="Placeholder"
                       />
