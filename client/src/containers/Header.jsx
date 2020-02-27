@@ -247,10 +247,12 @@ class Header extends React.Component {
               >
                 <span
                   className={`${
-                    !isActingAsTasker && !dontShowPortalHelper ? 'has-text-weight-semibold' : ''
+                    !isActingAsTasker && !dontShowPortalHelper
+                      ? 'has-text-weight-bold'
+                      : 'has-text-weight-semibold'
                   }`}
                 >
-                  REQUESTER
+                  Need Help?
                 </span>
               </a>
             </li>
@@ -266,10 +268,12 @@ class Header extends React.Component {
               >
                 <span
                   className={`${
-                    isActingAsTasker && !dontShowPortalHelper ? 'has-text-weight-semibold' : ''
+                    isActingAsTasker && !dontShowPortalHelper
+                      ? 'has-text-weight-bold'
+                      : 'has-text-weight-semibold'
                   }`}
                 >
-                  TASKER
+                  Earn Money
                 </span>
               </a>
             </li>

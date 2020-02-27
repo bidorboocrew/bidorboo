@@ -192,7 +192,7 @@ export class ResetLocalPassword extends React.Component {
                         onChange={(e) => {
                           this.setState({ emailAddress: e.target.value });
                         }}
-                        style={{ flexGrow: 1, borderRadius: 0 }}
+                        style={{ flexGrow: 1 }}
                         className={`input ${isValidEmail ? '' : 'is-danger'}`}
                         placeholder="type your email address..."
                       />
@@ -222,7 +222,7 @@ export class ResetLocalPassword extends React.Component {
                         onChange={(e) => {
                           this.setState({ verificationCode: e.target.value });
                         }}
-                        style={{ flexGrow: 1, borderRadius: 0 }}
+                        style={{ flexGrow: 1 }}
                         className={`input ${isValidVerificationCode ? '' : 'is-danger'}`}
                         placeholder="enter verification code..."
                       />
@@ -243,7 +243,7 @@ export class ResetLocalPassword extends React.Component {
                         onChange={(e) => {
                           this.setState({ password1: e.target.value });
                         }}
-                        style={{ flexGrow: 1, borderRadius: 0 }}
+                        style={{ flexGrow: 1 }}
                         className={`input ${isValidPassword ? '' : 'is-danger'}`}
                         placeholder="Enter your new password..."
                       />
@@ -257,7 +257,7 @@ export class ResetLocalPassword extends React.Component {
                         onChange={(e) => {
                           this.setState({ password2: e.target.value });
                         }}
-                        style={{ flexGrow: 1, borderRadius: 0 }}
+                        style={{ flexGrow: 1 }}
                         className={`input ${isValidPassword ? '' : 'is-danger'}`}
                         placeholder="Enter the same password..."
                       />

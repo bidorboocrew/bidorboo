@@ -111,7 +111,7 @@ export class LoginOrRegisterPage extends React.Component {
                         <a
                           className="button is-danger is-inline-flex"
                           onClick={this.loginGoogle}
-                          style={{ borderRadius: 0, margin: 8, width: 160 }}
+                          style={{ margin: 8, width: 180 }}
                         >
                           <span className="icon">
                             <i className="fab fa-google" />
@@ -122,7 +122,7 @@ export class LoginOrRegisterPage extends React.Component {
                         <a
                           onClick={this.loginFacebook}
                           className="button is-link is-inline-flex"
-                          style={{ borderRadius: 0, margin: 8, width: 160 }}
+                          style={{ margin: 8, width: 180 }}
                         >
                           <span className="icon">
                             <i className="fab fa-facebook-square" />
@@ -161,7 +161,7 @@ export class LoginOrRegisterPage extends React.Component {
                         <a
                           className="button is-danger is-inline-flex"
                           onClick={this.loginGoogle}
-                          style={{ borderRadius: 0, margin: 8, width: 160 }}
+                          style={{ margin: 8, width: 180 }}
                         >
                           <span className="icon">
                             <i className="fab fa-google" />
@@ -172,7 +172,7 @@ export class LoginOrRegisterPage extends React.Component {
                         <a
                           onClick={this.loginFacebook}
                           className="button is-link is-inline-flex"
-                          style={{ borderRadius: 0, margin: 8, width: 160 }}
+                          style={{ margin: 8, width: 180 }}
                         >
                           <span className="icon">
                             <i className="fab fa-facebook-square" />

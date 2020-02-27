@@ -326,7 +326,6 @@ class TaskerRootPage extends React.Component {
                 <button
                   onClick={this.toggleShowSearchFilters}
                   style={{
-                    borderRadius: 0,
                     border: '1px solid rgb(219,219,219)',
                     boxShadow: 'none',
                     borderTop: 0,
@@ -345,7 +344,6 @@ class TaskerRootPage extends React.Component {
                 <button
                   onClick={this.toggleShowSearchFilters}
                   style={{
-                    borderRadius: 0,
                     border: '1px solid rgb(219,219,219)',
                     boxShadow: 'none',
                     borderTop: 0,

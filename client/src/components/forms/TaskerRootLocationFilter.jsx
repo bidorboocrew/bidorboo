@@ -256,7 +256,6 @@ class GeoSearch extends React.Component {
               className: 'input',
               style: {
                 fontWeight: 500,
-
                 backgroundColor: 'white',
                 borderLeft: 'unset',
                 borderRight: 'unset',
