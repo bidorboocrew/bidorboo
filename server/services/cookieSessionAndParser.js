@@ -1,7 +1,7 @@
 const cookieSession = require('cookie-session');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-
+const flash = require('req-flash');
 const keys = require('../config/keys');
 
 const isWebHookCall = (req) => req.url.indexOf('stripewebhook') > -1;
@@ -27,4 +27,5 @@ module.exports = (app) => {
     })
   );
   app.use(cookieParser());
+  app.use(flash());
 };

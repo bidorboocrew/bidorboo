@@ -68,6 +68,7 @@
     "pm2": "^3.5.1",
     "rate-limit-mongo": "^1.0.3",
     "recaptcha-verify": "^0.1.1",
+    "req-flash": "^0.0.3",
     "request": "^2.88.0",
     "response-time": "^2.3.2",
     "stripe": "^7.9.1",

@@ -180,7 +180,7 @@ class App extends React.Component {
             window['ga-disable-UA-142687351-1'] = true;
           }}
         >
-          <div className="help has-text-light">
+          <div className="help has-text-white">
             {`This website uses cookies to enhance the user experience `}
             <a
               style={{ color: '#72a4f7' }}
