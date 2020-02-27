@@ -18,9 +18,6 @@ const bugsnagExpress = require('@bugsnag/plugin-express');
 const { bugsnagClient } = require('./utils/utilities');
 bugsnagClient.use(bugsnagExpress);
 
-// initialize and start mongodb
-require('./services/mongoDB')(process);
-require('./services/passport');
 
 const app = express();
 let bugsnagMiddleware = bugsnagClient.getPlugin('express');
@@ -28,10 +25,17 @@ let bugsnagMiddleware = bugsnagClient.getPlugin('express');
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
 
+
+
 app.use(bugsnagMiddleware.requestHandler);
 
 app.use(responseTime());
 app.use(expressip().getIpInfoMiddleware);
+
+
+// initialize and start mongodb
+require('./services/mongoDB')(process,app);
+require('./services/passport');
 
 // initialize security and compression
 require('./services/SecurityAndCompression')(app);
