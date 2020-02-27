@@ -348,6 +348,7 @@ class Header extends React.Component {
                   fontWeight: 500,
                   border: '1px solid #eee',
                   // boxShadow: 'none',
+                  borderRadius: 25,
                 }}
                 className="button is-link is-small"
                 onClick={(e) => {

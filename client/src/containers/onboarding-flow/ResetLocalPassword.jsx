@@ -156,10 +156,10 @@ export class ResetLocalPassword extends React.Component {
                     <div>
                       <a
                         style={{
-                          borderRadius: 2,
                           fontWeight: 500,
                           border: '1px solid #eee',
                           // boxShadow: 'none',
+                          borderRadius: 25,
                         }}
                         className="button is-link is-small"
                         onClick={(e) => {
