@@ -81,7 +81,7 @@ class App extends React.Component {
   }
 
   componentDidCatch(error, info) {
-    debugger;
+
     getBugsnagClient().leaveBreadcrumb('componentDidCatch App', { debugInfo: info });
     getBugsnagClient().notify(error);
   }
