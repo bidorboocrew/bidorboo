@@ -345,7 +345,6 @@ class Header extends React.Component {
             <div style={{ flexGrow: 1, flexDirection: 'row-reverse' }} className="navbar-item">
               <a
                 style={{
-                  borderRadius: 2,
                   fontWeight: 500,
                   border: '1px solid #eee',
                   // boxShadow: 'none',
