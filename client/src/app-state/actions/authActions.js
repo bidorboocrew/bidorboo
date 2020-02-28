@@ -146,11 +146,12 @@ export const onLogout = () => (dispatch) =>
           },
         },
       });
-      if(window.OneSignal)
-      window.localStorage.removeItem('bob_lastKnownRoute')
+      if (window.OneSignal) {
+        OneSignal.removeExternalUserId();
+      }
+
+      window.localStorage.removeItem('bob_lastKnownRoute');
       switchRoute(ROUTES.CLIENT.HOME);
-      await sleep(1000);
-      window.location.reload();
     }),
   });
 
