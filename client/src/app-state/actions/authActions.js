@@ -146,12 +146,23 @@ export const onLogout = () => (dispatch) =>
           },
         },
       });
+
       if (window.OneSignal) {
         window.OneSignal.removeExternalUserId();
       }
 
+      /**
+       * for android apps only
+       */
+      window.localStorage.removeItem('bob_androidOneSignalPlayerId');
+      if (window.bidorbooAndroid && window.bidorbooAndroid.removeExternalUserOneSignalId) {
+        window.bidorbooAndroid.removeExternalUserOneSignalId();
+      }
+      /********************************************************* */
+
       window.localStorage.removeItem('bob_lastKnownRoute');
       switchRoute(ROUTES.CLIENT.HOME);
+      window.location.reload();
     }),
   });
 

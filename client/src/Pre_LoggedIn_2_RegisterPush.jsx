@@ -45,6 +45,33 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
 
   componentDidMount() {
     const { userDetails } = this.props;
+
+    /**
+     * for android apps only
+     */
+    const androidOneSignalId = window.localStorage.getItem('bob_androidOneSignalPlayerId');
+    if (androidOneSignalId) {
+      if (window.bidorbooAndroid && window.bidorbooAndroid.setExternalUserOneSignalId) {
+        window.bidorbooAndroid.setExternalUserOneSignalId(
+          `${androidOneSignalId}`,
+        );
+      }
+      try {
+        // register the user push norification
+        axios.post('/api/push/register', {
+          data: {
+            oneSignalUserId: androidOneSignalId,
+          },
+        });
+      } catch (e) {
+        getBugsnagClient().leaveBreadcrumb(
+          'updateUserSubscription ANDROID Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren',
+        );
+        getBugsnagClient().notify(e);
+      }
+    }
+    /********************************************************* */
+
     if (userDetails.notifications && userDetails.notifications.push) {
       // https://documentation.onesignal.com/docs/sdk-reference
       OneSignal.push(function() {

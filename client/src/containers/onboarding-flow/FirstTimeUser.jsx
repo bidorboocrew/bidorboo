@@ -6,9 +6,16 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
 import { updateOnBoardingDetails } from '../../app-state/actions/userModelActions';
-import logoImg from '../../assets/images/android-icon-192x192.png';
+// import logoImg from '../../assets/images/android-icon-192x192.png';
 import SetupYourProfileFormSteps from './SetupYourProfileFormSteps';
 export class FirstTimeUser extends React.Component {
+  componentDidMount() {
+    window.document.querySelector('body').setAttribute('style', 'background: white');
+  }
+  componentWillUnmount() {
+    window.document.querySelector('body').setAttribute('style', 'background: #eee');
+  }
+
   render() {
     const { authIsInProgress } = this.props;
     if (authIsInProgress) {
