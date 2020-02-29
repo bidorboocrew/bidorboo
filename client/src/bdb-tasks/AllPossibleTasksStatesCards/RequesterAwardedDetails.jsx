@@ -151,7 +151,7 @@ class RequesterAwardedDetails extends RequestBaseContainer {
                 </footer>
               </div>
             </div>,
-            document.querySelector('#bidorboo-root-modals'),
+            document.querySelector('body'),
           )}
         <div
           style={{
@@ -361,7 +361,7 @@ class RequesterConfirmsCompletion extends React.Component {
                 </footer>
               </div>
             </div>,
-            document.querySelector('#bidorboo-root-modals'),
+            document.querySelector('body'),
           )}
         <a onClick={this.toggleModal} className="button is-success">
           Confirm Task Completion
@@ -514,7 +514,7 @@ class RequesterDisputes extends React.Component {
                 </footer>
               </div>
             </div>,
-            document.querySelector('#bidorboo-root-modals'),
+            document.querySelector('body'),
           )}
       </React.Fragment>
     );

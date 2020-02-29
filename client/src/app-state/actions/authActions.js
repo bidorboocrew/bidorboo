@@ -146,9 +146,22 @@ export const onLogout = () => (dispatch) =>
           },
         },
       });
-      window.localStorage.removeItem('bob_lastKnownRoute')
+
+      if (window.OneSignal) {
+        window.OneSignal.removeExternalUserId();
+      }
+
+      /**
+       * for android apps only
+       */
+      window.localStorage.removeItem('bob_androidOneSignalPlayerId');
+      if (window.bidorbooAndroid && window.bidorbooAndroid.removeExternalUserOneSignalId) {
+        window.bidorbooAndroid.removeExternalUserOneSignalId();
+      }
+      /********************************************************* */
+
+      window.localStorage.removeItem('bob_lastKnownRoute');
       switchRoute(ROUTES.CLIENT.HOME);
-      await sleep(1000);
       window.location.reload();
     }),
   });

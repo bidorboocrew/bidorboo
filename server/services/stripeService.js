@@ -250,6 +250,7 @@ exports.util = {
         amount,
         metadata,
         currency: 'cad',
+        statement_descriptor: 'BidOrBoo payout',
       },
       {
         stripe_account: connectedAccId,
@@ -296,20 +297,20 @@ exports.util = {
     );
   },
 
-  sendPayoutToExternalBank: async (connectedAccId, amount) => {
-    return stripe.payouts.create(
-      {
-        amount,
-        currency: 'cad',
-      },
-      {
-        stripe_account: connectedAccId,
-      }
-    );
-  },
-  sendPayoutToExternalBank: async (payoutId, amount) => {
-    return stripe.payouts.retrieve('payoutId');
-  },
+  // sendPayoutToExternalBank: async (connectedAccId, amount) => {
+  //   return stripe.payouts.create(
+  //     {
+  //       amount,
+  //       currency: 'cad',
+  //     },
+  //     {
+  //       stripe_account: connectedAccId,
+  //     }
+  //   );
+  // },
+  // sendPayoutToExternalBank: async (payoutId, amount) => {
+  //   return stripe.payouts.retrieve('payoutId');
+  // },
 
   deleteAllStripeAccountsInMySystem: async (iKnowWhatIamDoing) => {
     if (iKnowWhatIamDoing) {

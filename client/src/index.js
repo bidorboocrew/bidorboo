@@ -24,35 +24,45 @@ let bugsnagClient = {
   leaveBreadcrumb: () => null,
 };
 
+/**
+ * android phones only
+ */
+const urlParams = new URLSearchParams(window.location.search);
+const oneSignalPlayerId = urlParams && urlParams.get('player_id');
+if (oneSignalPlayerId) {
+  window.localStorage.setItem('bob_androidOneSignalPlayerId', oneSignalPlayerId);
+}
+/**************************************************************************** */
+
+
 if (process.env.NODE_ENV === 'production') {
-  bugsnagClient = bugsnag(`${process.env.REACT_APP_BUGSNAG_API_KEY}`);
+  bugsnagClient = bugsnag({
+    apiKey: `${process.env.REACT_APP_BUGSNAG_API_KEY}`,
+    appVersion: '2.2.0',
+  });
   bugsnagClient.use(bugsnagReact, React);
   const ErrorBoundary = bugsnagClient.getPlugin('react');
   ReactDOM.render(
     <Provider store={store}>
       <Router history={appHistory}>
         <ErrorBoundary>
-          {/* <GetNotificationsAndScroll> */}
           <App />
-          {/* </GetNotificationsAndScroll> */}
         </ErrorBoundary>
       </Router>
     </Provider>,
     document.getElementById('BidOrBoo-app'),
   );
-
-  registerServiceWorker().catch(() => console.info('ServiceWorker was not added'));
 } else {
   ReactDOM.render(
     <Provider store={store}>
       <Router history={appHistory}>
-        {/* <GetNotificationsAndScroll> */}
         <App />
-        {/* </GetNotificationsAndScroll> */}
       </Router>
     </Provider>,
     document.getElementById('BidOrBoo-app'),
   );
 }
+
+registerServiceWorker().catch(() => console.info('ServiceWorker was not added'));
 
 export const getBugsnagClient = () => bugsnagClient;

@@ -5,7 +5,7 @@ import { getBugsnagClient } from '../../index';
 import * as ROUTES from '../../constants/frontend-route-consts';
 import { switchRoute } from '../../utils';
 
-import logoImg from '../../assets/images/android-chrome-192x192.png';
+import logoImg from '../../assets/images/android-icon-192x192.png';
 
 const Steps = {
   enterEmail: 'enterEmail',
@@ -156,10 +156,10 @@ export class ResetLocalPassword extends React.Component {
                     <div>
                       <a
                         style={{
-                          borderRadius: 2,
                           fontWeight: 500,
                           border: '1px solid #eee',
                           // boxShadow: 'none',
+                          borderRadius: 25,
                         }}
                         className="button is-link is-small"
                         onClick={(e) => {
@@ -192,7 +192,7 @@ export class ResetLocalPassword extends React.Component {
                         onChange={(e) => {
                           this.setState({ emailAddress: e.target.value });
                         }}
-                        style={{ flexGrow: 1, borderRadius: 0 }}
+                        style={{ flexGrow: 1 }}
                         className={`input ${isValidEmail ? '' : 'is-danger'}`}
                         placeholder="type your email address..."
                       />
@@ -222,7 +222,7 @@ export class ResetLocalPassword extends React.Component {
                         onChange={(e) => {
                           this.setState({ verificationCode: e.target.value });
                         }}
-                        style={{ flexGrow: 1, borderRadius: 0 }}
+                        style={{ flexGrow: 1 }}
                         className={`input ${isValidVerificationCode ? '' : 'is-danger'}`}
                         placeholder="enter verification code..."
                       />
@@ -243,7 +243,7 @@ export class ResetLocalPassword extends React.Component {
                         onChange={(e) => {
                           this.setState({ password1: e.target.value });
                         }}
-                        style={{ flexGrow: 1, borderRadius: 0 }}
+                        style={{ flexGrow: 1 }}
                         className={`input ${isValidPassword ? '' : 'is-danger'}`}
                         placeholder="Enter your new password..."
                       />
@@ -257,7 +257,7 @@ export class ResetLocalPassword extends React.Component {
                         onChange={(e) => {
                           this.setState({ password2: e.target.value });
                         }}
-                        style={{ flexGrow: 1, borderRadius: 0 }}
+                        style={{ flexGrow: 1 }}
                         className={`input ${isValidPassword ? '' : 'is-danger'}`}
                         placeholder="Enter the same password..."
                       />

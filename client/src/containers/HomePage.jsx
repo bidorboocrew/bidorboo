@@ -13,6 +13,7 @@ import Earn_Money from '../assets/images/Earn-Money.jpeg';
 import TaskerSteps from '../assets/images/TaskerSteps.jpg';
 import HowItWorks from '../assets/images/HowItWorks.jpg';
 import BidOrBooMain from '../assets/images/BidOrBooMain.png';
+import YoutubeCover from '../assets/images/YoutubeCover.png';
 
 export default class HomePage extends React.Component {
   componentDidMount() {
@@ -28,29 +29,9 @@ export default class HomePage extends React.Component {
         <section className="hero has-text-centered is-danger is-small">
           <div style={{ backgroundImage: `url(${MainBanner})` }} className="hero-body">
             <div className="container">
-              {/* <h1
-                style={{
-                  color: 'white',
-                  marginBottom: 2,
-                  transform: 'scaleY(1.1)',
-                  fontWeight: 400,
-                }}
-                className="title is-1"
-              >
-                <span id="BidOrBoo-welcome-step">BidOrBoo</span>
-              </h1> */}
               <div style={{ paddingTop: 8 }} className="container has-text-centered">
                 <img style={{ width: 300 }} src={BidOrBooMain} alt="Placeholder" />
               </div>
-              {/* <h2
-                style={{ fontSize: 16, marginBottom: 0, paddingBottom: 0 }}
-                className="has-text-white"
-              >
-                the place to get all your chores done,
-              </h2>
-              <h2 style={{ fontSize: 16 }} className="has-text-white">
-                and earn money doing what you love.
-              </h2> */}
             </div>
           </div>
         </section>
@@ -84,25 +65,37 @@ export default class HomePage extends React.Component {
         </section>
         <br></br>
         <section className="hero is-small has-text-centered is-white fade-in">
-          <div style={{ paddingBottom: 0.5 }} className="hero-body">
+          <div style={{ paddingBottom: '1rem' }} className="hero-body">
             <div className="container has-text-centered">
               <img style={{ width: 280 }} src={HowItWorks} alt="Placeholder" />
             </div>
           </div>
         </section>
+        <br></br>
         <section className="hero has-text-centered is-white fade-in">
           <div style={{ position: 'relative' }}>
             <div style={{ margin: 'auto', padding: '0.5rem', maxWidth: 650 }}>
               <div className="player-wrapper">
                 <ReactPlayer
-                  playIcon={<div style={{ display: 'none', width: 0, height: 0 }}></div>}
+                  playIcon={
+                    <section className="hero is-small has-text-centered is-white fade-in">
+                      <div style={{ paddingBottom: '1rem' }} className="hero-body">
+                        <div className="container has-text-centered">
+                          <img
+                            style={{ width: 300, maxWidth: 450 }}
+                            src={YoutubeCover}
+                            alt="Placeholder"
+                          />
+                        </div>
+                      </div>
+                    </section>
+                  }
                   light
                   playing
-                  className="react-player fade-in"
+                  className="react-player"
                   url="https://youtu.be/YHh9JbJAyf0"
                   width="100%"
                   height="100%"
-                  // light
                   config={{
                     youtube: {
                       rel: 0,

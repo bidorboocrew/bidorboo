@@ -243,6 +243,7 @@ const UserSchema = new Schema(
     },
     clearCriminalHistory: { type: Boolean, default: false },
     pushSubscription: { type: String },
+    oneSignalUserId: { type: String },
     userRole: {
       type: String,
       enum: ['ADMIN', 'REGULAR'],

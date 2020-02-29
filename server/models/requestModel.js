@@ -11,7 +11,7 @@ const { Schema } = mongoose;
 const MAX_TITLE_LENGTH = 20;
 const MIN_TITLE_LENGTH = 5;
 
-const MAX_DESCRIPTION_LENGTH = 500;
+const MAX_DESCRIPTION_LENGTH = 1000;
 const MIN_DESCRIPTION_LENGTH = 20;
 
 const MAX_ADDRESS_LENGTH = 300;

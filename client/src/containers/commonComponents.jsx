@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import logoImg from '../assets/images/android-chrome-192x192.png';
 import ReactDOM from 'react-dom';
 
 import moment from 'moment';
@@ -11,6 +10,9 @@ import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute, goBackToPreviousRoute } from '../utils';
 import { getBugsnagClient } from '../index';
 import TASKS_DEFINITIONS from '../bdb-tasks/tasksDefinitions';
+
+import BidOrBooMain from '../assets/images/BidOrBooMain.png';
+import MainBanner from '../assets/images/MainBanner.png';
 
 export const POINT_OF_VIEW = {
   REQUESTER: 'REQUESTER',
@@ -1199,7 +1201,7 @@ export const AssignedTasker = () => {
 export const UserGivenTitle = ({ userGivenTitle }) => {
   return (
     <div style={{ fontWeight: 300, fontSize: 16, color: '#363636', marginBottom: '1.25rem' }}>
-      {`Title: ${userGivenTitle}`}
+      {`${userGivenTitle}`}
     </div>
   );
 };
@@ -1207,7 +1209,7 @@ export const UserGivenTitle = ({ userGivenTitle }) => {
 export const UserGivenTitleOnMap = ({ userGivenTitle = '--' }) => {
   return (
     <div style={{ fontWeight: 300, fontSize: 12, color: '#363636', marginBottom: '0.5rem' }}>
-      {`Title: ${userGivenTitle || '--'}`}
+      {`${userGivenTitle || '--'}`}
     </div>
   );
 };
@@ -1938,24 +1940,11 @@ export const AnytimeQuickModal = ({ title, renderContentFunc, setShowModal, show
 };
 
 export const CoolBidOrBooTitle = () => (
-  <section className="hero is-small has-text-centered">
-    <div className="hero-body">
-      <div className="HorizontalAligner-center">
-        <div className="bdb-flex-container">
-          <div className="flex-item">
-            <img
-              src={logoImg}
-              alt="BidOrBoo"
-              width="48"
-              height="48"
-              style={{ maxHeight: 'unset' }}
-            />
-            <div className="title" style={{ marginLeft: 4, margin: 0 }}>
-              <span style={{ color: '#ee2a36', fontWeight: 500 }}>B</span>id
-              <span style={{ color: '#ee2a36', fontWeight: 500 }}>O</span>r
-              <span style={{ color: '#ee2a36', fontWeight: 500 }}>B</span>oo
-            </div>
-          </div>
+  <section className="hero has-text-centered is-danger is-small">
+    <div style={{ backgroundImage: `url(${MainBanner})` }} className="hero-body">
+      <div className="container">
+        <div style={{ paddingTop: 8 }} className="container has-text-centered">
+          <img style={{ width: 250 }} src={BidOrBooMain} alt="Placeholder" />
         </div>
       </div>
     </div>

@@ -12,6 +12,8 @@ import { getMyPostedBidsSummary } from '../../app-state/actions/bidsActions';
 import { deleteOpenBid, updateBid } from '../../app-state/actions/bidsActions';
 import { REQUEST_STATES } from '../../bdb-tasks/index';
 import { getMeTheRightBidCard } from '../../bdb-tasks/getMeTheRightCard';
+import NoBidsFound from '../../assets/images/NoBidsFound.png';
+
 const MY_BIDS_TABS = {
   activeBids: 'activeBids',
   pastBids: 'pastBids',
@@ -160,42 +162,34 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyBidsPage);
 
-const EmptyStateComponent = () => {
-  return (
-    <div className="HorizontalAligner-center column">
+const EmptyStateComponent = () => (
+  <>
+    <div className="HorizontalAligner-center column fade-in">
       <div className="is-fullwidth">
-        <div className="card-content VerticalAligner">
-          <div className="content has-text-centered">
-            <div className="is-size-4">You have no bids. Start bidding to earn money!</div>
-            <br />
-            <a
-              className="button is-success"
-              onClick={() => {
-                switchRoute(ROUTES.CLIENT.TASKER.root);
-              }}
-            >
-              Explore Tasks In Your Area
-            </a>
+        <div>
+          <div className="card-content VerticalAligner">
+            <div className="has-text-centered">
+              <div className="is-size-4">Start bidding, Earn money!</div>
+              <section style={{ padding: 0 }} className="hero is-small has-text-centered fade-in">
+                <div style={{ padding: 0 }} className="hero-body">
+                  <div className="container has-text-centered">
+                    <img style={{ width: 280 }} src={NoBidsFound} alt="Placeholder" />
+                  </div>
+                </div>
+              </section>
+              <a
+                className="button is-success"
+                onClick={(e) => {
+                  e.preventDefault();
+                  switchRoute(ROUTES.CLIENT.TASKER.root);
+                }}
+              >
+                Explore Tasks In Your Area
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  );
-};
-
-const FloatingAddNewBidButton = () => {
-  return (
-    <a
-      onClick={(e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        switchRoute(ROUTES.CLIENT.TASKER.root);
-      }}
-      className="button is-success bdbFloatingButtonText"
-    >
-      <span style={{ fontSize: 24 }} className="icon">
-        <i className="fas fa-search-dollar" />
-      </span>
-    </a>
-  );
-};
+  </>
+);

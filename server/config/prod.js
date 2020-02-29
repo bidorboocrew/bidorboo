@@ -30,4 +30,6 @@ module.exports = {
   twilioAuthToken: process.env.TWILIO_AUTH_TOKEN,
   twilioMsgingServiceSid: process.env.TWILIO_MSGING_SERVICE_SID,
   twilioVerificationServiceSid: process.env.TWILIO_VERIFY_SERVICE_SID,
+  onesignalPublicKey: process.env.ONESIGNAL_PUBLIC_API,
+  onesignalSecretKey: process.env.ONESIGNAL_SECRET_API,
 };

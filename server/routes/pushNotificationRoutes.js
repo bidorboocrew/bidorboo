@@ -44,24 +44,31 @@ module.exports = (app) => {
         return res.status(201).json({});
       }
       const data = req.body.data;
-      const { subscription } = data;
+      const { subscription, oneSignalUserId } = data;
 
       const currentUser = await userDataAccess.findOneByUserId(req.user.userId);
       const noPushWasSentBefore = !!currentUser.pushSubscription;
       if (!noPushWasSentBefore) {
-        const payload = JSON.stringify({
-          title: 'BidOrBoo enabled push notifications.',
-          body: 'You Can Control Notification settings by clicking here',
-          icon:
-            'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1545981752/BidOrBoo/android-chrome-192x192.png',
-          urlToLaunch: 'https://www.bidorboo.ca/my-profile/notification-settings',
-          tag: 'bidorboo-notification-settings',
-        });
-        await webpush.sendNotification(JSON.parse(subscription), payload);
+        // const payload = JSON.stringify({
+        //   title: 'BidOrBoo enabled push notifications.',
+        //   body: 'You Can Control Notification settings by clicking here',
+        //   icon:
+        //     'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1545981752/BidOrBoo/android-chrome-192x192.png',
+        //   urlToLaunch: 'https://www.bidorboo.ca/my-profile/notification-settings',
+        //   tag: 'bidorboo-notification-settings',
+        // });
+        // await webpush.sendNotification(JSON.parse(subscription), payload);
       }
-      await userDataAccess.findByUserIdAndUpdate(req.user.userId, {
-        pushSubscription: subscription,
-      });
+
+      if (oneSignalUserId) {
+        await userDataAccess.findByUserIdAndUpdate(req.user.userId, {
+          oneSignalUserId: oneSignalUserId,
+        });
+      } else {
+        await userDataAccess.findByUserIdAndUpdate(req.user.userId, {
+          pushSubscription: subscription,
+        });
+      }
       return res.status(201).json({ success: true });
     } catch (e) {
       bugsnagClient.notify(e);

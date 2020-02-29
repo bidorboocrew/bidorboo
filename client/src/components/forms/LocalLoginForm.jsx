@@ -98,7 +98,6 @@ class LocalLoginForm extends React.Component {
         />
         <div className="has-text-left">
           <button
-            style={{ borderRadius: 0 }}
             className="button is-success"
             type="submit"
             disabled={isSubmitting || !isValid}

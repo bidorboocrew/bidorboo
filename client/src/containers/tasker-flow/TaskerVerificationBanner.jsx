@@ -134,7 +134,7 @@ class TaskerVerificationBanner extends React.Component {
                   </section>
                 </div>
               </div>,
-              document.querySelector('#bidorboo-root-modals'),
+              document.querySelector('body'),
             )}
           <section
             id="bob-taskerVerificationBanner"
@@ -167,8 +167,7 @@ class TaskerVerificationBanner extends React.Component {
 
     const showAddExternalBankAcc =
       (currently_due.length === 1 && currently_due.includes('external_account')) ||
-      (past_due.length === 1 && past_due.includes('external_account')) ||
-      currently_due.includes('external_account');
+      (past_due.length === 1 && past_due.includes('external_account'));
     if (showAddExternalBankAcc) {
       return null;
       // we dont wana bug them too much, we will do that later if you have outstanding payouts
@@ -200,7 +199,27 @@ class TaskerVerificationBanner extends React.Component {
       );
     }
 
-    if (areThereMoreRequirement) {
+    if (
+      areThereMoreRequirement &&
+      (currently_due.includes('individual.address.city') ||
+        currently_due.includes('individual.address.line1') ||
+        currently_due.includes('individual.address.postal_code') ||
+        currently_due.includes('individual.address.state') ||
+        currently_due.includes('individual.dob.day') ||
+        currently_due.includes('individual.dob.month') ||
+        currently_due.includes('individual.dob.year') ||
+        currently_due.includes('individual.first_name') ||
+        currently_due.includes('individual.last_name') ||
+        past_due.includes('individual.address.city') ||
+        past_due.includes('individual.address.line1') ||
+        past_due.includes('individual.address.postal_code') ||
+        past_due.includes('individual.address.state') ||
+        past_due.includes('individual.dob.day') ||
+        past_due.includes('individual.dob.month') ||
+        past_due.includes('individual.dob.year') ||
+        past_due.includes('individual.first_name') ||
+        past_due.includes('individual.last_name'))
+    ) {
       return (
         <section
           id="bob-taskerVerificationBanner"

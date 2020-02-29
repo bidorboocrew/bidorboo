@@ -1,8 +1,14 @@
 // to log our customer encountered  bugs
 const mongoose = require('mongoose');
 const keys = require('../config/keys');
+mongoSanitize = require('express-mongo-sanitize');
+
 // https://eng.datafox.com/mongoose/2017/02/22/what-we-wish-we-had-known-about-mongoose/
-module.exports = (process) => {
+module.exports = (process, app) => {
+
+  app.use(mongoSanitize());
+
+
   // require the application models
   require('../models/bidModel');
   require('../models/userModel');

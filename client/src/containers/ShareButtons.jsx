@@ -24,11 +24,8 @@ export default class ShareButtons extends React.Component {
   constructor(props) {
     super(props);
     this.state = { showShareModal: false };
-
-    this.rootModal = null;
   }
   toggleShareModal = () => {
-    this.rootModal = document.querySelector('#bidorboo-root-modals');
     this.setState({ showShareModal: !this.state.showShareModal });
   };
   copyToClipboard = () => {
@@ -57,7 +54,6 @@ export default class ShareButtons extends React.Component {
     return (
       <>
         {showShareModal &&
-          this.rootModal &&
           ReactDOM.createPortal(
             <div className="modal is-active has-text-centered">
               <div onClick={this.toggleShareModal} className="modal-background"></div>
@@ -115,7 +111,7 @@ export default class ShareButtons extends React.Component {
                 aria-label="close"
               ></button>
             </div>,
-            this.rootModal,
+            document.querySelector('body'),
           )}
         <button
           // style={{

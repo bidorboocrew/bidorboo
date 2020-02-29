@@ -123,7 +123,7 @@ class ReviewRequestAndBidsPage extends React.Component {
                 />
               </div>
             </div>,
-            document.querySelector('#bidorboo-root-view'),
+            document.querySelector('body'),
           )}
 
         {showBidReviewModal && (

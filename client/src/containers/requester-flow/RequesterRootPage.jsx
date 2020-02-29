@@ -26,7 +26,7 @@ class RequesterRoot extends React.Component {
     return (
       <React.Fragment>
         <section className="hero has-text-centered is-small">
-          <div className="hero-body">
+          <div style={{ paddingBottom: 0 }} className="hero-body">
             <div className="container has-text-centered">
               <img style={{ width: 280 }} src={WhatCanWeHelpWith} alt="Placeholder" />
             </div>

@@ -13,14 +13,18 @@ export default {
   isComingSoon: false,
   DESCRIPTION: `Does your home need cleaning? Book one of our clean freak Taskers to take care of it!`,
   SUGGESTION_TEXT: `Q1) Do you have pets in the house?
-[Answer here:   ]
-Q2) Will the Tasker be required to move heavy items (couch, bed, etc.)?
-[Answer here:   ]
-Q3) Anything else you want to highlight for the Tasker?
-[Answer here: ]
+[Answer:   ]
+Q2) describe your living room floor type (hardwood, laminate, carpet) ?
+[Answer:   ]
+Q3) Will the Tasker be required to move heavy items (couch, bed, etc.)?
+[Answer:   ]
+Q4) Anything else you want to highlight for the Tasker?
+[Answer: ]
 `,
   defaultExtrasValues: {
     effort: 'noSelection',
+    kitchenCleaning: 'noSelection',
+    livingRoomCleaning: 'noSelection',
     bathroomCount: 'noSelection',
     bedroomCount: 'noSelection',
     basementCleaning: 'noSelection',
@@ -32,12 +36,30 @@ Q3) Anything else you want to highlight for the Tasker?
       .ensure()
       .trim()
       .oneOf(['small', 'medium', 'large'], '*Please select an option from the drop down')
-      .required('*Please select the effort required'),
+      .required('*Please select the approximat effort required'),
+    kitchenCleaning: Yup.string()
+      .ensure()
+      .trim()
+      .oneOf(['Yes (required)', 'No (not required)'], '*Please select an option from the drop down')
+      .required('*Please specify if kitchen cleaning is required'),
+    livingRoomCleaning: Yup.string()
+      .ensure()
+      .trim()
+      .oneOf(['Yes (required)', 'No (not required)'], '*Please select an option from the drop down')
+      .required('*Please specify if living room cleaning is required'),
     bathroomCount: Yup.string()
       .ensure()
       .trim()
       .oneOf(
-        ['One', 'Two', 'Three', 'Four', 'Five', 'Six'],
+        [
+          'Bathroom cleaning is not required',
+          'One Bathroom',
+          'Two Bathrooms',
+          'Three Bathrooms',
+          'Four Bathrooms',
+          'Five Bathrooms',
+          'Six Bathrooms',
+        ],
         '*Please select an option from the drop down',
       )
       .required('*Please select the number of bathroom that require cleaning'),
@@ -45,20 +67,28 @@ Q3) Anything else you want to highlight for the Tasker?
       .ensure()
       .trim()
       .oneOf(
-        ['One', 'Two', 'Three', 'Four', 'Five', 'Six'],
+        [
+          'Bedroom cleaning is not required',
+          'One Bedroom',
+          'Two Bedrooms',
+          'Three Bedrooms',
+          'Four Bedrooms',
+          'Five Bedrooms',
+          'Six Bedrooms',
+        ],
         '*Please select an option from the drop down',
       )
-      .required('*Please select the number of bathroom that require cleaning'),
+      .required('*Please select the number of bedrooms that require cleaning'),
     basementCleaning: Yup.string()
       .ensure()
       .trim()
       .oneOf(['Yes (required)', 'No (not required)'], '*Please select an option from the drop down')
-      .required('*Please select the number of bathroom that require cleaning'),
+      .required('*Please specify if basement cleaning is required'),
     equipmentProvider: Yup.string()
       .ensure()
       .trim()
       .oneOf(['taskerProvides', 'requesterProvides'], '*Please select an option from the drop down')
-      .required('*Please select the number of bathroom that require cleaning'),
+      .required('*Please specify who will provide the cleaning equipment'),
   },
 
   renderThankYouForPostingMoment: function(setShowModal) {
@@ -213,12 +243,104 @@ Q3) Anything else you want to highlight for the Tasker?
               selectedValue = 'Large (6-8 hours)';
               break;
           }
-          return (
+          return selectedValue ? (
             <div key={'extras-effort'} className="group">
               <label className="label hasSelectedValue">Duration (approximate)</label>
               <div className="control">{selectedValue}</div>
             </div>
+          ) : null;
+        },
+      },
+      kitchenCleaning: {
+        renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
+          let kitchenCleaningClass = '';
+          let isTouched = touched && touched.kitchenCleaning;
+          if (isTouched) {
+            kitchenCleaningClass =
+              values.kitchenCleaning === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          } else {
+            kitchenCleaningClass =
+              values.kitchenCleaning !== 'noSelection' ? 'hasSelectedValue' : '';
+          }
+          return (
+            <React.Fragment key={'extras-kitchenCleaning'}>
+              <div className={`group ${isTouched && errors.kitchenCleaning ? 'isError' : ''}`}>
+                <label className={kitchenCleaningClass}>{'Is kitchen cleaning required?'}</label>
+                <div>
+                  <div className={`select ${kitchenCleaningClass} `}>
+                    <select
+                      id="kitchenCleaning"
+                      value={values.kitchenCleaning}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      <option value="noSelection">-Select One-</option>
+                      <option value="Yes (required)">Yes (required)</option>
+                      <option value="No (not required)">No (not required)</option>
+                    </select>
+                    {isTouched && errors.kitchenCleaning && (
+                      <div className="help is-danger">{errors.kitchenCleaning}</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </React.Fragment>
           );
+        },
+        renderSelection: (kitchenCleaning) => {
+          return kitchenCleaning ? (
+            <div key={'extras-kitchenCleaning'} className="group">
+              <label className="label hasSelectedValue">Kitchen cleaning</label>
+              <div className="control">{kitchenCleaning}</div>
+            </div>
+          ) : null;
+        },
+      },
+      livingRoomCleaning: {
+        renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
+          let livingRoomCleaningClass = '';
+          let isTouched = touched && touched.livingRoomCleaning;
+          if (isTouched) {
+            livingRoomCleaningClass =
+              values.livingRoomCleaning === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+          } else {
+            livingRoomCleaningClass =
+              values.livingRoomCleaning !== 'noSelection' ? 'hasSelectedValue' : '';
+          }
+          return (
+            <React.Fragment key={'extras-livingRoomCleaning'}>
+              <div className={`group ${isTouched && errors.livingRoomCleaning ? 'isError' : ''}`}>
+                <label className={livingRoomCleaningClass}>
+                  {'Is living room cleaning required?'}
+                </label>
+                <div>
+                  <div className={`select ${livingRoomCleaningClass} `}>
+                    <select
+                      id="livingRoomCleaning"
+                      value={values.livingRoomCleaning}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      <option value="noSelection">-Select One-</option>
+                      <option value="Yes (required)">Yes (required)</option>
+                      <option value="No (not required)">No (not required)</option>
+                    </select>
+                    {isTouched && errors.livingRoomCleaning && (
+                      <div className="help is-danger">{errors.livingRoomCleaning}</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </React.Fragment>
+          );
+        },
+        renderSelection: (livingRoomCleaning) => {
+          return livingRoomCleaning ? (
+            <div key={'extras-livingRoomCleaning'} className="group">
+              <label className="label hasSelectedValue">Living room cleaning</label>
+              <div className="control">{livingRoomCleaning}</div>
+            </div>
+          ) : null;
         },
       },
       bedroomCount: {
@@ -244,12 +366,13 @@ Q3) Anything else you want to highlight for the Tasker?
                       onBlur={handleBlur}
                     >
                       <option value="noSelection">-Select One-</option>
-                      <option value="One">1</option>
-                      <option value="Two">2</option>
-                      <option value="Three">3</option>
-                      <option value="Four">4</option>
-                      <option value="Five">5</option>
-                      <option value="Six">6</option>
+                      <option value="Bedroom cleaning is not required">0</option>
+                      <option value="One Bedroom">1</option>
+                      <option value="Two Bedrooms">2</option>
+                      <option value="Three Bedrooms">3</option>
+                      <option value="Four Bedrooms">4</option>
+                      <option value="Five Bedrooms">5</option>
+                      <option value="Six Bedrooms">6</option>
                     </select>
                     {isTouched && errors.bedroomCount && (
                       <div className="help is-danger">{errors.bedroomCount}</div>
@@ -261,14 +384,12 @@ Q3) Anything else you want to highlight for the Tasker?
           );
         },
         renderSelection: (bedroomCount) => {
-          return (
+          return bedroomCount ? (
             <div key={'extras-bedroomCount'} className="group">
               <label className="label hasSelectedValue">Number of bedrooms</label>
-              <div className="control">
-                {bedroomCount === 1 ? `${bedroomCount} bedroom` : `${bedroomCount} bedrooms`}
-              </div>
+              <div className="control">{bedroomCount}</div>
             </div>
-          );
+          ) : null;
         },
       },
       bathroomCount: {
@@ -294,12 +415,13 @@ Q3) Anything else you want to highlight for the Tasker?
                       onBlur={handleBlur}
                     >
                       <option value="noSelection">-Select One-</option>
-                      <option value="One">1</option>
-                      <option value="Two">2</option>
-                      <option value="Three">3</option>
-                      <option value="Four">4</option>
-                      <option value="Five">5</option>
-                      <option value="Six">6</option>
+                      <option value="Bathroom cleaning is not required">0</option>
+                      <option value="One Bathroom">1</option>
+                      <option value="Two Bathrooms">2</option>
+                      <option value="Three Bathrooms">3</option>
+                      <option value="Four Bathrooms">4</option>
+                      <option value="Five Bathrooms">5</option>
+                      <option value="Six Bathrooms">6</option>
                     </select>
                     {isTouched && errors.bathroomCount && (
                       <div className="help is-danger">{errors.bathroomCount}</div>
@@ -311,14 +433,14 @@ Q3) Anything else you want to highlight for the Tasker?
           );
         },
         renderSelection: (bathroomCount) => {
-          return (
+          return bathroomCount ? (
             <div key={'extras-bathroomCount'} className="group">
               <label className="label hasSelectedValue">Number of bathrooms</label>
               <div className="control">
                 {bathroomCount === 1 ? `${bathroomCount} bathroom` : `${bathroomCount} bathrooms`}
               </div>
             </div>
-          );
+          ) : null;
         },
       },
       basementCleaning: {
@@ -358,15 +480,14 @@ Q3) Anything else you want to highlight for the Tasker?
           );
         },
         renderSelection: (basementCleaning) => {
-          return (
+          return basementCleaning ? (
             <div key={'extras-basementCleaning'} className="group">
               <label className="label hasSelectedValue">Basement cleaning</label>
               <div className="control">{basementCleaning}</div>
             </div>
-          );
+          ) : null;
         },
       },
-
       equipmentProvider: {
         renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
           let equipmentProviderClass = '';
@@ -415,14 +536,14 @@ Q3) Anything else you want to highlight for the Tasker?
               valueOfField = 'The requester will provide equipment (vacuum, mop, etc.)';
               break;
           }
-          return (
+          return equipmentProvider ? (
             <div key={'extras-equipmentProvider'} className="group">
               <label className="label hasSelectedValue">
                 Who will provide cleaning equipments?
               </label>
               <div className="control">{valueOfField}</div>
             </div>
-          );
+          ) : null;
         },
       },
     };

@@ -65,6 +65,12 @@ const Step2 = ({
 };
 
 class SetupYourPhoneAneEmailVerifications extends React.Component {
+  componentDidMount() {
+    window.document.querySelector('body').setAttribute('style', 'background: white');
+  }
+  componentWillUnmount() {
+    window.document.querySelector('body').setAttribute('style', 'background: #eee');
+  }
   constructor(props) {
     super(props);
     this.state = {

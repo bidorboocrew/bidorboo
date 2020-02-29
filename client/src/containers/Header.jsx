@@ -11,7 +11,9 @@ import { showLoginDialog } from '../app-state/actions/uiActions';
 
 import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
-import logoImg from '../assets/images/android-chrome-192x192.png';
+import logoImg from '../assets/images/android-icon-192x192.png';
+import navbarBidOrBoo from '../assets/images/navbarBidOrBoo.png';
+
 import ShareThisPageHeaderMenuItem from './ShareThisPageHeaderMenuItem.jsx';
 import { getBugsnagClient } from '../index';
 
@@ -60,7 +62,7 @@ class Header extends React.Component {
   }
 
   componentDidMount() {
-    this.modalRootNode = document.querySelector('#bidorboo-root-modals');
+    this.modalRootNode = document.querySelector('body');
 
     if (
       this.props.history.location.pathname.includes('bdb-request/root') ||
@@ -74,7 +76,7 @@ class Header extends React.Component {
       this.setState({ activeNavBarMenuId: HREF_TO_TABID.PROVIDE_A_SERVICE });
     } else if (
       this.props.history.location.pathname.includes('my-open-requests') ||
-      this.props.history.location.pathname.includes('my-request/awarded-request-details')
+      this.props.history.location.pathname.includes('my-request')
     ) {
       this.setState({ activeNavBarMenuId: HREF_TO_TABID.MY_REQUESTS });
     } else if (
@@ -137,7 +139,10 @@ class Header extends React.Component {
         if (prevState.activeNavBarMenuId !== HREF_TO_TABID.PROVIDE_A_SERVICE) {
           return { activeNavBarMenuId: HREF_TO_TABID.PROVIDE_A_SERVICE };
         }
-      } else if (nextProp.history.location.pathname.includes('my-open-requests')) {
+      } else if (
+        nextProp.history.location.pathname.includes('my-open-requests') ||
+        nextProp.history.location.pathname.includes('my-request')
+      ) {
         if (prevState.activeNavBarMenuId !== HREF_TO_TABID.MY_REQUESTS) {
           return { activeNavBarMenuId: HREF_TO_TABID.MY_REQUESTS };
         }
@@ -242,10 +247,12 @@ class Header extends React.Component {
               >
                 <span
                   className={`${
-                    !isActingAsTasker && !dontShowPortalHelper ? 'has-text-weight-semibold' : ''
+                    !isActingAsTasker && !dontShowPortalHelper
+                      ? 'has-text-weight-bold'
+                      : 'has-text-weight-semibold'
                   }`}
                 >
-                  REQUESTER
+                  Need Help?
                 </span>
               </a>
             </li>
@@ -261,10 +268,12 @@ class Header extends React.Component {
               >
                 <span
                   className={`${
-                    isActingAsTasker && !dontShowPortalHelper ? 'has-text-weight-semibold' : ''
+                    isActingAsTasker && !dontShowPortalHelper
+                      ? 'has-text-weight-bold'
+                      : 'has-text-weight-semibold'
                   }`}
                 >
-                  TASKER
+                  Earn Money
                 </span>
               </a>
             </li>
@@ -317,12 +326,16 @@ class Header extends React.Component {
                     switchRoute(ROUTES.CLIENT.HOME);
                   });
                 }}
-                style={{ fontSize: 24, cursor: 'pointer', marginLeft: 4 }}
+                style={{ fontSize: 30, cursor: 'pointer', marginLeft: 4 }}
                 className="is-hidden-touch"
               >
-                <span style={{ color: '#ee2a36', fontWeight: 500 }}>B</span>id
-                <span style={{ color: '#ee2a36', fontWeight: 500 }}>O</span>r
-                <span style={{ color: '#ee2a36', fontWeight: 500 }}>B</span>oo
+                <img
+                  src={navbarBidOrBoo}
+                  alt="BidOrBoo"
+                  width="100"
+                  height="auto"
+                  style={{ maxHeight: 'unset', pointerEvents: 'none' }}
+                />
               </div>
             </div>
           </a>
@@ -332,10 +345,10 @@ class Header extends React.Component {
             <div style={{ flexGrow: 1, flexDirection: 'row-reverse' }} className="navbar-item">
               <a
                 style={{
-                  borderRadius: 2,
                   fontWeight: 500,
                   border: '1px solid #eee',
                   // boxShadow: 'none',
+                  borderRadius: 25,
                 }}
                 className="button is-link is-small"
                 onClick={(e) => {
@@ -424,12 +437,16 @@ class Header extends React.Component {
                       switchRoute(ROUTES.CLIENT.HOME);
                     });
                   }}
-                  style={{ fontSize: 24, cursor: 'pointer', marginLeft: 4 }}
+                  style={{ fontSize: 30, cursor: 'pointer', marginLeft: 4 }}
                   className="is-hidden-touch"
                 >
-                  <span style={{ color: '#ee2a36', fontWeight: 500 }}>B</span>id
-                  <span style={{ color: '#ee2a36', fontWeight: 500 }}>O</span>r
-                  <span style={{ color: '#ee2a36', fontWeight: 500 }}>B</span>oo
+                  <img
+                    src={navbarBidOrBoo}
+                    alt="BidOrBoo"
+                    width="100"
+                    height="auto"
+                    style={{ maxHeight: 'unset', pointerEvents: 'none' }}
+                  />
                 </div>
               </div>
             </div>

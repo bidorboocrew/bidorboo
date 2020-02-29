@@ -136,7 +136,7 @@ export default class TaskerMyOpenBidDetails extends React.Component {
                 </footer>
               </div>
             </div>,
-            document.querySelector('#bidorboo-root-modals'),
+            document.querySelector('body'),
           )}
         <div className={`card has-text-centered cardWithButton nofixedwidth`}>
           <div className="card-content">

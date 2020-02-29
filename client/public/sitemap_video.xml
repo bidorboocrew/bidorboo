@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xmlns:xhtml="http://www.w3.org/1999/xhtml"
-      xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"
-      xsi:schemaLocation="
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+  xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xsi:schemaLocation="
             http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-
+  <url>
+    <loc>https://www.bidorboo.ca</loc>
+    <video:video>
+      <video:thumbnail_loc>https://www.bidorboo.ca/BidOrBooFinalCover_8.png</video:thumbnail_loc>
+      <video:title>How BidOrBoo Works</video:title>
+      <video:description>Chores Made Easy - See How It Works</video:description>
+      <video:player_loc allow_embed="yes">https://www.youtube.com/watch?v=YHh9JbJAyf0</video:player_loc>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:restriction relationship="allow">US CA</video:restriction>
+      <video:live>no</video:live>
+    </video:video>
+  </url>
 </urlset>

@@ -17,6 +17,7 @@ exports.getAwardedRequestOwnerTaskerAndRelevantNotificationDetails = async (requ
           email: 1,
           phone: 1,
           pushSubscription: 1,
+          oneSignalUserId: 1,
           notifications: 1,
           displayName: 1,
           rating: 1,
@@ -31,6 +32,7 @@ exports.getAwardedRequestOwnerTaskerAndRelevantNotificationDetails = async (requ
         email: 1,
         phone: 1,
         pushSubscription: 1,
+        oneSignalUserId: 1,
         notifications: 1,
         rating: 1,
       },
@@ -57,11 +59,16 @@ exports.getAwardedRequestOwnerTaskerAndRelevantNotificationDetails = async (requ
 
   const requestDisplayName = `${awardedRequest.requestTemplateDisplayTitle} - ${awardedRequest.requestTitle}`;
 
-  const requestLinkForRequester = ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(requestId);
+  const requestLinkForRequester = ROUTES.CLIENT.REQUESTER.dynamicSelectedAwardedRequestPage(
+    requestId
+  );
   const requestLinkForTasker = ROUTES.CLIENT.TASKER.dynamicCurrentAwardedBid(awardedBidId);
 
   const requesterPushNotSubscription = ownerDetails.pushSubscription;
   const taskerPushNotSubscription = awardedTaskerDetails.pushSubscription;
+
+  const requesterOneSignalUserId = ownerDetails.oneSignalUserId;
+  const taskerOneSignalUserId = awardedTaskerDetails.oneSignalUserId;
 
   const requesterEmailAddress =
     ownerDetails.email && ownerDetails.email.emailAddress ? ownerDetails.email.emailAddress : '';
@@ -116,5 +123,7 @@ exports.getAwardedRequestOwnerTaskerAndRelevantNotificationDetails = async (requ
     bidAmount,
     ownerRating,
     taskerRating,
+    requesterOneSignalUserId,
+    taskerOneSignalUserId,
   };
 };

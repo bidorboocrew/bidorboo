@@ -1,6 +1,10 @@
 // https://developers.google.com/web/fundamentals/push-notifications/notification-behaviour
 
 const keys = require('../config/keys');
+
+const OneSignal = require('onesignal-node');
+const OneSignalClient = new OneSignal.Client(keys.onesignalPublicKey, keys.onesignalSecretKey);
+
 const webpush = require('web-push');
 const { bugsnagClient } = require('../utils/utilities');
 webpush.setVapidDetails(
@@ -11,13 +15,41 @@ webpush.setVapidDetails(
 
 exports.WebPushNotifications = {
   sendRequestAwaitingRequesterConfirmCompletionText: async (
-    targetUserPushSubscription,
+    targetUserPushSubscription = '',
+    oneSignalId = '',
     { requestTitle, icon, urlToLaunch }
   ) => {
     // if (process.env.NODE_ENV !== 'production') {
     //   return;
     // }
     try {
+      if (oneSignalId) {
+        const notification = {
+          app_id: keys.onesignalPublicKey,
+          headings: {
+            en: `${requestTitle} awaiting your confirmation!`,
+          },
+          contents: {
+            en: 'Tasker is done! Click for more details',
+          },
+          url: urlToLaunch,
+          include_player_ids: [oneSignalId],
+        };
+
+        OneSignalClient.createNotification(notification)
+          .then((response) => {
+            console.log(response.body.id);
+          })
+          .catch((e) => {
+            if (e instanceof OneSignal.HTTPError) {
+              // When status code of HTTP response is not 2xx, HTTPError is thrown.
+              console.log('ONESIGNAL ERROR START');
+              console.log(e.statusCode);
+              console.log(e.body);
+              console.log('ONESIGNAL ERROR END');
+            }
+          });
+      }
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
           title: `${requestTitle} awaiting your confirmation!`,
@@ -29,6 +61,7 @@ exports.WebPushNotifications = {
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
           console.log('BIDORBOO_ERROR: WEBPUSH ISSUE ' + JSON.stringify(e));
         });
+
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };
@@ -41,13 +74,41 @@ exports.WebPushNotifications = {
   },
 
   pushAwardedRequestWasCancelled: async (
-    targetUserPushSubscription,
+    targetUserPushSubscription = '',
+    oneSignalId = '',
     { requestTitle, icon, urlToLaunch }
   ) => {
     // if (process.env.NODE_ENV !== 'production') {
     //   return;
     // }
     try {
+      if (oneSignalId) {
+        const notification = {
+          app_id: keys.onesignalPublicKey,
+          headings: {
+            en: `${requestTitle} was cancelled!`,
+          },
+          contents: {
+            en: 'It is cancelled! Click for more details',
+          },
+          url: urlToLaunch,
+          include_player_ids: [oneSignalId],
+        };
+
+        OneSignalClient.createNotification(notification)
+          .then((response) => {
+            console.log(response.body.id);
+          })
+          .catch((e) => {
+            if (e instanceof OneSignal.HTTPError) {
+              // When status code of HTTP response is not 2xx, HTTPError is thrown.
+              console.log('ONESIGNAL ERROR START');
+              console.log(e.statusCode);
+              console.log(e.body);
+              console.log('ONESIGNAL ERROR END');
+            }
+          });
+      }
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
           title: `${requestTitle} was cancelled!`,
@@ -59,6 +120,7 @@ exports.WebPushNotifications = {
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
           console.log('BIDORBOO_ERROR: WEBPUSH ISSUE ' + JSON.stringify(e));
         });
+
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };
@@ -69,11 +131,42 @@ exports.WebPushNotifications = {
       return e;
     }
   },
-  pushNewBidRecieved: async (targetUserPushSubscription, { requestTitle, icon, urlToLaunch }) => {
+  pushNewBidRecieved: async (
+    targetUserPushSubscription = '',
+    oneSignalId = '',
+    { requestTitle, icon, urlToLaunch }
+  ) => {
     // if (process.env.NODE_ENV !== 'production') {
     //   return;
     // }
     try {
+      if (oneSignalId) {
+        const notification = {
+          app_id: keys.onesignalPublicKey,
+          headings: {
+            en: `Request Recieved New Bid!`,
+          },
+          contents: {
+            en: `${requestTitle} Recieved New Bid! Click for more details`,
+          },
+          url: urlToLaunch,
+          include_player_ids: [oneSignalId],
+        };
+
+        OneSignalClient.createNotification(notification)
+          .then((response) => {
+            console.log(response.body.id);
+          })
+          .catch((e) => {
+            if (e instanceof OneSignal.HTTPError) {
+              // When status code of HTTP response is not 2xx, HTTPError is thrown.
+              console.log('ONESIGNAL ERROR START');
+              console.log(e.statusCode);
+              console.log(e.body);
+              console.log('ONESIGNAL ERROR END');
+            }
+          });
+      }
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
           title: `Request Recieved New Bid!`,
@@ -85,6 +178,7 @@ exports.WebPushNotifications = {
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
           console.log('BIDORBOO_ERROR: WEBPUSH ISSUE ' + JSON.stringify(e));
         });
+
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };
@@ -97,11 +191,42 @@ exports.WebPushNotifications = {
     }
   },
 
-  pushNewRequestInYourArea: async (targetUserPushSubscription, { requestTitle, urlToLaunch }) => {
+  pushNewRequestInYourArea: async (
+    targetUserPushSubscription = '',
+    oneSignalId = '',
+    { requestTitle, urlToLaunch }
+  ) => {
     // if (process.env.NODE_ENV !== 'production') {
     //   return;
     // }
     try {
+      if (oneSignalId) {
+        const notification = {
+          app_id: keys.onesignalPublicKey,
+          headings: {
+            en: `NEW ${requestTitle} request in your area!`,
+          },
+          contents: {
+            en: `Act fast, be the first to bid`,
+          },
+          url: urlToLaunch,
+          include_player_ids: [oneSignalId],
+        };
+
+        OneSignalClient.createNotification(notification)
+          .then((response) => {
+            console.log(response.body.id);
+          })
+          .catch((e) => {
+            if (e instanceof OneSignal.HTTPError) {
+              // When status code of HTTP response is not 2xx, HTTPError is thrown.
+              console.log('ONESIGNAL ERROR START');
+              console.log(e.statusCode);
+              console.log(e.body);
+              console.log('ONESIGNAL ERROR END');
+            }
+          });
+      }
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
           title: `NEW ${requestTitle} request in your area!`,
@@ -112,6 +237,7 @@ exports.WebPushNotifications = {
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
           console.log('BIDORBOO_ERROR: WEBPUSH ISSUE ' + JSON.stringify(e));
         });
+
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };
@@ -123,13 +249,41 @@ exports.WebPushNotifications = {
     }
   },
   pushAwardedRequestWasCompleted: async (
-    targetUserPushSubscription,
+    targetUserPushSubscription = '',
+    oneSignalId = '',
     { requestTitle, icon, urlToLaunch }
   ) => {
     // if (process.env.NODE_ENV !== 'production') {
     //   return;
     // }
     try {
+      if (oneSignalId) {
+        const notification = {
+          app_id: keys.onesignalPublicKey,
+          headings: {
+            en: `${requestTitle} is completed!`,
+          },
+          contents: {
+            en: `It is DONE! Click to Review it`,
+          },
+          url: urlToLaunch,
+          include_player_ids: [oneSignalId],
+        };
+
+        OneSignalClient.createNotification(notification)
+          .then((response) => {
+            console.log(response.body.id);
+          })
+          .catch((e) => {
+            if (e instanceof OneSignal.HTTPError) {
+              // When status code of HTTP response is not 2xx, HTTPError is thrown.
+              console.log('ONESIGNAL ERROR START');
+              console.log(e.statusCode);
+              console.log(e.body);
+              console.log('ONESIGNAL ERROR END');
+            }
+          });
+      }
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
           title: `${requestTitle} is completed!`,
@@ -141,6 +295,7 @@ exports.WebPushNotifications = {
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
           console.log('BIDORBOO_ERROR: WEBPUSH ISSUE ' + JSON.stringify(e));
         });
+
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };
@@ -152,17 +307,45 @@ exports.WebPushNotifications = {
     }
   },
   tellRequesterThatWeMarkedRequestDone: async (
-    targetUserPushSubscription,
+    targetUserPushSubscription = '',
+    oneSignalId = '',
     { requestTitle, icon, urlToLaunch }
   ) => {
     // if (process.env.NODE_ENV !== 'production') {
     //   return;
     // }
     try {
+      if (oneSignalId) {
+        const notification = {
+          app_id: keys.onesignalPublicKey,
+          headings: {
+            en: `Request is completed, Rate Tasker`,
+          },
+          contents: {
+            en: `BidOrBoo marked ${requestTitle} as Complete because you did not act in 3 days.`,
+          },
+          url: urlToLaunch,
+          include_player_ids: [oneSignalId],
+        };
+
+        OneSignalClient.createNotification(notification)
+          .then((response) => {
+            console.log(response.body.id);
+          })
+          .catch((e) => {
+            if (e instanceof OneSignal.HTTPError) {
+              // When status code of HTTP response is not 2xx, HTTPError is thrown.
+              console.log('ONESIGNAL ERROR START');
+              console.log(e.statusCode);
+              console.log(e.body);
+              console.log('ONESIGNAL ERROR END');
+            }
+          });
+      }
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
-          title: `BidOrBoo marked ${requestTitle} as Complete because you did not act in 3 days.`,
-          body: `Click to rate the tasker`,
+          title: `Request is completed, Rate Tasker`,
+          body: `BidOrBoo marked ${requestTitle} as Complete because you did not act in 3 days.`,
           icon: icon,
           urlToLaunch: urlToLaunch || 'https://www.bidorboo.ca',
           tag: urlToLaunch,
@@ -170,6 +353,7 @@ exports.WebPushNotifications = {
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
           console.log('BIDORBOO_ERROR: WEBPUSH ISSUE ' + JSON.stringify(e));
         });
+
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };
@@ -181,13 +365,41 @@ exports.WebPushNotifications = {
     }
   },
   tellRequesterToConfirmRequest: async (
-    targetUserPushSubscription,
+    targetUserPushSubscription = '',
+    oneSignalId = '',
     { requestTitle, icon, urlToLaunch }
   ) => {
     // if (process.env.NODE_ENV !== 'production') {
     //   return;
     // }
     try {
+      if (oneSignalId) {
+        const notification = {
+          app_id: keys.onesignalPublicKey,
+          headings: {
+            en: `Confirm that ${requestTitle} is Completed!`,
+          },
+          contents: {
+            en: `Click to confirm completion and Review the tasker`,
+          },
+          url: urlToLaunch,
+          include_player_ids: [oneSignalId],
+        };
+
+        OneSignalClient.createNotification(notification)
+          .then((response) => {
+            console.log(response.body.id);
+          })
+          .catch((e) => {
+            if (e instanceof OneSignal.HTTPError) {
+              // When status code of HTTP response is not 2xx, HTTPError is thrown.
+              console.log('ONESIGNAL ERROR START');
+              console.log(e.statusCode);
+              console.log(e.body);
+              console.log('ONESIGNAL ERROR END');
+            }
+          });
+      }
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
           title: `Confirm that ${requestTitle} is Completed!`,
@@ -200,6 +412,7 @@ exports.WebPushNotifications = {
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
           console.log('BIDORBOO_ERROR: WEBPUSH ISSUE ' + JSON.stringify(e));
         });
+
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };
@@ -211,13 +424,41 @@ exports.WebPushNotifications = {
     }
   },
   pushRequestIsHappeningSoon: async (
-    targetUserPushSubscription,
+    targetUserPushSubscription = '',
+    oneSignalId = '',
     { requestTitle, icon, urlToLaunch }
   ) => {
     // if (process.env.NODE_ENV !== 'production') {
     //   return;
     // }
     try {
+      if (oneSignalId) {
+        const notification = {
+          app_id: keys.onesignalPublicKey,
+          headings: {
+            en: `${requestTitle} is Happening Soon!`,
+          },
+          contents: {
+            en: `It is happening soon! Click for more details`,
+          },
+          url: urlToLaunch,
+          include_player_ids: [oneSignalId],
+        };
+
+        OneSignalClient.createNotification(notification)
+          .then((response) => {
+            console.log(response.body.id);
+          })
+          .catch((e) => {
+            if (e instanceof OneSignal.HTTPError) {
+              // When status code of HTTP response is not 2xx, HTTPError is thrown.
+              console.log('ONESIGNAL ERROR START');
+              console.log(e.statusCode);
+              console.log(e.body);
+              console.log('ONESIGNAL ERROR END');
+            }
+          });
+      }
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
           title: `${requestTitle} is Happening Soon!`,
@@ -229,6 +470,7 @@ exports.WebPushNotifications = {
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
           console.log('BIDORBOO_ERROR: WEBPUSH ISSUE ' + JSON.stringify(e));
         });
+
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };
@@ -240,13 +482,41 @@ exports.WebPushNotifications = {
     }
   },
   pushYouAreAwarded: async (
-    targetUserPushSubscription,
+    targetUserPushSubscription = '',
+    oneSignalId = '',
     { taskerDisplayName, icon, urlToLaunch }
   ) => {
     // if (process.env.NODE_ENV !== 'production') {
     //   return;
     // }
     try {
+      if (oneSignalId) {
+        const notification = {
+          app_id: keys.onesignalPublicKey,
+          headings: {
+            en: `Good News ${taskerDisplayName}`,
+          },
+          contents: {
+            en: `Your Bid WON! click for details`,
+          },
+          url: urlToLaunch,
+          include_player_ids: [oneSignalId],
+        };
+
+        OneSignalClient.createNotification(notification)
+          .then((response) => {
+            console.log(response.body.id);
+          })
+          .catch((e) => {
+            if (e instanceof OneSignal.HTTPError) {
+              // When status code of HTTP response is not 2xx, HTTPError is thrown.
+              console.log('ONESIGNAL ERROR START');
+              console.log(e.statusCode);
+              console.log(e.body);
+              console.log('ONESIGNAL ERROR END');
+            }
+          });
+      }
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
           title: `Good News ${taskerDisplayName}`,
@@ -258,6 +528,7 @@ exports.WebPushNotifications = {
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
           console.log('BIDORBOO_ERROR: WEBPUSH ISSUE ' + JSON.stringify(e));
         });
+
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };
@@ -268,11 +539,42 @@ exports.WebPushNotifications = {
       return e;
     }
   },
-  sendPush: async (targetUserPushSubscription, { title, body, icon, urlToLaunch }) => {
+  sendPush: async (
+    targetUserPushSubscription = '',
+    oneSignalId = '',
+    { title, body, icon, urlToLaunch }
+  ) => {
     // if (process.env.NODE_ENV !== 'production') {
     //   return;
     // }
     try {
+      if (oneSignalId) {
+        const notification = {
+          app_id: keys.onesignalPublicKey,
+          headings: {
+            en: `Good News ${taskerDisplayName}`,
+          },
+          contents: {
+            en: `Your Bid WON! click for details`,
+          },
+          url: urlToLaunch,
+          include_player_ids: [oneSignalId],
+        };
+
+        OneSignalClient.createNotification(notification)
+          .then((response) => {
+            console.log(response.body.id);
+          })
+          .catch((e) => {
+            if (e instanceof OneSignal.HTTPError) {
+              // When status code of HTTP response is not 2xx, HTTPError is thrown.
+              console.log('ONESIGNAL ERROR START');
+              console.log(e.statusCode);
+              console.log(e.body);
+              console.log('ONESIGNAL ERROR END');
+            }
+          });
+      }
       if (targetUserPushSubscription) {
         const payload = JSON.stringify({
           title,
@@ -284,6 +586,7 @@ exports.WebPushNotifications = {
         webpush.sendNotification(JSON.parse(targetUserPushSubscription), payload).catch((e) => {
           console.log('BIDORBOO_ERROR: WEBPUSH ISSUE ' + JSON.stringify(e));
         });
+
         return { success: true };
       } else {
         return { success: false, errorMsg: 'This user has not subscribed' };

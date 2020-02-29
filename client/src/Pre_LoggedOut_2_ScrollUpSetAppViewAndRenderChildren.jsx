@@ -1,7 +1,7 @@
 import React from 'react';
 import { getBugsnagClient } from './index';
 
-class Pre_LoggedOut_3_ScrollUpSetAppViewAndRenderChildren extends React.PureComponent {
+class Pre_LoggedOut_2_ScrollUpSetAppViewAndRenderChildren extends React.PureComponent {
   componentDidCatch(error, info) {
     getBugsnagClient().leaveBreadcrumb(
       'componentDidCatch Pre_LoggedOut_3_ScrollUpSetAppViewAndRenderChildren',
@@ -26,8 +26,8 @@ class Pre_LoggedOut_3_ScrollUpSetAppViewAndRenderChildren extends React.PureComp
   }
 
   render() {
-    return <div>{this.props.children}</div>;
+    return this.props.children;
   }
 }
 
-export default Pre_LoggedOut_3_ScrollUpSetAppViewAndRenderChildren;
+export default Pre_LoggedOut_2_ScrollUpSetAppViewAndRenderChildren;

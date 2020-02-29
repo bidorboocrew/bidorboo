@@ -138,7 +138,6 @@ class NewUserRegistrationForm extends React.Component {
           onBlur={handleBlur}
         />
         <button
-          style={{ borderRadius: 0 }}
           className="button is-success"
           type="submit"
           disabled={isSubmitting || !isValid}

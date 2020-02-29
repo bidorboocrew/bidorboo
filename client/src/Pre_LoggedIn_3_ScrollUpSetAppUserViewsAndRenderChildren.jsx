@@ -39,7 +39,7 @@ class Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren extends React.Pure
   }
 
   render() {
-    return <div>{this.props.children}</div>;
+    return this.props.children;
   }
 }
 
