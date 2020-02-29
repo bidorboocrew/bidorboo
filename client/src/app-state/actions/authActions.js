@@ -147,7 +147,7 @@ export const onLogout = () => (dispatch) =>
         },
       });
       if (window.OneSignal) {
-        OneSignal.removeExternalUserId();
+        window.OneSignal.removeExternalUserId();
       }
 
       window.localStorage.removeItem('bob_lastKnownRoute');
