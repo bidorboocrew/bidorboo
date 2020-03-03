@@ -15,6 +15,25 @@ class Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren extends React.Pure
   }
 
   componentDidMount() {
+    const { userDetails } = this.props;
+    const {
+      appView,
+      oneSignalUserId,
+      isGmailUser,
+      isFbUser,
+      canBid,
+      clearCriminalHistory,
+      canPost,
+      displayName,
+      email,
+      phone,
+      membershipStatus,
+      userId,
+      _id,
+      notifications,
+      rating,
+    } = userDetails;
+    console.log({ userDetails });
     if (
       window.localStorage.getItem('bob_lastKnownRoute') &&
       window.location.pathname.indexOf(window.localStorage.getItem('bob_lastKnownRoute')) === -1
@@ -32,6 +51,31 @@ class Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren extends React.Pure
     } else if (currentUrlPathname.indexOf('bdb-bidder') > -1) {
       setServerAppTaskerView();
     }
+
+    getBugsnagClient().metaData = {
+      userInfo: {
+        pushNotificationEnabled: notifications && notifications.push,
+        emailNotificationEnabled: notifications && notifications.email,
+        textNotificationEnabled: notifications && notifications.text,
+        newTaskNotificationEnabled: notifications && notifications.newPostedTasks,
+        appView,
+        isGmailUser,
+        oneSignalUserId,
+        isFbUser,
+        clearCriminalHistory,
+        canBid,
+        canPost,
+        displayName,
+        email: email && email.emailAddress ? email && email.emailAddress : '--',
+        isEmailVerified: email && email.isVerified,
+        phone: phone && phone.phoneNumber ? phone.phoneNumber : '--',
+        isPhoneVerified: phone && phone.isVerified,
+        rating: rating && rating.globalRating ? rating.globalRating : '--',
+        membershipStatus,
+        userId,
+        _id,
+      },
+    };
 
     setTimeout(() => {
       window.scrollTo(0, 0);

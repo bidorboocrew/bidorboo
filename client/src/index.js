@@ -22,6 +22,7 @@ window.BidOrBoo = window.BidOrBoo || {};
 let bugsnagClient = {
   notify: () => null,
   leaveBreadcrumb: () => null,
+  metaData: {},
 };
 
 /**
@@ -33,7 +34,6 @@ if (oneSignalPlayerId) {
   window.localStorage.setItem('bob_androidOneSignalPlayerId', oneSignalPlayerId);
 }
 /**************************************************************************** */
-
 
 if (process.env.NODE_ENV === 'production') {
   bugsnagClient = bugsnag({
