@@ -102,12 +102,12 @@ class MyBidsPage extends React.Component {
 
     return (
       <div>
-        <TaskerVerificationBanner></TaskerVerificationBanner>
+        {/* <TaskerVerificationBanner></TaskerVerificationBanner> */}
 
-        {/* <section className="hero is-white is-small">
-          <div className="hero-body  has-text-centered">
-            <div className="container">
-              <h1 className="subtitle">Check Bids' status</h1>
+        {/* <section className="hero has-text-centered  is-white is-small">
+          <div className="hero-body">
+            <div className="container has-text-centered">
+              <h1 className="subtitle">Check the status of your Bids</h1>
             </div>
           </div>
         </section> */}

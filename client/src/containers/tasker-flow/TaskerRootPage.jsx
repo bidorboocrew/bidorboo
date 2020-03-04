@@ -298,7 +298,16 @@ class TaskerRootPage extends React.Component {
 
     return (
       <>
-        <TaskerVerificationBanner></TaskerVerificationBanner>
+        <section className="hero has-text-centered is-dark is-bold is-small">
+          <div className="hero-body">
+            <div className="container has-text-centered">
+              <h1 className="title">Want to Earn Money?</h1>
+              <h2 className="subtitle">
+                Become a Tasker, Bid then Complete Chores in your area to get paid
+              </h2>
+            </div>
+          </div>
+        </section>
         <section className="hero is-white is-small">
           <div style={{ paddingBottom: 0 }} className="hero-body">
             <div className="container">
@@ -484,6 +493,7 @@ class TaskerRootPage extends React.Component {
             </React.Fragment>
           )}
         </div>
+        <TaskerVerificationBanner></TaskerVerificationBanner>
       </>
     );
   }

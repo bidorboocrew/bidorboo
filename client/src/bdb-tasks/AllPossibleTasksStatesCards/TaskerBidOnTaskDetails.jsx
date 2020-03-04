@@ -55,8 +55,6 @@ export default class TaskerBidOnTaskDetails extends React.Component {
     return (
       <>
         <section style={{ marginBottom: 6 }} className="card cardWithButton nofixedwidth">
-          <TaskerVerificationBanner></TaskerVerificationBanner>
-
           <div className="card-content">
             <div className="content subtitle">
               Review the task details then
@@ -162,6 +160,8 @@ export default class TaskerBidOnTaskDetails extends React.Component {
             </div>
           </div>
         </div>
+        <br></br>
+        <TaskerVerificationBanner></TaskerVerificationBanner>
       </>
     );
   }

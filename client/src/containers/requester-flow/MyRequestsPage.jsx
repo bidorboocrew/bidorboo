@@ -99,12 +99,10 @@ class MyRequestsPage extends React.Component {
 
     return (
       <div>
-        {/* <section className="hero is-success is-bold is-small">
-          <div className="hero-body  has-text-centered">
-            <div className="container">
-              <h1 style={{ marginBottom: 0 }} className="subtitle">
-                Check Requests' status
-              </h1>
+        {/* <section className="hero has-text-centered is-white is-small">
+          <div className="hero-body">
+            <div className="container has-text-centered">
+              <h1 className="subtitle">Check the status of your requests</h1>
             </div>
           </div>
         </section> */}

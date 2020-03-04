@@ -142,9 +142,8 @@ class TaskerVerificationBanner extends React.Component {
           >
             <div className="hero-body">
               <div className="container">
-                <h1 className="title">Want to earn money?</h1>
                 <h1 className="subtitle">
-                  For Safety reasons as a Tasker you are required to provide a valid ID
+                  For Safety reasons, you are required to provide a valid ID
                 </h1>
                 <button
                   className={`button is-dark ${isLoading ? 'is-loading' : ''}`}
@@ -178,7 +177,7 @@ class TaskerVerificationBanner extends React.Component {
         >
           <div className="hero-body">
             <div className="container">
-              <h1 className="title">Want to earn money?</h1>
+              <h1 className="title">Become A Tasker</h1>
               <h1 className="subtitle">
                 In order to Bid and recieve Payouts, You must complete the Tasker Verifications
                 process
@@ -227,12 +226,7 @@ class TaskerVerificationBanner extends React.Component {
         >
           <div className="hero-body">
             <div className="container">
-              <h1 className="title">Want to earn money?</h1>
-              <h1 className="subtitle">
-                In order to Bid and recieve Payouts, You must complete the Tasker Verifications
-                process
-              </h1>
-
+              <h1 className="title">Want To bid on chores in your area?</h1>
               <button
                 className={`button is-dark ${isLoading ? 'is-loading' : ''}`}
                 onClick={this.updateTaskerProfile}
@@ -240,7 +234,7 @@ class TaskerVerificationBanner extends React.Component {
                 <span className="icon">
                   <i className="fas fa-user-tie"></i>
                 </span>
-                <span>Complete Verification Process</span>
+                <span>Become A Tasker</span>
               </button>
               <div className="help has-text-white">
                 A "Trusted Tasker" badge will appear on your profile
