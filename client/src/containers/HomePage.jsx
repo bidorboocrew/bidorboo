@@ -33,7 +33,7 @@ export default class HomePage extends React.Component {
                 <img style={{ width: 300 }} src={BidOrBooMain} alt="Placeholder" />
               </div>
               <h2 className="subtitle">
-                Connecting people who Need Help with Chores to Taskers who want to Earn Money
+                Connecting people who Need Help with their chores to Taskers who want to Earn Money
               </h2>
             </div>
           </div>
