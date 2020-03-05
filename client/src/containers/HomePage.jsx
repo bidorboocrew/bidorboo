@@ -38,9 +38,38 @@ export default class HomePage extends React.Component {
             </div>
           </div>
         </section>
+        <section className="hero has-text-centered is-small">
+          <div style={{ paddingBottom: 0 }} className="hero-body">
+            <div className="columns is-mobile is-multiline is-centered">
+              <div style={{ minWidth: '18rem', margin: '0 2rem' }} className="column is-narrow">
+                <button
+                  style={{ display: 'inline-block', margin: '0.75rem' }}
+                  onClick={(e) => {
+                    switchRoute(ROUTES.CLIENT.REQUESTER.root);
+                  }}
+                  className="button is-medium is-success centeredButtonInCard fade-in"
+                >
+                  Need Help?
+                </button>
+              </div>
+
+              <div style={{ minWidth: '18rem', margin: '0 2rem' }} className="column is-narrow">
+                <button
+                  style={{ display: 'inline-block', margin: '0.75rem' }}
+                  onClick={(e) => {
+                    switchRoute(ROUTES.CLIENT.TASKER.root);
+                  }}
+                  className="button is-medium is-dark centeredButtonInCard fade-in"
+                >
+                  Earn Money
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
 
         <section className="hero is-small has-text-centered is-white">
-          <div className="hero-body">
+          <div style={{ paddingTop: 0 }} className="hero-body">
             <div className="columns is-mobile is-multiline is-centered">
               <div
                 style={{ minWidth: '18rem', maxWidth: '21rem', margin: '1rem' }}
@@ -66,7 +95,7 @@ export default class HomePage extends React.Component {
             </div>
           </div>
         </section>
-        <br></br>
+
         <section className="hero is-small has-text-centered is-white fade-in">
           <div style={{ paddingBottom: '1rem' }} className="hero-body">
             <div className="container has-text-centered">
