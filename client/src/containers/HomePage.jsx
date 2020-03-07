@@ -33,37 +33,8 @@ export default class HomePage extends React.Component {
                 <img style={{ width: 300 }} src={BidOrBooMain} alt="Placeholder" />
               </div>
               <h2 className="subtitle">
-                Connecting people who Need Help with their chores to Taskers who want to Earn Money
+                The place to get all your chores done and earn money doing what you love.
               </h2>
-            </div>
-          </div>
-        </section>
-        <section className="hero has-text-centered is-small">
-          <div style={{ paddingBottom: 0 }} className="hero-body">
-            <div className="columns is-mobile is-multiline is-centered">
-              <div style={{ minWidth: '18rem', margin: '0 2rem' }} className="column is-narrow">
-                <button
-                  style={{ display: 'inline-block', margin: '0.75rem' }}
-                  onClick={(e) => {
-                    switchRoute(ROUTES.CLIENT.REQUESTER.root);
-                  }}
-                  className="button is-medium is-success centeredButtonInCard fade-in"
-                >
-                  Need Help?
-                </button>
-              </div>
-
-              <div style={{ minWidth: '18rem', margin: '0 2rem' }} className="column is-narrow">
-                <button
-                  style={{ display: 'inline-block', margin: '0.75rem' }}
-                  onClick={(e) => {
-                    switchRoute(ROUTES.CLIENT.TASKER.root);
-                  }}
-                  className="button is-medium is-dark centeredButtonInCard fade-in"
-                >
-                  Earn Money
-                </button>
-              </div>
             </div>
           </div>
         </section>
@@ -96,14 +67,16 @@ export default class HomePage extends React.Component {
           </div>
         </section>
 
-        <section className="hero is-small has-text-centered is-white fade-in">
-          <div style={{ paddingBottom: '1rem' }} className="hero-body">
+        <section
+          style={{ marginBottom: '1rem' }}
+          className="hero is-small has-text-centered is-white fade-in"
+        >
+          <div className="hero-body">
             <div className="container has-text-centered">
               <img style={{ width: 280 }} src={HowItWorks} alt="Placeholder" />
             </div>
           </div>
         </section>
-        <br></br>
         <section className="hero has-text-centered is-white fade-in">
           <div style={{ position: 'relative' }}>
             <div style={{ margin: 'auto', padding: '0.5rem', maxWidth: 650 }}>
