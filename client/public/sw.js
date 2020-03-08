@@ -90,9 +90,9 @@ self.addEventListener('fetch', function(event) {
               case 'style':
               case 'font':
               case 'image': {
-                console.info('we cached it -------------');
-                console.info({ destinationReq });
-                console.info('we cached it -------------end');
+                // console.info('we cached it -------------');
+                // console.info({ destinationReq });
+                // console.info('we cached it -------------end');
                 caches.open(CACHE_NAME).then(function(cache) {
                   cache.put(event.request, responseToCache);
                 });

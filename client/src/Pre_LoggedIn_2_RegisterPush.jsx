@@ -104,7 +104,7 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
         OneSignal.showSlidedownPrompt();
 
         OneSignal.on('subscriptionChange', function(isSubscribed) {
-          console.info('update subscription');
+          // console.info('update subscription');
           updateUserSubscription(userDetails, isSubscribed);
         });
       });

@@ -33,7 +33,7 @@ class Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren extends React.Pure
       notifications,
       rating,
     } = userDetails;
-    console.log({ userDetails });
+
     if (
       window.localStorage.getItem('bob_lastKnownRoute') &&
       window.location.pathname.indexOf(window.localStorage.getItem('bob_lastKnownRoute')) === -1
