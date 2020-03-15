@@ -264,11 +264,11 @@ const POS = () => {
         </li>
       </ul>
       <p>&nbsp;</p>
-      <p>
+      {/* <p>
         We also use optional cookies activated upon consent like Google Analytics (see our
         Third-Party Service Providers).
-      </p>
-      <p>&nbsp;</p>
+      </p> */}
+      {/* <p>&nbsp;</p> */}
       <p>
         Some browsers can block cookies through your browser settings. Blocking cookies may affect
         the way our Websites works on your device.&nbsp;
