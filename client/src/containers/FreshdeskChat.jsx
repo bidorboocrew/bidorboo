@@ -28,7 +28,7 @@ class FreshdeskChat extends React.Component {
               'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1562257900/android-chrome-512x512.png',
             backgroundColor: '#ef2834',
             foregroundColor: '#fff',
-            hideChatButton: true,
+            hideChatButton: false,
           },
           content: {
             headers: {
@@ -60,7 +60,7 @@ class FreshdeskChat extends React.Component {
         token: `${process.env.REACT_APP_FRESHDESK_CHAT_KEY}`,
         host: 'https://wchat.freshchat.com',
         config: {
-          disableEvents: true,
+          disableEvents: getCookieByName('BidOrBooCookieConsent') === 'true' ? false : true,
           headerProperty: {
             //If you have multiple sites you can use the appName and appLogo to overwrite the values.
             appName: 'BidOrBoo',
@@ -68,7 +68,7 @@ class FreshdeskChat extends React.Component {
               'https://res.cloudinary.com/hr6bwgs1p/image/upload/v1562257900/android-chrome-512x512.png',
             backgroundColor: '#ef2834',
             foregroundColor: '#353535',
-            hideChatButton: true,
+            hideChatButton: false,
           },
           content: {
             headers: {
