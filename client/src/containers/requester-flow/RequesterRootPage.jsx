@@ -25,13 +25,16 @@ class RequesterRoot extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <section className="hero has-text-centered is-small">
-          <div style={{ paddingBottom: 0 }} className="hero-body">
+        {/* <section className="hero has-text-centered  is-success is-bold is-small">
+          <div className="hero-body">
             <div className="container has-text-centered">
-              <img style={{ width: 280 }} src={WhatCanWeHelpWith} alt="Placeholder" />
+              <h1 className="title">Need Help With Your Chores?</h1>
+              <h2 className="subtitle">
+                Select from our list of service and we will connect you with Taskers in your area
+              </h2>
             </div>
           </div>
-        </section>
+        </section> */}
         <div className="columns is-centered is-multiline">{this.AllActiveTasks}</div>
       </React.Fragment>
     );

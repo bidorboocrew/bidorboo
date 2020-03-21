@@ -81,7 +81,6 @@ class App extends React.Component {
   }
 
   componentDidCatch(error, info) {
-
     getBugsnagClient().leaveBreadcrumb('componentDidCatch App', { debugInfo: info });
     getBugsnagClient().notify(error);
   }
@@ -92,16 +91,25 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    if (getCookieByName('BidOrBooCookieConsent') === 'true') {
-      // google analytics
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        window.dataLayer.push(arguments);
-      }
-      gtag('js', new Date());
-      gtag('config', 'UA-142687351-1');
-      window['ga-disable-UA-142687351-1'] = false;
+    // if (getCookieByName('BidOrBooCookieConsent') === 'true') {
+    //   // google analytics
+    //   window.dataLayer = window.dataLayer || [];
+    //   function gtag() {
+    //     window.dataLayer.push(arguments);
+    //   }
+    //   gtag('js', new Date());
+    //   gtag('config', 'UA-142687351-1');
+    //   window['ga-disable-UA-142687351-1'] = false;
+    // }
+
+    // google analytics
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      window.dataLayer.push(arguments);
     }
+    gtag('js', new Date());
+    gtag('config', 'UA-142687351-1');
+    window['ga-disable-UA-142687351-1'] = false;
   }
 
   render() {
@@ -151,7 +159,7 @@ class App extends React.Component {
       <div id="bidorboo-root-view">
         {/* <FreshdeskChat /> */}
         {/* this sill be where action sheets mount */}
-        <CookieConsent
+        {/* <CookieConsent
           location="bottom"
           buttonText="I Accept"
           declineButtonText="Decline"
@@ -191,7 +199,7 @@ class App extends React.Component {
               {`BidOrBoo Terms Of Service | Privacy Policy`}
             </a>
           </div>
-        </CookieConsent>
+        </CookieConsent> */}
         <Toast toastDetails={s_toastDetails} />
         <ShowSpecialMomentModal />
         <LoadingBar

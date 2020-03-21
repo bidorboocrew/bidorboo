@@ -298,7 +298,6 @@ class TaskerRootPage extends React.Component {
 
     return (
       <>
-        <TaskerVerificationBanner></TaskerVerificationBanner>
         <section className="hero is-white is-small">
           <div style={{ paddingBottom: 0 }} className="hero-body">
             <div className="container">
@@ -306,7 +305,7 @@ class TaskerRootPage extends React.Component {
                 style={{ marginBottom: '0.5rem', marginTop: '0.5rem' }}
                 className="title has-text-centered"
               >
-                Find Tasks In Your Area
+                Explore Tasks In Your Area
               </h1>
 
               <Collapse
@@ -484,6 +483,7 @@ class TaskerRootPage extends React.Component {
             </React.Fragment>
           )}
         </div>
+        <TaskerVerificationBanner></TaskerVerificationBanner>
       </>
     );
   }

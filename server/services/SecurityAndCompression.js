@@ -18,7 +18,7 @@ module.exports = (app) => {
 
   // security package
   app.use(helmet({ hidePoweredBy: { setTo: 'PHP 4.2.0' } }));
-
+  app.disable('x-powered-by')
   // performance
   app.use(
     compression({

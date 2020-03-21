@@ -32,12 +32,15 @@ export default class HomePage extends React.Component {
               <div style={{ paddingTop: 8 }} className="container has-text-centered">
                 <img style={{ width: 300 }} src={BidOrBooMain} alt="Placeholder" />
               </div>
+              <h2 className="subtitle">
+                The place to get all your chores done and earn money doing what you love.
+              </h2>
             </div>
           </div>
         </section>
 
         <section className="hero is-small has-text-centered is-white">
-          <div className="hero-body">
+          <div style={{ paddingTop: 0 }} className="hero-body">
             <div className="columns is-mobile is-multiline is-centered">
               <div
                 style={{ minWidth: '18rem', maxWidth: '21rem', margin: '1rem' }}
@@ -63,15 +66,17 @@ export default class HomePage extends React.Component {
             </div>
           </div>
         </section>
-        <br></br>
-        <section className="hero is-small has-text-centered is-white fade-in">
-          <div style={{ paddingBottom: '1rem' }} className="hero-body">
+
+        <section
+          style={{ marginBottom: '1rem' }}
+          className="hero is-small has-text-centered is-white fade-in"
+        >
+          <div className="hero-body">
             <div className="container has-text-centered">
               <img style={{ width: 280 }} src={HowItWorks} alt="Placeholder" />
             </div>
           </div>
         </section>
-        <br></br>
         <section className="hero has-text-centered is-white fade-in">
           <div style={{ position: 'relative' }}>
             <div style={{ margin: 'auto', padding: '0.5rem', maxWidth: 650 }}>
