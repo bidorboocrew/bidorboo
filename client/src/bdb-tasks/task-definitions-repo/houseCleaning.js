@@ -18,8 +18,8 @@ Q2) describe your living room floor type (hardwood, laminate, carpet) ?
 [Answer:   ]
 Q3) Will the Tasker be required to move heavy items (couch, bed, etc.)?
 [Answer:   ]
-Q4) Anything else you want to highlight for the Tasker?
-[Answer: ]
+Q4) Anything else you want the Tasker to do?
+[Answer:   ]
 `,
   defaultExtrasValues: {
     effort: 'noSelection',
@@ -91,14 +91,14 @@ Q4) Anything else you want to highlight for the Tasker?
       .required('*Please specify who will provide the cleaning equipment'),
   },
 
-  renderThankYouForPostingMoment: function(setShowModal) {
+  renderThankYouForPostingMoment: function (setShowModal) {
     return renderThankyouMoment({
       houseCleaning_img,
       setShowModal,
       subText: 'Our Taskers will be bidding on this request shortly',
     });
   },
-  renderThankYouForPostingBid: function(setShowModal) {
+  renderThankYouForPostingBid: function (setShowModal) {
     return renderThankyouMoment({
       houseCleaning_img,
       setShowModal,
@@ -120,7 +120,7 @@ Q4) Anything else you want to highlight for the Tasker?
       ),
     });
   },
-  renderThankYouForEditingBid: function(setShowModal) {
+  renderThankYouForEditingBid: function (setShowModal) {
     return renderThankyouMoment({
       houseCleaning_img,
       setShowModal,
@@ -144,7 +144,7 @@ Q4) Anything else you want to highlight for the Tasker?
     });
   },
 
-  renderSummaryCard: function({ withDetails = true }) {
+  renderSummaryCard: function ({ withDetails = true }) {
     return (
       <div style={{ padding: `${!withDetails ? '0 0 1.5rem 0' : '1.5rem'}` }}>
         <nav className="level">
@@ -192,7 +192,7 @@ Q4) Anything else you want to highlight for the Tasker?
   //   return errors;
   // },
   enableImageUploadField: false,
-  extras: function() {
+  extras: function () {
     return {
       effort: {
         renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {

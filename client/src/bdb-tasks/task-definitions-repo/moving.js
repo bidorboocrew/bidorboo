@@ -7,96 +7,90 @@ import * as ROUTES from '../../constants/frontend-route-consts';
 
 export default {
   ID: 'bdbMoving',
-  TITLE: 'Moving & Lifting',
+  TITLE: 'Lifting & Moving',
   ICON: 'fas fa-home',
   IMG: moving_img,
-  isComingSoon: true,
-  DESCRIPTION: `Do you need help moving or lifting heavy furniture ? Get our strong taskers to help you out.`,
-  SUGGESTION_TEXT: `Q1)Any special heavy items ?
-[Answer here:   ]
-Q2)Any items that require extreme caution or care ?
-[Answer here:   ]
+  isComingSoon: false,
+  DESCRIPTION: `Do you need help lifting or moving heavy furniture or items? Get our hulk Taskers to help you
+  out.`,
+  SUGGESTION_TEXT: `Q1) What are the items you need help lifting?
+[Answer:   ]
+Q2) Are there stairs? how many sets of stairs approximately?
+[Answer:   ]
+Q3) Will you be assisting the Tasker?
+[Answer:   ]
+Q4) Anything else you want the Tasker to do?
+[Answer:   ]
 `,
   defaultExtrasValues: {
     approximateDuration: 'noSelection',
-    houseType: 'noSelection',
-    requiresTaskerWithCar: 'noSelection',
+    // houseType: 'noSelection',
+    // requiresTaskerWithCar: 'noSelection',
     trollyProvided: 'noSelection',
     toolsForDisassembly: 'noSelection',
   },
-  requiresDestinationField: true,
+  // requiresDestinationField: true,
   extraValidationSchema: {
     approximateDuration: Yup.string()
       .ensure()
       .trim()
       .oneOf(
-        [
-          '1 hour',
-          '2 hours',
-          '3 hours',
-          '4 hours',
-          '5 hours',
-          '6 hours',
-          '7 hours',
-          '8 hours',
-          '9 hours',
-          '10 hours',
-        ],
+        ['1 hour', '2 hours', '3 hours', '4 hours', '5 hours', '6 hours', '7 hours', '8 hours'],
         '*Please select an option from the drop down',
       )
       .required('*Please select the approximate duration of the service'),
-    houseType: Yup.string()
-      .ensure()
-      .trim()
-      .oneOf(
-        [
-          'xs (single bedroom)',
-          'small (bachlor)',
-          'medium (condo appartment)',
-          'large (townhouse/duplex)',
-          'xl (bungalow/house)',
-        ],
-        '*Please select an option from the drop down',
-      )
-      .required('*Please select your current home type'),
-    requiresTaskerWithCar: Yup.string()
-      .ensure()
-      .trim()
-      .oneOf(
-        ['No car is needed', 'A car is required', 'Must have an SUV'],
-        "*Please select tasker's car requirement from the drop down",
-      )
-      .required('*Please select the number of bathroom that require cleaning'),
+    // houseType: Yup.string()
+    //   .ensure()
+    //   .trim()
+    //   .oneOf(
+    //     [
+    //       'xs (single bedroom)',
+    //       'small (bachlor)',
+    //       'medium (condo appartment)',
+    //       'large (townhouse/duplex)',
+    //       'xl (bungalow/house)',
+    //     ],
+    //     '*Please select an option from the drop down',
+    //   )
+    //   .required('*Please select your current home type'),
+    // requiresTaskerWithCar: Yup.string()
+    //   .ensure()
+    //   .trim()
+    //   .oneOf(
+    //     ['No car is needed', 'A car is required', 'Must have an SUV'],
+    //     "*Please select tasker's car requirement from the drop down",
+    //   )
+    //   .required('*Please select the number of bathroom that require cleaning'),
     trollyProvided: Yup.string()
       .ensure()
       .trim()
       .oneOf(
-        ['Trolly will be provided by requester', 'No trolly'],
+        [
+          'Trolly will be provided by Requester',
+          'Trolly will be provided by Tasker',
+          'Trolly is not required',
+        ],
         '*Please select an option from the drop down',
       )
-      .required('*Please specify if trolly will be provided'),
+      .required('*Please specify if a trolly is needed'),
     toolsForDisassembly: Yup.string()
       .ensure()
       .trim()
       .oneOf(
-        [
-          'Requester will provide tools',
-          'Tasker is required to bring tools',
-          '(optional) Tasker may bring some tools',
-        ],
+        ['Requester will provide tools', 'Tasker must bring tools', 'No tools are required'],
         '*Please select an option from the drop down',
       )
-      .required('*Please specify if trolly will be provided'),
+      .required('*Please specify if tools are requried'),
   },
 
-  renderThankYouForPostingMoment: function(setShowModal) {
+  renderThankYouForPostingMoment: function (setShowModal) {
     return renderThankyouMoment({
       moving_img,
       setShowModal,
       subText: 'Our Taskers will be bidding on this request shortly',
     });
   },
-  renderThankYouForPostingBid: function(setShowModal) {
+  renderThankYouForPostingBid: function (setShowModal) {
     return renderThankyouMoment({
       moving_img,
       setShowModal,
@@ -118,7 +112,7 @@ Q2)Any items that require extreme caution or care ?
       ),
     });
   },
-  renderThankYouForEditingBid: function(setShowModal) {
+  renderThankYouForEditingBid: function (setShowModal) {
     return renderThankyouMoment({
       moving_img,
       setShowModal,
@@ -139,7 +133,7 @@ Q2)Any items that require extreme caution or care ?
     });
   },
 
-  renderSummaryCard: function({ withDetails = true }) {
+  renderSummaryCard: function ({ withDetails = true }) {
     return (
       <div className="fade-in" style={{ padding: `${!withDetails ? '0 0 1.5rem 0' : '1.5rem'}` }}>
         <nav className="level">
@@ -152,11 +146,6 @@ Q2)Any items that require extreme caution or care ?
                     height: 125,
                     width: 125,
                     objectFit: 'cover',
-                    WebkitFilter: 'grayscale(100%)',
-                    MozFilter: 'grayscale(100%)',
-                    OFilter: 'grayscale(100%)',
-                    msFilter: 'grayscale(100%)',
-                    filter: 'grayscale(100%)',
                   }}
                 />
               </div>
@@ -170,17 +159,16 @@ Q2)Any items that require extreme caution or care ?
                 </h1>
                 {withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
-                    Do you need help moving or lifting heavy items? Get our hulk Taskers to help you
-                    out.
+                    Do you need help lifting heavy furniture or items? Get our hulk Taskers to help
+                    you out
                   </p>
                 )}
                 {!withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
-                    BidOrBoo Tasker will help you move or pack if required, but you must be
-                    reasonable and have enough people to carry heavier items safely. Moving is never
-                    easy and we want to inform you that While our taskers will do their best and
-                    care for all your valuables while moving HOWEVER It is YOUR responsibility to
-                    wrap things well and to inform taskers of any fragile pieces.
+                    BidOrBoo Tasker will help you move or lift any heavy furniture items. Lifting
+                    very heavy item might be tricky theirfor it is your responsibility to wrap
+                    things well and to inform taskers of any fragile pieces. Please post and aware
+                    multiple taskers if you need to carry heavier items safely.
                   </p>
                 )}
               </div>
@@ -191,7 +179,7 @@ Q2)Any items that require extreme caution or care ?
     );
   },
   enableImageUploadField: false,
-  extras: function() {
+  extras: function () {
     return {
       approximateDuration: {
         renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
@@ -227,8 +215,6 @@ Q2)Any items that require extreme caution or care ?
                       <option value="6 hours">6 hours</option>
                       <option value="7 hours">7 hours</option>
                       <option value="8 hours">8 hours</option>
-                      <option value="9 hours">9 hours</option>
-                      <option value="10 hours">10 hours</option>
                     </select>
                     {isTouched && errors.approximateDuration && (
                       <div className="help is-danger">{errors.approximateDuration}</div>
@@ -248,103 +234,103 @@ Q2)Any items that require extreme caution or care ?
           );
         },
       },
-      houseType: {
-        renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
-          let houseTypeClass = '';
-          let isTouched = touched && touched.houseType;
-          if (isTouched) {
-            houseTypeClass = values.houseType === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
-          } else {
-            houseTypeClass = values.houseType !== 'noSelection' ? 'hasSelectedValue' : '';
-          }
-          return (
-            <React.Fragment key={'extras-houseType'}>
-              <div className={`group ${isTouched && errors.houseType ? 'isError' : ''}`}>
-                <label className={houseTypeClass}>{'What type of home are you in?'}</label>
-                <div>
-                  <div className={`select ${houseTypeClass} `}>
-                    <select
-                      id="houseType"
-                      value={values.houseType}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    >
-                      <option value="noSelection">-Select One-</option>
-                      <option value="xs (single bedroom)">xs (single bedroom)</option>
-                      <option value="small (bachlor)">small (bachlor)</option>
-                      <option value="medium (condo appartment)">medium (condo appartment)</option>
-                      <option value="large (townhouse/duplex)">large (townhouse/duplex)</option>
-                      <option value="xl (bungalow/house)">xl (bungalow/house)</option>
-                    </select>
-                    {isTouched && errors.houseType && (
-                      <div className="help is-danger">{errors.houseType}</div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </React.Fragment>
-          );
-        },
-        renderSelection: (houseType) => {
-          return (
-            <div key={'extras-houseType'} className="group">
-              <label className="label hasSelectedValue">Type of home</label>
-              <div className="control">{houseType}</div>
-            </div>
-          );
-        },
-      },
+      // houseType: {
+      //   renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
+      //     let houseTypeClass = '';
+      //     let isTouched = touched && touched.houseType;
+      //     if (isTouched) {
+      //       houseTypeClass = values.houseType === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+      //     } else {
+      //       houseTypeClass = values.houseType !== 'noSelection' ? 'hasSelectedValue' : '';
+      //     }
+      //     return (
+      //       <React.Fragment key={'extras-houseType'}>
+      //         <div className={`group ${isTouched && errors.houseType ? 'isError' : ''}`}>
+      //           <label className={houseTypeClass}>{'What type of home are you in?'}</label>
+      //           <div>
+      //             <div className={`select ${houseTypeClass} `}>
+      //               <select
+      //                 id="houseType"
+      //                 value={values.houseType}
+      //                 onChange={handleChange}
+      //                 onBlur={handleBlur}
+      //               >
+      //                 <option value="noSelection">-Select One-</option>
+      //                 <option value="xs (single bedroom)">xs (single bedroom)</option>
+      //                 <option value="small (bachlor)">small (bachlor)</option>
+      //                 <option value="medium (condo appartment)">medium (condo appartment)</option>
+      //                 <option value="large (townhouse/duplex)">large (townhouse/duplex)</option>
+      //                 <option value="xl (bungalow/house)">xl (bungalow/house)</option>
+      //               </select>
+      //               {isTouched && errors.houseType && (
+      //                 <div className="help is-danger">{errors.houseType}</div>
+      //               )}
+      //             </div>
+      //           </div>
+      //         </div>
+      //       </React.Fragment>
+      //     );
+      //   },
+      //   renderSelection: (houseType) => {
+      //     return (
+      //       <div key={'extras-houseType'} className="group">
+      //         <label className="label hasSelectedValue">Type of home</label>
+      //         <div className="control">{houseType}</div>
+      //       </div>
+      //     );
+      //   },
+      // },
 
-      requiresTaskerWithCar: {
-        renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
-          let requiresTaskerWithCarClass = '';
-          let isTouched = touched && touched.requiresTaskerWithCar;
-          if (isTouched) {
-            requiresTaskerWithCarClass =
-              values.requiresTaskerWithCar === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
-          } else {
-            requiresTaskerWithCarClass =
-              values.requiresTaskerWithCar !== 'noSelection' ? 'hasSelectedValue' : '';
-          }
-          return (
-            <React.Fragment key={'extras-requiresTaskerWithCar'}>
-              <div
-                className={`group ${isTouched && errors.requiresTaskerWithCar ? 'isError' : ''}`}
-              >
-                <label className={requiresTaskerWithCarClass}>
-                  {'Do you require tasker to have a car?'}
-                </label>
-                <div>
-                  <div className={`select ${requiresTaskerWithCarClass} `}>
-                    <select
-                      id="requiresTaskerWithCar"
-                      value={values.requiresTaskerWithCar}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    >
-                      <option value="noSelection">-Select One-</option>
-                      <option value="No car is needed">No car is needed</option>
-                      <option value="A car is required">A car is required</option>
-                      <option value="Must have an SUV">Must have an SUV</option>
-                    </select>
-                    {isTouched && errors.requiresTaskerWithCar && (
-                      <div className="help is-danger">{errors.requiresTaskerWithCar}</div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </React.Fragment>
-          );
-        },
-        renderSelection: (requiresTaskerWithCar) => {
-          return (
-            <div key={'extras-requiresTaskerWithCar'} className="group">
-              <label className="label hasSelectedValue">Is tasker required to have a car?</label>
-              <div className="control">{requiresTaskerWithCar}</div>
-            </div>
-          );
-        },
-      },
+      // requiresTaskerWithCar: {
+      //   renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
+      //     let requiresTaskerWithCarClass = '';
+      //     let isTouched = touched && touched.requiresTaskerWithCar;
+      //     if (isTouched) {
+      //       requiresTaskerWithCarClass =
+      //         values.requiresTaskerWithCar === 'noSelection' ? 'is-danger' : 'hasSelectedValue';
+      //     } else {
+      //       requiresTaskerWithCarClass =
+      //         values.requiresTaskerWithCar !== 'noSelection' ? 'hasSelectedValue' : '';
+      //     }
+      //     return (
+      //       <React.Fragment key={'extras-requiresTaskerWithCar'}>
+      //         <div
+      //           className={`group ${isTouched && errors.requiresTaskerWithCar ? 'isError' : ''}`}
+      //         >
+      //           <label className={requiresTaskerWithCarClass}>
+      //             {'Do you require tasker to have a car?'}
+      //           </label>
+      //           <div>
+      //             <div className={`select ${requiresTaskerWithCarClass} `}>
+      //               <select
+      //                 id="requiresTaskerWithCar"
+      //                 value={values.requiresTaskerWithCar}
+      //                 onChange={handleChange}
+      //                 onBlur={handleBlur}
+      //               >
+      //                 <option value="noSelection">-Select One-</option>
+      //                 <option value="No car is needed">No car is needed</option>
+      //                 <option value="A car is required">A car is required</option>
+      //                 <option value="Must have an SUV">Must have an SUV</option>
+      //               </select>
+      //               {isTouched && errors.requiresTaskerWithCar && (
+      //                 <div className="help is-danger">{errors.requiresTaskerWithCar}</div>
+      //               )}
+      //             </div>
+      //           </div>
+      //         </div>
+      //       </React.Fragment>
+      //     );
+      //   },
+      //   renderSelection: (requiresTaskerWithCar) => {
+      //     return (
+      //       <div key={'extras-requiresTaskerWithCar'} className="group">
+      //         <label className="label hasSelectedValue">Is tasker required to have a car?</label>
+      //         <div className="control">{requiresTaskerWithCar}</div>
+      //       </div>
+      //     );
+      //   },
+      // },
       toolsForDisassembly: {
         renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
           let toolsForDisassemblyClass = '';
@@ -360,7 +346,7 @@ Q2)Any items that require extreme caution or care ?
             <React.Fragment key={'extras-toolsForDisassembly'}>
               <div className={`group ${isTouched && errors.toolsForDisassembly ? 'isError' : ''}`}>
                 <label className={toolsForDisassemblyClass}>
-                  {'Will requester provide tools for furniture assembly/disassembly?'}
+                  {'Do you need tools for assembly/disassembly?'}
                 </label>
                 <div>
                   <div className={`select ${toolsForDisassemblyClass} `}>
@@ -372,14 +358,10 @@ Q2)Any items that require extreme caution or care ?
                     >
                       <option value="noSelection">-Select One-</option>
                       <option value="Requester will provide tools">
-                        Yes (requester will provide tools)
+                        Yes (I will provide the tools)
                       </option>
-                      <option value="Tasker is required to bring tools">
-                        No (Tasker is required to bring tools)
-                      </option>
-                      <option value="(optional) Tasker may bring some tools">
-                        Optional (Tasker may bring some tools)
-                      </option>
+                      <option value="Tasker must bring tools">Yes (Tasker must bring tools)</option>
+                      <option value="No tools are required">No tools are required</option>
                     </select>
                     {isTouched && errors.toolsForDisassembly && (
                       <div className="help is-danger">{errors.toolsForDisassembly}</div>
@@ -415,7 +397,7 @@ Q2)Any items that require extreme caution or care ?
             <React.Fragment key={'extras-trollyProvided'}>
               <div className={`group ${isTouched && errors.trollyProvided ? 'isError' : ''}`}>
                 <label className={trollyProvidedClass}>
-                  {'Will requester provide trolly for the move?'}
+                  {'Do you need a trolly for lifting/moving?'}
                 </label>
                 <div>
                   <div className={`select ${trollyProvidedClass} `}>
@@ -426,10 +408,14 @@ Q2)Any items that require extreme caution or care ?
                       onBlur={handleBlur}
                     >
                       <option value="noSelection">-Select One-</option>
-                      <option value="Trolly will be provided by requester">
-                        Yes (trolly is provided)
+
+                      <option value="Trolly will be provided by Requester">
+                        I will provide trolly
                       </option>
-                      <option value="No trolly">No</option>
+                      <option value="Trolly will be provided by Tasker">
+                        Tasker must bring trolly
+                      </option>
+                      <option value="Trolly is not required">Trolly is not required</option>
                     </select>
                     {isTouched && errors.trollyProvided && (
                       <div className="help is-danger">{errors.trollyProvided}</div>
@@ -453,11 +439,10 @@ Q2)Any items that require extreme caution or care ?
       },
     };
   },
-  TASK_EXPECTATIONS: ` BidOrBoo Tasker will help you move or pack if required, but you must be
-  reasonable and have enough people to carry heavier items safely. Moving is never
-  easy and we want to inform you that While our taskers will do their best and
-  care for all your valuables while moving HOWEVER It is YOUR responsibility to
-  wrap things well and to inform taskers of any fragile pieces.`,
+  TASK_EXPECTATIONS: ` BidOrBoo Tasker will help you move or lift any heavy furniture items. Lifting
+  very heavy item might be tricky theirfor it is your responsibility to wrap
+  things well and to inform taskers of any fragile pieces. Please post and aware
+  multiple taskers if you need to carry heavier items safely.`,
 };
 const renderThankyouMoment = ({
   moving_img,

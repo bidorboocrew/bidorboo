@@ -5,20 +5,22 @@ import carDetailing_img from '../../assets/images/carDetailing_img.png';
 import { switchRoute } from './../../utils';
 import * as ROUTES from '../../constants/frontend-route-consts';
 
-const NO_SELECTION = 'NO_SELECTION';
+const NO_SELECTION = 'noSelection';
 export default {
   ID: 'bdbCarDetailing',
   TITLE: 'Car Detailing',
   ICON: 'fas fa-car',
   IMG: carDetailing_img,
-  isComingSoon: true,
+  isComingSoon: false,
   DESCRIPTION: `Your car deserves some love. let our Taskers pamper your car and give it a scrub`,
   SUGGESTION_TEXT: `Q1) What Year Make and model is your car?
-[Answer here:   ]
-Q2) Is there any pet stains or hair on the seats?
-[Answer here:   ]
-Q3) Any particular stains or dirt that you want to mention?
-[Answer here:   ]
+[Answer:   ]
+Q2) Do you want the Tasker to clean the exterior, interior or both?
+[Answer:   ]
+Q3) Is there any pet stains or hair on the seats?
+[Answer:   ]
+Q4) Anything else you want the Tasker to do?
+[Answer:   ]
 `,
   TASK_EXPECTATIONS: `BidOrBoo Tasker will bring the cleaning products and equipments required to clean your car thouroughally`,
   defaultExtrasValues: {
@@ -45,14 +47,14 @@ Q3) Any particular stains or dirt that you want to mention?
       .oneOf(['isRequired', 'notRequired'], '*Please select a value from the drop down')
       .required('*Please select a value from the drop down'),
   },
-  renderThankYouForPostingMoment: function(setShowModal) {
+  renderThankYouForPostingMoment: function (setShowModal) {
     return renderThankyouMoment({
       carDetailing_img,
       setShowModal,
       subText: 'Our Taskers will be bidding on this request shortly',
     });
   },
-  renderThankYouForPostingBid: function(setShowModal) {
+  renderThankYouForPostingBid: function (setShowModal) {
     return renderThankyouMoment({
       carDetailing_img,
       setShowModal,
@@ -74,7 +76,7 @@ Q3) Any particular stains or dirt that you want to mention?
       ),
     });
   },
-  renderThankYouForEditingBid: function(setShowModal) {
+  renderThankYouForEditingBid: function (setShowModal) {
     return renderThankyouMoment({
       carDetailing_img,
       setShowModal,
@@ -98,7 +100,7 @@ Q3) Any particular stains or dirt that you want to mention?
     });
   },
 
-  renderSummaryCard: function({ withDetails = true }) {
+  renderSummaryCard: function ({ withDetails = true }) {
     return (
       <div style={{ padding: `${!withDetails ? '0 0 1.5rem 0' : '1.5rem'}` }}>
         <nav className="level">
@@ -113,11 +115,6 @@ Q3) Any particular stains or dirt that you want to mention?
                     height: 125,
                     width: 125,
                     objectFit: 'cover',
-                    WebkitFilter: 'grayscale(100%)',
-                    MozFilter: 'grayscale(100%)',
-                    OFilter: 'grayscale(100%)',
-                    msFilter: 'grayscale(100%)',
-                    filter: 'grayscale(100%)',
                   }}
                 />
               </div>
@@ -164,7 +161,7 @@ Q3) Any particular stains or dirt that you want to mention?
   //   return errors;
   // },
   enableImageUploadField: true,
-  extras: function() {
+  extras: function () {
     return {
       carSize: {
         renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
