@@ -36,7 +36,13 @@ class TaskerRootPage extends React.Component {
         searchRadius: '100',
         addressText: '',
         latLng: { lng: -75.801867, lat: 45.296898 },
-        tasksTypeFilter: ['bdbHouseCleaning', 'bdbPetSittingWalking'],
+        // xxx saidm plz add a method to return all task ids instead
+        tasksTypeFilter: [
+          'bdbHouseCleaning',
+          'bdbPetSittingWalking',
+          'bdbCarDetailing',
+          'bdbMoving',
+        ],
       },
     };
     this.mapRootRef = React.createRef();
@@ -330,6 +336,7 @@ class TaskerRootPage extends React.Component {
                     borderTop: 0,
                     borderRight: 0,
                     borderLeft: 0,
+                    borderRadius: 0,
                   }}
                   className="button is-fullwidth"
                 >
@@ -348,6 +355,7 @@ class TaskerRootPage extends React.Component {
                     borderTop: 0,
                     borderRight: 0,
                     borderLeft: 0,
+                    borderRadius: 0,
                   }}
                   className="button is-fullwidth"
                 >

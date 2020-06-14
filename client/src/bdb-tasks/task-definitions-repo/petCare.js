@@ -15,14 +15,14 @@ export default {
   isComingSoon: false,
   DESCRIPTION: `Do you need someone to care for your pet while you are vacationing or just on a night out?
   Leave your pet in the gentle care of our pet loving Taskers.`,
-  SUGGESTION_TEXT: `Q1) What is your pet name?
-[Answer:  ]
-Q2) What kind or breed of pet do you have?
-[Answer:  ]
+  SUGGESTION_TEXT: `Q1) How many pets? What is your pet(s) name?
+[Answer:   ]
+Q2) What kind or breed of pet(s)?
+[Answer:   ]
 Q3) Do you expect Tasker to stay at your place overnight?
-[Answer:  ]
-Q4) Anything else you want to highlight for the Tasker?
-[Answer:  ]
+[Answer:   ]
+Q4) Anything else you want the Tasker to do?
+[Answer:   ]
 `,
   defaultExtrasValues: {
     duration: '',
