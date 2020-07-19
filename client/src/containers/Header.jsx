@@ -368,11 +368,35 @@ class Header extends React.Component {
     );
 
     if (!isLoggedIn) {
-      return loggedOutView;
+      return (
+        <>
+          {loggedOutView}
+          {!dontShowPortalHelper && (
+            <section className="hero is-warning">
+              <div className="hero-body" style={{ padding: '0.5rem' }}>
+                <div className="content">
+                  <p>
+                    <a href="https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19.html">
+                      <span style={{ fontSize: 14, fontWeight: 500, textDecoration: 'underline' }}>
+                        (COVID-19) information
+                      </span>
+                    </a>
+                    <br></br>
+                    <span style={{ fontSize: 12, fontWeight: 500 }}>
+                      Taskers and Requesters must wash their hands regularly and wear a mask at all
+                      time while providing a service.
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </section>
+          )}
+        </>
+      );
     }
 
     return (
-      <React.Fragment>
+      <>
         {isHamburgerOpen && (
           <div
             style={{ zIndex: 10 }}
@@ -797,7 +821,27 @@ class Header extends React.Component {
             )}
           </div>
         )}
-      </React.Fragment>
+        {!dontShowPortalHelper && (
+          <section className="hero is-warning">
+            <div className="hero-body" style={{ padding: '0.5rem' }}>
+              <div className="content">
+                <p>
+                  <a href="https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19.html">
+                    <span style={{ fontSize: 14, fontWeight: 500, textDecoration: 'underline' }}>
+                      (COVID-19) information
+                    </span>
+                  </a>
+                  <br></br>
+                  <span style={{ fontSize: 12, fontWeight: 500 }}>
+                    Taskers and Requesters must wash their hands regularly and wear a mask at all
+                    time while providing a service.
+                  </span>
+                </p>
+              </div>
+            </div>
+          </section>
+        )}
+      </>
     );
   }
 }

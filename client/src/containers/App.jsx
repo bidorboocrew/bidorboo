@@ -297,19 +297,7 @@ class App extends React.Component {
             </Suspense>
           </Pre_AuthInProgress>
         </div>
-        <br></br>
-        <footer style={{ padding: '0.5rem' }} className="footer is-warning">
-          <div className="content has-text-centered">
-            <p>
-              <strong>Coronavirus disease (COVID-19) updates</strong>
-              <br></br> Taskers and Requesters must wash their hands regularly and wear a mask at
-              all time while providing a service
-            </p>
-            <a href="https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19.html">
-              Goverment of Canada COVID-19 information
-            </a>
-          </div>
-        </footer>
+
         <footer id="mainFooter" className="footer">
           <nav className="level">
             <div className="level-item has-text-centered">
