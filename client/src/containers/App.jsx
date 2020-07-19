@@ -11,7 +11,6 @@ import Toast from '../components/Toast';
 import LoadingBar from 'react-redux-loading-bar';
 import * as ROUTES from '../constants/frontend-route-consts';
 import CookieConsent from 'react-cookie-consent';
-import Announcement from 'react-announcement';
 import { getCurrentUser } from '../app-state/actions/authActions';
 import logoImg from '../assets/images/android-icon-192x192.png';
 import canadaFlag from '../assets/images/Canada-flag-round.png';
