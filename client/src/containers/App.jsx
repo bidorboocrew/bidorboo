@@ -298,6 +298,25 @@ class App extends React.Component {
           </Pre_AuthInProgress>
         </div>
 
+        <section className="hero is-warning">
+          <div className="hero-body" style={{ padding: '0.5rem' }}>
+            <div className="content">
+              <p>
+                <a href="https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19.html">
+                  <span style={{ fontSize: 14, fontWeight: 500, textDecoration: 'underline' }}>
+                    (COVID-19) information
+                  </span>
+                </a>
+                <br></br>
+                <span style={{ fontSize: 12, fontWeight: 500 }}>
+                  By using BidOrBoo you agree to wash your hands regularly, wear a mask at all time
+                  and adhere to all goverment rules and regulations while providing a service.
+                </span>
+              </p>
+            </div>
+          </div>
+        </section>
+
         <footer id="mainFooter" className="footer">
           <nav className="level">
             <div className="level-item has-text-centered">

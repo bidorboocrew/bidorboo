@@ -254,9 +254,11 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
                                 <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                   <tbody>
                                     <tr>
-                                      <td> <a class="actionButton" href="${clickLink ||
-                                        'https://www.bidorboo.ca'}" rel="noopener noreferrer" target="_blank">${clickDisplayName ||
-    'Open BidOrBoo'}</a> </td>
+                                      <td> <a class="actionButton" href="${
+                                        clickLink || 'https://www.bidorboo.ca'
+                                      }" rel="noopener noreferrer" target="_blank">${
+    clickDisplayName || 'Open BidOrBoo'
+  }</a> </td>
                                     </tr>
                                   </tbody>
                                 </table>
@@ -270,9 +272,35 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
                   </table>
                 </td>
               </tr>
-
+              <tr>
+              <table border="0" cellpadding="0" cellspacing="0" class="module" data-role="module-button" data-type="button" role="module" style="table-layout:fixed;background: white;" width="100%" data-muid="d6250d47-915f-416d-80ca-bc6736258fae">
+              <tbody>
+                <tr>
+                  <td align="center" bgcolor="" class="outer-td" style="padding:0px 0px 0px 0px;">
+                    <table border="0" cellpadding="0" cellspacing="0" class="wrapper-mobile" style="text-align:center;">
+                      <tbody>
+                      <tr>
+                        <td align="center" bgcolor="white" class="inner-td" style="border-radius:6px; font-size:10px; text-align:center; background-color:inherit;">
+                            By using BidOrBoo you agree to wash your hands regularly, wear a mask at all time
+                            and adhere to all goverment rules and regulations while providing a service.
+                        </td>
+                        </tr>
+                      <tr>
+                        <td align="center" bgcolor="white" class="inner-td" style="border-radius:6px; font-size:10px; text-align:center; background-color:inherit;">
+                          <a href="https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19.html" style="background-color:white; border:0px solid Auto; border-color:Auto; border-radius:0px; border-width:0px; color:blue; display:inline-block; font-size:10px; font-weight:normal; letter-spacing:1px; line-height:normal; padding:0px 0px 0px 0px; text-align:center; text-decoration:none; border-style:solid; font-family:helvetica,sans-serif;" target="_blank"> <span style={{ fontSize: 14, fontWeight: 500, textDecoration: 'underline' }}>
+                          (COVID-19) information
+                        </span></a>
+                        </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>   </tr>
             <!-- END MAIN CONTENT AREA -->
             </table>
+
 
             <!-- START FOOTER -->
             <div class="footer">
