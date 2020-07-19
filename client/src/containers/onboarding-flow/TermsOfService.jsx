@@ -605,6 +605,7 @@ const TOS = () => {
       <p>
         <strong>&nbsp;</strong>
       </p>
+      <br></br>
       <ol>
         <li>
           <strong>OUR SERVICE</strong>
@@ -672,6 +673,7 @@ const TOS = () => {
       <p>
         <strong>&nbsp;</strong>
       </p>
+      <br></br>
       <ol start={2}>
         <li>
           <strong>INDEPENDENT RELATIONSHIP</strong>
@@ -700,6 +702,7 @@ const TOS = () => {
         Requester and the Tasker.
       </p>
       <p>&nbsp;</p>
+      <br></br>
       <ol start={3}>
         <li>
           <strong>USER VERIFICATION </strong>
@@ -728,6 +731,7 @@ const TOS = () => {
         transactions between Users facilitated outside the Platform, whether related to Service
         Requests or not.
       </p>
+      <br></br>
       <ol start={4}>
         <li>
           <strong>TASKER SERVICE AGREEMENTS</strong>
@@ -794,6 +798,7 @@ const TOS = () => {
         and agree that all decisions and resolutions made through the Dispute Option are final and
         binding.&nbsp;
       </p>
+      <br></br>
       <ol start={5}>
         <li>
           <strong>USER REPRESENTATIONS AND WARRANTIES</strong>
@@ -847,6 +852,7 @@ const TOS = () => {
         work and provide Service Requests in Canada.
       </p>
       <p>&nbsp;</p>
+      <br></br>
       <ol start={6}>
         <li>
           <strong>PAYMENT AND TAXES</strong>
@@ -1084,6 +1090,7 @@ const TOS = () => {
         requested by Taskers.
       </p>
       <p>&nbsp;</p>
+      <br></br>
       <ol start={7}>
         <li>
           <strong>USER GENERATED CONTENT </strong>
@@ -1156,6 +1163,7 @@ const TOS = () => {
         Privacy Policy, as may be amended from time to time and incorporated herein by reference,
         following the termination or deactivation of your BidOrBoo account.
       </p>
+      <br></br>
       <ol start={8}>
         <li>
           <strong>ACCEPTABLE USE OF PLATFORM AND USER RESTRICTIONS</strong>
@@ -1365,6 +1373,7 @@ const TOS = () => {
         to any information or materials posted in Messaging Options.
       </p>
       <p>&nbsp;</p>
+      <br></br>
       <ol start={9}>
         <li>
           <strong>TERMINATION AND SUSPENSION</strong>
@@ -1408,6 +1417,7 @@ const TOS = () => {
         expiration or termination of this Agreement.
       </p>
       <p>&nbsp;</p>
+      <br></br>
       <ol start={10}>
         <li>
           <strong>LINKS TO </strong>
@@ -1436,6 +1446,7 @@ const TOS = () => {
         or sponsor that website. It also does not mean that we are affiliated with the third-party
         website’s owners or sponsors.
       </p>
+      <br></br>
       <ol start={11}>
         <li>
           <strong>PROPRIETARY AND INTELLECTUAL PROPERTY RIGHTS </strong>
@@ -1475,6 +1486,7 @@ const TOS = () => {
         whether by estoppels, implication or otherwise. This license is revocable at any time
         without notice and with or without cause.
       </p>
+      <br></br>
       <ol start={12}>
         <li>
           <strong>USE OF TRADEMARKS </strong>
@@ -1496,6 +1508,7 @@ const TOS = () => {
         display publicly your trademark in the form presented by you to us. Any goodwill associated
         with your trademarks automatically vests in you.
       </p>
+      <br></br>
       <ol start={13}>
         <li>
           <strong>CONFIDENTIAL INFORMATION</strong>
@@ -1528,6 +1541,7 @@ const TOS = () => {
         staff, Users or partners, or other business information disclosed directly or indirectly in
         writing, orally or by drawings or observation.
       </p>
+      <br></br>
       <ol start={14}>
         <li>
           <strong>DISCLAIMERS </strong>
@@ -1647,6 +1661,7 @@ const TOS = () => {
         CONTROVERSIES OF EVERY KIND AND NATURE, KNOWN AND UNKNOWN, SUSPECTED AND UNSUSPECTED,
         DISCLOSED AND UNDISCLOSED, ARISING OUT OF OR IN ANY WAY CONNECTED WITH SUCH DISPUTE.
       </p>
+      <br></br>
       <ol start={15}>
         <li>
           <strong>INDEMNIFICATION</strong>
@@ -1668,6 +1683,7 @@ const TOS = () => {
         that the products or services provided by you are defective or not suitable for the
         end-users use or application.
       </p>
+      <br></br>
       <ol start={16}>
         <li>
           <strong>LIMITATION ON LIABILITY </strong>
@@ -1691,6 +1707,7 @@ const TOS = () => {
         the amount paid by you to us for the Platform, but in no case will our liability to you
         exceed one hundred dollars Canadian ($100 CAD).
       </p>
+      <br></br>
       <ol start={17}>
         <li>
           <strong>GOVERNING LAW </strong>
@@ -1714,6 +1731,7 @@ const TOS = () => {
         jurisdiction to obtain injunctive or other relief in the event that, in our opinion, such
         action is necessary or desirable.
       </p>
+      <br></br>
       <ol start={18}>
         <li>
           <strong>DISPUTE AND ARBITRATION </strong>
@@ -1760,6 +1778,7 @@ const TOS = () => {
         jurisdiction, or application may be made to such court for a judicial recognition of the
         award or an order of enforcement thereof, as the case may be.
       </p>
+      <br></br>
       <ol start={19}>
         <li>
           <strong>SEVERABILITY</strong>
@@ -1774,6 +1793,7 @@ const TOS = () => {
         to the minimum extent necessary and the remainder of these Terms shall continue in full
         force and effect.
       </p>
+      <br></br>
       <ol start={20}>
         <li>
           <strong>NOTICES AND COMMUNICATIONS</strong>
@@ -1793,6 +1813,7 @@ const TOS = () => {
         current Terms to which you are bound.&nbsp; We encourage you to check our Terms on the
         Websites occasionally to review any recent changes.
       </p>
+      <br></br>
       <ol start={21}>
         <li>
           <strong>ASSIGNMENT </strong>
@@ -1806,6 +1827,7 @@ const TOS = () => {
         assigned by you, but may be assigned by BidOrBoo without restriction or notice. Any
         attempted transfer or assignment in violation hereof shall be null and void.
       </p>
+      <br></br>
       <ol start={22}>
         <li>
           <strong>AMENDMENTS</strong>
@@ -1825,6 +1847,7 @@ const TOS = () => {
         all such changes. BidOrBoo may also impose limits on certain features or restrict your
         access to part or all of the Platform without notice or liability.
       </p>
+      <br></br>
       <ol start={23}>
         <li>
           <strong>NO </strong>
@@ -1839,6 +1862,7 @@ const TOS = () => {
         term or any other term, and BidOrBoo’s failure to assert any right or provision under these
         Terms shall not constitute a waiver of such right or provision.
       </p>
+      <br></br>
       <ol start={24}>
         <li>
           <strong>MISCELLANEOUS </strong>
@@ -1855,6 +1879,18 @@ const TOS = () => {
         be the minimum allowed by law. The section titles in these Terms are solely used for the
         convenience of the parties and have no legal or contractual significance.
       </p>
+      <p>
+        We advise all users to be cautious, wear medical masks while providing or recieving
+        services, adhere to social distancing and all regulations set by the health care orgnization
+        and goverment in the corresponding area of the service.
+        <a>
+          https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19.html
+        </a>
+        <br></br>
+        BIDORBOO Inc is therefor not responsible for any COVID-19 related matters in any shape or
+        form.
+      </p>
+      <br></br>
       <ol start={25}>
         <li>
           <strong>ENTIRE AGREEMENT </strong>

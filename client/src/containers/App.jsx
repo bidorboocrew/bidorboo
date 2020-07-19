@@ -11,7 +11,7 @@ import Toast from '../components/Toast';
 import LoadingBar from 'react-redux-loading-bar';
 import * as ROUTES from '../constants/frontend-route-consts';
 import CookieConsent from 'react-cookie-consent';
-
+import Announcement from 'react-announcement';
 import { getCurrentUser } from '../app-state/actions/authActions';
 import logoImg from '../assets/images/android-icon-192x192.png';
 import canadaFlag from '../assets/images/Canada-flag-round.png';
@@ -67,11 +67,7 @@ const pathsWhereWeDontShowPortalDetail = [
 const getCookieByName = (name) => {
   var value = '; ' + document.cookie;
   var parts = value.split('; ' + name + '=');
-  if (parts.length === 2)
-    return parts
-      .pop()
-      .split(';')
-      .shift();
+  if (parts.length === 2) return parts.pop().split(';').shift();
 };
 
 class App extends React.Component {
@@ -302,7 +298,20 @@ class App extends React.Component {
             </Suspense>
           </Pre_AuthInProgress>
         </div>
-
+        <br></br>
+        <footer style={{ padding: '0.5rem' }} className="footer is-warning">
+          <div className="content has-text-centered">
+            <p>
+              <strong>Coronavirus disease (COVID-19) updates</strong> <br></br> All users must obey
+              the regulations and rules set by the goverment and medical institutions when providing
+              services.<br></br> Taskers and Requesters must wash hands regularly and wear a mask at
+              all time when indoors or in close physical proximity
+            </p>
+            <a href="https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19.html">
+              Goverment of Canada COVID-19 information
+            </a>
+          </div>
+        </footer>
         <footer id="mainFooter" className="footer">
           <nav className="level">
             <div className="level-item has-text-centered">
