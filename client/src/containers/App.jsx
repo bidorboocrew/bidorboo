@@ -301,10 +301,9 @@ class App extends React.Component {
         <footer style={{ padding: '0.5rem' }} className="footer is-warning">
           <div className="content has-text-centered">
             <p>
-              <strong>Coronavirus disease (COVID-19) updates</strong> <br></br> All users must obey
-              the regulations and rules set by the goverment and medical institutions when providing
-              services.<br></br> Taskers and Requesters must wash hands regularly and wear a mask at
-              all time when indoors or in close physical proximity
+              <strong>Coronavirus disease (COVID-19) updates</strong>
+              <br></br> Taskers and Requesters must wash their hands regularly and wear a mask at
+              all time while providing a service
             </p>
             <a href="https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19.html">
               Goverment of Canada COVID-19 information

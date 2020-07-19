@@ -1880,15 +1880,20 @@ const TOS = () => {
         convenience of the parties and have no legal or contractual significance.
       </p>
       <p>
-        We advise all users to be cautious, wear medical masks while providing or recieving
-        services, adhere to social distancing and all regulations set by the health care orgnization
-        and goverment in the corresponding area of the service.
+        We advise all users (Requesters and Taskers) to adhere with the regulations set by the
+        goverment and health care orgnizations in order to reduce the spread of all diseases
+        including COVID-19.
         <a>
           https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19.html
         </a>
         <br></br>
-        BIDORBOO Inc is therefor not responsible for any COVID-19 related matters in any shape or
-        form.
+        While providing a service Taskers and Requesters must wash their hands regularly and wear a
+        mask at all time. Failure to do so will result in a cancellation of the request or the
+        service.
+        <br></br>
+        please use the chat button to speak to one of our support crew members if either the Tasker
+        or the Requester is NOT wearing a mask <br></br>BIDORBOO Inc is therefor not responsible for
+        any COVID-19 related matters in any shape or form.
       </p>
       <br></br>
       <ol start={25}>
