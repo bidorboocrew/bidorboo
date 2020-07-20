@@ -303,6 +303,15 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
                                                                                 </a>
                                                                               </td>
                                                                             </tr>
+                                                                            <tr>
+                                                                            <td align="center" bgcolor="white" class="inner-td" style="border-radius:6px; font-size:10px; text-align:center; background-color:inherit;">
+                                                                              <a href="https://www.thrive.health/health-canada-self-assessment-tool" style="background-color:white; border:0px solid Auto; border-color:Auto; border-radius:0px; border-width:0px; color:blue; display:inline-block; font-size:10px; font-weight:normal; letter-spacing:1px; line-height:normal; padding:0px 0px 0px 0px; text-align:center; text-decoration:none; border-style:solid; font-family:helvetica,sans-serif;" target="_blank">
+                                                                                <span style={{ fontSize: 14, fontWeight: 500, textDecoration: 'underline' }}>
+              You must pass the  COVID-19 Self Assessment before every appointment
+            </span>
+                                                                              </a>
+                                                                            </td>
+                                                                          </tr>
                                                                           </tbody>
                                                                         </table>
                                                                       </td>

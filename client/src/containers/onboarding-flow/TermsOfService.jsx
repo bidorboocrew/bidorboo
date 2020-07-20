@@ -1880,11 +1880,26 @@ const TOS = () => {
         convenience of the parties and have no legal or contractual significance.
       </p>
       <p>
-        We advise all users (Requesters and Taskers) to adhere with the regulations set by the
-        goverment and health care orgnizations in order to reduce the spread of all diseases
-        including COVID-19.
-        <a>
-          https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19.html
+        All users (Requesters and Taskers) must adhere with the regulations set by the goverment and
+        health care orgnizations in order to reduce the spread of all diseases including COVID-19.
+        <a
+          href="https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19.html"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          public health COVID-19 information
+        </a>
+        <br></br>
+        You are not authorized to use BidOrBoo if you or anyone residing with you have any COVID-19
+        symptoms, tested positive for COVID-19, been in contact with anyone who was diagonosed with
+        COVID or have travelled outside the province in the last 15 days. Please run a self
+        assessment before using BidOrBoo
+        <a
+          href="https://www.thrive.health/health-canada-self-assessment-tool"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Check out Govemernt Self Assessment
         </a>
         <br></br>
         While providing a service Taskers and Requesters must wash their hands regularly and wear a
