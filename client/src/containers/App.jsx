@@ -300,16 +300,10 @@ class App extends React.Component {
         <br></br>
         <section className="hero is-warning">
           <div className="hero-body" style={{ padding: '0.5rem' }}>
-            <div className="content">
+            <div className="content has-text-centered">
               <p>
-                <a href="https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19.html">
-                  <span style={{ fontSize: 14, fontWeight: 500, textDecoration: 'underline' }}>
-                    (COVID-19) more information
-                  </span>
-                </a>
-                <br></br>
-                <span style={{ fontSize: 12, fontWeight: 500 }}>
-                  You must pass the COVID-19 self assessment before using BidOrBoo
+                <span style={{ fontSize: 14, fontWeight: 500 }}>
+                  To use BidOrBoo you must pass the COVID-19 self assessment screening
                 </span>
                 <br></br>
                 <a
@@ -319,6 +313,12 @@ class App extends React.Component {
                   style={{ fontSize: 12, fontWeight: 500, textDecoration: 'underline' }}
                 >
                   Take COVID-19 Self Assessment
+                </a>
+                <br></br>
+                <a href="https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19.html">
+                  <span style={{ fontSize: 12, fontWeight: 500, textDecoration: 'underline' }}>
+                    (COVID-19) more information
+                  </span>
                 </a>
               </p>
             </div>
