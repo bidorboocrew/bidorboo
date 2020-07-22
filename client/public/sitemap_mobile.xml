@@ -20,6 +20,22 @@
     <mobile:mobile/>
   </url>
   <url>
+    <loc>https://www.bidorboo.ca/bdb-request/create-request/bdbHouseCleaning</loc>
+    <mobile:mobile/>
+  </url>
+  <url>
+    <loc>https://www.bidorboo.ca/bdb-request/create-request/bdbPetSittingWalking</loc>
+    <mobile:mobile/>
+  </url>
+  <url>
+    <loc>https://www.bidorboo.ca/bdb-request/create-request/bdbMoving</loc>
+    <mobile:mobile/>
+  </url>
+  <url>
+    <loc>https://www.bidorboo.ca/bdb-request/create-request/bdbCarDetailing</loc>
+    <mobile:mobile/>
+  </url>
+  <url>
     <loc>https://www.bidorboo.ca/bdb-bidder/root</loc>
     <mobile:mobile/>
   </url>

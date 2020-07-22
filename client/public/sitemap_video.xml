@@ -14,7 +14,7 @@
       <video:description>Chores Made Easy - See How It Works</video:description>
       <video:player_loc allow_embed="yes">https://www.youtube.com/watch?v=YHh9JbJAyf0</video:player_loc>
       <video:family_friendly>yes</video:family_friendly>
-      <video:restriction relationship="allow">US CA</video:restriction>
+      <video:restriction relationship="allow">CA</video:restriction>
       <video:live>no</video:live>
     </video:video>
   </url>
