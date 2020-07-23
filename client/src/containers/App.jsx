@@ -104,7 +104,9 @@ class App extends React.Component {
     }
     gtag('js', new Date());
     gtag('config', 'UA-142687351-1');
+    gtag('config', 'UA-142687351-2');
     window['ga-disable-UA-142687351-1'] = false;
+    window['ga-disable-UA-142687351-2'] = false;
   }
 
   render() {
@@ -314,7 +316,8 @@ class App extends React.Component {
                 >
                   Take COVID-19 Self Assessment
                 </a>
-                <br></br><br></br>
+                <br></br>
+                <br></br>
                 <a href="https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19.html">
                   <span style={{ fontSize: 12, fontWeight: 500, textDecoration: 'underline' }}>
                     View more information about COVID-19
