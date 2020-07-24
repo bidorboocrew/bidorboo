@@ -320,7 +320,7 @@ class App extends React.Component {
                 <br></br>
                 <a href="https://www.canada.ca/en/public-health/services/diseases/coronavirus-disease-covid-19.html">
                   <span style={{ fontSize: 12, fontWeight: 500, textDecoration: 'underline' }}>
-                    View more information about COVID-19
+                    COVID-19 information
                   </span>
                 </a>
               </p>
