@@ -109,17 +109,6 @@ export class LoginOrRegisterPage extends React.Component {
                           </ul>
                         </div>
                         <a
-                          className="button is-danger is-inline-flex"
-                          onClick={this.loginGoogle}
-                          style={{ margin: 8, width: 180 }}
-                        >
-                          <span className="icon">
-                            <i className="fab fa-google" />
-                          </span>
-                          <span>Using Google</span>
-                        </a>
-
-                        <a
                           onClick={this.loginFacebook}
                           className="button is-link is-inline-flex"
                           style={{ margin: 8, width: 180 }}
@@ -128,6 +117,16 @@ export class LoginOrRegisterPage extends React.Component {
                             <i className="fab fa-facebook-square" />
                           </span>
                           <span>Using Facebook</span>
+                        </a>
+                        <a
+                          className="button is-danger is-inline-flex"
+                          onClick={this.loginGoogle}
+                          style={{ margin: 8, width: 180 }}
+                        >
+                          <span className="icon">
+                            <i className="fab fa-google" />
+                          </span>
+                          <span>Using Google</span>
                         </a>
                       </div>
                       <div style={{ marginTop: 12 }} className="has-text-centered">
@@ -159,17 +158,6 @@ export class LoginOrRegisterPage extends React.Component {
                           </ul>
                         </div>
                         <a
-                          className="button is-danger is-inline-flex"
-                          onClick={this.loginGoogle}
-                          style={{ margin: 8, width: 180 }}
-                        >
-                          <span className="icon">
-                            <i className="fab fa-google" />
-                          </span>
-                          <span>Using Google</span>
-                        </a>
-
-                        <a
                           onClick={this.loginFacebook}
                           className="button is-link is-inline-flex"
                           style={{ margin: 8, width: 180 }}
@@ -178,6 +166,16 @@ export class LoginOrRegisterPage extends React.Component {
                             <i className="fab fa-facebook-square" />
                           </span>
                           <span>Using Facebook</span>
+                        </a>
+                        <a
+                          className="button is-danger is-inline-flex"
+                          onClick={this.loginGoogle}
+                          style={{ margin: 8, width: 180 }}
+                        >
+                          <span className="icon">
+                            <i className="fab fa-google" />
+                          </span>
+                          <span>Using Google</span>
                         </a>
                       </div>
                       <div style={{ marginTop: 12 }} className="has-text-centered">
