@@ -165,12 +165,7 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
                                                                                 <td style="padding:8px 0px 8px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content">
                                                                                   <div>
                                                                                     <div style="font-family: inherit; text-align: center">
-                                                                                      <span style="color: #ee2a36; font-size: 26px">B</span>
-                                                                                      <span style="color: #353535; font-size: 26px">id</span>
-                                                                                      <span style="color: #ee2a36; font-size: 26px">O</span>
-                                                                                      <span style="color: #353535; font-size: 26px">r</span>
-                                                                                      <span style="color: #ee2a36; font-size: 26px">B</span>
-                                                                                      <span style="color: #353535; font-size: 26px">oo</span>
+                                                                                      <span style="color: #ee2a36; font-size: 26px">BidOrBoo</span>
                                                                                     </div>
                                                                                     <div></div>
                                                                                   </div>
