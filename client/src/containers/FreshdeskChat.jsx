@@ -7,11 +7,7 @@ import { withRouter } from 'react-router-dom';
 const getCookieByName = (name) => {
   var value = '; ' + document.cookie;
   var parts = value.split('; ' + name + '=');
-  if (parts.length === 2)
-    return parts
-      .pop()
-      .split(';')
-      .shift();
+  if (parts.length === 2) return parts.pop().split(';').shift();
 };
 class FreshdeskChat extends React.Component {
   componentDidMount() {
@@ -32,7 +28,7 @@ class FreshdeskChat extends React.Component {
           },
           content: {
             headers: {
-              chat: 'Support Team',
+              chat: 'Support Crew',
               chat_help: 'How can we help you?',
               faq: 'Help Articles',
               faq_help: 'Answers to common questions',
@@ -45,7 +41,7 @@ class FreshdeskChat extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { isLoggedIn: currentLoggedInState } = this.props;
+    const { isLoggedIn: currentLoggedInState, userDetails } = this.props;
 
     if (prevProps.isLoggedIn !== currentLoggedInState) {
       if (!currentLoggedInState) {
@@ -54,7 +50,6 @@ class FreshdeskChat extends React.Component {
         }
       }
     }
-
     if (window.fcWidget && !window.fcWidget.isInitialized()) {
       window.fcWidget.init({
         token: `${process.env.REACT_APP_FRESHDESK_CHAT_KEY}`,
@@ -72,12 +67,61 @@ class FreshdeskChat extends React.Component {
           },
           content: {
             headers: {
-              chat: 'BidOrBoo Support Crew',
+              chat: 'Support Crew',
               chat_help: 'Reach out to us if you have any questions',
               push_notification: 'Allow push notifications to get instant replies',
             },
           },
         },
+      });
+    }
+    if (!prevProps.isLoggedIn && currentLoggedInState === true) {
+      const {
+        appView,
+        oneSignalUserId,
+        isGmailUser,
+        isFbUser,
+        canBid,
+        clearCriminalHistory,
+        canPost,
+        displayName,
+        email,
+        phone,
+        membershipStatus,
+        userId,
+        _id,
+        notifications,
+        rating,
+      } = userDetails;
+      // To set unique user id in your system when it is available
+      window.fcWidget.setExternalId(userId);
+      // To set user name
+      window.fcWidget.user.setFirstName(displayName);
+      // To set user email
+      window.fcWidget.user.setEmail((email && email.emailAddress) || '');
+      // To set user properties
+      window.fcWidget.user.setProperties({
+        pushNotificationEnabled: notifications && notifications.push,
+        emailNotificationEnabled: notifications && notifications.email,
+        textNotificationEnabled: notifications && notifications.text,
+        newTaskNotificationEnabled: notifications && notifications.newPostedTasks,
+        appView,
+        isGmailUser,
+        oneSignalUserId,
+        isFbUser,
+        clearCriminalHistory,
+        canBid,
+        canPost,
+        displayName,
+        email: email && email.emailAddress ? email && email.emailAddress : '--',
+        isEmailVerified: email && email.isVerified,
+        phone: phone && phone.phoneNumber ? phone.phoneNumber : '--',
+        isPhoneVerified: phone && phone.isVerified,
+        rating: rating && rating.globalRating ? rating.globalRating : '--',
+        membershipStatus,
+        userId,
+        currentPage: window.location.href,
+        _id,
       });
     }
   }

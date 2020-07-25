@@ -289,19 +289,19 @@ export const StartDateAndTime = ({ date, renderHelpComponent }) => {
   let timeText = 'flexible, anytime';
   switch (`${selectedTime}`) {
     case '10':
-      timeText = 'flexible, anytime';
+      timeText = '';
       break;
     case '8':
-      timeText = 'morning.';
+      timeText = '(Morning 8am-12pm)';
       break;
     case '12':
-      timeText = 'afternoon.';
+      timeText = '(Afternoon 12pm-5pm)';
       break;
     case '17':
-      timeText = 'evening.';
+      timeText = '(Evening 5pm-12am)';
       break;
     default:
-      timeText = 'flexible, anytime';
+      timeText = '(Anytime 8am-12am)';
       break;
   }
 

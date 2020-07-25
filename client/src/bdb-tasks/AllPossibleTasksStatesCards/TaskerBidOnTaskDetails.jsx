@@ -7,6 +7,7 @@ import TASKS_DEFINITIONS from '../tasksDefinitions';
 import TaskerVerificationBanner from '../../containers/tasker-flow/TaskerVerificationBanner.jsx';
 import {
   CountDownComponent,
+  StartDateAndTime,
   SummaryStartDateAndTime,
   CenteredUserImageAndRating,
   LocationLabelAndValue,
@@ -101,7 +102,7 @@ export default class TaskerBidOnTaskDetails extends React.Component {
                   />
                 </div>
                 <LocationLabelAndValue location={coordinates} />
-
+                <StartDateAndTime date={startingDateAndTime} />
                 {extras && extras.destinationText && (
                   <DestinationAddressValue
                     destionationAddress={extras.destinationText}
