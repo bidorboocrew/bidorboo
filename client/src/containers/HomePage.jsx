@@ -7,9 +7,9 @@ import * as ROUTES from '../constants/frontend-route-consts';
 import { switchRoute } from '../utils';
 import MainBanner from '../assets/images/MainBanner.png';
 
-import Need_Help from '../assets/images/Need-Help.jpeg';
+import Need_Help from '../assets/images/Need-Help.jpg';
 import RequesterSteps from '../assets/images/RequesterSteps.jpg';
-import Earn_Money from '../assets/images/Earn-Money.jpeg';
+import Earn_Money from '../assets/images/Earn-Money.jpg';
 import TaskerSteps from '../assets/images/TaskerSteps.jpg';
 import HowItWorks from '../assets/images/HowItWorks.jpg';
 import BidOrBooMain from '../assets/images/BidOrBooMain.png';
@@ -26,41 +26,44 @@ export default class HomePage extends React.Component {
   render() {
     return (
       <>
-        <section style={{ display: 'none', Overflow: 'hidden', height: 0, width: 0 }}>
+        <section
+          style={{ position: 'absolute', top: -80000, overflow: 'hidden', height: 0, width: 0 }}
+        >
           <h1>BidOrBoo - Chores Made Easy</h1>
           <h2>
-            The place to get all your chores like house cleaning deep cleaning, airbnb cleaning,
-            detailed cleaning home cleaning condo cleaning house maid handy men car detailing car
-            shining car cleaning pet sitting dog sitting cat sitting house sitting home sitting pets
-            dog walking pet walking moving heavy lifting moving furniture moving boxes moving
-            services handyman services request earn money doing chores book appointmnet now request
-            service help now
+            BidOrBoo is a services platform where you can get rid of your daily chores like house
+            cleaning deep cleaning, airbnb cleaning, detailed home cleaning, condo or appartment
+            cleaning, car detailing car, shining, car cleaning, pet sitting, dog sitting, cat
+            sitting, house sitting, home sitting, dog walking, pet walking, moving heavy items,
+            lifting and moving furniture, moving boxes moving, by requesting the help of housemaids,
+            handyman, in your area. Alternatively you can sign up as a Tasker to earn money
+            completing simple chores in your area.
           </h2>
           <h3>Need help with chores, this is how it works</h3>
           <div>
             let us help
             <p>
               Browse one of our services like house cleaning deep cleaning, airbnb cleaning,
-              detailed cleaning home cleaning condo cleaning house maid handy men car detailing car
-              shining car cleaning pet sitting dog sitting cat sitting house sitting home sitting
-              pets dog walking pet walking moving heavy lifting moving furniture moving boxes moving
-              services handyman services.
+              detailed home cleaning, condo or appartment cleaning, car detailing car, shining, car
+              cleaning, pet sitting, dog sitting, cat sitting, house sitting, home sitting, dog
+              walking, pet walking, moving heavy items, lifting and moving furniture, moving boxes
+              moving, by requesting the help of housemaids, handyman, in your area.
             </p>
-            <p>Tell us what you need , book time and location</p>
-            <p>Recieve bids pick a Tasker and we will do your chore for you</p>
+            <p>Tell us what you need done, specify the time and location</p>
+            <p>Pick a Tasker and your chore will get done</p>
           </div>
           <h3>Earn money by becoming a Tasker, this is how it works</h3>
           <div>
-            explore tasks and chores in your area
+            Explore tasks and chores in your area
             <p>
               Browse for our services like house cleaning deep cleaning, airbnb cleaning, detailed
-              cleaning home cleaning condo cleaning house maid handy men car detailing car shining
-              car cleaning pet sitting dog sitting cat sitting house sitting home sitting pets dog
-              walking pet walking moving heavy lifting moving furniture moving boxes moving services
-              handyman services in your area
+              home cleaning, condo or appartment cleaning, car detailing car, shining, car cleaning,
+              pet sitting, dog sitting, cat sitting, house sitting, home sitting, dog walking, pet
+              walking, moving heavy items, lifting and moving furniture, moving boxes moving, by
+              requesting the help of housemaids, handyman, in your area.
             </p>
             <p>Bid the price you want to make for doing the task</p>
-            <p>do the chore and get paid</p>
+            <p>Complete the chore and get paid</p>
           </div>
         </section>
         <div className="fade-in">
@@ -75,7 +78,7 @@ export default class HomePage extends React.Component {
                   />
                 </div>
                 <h2 className="subtitle">
-                  The place to get all your chores done and earn money doing what you love.
+                  Get rid of your daily chores or Earn Money doing chores in your area
                 </h2>
               </div>
             </div>
