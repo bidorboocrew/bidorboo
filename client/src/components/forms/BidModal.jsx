@@ -187,7 +187,7 @@ const EnhancedForms = withFormik({
     };
   },
   handleSubmit: (values, { setSubmitting, props }) => {
-    window.fcWidget && window.fcWidget.track('bob_post_bid');
+    window.fcWidget && window.fcWidget.track && window.fcWidget.track('bob_post_bid');
     props.onSubmit({ ...values });
     setSubmitting(false);
   },

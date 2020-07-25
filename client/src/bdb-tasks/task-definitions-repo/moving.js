@@ -12,7 +12,7 @@ export default {
   IMG: moving_img,
   isComingSoon: false,
   DESCRIPTION: `Do you need help lifting or moving heavy furniture or items? Get our hulk Taskers to help you
-  out. Keep in mind Taskers are NOT allowed to drive or bring a moving vehicle.`,
+  out`,
   SUGGESTION_TEXT: `Q1) What are the items you need help lifting?
 [Answer:   ]
 Q2) Are there stairs? how many sets of stairs approximately?
@@ -165,10 +165,9 @@ Q4) Anything else you want the Tasker to do?
                 )}
                 {!withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
-                    BidOrBoo Tasker will help you move or lift any heavy furniture items. Lifting
-                    very heavy item might be tricky theirfor it is your responsibility to wrap
-                    things well and to inform taskers of any fragile pieces. Please post and aware
-                    multiple taskers if you need to carry heavier items safely.
+                    BidOrBoo Tasker will help you move or lift any heavy items. Please wrap things
+                    well and inform taskers of any fragile items. Taskers are only their to lift and
+                    are NOT ALLOWED to drive or provide any vehicles for moving your items.
                   </p>
                 )}
               </div>

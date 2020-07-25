@@ -841,6 +841,7 @@ const EnhancedForms = withFormik({
   handleSubmit: async (values, { setSubmitting, props }) => {
     if (props.isLoggedIn && props.currentUserDetails) {
       window.fcWidget &&
+        window.fcWidget.track &&
         window.fcWidget.track('bob_post_request', { ...props.currentUserDetails, ...values });
 
       if (!props.currentUserDetails.canPost) {
