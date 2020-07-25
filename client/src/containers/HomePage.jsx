@@ -26,7 +26,7 @@ export default class HomePage extends React.Component {
   render() {
     return (
       <>
-        <section hidden style={{ display: 'none', Overflow: 'hidden', height: 0, width: 0 }}>
+        <section style={{ display: 'none', Overflow: 'hidden', height: 0, width: 0 }}>
           <h1>BidOrBoo - Chores Made Easy</h1>
           <h2>
             The place to get all your chores like house cleaning deep cleaning, airbnb cleaning,
