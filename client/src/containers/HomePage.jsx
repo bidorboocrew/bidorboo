@@ -25,122 +25,9 @@ export default class HomePage extends React.Component {
 
   render() {
     return (
-      <div className="fade-in">
-        <section className="hero has-text-centered is-danger is-small">
-          <div style={{ backgroundImage: `url(${MainBanner})` }} className="hero-body">
-            <div className="container">
-              <div style={{ paddingTop: 8 }} className="container has-text-centered">
-                <img style={{ width: 300 }} src={BidOrBooMain} alt="BidOrBoo - Chores Made Easy" />
-              </div>
-              <h2 className="subtitle">
-                The place to get all your chores done and earn money doing what you love.
-              </h2>
-            </div>
-          </div>
-        </section>
-        <section
-          style={{ marginBottom: '1rem' }}
-          className="hero is-small has-text-centered is-white fade-in"
-        >
-          <div className="hero-body">
-            <div className="container has-text-centered">
-              <img style={{ width: 210 }} src={HowItWorks} alt="See How BidOrBoo Works" />
-            </div>
-          </div>
-        </section>
-        <section className="hero has-text-centered is-white fade-in">
-          <div style={{ position: 'relative' }}>
-            <div style={{ margin: 'auto', padding: '0.5rem', maxWidth: 450 }}>
-              <div className="player-wrapper">
-                <ReactPlayer
-                  playIcon={
-                    <section className="hero is-small has-text-centered is-white fade-in">
-                      <div style={{ paddingBottom: '1rem' }} className="hero-body">
-                        <div className="container has-text-centered">
-                          <img
-                            style={{ width: 300 }}
-                            src={YoutubeCover}
-                            alt="BidOrBoo YouTube Promo Video"
-                          />
-                        </div>
-                      </div>
-                    </section>
-                  }
-                  light
-                  playing
-                  className="react-player"
-                  url="https://youtu.be/YHh9JbJAyf0"
-                  width="100%"
-                  height="100%"
-                  config={{
-                    youtube: {
-                      rel: 0,
-                      modestbranding: 1,
-                      iv_load_policy: 3,
-                      origin: 'https://www.bidorboo.ca',
-                      widget_referrer: 'https://www.bidorboo.ca',
-                      preload: true,
-                    },
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <br></br>
-        <section className="hero is-small has-text-centered is-white">
-          <div style={{ paddingTop: 0 }} className="hero-body">
-            <div className="columns is-mobile is-multiline is-centered">
-              <div
-                style={{ minWidth: '18rem', maxWidth: '21rem', margin: '1rem' }}
-                className="column"
-              >
-                <RequestAService
-                  onClickHandler={() => {
-                    switchRoute(ROUTES.CLIENT.REQUESTER.root);
-                  }}
-                />
-              </div>
-
-              <div
-                style={{ minWidth: '18rem', maxWidth: '21rem', margin: '1rem' }}
-                className="column"
-              >
-                <ProvideAService
-                  onClickHandler={() => {
-                    switchRoute(ROUTES.CLIENT.TASKER.root);
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-        <br></br>
-        <section className="hero is-small has-text-centered is-white">
-          <div className="hero-body">
-            <div className="columns is-centered is-narrow is-mobile is-multiline is-centered">
-              <div style={{ minWidth: '18rem', margin: '0 2rem' }} className="column is-narrow">
-                <RequestAServiceHowTo
-                  onClickHandler={() => {
-                    switchRoute(ROUTES.CLIENT.TASKER.root);
-                  }}
-                />
-              </div>
-
-              <div style={{ minWidth: '18rem', margin: '0 2rem' }} className="column is-narrow">
-                <ProvideAServiceHowTo
-                  onClickHandler={() => {
-                    switchRoute(ROUTES.CLIENT.TASKER.root);
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-        <br></br>
+      <>
         <section hidden style={{ display: 'none', Overflow: 'hidden', height: 0, width: 0 }}>
-          <h1>BidOrBoo Chores Made Easy</h1>
+          <h1>BidOrBoo - Chores Made Easy</h1>
           <h2>
             The place to get all your chores like house cleaning deep cleaning, airbnb cleaning,
             detailed cleaning home cleaning condo cleaning house maid handy men car detailing car
@@ -176,7 +63,126 @@ export default class HomePage extends React.Component {
             <p>do the chore and get paid</p>
           </div>
         </section>
-      </div>
+        <div className="fade-in">
+          <section className="hero has-text-centered is-danger is-small">
+            <div style={{ backgroundImage: `url(${MainBanner})` }} className="hero-body">
+              <div className="container">
+                <div style={{ paddingTop: 8 }} className="container has-text-centered">
+                  <img
+                    style={{ width: 300 }}
+                    src={BidOrBooMain}
+                    alt="BidOrBoo - Chores Made Easy"
+                  />
+                </div>
+                <h2 className="subtitle">
+                  The place to get all your chores done and earn money doing what you love.
+                </h2>
+              </div>
+            </div>
+          </section>
+          <section
+            style={{ marginBottom: '1rem' }}
+            className="hero is-small has-text-centered is-white fade-in"
+          >
+            <div className="hero-body">
+              <div className="container has-text-centered">
+                <img style={{ width: 210 }} src={HowItWorks} alt="See How BidOrBoo Works" />
+              </div>
+            </div>
+          </section>
+          <section className="hero has-text-centered is-white fade-in">
+            <div style={{ position: 'relative' }}>
+              <div style={{ margin: 'auto', padding: '0.5rem', maxWidth: 450 }}>
+                <div className="player-wrapper">
+                  <ReactPlayer
+                    playIcon={
+                      <section className="hero is-small has-text-centered is-white fade-in">
+                        <div style={{ paddingBottom: '1rem' }} className="hero-body">
+                          <div className="container has-text-centered">
+                            <img
+                              style={{ width: 300 }}
+                              src={YoutubeCover}
+                              alt="BidOrBoo YouTube Promo Video"
+                            />
+                          </div>
+                        </div>
+                      </section>
+                    }
+                    light
+                    playing
+                    className="react-player"
+                    url="https://youtu.be/YHh9JbJAyf0"
+                    width="100%"
+                    height="100%"
+                    config={{
+                      youtube: {
+                        rel: 0,
+                        modestbranding: 1,
+                        iv_load_policy: 3,
+                        origin: 'https://www.bidorboo.ca',
+                        widget_referrer: 'https://www.bidorboo.ca',
+                        preload: true,
+                      },
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <br></br>
+          <section className="hero is-small has-text-centered is-white">
+            <div style={{ paddingTop: 0 }} className="hero-body">
+              <div className="columns is-mobile is-multiline is-centered">
+                <div
+                  style={{ minWidth: '18rem', maxWidth: '21rem', margin: '1rem' }}
+                  className="column"
+                >
+                  <RequestAService
+                    onClickHandler={() => {
+                      switchRoute(ROUTES.CLIENT.REQUESTER.root);
+                    }}
+                  />
+                </div>
+
+                <div
+                  style={{ minWidth: '18rem', maxWidth: '21rem', margin: '1rem' }}
+                  className="column"
+                >
+                  <ProvideAService
+                    onClickHandler={() => {
+                      switchRoute(ROUTES.CLIENT.TASKER.root);
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+          <br></br>
+          <section className="hero is-small has-text-centered is-white">
+            <div className="hero-body">
+              <div className="columns is-centered is-narrow is-mobile is-multiline is-centered">
+                <div style={{ minWidth: '18rem', margin: '0 2rem' }} className="column is-narrow">
+                  <RequestAServiceHowTo
+                    onClickHandler={() => {
+                      switchRoute(ROUTES.CLIENT.TASKER.root);
+                    }}
+                  />
+                </div>
+
+                <div style={{ minWidth: '18rem', margin: '0 2rem' }} className="column is-narrow">
+                  <ProvideAServiceHowTo
+                    onClickHandler={() => {
+                      switchRoute(ROUTES.CLIENT.TASKER.root);
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+          <br></br>
+        </div>
+      </>
     );
   }
 }
