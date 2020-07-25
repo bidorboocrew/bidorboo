@@ -27,6 +27,8 @@ Q4) Anything else you want the Tasker to do?
     carSize: NO_SELECTION,
     interiorType: NO_SELECTION,
     trunkCleaning: NO_SELECTION,
+    exteriorCleaning: NO_SELECTION,
+    rimsCleaning: NO_SELECTION,
   },
   requiresDestinationField: false,
   extraValidationSchema: {
@@ -35,13 +37,22 @@ Q4) Anything else you want the Tasker to do?
       .trim()
       .oneOf(['mini', 'sedan', 'suv', 'truck'], '*Please select an option from the drop down')
       .required('*Please select a value from the drop down'),
-
     interiorType: Yup.string()
       .ensure()
       .trim()
       .oneOf(['leather', 'fabric', 'other'], '*Please select a value from the drop down')
       .required('*Please select a value from the drop down'),
     trunkCleaning: Yup.string()
+      .ensure()
+      .trim()
+      .oneOf(['isRequired', 'notRequired'], '*Please select a value from the drop down')
+      .required('*Please select a value from the drop down'),
+    exteriorCleaning: Yup.string()
+      .ensure()
+      .trim()
+      .oneOf(['isRequired', 'notRequired'], '*Please select a value from the drop down')
+      .required('*Please select a value from the drop down'),
+    rimsCleaning: Yup.string()
       .ensure()
       .trim()
       .oneOf(['isRequired', 'notRequired'], '*Please select a value from the drop down')
@@ -136,8 +147,8 @@ Q4) Anything else you want the Tasker to do?
 
                 {!withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
-                    BidOrBoo Tasker will bring the cleaning products and equipments required to
-                    clean your car thouroughally
+                    Tasker will bring the cleaning products and equipments required to clean your
+                    car thouroughally. Tasker is NOT Allowed to drive your vehicle.
                   </p>
                 )}
               </div>
@@ -297,7 +308,7 @@ Q4) Anything else you want the Tasker to do?
           return (
             <React.Fragment key={'extras-trunkCleaning'}>
               <div className={`group ${isTouched && errors.trunkCleaning ? 'isError' : ''}`}>
-                <label className={trunkCleaningClass}>Trunk Cleaning</label>
+                <label className={trunkCleaningClass}>Trunk cleaning</label>
                 <div>
                   <div className={`select ${trunkCleaningClass}`}>
                     <select
@@ -320,19 +331,103 @@ Q4) Anything else you want the Tasker to do?
           );
         },
         renderSelection: (requiresTrunkCleaning) => {
-          let selectedValue = null;
-          switch (requiresTrunkCleaning) {
-            case 'isRequired':
-              selectedValue = 'Requires Cleaning';
-              break;
-            case 'notRequired':
-              selectedValue = 'Not Required';
-              break;
-          }
           return (
             <div key={'extras-trunkCleaning'} className="group">
               <label className="label hasSelectedValue">Trunk cleaning</label>
-              <div className="control">{selectedValue}</div>
+              <div className="control">{requiresTrunkCleaning}</div>
+            </div>
+          );
+        },
+      },
+      exteriorCleaning: {
+        renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
+          // this is assumed to render in the context of a formik form
+
+          let exteriorCleaningClass = '';
+          let isTouched = touched && touched.exteriorCleaning;
+          if (isTouched) {
+            exteriorCleaningClass =
+              values.exteriorCleaning === NO_SELECTION ? 'is-danger' : 'hasSelectedValue';
+          } else {
+            exteriorCleaningClass =
+              values.exteriorCleaning !== 'noSelection' ? 'hasSelectedValue' : '';
+          }
+          return (
+            <React.Fragment key={'extras-exteriorCleaning'}>
+              <div className={`group ${isTouched && errors.exteriorCleaning ? 'isError' : ''}`}>
+                <label className={exteriorCleaningClass}>Exterior cleaning</label>
+                <div>
+                  <div className={`select ${exteriorCleaningClass}`}>
+                    <select
+                      id="exteriorCleaning"
+                      value={values.exteriorCleaning}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      <option value="noSelection">-Select One-</option>.
+                      <option value="isRequired">Requires Cleaning</option>
+                      <option value="notRequired">Not Required</option>
+                    </select>
+                    {isTouched && errors.exteriorCleaning && (
+                      <div className="help is-danger">{errors.exteriorCleaning}</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </React.Fragment>
+          );
+        },
+        renderSelection: (requiresExteriorCleaning) => {
+          return (
+            <div key={'extras-exteriorCleaning'} className="group">
+              <label className="label hasSelectedValue">Exterior cleaning</label>
+              <div className="control">{requiresExteriorCleaning}</div>
+            </div>
+          );
+        },
+      },
+      rimsCleaning: {
+        renderFormOptions: ({ errors, values, touched, handleChange, handleBlur }) => {
+          // this is assumed to render in the context of a formik form
+
+          let rimsCleaningClass = '';
+          let isTouched = touched && touched.rimsCleaning;
+          if (isTouched) {
+            rimsCleaningClass =
+              values.rimsCleaning === NO_SELECTION ? 'is-danger' : 'hasSelectedValue';
+          } else {
+            rimsCleaningClass = values.rimsCleaning !== 'noSelection' ? 'hasSelectedValue' : '';
+          }
+          return (
+            <React.Fragment key={'extras-RimsCleaning'}>
+              <div className={`group ${isTouched && errors.RimsCleaning ? 'isError' : ''}`}>
+                <label className={rimsCleaningClass}>Rims cleaning</label>
+                <div>
+                  <div className={`select ${rimsCleaningClass}`}>
+                    <select
+                      id="rimsCleaning"
+                      value={values.rimsCleaning}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      <option value="noSelection">-Select One-</option>.
+                      <option value="isRequired">Requires cleaning</option>
+                      <option value="notRequired">Not required</option>
+                    </select>
+                    {isTouched && errors.rimsCleaning && (
+                      <div className="help is-danger">{errors.rimsCleaning}</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </React.Fragment>
+          );
+        },
+        renderSelection: (requiresRimsCleaning) => {
+          return (
+            <div key={'extras-rimsCleaning'} className="group">
+              <label className="label hasSelectedValue">Rims cleaning</label>
+              <div className="control">{requiresRimsCleaning}</div>
             </div>
           );
         },
