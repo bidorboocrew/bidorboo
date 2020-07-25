@@ -30,7 +30,7 @@ export default class HomePage extends React.Component {
           <div style={{ backgroundImage: `url(${MainBanner})` }} className="hero-body">
             <div className="container">
               <div style={{ paddingTop: 8 }} className="container has-text-centered">
-                <img style={{ width: 300 }} src={BidOrBooMain} alt="Placeholder" />
+                <img style={{ width: 300 }} src={BidOrBooMain} alt="BidOrBoo - Chores Made Easy" />
               </div>
               <h2 className="subtitle">
                 The place to get all your chores done and earn money doing what you love.
@@ -44,7 +44,7 @@ export default class HomePage extends React.Component {
         >
           <div className="hero-body">
             <div className="container has-text-centered">
-              <img style={{ width: 210 }} src={HowItWorks} alt="Placeholder" />
+              <img style={{ width: 210 }} src={HowItWorks} alt="See How BidOrBoo Works" />
             </div>
           </div>
         </section>
@@ -57,7 +57,11 @@ export default class HomePage extends React.Component {
                     <section className="hero is-small has-text-centered is-white fade-in">
                       <div style={{ paddingBottom: '1rem' }} className="hero-body">
                         <div className="container has-text-centered">
-                          <img style={{ width: 300 }} src={YoutubeCover} alt="Placeholder" />
+                          <img
+                            style={{ width: 300 }}
+                            src={YoutubeCover}
+                            alt="BidOrBoo YouTube Promo Video"
+                          />
                         </div>
                       </div>
                     </section>
@@ -135,6 +139,43 @@ export default class HomePage extends React.Component {
           </div>
         </section>
         <br></br>
+        <section hidden style={{ display: 'none', Overflow: 'hidden', height: 0, width: 0 }}>
+          <h1>BidOrBoo Chores Made Easy</h1>
+          <h2>
+            The place to get all your chores like house cleaning deep cleaning, airbnb cleaning,
+            detailed cleaning home cleaning condo cleaning house maid handy men car detailing car
+            shining car cleaning pet sitting dog sitting cat sitting house sitting home sitting pets
+            dog walking pet walking moving heavy lifting moving furniture moving boxes moving
+            services handyman services request earn money doing chores book appointmnet now request
+            service help now
+          </h2>
+          <h3>Need help with chores, this is how it works</h3>
+          <div>
+            let us help
+            <p>
+              Browse one of our services like house cleaning deep cleaning, airbnb cleaning,
+              detailed cleaning home cleaning condo cleaning house maid handy men car detailing car
+              shining car cleaning pet sitting dog sitting cat sitting house sitting home sitting
+              pets dog walking pet walking moving heavy lifting moving furniture moving boxes moving
+              services handyman services.
+            </p>
+            <p>Tell us what you need , book time and location</p>
+            <p>Recieve bids pick a Tasker and we will do your chore for you</p>
+          </div>
+          <h3>Earn money by becoming a Tasker, this is how it works</h3>
+          <div>
+            explore tasks and chores in your area
+            <p>
+              Browse for our services like house cleaning deep cleaning, airbnb cleaning, detailed
+              cleaning home cleaning condo cleaning house maid handy men car detailing car shining
+              car cleaning pet sitting dog sitting cat sitting house sitting home sitting pets dog
+              walking pet walking moving heavy lifting moving furniture moving boxes moving services
+              handyman services in your area
+            </p>
+            <p>Bid the price you want to make for doing the task</p>
+            <p>do the chore and get paid</p>
+          </div>
+        </section>
       </div>
     );
   }
@@ -192,7 +233,7 @@ const RequestAServiceHowTo = (props) => {
     >
       <div className="card-image">
         <figure className="image">
-          <img src={RequesterSteps} alt="Placeholder" />
+          <img src={RequesterSteps} alt="How to request a service step by step" />
         </figure>
       </div>
       <div>
@@ -224,7 +265,7 @@ const ProvideAServiceHowTo = (props) => {
     >
       <div className="card-image">
         <figure className="image">
-          <img src={TaskerSteps} alt="Placeholder" />
+          <img src={TaskerSteps} alt="How to become a tasker step by step" />
         </figure>
       </div>
       <div>
@@ -258,7 +299,7 @@ const ProvideAService = () => {
     >
       <div className="card-image">
         <figure className="image">
-          <img src={Earn_Money} alt="Placeholder" />
+          <img src={Earn_Money} alt="Earn Money As a Tasker" />
         </figure>
       </div>
       <div>
