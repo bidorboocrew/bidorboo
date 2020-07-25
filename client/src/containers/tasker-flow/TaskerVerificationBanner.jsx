@@ -111,7 +111,20 @@ class TaskerVerificationBanner extends React.Component {
       (currently_due.includes('individual.verification.document') ||
         past_due.includes('individual.verification.document'));
 
+    window.fcWidget &&
+      window.fcWidget.track &&
+      window.fcWidget.track('bob_tasker_verification_displayed', {
+        userDetails: { ...userDetails },
+        accRequirements: { ...accRequirements },
+        areThereMoreRequirement,
+        showAddVerificationId,
+      });
+
     if (showAddVerificationId) {
+      window.fcWidget &&
+        window.fcWidget.track &&
+        window.fcWidget.track('bob_tasker_verification_displayed_cuz_showAddVerificationId', {});
+
       return (
         <>
           {showUploadImgModal &&
@@ -168,6 +181,9 @@ class TaskerVerificationBanner extends React.Component {
       (currently_due.length === 1 && currently_due.includes('external_account')) ||
       (past_due.length === 1 && past_due.includes('external_account'));
     if (showAddExternalBankAcc) {
+      window.fcWidget &&
+        window.fcWidget.track &&
+        window.fcWidget.track('bob_tasker_verification_displayed_cuz_showAddExternalBankAcc', {});
       return null;
       // we dont wana bug them too much, we will do that later if you have outstanding payouts
       return (
@@ -219,6 +235,9 @@ class TaskerVerificationBanner extends React.Component {
         past_due.includes('individual.first_name') ||
         past_due.includes('individual.last_name'))
     ) {
+      window.fcWidget &&
+        window.fcWidget.track &&
+        window.fcWidget.track('bob_tasker_verification_displayed_cuz_areThereMoreRequirement', {});
       return (
         <section
           id="bob-taskerVerificationBanner"
@@ -245,6 +264,9 @@ class TaskerVerificationBanner extends React.Component {
       );
     }
 
+    window.fcWidget &&
+      window.fcWidget.track &&
+      window.fcWidget.track('bob_tasker_verification_displayed_cuz_unknown_why', {});
     // we dont know why
     return (
       <section

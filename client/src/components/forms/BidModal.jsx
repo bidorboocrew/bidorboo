@@ -179,10 +179,7 @@ const EnhancedForms = withFormik({
       .min(20, 'The minimum bid amount is 20')
       .max(2000, 'The maximum amount is 2000')
       .required('amount is required.'),
-    recaptchaField: Yup.string()
-      .ensure()
-      .trim()
-      .required('require pass recaptcha.'),
+    recaptchaField: Yup.string().ensure().trim().required('require pass recaptcha.'),
   }),
   mapPropsToValues: (props) => {
     return {
@@ -190,10 +187,10 @@ const EnhancedForms = withFormik({
     };
   },
   handleSubmit: (values, { setSubmitting, props }) => {
+    window.fcWidget && window.fcWidget.track('bob_post_bid');
     props.onSubmit({ ...values });
     setSubmitting(false);
   },
-
   displayName: 'BidOnRequestForm',
 });
 

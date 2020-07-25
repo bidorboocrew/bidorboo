@@ -167,7 +167,6 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
                                                                                     <div style="font-family: inherit; text-align: center">
                                                                                       <span style="color: #ee2a36; font-size: 26px">BidOrBoo</span>
                                                                                     </div>
-                                                                                    <div></div>
                                                                                   </div>
                                                                                 </td>
                                                                               </tr>

@@ -75,7 +75,7 @@ class FreshdeskChat extends React.Component {
         },
       });
     }
-    if (!prevProps.isLoggedIn && currentLoggedInState === true) {
+    if (currentLoggedInState === true && userDetails) {
       const {
         appView,
         oneSignalUserId,

@@ -54,7 +54,8 @@ passport.use(
           if (anotherUserExistsWithSameEmail) {
             return done(
               new Error(
-                'a user with the same email already exists. You can Chat with our customer support for further help'
+                `A user with the same email already exists.
+                please head to www.bidorboo.ca and Chat with our customer support for further help, or email us at bidorboo@bidorboo.ca`
               ),
               null
             );
@@ -110,7 +111,8 @@ passport.use(
           if (anotherUserExistsWithSameEmail) {
             return done(
               new Error(
-                'a user with the same email already exists. You can Chat with our customer support for further help'
+                `A user with the same email already exists.
+                please head to www.bidorboo.ca and Chat with our customer support for further help, or email us at bidorboo@bidorboo.ca`
               ),
               null
             );
@@ -158,7 +160,8 @@ passport.use(
       if (existingUser) {
         return done(
           new Error(
-            'A user with the same email already exists, if you forgot your password click on reset credentials'
+            `A user with the same email already exists.
+            please head to www.bidorboo.ca and Chat with our customer support for further help, or email us at bidorboo@bidorboo.ca`
           ),
           null
         );

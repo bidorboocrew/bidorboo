@@ -749,10 +749,7 @@ const EnhancedForms = withFormik({
         .min(20, 'your description must be more than 20 characters')
         .max(1000, 'request title must be less than 1000 characters')
         .required('*Please provide a detailed description'),
-      recaptchaField: Yup.string()
-        .ensure()
-        .trim()
-        .required('require pass recaptcha.'),
+      recaptchaField: Yup.string().ensure().trim().required('require pass recaptcha.'),
       ...TASKS_DEFINITIONS[props.requestTemplateId].extraValidationSchema,
     });
   },
@@ -843,6 +840,9 @@ const EnhancedForms = withFormik({
   },
   handleSubmit: async (values, { setSubmitting, props }) => {
     if (props.isLoggedIn && props.currentUserDetails) {
+      window.fcWidget &&
+        window.fcWidget.track('bob_post_request', { ...currentUserDetails, ...values });
+
       if (!props.currentUserDetails.canPost) {
         setTimeout(() => {
           const elmnt = document.querySelector('#bob-requesterVerificationBanner');

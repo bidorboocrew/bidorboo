@@ -12,7 +12,7 @@ export default {
   IMG: moving_img,
   isComingSoon: false,
   DESCRIPTION: `Do you need help lifting or moving heavy furniture or items? Get our hulk Taskers to help you
-  out.`,
+  out. Keep in mind Taskers are NOT allowed to drive or bring a moving vehicle.`,
   SUGGESTION_TEXT: `Q1) What are the items you need help lifting?
 [Answer:   ]
 Q2) Are there stairs? how many sets of stairs approximately?
