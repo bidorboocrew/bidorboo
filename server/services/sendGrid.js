@@ -41,7 +41,7 @@ exports.EmailService = {
       html: populateNewBidHtmlTemplate({
         toDisplayName: toDisplayName || to,
         contentHtml: `
-        <p>Exciting news! Your ${taskName} request has received a new bid.</p>
+        <p>Exciting news! ${taskName} received a new bid.</p>
         <br>
         <div style="font-family: inherit; text-align: inherit; font-weight: bold"><strong>Next Steps</strong></div>
         <ul>
@@ -71,7 +71,7 @@ exports.EmailService = {
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
-      subject: `Reminder: ${requestTitle} task is happening tomorrow!`,
+      subject: `Reminder: ${requestTitle} is happening tomorrow!`,
       text: `
         This is an automated reminder for your upcoming assigned ${requestTitle} task.
         Get in touch with the requester to get the exact task location and time details.
@@ -84,6 +84,7 @@ exports.EmailService = {
         <br>
         <div style="font-family: inherit; text-align: inherit; font-weight: bold"><strong>Next Steps</strong></div>
         <ul>
+          <li style="">You MUST bring and wear a mask while performing the task</li>
           <li style="">Review the task details thoroughly to do a great job</li>
           <li style="">Be on time and keep the Requester posted if anything changes</li>
           <li style="">Pack any tools or items if required to fulfil the task</li>
@@ -118,7 +119,7 @@ exports.EmailService = {
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
-      subject: `new ${requestTitle} request was posted in your area`,
+      subject: `new ${requestTitle} was posted in your area`,
       text: `Act fast, be the first to bid on it`,
 
       html: populateRequestUpdates({
@@ -166,6 +167,8 @@ exports.EmailService = {
           <li style="">Review the task details to remind your self of the details</li>
           <li style="">Make sure to keep an eye on your email or phone in case the Tasker needs any instructions</li>
           <li style="">Get in touch with the Tasker to specify the exact task location and time to meet</li>
+          <li style="">Please wear a mask while Tasker is present</li>
+          <li style="">Tasker must be wearing a mask while performing the task, please reach out to us via chat if you need any assistance</li>
         </ul>
         <br>
         <div>
