@@ -166,8 +166,9 @@ Q4) Anything else you want the Tasker to do?
                 {!withDetails && (
                   <p style={{ color: '#6a748a', paddingBottom: '1rem' }}>
                     BidOrBoo Tasker will help you move or lift any heavy items. Please wrap things
-                    well and inform taskers of any fragile items. Taskers are only their to lift and
-                    are NOT ALLOWED to drive or provide any vehicles for moving your items.
+                    well and inform taskers of any fragile items. Taskers are NOT ALLOWED to drive
+                    or provide any vehicles for moving your items. They are there to help lifting,
+                    moving, loading and unloading only.
                   </p>
                 )}
               </div>
