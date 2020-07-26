@@ -874,7 +874,7 @@ exports.bidDataAccess = {
           .lean()
           .exec();
         const ownerDetails = requestDetails._ownerRef;
-        const notificationSettings = requestDetails.notifications;
+        const notificationSettings = requestDetails._ownerRef.notifications;
         if (ownerDetails && notificationSettings) {
           const ownerEmailAddress =
             ownerDetails.email && ownerDetails.email.emailAddress

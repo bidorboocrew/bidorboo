@@ -36,8 +36,8 @@ exports.EmailService = {
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
-      subject: `Your ${taskName} request has received a new bid`,
-      text: `Your ${taskName} received a new bid`,
+      subject: `${taskName} received a new bid`,
+      text: `${taskName} received a new bid`,
       html: populateNewBidHtmlTemplate({
         toDisplayName: toDisplayName || to,
         contentHtml: `

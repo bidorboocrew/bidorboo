@@ -285,7 +285,7 @@ exports.populateHtmlTemplate = ({ toDisplayName, contentHtml, clickLink, clickDi
                                                                             <tr>
                                                                               <td align="center" bgcolor="white" class="inner-td" style="border-radius:6px; font-size:10px; text-align:center; background-color:inherit;">
                   By using BidOrBoo you agree to wash your hands regularly, wear a mask at all time
-                  and adhere to all goverment rules and regulations while providing a service.
+                  and adhere to all government rules and regulations while providing a service.
               </td>
                                                                             </tr>
                                                                             <tr>
