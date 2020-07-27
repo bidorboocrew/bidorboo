@@ -21,8 +21,8 @@
     "test": "mocha"
   },
   "dependencies": {
-    "@bugsnag/js": "^6.4.1",
-    "@bugsnag/plugin-express": "^6.4.1",
+    "@bugsnag/js": "^7.2.1",
+    "@bugsnag/plugin-express": "^7.2.1",
     "@sendgrid/mail": "^6.4.0",
     "async": "^3.1.0",
     "axios": "^0.19.0",

@@ -11,30 +11,20 @@ const errorhandler = require('errorhandler');
 
 // const { errors } = require('celebrate');
 
-// initialize bugsnag
-const bugsnag = require('@bugsnag/js');
-const bugsnagExpress = require('@bugsnag/plugin-express');
-
-const { bugsnagClient } = require('./utils/utilities');
-bugsnagClient.use(bugsnagExpress);
-
+const { bugsnagClient, bugSnagMiddleware } = require('./utils/utilities');
 
 const app = express();
-let bugsnagMiddleware = bugsnagClient.getPlugin('express');
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
 
-
-
-app.use(bugsnagMiddleware.requestHandler);
+app.use(bugSnagMiddleware.requestHandler);
 
 app.use(responseTime());
 app.use(expressip().getIpInfoMiddleware);
 
-
 // initialize and start mongodb
-require('./services/mongoDB')(process,app);
+require('./services/mongoDB')(process, app);
 require('./services/passport');
 
 // initialize security and compression
@@ -63,7 +53,6 @@ app.use((err, req, res, next) => {
 
   console.log('BIDORBOOLOGS - ERROR ======== error handler BEGIN==========');
   if (err.joi) {
-    console.log(err); // Log error message in our server's console
     if (err.joi.details && err.joi.details.length > 0 && err.joi.details[0].message) {
       userError.safeMsg = err.joi.details[0].message;
     }
@@ -122,7 +111,7 @@ app.use((err, req, res, next) => {
   console.log(err); // Log error message in our server's console
 
   console.log('BIDORBOOLOGS ======== error handler END ==========');
-
+  bugsnagClient.notify(err);
   res.status(userError.statusCode).send(userError.safeMsg); // All HTTP requests must have a response, so let's send back an error with its status code and message
 });
 if (process.env.NODE_ENV === 'development') {
@@ -159,4 +148,4 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-app.use(bugsnagMiddleware.errorHandler);
+app.use(bugSnagMiddleware.errorHandler);

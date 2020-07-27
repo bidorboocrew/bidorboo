@@ -8,9 +8,27 @@ const bcrypt = require('bcrypt');
 const SALT_WORK_FACTOR = 10;
 const requestTemplatesDefinitions = require('./bdb-request-templates-definitions');
 
-const bugsnag = require('@bugsnag/js');
-const bugsnagClient = bugsnag(keys.bugSnagApiKey);
-exports.bugsnagClient = bugsnagClient;
+const Bugsnag = require('@bugsnag/js');
+const BugsnagPluginExpress = require('@bugsnag/plugin-express');
+
+Bugsnag.start({
+  apiKey: keys.bugSnagApiKey,
+  plugins: [BugsnagPluginExpress],
+  // onError: function (event) {
+  //   const x = 1;
+  //   // event.setUser('3', 'bugs.nag@bugsnag.com', 'Bugs Nag');
+  // },
+  // onSession: function (session) {
+  //   // stuff
+  //   // var userId = getMyUserIdentifier() // a custom user resolver
+  //   // session.setUser(userId)
+  // },
+});
+
+const bugSnagMiddleware = Bugsnag.getPlugin('express');
+exports.bugSnagMiddleware = bugSnagMiddleware;
+const bugsnagClient = Bugsnag;
+exports.bugsnagClient = Bugsnag;
 
 exports.encryptData = async (dataToEncrypt) => {
   try {

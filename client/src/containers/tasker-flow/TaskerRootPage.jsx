@@ -413,7 +413,7 @@ class TaskerRootPage extends React.Component {
                         <div className="card-content VerticalAligner">
                           <div className="has-text-centered">
                             <div className="is-size-4">Find tasks in your area</div>
-                            <div className="is-size-6">Help us spread BidOrBoo in your area</div>
+                            <div className="is-size-6">Please enter a street address above</div>
                             <section
                               style={{ padding: 0 }}
                               className="hero is-small has-text-centered fade-in"
@@ -428,6 +428,7 @@ class TaskerRootPage extends React.Component {
                                 </div>
                               </div>
                             </section>
+                            <div className="is-size-6">Help us spread BidOrBoo in your area</div>
                             <div style={{ margin: 6 }}>
                               <ShareButtons shareUrl={'/'}></ShareButtons>
                             </div>
