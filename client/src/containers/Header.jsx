@@ -252,7 +252,7 @@ class Header extends React.Component {
                       : 'has-text-weight-semibold'
                   }`}
                 >
-                  Request Now
+                  Our Services
                 </span>
               </a>
             </li>

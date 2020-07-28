@@ -84,11 +84,11 @@ exports.EmailService = {
         <br>
         <div style="font-family: inherit; text-align: inherit; font-weight: bold"><strong>Next Steps</strong></div>
         <ul>
-          <li style="">You MUST bring and wear a mask while performing the task</li>
           <li style="">Review the task details thoroughly to do a great job</li>
           <li style="">Be on time and keep the Requester posted if anything changes</li>
           <li style="">Pack any tools or items if required to fulfil the task</li>
           <li style="">Get in touch with the Requester to get the exact task location and time</li>
+          <li style="">You MUST bring and wear a mask while performing the task</li>
         </ul>
         <br>
         <div>

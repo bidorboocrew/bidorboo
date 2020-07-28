@@ -447,8 +447,8 @@ class TaskerRootPage extends React.Component {
                       <div>
                         <div className="card-content VerticalAligner">
                           <div className="has-text-centered">
-                            <div className="is-size-4 has-text-danger">
-                              Sorry, No Tasks available around this area at this time
+                            <div className="is-size-5 has-text-danger">
+                              Sorry, No Tasks available around this area
                             </div>
                             <div className="is-size-6">Try adjusting your search criteria</div>
                             <button

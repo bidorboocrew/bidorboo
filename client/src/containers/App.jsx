@@ -10,7 +10,7 @@ import { Redirect } from 'react-router';
 import Toast from '../components/Toast';
 import LoadingBar from 'react-redux-loading-bar';
 import * as ROUTES from '../constants/frontend-route-consts';
-import CookieConsent from 'react-cookie-consent';
+// import CookieConsent from 'react-cookie-consent';
 import { getCurrentUser } from '../app-state/actions/authActions';
 import logoImg from '../assets/images/android-icon-192x192.png';
 import canadaFlag from '../assets/images/Canada-flag-round.png';
@@ -85,29 +85,29 @@ class App extends React.Component {
     return { hasError: true };
   }
 
-  componentDidMount() {
-    // if (getCookieByName('BidOrBooCookieConsent') === 'true') {
-    //   // google analytics
-    //   window.dataLayer = window.dataLayer || [];
-    //   function gtag() {
-    //     window.dataLayer.push(arguments);
-    //   }
-    //   gtag('js', new Date());
-    //   gtag('config', 'UA-142687351-1');
-    //   window['ga-disable-UA-142687351-1'] = false;
-    // }
+  // componentDidMount() {
+  // if (getCookieByName('BidOrBooCookieConsent') === 'true') {
+  //   // google analytics
+  //   window.dataLayer = window.dataLayer || [];
+  //   function gtag() {
+  //     window.dataLayer.push(arguments);
+  //   }
+  //   gtag('js', new Date());
+  //   gtag('config', 'UA-142687351-1');
+  //   window['ga-disable-UA-142687351-1'] = false;
+  // }
 
-    // google analytics
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      window.dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-    gtag('config', 'UA-142687351-1');
-    gtag('config', 'UA-142687351-2');
-    window['ga-disable-UA-142687351-1'] = false;
-    window['ga-disable-UA-142687351-2'] = false;
-  }
+  // google analytics
+  // window.dataLayer = window.dataLayer || [];
+  // function gtag() {
+  //   window.dataLayer.push(arguments);
+  // }
+  // gtag('js', new Date());
+  // gtag('config', 'UA-142687351-1');
+  // gtag('config', 'UA-142687351-2');
+  // window['ga-disable-UA-142687351-1'] = false;
+  // window['ga-disable-UA-142687351-2'] = false;
+  // }
 
   render() {
     const { isLoggedIn } = this.props;
