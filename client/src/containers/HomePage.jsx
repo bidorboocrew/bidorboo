@@ -70,70 +70,17 @@ export default class HomePage extends React.Component {
           <section className="hero has-text-centered is-danger is-small">
             <div style={{ backgroundImage: `url(${MainBanner})` }} className="hero-body">
               <div className="container">
-                <div style={{ paddingTop: 8 }} className="container has-text-centered">
+                <div style={{ paddingTop: 20 }} className="container has-text-centered">
                   <img
                     style={{ width: 300 }}
                     src={BidOrBooMain}
                     alt="BidOrBoo - Chores Made Easy"
                   />
                 </div>
-                <h2 className="subtitle">
-                  Get rid of your daily chores or Earn Money doing chores in your area
-                </h2>
-              </div>
-            </div>
-          </section>
-          <section
-            style={{ marginBottom: '1rem' }}
-            className="hero is-small has-text-centered is-white fade-in"
-          >
-            <div className="hero-body">
-              <div className="container has-text-centered">
-                <img style={{ width: 210 }} src={HowItWorks} alt="See How BidOrBoo Works" />
-              </div>
-            </div>
-          </section>
-          <section className="hero has-text-centered is-white fade-in">
-            <div style={{ position: 'relative' }}>
-              <div style={{ margin: 'auto', padding: '0.5rem', maxWidth: 450 }}>
-                <div className="player-wrapper">
-                  <ReactPlayer
-                    playIcon={
-                      <section className="hero is-small has-text-centered is-white fade-in">
-                        <div style={{ paddingBottom: '1rem' }} className="hero-body">
-                          <div className="container has-text-centered">
-                            <img
-                              style={{ width: 300 }}
-                              src={YoutubeCover}
-                              alt="BidOrBoo YouTube Promo Video"
-                            />
-                          </div>
-                        </div>
-                      </section>
-                    }
-                    light
-                    playing
-                    className="react-player"
-                    url="https://youtu.be/YHh9JbJAyf0"
-                    width="100%"
-                    height="100%"
-                    config={{
-                      youtube: {
-                        rel: 0,
-                        modestbranding: 1,
-                        iv_load_policy: 3,
-                        origin: 'https://www.bidorboo.ca',
-                        widget_referrer: 'https://www.bidorboo.ca',
-                        preload: true,
-                      },
-                    }}
-                  />
-                </div>
               </div>
             </div>
           </section>
 
-          <br></br>
           <section className="hero is-small has-text-centered is-white">
             <div style={{ paddingTop: 0 }} className="hero-body">
               <div className="columns is-mobile is-multiline is-centered">
@@ -184,6 +131,55 @@ export default class HomePage extends React.Component {
             </div>
           </section>
           <br></br>
+          <section
+            style={{ marginBottom: '1rem' }}
+            className="hero is-small has-text-centered is-white fade-in"
+          >
+            <div className="hero-body">
+              <div className="container has-text-centered">
+                <img style={{ width: 210 }} src={HowItWorks} alt="See How BidOrBoo Works" />
+              </div>
+            </div>
+          </section>
+          <section className="hero has-text-centered is-white fade-in">
+            <div style={{ position: 'relative' }}>
+              <div style={{ margin: 'auto', padding: '0.5rem', maxWidth: 450 }}>
+                <div className="player-wrapper">
+                  <ReactPlayer
+                    playIcon={
+                      <section className="hero is-small has-text-centered is-white fade-in">
+                        <div style={{ paddingBottom: '1rem' }} className="hero-body">
+                          <div className="container has-text-centered">
+                            <img
+                              style={{ width: 300 }}
+                              src={YoutubeCover}
+                              alt="BidOrBoo YouTube Promo Video"
+                            />
+                          </div>
+                        </div>
+                      </section>
+                    }
+                    light
+                    playing
+                    className="react-player"
+                    url="https://youtu.be/YHh9JbJAyf0"
+                    width="100%"
+                    height="100%"
+                    config={{
+                      youtube: {
+                        rel: 0,
+                        modestbranding: 1,
+                        iv_load_policy: 3,
+                        origin: 'https://www.bidorboo.ca',
+                        widget_referrer: 'https://www.bidorboo.ca',
+                        preload: true,
+                      },
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
       </>
     );
