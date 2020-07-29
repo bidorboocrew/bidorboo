@@ -94,6 +94,9 @@ class FreshdeskChat extends React.Component {
         rating,
       } = userDetails;
       try {
+        if (!window.fcWidget) {
+          return;
+        }
         // To set unique user id in your system when it is available
         window.fcWidget.setExternalId(userId);
         // To set user name
@@ -154,6 +157,9 @@ class FreshdeskChat extends React.Component {
           rating,
         } = userDetails;
         try {
+          if (!window.fcWidget) {
+            return;
+          }
           // To set unique user id in your system when it is available
           window.fcWidget.setExternalId(userId);
           // To set user name
