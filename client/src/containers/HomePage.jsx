@@ -180,6 +180,7 @@ export default class HomePage extends React.Component {
               </div>
             </div>
           </section>
+          <br></br>
         </div>
       </>
     );
