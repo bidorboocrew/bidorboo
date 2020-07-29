@@ -192,10 +192,7 @@ const POS = () => {
         user experience and save your preferences.&nbsp;
       </p>
       <p>&nbsp;</p>
-      <p>
-        We use functional cookies that are required for to use the Platform including, but not
-        limited to:
-      </p>
+      <p>We use cookies that are required to use the Platform including, but not limited to:</p>
       <ul>
         <li>third-party cookies to ensure safety and security;</li>
         <li>
@@ -226,9 +223,9 @@ const POS = () => {
           <a
             target="_blank"
             rel="noopener noreferrer"
-            href="https://mlab.com/company/legal/privacy/"
+            href="https://www.mongodb.com/cloud-terms-and-conditions"
           >
-            MongoLab privacy policy
+            MongoDB Cloud Terms of service
           </a>
           ;
         </li>
@@ -250,7 +247,6 @@ const POS = () => {
           >
             Stripe
           </a>
-          ; and
         </li>
         <li>
           <a
@@ -259,6 +255,24 @@ const POS = () => {
             href="https://support.freshchat.com/support/solutions/articles/233584-updates-to-terms-of-service-and-privacy-policy"
           >
             Freshchat
+          </a>
+          .
+        </li>
+
+        <li>
+          <a target="_blank" rel="noopener noreferrer" href="https://www.twilio.com/legal/tos">
+            Twilio Terms of Service
+          </a>
+          .
+        </li>
+
+        <li>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://www.google.com/analytics/terms/tag-manager/"
+          >
+            Google Tag Manager
           </a>
           .
         </li>
