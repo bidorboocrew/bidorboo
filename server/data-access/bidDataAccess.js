@@ -364,7 +364,7 @@ exports.bidDataAccess = {
             )
               .lean(true)
               .exec(),
-            BidModel.findOneAndRemove(bidDetails._id).lean(true).exec(),
+            BidModel.findOneAndDelete({ _id: bidDetails._id }).lean(true).exec(),
           ]);
           resolve({ success: true, deletedBidId: bidId });
         }

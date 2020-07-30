@@ -86,7 +86,6 @@ class TaskerVerificationBanner extends React.Component {
   render() {
     const { isLoggedIn, userDetails, isLoadingStripeAccountDetails } = this.props;
     const { showUploadImgModal, isLoading } = this.state;
-
     if (!isLoggedIn || !userDetails || !userDetails.userId || isLoadingStripeAccountDetails) {
       return null;
     }
