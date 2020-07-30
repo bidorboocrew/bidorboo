@@ -11,6 +11,8 @@ const sendGridEmailing = require('../services/sendGrid').EmailService;
 const sendTextService = require('../services/TwilioSMS').TxtMsgingService;
 const { getChargeDistributionDetails } = require('../utils/chargesCalculatorUtil');
 const WebPushNotifications = require('../services/WebPushNotifications').WebPushNotifications;
+const { bugsnagClient } = utils;
+
 exports.bidDataAccess = {
   cancelAwardedBid: async (mongoUser_id, bidId) => {
     /**
@@ -362,9 +364,7 @@ exports.bidDataAccess = {
             )
               .lean(true)
               .exec(),
-            BidModel.findOneAndRemove(bidDetails._id)
-              .lean(true)
-              .exec(),
+            BidModel.findOneAndRemove(bidDetails._id).lean(true).exec(),
           ]);
           resolve({ success: true, deletedBidId: bidId });
         }
