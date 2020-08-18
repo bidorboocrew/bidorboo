@@ -107,7 +107,9 @@ app.use((err, req, res, next) => {
   console.log(err); // Log error message in our server's console
 
   console.log('BIDORBOOLOGS ======== error handler END ==========');
-  bugsnagClient.notify(err);
+  if (!err.joi) {
+    bugsnagClient.notify(err);
+  }
   res.status(userError.statusCode).send(userError.safeMsg); // All HTTP requests must have a response, so let's send back an error with its status code and message
 });
 if (process.env.NODE_ENV === 'development') {
