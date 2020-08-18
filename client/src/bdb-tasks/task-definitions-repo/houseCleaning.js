@@ -533,7 +533,7 @@ Q4) Anything else you want the Tasker to do?
               break;
             case 'requesterProvides':
               valueOfField =
-                'The requester will provide the cleaning equipment (vacuum, mop, etc.)';
+                'The requester will provide the cleaning equipment like (vacuum, mop, etc.)';
               break;
           }
           return equipmentProvider ? (
