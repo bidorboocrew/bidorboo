@@ -128,6 +128,7 @@ export const UserImageAndRating = ({ userDetails, clipUserName = false, large = 
 };
 
 const CATEGORY_TO_DISPLAY_NAME = {
+  ACCURACY_OF_POST: 'Post Accuracy',
   QUALITY_OF_WORK: 'Quality',
   PUNCTUALITY: 'Punctuality',
   COMMUNICATION: 'Communication',

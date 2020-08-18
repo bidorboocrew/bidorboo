@@ -436,9 +436,7 @@ Q4) Anything else you want the Tasker to do?
           return bathroomCount ? (
             <div key={'extras-bathroomCount'} className="group">
               <label className="label hasSelectedValue">Number of bathrooms</label>
-              <div className="control">
-                {bathroomCount === 1 ? `${bathroomCount} bathroom` : `${bathroomCount} bathrooms`}
-              </div>
+              <div className="control">{bathroomCount}</div>
             </div>
           ) : null;
         },
@@ -530,10 +528,12 @@ Q4) Anything else you want the Tasker to do?
           let valueOfField = '';
           switch (equipmentProvider) {
             case 'taskerProvides':
-              valueOfField = 'Tasker must bring cleaning equipment (vacuum, mop, etc.)';
+              valueOfField =
+                'Tasker must bring cleaning equipment (vaccum, mop, all purpose cleaner, windex, sponges, duster, garbage bags...etc)';
               break;
             case 'requesterProvides':
-              valueOfField = 'The requester will provide equipment (vacuum, mop, etc.)';
+              valueOfField =
+                'The requester will provide the cleaning equipment (vacuum, mop, etc.)';
               break;
           }
           return equipmentProvider ? (

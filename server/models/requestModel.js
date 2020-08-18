@@ -203,21 +203,28 @@ RequestSchema.virtual('isHappeningToday').get(function () {
 });
 
 RequestSchema.virtual('isHappeningSoon').get(function () {
-  const theNext24Hours = moment().tz('America/Toronto').add(1, 'day').startOf('day');
-
+  // first check if it is pased due and return false
+  const now = moment().tz('America/Toronto').toISOString();
   const requestStartDate = this.startingDateAndTime;
+
   // normalize the start date to the same timezone to comapre
-  const normalizedStartDate = moment(requestStartDate).tz('America/Toronto');
+  const normalizedStartDate = moment(requestStartDate).tz('America/Toronto').toISOString();
+  const isRequestScheduledTimePastDue = moment(normalizedStartDate).isSameOrBefore(now);
 
-  var duration = moment.duration(theNext24Hours.diff(normalizedStartDate));
-  var hours = duration.asHours();
+  if (isRequestScheduledTimePastDue) {
+    return false;
+  }
 
-  const isNotPastDue = moment(theNext24Hours.toISOString()).isAfter(
-    normalizedStartDate.toISOString()
+  // next ensure that it is happening within the next 24 hours
+  const theNext24Hours = moment().tz('America/Toronto').add(1, 'day').endOf('day');
+
+  const diffOfTaskStartVsEndOfDayTomorrow = moment.duration(
+    theNext24Hours.diff(normalizedStartDate)
   );
+  const hours = diffOfTaskStartVsEndOfDayTomorrow.asHours();
 
   // if request is about to expire in 48 hours
-  return hours <= 48 && isNotPastDue;
+  return hours <= 48;
 });
 
 RequestSchema.plugin(mongooseLeanVirtuals);
