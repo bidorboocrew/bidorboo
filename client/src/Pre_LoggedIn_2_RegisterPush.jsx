@@ -8,15 +8,22 @@ import Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren from './Pre_Logge
 var OneSignal = window.OneSignal || [];
 
 const updateUserSubscription = async (userDetails, isSubscribed) => {
+  console.info('updateUserSubscription');
   try {
     let externalUserId = '';
     if (OneSignal) {
+      console.info('updateUserSubscription OneSignal');
       externalUserId = await OneSignal.getExternalUserId();
+      console.info({ externalUserId });
     }
 
     if (externalUserId !== userDetails.userId) {
+      console.info('externalUserId !== userDetails.userId');
+
       const oneSignalUserId = await OneSignal.getUserId();
       if (oneSignalUserId) {
+        console.info({ oneSignalUserId });
+
         await axios.post('/api/push/register', {
           data: {
             oneSignalUserId,
@@ -25,6 +32,7 @@ const updateUserSubscription = async (userDetails, isSubscribed) => {
       }
     }
   } catch (e) {
+    console.info('error updateUserSubscription' + e);
     getBugsnagClient().leaveBreadcrumb(
       'updateUserSubscription Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren',
     );
@@ -52,9 +60,7 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
     const androidOneSignalId = window.localStorage.getItem('bob_androidOneSignalPlayerId');
     if (androidOneSignalId) {
       if (window.bidorbooAndroid && window.bidorbooAndroid.setExternalUserOneSignalId) {
-        window.bidorbooAndroid.setExternalUserOneSignalId(
-          `${androidOneSignalId}`,
-        );
+        window.bidorbooAndroid.setExternalUserOneSignalId(`${androidOneSignalId}`);
       }
       try {
         // register the user push norification
@@ -70,12 +76,13 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
         getBugsnagClient().notify(e);
       }
     }
-    /********************************************************* */
+    /********************android app end************************************* */
 
     if (userDetails.notifications && userDetails.notifications.push) {
       // https://documentation.onesignal.com/docs/sdk-reference
-      OneSignal.push(function() {
+      OneSignal.push(function () {
         if (!OneSignal._initCalled) {
+          console.info('OneSignal._initCalled');
           OneSignal.init({
             appId:
               process.env.NODE_ENV === 'production'
@@ -86,7 +93,7 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
             promptOptions: {
               /* These prompt options values configure both the HTTP prompt and the HTTP popup. */
               /* actionMessage limited to 90 characters */
-              actionMessage: 'Recieve Notifications about Your Requests and Bids',
+              actionMessage: 'Get Notified about Your Requests and Bids',
               /* acceptButtonText limited to 15 characters */
               acceptButtonText: 'ALLOW',
               /* cancelButtonText limited to 15 characters */
@@ -97,15 +104,25 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
             },
           });
         }
-        process.env.NODE_ENV !== 'production' && OneSignal.log.setLevel('trace');
+        // process.env.NODE_ENV !== 'production' &&
+        OneSignal.log.setLevel('trace');
         OneSignal.setLocationShared && OneSignal.setLocationShared(false);
         OneSignal.setDefaultNotificationUrl('https://www.bidorboo.ca');
         OneSignal.setExternalUserId(userDetails.userId);
         OneSignal.showSlidedownPrompt();
 
-        OneSignal.on('subscriptionChange', function(isSubscribed) {
-          // console.info('update subscription');
+        OneSignal.on('subscriptionChange', function (isSubscribed) {
+          console.info('update subscription');
           updateUserSubscription(userDetails, isSubscribed);
+        });
+
+        /* These examples are all valid */
+        OneSignal.isPushNotificationsEnabled(function (isEnabled) {
+          if (isEnabled) {
+            console.log('Push notifications are enabled!');
+          } else {
+            console.log('Push notifications are not enabled yet.');
+          }
         });
       });
     }
