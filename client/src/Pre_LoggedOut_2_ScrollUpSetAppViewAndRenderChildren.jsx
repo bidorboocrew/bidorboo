@@ -15,7 +15,7 @@ class Pre_LoggedOut_2_ScrollUpSetAppViewAndRenderChildren extends React.PureComp
   componentDidMount() {
     OneSignal.push(function () {
       if (!OneSignal._initCalled) {
-        console.info('OneSignal._initCalled');
+        console.log('OneSignal._initCalled');
         OneSignal.init({
           appId:
             process.env.NODE_ENV === 'production'
@@ -37,8 +37,8 @@ class Pre_LoggedOut_2_ScrollUpSetAppViewAndRenderChildren extends React.PureComp
           },
         });
       }
-      // process.env.NODE_ENV !== 'production' &&
-      OneSignal.log.setLevel('trace');
+      process.env.NODE_ENV !== 'production' && OneSignal.log.setLevel('trace');
+
       OneSignal.setDefaultNotificationUrl('https://www.bidorboo.ca');
       OneSignal.showSlidedownPrompt();
       /* These examples are all valid */

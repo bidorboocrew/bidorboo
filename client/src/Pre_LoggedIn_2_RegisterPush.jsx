@@ -8,21 +8,21 @@ import Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren from './Pre_Logge
 var OneSignal = window.OneSignal || [];
 
 const updateUserSubscription = async (userDetails, isSubscribed) => {
-  console.info('updateUserSubscription');
+  console.log('updateUserSubscription');
   try {
     let externalUserId = '';
     if (OneSignal) {
-      console.info('updateUserSubscription OneSignal');
+      console.log('updateUserSubscription OneSignal');
       externalUserId = await OneSignal.getExternalUserId();
-      console.info({ externalUserId });
+      console.log({ externalUserId });
     }
 
     if (externalUserId !== userDetails.userId) {
-      console.info('externalUserId !== userDetails.userId');
+      console.log('externalUserId !== userDetails.userId');
 
       const oneSignalUserId = await OneSignal.getUserId();
       if (oneSignalUserId) {
-        console.info({ oneSignalUserId });
+        console.log({ oneSignalUserId });
 
         await axios.post('/api/push/register', {
           data: {
@@ -32,7 +32,7 @@ const updateUserSubscription = async (userDetails, isSubscribed) => {
       }
     }
   } catch (e) {
-    console.info('error updateUserSubscription' + e);
+    console.log('error updateUserSubscription' + e);
     getBugsnagClient().leaveBreadcrumb(
       'updateUserSubscription Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren',
     );
@@ -53,6 +53,7 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
 
   componentDidMount() {
     const { userDetails } = this.props;
+    console.log('componentDidMount Pre_LoggedIn_2_RegisterPush');
 
     /**
      * for android apps only
@@ -82,7 +83,7 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
       // https://documentation.onesignal.com/docs/sdk-reference
       OneSignal.push(function () {
         if (!OneSignal._initCalled) {
-          console.info('OneSignal._initCalled');
+          console.log('OneSignal._initCalled');
           OneSignal.init({
             appId:
               process.env.NODE_ENV === 'production'
@@ -104,15 +105,14 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
             },
           });
         }
-        // process.env.NODE_ENV !== 'production' &&
-        OneSignal.log.setLevel('trace');
+        process.env.NODE_ENV !== 'production' && OneSignal.log.setLevel('trace');
         OneSignal.setLocationShared && OneSignal.setLocationShared(false);
         OneSignal.setDefaultNotificationUrl('https://www.bidorboo.ca');
         OneSignal.setExternalUserId(userDetails.userId);
         OneSignal.showSlidedownPrompt();
 
         OneSignal.on('subscriptionChange', function (isSubscribed) {
-          console.info('update subscription');
+          console.log('update subscription');
           updateUserSubscription(userDetails, isSubscribed);
         });
 
