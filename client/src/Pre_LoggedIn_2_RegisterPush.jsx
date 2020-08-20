@@ -5,25 +5,17 @@ import { getBugsnagClient } from './index';
 
 import Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren from './Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren';
 
-var OneSignal = window.OneSignal || [];
-
 const updateUserSubscription = async (userDetails, isSubscribed) => {
-  console.log('updateUserSubscription');
   try {
     let externalUserId = '';
     if (OneSignal) {
-      console.log('updateUserSubscription OneSignal');
       externalUserId = await OneSignal.getExternalUserId();
-      console.log({ externalUserId });
     }
 
     if (externalUserId !== userDetails.userId) {
-      console.log('externalUserId !== userDetails.userId');
-
       const oneSignalUserId = await OneSignal.getUserId();
       if (oneSignalUserId) {
-        console.log({ oneSignalUserId });
-
+        debugger;
         await axios.post('/api/push/register', {
           data: {
             oneSignalUserId,
@@ -53,14 +45,10 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
 
   componentDidMount() {
     const { userDetails } = this.props;
-    console.log('componentDidMount Pre_LoggedIn_2_RegisterPush');
 
-    if (!OneSignal._initCalled) {
-      console.log('initialize onesignal');
-
-      OneSignal.push([
-        'init',
-        {
+    if (OneSignal && !OneSignal._initCalled) {
+      OneSignal.push(function () {
+        OneSignal.init({
           appId:
             process.env.NODE_ENV === 'production'
               ? process.env.REACT_APP_ONESIGNAL_PUBLIC
@@ -79,8 +67,8 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
           welcomeNotification: {
             disable: true,
           },
-        },
-      ]);
+        });
+      });
     }
 
     /**
@@ -106,13 +94,11 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
       }
     }
     /********************android app end************************************* */
-    console.log({ userDetails });
-    if (userDetails.notifications && userDetails.notifications.push) {
-      console.log('userDetails.notifications.push');
 
+    if (userDetails.notifications && userDetails.notifications.push) {
       // https://documentation.onesignal.com/docs/sdk-reference
       OneSignal.push(function () {
-        console.log('OneSignal.push');
+        debugger;
         process.env.NODE_ENV !== 'production' && OneSignal.log.setLevel('trace');
         OneSignal.setLocationShared && OneSignal.setLocationShared(false);
         OneSignal.setDefaultNotificationUrl('https://www.bidorboo.ca');
@@ -121,7 +107,6 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
 
         OneSignal.showSlidedownPrompt();
         OneSignal.on('subscriptionChange', function (isSubscribed) {
-          console.log('update subscription');
           updateUserSubscription(userDetails, isSubscribed);
         });
 
