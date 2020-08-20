@@ -55,6 +55,34 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
     const { userDetails } = this.props;
     console.log('componentDidMount Pre_LoggedIn_2_RegisterPush');
 
+    if (!OneSignal._initCalled) {
+      console.log('initialize onesignal');
+
+      OneSignal.push([
+        'init',
+        {
+          appId:
+            process.env.NODE_ENV === 'production'
+              ? process.env.REACT_APP_ONESIGNAL_PUBLIC
+              : process.env.REACT_APP_ONESIGNAL_PUBLIC_TEST,
+          autoResubscribe: true,
+          allowLocalhostAsSecureOrigin: process.env.NODE_ENV === 'production' ? false : true,
+          promptOptions: {
+            /* These prompt options values configure both the HTTP prompt and the HTTP popup. */
+            /* actionMessage limited to 90 characters */
+            actionMessage: 'Get Notified about Your Requests and Bids',
+            /* acceptButtonText limited to 15 characters */
+            acceptButtonText: 'ALLOW',
+            /* cancelButtonText limited to 15 characters */
+            cancelButtonText: 'NO THANKS',
+          },
+          welcomeNotification: {
+            disable: true,
+          },
+        },
+      ]);
+    }
+
     /**
      * for android apps only
      */
@@ -78,47 +106,27 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
       }
     }
     /********************android app end************************************* */
-
+    console.log({ userDetails });
     if (userDetails.notifications && userDetails.notifications.push) {
+      console.log('userDetails.notifications.push');
+
       // https://documentation.onesignal.com/docs/sdk-reference
       OneSignal.push(function () {
-        if (!OneSignal._initCalled) {
-          console.log('OneSignal._initCalled');
-          OneSignal.init({
-            appId:
-              process.env.NODE_ENV === 'production'
-                ? process.env.REACT_APP_ONESIGNAL_PUBLIC
-                : process.env.REACT_APP_ONESIGNAL_PUBLIC_TEST,
-            autoResubscribe: true,
-            allowLocalhostAsSecureOrigin: process.env.NODE_ENV === 'production' ? false : true,
-            promptOptions: {
-              /* These prompt options values configure both the HTTP prompt and the HTTP popup. */
-              /* actionMessage limited to 90 characters */
-              actionMessage: 'Get Notified about Your Requests and Bids',
-              /* acceptButtonText limited to 15 characters */
-              acceptButtonText: 'ALLOW',
-              /* cancelButtonText limited to 15 characters */
-              cancelButtonText: 'NO THANKS',
-            },
-            welcomeNotification: {
-              disable: true,
-            },
-          });
-        }
+        console.log('OneSignal.push');
         process.env.NODE_ENV !== 'production' && OneSignal.log.setLevel('trace');
         OneSignal.setLocationShared && OneSignal.setLocationShared(false);
         OneSignal.setDefaultNotificationUrl('https://www.bidorboo.ca');
         OneSignal.setExternalUserId(userDetails.userId);
-        OneSignal.sendTag("userName", userDetails.displayName);
-        OneSignal.showSlidedownPrompt();
+        OneSignal.sendTag('userName', userDetails.displayName);
 
+        OneSignal.showSlidedownPrompt();
         OneSignal.on('subscriptionChange', function (isSubscribed) {
           console.log('update subscription');
           updateUserSubscription(userDetails, isSubscribed);
         });
 
         /* These examples are all valid */
-        OneSignal.isPushNotificationsEnabled(function (isEnabled) {
+        OneSignal.isPushNotificationsEnabled().then(function (isEnabled) {
           if (isEnabled) {
             console.log('Push notifications are enabled!');
           } else {
