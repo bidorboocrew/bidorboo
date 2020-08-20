@@ -109,6 +109,7 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
         OneSignal.setLocationShared && OneSignal.setLocationShared(false);
         OneSignal.setDefaultNotificationUrl('https://www.bidorboo.ca');
         OneSignal.setExternalUserId(userDetails.userId);
+        OneSignal.sendTag("userName", userDetails.displayName);
         OneSignal.showSlidedownPrompt();
 
         OneSignal.on('subscriptionChange', function (isSubscribed) {
