@@ -5,6 +5,7 @@ import { getBugsnagClient } from './index';
 
 import Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren from './Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren';
 
+var OneSignal = OneSignal || [];
 const updateUserSubscription = async (userDetails, isSubscribed) => {
   try {
     let externalUserId = '';
