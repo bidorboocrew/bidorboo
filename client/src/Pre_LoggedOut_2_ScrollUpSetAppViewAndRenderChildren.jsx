@@ -1,5 +1,6 @@
 import React from 'react';
 import { getBugsnagClient } from './index';
+var OneSignal = OneSignal || [];
 
 class Pre_LoggedOut_2_ScrollUpSetAppViewAndRenderChildren extends React.PureComponent {
   componentDidCatch(error, info) {
@@ -12,6 +13,44 @@ class Pre_LoggedOut_2_ScrollUpSetAppViewAndRenderChildren extends React.PureComp
 
   componentDidMount() {
     const { setAppViewUIToRequester, setAppViewUIToTasker } = this.props;
+
+    if (OneSignal && !OneSignal._initCalled) {
+      OneSignal.push(function () {
+        OneSignal.init({
+          appId:
+            process.env.NODE_ENV === 'production'
+              ? process.env.REACT_APP_ONESIGNAL_PUBLIC
+              : process.env.REACT_APP_ONESIGNAL_PUBLIC_TEST,
+          autoResubscribe: true,
+          allowLocalhostAsSecureOrigin: process.env.NODE_ENV === 'production' ? false : true,
+          promptOptions: {
+            slidedown: {
+              // https://documentation.onesignal.com/docs/slide-prompt
+              enabled: true,
+              autoPrompt: true,
+              timeDelay: 10,
+              pageViews: 1,
+              actionMessage: 'Get notified about Requests and Bids in your area',
+              /* acceptButtonText limited to 15 characters */
+              acceptButtonText: 'YES',
+              /* cancelButtonText limited to 15 characters */
+              cancelButtonText: 'NO',
+            },
+            /* These prompt options values configure both the HTTP prompt and the HTTP popup. */
+            /* actionMessage limited to 90 characters */
+            actionMessage: 'Get notified about Requests and Bids in your area',
+            /* acceptButtonText limited to 15 characters */
+            acceptButtonText: 'YES',
+            /* cancelButtonText limited to 15 characters */
+            cancelButtonText: 'NO',
+          },
+          welcomeNotification: {
+            disable: true,
+          },
+        });
+      });
+    }
+
     const currentUrlPathname = window.location.pathname;
 
     if (currentUrlPathname.indexOf('bdb-request') > -1) {
