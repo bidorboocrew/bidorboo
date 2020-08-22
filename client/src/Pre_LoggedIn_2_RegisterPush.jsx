@@ -47,6 +47,7 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
 
   componentDidUpdate() {
     const { userDetails } = this.props;
+    console.log({ userDetails });
     if (!userDetails.userId) {
       return;
     }
