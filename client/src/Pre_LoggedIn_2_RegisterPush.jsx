@@ -5,28 +5,26 @@ import { getBugsnagClient } from './index';
 
 import Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren from './Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren';
 
-var OneSignal = OneSignal || [];
+var OneSignal = window.OneSignal || [];
 
-const updateUserSubscription = () => {
+const updateUserSubscription = async (userDetails, isSubscribed) => {
   try {
-    if (!OneSignal) {
-      return;
+    let externalUserId = '';
+    if (OneSignal) {
+      externalUserId = await OneSignal.getExternalUserId();
     }
 
-    // https://documentation.onesignal.com/docs/web-push-sdk#notificationpermissionchange
-    OneSignal.push(function () {
-      /* These examples are all valid */
-      OneSignal.getUserId(function (oneSignalUserId) {
-        console.log('OneSignal User ID:', oneSignalUserId);
-        axios.post('/api/push/register', {
+    if (externalUserId !== userDetails.userId) {
+      const oneSignalUserId = await OneSignal.getUserId();
+      if (oneSignalUserId) {
+        await axios.post('/api/push/register', {
           data: {
             oneSignalUserId,
           },
         });
-      });
-    });
+      }
+    }
   } catch (e) {
-    console.log('error updateUserSubscription' + e);
     getBugsnagClient().leaveBreadcrumb(
       'updateUserSubscription Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren',
     );
@@ -45,132 +43,18 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
     getBugsnagClient().notify(error);
   }
 
-  componentDidUpdate() {
+  componentDidMount() {
     const { userDetails } = this.props;
-    if (!userDetails.userId) {
-      return;
-    }
-    console.log({ userDetails });
-
-    if (userDetails.notifications && userDetails.notifications.push) {
-      // https://documentation.onesignal.com/docs/sdk-reference
-      OneSignal.push(function () {
-        console.log('OneSignal.push(function () {');
-        if (!OneSignal._initCalled) {
-          console.log('initialize one signal callInit');
-          OneSignal.push(function () {
-            console.log('initialize one signal callInit inside func');
-            OneSignal.init({
-              appId:
-                process.env.NODE_ENV === 'production'
-                  ? process.env.REACT_APP_ONESIGNAL_PUBLIC
-                  : process.env.REACT_APP_ONESIGNAL_PUBLIC_TEST,
-              autoResubscribe: true,
-              requiresUserPrivacyConsent: false,
-              allowLocalhostAsSecureOrigin: process.env.NODE_ENV === 'production' ? false : true,
-              promptOptions: {
-                // slidedown: {
-                //   // https://documentation.onesignal.com/docs/slide-prompt
-                //   enabled: true,
-                //   actionMessage: 'Notify me about MY Requests and Bids',
-                //   /* acceptButtonText limited to 15 characters */
-                //   acceptButtonText: 'YES',
-                //   /* cancelButtonText limited to 15 characters */
-                //   cancelButtonText: 'NO',
-                // },
-                /* These prompt options values configure both the HTTP prompt and the HTTP popup. */
-                /* actionMessage limited to 90 characters */
-                actionMessage: 'Notify me about MY Requests and Bids',
-                /* acceptButtonText limited to 15 characters */
-                acceptButtonText: 'YES',
-                /* cancelButtonText limited to 15 characters */
-                cancelButtonText: 'NO',
-              },
-              welcomeNotification: {
-                disable: true,
-              },
-            });
-          });
-        }
-
-        if (OneSignal._initCalled) {
-          const isPushSupported = OneSignal.isPushNotificationsSupported();
-          if (!isPushSupported) {
-            return;
-          }
-
-          OneSignal.on('subscriptionChange', function (isSubscribed) {
-            updateUserSubscription(userDetails, isSubscribed);
-          });
-
-          OneSignal.isPushNotificationsEnabled(function (isEnabled) {
-            if (isEnabled) {
-              OneSignal.showNativePrompt();
-              console.log('Push notifications are enabled!');
-              OneSignal.getUserId(function (userId) {
-                if (userId === userDetails.userId) {
-                  console.log('user already setup');
-                  return;
-                }
-
-                OneSignal.setLocationShared && OneSignal.setLocationShared(false);
-                OneSignal.setDefaultNotificationUrl('https://www.bidorboo.ca');
-                OneSignal.setExternalUserId(userDetails.userId);
-                if (userDetails.email && userDetails.email.emailAddress) {
-                  OneSignal.setEmail(userDetails.email.emailAddress);
-                }
-                OneSignal.sendTag('userName', userDetails.displayName);
-              });
-            } else {
-              console.log('Push notifications are not enabled yet.');
-              OneSignal.showSlidedownPrompt();
-            }
-          });
-        }
-      });
-    }
 
     /**
      * for android apps only
      */
     const androidOneSignalId = window.localStorage.getItem('bob_androidOneSignalPlayerId');
     if (androidOneSignalId) {
-      if (!OneSignal._initCalled) {
-        console.log('initialize one signal callInit');
-        OneSignal.push(function () {
-          OneSignal.init({
-            appId:
-              process.env.NODE_ENV === 'production'
-                ? process.env.REACT_APP_ONESIGNAL_PUBLIC
-                : process.env.REACT_APP_ONESIGNAL_PUBLIC_TEST,
-            autoResubscribe: true,
-            allowLocalhostAsSecureOrigin: process.env.NODE_ENV === 'production' ? false : true,
-            promptOptions: {
-              slidedown: {
-                // https://documentation.onesignal.com/docs/slide-prompt
-                enabled: true,
-                actionMessage: 'Notify me about MY Requests and Bids',
-                /* acceptButtonText limited to 15 characters */
-                acceptButtonText: 'YES',
-                /* cancelButtonText limited to 15 characters */
-                cancelButtonText: 'NO',
-              },
-              /* These prompt options values configure both the HTTP prompt and the HTTP popup. */
-              /* actionMessage limited to 90 characters */
-              actionMessage: 'Notify me about MY Requests and Bids',
-              /* acceptButtonText limited to 15 characters */
-              acceptButtonText: 'YES',
-              /* cancelButtonText limited to 15 characters */
-              cancelButtonText: 'NO',
-            },
-            welcomeNotification: {
-              disable: true,
-            },
-          });
-        });
-      }
       if (window.bidorbooAndroid && window.bidorbooAndroid.setExternalUserOneSignalId) {
-        window.bidorbooAndroid.setExternalUserOneSignalId(`${androidOneSignalId}`);
+        window.bidorbooAndroid.setExternalUserOneSignalId(
+          `${androidOneSignalId}`,
+        );
       }
       try {
         // register the user push norification
@@ -186,7 +70,45 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
         getBugsnagClient().notify(e);
       }
     }
-    /********************android app end************************************* */
+    /********************************************************* */
+
+    if (userDetails.notifications && userDetails.notifications.push) {
+      // https://documentation.onesignal.com/docs/sdk-reference
+      OneSignal.push(function() {
+        if (!OneSignal._initCalled) {
+          OneSignal.init({
+            appId:
+              process.env.NODE_ENV === 'production'
+                ? process.env.REACT_APP_ONESIGNAL_PUBLIC
+                : process.env.REACT_APP_ONESIGNAL_PUBLIC_TEST,
+            autoResubscribe: true,
+            allowLocalhostAsSecureOrigin: process.env.NODE_ENV === 'production' ? false : true,
+            promptOptions: {
+              /* These prompt options values configure both the HTTP prompt and the HTTP popup. */
+              /* actionMessage limited to 90 characters */
+              actionMessage: 'Recieve Notifications about Your Requests and Bids',
+              /* acceptButtonText limited to 15 characters */
+              acceptButtonText: 'ALLOW',
+              /* cancelButtonText limited to 15 characters */
+              cancelButtonText: 'NO THANKS',
+            },
+            welcomeNotification: {
+              disable: true,
+            },
+          });
+        }
+        process.env.NODE_ENV !== 'production' && OneSignal.log.setLevel('trace');
+        OneSignal.setLocationShared && OneSignal.setLocationShared(false);
+        OneSignal.setDefaultNotificationUrl('https://www.bidorboo.ca');
+        OneSignal.setExternalUserId(userDetails.userId);
+        OneSignal.showSlidedownPrompt();
+
+        OneSignal.on('subscriptionChange', function(isSubscribed) {
+          // console.info('update subscription');
+          updateUserSubscription(userDetails, isSubscribed);
+        });
+      });
+    }
   }
 
   render() {
