@@ -160,6 +160,7 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
 
           OneSignal.isPushNotificationsEnabled(function (isEnabled) {
             if (isEnabled) {
+              OneSignal.showNativePrompt();
               console.log('Push notifications are enabled!');
               OneSignal.getUserId(function (userId) {
                 if (userId === userDetails.userId) {
