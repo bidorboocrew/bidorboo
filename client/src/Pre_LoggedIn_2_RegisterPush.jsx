@@ -7,24 +7,26 @@ import Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren from './Pre_Logge
 
 var OneSignal = window.OneSignal || [];
 
-const updateUserSubscription = async (userDetails, isSubscribed) => {
+const updateUserSubscription = () => {
   try {
-    let externalUserId = '';
-    if (OneSignal) {
-      externalUserId = await OneSignal.getExternalUserId();
+    if (!OneSignal) {
+      return;
     }
 
-    if (externalUserId !== userDetails.userId) {
-      const oneSignalUserId = await OneSignal.getUserId();
-      if (oneSignalUserId) {
-        await axios.post('/api/push/register', {
+    // https://documentation.onesignal.com/docs/web-push-sdk#notificationpermissionchange
+    OneSignal.push(function () {
+      /* These examples are all valid */
+      OneSignal.getUserId(function (oneSignalUserId) {
+        console.log('OneSignal User ID:', oneSignalUserId);
+        axios.post('/api/push/register', {
           data: {
             oneSignalUserId,
           },
         });
-      }
-    }
+      });
+    });
   } catch (e) {
+    console.log('error updateUserSubscription' + e);
     getBugsnagClient().leaveBreadcrumb(
       'updateUserSubscription Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren',
     );
@@ -52,9 +54,7 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
     const androidOneSignalId = window.localStorage.getItem('bob_androidOneSignalPlayerId');
     if (androidOneSignalId) {
       if (window.bidorbooAndroid && window.bidorbooAndroid.setExternalUserOneSignalId) {
-        window.bidorbooAndroid.setExternalUserOneSignalId(
-          `${androidOneSignalId}`,
-        );
+        window.bidorbooAndroid.setExternalUserOneSignalId(`${androidOneSignalId}`);
       }
       try {
         // register the user push norification
@@ -74,7 +74,7 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
 
     if (userDetails.notifications && userDetails.notifications.push) {
       // https://documentation.onesignal.com/docs/sdk-reference
-      OneSignal.push(function() {
+      OneSignal.push(function () {
         if (!OneSignal._initCalled) {
           OneSignal.init({
             appId:
@@ -82,6 +82,7 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
                 ? process.env.REACT_APP_ONESIGNAL_PUBLIC
                 : process.env.REACT_APP_ONESIGNAL_PUBLIC_TEST,
             autoResubscribe: true,
+            requiresUserPrivacyConsent: false,
             allowLocalhostAsSecureOrigin: process.env.NODE_ENV === 'production' ? false : true,
             promptOptions: {
               /* These prompt options values configure both the HTTP prompt and the HTTP popup. */
@@ -101,11 +102,18 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
         OneSignal.setLocationShared && OneSignal.setLocationShared(false);
         OneSignal.setDefaultNotificationUrl('https://www.bidorboo.ca');
         OneSignal.setExternalUserId(userDetails.userId);
+        if (userDetails.email && userDetails.email.emailAddress) {
+          OneSignal.setEmail(userDetails.email.emailAddress);
+        }
+        OneSignal.sendTag('userName', userDetails.displayName);
         OneSignal.showSlidedownPrompt();
 
-        OneSignal.on('subscriptionChange', function(isSubscribed) {
+        OneSignal.on('subscriptionChange', function (isSubscribed) {
           // console.info('update subscription');
-          updateUserSubscription(userDetails, isSubscribed);
+          if (isSubscribed) {
+            OneSignal.showNativePrompt();
+            updateUserSubscription(userDetails, isSubscribed);
+          }
         });
       });
     }
