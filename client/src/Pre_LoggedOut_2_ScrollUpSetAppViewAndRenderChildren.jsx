@@ -14,13 +14,14 @@ class Pre_LoggedOut_2_ScrollUpSetAppViewAndRenderChildren extends React.PureComp
   componentDidUpdate() {
     if (!OneSignal._initCalled) {
       console.log('initialize one signal callInit');
-      OneSignal.push(function () {
+      OneSignal.push(function() {
         OneSignal.init({
           appId:
             process.env.NODE_ENV === 'production'
               ? process.env.REACT_APP_ONESIGNAL_PUBLIC
               : process.env.REACT_APP_ONESIGNAL_PUBLIC_TEST,
           autoResubscribe: true,
+          requiresUserPrivacyConsent: false,
           allowLocalhostAsSecureOrigin: process.env.NODE_ENV === 'production' ? false : true,
           promptOptions: {
             slidedown: {

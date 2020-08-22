@@ -50,68 +50,105 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
     if (!userDetails.userId) {
       return;
     }
-    if (!OneSignal._initCalled) {
-      console.log('initialize one signal callInit');
-      OneSignal.push(function () {
-        OneSignal.init({
-          appId:
-            process.env.NODE_ENV === 'production'
-              ? process.env.REACT_APP_ONESIGNAL_PUBLIC
-              : process.env.REACT_APP_ONESIGNAL_PUBLIC_TEST,
-          autoResubscribe: true,
-          allowLocalhostAsSecureOrigin: process.env.NODE_ENV === 'production' ? false : true,
-          promptOptions: {
-            slidedown: {
-              // https://documentation.onesignal.com/docs/slide-prompt
-              enabled: true,
+
+    /**
+     * for android apps only
+     */
+    const androidOneSignalId = window.localStorage.getItem('bob_androidOneSignalPlayerId');
+    if (androidOneSignalId) {
+      if (!OneSignal._initCalled) {
+        console.log('initialize one signal callInit');
+        OneSignal.push(function () {
+          OneSignal.init({
+            appId:
+              process.env.NODE_ENV === 'production'
+                ? process.env.REACT_APP_ONESIGNAL_PUBLIC
+                : process.env.REACT_APP_ONESIGNAL_PUBLIC_TEST,
+            autoResubscribe: true,
+            allowLocalhostAsSecureOrigin: process.env.NODE_ENV === 'production' ? false : true,
+            promptOptions: {
+              slidedown: {
+                // https://documentation.onesignal.com/docs/slide-prompt
+                enabled: true,
+                actionMessage: 'Notify me about MY Requests and Bids',
+                /* acceptButtonText limited to 15 characters */
+                acceptButtonText: 'YES',
+                /* cancelButtonText limited to 15 characters */
+                cancelButtonText: 'NO',
+              },
+              /* These prompt options values configure both the HTTP prompt and the HTTP popup. */
+              /* actionMessage limited to 90 characters */
               actionMessage: 'Notify me about MY Requests and Bids',
               /* acceptButtonText limited to 15 characters */
               acceptButtonText: 'YES',
               /* cancelButtonText limited to 15 characters */
               cancelButtonText: 'NO',
             },
-            /* These prompt options values configure both the HTTP prompt and the HTTP popup. */
-            /* actionMessage limited to 90 characters */
-            actionMessage: 'Notify me about MY Requests and Bids',
-            /* acceptButtonText limited to 15 characters */
-            acceptButtonText: 'YES',
-            /* cancelButtonText limited to 15 characters */
-            cancelButtonText: 'NO',
-          },
-          welcomeNotification: {
-            disable: true,
-          },
-        });
-      });
-    }
-    if (OneSignal && OneSignal._initCalled) {
-      /**
-       * for android apps only
-       */
-      const androidOneSignalId = window.localStorage.getItem('bob_androidOneSignalPlayerId');
-      if (androidOneSignalId) {
-        if (window.bidorbooAndroid && window.bidorbooAndroid.setExternalUserOneSignalId) {
-          window.bidorbooAndroid.setExternalUserOneSignalId(`${androidOneSignalId}`);
-        }
-        try {
-          // register the user push norification
-          axios.post('/api/push/register', {
-            data: {
-              oneSignalUserId: androidOneSignalId,
+            welcomeNotification: {
+              disable: true,
             },
           });
-        } catch (e) {
-          getBugsnagClient().leaveBreadcrumb(
-            'updateUserSubscription ANDROID Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren',
-          );
-          getBugsnagClient().notify(e);
-        }
+        });
       }
-      /********************android app end************************************* */
+      if (window.bidorbooAndroid && window.bidorbooAndroid.setExternalUserOneSignalId) {
+        window.bidorbooAndroid.setExternalUserOneSignalId(`${androidOneSignalId}`);
+      }
+      try {
+        // register the user push norification
+        axios.post('/api/push/register', {
+          data: {
+            oneSignalUserId: androidOneSignalId,
+          },
+        });
+      } catch (e) {
+        getBugsnagClient().leaveBreadcrumb(
+          'updateUserSubscription ANDROID Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren',
+        );
+        getBugsnagClient().notify(e);
+      }
+    }
+    /********************android app end************************************* */
 
-      if (userDetails.notifications && userDetails.notifications.push) {
-        // https://documentation.onesignal.com/docs/sdk-reference
-        OneSignal.push(function () {
+    if (userDetails.notifications && userDetails.notifications.push) {
+      // https://documentation.onesignal.com/docs/sdk-reference
+      OneSignal.push(function () {
+        if (!OneSignal._initCalled) {
+          console.log('initialize one signal callInit');
+          OneSignal.push(function () {
+            console.log('initialize one signal callInit inside func');
+            OneSignal.init({
+              appId:
+                process.env.NODE_ENV === 'production'
+                  ? process.env.REACT_APP_ONESIGNAL_PUBLIC
+                  : process.env.REACT_APP_ONESIGNAL_PUBLIC_TEST,
+              autoResubscribe: true,
+              requiresUserPrivacyConsent: false,
+              allowLocalhostAsSecureOrigin: process.env.NODE_ENV === 'production' ? false : true,
+              promptOptions: {
+                slidedown: {
+                  // https://documentation.onesignal.com/docs/slide-prompt
+                  enabled: true,
+                  actionMessage: 'Notify me about MY Requests and Bids',
+                  /* acceptButtonText limited to 15 characters */
+                  acceptButtonText: 'YES',
+                  /* cancelButtonText limited to 15 characters */
+                  cancelButtonText: 'NO',
+                },
+                /* These prompt options values configure both the HTTP prompt and the HTTP popup. */
+                /* actionMessage limited to 90 characters */
+                actionMessage: 'Notify me about MY Requests and Bids',
+                /* acceptButtonText limited to 15 characters */
+                acceptButtonText: 'YES',
+                /* cancelButtonText limited to 15 characters */
+                cancelButtonText: 'NO',
+              },
+              welcomeNotification: {
+                disable: true,
+              },
+            });
+          });
+        }
+        if (OneSignal._initCalled) {
           const isPushSupported = OneSignal.isPushNotificationsSupported();
           if (!isPushSupported) {
             return;
@@ -143,8 +180,8 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
               OneSignal.showSlidedownPrompt();
             }
           });
-        });
-      }
+        }
+      });
     }
   }
 
