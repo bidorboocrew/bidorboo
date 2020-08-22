@@ -11,10 +11,9 @@ class Pre_LoggedOut_2_ScrollUpSetAppViewAndRenderChildren extends React.PureComp
     getBugsnagClient().notify(error);
   }
 
-  componentDidMount() {
-    const { setAppViewUIToRequester, setAppViewUIToTasker } = this.props;
-
-    if (OneSignal && !OneSignal._initCalled) {
+  componentDidUpdate() {
+    if (!OneSignal._initCalled) {
+      console.log('initialize one signal callInit');
       OneSignal.push(function () {
         OneSignal.init({
           appId:
@@ -50,6 +49,10 @@ class Pre_LoggedOut_2_ScrollUpSetAppViewAndRenderChildren extends React.PureComp
         });
       });
     }
+  }
+
+  componentDidMount() {
+    const { setAppViewUIToRequester, setAppViewUIToTasker } = this.props;
 
     const currentUrlPathname = window.location.pathname;
 

@@ -45,10 +45,13 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
     getBugsnagClient().notify(error);
   }
 
-  componentDidMount() {
+  componentDidUpdate() {
     const { userDetails } = this.props;
-
-    if (OneSignal && !OneSignal._initCalled) {
+    if (!userDetails.userId) {
+      return;
+    }
+    if (!OneSignal._initCalled) {
+      console.log('initialize one signal callInit');
       OneSignal.push(function () {
         OneSignal.init({
           appId:
