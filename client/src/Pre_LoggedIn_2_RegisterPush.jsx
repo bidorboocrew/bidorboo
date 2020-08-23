@@ -54,7 +54,6 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
 
     if (!userDetails.userId) {
       console.log('!userDetails.userId');
-
       return;
     }
 
