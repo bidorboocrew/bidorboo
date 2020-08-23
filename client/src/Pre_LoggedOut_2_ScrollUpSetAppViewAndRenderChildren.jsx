@@ -1,5 +1,6 @@
 import React from 'react';
 import { getBugsnagClient } from './index';
+var OneSignal = window.OneSignal || [];
 
 class Pre_LoggedOut_2_ScrollUpSetAppViewAndRenderChildren extends React.PureComponent {
   componentDidCatch(error, info) {
