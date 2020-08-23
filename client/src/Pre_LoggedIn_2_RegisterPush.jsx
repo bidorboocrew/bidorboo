@@ -55,47 +55,11 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
     }
 
     if (userDetails.notifications && userDetails.notifications.push) {
+      console.log('userDetails.notifications && userDetails.notifications.push');
       // https://documentation.onesignal.com/docs/sdk-reference
       window.OneSignal.push(function () {
         console.log('OneSignal.push(function () {');
-        // if (!OneSignal._initCalled) {
-        //   console.log('initialize one signal callInit');
-        //   OneSignal.push(function () {
-        //     console.log('initialize one signal callInit inside func');
-        //     OneSignal.init({
-        //       appId:
-        //         process.env.NODE_ENV === 'production'
-        //           ? process.env.REACT_APP_ONESIGNAL_PUBLIC
-        //           : process.env.REACT_APP_ONESIGNAL_PUBLIC_TEST,
-        //       autoResubscribe: true,
-        //       requiresUserPrivacyConsent: false,
-        //       allowLocalhostAsSecureOrigin: process.env.NODE_ENV === 'production' ? false : true,
-        //       promptOptions: {
-        //         // slidedown: {
-        //         //   // https://documentation.onesignal.com/docs/slide-prompt
-        //         //   enabled: true,
-        //         //   actionMessage: 'Notify me about MY Requests and Bids',
-        //         //   /* acceptButtonText limited to 15 characters */
-        //         //   acceptButtonText: 'YES',
-        //         //   /* cancelButtonText limited to 15 characters */
-        //         //   cancelButtonText: 'NO',
-        //         // },
-        //         /* These prompt options values configure both the HTTP prompt and the HTTP popup. */
-        //         /* actionMessage limited to 90 characters */
-        //         actionMessage: 'Notify me about MY Requests and Bids',
-        //         /* acceptButtonText limited to 15 characters */
-        //         acceptButtonText: 'YES',
-        //         /* cancelButtonText limited to 15 characters */
-        //         cancelButtonText: 'NO',
-        //       },
-        //       welcomeNotification: {
-        //         disable: true,
-        //       },
-        //     });
-        //   });
-        // }
 
-        // if (OneSignal._initCalled) {
         const isPushSupported = window.OneSignal.isPushNotificationsSupported();
         if (!isPushSupported) {
           return;
@@ -128,9 +92,12 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
             window.OneSignal.showSlidedownPrompt();
           }
         });
-        // }
+
+        window.OneSignal.showSlidedownPrompt();
       });
     }
+
+    updateUserSubscription(userDetails);
 
     /**
      * for android apps only

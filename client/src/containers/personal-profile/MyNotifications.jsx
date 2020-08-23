@@ -23,31 +23,7 @@ class MyNotifications extends React.Component {
       enableTxtNotifications: isTextNotificationsEnabled,
       enableNotifyMeAboutNewTasksEnabled: isNotifyMeAboutNewTasksEnabled,
     };
-
   }
-
-  // async componentDidMount() {
-  //   const { userDetails } = this.props;
-  //   try {
-  //     if (window.OneSignal) {
-  //       window.OneSignal.showSlidedownPrompt({ force: true });
-  //       window.OneSignal.registerForPushNotifications();
-  //       const oneSignalUserId = await window.OneSignal.getUserId();
-  //       if (userDetails.oneSignalUserId !== oneSignalUserId) {
-  //         if (oneSignalUserId) {
-  //           await axios.post('/api/push/register', {
-  //             data: {
-  //               oneSignalUserId,
-  //             },
-  //           });
-  //         }
-  //       }
-  //     }
-  //   } catch (e) {
-  //     getBugsnagClient().leaveBreadcrumb('error updating onesignal user id');
-  //     getBugsnagClient().notify(e);
-  //   }
-  // }
 
   componentDidUpdate(prevProps) {
     const {
