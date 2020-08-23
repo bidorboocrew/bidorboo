@@ -11,7 +11,7 @@ class Pre_LoggedOut_2_ScrollUpSetAppViewAndRenderChildren extends React.PureComp
     getBugsnagClient().notify(error);
   }
 
-  componentDidUpdate() {
+  componentDidMount() {
     if (!OneSignal._initCalled) {
       console.log('initialize one signal callInit');
       OneSignal.push(function () {
