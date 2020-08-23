@@ -177,26 +177,29 @@
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
     <script>
       var OneSignal = window.OneSignal || [];
-      OneSignal.init({
-        appId: 'eb135371-9993-4bff-97e6-aad1eff58f9f',
-        // process.env.NODE_ENV === 'production'
-        //   ? process.env.REACT_APP_ONESIGNAL_PUBLIC
-        //   : process.env.REACT_APP_ONESIGNAL_PUBLIC_TEST,
-        autoResubscribe: true,
-        requiresUserPrivacyConsent: false,
-        // allowLocalhostAsSecureOrigin: process.env.NODE_ENV === 'production' ? false : true,
-        promptOptions: {
-          /* These prompt options values configure both the HTTP prompt and the HTTP popup. */
-          /* actionMessage limited to 90 characters */
-          actionMessage: 'Enable Your Requests and Bids Notification',
-          /* acceptButtonText limited to 15 characters */
-          acceptButtonText: 'ALLOW',
-          /* cancelButtonText limited to 15 characters */
-          cancelButtonText: 'NO THANKS',
-        },
-        welcomeNotification: {
-          disable: true,
-        },
+
+      OneSignal.push(function () {
+        OneSignal.init({
+          appId: 'eb135371-9993-4bff-97e6-aad1eff58f9f',
+          // process.env.NODE_ENV === 'production'
+          //   ? process.env.REACT_APP_ONESIGNAL_PUBLIC
+          //   : process.env.REACT_APP_ONESIGNAL_PUBLIC_TEST,
+          autoResubscribe: true,
+          requiresUserPrivacyConsent: false,
+          // allowLocalhostAsSecureOrigin: process.env.NODE_ENV === 'production' ? false : true,
+          promptOptions: {
+            /* These prompt options values configure both the HTTP prompt and the HTTP popup. */
+            /* actionMessage limited to 90 characters */
+            actionMessage: 'Enable Your Requests and Bids Notification',
+            /* acceptButtonText limited to 15 characters */
+            acceptButtonText: 'ALLOW',
+            /* cancelButtonText limited to 15 characters */
+            cancelButtonText: 'NO THANKS',
+          },
+          welcomeNotification: {
+            disable: true,
+          },
+        });
       });
     </script>
     <script
