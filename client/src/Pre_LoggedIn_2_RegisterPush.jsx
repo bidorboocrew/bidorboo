@@ -54,12 +54,13 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
       return;
     }
 
+    console.log({ userDetails });
+    updateUserSubscription(userDetails);
+
     if (userDetails.notifications && userDetails.notifications.push) {
       console.log('userDetails.notifications && userDetails.notifications.push');
       // https://documentation.onesignal.com/docs/sdk-reference
       window.OneSignal.push(function () {
-        console.log('OneSignal.push(function () {');
-
         const isPushSupported = window.OneSignal.isPushNotificationsSupported();
         if (!isPushSupported) {
           return;
@@ -96,8 +97,6 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
         window.OneSignal.showSlidedownPrompt();
       });
     }
-
-    updateUserSubscription(userDetails);
 
     /**
      * for android apps only
