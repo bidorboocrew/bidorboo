@@ -87,11 +87,11 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
             promptOptions: {
               /* These prompt options values configure both the HTTP prompt and the HTTP popup. */
               /* actionMessage limited to 90 characters */
-              actionMessage: 'Recieve Notifications about Your Requests and Bids',
+              actionMessage: 'Enable Your Requests and Bids Notification',
               /* acceptButtonText limited to 15 characters */
-              acceptButtonText: 'ALLOW',
+              acceptButtonText: 'YES - ALLOW',
               /* cancelButtonText limited to 15 characters */
-              cancelButtonText: 'NO THANKS',
+              cancelButtonText: 'NO',
             },
             welcomeNotification: {
               disable: true,

@@ -4,7 +4,7 @@ import { getBugsnagClient } from './index';
 import * as ROUTES from './constants/frontend-route-consts';
 import { switchRoute } from './utils';
 import SetupYourPhoneAneEmailVerifications from './containers/onboarding-flow/SetupYourPhoneAneEmailVerifications.jsx';
-import Pre_LoggedIn_2_RegisterPush from './Pre_LoggedIn_2_RegisterPush2';
+import Pre_LoggedIn_2_RegisterPush from './zzzzPre_LoggedIn_2_RegisterPush2';
 import FirstTimeUser from './containers/onboarding-flow/FirstTimeUser.jsx';
 class Pre_LoggedIn_1_HandleOnBoarding extends React.PureComponent {
   componentDidCatch(error, info) {
