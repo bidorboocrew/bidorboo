@@ -50,53 +50,56 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
 
   componentDidMount() {
     const { userDetails } = this.props;
+    console.log({ userDetails });
+
     if (!userDetails.userId) {
+      console.log('!userDetails.userId');
+
       return;
     }
 
     console.log({ userDetails });
     updateUserSubscription(userDetails);
+    // https://documentation.onesignal.com/docs/sdk-reference
+    window.OneSignal.push(function () {
+      const isPushSupported = window.OneSignal.isPushNotificationsSupported();
+      if (!isPushSupported) {
+        return;
+      }
 
-    if (userDetails.notifications && userDetails.notifications.push) {
-      console.log('userDetails.notifications && userDetails.notifications.push');
-      // https://documentation.onesignal.com/docs/sdk-reference
-      window.OneSignal.push(function () {
-        const isPushSupported = window.OneSignal.isPushNotificationsSupported();
-        if (!isPushSupported) {
+      // OneSignal.showNativePrompt();
+      console.log('Push notifications are enabled!');
+      window.OneSignal.getUserId(function (userId) {
+        if (userId === userDetails.userId) {
+          console.log('user already setup');
           return;
         }
 
-        window.OneSignal.on('subscriptionChange', function (isSubscribed) {
-          updateUserSubscription(userDetails, isSubscribed);
-        });
-
-        window.OneSignal.isPushNotificationsEnabled(function (isEnabled) {
-          if (isEnabled) {
-            // OneSignal.showNativePrompt();
-            console.log('Push notifications are enabled!');
-            window.OneSignal.getUserId(function (userId) {
-              if (userId === userDetails.userId) {
-                console.log('user already setup');
-                return;
-              }
-
-              window.OneSignal.setLocationShared && window.OneSignal.setLocationShared(false);
-              window.OneSignal.setDefaultNotificationUrl('https://www.bidorboo.ca');
-              window.OneSignal.setExternalUserId(userDetails.userId);
-              if (userDetails.email && userDetails.email.emailAddress) {
-                window.OneSignal.setEmail(userDetails.email.emailAddress);
-              }
-              window.OneSignal.sendTags({ ...userDetails });
-            });
-          } else {
-            console.log('Push notifications are not enabled yet.');
-            window.OneSignal.showSlidedownPrompt();
-          }
-        });
-
-        window.OneSignal.showSlidedownPrompt();
+        window.OneSignal.setLocationShared && window.OneSignal.setLocationShared(false);
+        window.OneSignal.setDefaultNotificationUrl('https://www.bidorboo.ca');
+        window.OneSignal.setExternalUserId(userDetails.userId);
+        if (userDetails.email && userDetails.email.emailAddress) {
+          window.OneSignal.setEmail(userDetails.email.emailAddress);
+        }
+        window.OneSignal.sendTags({ ...userDetails });
       });
-    }
+
+      window.OneSignal.showSlidedownPrompt();
+
+      window.OneSignal.on('subscriptionChange', function (isSubscribed) {
+        updateUserSubscription(userDetails, isSubscribed);
+      });
+
+      window.OneSignal.isPushNotificationsEnabled(function (isEnabled) {
+        if (isEnabled) {
+          // OneSignal.showNativePrompt();
+          console.log('Push notifications are enabled!');
+        } else {
+          console.log('Push notifications are not enabled yet.');
+          window.OneSignal.showSlidedownPrompt();
+        }
+      });
+    });
 
     /**
      * for android apps only
