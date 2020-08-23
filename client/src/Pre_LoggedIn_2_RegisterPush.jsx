@@ -5,6 +5,7 @@ import { getBugsnagClient } from './index';
 
 import Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren from './Pre_LoggedIn_3_ScrollUpSetAppUserViewsAndRenderChildren';
 
+var OneSignal = window.OneSignal || [];
 const updateUserSubscription = (userDetails) => {
   console.log('updateUserSubscription');
   try {
@@ -57,23 +58,51 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
       return;
     }
 
-    updateUserSubscription(userDetails);
     // https://documentation.onesignal.com/docs/sdk-reference
     window.OneSignal.push(function () {
-      // OneSignal.showNativePrompt();
-      window.OneSignal.setLocationShared && window.OneSignal.setLocationShared(false);
-      window.OneSignal.setDefaultNotificationUrl('https://www.bidorboo.ca');
-      window.OneSignal.setExternalUserId(userDetails.userId);
-      if (userDetails.email && userDetails.email.emailAddress) {
-        window.OneSignal.setEmail(userDetails.email.emailAddress);
+      if (!OneSignal._initCalled) {
+        OneSignal.push(function () {
+          OneSignal.init({
+            appId: 'eb135371-9993-4bff-97e6-aad1eff58f9f',
+            // process.env.NODE_ENV === 'production'
+            //   ? process.env.REACT_APP_ONESIGNAL_PUBLIC
+            //   : process.env.REACT_APP_ONESIGNAL_PUBLIC_TEST,
+            autoResubscribe: true,
+            requiresUserPrivacyConsent: false,
+            // allowLocalhostAsSecureOrigin: process.env.NODE_ENV === 'production' ? false : true,
+            promptOptions: {
+              /* These prompt options values configure both the HTTP prompt and the HTTP popup. */
+              /* actionMessage limited to 90 characters */
+              actionMessage: 'Enable My Requests and Bids Notification',
+              /* acceptButtonText limited to 15 characters */
+              acceptButtonText: 'YES - Enable it',
+              /* cancelButtonText limited to 15 characters */
+              cancelButtonText: 'NO',
+            },
+            welcomeNotification: {
+              disable: true,
+            },
+          });
+        });
       }
-      window.OneSignal.sendTags({ ...userDetails });
-
-      window.OneSignal.on('subscriptionChange', function (isSubscribed) {
+      if (OneSignal._initCalled) {
         updateUserSubscription(userDetails);
-      });
 
-      window.OneSignal.showSlidedownPrompt();
+        // OneSignal.showNativePrompt();
+        window.OneSignal.setLocationShared && window.OneSignal.setLocationShared(false);
+        window.OneSignal.setDefaultNotificationUrl('https://www.bidorboo.ca');
+        window.OneSignal.setExternalUserId(userDetails.userId);
+        if (userDetails.email && userDetails.email.emailAddress) {
+          window.OneSignal.setEmail(userDetails.email.emailAddress);
+        }
+        window.OneSignal.sendTags({ ...userDetails });
+
+        // window.OneSignal.on('subscriptionChange', function (isSubscribed) {
+        //   updateUserSubscription(userDetails);
+        // });
+
+        window.OneSignal.showSlidedownPrompt();
+      }
     });
 
     try {
