@@ -9,15 +9,16 @@ var OneSignal = window.OneSignal || [];
 const updateUserSubscription = (userDetails) => {
   console.log('updateUserSubscription');
   try {
-    if (!window.OneSignal) {
+    if (!OneSignal) {
       return;
     }
 
     // https://documentation.onesignal.com/docs/web-push-sdk#notificationpermissionchange
-    window.OneSignal.push(function () {
-      console.log('window.OneSignal.push updateUserSubscription');
+    OneSignal.push(function () {
+      console.log('OneSignal.push updateUserSubscription');
+
       /* These examples are all valid */
-      window.OneSignal.getUserId(function (oneSignalUserId) {
+      OneSignal.getUserId().then(function (oneSignalUserId) {
         console.log('OneSignal User ID:', oneSignalUserId);
         if (oneSignalUserId === userDetails.oneSignalUserId) {
           console.log('no update needed');
@@ -59,14 +60,14 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
     }
 
     // https://documentation.onesignal.com/docs/sdk-reference
-    window.OneSignal.push(function () {
+    OneSignal.push(function () {
       if (!OneSignal._initCalled) {
         OneSignal.push(function () {
           OneSignal.init({
-            appId: 'eb135371-9993-4bff-97e6-aad1eff58f9f',
-            // process.env.NODE_ENV === 'production'
-            //   ? process.env.REACT_APP_ONESIGNAL_PUBLIC
-            //   : process.env.REACT_APP_ONESIGNAL_PUBLIC_TEST,
+            appId:
+              process.env.NODE_ENV === 'production'
+                ? process.env.REACT_APP_ONESIGNAL_PUBLIC
+                : process.env.REACT_APP_ONESIGNAL_PUBLIC_TEST,
             autoResubscribe: true,
             requiresUserPrivacyConsent: false,
             // allowLocalhostAsSecureOrigin: process.env.NODE_ENV === 'production' ? false : true,
@@ -89,19 +90,19 @@ class Pre_LoggedIn_2_RegisterPush extends React.PureComponent {
         updateUserSubscription(userDetails);
 
         // OneSignal.showNativePrompt();
-        window.OneSignal.setLocationShared && window.OneSignal.setLocationShared(false);
-        window.OneSignal.setDefaultNotificationUrl('https://www.bidorboo.ca');
-        window.OneSignal.setExternalUserId(userDetails.userId);
+        OneSignal.setLocationShared && OneSignal.setLocationShared(false);
+        OneSignal.setDefaultNotificationUrl('https://www.bidorboo.ca');
+        OneSignal.setExternalUserId(userDetails.userId);
         if (userDetails.email && userDetails.email.emailAddress) {
-          window.OneSignal.setEmail(userDetails.email.emailAddress);
+          OneSignal.setEmail(userDetails.email.emailAddress);
         }
-        window.OneSignal.sendTags({ ...userDetails });
+        OneSignal.sendTags({ ...userDetails });
 
-        // window.OneSignal.on('subscriptionChange', function (isSubscribed) {
+        // OneSignal.on('subscriptionChange', function (isSubscribed) {
         //   updateUserSubscription(userDetails);
         // });
 
-        window.OneSignal.showSlidedownPrompt();
+        OneSignal.showSlidedownPrompt();
       }
     });
 

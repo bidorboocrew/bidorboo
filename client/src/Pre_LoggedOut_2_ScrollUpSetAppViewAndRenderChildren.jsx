@@ -14,14 +14,14 @@ class Pre_LoggedOut_2_ScrollUpSetAppViewAndRenderChildren extends React.PureComp
   componentDidMount() {
     const { setAppViewUIToRequester, setAppViewUIToTasker } = this.props;
 
-    window.OneSignal.push(function () {
+    OneSignal.push(function () {
       if (!OneSignal._initCalled) {
         OneSignal.push(function () {
           OneSignal.init({
-            appId: 'eb135371-9993-4bff-97e6-aad1eff58f9f',
-            // process.env.NODE_ENV === 'production'
-            //   ? process.env.REACT_APP_ONESIGNAL_PUBLIC
-            //   : process.env.REACT_APP_ONESIGNAL_PUBLIC_TEST,
+            appId:
+              process.env.NODE_ENV === 'production'
+                ? process.env.REACT_APP_ONESIGNAL_PUBLIC
+                : process.env.REACT_APP_ONESIGNAL_PUBLIC_TEST,
             autoResubscribe: true,
             requiresUserPrivacyConsent: false,
             // allowLocalhostAsSecureOrigin: process.env.NODE_ENV === 'production' ? false : true,
