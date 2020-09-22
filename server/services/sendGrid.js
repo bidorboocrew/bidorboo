@@ -10,6 +10,9 @@ sgMail.setApiKey(keys.sendGridKey);
 
 exports.EmailService = {
   sendEmailVerificationCode: ({ emailVerificationCode, to, toDisplayName }) => {
+    console.log('SENDGRID MSG: sendEmailVerificationCode ');
+    console.log({ emailVerificationCode, to, toDisplayName });
+
     const msg = {
       to,
       toDisplayName,
@@ -27,12 +30,22 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg).catch((e) => {
-      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
-    });
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('SENDGRID MSG: sendEmailVerificationCode success');
+      })
+      .catch((e) => {
+        console.log(
+          'BIDORBOO_ERROR: SENDGRID MAILING ISSUE sendEmailVerificationCode' + JSON.stringify(e)
+        );
+      });
   },
 
   sendNewBidRecievedEmail: ({ to, toDisplayName, taskName, clickLink }) => {
+    console.log('SENDGRID MSG: sendNewBidRecievedEmail ');
+    console.log({ to, toDisplayName, taskName, clickLink });
+
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
@@ -55,9 +68,16 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg).catch((e) => {
-      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
-    });
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('SENDGRID MSG: sendNewBidRecievedEmail success');
+      })
+      .catch((e) => {
+        console.log(
+          'BIDORBOO_ERROR: SENDGRID MAILING ISSUE sendNewBidRecievedEmail' + JSON.stringify(e)
+        );
+      });
   },
 
   sendRequestIsHappeningSoonToTaskerEmail: ({
@@ -68,6 +88,16 @@ exports.EmailService = {
     ownerPhoneNumber,
     linkForTasker,
   }) => {
+    console.log('SENDGRID MSG: sendRequestIsHappeningSoonToTaskerEmail ');
+    console.log({
+      to,
+      requestTitle,
+      toDisplayName,
+      ownerEmailAddress,
+      ownerPhoneNumber,
+      linkForTasker,
+    });
+
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
@@ -109,13 +139,24 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg).catch((e) => {
-      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
-    });
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('SENDGRID MSG: sendRequestIsHappeningSoonToTaskerEmail success');
+      })
+      .catch((e) => {
+        console.log(
+          'BIDORBOO_ERROR: SENDGRID MAILING ISSUE sendRequestIsHappeningSoonToTaskerEmail' +
+            JSON.stringify(e)
+        );
+      });
   },
   // ============Hanan to continue here
 
   sendNewRequestInYourAreaNotification: ({ to, requestTitle, toDisplayName, linkForTasker }) => {
+    console.log('SENDGRID MSG: sendNewRequestInYourAreaNotification ');
+    console.log({ to, requestTitle, toDisplayName, linkForTasker });
+
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
@@ -139,9 +180,17 @@ exports.EmailService = {
     //   console.log(response.headers);
     // }
 
-    sgMail.send(msg).catch((e) => {
-      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
-    });
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('SENDGRID MSG: sendNewRequestInYourAreaNotification success');
+      })
+      .catch((e) => {
+        console.log(
+          'BIDORBOO_ERROR: SENDGRID MAILING ISSUE sendNewRequestInYourAreaNotification' +
+            JSON.stringify(e)
+        );
+      });
   },
 
   sendRequestIsHappeningSoonToRequesterEmail: ({
@@ -152,6 +201,16 @@ exports.EmailService = {
     taskerPhoneNumber,
     linkForOwner,
   }) => {
+    console.log('SENDGRID MSG: sendRequestIsHappeningSoonToRequesterEmail ');
+    console.log({
+      to,
+      requestTitle,
+      toDisplayName,
+      taskerEmailAddress,
+      taskerPhoneNumber,
+      linkForOwner,
+    });
+
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
@@ -187,11 +246,22 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg).catch((e) => {
-      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
-    });
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('SENDGRID MSG: sendRequestIsHappeningSoonToRequesterEmail success');
+      })
+      .catch((e) => {
+        console.log(
+          'BIDORBOO_ERROR: SENDGRID MAILING ISSUE sendRequestIsHappeningSoonToRequesterEmail' +
+            JSON.stringify(e)
+        );
+      });
   },
   tellTaskerThatRequesterCancelledRequest: ({ to, requestTitle, toDisplayName, linkForTasker }) => {
+    console.log('SENDGRID MSG: tellTaskerThatRequesterCancelledRequest ');
+    console.log({ to, requestTitle, toDisplayName, linkForTasker });
+
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
@@ -215,9 +285,17 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg).catch((e) => {
-      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
-    });
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('SENDGRID MSG: tellTaskerThatRequesterCancelledRequest success');
+      })
+      .catch((e) => {
+        console.log(
+          'BIDORBOO_ERROR: SENDGRID MAILING ISSUE tellTaskerThatRequesterCancelledRequest' +
+            JSON.stringify(e)
+        );
+      });
   },
 
   tellRequeterThatTheyHaveCancelledAnAwardedRequest: ({
@@ -226,6 +304,9 @@ exports.EmailService = {
     toDisplayName,
     linkForOwner,
   }) => {
+    console.log('SENDGRID MSG: tellRequeterThatTheyHaveCancelledAnAwardedRequest ');
+    console.log({ to, requestTitle, toDisplayName, linkForOwner });
+
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
@@ -249,12 +330,23 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg).catch((e) => {
-      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
-    });
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('SENDGRID MSG: tellRequeterThatTheyHaveCancelledAnAwardedRequest success');
+      })
+      .catch((e) => {
+        console.log(
+          'BIDORBOO_ERROR: SENDGRID MAILING ISSUE tellRequeterThatTheyHaveCancelledAnAwardedRequest' +
+            JSON.stringify(e)
+        );
+      });
   },
 
   tellRequesterThatWeAutoDeletedTheirJob: ({ to, requestTitle, toDisplayName }) => {
+    console.log('SENDGRID MSG: tellRequesterThatWeAutoDeletedTheirJob ');
+    console.log({ to, requestTitle, toDisplayName });
+
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
@@ -272,11 +364,22 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg).catch((e) => {
-      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
-    });
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('SENDGRID MSG: tellRequesterThatWeAutoDeletedTheirJob success');
+      })
+      .catch((e) => {
+        console.log(
+          'BIDORBOO_ERROR: SENDGRID MAILING ISSUE tellRequesterThatWeAutoDeletedTheirJob' +
+            JSON.stringify(e)
+        );
+      });
   },
   tellRequesterToHurryUpAndAwardAbidder: ({ to, requestTitle, toDisplayName, clickLink }) => {
+    console.log('SENDGRID MSG: tellRequesterToHurryUpAndAwardAbidder ');
+    console.log({ to, requestTitle, toDisplayName, clickLink });
+
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
@@ -293,9 +396,17 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg).catch((e) => {
-      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
-    });
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('SENDGRID MSG: tellRequesterToHurryUpAndAwardAbidder success');
+      })
+      .catch((e) => {
+        console.log(
+          'BIDORBOO_ERROR: SENDGRID MAILING ISSUE tellRequesterToHurryUpAndAwardAbidder' +
+            JSON.stringify(e)
+        );
+      });
   },
 
   tellRequeterThatTheTaskerHaveCancelledAnAwardedRequest: ({
@@ -304,6 +415,9 @@ exports.EmailService = {
     toDisplayName,
     linkForOwner,
   }) => {
+    console.log('SENDGRID MSG: tellRequeterThatTheTaskerHaveCancelledAnAwardedRequest ');
+    console.log({ to, requestTitle, toDisplayName, linkForOwner });
+
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
@@ -330,11 +444,22 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg).catch((e) => {
-      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
-    });
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('SENDGRID MSG: tellRequeterThatTheTaskerHaveCancelledAnAwardedRequest success');
+      })
+      .catch((e) => {
+        console.log(
+          'BIDORBOO_ERROR: SENDGRID MAILING ISSUE tellRequeterThatTheTaskerHaveCancelledAnAwardedRequest' +
+            JSON.stringify(e)
+        );
+      });
   },
   tellTaskerThatTheyCancelledRequest: ({ to, requestTitle, toDisplayName, linkForTasker }) => {
+    console.log('SENDGRID MSG: tellTaskerThatTheyCancelledRequest ');
+    console.log({ to, requestTitle, toDisplayName, linkForTasker });
+
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
@@ -364,12 +489,23 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg).catch((e) => {
-      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
-    });
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('SENDGRID MSG: tellTaskerThatTheyCancelledRequest success');
+      })
+      .catch((e) => {
+        console.log(
+          'BIDORBOO_ERROR: SENDGRID MAILING ISSUE tellTaskerThatTheyCancelledRequest' +
+            JSON.stringify(e)
+        );
+      });
   },
 
   tellRequesterToConfirmCompletion: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
+    console.log('SENDGRID MSG: tellRequesterToConfirmCompletion ');
+    console.log({ to, requestTitle, toDisplayName, linkForOwner });
+
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
@@ -390,9 +526,17 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg).catch((e) => {
-      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
-    });
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('SENDGRID MSG: tellRequesterToConfirmCompletion success');
+      })
+      .catch((e) => {
+        console.log(
+          'BIDORBOO_ERROR: SENDGRID MAILING ISSUE tellRequesterToConfirmCompletion' +
+            JSON.stringify(e)
+        );
+      });
   },
 
   tellTaskerWeWaitingOnRequesterToConfirmCompletion: ({
@@ -401,6 +545,9 @@ exports.EmailService = {
     toDisplayName,
     linkForTasker,
   }) => {
+    console.log('SENDGRID MSG: tellTaskerWeWaitingOnRequesterToConfirmCompletion ');
+    console.log({ to, requestTitle, toDisplayName, linkForTasker });
+
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
@@ -427,9 +574,17 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg).catch((e) => {
-      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
-    });
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('SENDGRID MSG: tellTaskerWeWaitingOnRequesterToConfirmCompletion success');
+      })
+      .catch((e) => {
+        console.log(
+          'BIDORBOO_ERROR: SENDGRID MAILING ISSUE tellTaskerWeWaitingOnRequesterToConfirmCompletion' +
+            JSON.stringify(e)
+        );
+      });
   },
 
   tellRequesterRequestIsCompleteBeginRating: ({
@@ -438,6 +593,9 @@ exports.EmailService = {
     toDisplayName,
     linkForOwner,
   }) => {
+    console.log('SENDGRID MSG: tellRequesterRequestIsCompleteBeginRating ');
+    console.log({ to, requestTitle, toDisplayName, linkForOwner });
+
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
@@ -457,12 +615,23 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg).catch((e) => {
-      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
-    });
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('SENDGRID MSG: tellRequesterRequestIsCompleteBeginRating success');
+      })
+      .catch((e) => {
+        console.log(
+          'BIDORBOO_ERROR: SENDGRID MAILING ISSUE tellRequesterRequestIsCompleteBeginRating' +
+            JSON.stringify(e)
+        );
+      });
   },
 
   tellTaskerRequestIsCompleteBeginRating: ({ to, requestTitle, toDisplayName, linkForTasker }) => {
+    console.log('SENDGRID MSG: tellTaskerRequestIsCompleteBeginRating ');
+    console.log({ to, requestTitle, toDisplayName, linkForTasker });
+
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
@@ -487,9 +656,17 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg).catch((e) => {
-      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
-    });
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('SENDGRID MSG: tellTaskerRequestIsCompleteBeginRating success');
+      })
+      .catch((e) => {
+        console.log(
+          'BIDORBOO_ERROR: SENDGRID MAILING ISSUE tellTaskerRequestIsCompleteBeginRating' +
+            JSON.stringify(e)
+        );
+      });
   },
 
   tellRequesterThanksforPaymentAndTaskerIsRevealed: ({
@@ -498,6 +675,9 @@ exports.EmailService = {
     toDisplayName,
     linkForOwner,
   }) => {
+    console.log('SENDGRID MSG: tellRequesterThanksforPaymentAndTaskerIsRevealed ');
+    console.log({ to, requestTitle, toDisplayName, linkForOwner });
+
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
@@ -522,12 +702,23 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg).catch((e) => {
-      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
-    });
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('SENDGRID MSG: tellRequesterThanksforPaymentAndTaskerIsRevealed success');
+      })
+      .catch((e) => {
+        console.log(
+          'BIDORBOO_ERROR: SENDGRID MAILING ISSUE tellRequesterThanksforPaymentAndTaskerIsRevealed ' +
+            JSON.stringify(e)
+        );
+      });
   },
 
   tellTaskerThatTheyWereAwarded: ({ to, requestTitle, toDisplayName, linkForTasker }) => {
+    console.log('SENDGRID MSG: tellTaskerThatTheyWereAwarded ');
+    console.log({ to, requestTitle, toDisplayName, linkForTasker });
+
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
@@ -552,11 +743,22 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg).catch((e) => {
-      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
-    });
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('SENDGRID MSG: tellTaskerThatTheyWereAwarded success');
+      })
+      .catch((e) => {
+        console.log(
+          'BIDORBOO_ERROR: SENDGRID MAILING ISSUE tellTaskerThatTheyWereAwarded ' +
+            JSON.stringify(e)
+        );
+      });
   },
   tellDisputeOwnerThatWeWillInvestigate: ({ to, requestTitle, toDisplayName, linkForTasker }) => {
+    console.log('SENDGRID MSG: tellDisputeOwnerThatWeWillInvestigate ');
+    console.log({ to, requestTitle, toDisplayName, linkForTasker });
+
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
@@ -582,11 +784,22 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg).catch((e) => {
-      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
-    });
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('SENDGRID MSG: tellDisputeOwnerThatWeWillInvestigate success');
+      })
+      .catch((e) => {
+        console.log(
+          'BIDORBOO_ERROR: SENDGRID MAILING ISSUE tellDisputeOwnerThatWeWillInvestigate' +
+            JSON.stringify(e)
+        );
+      });
   },
   tellRequesterThatWeMarkedRequestDone: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
+    console.log('SENDGRID MSG: tellRequesterThatWeMarkedRequestDone ');
+    console.log({ to, requestTitle, toDisplayName, linkForOwner });
+
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
@@ -609,11 +822,22 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg).catch((e) => {
-      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
-    });
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('SENDGRID MSG: tellRequesterThatWeMarkedRequestDonesuccess');
+      })
+      .catch((e) => {
+        console.log(
+          'BIDORBOO_ERROR: SENDGRID MAILING ISSUE tellRequesterThatWeMarkedRequestDone ' +
+            JSON.stringify(e)
+        );
+      });
   },
   tellRequesterToConfirmRequest: ({ to, requestTitle, toDisplayName, linkForOwner }) => {
+    console.log('SENDGRID MSG: tellRequesterToConfirmRequest ');
+    console.log({ to, requestTitle, toDisplayName, linkForOwner });
+
     const msg = {
       to,
       from: 'bidorboo@bidorboo.ca',
@@ -632,9 +856,17 @@ exports.EmailService = {
       }),
     };
 
-    sgMail.send(msg).catch((e) => {
-      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
-    });
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('SENDGRID MSG: tellRequesterToConfirmRequest success');
+      })
+      .catch((e) => {
+        console.log(
+          'BIDORBOO_ERROR: SENDGRID MAILING ISSUE tellRequesterToConfirmRequest ' +
+            JSON.stringify(e)
+        );
+      });
   },
   informBobCrewAboutDispute: ({
     whoSubmitted,
@@ -653,6 +885,22 @@ exports.EmailService = {
     userIdWhoFiledDispute,
   }) => {
     console.log('EMAIL- informBobCrewAboutDispute');
+    console.log({
+      whoSubmitted,
+      requesterDisplayName,
+      taskerDisplayName,
+      requestDisplayName,
+      requestLinkForRequester,
+      requestLinkForTasker,
+      requesterEmailAddress,
+      requesterPhoneNumber,
+      taskerEmailAddress,
+      processedPayment,
+      requestId,
+      reason,
+      details,
+      userIdWhoFiledDispute,
+    });
 
     const msg = {
       to: 'bidorboo@bidorboo.ca',
@@ -701,14 +949,21 @@ exports.EmailService = {
       `,
     };
 
-    sgMail.send(msg).catch((e) => {
-      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
-    });
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('SENDGRID MSG: informBobCrewAboutDispute success');
+      })
+      .catch((e) => {
+        console.log(
+          'BIDORBOO_ERROR: SENDGRID MAILING ISSUE informBobCrewAboutDispute' + JSON.stringify(e)
+        );
+      });
   },
 
   informBobCrewAboutSuccessPayment: ({ requestId, paymentDetails }) => {
     console.log('EMAIL- informBobCrewAboutSuccessPayment');
-
+    console.log({ requestId, paymentDetails });
     const msg = {
       to: 'bidorboo@bidorboo.ca',
       from: 'bidorboo@bidorboo.ca',
@@ -719,9 +974,14 @@ exports.EmailService = {
       `,
     };
 
-    sgMail.send(msg).catch((e) => {
-      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
-    });
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('SENDGRID MSG: success');
+      })
+      .catch((e) => {
+        console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
+      });
   },
 
   informBobCrewAboutFailedImportantStuff: (methodName, details) => {
@@ -737,8 +997,16 @@ exports.EmailService = {
       `,
     };
 
-    sgMail.send(msg).catch((e) => {
-      console.log('BIDORBOO_ERROR: SENDGRID MAILING ISSUE ' + JSON.stringify(e));
-    });
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('SENDGRID MSG: informBobCrewAboutSuccessPayment success');
+      })
+      .catch((e) => {
+        console.log(
+          'BIDORBOO_ERROR: SENDGRID MAILING ISSUE informBobCrewAboutSuccessPayment ' +
+            JSON.stringify(e)
+        );
+      });
   },
 };
