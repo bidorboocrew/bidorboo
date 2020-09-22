@@ -656,9 +656,7 @@ exports.requestDataAccess = {
   },
 
   getRequestById: (requestId) => {
-    return RequestModel.findById(requestId)
-      .lean(true)
-      .exec();
+    return RequestModel.findById(requestId).lean(true).exec();
   },
   getBidsList: (requestId) => {
     return RequestModel.findById(requestId)
@@ -1951,7 +1949,9 @@ exports.requestDataAccess = {
           .exec();
 
         const hasBids =
-          requestWithBidDetails._bidsListRef && requestWithBidDetails._bidsListRef.length > 0;
+          requestWithBidDetails &&
+          requestWithBidDetails._bidsListRef &&
+          requestWithBidDetails._bidsListRef.length > 0;
         if (hasBids) {
           const bidsList = requestWithBidDetails._bidsListRef;
           // add avgBid property
