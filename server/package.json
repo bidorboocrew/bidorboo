@@ -46,7 +46,7 @@
     "express-rate-limit": "^5.0.0",
     "fs": "^0.0.1-security",
     "helmet": "^3.21.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.26",
     "mongoose": "^5.7.1",
