@@ -1,5 +1,6 @@
 # BidOrBoo
 
+Note: The website is currently inactive
 
 ## Getting Started 
 
