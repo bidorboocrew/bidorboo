@@ -38,7 +38,7 @@
     "errorhandler": "^1.5.1",
     "eslint": "^6.4.0",
     "eslint-plugin-node": "^10.0.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-csp-header": "^2.3.1",
     "express-http-to-https": "^1.1.4",
     "express-ip": "^1.0.3",
